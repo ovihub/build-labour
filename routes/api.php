@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 Route::namespace('API\V1')->prefix('v1')->group(function() {
 
     Route::prefix('auth')->group(function() {
-        // anyone can accessph
+        // anyone can access
         Route::post('register', 'ApiAuthController@register');
         Route::post('login', 'ApiAuthController@login');
         Route::post('email/check', 'ApiAuthController@checkEmail');
