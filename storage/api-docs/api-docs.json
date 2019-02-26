@@ -10,45 +10,139 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/auth/register": {
+        "/api/v1/auth/login": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Register user. Creates new user, sends 'thank you' email and returns a token.",
-                "description": "",
-                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiAuthController::register",
-                "parameters": [
-                    {
-                        "name": "email",
-                        "in": "path",
-                        "description": "Email",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "summary": "Login user. Authenticate credentials and returns a token.",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiAuthController::login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Email Address",
+                                        "type": "string",
+                                        "example": "testuser@gmail.com"
+                                    },
+                                    "password": {
+                                        "description": "Password",
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
+                    "400": {
+                        "description": "Invalid Credentials"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
                     "200": {
-                        "description": "Registration Successful"
+                        "description": "Login Success"
                     }
                 },
                 "security": []
             }
         },
-        "/auth/email/check": {
+        "/api/v1/auth/register": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Register a user using an email",
+                "summary": "Register user. Creates new user, sends 'thank you' email and returns a token.",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiAuthController::register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Email Address",
+                                        "type": "string",
+                                        "example": "testuser@gmail.com"
+                                    },
+                                    "password": {
+                                        "description": "Password",
+                                        "type": "string",
+                                        "example": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Confirm Password",
+                                        "type": "string",
+                                        "example": "password"
+                                    },
+                                    "first_name": {
+                                        "description": "First Name",
+                                        "type": "string",
+                                        "example": "Jane"
+                                    },
+                                    "last_name": {
+                                        "description": "Last Name",
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "dob": {
+                                        "description": "Date of Birth (Y-m-d)",
+                                        "type": "date",
+                                        "example": "1991-01-01"
+                                    },
+                                    "country": {
+                                        "description": "Country",
+                                        "type": "string",
+                                        "example": "Australia"
+                                    },
+                                    "mobile_number": {
+                                        "description": "Mobile Number",
+                                        "type": "string",
+                                        "example": "+61 412345678"
+                                    },
+                                    "address": {
+                                        "description": "Address",
+                                        "type": "string",
+                                        "example": "85 Dover Street Cremorne VIC"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Invalid Input"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "201": {
+                        "description": "Request Created"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/v1/auth/email/check": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Check email format and if exists or not",
                 "description": "",
                 "operationId": "",
                 "parameters": [
                     {
                         "name": "email",
-                        "in": "path",
+                        "in": "query",
                         "description": "",
                         "required": true,
                         "schema": {
@@ -63,43 +157,411 @@
                 }
             }
         },
-        "/auth/login": {
-            "post": {
+        "/api/v1/auth/user": {
+            "get": {
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Login user. Authenticate credentials and returns a token.",
-                "description": "Login user. Authenticate credentials and returns a token.",
-                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiAuthController::login",
-                "parameters": [
-                    {
-                        "name": "email",
-                        "in": "path",
-                        "description": "Email as the username",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "password",
-                        "in": "path",
-                        "description": "",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
+                "summary": "Get authenticated user's information",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiAuthController::getAuthUser",
                 "responses": {
                     "400": {
-                        "description": "Invalid Credentials"
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
                     },
                     "200": {
-                        "description": "Login Success"
+                        "description": "Authenticated User"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/auth/logout": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout user",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiAuthController::logout",
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Logout Success"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/password/email": {
+            "post": {
+                "tags": [
+                    "Password"
+                ],
+                "summary": "Send reset password email with token",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiPasswordResetsController::sendResetLinkEmail",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Email Address",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Invalid Input"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
                     }
                 },
                 "security": []
+            }
+        },
+        "/api/v1/password/reset": {
+            "post": {
+                "tags": [
+                    "Password"
+                ],
+                "summary": "Reset user's password",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiPasswordResetsController::resetPassword",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Email Address",
+                                        "type": "string"
+                                    },
+                                    "token": {
+                                        "description": "Reset Token",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "Password",
+                                        "type": "string"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Confirm Password",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Invalid Input"
+                    },
+                    "404": {
+                        "description": "Reset Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/v1/user/verify": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Verify user's email address",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiUsersController::verifyEmail",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Email Address",
+                                        "type": "string"
+                                    },
+                                    "verify_token": {
+                                        "description": "Verification Token",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Invalid Input"
+                    },
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "User Not Found / Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/resend/email": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Resend verification email with token",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiUsersController::resendEmail",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Email Address",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Invalid Input"
+                    },
+                    "400": {
+                        "description": "Invalid Token / Bad Request"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "User Not Found / Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/update": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user's information",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiUsersController::update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "first_name": {
+                                        "description": "First Name",
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "last_name": {
+                                        "description": "Last Name",
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "country": {
+                                        "description": "Country",
+                                        "type": "string",
+                                        "example": "Philippines"
+                                    },
+                                    "mobile_number": {
+                                        "description": "Mobile Number",
+                                        "type": "string",
+                                        "example": "+63 9277468888"
+                                    },
+                                    "address": {
+                                        "description": "Address",
+                                        "type": "string",
+                                        "example": "216 Cabreros Street Cebu City"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "User Not Found / Token Not Found"
+                    },
+                    "422": {
+                        "description": "Invalid Input"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/upload": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Upload profile photo",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiUsersController::uploadProfilePhoto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "photo": {
+                                        "description": "Image File",
+                                        "type": "string",
+                                        "format": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "422": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
             }
         }
     }

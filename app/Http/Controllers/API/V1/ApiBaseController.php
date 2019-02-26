@@ -11,6 +11,13 @@
  * )
  */
 
+/**
+ * @OA\SecurityScheme(
+ *      securityScheme="BearerAuth",
+ *      type="http",
+ *      scheme="bearer"
+ * )
+ */
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
@@ -22,6 +29,13 @@ use JWTAuth;
 
 class ApiBaseController extends Controller
 {
+    const HTTP_STATUS_REQUEST_OK    = 200;
+    const HTTP_STATUS_INVALID_INPUT = 422;
+    const HTTP_STATUS_BAD_REQUEST   = 400;
+    const HTTP_STATUS_UNAUTHORIZED  = 401;
+    const HTTP_STATUS_NOT_FOUND     = 404;
+    const INTERNAL_SERVER_ERROR     = 500;
+    
     protected $response = [];
     protected $user;
 
@@ -52,6 +66,26 @@ class ApiBaseController extends Controller
         return response()->json( compact( 'success', 'message', 'http_status', 'error_code' ), $http_status);
     }
 
+
+    /**
+     * Evaluate the resulting data from corresponding Model Repository
+     * 
+     * @return response formatted
+     */
+    protected function checkResponseData($model, $responseData, $successMessage, $badRequest = null)
+    {
+        if ($badRequest) {
+            return $this->apiErrorResponse(false, $responseData['error'], self::HTTP_STATUS_BAD_REQUEST, 'badRequest');
+        }
+        if ($responseData[$model]) {
+            return $this->apiSuccessResponse($responseData, true, $successMessage, self::HTTP_STATUS_REQUEST_OK);
+        }
+        if (strpos($responseData['error'], 'not found') !== false) {
+            return $this->apiErrorResponse(false, $responseData['error'], self::HTTP_STATUS_NOT_FOUND, $model . 'NotFound');
+        }
+
+        return $this->apiErrorResponse(false, $responseData['error'], self::INTERNAL_SERVER_ERROR, 'sqlError');
+    }
 
     protected function authenticate( Request $r )
     {

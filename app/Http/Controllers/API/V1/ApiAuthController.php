@@ -2,103 +2,211 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\Users\Users;
+use App\Http\Controllers\Controller;
+use App\Validators\RegisterUserValidator;
+use App\Repositories\UserRepository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use JWTAuth;
 
-class ApiAuthController extends ApiBaseController{
-    /**
-     * @OA\Post(
-     *      path="/auth/register",
-     *      tags={"Auth"},
-     *      summary="Register user. Creates new user, sends 'thank you' email and returns a token.",
-     *      description="",
-     *      security={},
-     *   @OA\Parameter(
-     *         description="Email",
-     *         in="path",
-     *         name="email",
-     *         required=true,
-         *     @OA\Schema(
-     *          type="string",
-     *         ),
-     *      ),
-     *   @OA\Parameter(
-     *         description="Registrant First Name",
-     *         in="path",
-     *         name="first_name",
-     *         required=true,
-     *     @OA\Schema(
-     *          type="string",
-     *         ),
-     *      ),
-     *   @OA\Parameter(
-     *         description="Registrant Last Name",
-     *         in="path",
-     *         name="last_name",
-     *         required=true,
-     *     @OA\Schema(
-     *          type="string",
-     *         ),
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Registration Successful"
-     *      )
-     * )
-     */
-    public function register( Request $request )
-    {
+class ApiAuthController extends ApiBaseController
+{
+    protected $userRepo;
 
-        // check for duplicate emails
-        if(  ( new User )->emailExists( $request->email ) ){
-            return $this->apiErrorResponse( false , 'User has already registered', 400 , 'userAlreadyRegistered' );
-        }
-
-        // use the Users Model
-        $user =  new Users;
-
-        try{
-            if( ! $user->store( $request ) ){
-                return $this->apiErrorResponse(  false , $user->getErrors( true ), 400 , 'sqlError' );
-            }
-        }catch ( \Exception $e ){
-            return $this->apiErrorResponse(  false , $e->getMessage(), 400 , 'sqlException' );
-        }
-
-        $auth_user = ( new User )->find( $user->id );
-        $token = JWTAuth::fromUser( $auth_user );
-
-        return $this->apiSuccessResponse( [
-            'token' => $token,
-            'user'  => $auth_user
-        ] );
-
+    public function __construct(UserRepository $userRepo) {
+        $this->userRepo = $userRepo;
     }
 
     /**
-     * @OA\POST( path="/auth/email/check",
-     *   tags={ "Auth" },
-     *   summary="Register a user using an email",
-     *   description="",
-     *   operationId="",
-     *  @OA\Parameter(
-     *     in="path",
-     *     name="email",
-     *     description="",
-     *     required=true,
-     *    @OA\Schema(
-     *      type="string",
-     *    ),
-     *
-     *   ),
-     *  @OA\Response(
-     *      response=200,
-     *      description="Successful operation"
-     *   )
+     * @OA\Post(
+     *      path="/api/v1/auth/login",
+     *      tags={"Auth"},
+     *      summary="Login user. Authenticate credentials and returns a token.",
+     *      security={},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/x-www-form-urlencoded",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="email",
+     *                      description="Email Address",
+     *                      type="string",
+     *                      example="testuser@gmail.com"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="password",
+     *                      description="Password",
+     *                      type="string",
+     *                      example="password"
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Credentials"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Login Success"
+     *      )
+     * )
+     */
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+        
+        try {
+            if (! $token = JWTAuth::attempt($credentials)) {
+                return $this->apiErrorResponse(false, 'Invalid Credentials', self::HTTP_STATUS_BAD_REQUEST, 'invalidCredentials');
+            }
+
+        } catch (JWTException $e) {
+            return $this->apiErrorResponse(false, 'Could Not Create Token', self::HTTP_STATUS_NOT_FOUND, 'tokenAbsent');
+        
+        } catch (\Exception $e) {
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        $user = JWTAuth::user();
+        return $this->apiSuccessResponse(compact('user', 'token'), true, 'Login Success', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/v1/auth/register",
+     *      tags={"Auth"},
+     *      summary="Register user. Creates new user, sends 'thank you' email and returns a token.",
+     *      security={},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/x-www-form-urlencoded",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="email",
+     *                      description="Email Address",
+     *                      type="string",
+     *                      example="testuser@gmail.com"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="password",
+     *                      description="Password",
+     *                      type="string",
+     *                      example="password",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="password_confirmation",
+     *                      description="Confirm Password",
+     *                      type="string",
+     *                      example="password",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="first_name",
+     *                      description="First Name",
+     *                      type="string",
+     *                      example="Jane"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="last_name",
+     *                      description="Last Name",
+     *                      type="string",
+     *                      example="Doe"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="dob",
+     *                      description="Date of Birth (Y-m-d)",
+     *                      type="date",
+     *                      example="1991-01-01"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="country",
+     *                      description="Country",
+     *                      type="string",
+     *                      example="Australia"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="mobile_number",
+     *                      description="Mobile Number",
+     *                      type="string",
+     *                      example="+61 412345678"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="address",
+     *                      description="Address",
+     *                      type="string",
+     *                      example="85 Dover Street Cremorne VIC"
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Invalid Input"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Request Created"
+     *      )
+     * )
+     */
+    public function register(Request $request)
+    {
+        try {
+            // validate for inputs and formats, check for unique and/or duplicate records
+            $validator = Validator::make($request->all(), RegisterUserValidator::rules(), RegisterUserValidator::messages());
+
+            if ($validator->fails()) {
+                return $this->apiErrorResponse(false, $validator->errors()->first(), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
+            }
+
+            $responseData = $this->userRepo->create($request);
+
+            if ($responseData['user']) {
+                return $this->apiSuccessResponse($responseData, true, 'User has been registered successfully!', self::HTTP_STATUS_REQUEST_OK);
+            }
+            
+            return $this->apiErrorResponse(false, $responseData['error'], self::INTERNAL_SERVER_ERROR, 'sqlError');
+        
+        } catch(\Exception $e) {
+            
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/v1/auth/email/check",
+     *      tags={"Auth"},
+     *      summary="Check email format and if exists or not",
+     *      description="",
+     *      operationId="",
+     *      @OA\Parameter(
+     *          in="query",
+     *          name="email",
+     *          description="",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string",
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *      )
      * )
      */
     public function checkEmail( Request $request )
@@ -115,69 +223,81 @@ class ApiAuthController extends ApiBaseController{
     }
 
     /**
-     * @OA\Post(
-     *      path="/auth/login",
+     * @OA\Get(
+     *      path="/api/v1/auth/user",
      *      tags={"Auth"},
-     *      summary="Login user. Authenticate credentials and returns a token.",
-     *      description="Login user. Authenticate credentials and returns a token.",
-     *      security={},
-     *  @OA\Parameter(
-     *      description="Email as the username",
-     *      in="path",
-     *      name="email",
-     *      required=true,
-     *     @OA\Schema(
-     *       type="string",
-     *     ),
-     *   ),
-     *  @OA\Parameter(
-     *     in="path",
-     *     name="password",
-     *     description="",
-     *     required=true,
-     *     @OA\Schema(
-     *       type="string",
-     *     ),
-     *   ),
+     *      summary="Get authenticated user's information",
+     *      security={{"BearerAuth":{}}},
      *      @OA\Response(
      *          response=400,
-     *          description="Invalid Credentials"
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
      *      ),
      *      @OA\Response(
      *          response=200,
-     *          description="Login Success",
+     *          description="Authenticated User"
      *      )
      * )
      */
-    public function login( Request $request )
+    public function getAuthUser()
     {
-        $credentials = $request->only('email', 'password');
-
-        $rules = [
-            'email' => 'required|email',
-            'password' => 'required',
-        ];
-
-        $validator = Validator::make($credentials, $rules);
-
-        if( $validator->fails() ){
-            return $this->apiErrorResponse( false , 'Invalid Credentials', 400 , 'invalidCredentials' );
-        }
-
         try {
-            if (! $token = JWTAuth::attempt($credentials)) {
-                return $this->apiErrorResponse( false , 'Invalid Credentials', 400 , 'invalidCredentials' );
-            }
-        } catch (JWTException $e) {
-            return $this->apiErrorResponse( false , $e->getMessage(), 400 , 'jwtException' );
+            $user = JWTAuth::toUser();
+            return $this->apiSuccessResponse(compact('user'), true, 'Authenticated User', self::HTTP_STATUS_REQUEST_OK);
+        
         } catch (\Exception $e) {
-            return $this->apiErrorResponse( false , $e->getMessage(), 400 , 'generalException' );
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
+    }
 
-        // All good so return user data & token
-        $auth_user   = JWTAuth::user();
+    /**
+     * @OA\Get(
+     *      path="/api/v1/auth/logout",
+     *      tags={"Auth"},
+     *      summary="Logout user",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Logout Success"
+     *      )
+     * )
+     */
+    public function logout()
+    {
+        try {
+            $user = JWTAuth::invalidate();
+            return $this->apiSuccessResponse([], true, 'Logged out successfully!', self::HTTP_STATUS_REQUEST_OK);        
 
-        return $this->apiSuccessResponse( ['user' =>  $auth_user, 'token' => $token  ], true , 'Login Successful', 200 );
+        } catch (\Exception $e) {
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
     }
 
 }
