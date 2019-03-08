@@ -2,16 +2,16 @@
 
 use Illuminate\Http\Request;
 
-Route::namespace('API\V1')->prefix('v1')->group(function() {
+Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function() {
 
     Route::prefix('auth')->group(function() {
         // anyone can access
         Route::post('register', 'ApiAuthController@register');
         Route::post('login', 'ApiAuthController@login');
         Route::post('email/check', 'ApiAuthController@checkEmail');
-        
+
         // must be authenticated user
-        Route::middleware(['cors', 'jwt'])->group(function () {
+        Route::middleware(['jwt'])->group(function(){
             Route::get('user', 'ApiAuthController@getAuthUser');
             Route::get('logout', 'ApiAuthController@logout');
         });
@@ -19,8 +19,8 @@ Route::namespace('API\V1')->prefix('v1')->group(function() {
 
     Route::prefix('password')->group(function () {
         // anyone can access
-        Route::post('email', 'ApiPasswordResetsController@sendResetLinkEmail');
-        Route::post('reset', 'ApiPasswordResetsController@resetPassword');
+        Route::post( 'email', 'ApiPasswordResetsController@sendResetCodeEmail' );
+        Route::post( 'reset', 'ApiPasswordResetsController@resetPassword' );
     });
 
     Route::prefix('user')->group(function () {
@@ -35,7 +35,7 @@ Route::namespace('API\V1')->prefix('v1')->group(function() {
 
     // must be authenticated user
     // get model resources paginate
-    Route::middleware(['cors', 'jwt'])->group(function () {
+    Route::middleware([ 'jwt'])->group(function () {
         Route::get('users', 'ApiUsersController@getUsersPaginate');
     });
 });

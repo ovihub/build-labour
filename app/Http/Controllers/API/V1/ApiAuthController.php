@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Http\Controllers\Controller;
-use App\Validators\RegisterUserValidator;
+use App\Models\Users\Users;
 use App\Repositories\UserRepository;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use JWTAuth;
 
@@ -15,13 +13,13 @@ class ApiAuthController extends ApiBaseController
 {
     protected $userRepo;
 
-    public function __construct(UserRepository $userRepo) {
+    public function __construct( UserRepository $userRepo ){
         $this->userRepo = $userRepo;
     }
 
     /**
      * @OA\Post(
-     *      path="/api/v1/auth/login",
+     *      path="/auth/login",
      *      tags={"Auth"},
      *      summary="Login user. Authenticate credentials and returns a token.",
      *      security={},
@@ -60,29 +58,29 @@ class ApiAuthController extends ApiBaseController
      *      )
      * )
      */
-    public function login(Request $request)
+    public function login( Request $request )
     {
         $credentials = $request->only('email', 'password');
-        
+
         try {
             if (! $token = JWTAuth::attempt($credentials)) {
                 return $this->apiErrorResponse(false, 'Invalid Credentials', self::HTTP_STATUS_BAD_REQUEST, 'invalidCredentials');
             }
 
         } catch (JWTException $e) {
-            return $this->apiErrorResponse(false, 'Could Not Create Token', self::HTTP_STATUS_NOT_FOUND, 'tokenAbsent');
+            return $this->apiErrorResponse(false, 'Could Not Create Token '.$e->getMessage(), self::HTTP_STATUS_NOT_FOUND, 'tokenAbsent');
         
         } catch (\Exception $e) {
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
         $user = JWTAuth::user();
-        return $this->apiSuccessResponse(compact('user', 'token'), true, 'Login Success', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact('user', 'token'), true, 'Login Success', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
      * @OA\Post(
-     *      path="/api/v1/auth/register",
+     *      path="/auth/register",
      *      tags={"Auth"},
      *      summary="Register user. Creates new user, sends 'thank you' email and returns a token.",
      *      security={},
@@ -144,7 +142,7 @@ class ApiAuthController extends ApiBaseController
      *                      property="address",
      *                      description="Address",
      *                      type="string",
-     *                      example="85 Dover Street Cremorne VIC"
+     *                      example="85 Dover Street Melbourne VIC"
      *                  ),
      *              ),
      *          ),
@@ -163,35 +161,27 @@ class ApiAuthController extends ApiBaseController
      *      )
      * )
      */
-    public function register(Request $request)
+    public function register(Request $request )
     {
+        $user =  new Users;
         try {
-            // validate for inputs and formats, check for unique and/or duplicate records
-            $validator = Validator::make($request->all(), RegisterUserValidator::rules(), RegisterUserValidator::messages());
-
-            if ($validator->fails()) {
-                return $this->apiErrorResponse(false, $validator->errors()->first(), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
+            if( ! $user->store( $request ) ){
+                return $this->apiErrorResponse( false, $user->getErrors(), self::INTERNAL_SERVER_ERROR, 'sqlError');
             }
-
-            $responseData = $this->userRepo->create($request);
-
-            if ($responseData['user']) {
-                return $this->apiSuccessResponse($responseData, true, 'User has been registered successfully!', self::HTTP_STATUS_REQUEST_OK);
-            }
-            
-            return $this->apiErrorResponse(false, $responseData['error'], self::INTERNAL_SERVER_ERROR, 'sqlError');
-        
         } catch(\Exception $e) {
-            
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
+
+        $token = $user->getJwtToken();
+
+        return $this->apiSuccessResponse( compact( 'user' , 'token' ), true, 'User has been registered successfully!', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
      * @OA\Post(
-     *      path="/api/v1/auth/email/check",
+     *      path="/auth/email/check",
      *      tags={"Auth"},
-     *      summary="Check email format and if exists or not",
+     *      summary="Check email if exists. Used as a first step in user registration",
      *      description="",
      *      operationId="",
      *      @OA\Parameter(
@@ -224,7 +214,7 @@ class ApiAuthController extends ApiBaseController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/auth/user",
+     *      path="/auth/user",
      *      tags={"Auth"},
      *      summary="Get authenticated user's information",
      *      security={{"BearerAuth":{}}},
@@ -253,17 +243,20 @@ class ApiAuthController extends ApiBaseController
     public function getAuthUser()
     {
         try {
+
             $user = JWTAuth::toUser();
             return $this->apiSuccessResponse(compact('user'), true, 'Authenticated User', self::HTTP_STATUS_REQUEST_OK);
-        
+
         } catch (\Exception $e) {
+
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+
         }
     }
 
     /**
      * @OA\Get(
-     *      path="/api/v1/auth/logout",
+     *      path="/auth/logout",
      *      tags={"Auth"},
      *      summary="Logout user",
      *      security={{"BearerAuth":{}}},
@@ -293,9 +286,8 @@ class ApiAuthController extends ApiBaseController
     {
         try {
             $user = JWTAuth::invalidate();
-            return $this->apiSuccessResponse([], true, 'Logged out successfully!', self::HTTP_STATUS_REQUEST_OK);        
-
-        } catch (\Exception $e) {
+            return $this->apiSuccessResponse([], true, 'Logged out successfully!', self::HTTP_STATUS_REQUEST_OK);
+        } catch ( \Exception $e ) {
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
     }

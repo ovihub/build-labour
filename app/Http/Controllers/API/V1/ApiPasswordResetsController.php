@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Repositories\PasswordResetRepository;
 use App\Validators\ResetPasswordValidator;
 use App\Validators\MailValidator;
-use App\PasswordReset;
+use App\Models\Auth\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,24 +16,18 @@ use Illuminate\Support\Facades\Validator;
  */
 class ApiPasswordResetsController extends ApiBaseController
 {
-    const MODEL = 'user';
-
-    protected $passwordResetRepo;
-
     /**
-     * Create a new controller instance.
+     *  Create a new controller instance.
      *
-     * @param User $user
      */
-    public function __construct(PasswordReset $passwordReset, PasswordResetRepository $passwordResetRepo)
-    {        
-        $this->passwordReset = $passwordReset;
-        $this->passwordResetRepo = $passwordResetRepo;
+    public function __construct()
+    {
+
     }
 
     /**
      * @OA\Post(
-     *      path="/api/v1/password/email",
+     *      path="/password/email",
      *      tags={"Password"},
      *      summary="Send reset password email with token",
      *      security={},
@@ -65,28 +59,21 @@ class ApiPasswordResetsController extends ApiBaseController
      *      )
      * )
      */
-    public function sendResetLinkEmail(Request $request)
+    public function sendResetCodeEmail( Request $request)
     {
-        try {
-            $validator = Validator::make($request->all(), MailValidator::rules(), MailValidator::messages());
-            
-            if ($validator->fails()) {
-                return $this->apiErrorResponse(false, $validator->errors()->first(), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
-            }
+        $password_reset = new PasswordReset();
 
-            $responseData = $this->passwordResetRepo->sendResetLinkEmail($request->get('email'));
-
-            return $this->checkResponseData(self::MODEL, $responseData, 'Password reset email has been sent successfully!');
-
-        } catch(\Exception $e) {
-            
-            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        if( ! $password_reset->sendResetToken( $request ) ){
+            return $this->apiErrorResponse(false, $password_reset->getErrors( true ), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
         }
+
+        return $this->apiSuccessResponse( compact('password_reset'), true , 'Password reset code successfully sent to email' );
+
     }
 
     /**
      * @OA\Post(
-     *      path="/api/v1/password/reset",
+     *      path="/password/reset",
      *      tags={"Password"},
      *      summary="Reset user's password",
      *      security={},
@@ -137,23 +124,15 @@ class ApiPasswordResetsController extends ApiBaseController
      *      )
      * )
      */
-    public function resetPassword(Request $request)
+    public function resetPassword( Request $request )
     {
-        try {
-            $validator = Validator::make($request->all(), ResetPasswordValidator::rules(), ResetPasswordValidator::messages());
-            
-            if ($validator->fails()) {
-                return $this->apiErrorResponse(false, $validator->errors()->first(), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
-            }
+        $password_reset = new PasswordReset();
 
-            $responseData = $this->passwordResetRepo->resetPassword($request);
-
-            return $this->checkResponseData(self::MODEL, $responseData, 'Password has been changed successfully!');
-
-        } catch(\Exception $e) {
-            
-            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        if( ! $password_reset->resetPassword( $request ) ){
+            return $this->apiErrorResponse(false, $password_reset->getErrors( true ), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
         }
+
+        return $this->apiSuccessResponse( compact( 'password_reset' ), true , 'Password reset code successfully sent to email' );
     }
     
 }

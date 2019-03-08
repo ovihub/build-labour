@@ -3,11 +3,18 @@
  * @OA\Info(
  *      version="1.0.0",
  *      title="Base Plate API",
- *      description="http://appetiser.com.au/",
+ *      description="A product of Appetiser",
  *      @OA\Contact(
  *          name="API Support",
  *          email="dennis.agulo@appetiser.com.au"
  *      )
+ * )
+ */
+
+/**
+ *  @OA\Server(
+ *      url="http://128.199.193.26/api/v1",
+ *      description="Base Endpoint"
  * )
  */
 
@@ -49,7 +56,7 @@ class ApiBaseController extends Controller
      */
     protected function apiSuccessResponse( $data, $success = true , $message = '', $http_status = 200 )
     {
-        return response()->json(compact( 'data', 'success', 'message', 'http_status' ), $http_status);
+        return response()->json(compact( 'success', 'message', 'http_status', 'data' ), $http_status);
     }
 
     /**
@@ -72,7 +79,7 @@ class ApiBaseController extends Controller
      * 
      * @return response formatted
      */
-    protected function checkResponseData($model, $responseData, $successMessage, $badRequest = null)
+    protected function checkResponseData( $model, $responseData, $successMessage, $badRequest = null)
     {
         if ($badRequest) {
             return $this->apiErrorResponse(false, $responseData['error'], self::HTTP_STATUS_BAD_REQUEST, 'badRequest');
@@ -87,6 +94,12 @@ class ApiBaseController extends Controller
         return $this->apiErrorResponse(false, $responseData['error'], self::INTERNAL_SERVER_ERROR, 'sqlError');
     }
 
+    /**
+     * Manual authentication. Alternative for middleware
+     *
+     * @param Request $r
+     * @return bool
+     */
     protected function authenticate( Request $r )
     {
         try {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Users\Users;
 use App\Repositories\UserRepository;
 use App\Http\Resources\UsersResource;
 use Illuminate\Support\Facades\Validator;
@@ -19,43 +20,10 @@ use JWTAuth;
  */
 class ApiUsersController extends ApiBaseController
 {
-    const MODEL = 'user';
-
-    protected $userRepo;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @param User $user
-     */
-    public function __construct(User $user, UserRepository $userRepo)
-    {        
-        $this->user = $user;
-        $this->userRepo = $userRepo;
-    }
-
-    /**
-     * Get users for the data table.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getUsersPaginate(Request $request)
-    {
-        $column = $request->get('column') ? $request->get('column') : 'id';
-        $order = $request->get('order') ? $request->get('order') : 'asc';
-        $per_page = $request->get('per_page') ? $request->get('per_page') : 10;
-
-        $query = $this->user->orderBy($column, $order);
-        $users = $query->paginate($per_page);
-
-        return UsersResource::collection($users);
-    }
 
     /**
      * @OA\Post(
-     *      path="/api/v1/user/verify",
+     *      path="/user/verify",
      *      tags={"User"},
      *      summary="Verify user's email address",
      *      security={{"BearerAuth":{}}},
@@ -71,8 +39,8 @@ class ApiUsersController extends ApiBaseController
      *                      type="string",
      *                  ),
      *                  @OA\Property(
-     *                      property="verify_token",
-     *                      description="Verification Token",
+     *                      property="verification_code",
+     *                      description="Verification Code",
      *                      type="string",
      *                  ),
      *              ),
@@ -105,7 +73,13 @@ class ApiUsersController extends ApiBaseController
      * )
      */
     public function verifyEmail(Request $request)
-    {   
+    {
+
+        $user = new Users();
+        if( ! $user->emailExists( $request->email ) ){
+            return $this->apiErrorResponse(false, $user->getErrors( true ), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
+        }
+
         try {
             $validator = Validator::make($request->all(), MailValidator::rules(), MailValidator::messages());
             
@@ -113,7 +87,7 @@ class ApiUsersController extends ApiBaseController
                 return $this->apiErrorResponse(false, $validator->errors()->first(), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
             }
 
-            $responseData = $this->userRepo->verifyEmail($request);
+            $responseData = $this->userRepo->verifyEmail( $request );
 
             return $this->checkResponseData(self::MODEL, $responseData, 'Email has been verified successfully!');
 
@@ -125,7 +99,7 @@ class ApiUsersController extends ApiBaseController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/user/resend/email",
+     *      path="/user/resend/email",
      *      tags={"User"},
      *      summary="Resend verification email with token",
      *      security={{"BearerAuth":{}}},
@@ -190,7 +164,7 @@ class ApiUsersController extends ApiBaseController
 
     /**
      * @OA\Put(
-     *      path="/api/v1/user/update",
+     *      path="/user/update",
      *      tags={"User"},
      *      summary="Update user's information",
      *      security={{"BearerAuth":{}}},
@@ -289,7 +263,7 @@ class ApiUsersController extends ApiBaseController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/user/upload",
+     *      path="/user/upload",
      *      tags={"User"},
      *      summary="Upload profile photo",
      *      security={{"BearerAuth":{}}},

@@ -11,6 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get( '/', function () {
+    return redirect( 'login' );
 });
+
+
+Route::get( 'login', 'AuthController@login' );
+Route::post( 'login', 'AuthController@login' );
+Route::get( 'docs', 'DocumentationController@sindex' );

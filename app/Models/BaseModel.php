@@ -9,22 +9,28 @@ use Illuminate\Http\Request;
 
 class BaseModel extends Model
 {
+
+    protected $errors    = [];
+
+    // optional model properties
+    // you will need the properties below if you want to create
+    // your own pagination system
+
     protected $total     = 0;
     protected $pages     = 1;
-    protected $page      = 1; // current_page
+    protected $page      = 1;
     protected $limit     = 20;
     protected $order_by  = '';
     protected $order_direction  = 'ASC';
-    protected $offset = 1;
-    protected $errors    = [];
+    protected $offset    = 1;
+
     protected $collection    = null;
+
     /**
      * @var Illuminate\Database\Query\Builder
      */
     protected $query;
     protected $fields = [];
-
-    public $error_code;
 
     public static function factory()
     {
@@ -32,7 +38,9 @@ class BaseModel extends Model
     }
 
     /**
-     * Alternative use of pagination
+     * Alternative use of pagination in case you don't want to use the builder pagination() method
+     * Can come in handy on vue based pagination. No need to use vue pagination components
+     *
      * Sets the limit, page and order by values
      *
      * @param Request $r
@@ -49,7 +57,6 @@ class BaseModel extends Model
     /**
      * Assigns the limit, page and order by value
      * to the query builder
-     *
      *
      * @return Illuminate\Database\Query\Builder
      */
@@ -120,7 +127,7 @@ class BaseModel extends Model
 
     /**
      * Alias of find()
-     * Handy use for IDE's to identify correct Class returned
+     * Handy use for IDE's to identify current Class returned
      *
      * @param array|string $id
      * @return static
@@ -129,7 +136,14 @@ class BaseModel extends Model
     {
         return $this->find( $id );
     }
-    
+
+    /**
+     * List of pages in array form for pagination
+     *
+     * @param $current_page
+     * @param $total_pages
+     * @return array
+     */
     public function pageList( $current_page , $total_pages )
     {
         $total_pages = ceil( $total_pages );
@@ -170,4 +184,14 @@ class BaseModel extends Model
         return $rangeWithDots;
     }
 
+    /**
+     * Add a error message to the errors array
+     *
+     * @param $error_message
+     */
+
+    public function addError( $error_message )
+    {
+        $this->errors[] = $error_message;
+    }
 }

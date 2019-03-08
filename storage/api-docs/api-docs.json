@@ -2,15 +2,21 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Base Plate API",
-        "description": "http://appetiser.com.au/",
+        "description": "A product of Appetiser",
         "contact": {
             "name": "API Support",
             "email": "dennis.agulo@appetiser.com.au"
         },
         "version": "1.0.0"
     },
+    "servers": [
+        {
+            "url": "http://128.199.193.26/api/v1",
+            "description": "Base Endpoint"
+        }
+    ],
     "paths": {
-        "/api/v1/auth/login": {
+        "/auth/login": {
             "post": {
                 "tags": [
                     "Auth"
@@ -53,7 +59,7 @@
                 "security": []
             }
         },
-        "/api/v1/auth/register": {
+        "/auth/register": {
             "post": {
                 "tags": [
                     "Auth"
@@ -109,7 +115,7 @@
                                     "address": {
                                         "description": "Address",
                                         "type": "string",
-                                        "example": "85 Dover Street Cremorne VIC"
+                                        "example": "85 Dover Street Melbourne VIC"
                                     }
                                 },
                                 "type": "object"
@@ -131,12 +137,12 @@
                 "security": []
             }
         },
-        "/api/v1/auth/email/check": {
+        "/auth/email/check": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Check email format and if exists or not",
+                "summary": "Check email if exists. Used as a first step in user registration",
                 "description": "",
                 "operationId": "",
                 "parameters": [
@@ -157,7 +163,7 @@
                 }
             }
         },
-        "/api/v1/auth/user": {
+        "/auth/user": {
             "get": {
                 "tags": [
                     "Auth"
@@ -188,7 +194,7 @@
                 ]
             }
         },
-        "/api/v1/auth/logout": {
+        "/auth/logout": {
             "get": {
                 "tags": [
                     "Auth"
@@ -219,13 +225,13 @@
                 ]
             }
         },
-        "/api/v1/password/email": {
+        "/password/email": {
             "post": {
                 "tags": [
                     "Password"
                 ],
                 "summary": "Send reset password email with token",
-                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiPasswordResetsController::sendResetLinkEmail",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiPasswordResetsController::sendResetCodeEmail",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -256,7 +262,7 @@
                 "security": []
             }
         },
-        "/api/v1/password/reset": {
+        "/password/reset": {
             "post": {
                 "tags": [
                     "Password"
@@ -308,7 +314,7 @@
                 "security": []
             }
         },
-        "/api/v1/user/verify": {
+        "/user/verify": {
             "post": {
                 "tags": [
                     "User"
@@ -325,8 +331,8 @@
                                         "description": "Email Address",
                                         "type": "string"
                                     },
-                                    "verify_token": {
-                                        "description": "Verification Token",
+                                    "verification_code": {
+                                        "description": "Verification Code",
                                         "type": "string"
                                     }
                                 },
@@ -362,7 +368,7 @@
                 ]
             }
         },
-        "/api/v1/user/resend/email": {
+        "/user/resend/email": {
             "post": {
                 "tags": [
                     "User"
@@ -412,7 +418,7 @@
                 ]
             }
         },
-        "/api/v1/user/update": {
+        "/user/update": {
             "put": {
                 "tags": [
                     "User"
@@ -494,7 +500,7 @@
                 ]
             }
         },
-        "/api/v1/user/upload": {
+        "/user/upload": {
             "post": {
                 "tags": [
                     "User"

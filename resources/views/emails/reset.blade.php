@@ -305,13 +305,13 @@
 						<table width="100%" cellpadding="0" cellspacing="0">
 							<tr>
 								<td class="content-block">
-									<p><b>Hello!</b></p>
+									<p> <b>Hi <?php echo $user->first_name ?></b> </p>
 									<p>You are receiving this email because we received a password reset request for your account.</p>
 								</td>
 							</tr>
 							<tr>
 								<td class="content-block">
-									<p>Just copy and paste the following token in app's reset password form:</p>
+									<p>Just copy and paste the following token/code in app's reset password form:</p>
 									<p><b>{{ $token }}</b></p>
 								</td>
 							</tr>
@@ -323,7 +323,7 @@
 							<tr>
 								<td class="content-block">
 									<p>
-										<b>Appetiser</b>
+										<b><?php echo env( 'APP_NAME' ) ?></b>
 									</p>
 								</td>
 							</tr>
