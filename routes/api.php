@@ -9,6 +9,8 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
         Route::post('register', 'ApiAuthController@register');
         Route::post('login', 'ApiAuthController@login');
         Route::post('email/check', 'ApiAuthController@checkEmail');
+        Route::post('verify', 'ApiAuthController@verify');
+        Route::post('verification/resend', 'ApiAuthController@resendVerificationCode');
 
         // must be authenticated user
         Route::middleware(['jwt'])->group(function(){
@@ -26,10 +28,10 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
     Route::prefix('user')->group(function () {
         // must be authenticated user
         Route::middleware(['cors', 'jwt'])->group(function () {
-            Route::put('update', 'ApiUsersController@update');
-            Route::post('upload', 'ApiUsersController@uploadProfilePhoto');
-            Route::post('verify', 'ApiUsersController@verifyEmail');
-            Route::post('resend/email', 'ApiUsersController@resendEmail');
+            Route::put( '', 'ApiUsersController@update' );
+            Route::post( 'photo', 'ApiUsersController@uploadProfilePhoto');
+            Route::delete( 'photo', 'ApiUsersController@deleteProfilePhoto');
+            Route::post( 'resend/email', 'ApiUsersController@resendEmail');
         });
     });
 

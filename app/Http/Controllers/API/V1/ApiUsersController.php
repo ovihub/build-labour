@@ -21,150 +21,47 @@ use JWTAuth;
 class ApiUsersController extends ApiBaseController
 {
 
-    /**
-     * @OA\Post(
-     *      path="/user/verify",
-     *      tags={"User"},
-     *      summary="Verify user's email address",
-     *      security={{"BearerAuth":{}}},
-     *      @OA\RequestBody(
-     *          required=true,
-     *          @OA\MediaType(
-     *              mediaType="application/x-www-form-urlencoded",
-     *              @OA\Schema(
-     *                  type="object",
-     *                  @OA\Property(
-     *                      property="email",
-     *                      description="Email Address",
-     *                      type="string",
-     *                  ),
-     *                  @OA\Property(
-     *                      property="verification_code",
-     *                      description="Verification Code",
-     *                      type="string",
-     *                  ),
-     *              ),
-     *          ),
-     *      ),
-     *      @OA\Response(
-     *          response=422,
-     *          description="Invalid Input"
-     *      ),
-     *      @OA\Response(
-     *          response=400,
-     *          description="Invalid Token"
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Token Expired"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="User Not Found / Token Not Found"
-     *      ),
-     *      @OA\Response(
-     *          response=500,
-     *          description="Internal Server Error"
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Request OK"
-     *      )
-     * )
-     */
-    public function verifyEmail(Request $request)
+
+    public function resendVerificationCode( Request $r )
     {
 
-        $user = new Users();
-        if( ! $user->emailExists( $request->email ) ){
-            return $this->apiErrorResponse(false, $user->getErrors( true ), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
+        if( ! $user = Users::findByCid( $r->cid ) ){
+
+            return response()->json(
+                [
+                    'status' => 400,
+                    'error_code' => 'userNotFound',
+                    'message'=> 'User  not found'
+                ],
+                400
+            );
         }
 
-        try {
-            $validator = Validator::make($request->all(), MailValidator::rules(), MailValidator::messages());
-            
-            if ($validator->fails()) {
-                return $this->apiErrorResponse(false, $validator->errors()->first(), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
-            }
-
-            $responseData = $this->userRepo->verifyEmail( $request );
-
-            return $this->checkResponseData(self::MODEL, $responseData, 'Email has been verified successfully!');
-
-        } catch(\Exception $e) {
-                
-            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        if( $user->is_verified ){
+            return response()->json(
+                [
+                    'status' => 400,
+                    'error_code' => 'userAlreadyVerified',
+                    'message'=> 'User was already verified'
+                ],
+                400
+            );
         }
-    }
 
-    /**
-     * @OA\Post(
-     *      path="/user/resend/email",
-     *      tags={"User"},
-     *      summary="Resend verification email with token",
-     *      security={{"BearerAuth":{}}},
-     *      @OA\RequestBody(
-     *          required=true,
-     *          @OA\MediaType(
-     *              mediaType="application/x-www-form-urlencoded",
-     *              @OA\Schema(
-     *                  type="object",
-     *                  @OA\Property(
-     *                      property="email",
-     *                      description="Email Address",
-     *                      type="string",
-     *                  ),
-     *              ),
-     *          ),
-     *      ),
-     *      @OA\Response(
-     *          response=422,
-     *          description="Invalid Input"
-     *      ),
-     *      @OA\Response(
-     *          response=400,
-     *          description="Invalid Token / Bad Request"
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Token Expired"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="User Not Found / Token Not Found"
-     *      ),
-     *      @OA\Response(
-     *          response=500,
-     *          description="Internal Server Error"
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Request OK"
-     *      )
-     * )
-     */
-    public function resendEmail(Request $request)
-    {   
-        try {
-            $validator = Validator::make($request->all(), MailValidator::rules(), MailValidator::messages());
-            
-            if ($validator->fails()) {
-                return $this->apiErrorResponse(false, $validator->errors()->first(), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
-            }
+        \Mail::to( $user->email )->send( new ResendVerificationCode( $user ) );
 
-            $responseData = $this->userRepo->resendEmail($request->get('email'));
-
-            return $this->checkResponseData(self::MODEL, $responseData, 'Verification email is sent successfully!', $responseData[self::MODEL]->email_verified_at);
-
-        } catch(\Exception $e) {
-                
-            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
-        }
+        return response()->json(
+            [
+                'status' => 200,
+                'message'=> 'Email containing verification code successfully sent'
+            ],
+            200
+        );
     }
 
     /**
      * @OA\Put(
-     *      path="/user/update",
+     *      path="/user",
      *      tags={"User"},
      *      summary="Update user's information",
      *      security={{"BearerAuth":{}}},
@@ -263,19 +160,10 @@ class ApiUsersController extends ApiBaseController
 
     /**
      * @OA\Post(
-     *      path="/user/upload",
+     *      path="/user/photo",
      *      tags={"User"},
      *      summary="Upload profile photo",
      *      security={{"BearerAuth":{}}},
-     *      @OA\Parameter(
-     *          description="User ID",
-     *          in="query",
-     *          name="id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer",
-     *          ),
-     *      ),
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
@@ -317,22 +205,15 @@ class ApiUsersController extends ApiBaseController
      *      )
      * )
      */
-    public function uploadProfilePhoto(Request $request)
+    public function uploadProfilePhoto( Request $request)
     {
-        try {
-            $validator = Validator::make($request->all(), ['photo' => 'required|image64:jpeg,jpg,png']);
+        $user  = JWTAuth::toUser();
 
-            if ($validator->fails()) {
-                return $this->apiErrorResponse(false, $validator->errors()->first(), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
-            }
-
-            $responseData = $this->userRepo->uploadProfilePhoto($request);
-
-            return $this->checkResponseData(self::MODEL, $responseData, 'Image has been uploaded successfully!');
-        
-        } catch(\Exception $e) {
-                
-            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        if( ! $user->uploadProfilePhoto( $request ) ){
+            return $this->apiErrorResponse(false, $user->getErrors( true ), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
         }
+
+        return $this->apiSuccessResponse([ 'user'=>$user ], true, 'Profile Photo Uploaded Successfully ', self::HTTP_STATUS_REQUEST_OK);
     }
+
 }

@@ -161,7 +161,7 @@ class ApiAuthController extends ApiBaseController
      *      )
      * )
      */
-    public function register(Request $request )
+    public function register( Request $request )
     {
         $user =  new Users;
         try {
@@ -217,7 +217,7 @@ class ApiAuthController extends ApiBaseController
      *      path="/auth/user",
      *      tags={"Auth"},
      *      summary="Get authenticated user's information",
-     *      security={{"BearerAuth":{}}},
+     *      security={{"BearerAuth":{}}},     
      *      @OA\Response(
      *          response=400,
      *          description="Invalid Token"
@@ -243,15 +243,139 @@ class ApiAuthController extends ApiBaseController
     public function getAuthUser()
     {
         try {
-
             $user = JWTAuth::toUser();
-            return $this->apiSuccessResponse(compact('user'), true, 'Authenticated User', self::HTTP_STATUS_REQUEST_OK);
-
         } catch (\Exception $e) {
-
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
-
         }
+
+        return $this->apiSuccessResponse(compact('user'), true, 'Authenticated User', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/auth/verify",
+     *      tags={"Auth"},
+     *      summary="Verify a user after registration ",
+     *      description="A 6 character verification code will be sent through email ",
+     *      operationId="",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/x-www-form-urlencoded",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="uid",
+     *                      description="User ID",
+     *                      type="string",
+     *                      example="141203"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="verification_code",
+     *                      description="Verification Code",
+     *                      type="string",
+     *                      example="",
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *      )
+     * )
+     */
+    public function verify( Request $request )
+    {
+        // Another option of using raw $request->user_id is to convert the user id using \Helpers\Utils::convertInt().
+        // Emails can also be used instead of user id to get the user. Just change the code
+
+        $user = Users::find( $request->user_id );
+
+        if( ! $user ){
+            return $this->apiErrorResponse( false, 'Invalid User ID', 400 , 'invalidUserId' );
+        }
+
+        if( ! $user->verify( $r->code ) ){
+            return $this->apiErrorResponse( false, $user->getErrors( true ), 400 , 'verificationError' );
+        }
+
+        $token = $token = JWTAuth::fromUser( User::find( $user->id ) );
+
+        $this->apiSuccessResponse( compact( 'user', 'token' ), true, 'Account Verified', 200 );
+
+    }
+
+
+    /**
+     * @OA\Post(
+     *      path="/auth/verification/resend",
+     *      tags={"Auth"},
+     *      summary="Resend verification code",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/x-www-form-urlencoded",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="email",
+     *                      description="Email Address",
+     *                      type="string",
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Invalid Input"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token / Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="User Not Found / Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function resendVerificationCode(Request $request)
+    {
+        if( ! filter_var( $request->email , FILTER_VALIDATE_EMAIL)) {
+            return $this->apiErrorResponse( false, 'Invalid Email', self::HTTP_STATUS_INVALID_INPUT, 'invalidEmail' );
+        }
+
+        // On instances that emails are not used as usernames or identifiers then
+        // you may also use user id for identification
+
+        $user = ( new Users )->emailExists( $request->email );
+
+        if( ! $user ){
+            return $this->apiErrorResponse(false, 'Email does not exists', self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
+        }
+
+        if( $user->is_verified ){
+            return $this->apiErrorResponse(false, 'User already verified', self::HTTP_STATUS_INVALID_INPUT, 'userAlreadyVerified');
+        }
+
+        if( ! $user->resendVerificationCode() ){
+            return $this->apiErrorResponse(false, $user->getErrors( true ) , self::HTTP_STATUS_INVALID_INPUT, 'verificationCodeError');
+        }
+
+        return $this->apiSuccessResponse( [], true, 'Verification code successfully sent to email', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
@@ -284,12 +408,15 @@ class ApiAuthController extends ApiBaseController
      */
     public function logout()
     {
+
         try {
             $user = JWTAuth::invalidate();
-            return $this->apiSuccessResponse([], true, 'Logged out successfully!', self::HTTP_STATUS_REQUEST_OK);
         } catch ( \Exception $e ) {
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
+
+        return $this->apiSuccessResponse([], true, 'Logged out successfully!', self::HTTP_STATUS_REQUEST_OK);
+
     }
 
 }

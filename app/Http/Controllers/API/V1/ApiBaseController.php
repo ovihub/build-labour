@@ -95,7 +95,7 @@ class ApiBaseController extends Controller
     }
 
     /**
-     * Manual authentication. Alternative for middleware
+     * Manual authentication. Alternative if you do not want to use the JWT Middleware
      *
      * @param Request $r
      * @return bool

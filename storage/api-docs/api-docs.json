@@ -194,6 +194,88 @@
                 ]
             }
         },
+        "/auth/verify": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Verify a user after registration ",
+                "description": "A 6 character verification code will be sent through email ",
+                "operationId": "",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "uid": {
+                                        "description": "User ID",
+                                        "type": "string",
+                                        "example": "141203"
+                                    },
+                                    "verification_code": {
+                                        "description": "Verification Code",
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/auth/verification/resend": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Resend verification code",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiAuthController::resendVerificationCode",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Email Address",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Invalid Input"
+                    },
+                    "400": {
+                        "description": "Invalid Token / Bad Request"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "User Not Found / Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                }
+            }
+        },
         "/auth/logout": {
             "get": {
                 "tags": [
@@ -314,111 +396,7 @@
                 "security": []
             }
         },
-        "/user/verify": {
-            "post": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Verify user's email address",
-                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiUsersController::verifyEmail",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "properties": {
-                                    "email": {
-                                        "description": "Email Address",
-                                        "type": "string"
-                                    },
-                                    "verification_code": {
-                                        "description": "Verification Code",
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "422": {
-                        "description": "Invalid Input"
-                    },
-                    "400": {
-                        "description": "Invalid Token"
-                    },
-                    "401": {
-                        "description": "Token Expired"
-                    },
-                    "404": {
-                        "description": "User Not Found / Token Not Found"
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    },
-                    "200": {
-                        "description": "Request OK"
-                    }
-                },
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/user/resend/email": {
-            "post": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Resend verification email with token",
-                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiUsersController::resendEmail",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "properties": {
-                                    "email": {
-                                        "description": "Email Address",
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "422": {
-                        "description": "Invalid Input"
-                    },
-                    "400": {
-                        "description": "Invalid Token / Bad Request"
-                    },
-                    "401": {
-                        "description": "Token Expired"
-                    },
-                    "404": {
-                        "description": "User Not Found / Token Not Found"
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    },
-                    "200": {
-                        "description": "Request OK"
-                    }
-                },
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/user/update": {
+        "/user": {
             "put": {
                 "tags": [
                     "User"
@@ -500,24 +478,13 @@
                 ]
             }
         },
-        "/user/upload": {
+        "/user/photo": {
             "post": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Upload profile photo",
                 "operationId": "App\\Http\\Controllers\\API\\V1\\ApiUsersController::uploadProfilePhoto",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "query",
-                        "description": "User ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
                 "requestBody": {
                     "required": true,
                     "content": {

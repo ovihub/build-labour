@@ -97,7 +97,7 @@ class UserRepository
                     $user->verify_token = Hash::make($verify_token);
                     $user->save();
 
-                    Mail::to($user->email)->send(new VerifyEmail($verify_token));
+                    Mail::to( $user->email)->send( new VerifyEmail( $verify_token ));
                 }
                 
                 DB::commit();

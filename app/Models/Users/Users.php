@@ -2,19 +2,36 @@
 
 namespace App\Models\Users;
 
+use App\Mails\ResendVerificationCodeEmail;
 use App\Models\BaseModel;
 use App\User;
+use App\Helpers\Utils;
 use Illuminate\Http\Request;
 use JWTAuth;
+use Intervention\Image\ImageManagerStatic as Image;
 
-class Users extends BaseModel{
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+
+class Users extends BaseModel implements
+    AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract
+{
+    use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail;
 
     protected $table = 'users';
     protected $primaryKey = 'id';
 
     public $timestamps = true;
 
-    protected $fillable = [ 'id', 'email' , 'first_name' , 'last_name' , 'password'  ];
+    protected $fillable = [ 'id', 'email' , 'first_name' , 'last_name', 'password',
+        'dob' , 'country', 'address', 'mobile_number' ];
     protected $hidden =[ 'password' , 'remember_token','updated_at' , 'created_at' ];
     protected $appends = [  'full_name'  ];
 
@@ -54,6 +71,9 @@ class Users extends BaseModel{
             $this->exists = true;
         }else{
             // do stuff for new users here
+            $this->is_verified          =   null;
+            $this->verification_code    =   $this->generateVerificationCode();
+
         }
 
         try{
@@ -86,6 +106,10 @@ class Users extends BaseModel{
         return JWTAuth::fromUser( $jwt_subject );
     }
 
+    /**
+     * @param $email
+     * @return mixed
+     */
     public function emailExists( $email )
     {
         $user =  static::where( 'email' , $email )
@@ -93,17 +117,124 @@ class Users extends BaseModel{
 
         return $user;
     }
-    
-    public function verify( )
-    {
-        if( ! $this->id ){
-            $this->addError( 'User is non-existent' );
-            return false;
-        }
-    }
 
+    /**
+     * @return string
+     */
     public function getFullNameAttribute()
     {
         return $this->first_name.' '.$this->last_name;
     }
+
+    public function resendVerificationCode()
+    {
+        $this->verification_code = $this->generateVerificationCode();
+
+        try{
+            $this->save();
+            \Mail::to( $this->email )->send( new ResendVerificationCodeEmail( $this ) );
+        }catch( \Exception  $e ){
+            $this->addError( $e->getMessage() );
+            return false;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Request $r
+     * @return $this|bool
+     */
+    public function uploadProfilePhoto( Request $request )
+    {
+        if( ! $this->id ){
+            $this->addError(  'Unknown user' ) ;
+            return false;
+        }
+
+        $validator = \Validator::make( $request->all(), [ 'photo' => 'required|mimes:jpeg,jpg,png' ] );
+
+        if( $validator->fails() ){
+            $this->addError(  $validator->errors()->first() ) ;
+            return false;
+        }
+
+        $ext = $request->photo->getClientOriginalExtension();
+
+        // rename photo files if you like
+        $new_filename   = 'p_'.str_random( 12 ).'.'.$ext;
+        $destination    = $this->generateUserImagePath( $request );
+        $url = url( '/storage'.$destination.$new_filename );
+
+        // Defaults to a storage path but you may save it to a public for non sensitive files
+        // Do not forget to call php artisan storage:link
+        $dir_path  = storage_path() . '/app/public'.$destination;
+
+        if( ! is_dir( $dir_path )){
+            mkdir( $dir_path , 755 , true );
+        }
+
+        $file_path = $dir_path.$new_filename;
+
+        try{
+            $request->photo->move( $dir_path, $new_filename );
+        }catch( \Exception $e ){
+            $this->addError(  $e->getMessage() ) ;
+            return false;
+        }
+
+        // default compression to 320x320
+        // you need to improve this to handle images that has large difference in aspect ratio
+
+        Image::make(  $file_path )
+            ->resize( 320, 320 )
+            ->save( $file_path );
+
+        // file path can be handy on some cases
+        // $file_path  = $dir_path.$new_filename;
+
+        // you may generate thumbnails if needed
+        // Utils::generateThumbnail( $file_path, [] );
+        $this->profile_photo_url = $url;
+
+        try{
+            $this->save();
+        }catch( \Exception $e ){
+            $this->addError(  $e->getMessage() ) ;
+            return false;
+        }
+
+        return $this;
+
+    }
+
+    /**
+     * User image path is designed so that it would be easy to have a daily backup
+     * without downloading everything
+     *
+     * @return string
+     *
+     */
+    private function generateUserImagePath( )
+    {
+        $date = $this->created_at;
+        $m  =  date( 'md' , strtotime( $date ));
+        $y  =  date( 'Y' , strtotime( $date ));
+
+        return '/images/'.$y.'/'.$m.'/'.Utils::convertInt( $this->id ).'/';
+    }
+
+    private function generateVerificationCode()
+    {
+        $code = strtoupper( str_random( 6 ) );
+
+        $has_code = static::where( 'verification_code' , $code )->count();
+
+        if( $has_code ){
+            return $this->generateVerificationCode();
+        }
+
+        return $code;
+    }
+
 }

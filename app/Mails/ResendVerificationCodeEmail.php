@@ -7,20 +7,20 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class VerifyEmail extends Mailable
+class ResendVerificationCodeEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private $verify_token;
+    private $user;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($verify_token)
+    public function __construct( $user )
     {
-        $this->verify_token = $verify_token;
+        $this->user = $user;
     }
 
     /**
@@ -30,9 +30,10 @@ class VerifyEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.verify')
-                ->subject('Verify Your E-mail Address')
-                ->from(env('APP_MAIL_ADDRESS'), 'Appetiser')
-                ->with('verify_token', $this->verify_token);
+        $subject = env( 'SITE_NAME' ).' email verification ';
+        return $this->view('emails.resend_verification_code')
+                ->subject( $subject )
+                ->from(env('APP_EMAIL'), 'Appetiser')
+                ->with('user', $this->user );
     }
 }
