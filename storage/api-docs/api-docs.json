@@ -11,7 +11,7 @@
     },
     "servers": [
         {
-            "url": "http://128.199.193.26/api/v1",
+            "url": "{ip or domain}/api/v1",
             "description": "Base Endpoint"
         }
     ],
@@ -388,6 +388,44 @@
                     },
                     "500": {
                         "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/pn/device/register": {
+            "post": {
+                "tags": [
+                    "Push Notifications"
+                ],
+                "summary": "Register an Android, iOs or web device for push notifications and chat",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiPushNotificationsController::registerDevice",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "token": {
+                                        "description": "<b>Required</b><br />User token",
+                                        "type": "string"
+                                    },
+                                    "device_token": {
+                                        "description": "<b>Required</b><br />Device token",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Invalid Input"
                     },
                     "200": {
                         "description": "Request OK"

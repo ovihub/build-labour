@@ -26,18 +26,16 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
     });
 
     Route::prefix('user')->group(function () {
-        // must be authenticated user
-        Route::middleware(['cors', 'jwt'])->group(function () {
+        Route::middleware([ 'jwt' ])->group(function () {
             Route::put( '', 'ApiUsersController@update' );
             Route::post( 'photo', 'ApiUsersController@uploadProfilePhoto');
             Route::delete( 'photo', 'ApiUsersController@deleteProfilePhoto');
-            Route::post( 'resend/email', 'ApiUsersController@resendEmail');
         });
     });
 
-    // must be authenticated user
-    // get model resources paginate
-    Route::middleware([ 'jwt'])->group(function () {
-        Route::get('users', 'ApiUsersController@getUsersPaginate');
+    // push notifications
+    Route::prefix('pn')->middleware([ 'jwt' ])->group(function () {
+        Route::post( 'device/register', 'ApiPushNotificationsController@registerDevice');
     });
+
 });
