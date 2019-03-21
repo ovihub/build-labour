@@ -33,9 +33,22 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
         });
     });
 
-    // push notifications
-    Route::prefix('pn')->middleware([ 'jwt' ])->group(function () {
-        Route::post( 'device/register', 'ApiPushNotificationsController@registerDevice');
+    Route::prefix('device')->middleware([ 'jwt' ])->group(function () {
+        Route::post( 'register', 'ApiDeviceController@registerDevice' );
+        Route::post( 'unregister', 'ApiDeviceController@unregisterDevice' );
+    });
+
+    Route::prefix('notification')->middleware([ 'jwt' ])->group(function () {
+        Route::post( 'test', 'ApiPushNotificationsController@test');
+    });
+
+    // chat
+    Route::prefix('chat')->middleware([ 'jwt' , 'chat' ])->group(function () {
+        Route::post( 'send', 'ApiChatController@send' );
+        Route::get( 'channels', 'ApiChatController@channels' );
+        Route::get( 'history', 'ApiChatController@historyByChannel' );
+        Route::get( 'unread', 'ApiChatController@unread' );
+        Route::post( 'reset_unread', 'ApiChatController@resetUnread' );
     });
 
 });

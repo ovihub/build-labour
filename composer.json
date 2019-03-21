@@ -15,7 +15,9 @@
         "intervention/image": "^2.4",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
-        "tymon/jwt-auth": "1.0.*"
+        "tymon/jwt-auth": "1.0.*",
+        "kreait/firebase-php": "3.3.*",
+        "paragraph1/php-fcm": "0.7.*"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

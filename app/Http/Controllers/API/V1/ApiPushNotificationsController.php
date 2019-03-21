@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Models\Users\FirebaseUsers;
+use paragraph1\phpFCM\Message;
+use paragraph1\phpFCM\Recipient\Device;
+use paragraph1\phpFCM\Notification;
+use paragraph1\phpFCM\Client;
+use Illuminate\Http\Request;
+use JWTAuth;
 
-/**
- * Class PasswordResetsController
- * @property PasswordReset passwordReset
- * @package App\Http\Controllers
- */
 class ApiPushNotificationsController extends ApiBaseController
 {
     /**
@@ -18,23 +20,18 @@ class ApiPushNotificationsController extends ApiBaseController
     {
 
     }
+
     /**
      * @OA\Post(
-     *      path="/pn/device/register",
+     *      path="/notification/test",
      *      tags={"Push Notifications"},
-     *      summary="Register an Android, iOs or web device for push notifications and chat. Auth Bearer authentication",
+     *      summary="Test send a message. Auth Bearer authentication",
      *      security={{"BearerAuth":{}}},
      *      @OA\RequestBody(
-     *          required=true,
      *          @OA\MediaType(
      *              mediaType="application/x-www-form-urlencoded",
      *              @OA\Schema(
      *                  type="object",
-     *                  @OA\Property(
-     *                      property="token",
-     *                      description="<b>Required</b><br />User token",
-     *                      type="string",
-     *                  ),
      *                  @OA\Property(
      *                      property="device_token",
      *                      description="<b>Required</b><br />Device token",
@@ -53,35 +50,35 @@ class ApiPushNotificationsController extends ApiBaseController
      *      )
      * )
      */
-    public function registerDevice( Request $request )
+    public function test( Request $r )
     {
-
-        $user  = JWTAuth::toUser();
-
-        if( ! $firebase_user = FirebaseUsers::byUserId( $user->id ) ){
-            $firebase_user = new FirebaseUsers();
+        if( ! $r->device_token ){
+            $this->apiErrorResponse( false, 'Device Token is required', 400, 'deviceTokenRequired' );
         }
 
-        $r->merge(['user_id' => $user->id ]);
+        $apiKey = env( 'FCM_SERVER_KEY' );
 
-        if( ! $firebase_user->store( $r ) ){
-            return response()->json(
-                [
-                    'status' => 400,
-                    'error_code' => 'savingDeviceTokenFailed',
-                    'message'=> $firebase_user->getErrors( true ),
-                ],
-                400
-            );
+        $client = new Client();
+        $client->setApiKey( $apiKey );
+        $client->injectHttpClient(new \GuzzleHttp\Client());
+
+        $note = new Notification('Test Title', 'Message Successfully Sent');
+        $note->setIcon('notification_icon_resource_name')
+            ->setColor('#2ea8ff')
+            ->setBadge(1);
+
+        $message = new Message();
+        $message->addRecipient(new Device( $r->device_token ));
+        $message->setNotification( $note )
+            ->setData( array() );
+
+        try{
+            $response = $client->send( $message );
+        }catch( \Exception $e ){
+            $this->apiErrorResponse( false, $e->getMessage(), 400, 'messageSendingException' );
         }
 
-        return response()->json(
-            [
-                'status' => 200,
-                'success' => true,
-                'message'=> ' Device successfully registered'
-            ],
-            200
-        );
+        return $this->apiSuccessResponse( compact( ['response'] ), true, ' Message successfully sent ' );
     }
+
 }

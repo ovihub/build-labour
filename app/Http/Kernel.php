@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
 
         'jwt' => \App\Http\Middleware\Jwt::class,
         'cors' => \App\Http\Middleware\Cors::class,
+        'chat' => \App\Http\Middleware\Chat::class,
     ];
 
     /**

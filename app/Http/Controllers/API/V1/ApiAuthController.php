@@ -265,7 +265,7 @@ class ApiAuthController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="uid",
+     *                      property="user_id",
      *                      description="User ID",
      *                      type="string",
      *                      example="141203"

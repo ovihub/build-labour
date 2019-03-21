@@ -208,7 +208,7 @@
                         "application/x-www-form-urlencoded": {
                             "schema": {
                                 "properties": {
-                                    "uid": {
+                                    "user_id": {
                                         "description": "User ID",
                                         "type": "string",
                                         "example": "141203"
@@ -307,6 +307,232 @@
                 ]
             }
         },
+        "/chat/send": {
+            "post": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "Send a chat message",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\ApiChatController::send",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "channel_id": {
+                                        "description": "<b>Required</b><br /> Channel ID where message will be sent",
+                                        "type": "integer"
+                                    },
+                                    "message": {
+                                        "description": "<b>Required</b><br /> Chat message",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/chat/reset_unread": {
+            "post": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "Given a channel id, reset the unread count of the user",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\ApiChatController::resetUnread",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "channel_id": {
+                                        "description": "<b>Required</b><br /> Channel ID ",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/chat/unread/count": {
+            "get": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "Get the number of channels that has unread messages",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\ApiChatController::unReadCount",
+                "responses": {
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/chat/history": {
+            "get": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "Get the number of channels that has unread messages",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\ApiChatController::historyByChannel",
+                "parameters": [
+                    {
+                        "name": "channel_id",
+                        "in": "query",
+                        "description": "Channel ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "after",
+                        "in": "query",
+                        "description": "Date format (yyyy-mm-dd hh:ii:ss). Returns only the messages after the given date ",
+                        "required": false,
+                        "schema": {
+                            "type": "dateTime"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of messages returned per query. Max 200",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Offset to query older messages",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/device/register": {
+            "post": {
+                "tags": [
+                    "Device"
+                ],
+                "summary": "Register an Android, iOS or web device for push notifications and chat. Auth Bearer authentication",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiDevicesController::registerDevice",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "device_token": {
+                                        "description": "<b>Required</b><br />Device token",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Invalid Input"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/device/unregister": {
+            "post": {
+                "tags": [
+                    "Device"
+                ],
+                "summary": "Unregister an Android, iOS or web device for push notifications and chat. Auth Bearer authentication",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiDevicesController::unregisterDevice",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "device_token": {
+                                        "description": "<b>Required</b><br />Device token",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Invalid Input"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
         "/password/email": {
             "post": {
                 "tags": [
@@ -396,23 +622,18 @@
                 "security": []
             }
         },
-        "/pn/device/register": {
+        "/notification/test": {
             "post": {
                 "tags": [
                     "Push Notifications"
                 ],
-                "summary": "Register an Android, iOs or web device for push notifications and chat",
-                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiPushNotificationsController::registerDevice",
+                "summary": "Test send a message. Auth Bearer authentication",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiPushNotificationsController::test",
                 "requestBody": {
-                    "required": true,
                     "content": {
                         "application/x-www-form-urlencoded": {
                             "schema": {
                                 "properties": {
-                                    "token": {
-                                        "description": "<b>Required</b><br />User token",
-                                        "type": "string"
-                                    },
                                     "device_token": {
                                         "description": "<b>Required</b><br />Device token",
                                         "type": "string"
@@ -431,7 +652,11 @@
                         "description": "Request OK"
                     }
                 },
-                "security": []
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/user": {
