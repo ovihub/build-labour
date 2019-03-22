@@ -266,13 +266,13 @@ class ApiAuthController extends ApiBaseController
      *                  type="object",
      *                  @OA\Property(
      *                      property="uid",
-     *                      description="User ID",
+     *                      description="<b>Required</b> User ID",
      *                      type="string",
      *                      example="141203"
      *                  ),
      *                  @OA\Property(
      *                      property="verification_code",
-     *                      description="Verification Code",
+     *                      description="<b>Required</b> Verification Code",
      *                      type="string",
      *                      example="",
      *                  ),

@@ -200,7 +200,7 @@
                     "Auth"
                 ],
                 "summary": "Verify a user after registration ",
-                "description": "A 6 character verification code will be sent through email ",
+                "description": "A 6 character verification code will be sent through email",
                 "operationId": "",
                 "requestBody": {
                     "required": true,
@@ -208,13 +208,13 @@
                         "application/x-www-form-urlencoded": {
                             "schema": {
                                 "properties": {
-                                    "user_id": {
-                                        "description": "User ID",
+                                    "uid": {
+                                        "description": "<b>Required</b> User ID",
                                         "type": "string",
                                         "example": "141203"
                                     },
                                     "verification_code": {
-                                        "description": "Verification Code",
+                                        "description": "<b>Required</b> Verification Code",
                                         "type": "string",
                                         "example": ""
                                     }
