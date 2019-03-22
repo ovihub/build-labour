@@ -83,7 +83,6 @@ class Users extends BaseModel implements
             return false;
         }
 
-
         return $this;
     }
     
@@ -137,6 +136,34 @@ class Users extends BaseModel implements
             $this->addError( $e->getMessage() );
             return false;
         }
+
+        return $this;
+    }
+
+    public function verify( $verification_code )
+    {
+        if( ! $this->id ){
+            $this->addError( 'Unknown user id' );
+            return false;
+        }
+
+        if( ! $verification_code ){
+            $this->addError( 'Verification code must not be empty' );
+            return false;
+        }
+
+        if( $this->is_verified ){
+            $this->addError( 'User was already verified' );
+            return false;
+        }
+
+        if( $verification_code != $this->verification_code ){
+            $this->addError( 'Incorrect verification code' );
+            return false;
+        }
+
+        $this->is_verified = date( 'Y-m-d H:i:s');
+        $this->save();
 
         return $this;
     }

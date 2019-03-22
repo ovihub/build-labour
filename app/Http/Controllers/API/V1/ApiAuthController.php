@@ -256,7 +256,7 @@ class ApiAuthController extends ApiBaseController
      *      path="/auth/verify",
      *      tags={"Auth"},
      *      summary="Verify a user after registration ",
-     *      description="A 6 character verification code will be sent through email ",
+     *      description="A 6 character verification code will be sent through email",
      *      operationId="",
      *      @OA\RequestBody(
      *          required=true,
@@ -265,7 +265,7 @@ class ApiAuthController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="user_id",
+     *                      property="uid",
      *                      description="User ID",
      *                      type="string",
      *                      example="141203"
@@ -288,21 +288,20 @@ class ApiAuthController extends ApiBaseController
     public function verify( Request $request )
     {
         // Another option of using raw $request->user_id is to convert the user id using \Helpers\Utils::convertInt().
-        // Emails can also be used instead of user id to get the user. Just change the code
-
-        $user = Users::find( $request->user_id );
+        // Emails can also be used instead of user id if the emails are unique and possibly used as usernames.
+        $user = User::find( $request->uid );
 
         if( ! $user ){
             return $this->apiErrorResponse( false, 'Invalid User ID', 400 , 'invalidUserId' );
         }
 
-        if( ! $user->verify( $r->code ) ){
+        if( ! $user->verify( $request->verification_code ) ){
             return $this->apiErrorResponse( false, $user->getErrors( true ), 400 , 'verificationError' );
         }
 
-        $token = $token = JWTAuth::fromUser( User::find( $user->id ) );
+        $token = JWTAuth::fromUser( $user );
 
-        $this->apiSuccessResponse( compact( 'user', 'token' ), true, 'Account Verified', 200 );
+        return $this->apiSuccessResponse( compact( 'user', 'token' ), true, 'Account Verified', 200 );
 
     }
 
