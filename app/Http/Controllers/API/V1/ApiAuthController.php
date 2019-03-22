@@ -248,7 +248,7 @@ class ApiAuthController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse(compact('user'), true, 'Authenticated User', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse(compact('user'), true, 'Authenticated User', 200 );
     }
 
     /**

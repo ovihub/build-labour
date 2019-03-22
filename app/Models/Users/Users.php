@@ -32,7 +32,7 @@ class Users extends BaseModel implements
 
     protected $fillable = [ 'id', 'email' , 'first_name' , 'last_name', 'password',
         'dob' , 'country', 'address', 'mobile_number' ];
-    protected $hidden =[ 'password' , 'remember_token','updated_at' , 'created_at' ];
+    protected $hidden =[ 'password' , 'remember_token','updated_at' , 'created_at', 'verification_code' ];
     protected $appends = [  'full_name'  ];
 
     public $sql;
@@ -43,11 +43,48 @@ class Users extends BaseModel implements
      */
     private function rules()
     {
+        if( $this->id ){
+            // validation rules for updated users
+            return [];
+        }
+
         return [
             'email'         => 'required|string|email|max:50|unique:users',
             'password'      => 'required|string|min:6|max:24|confirmed'
         ];
     }
+
+    /**
+     * Validate a user request
+     *
+     * @param $request
+     * @return bool
+     */
+
+    private function validate( $request ){
+
+        $validator = \Validator::make( $request->all() , $this->rules() );
+
+        if( $this->id ){
+
+            // Uusernames must not be modified
+            if( $request->email && $request->email != $this->email ){
+
+                $validator->errors()->add( 'email', 'Not allowed to modify Email or Username' );
+                $this->errors = $validator->errors()->all();
+                return false;
+
+            }
+        }else{
+            if( $validator->fails() ){
+                $this->errors = $validator->errors()->all();
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Common saving method for the model
      *
@@ -55,12 +92,10 @@ class Users extends BaseModel implements
      * @return $this|bool
      *
      */
+
     public function store( Request $r )
     {
-        $validator = \Validator::make( $r->all() , $this->rules() );
-
-        if( $validator->fails() ){
-            $this->errors = $validator->errors()->all();
+        if( ! $this->validate( $r )){
             return false;
         }
 
@@ -73,7 +108,6 @@ class Users extends BaseModel implements
             // do stuff for new users here
             $this->is_verified          =   null;
             $this->verification_code    =   $this->generateVerificationCode();
-
         }
 
         try{
@@ -162,6 +196,7 @@ class Users extends BaseModel implements
             return false;
         }
 
+        $this->verification_code = null;
         $this->is_verified = date( 'Y-m-d H:i:s');
         $this->save();
 

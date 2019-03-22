@@ -141,21 +141,15 @@ class ApiUsersController extends ApiBaseController
      */
     public function update(Request $request)
     {
-        try {
-            $validator = Validator::make($request->all(), UpdateUserValidator::rules(), UpdateUserValidator::messages());
-            
-            if ($validator->fails()) {
-                return $this->apiErrorResponse(false, $validator->errors()->first(), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
-            }
-
-            $responseData = $this->userRepo->update($request);
-
-            return $this->checkResponseData(self::MODEL, $responseData, 'User has been updated successfully!');
-
-        } catch(\Exception $e) {
-            
-            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        if( ! $user  = JWTAuth::toUser() ){
+            return $this->apiErrorResponse( false, 'Invalid JWT Token', 400 , 'invalidToken' );
         }
+
+        if( ! $user->store( $request ) ){
+            return $this->apiErrorResponse( false, $user->getErrors( true ) , 400 , 'savingError' );
+        }
+
+        return $this->apiSuccessResponse( ['user' => $user ] , true , 'User successfully updated');
     }
 
     /**
