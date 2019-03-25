@@ -15,7 +15,7 @@
 
                     </div>
                     <div class="text-center">
-                        <h5 class="content-group">Login to your account </h5>
+                        <h5 class="content-group">Login to your BUILD LABOR account </h5>
                     </div>
 
                     <div class="form-group has-feedback has-feedback-left">
