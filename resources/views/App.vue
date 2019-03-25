@@ -1,6 +1,5 @@
 <template>
   <div>
-    Welcome to VUE
     <router-view/>
   </div>
 </template>
