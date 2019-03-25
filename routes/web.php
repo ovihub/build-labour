@@ -11,11 +11,5 @@
 |
 */
 
-Route::get( '/', function () {
-    return redirect( 'login' );
-});
-
-
-Route::get( 'login', 'AuthController@login' );
-Route::post( 'login', 'AuthController@login' );
-Route::get( 'docs', 'DocumentationController@sindex' );
+Route::get('/', 'PageController@index');
+Route::get('home', 'PageController@index');
