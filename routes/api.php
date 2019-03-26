@@ -33,22 +33,22 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
         });
     });
 
-    Route::prefix('device')->middleware([ 'jwt' ])->group(function () {
-        Route::post( 'register', 'ApiDeviceController@registerDevice' );
-        Route::post( 'unregister', 'ApiDeviceController@unregisterDevice' );
-    });
-
-    Route::prefix('notification')->middleware([ 'jwt' ])->group(function () {
-        Route::post( 'test', 'ApiPushNotificationsController@test');
-    });
-
-    // chat
-    Route::prefix('chat')->middleware([ 'jwt' , 'chat' ])->group(function () {
-        Route::post( 'send', 'ApiChatController@send' );
-        Route::get( 'channels', 'ApiChatController@channels' );
-        Route::get( 'history', 'ApiChatController@historyByChannel' );
-        Route::get( 'unread', 'ApiChatController@unread' );
-        Route::post( 'reset_unread', 'ApiChatController@resetUnread' );
-    });
+//    Route::prefix('device')->middleware([ 'jwt' ])->group(function () {
+//        Route::post( 'register', 'ApiDevicesController@registerDevice' );
+//        Route::post( 'unregister', 'ApiDevicesController@unregisterDevice' );
+//    });
+//
+//    Route::prefix('notification')->middleware([ 'jwt' ])->group(function () {
+//        Route::post( 'test', 'ApiPushNotificationsController@test');
+//    });
+//
+//    // chat
+//    Route::prefix('chat')->middleware([ 'jwt' , 'chat' ])->group(function () {
+//        Route::post( 'send', 'ApiChatController@send' );
+//        Route::get( 'channels', 'ApiChatController@channels' );
+//        Route::get( 'history', 'ApiChatController@historyByChannel' );
+//        Route::get( 'unread', 'ApiChatController@unread' );
+//        Route::post( 'reset_unread', 'ApiChatController@resetUnread' );
+//    });
 
 });
