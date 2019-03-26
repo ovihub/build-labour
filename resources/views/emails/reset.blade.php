@@ -312,7 +312,7 @@
 							<tr>
 								<td class="content-block">
 									<p>Just copy and paste the following token/code in app's reset password form:</p>
-									<p><b>{{ $token }}</b></p>
+                                    <p><b><a href="{{ url('/password/reset?token=') . $token  }}">{{ $token }}</a></b></p>
 								</td>
 							</tr>
 							<tr>

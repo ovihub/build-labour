@@ -73,4 +73,5 @@ class PasswordResetRepository
             return $this->errorResponse($e->getMessage());
         }
     }
+
 }

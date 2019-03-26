@@ -12,8 +12,8 @@ use Illuminate\Http\Request;
 class PasswordReset extends BaseModel
 {
 
-    public $incrementing = false;
-    protected $primaryKey = null;
+  //  public $incrementing = false;
+  //  protected $primaryKey = null;
 
     /**
      *  The attributes that are mass assignable.
@@ -57,7 +57,11 @@ class PasswordReset extends BaseModel
 
     public function store( Request $r )
     {
-        $validator   =  \Validator::make( $r->all() , $this->rules() );
+
+        $validator = \Validator::make( $r->all() ,  [
+            'email' => 'required|string|email|exists:users'
+        ] );
+
 
         if( $validator->fails() ){
             $this->errors = $validator->errors()->all();
@@ -113,6 +117,42 @@ class PasswordReset extends BaseModel
     }
 
     /**
+     *
+     * @param $request
+     * @return array
+     *
+     */
+    public function sendResetTokenWeb( Request $request )
+    {
+
+        try {
+
+            PasswordReset::where( 'email',  $request->email )->delete();
+
+            // Tokens are 50 capitalized random characters
+            $token  = strtoupper( str_random( 50 ) );
+            $request->merge( [ 'token' => \Hash::make( $token ) ] );
+
+            if( ! $this->store( $request ) ){
+                return false;
+            }
+
+            $user = Users::where( 'email' , $request->email )->first();
+
+            \Mail::to( $request->email )->send( new ResetPasswordEmail( $user, $token ));
+
+            return $this;
+
+        } catch( \Exception $e ){
+
+            $this->errors[] = $e->getMessage();
+
+            return false;
+        }
+
+    }
+
+    /**
      * Reset the password using token and password
      *
      * @param $request
@@ -127,7 +167,7 @@ class PasswordReset extends BaseModel
             return false;
         }
 
-        $password_reset   =   PasswordReset::where( 'email', $request->email )->first();
+        $password_reset = PasswordReset::where( 'email', $request->email )->first();
 
         if( ! $password_reset ){
             $this->addError( 'Email '.$request->email.' did not request for a password reset' );
@@ -143,9 +183,9 @@ class PasswordReset extends BaseModel
         }
 
         if( \Hash::check( $request->token , $password_reset->token ) ){
-
-            $user   =  Users::where( 'email',  $request->email )->first();
-            $user->password = \Hash::make( $request->password );
+            
+            $user = Users::where( 'email',  $request->email )->first();
+            $user->password = trim($request->password);
 
             try{
                 $user->save();
