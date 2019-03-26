@@ -111,6 +111,8 @@ class Users extends BaseModel implements
         }
 
         try{
+            \Mail::to( $this->email )->send( new ResendVerificationCodeEmail( $this ) );
+
             $this->save();
         }catch( \Exception $e ){
             $this->errors[] = $e->getMessage();
@@ -293,6 +295,7 @@ class Users extends BaseModel implements
         $has_code = static::where( 'verification_code' , $code )->count();
 
         if( $has_code ){
+
             return $this->generateVerificationCode();
         }
 
