@@ -68,9 +68,9 @@ class ApiBaseController extends Controller
      * @param $error_code
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function apiErrorResponse( $success = false , $message, $http_status , $error_code = null )
+    protected function apiErrorResponse( $success = false , $message, $http_status , $error_code = null, $errors = [] )
     {
-        return response()->json( compact( 'success', 'message', 'http_status', 'error_code' ), $http_status);
+        return response()->json( compact( 'success', 'message', 'http_status', 'error_code', 'errors' ), $http_status);
     }
 
 
