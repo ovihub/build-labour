@@ -56,9 +56,8 @@
         <alert></alert>
 
         @yield('content')
-
-        @include('layouts.footer')
         
+        <!-- @include('layouts.footer') -->
     </div>
 </body>
 </html>
