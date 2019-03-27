@@ -11,6 +11,7 @@ class BaseModel extends Model
 {
 
     protected $errors    = [];
+    protected $errorsDetail = [];
 
     // optional model properties
     // you will need the properties below if you want to create
@@ -104,6 +105,17 @@ class BaseModel extends Model
             return isset( $this->errors[0] ) ? $this->errors[0] : '';
         }
         return $this->errors;
+    }
+
+    /**
+     * returns an array of detail errors
+     *
+     * @return array
+     */
+    public function getErrorsDetail()
+    {
+
+        return $this->errorsDetail;
     }
 
     /**

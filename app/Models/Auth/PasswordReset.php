@@ -64,7 +64,8 @@ class PasswordReset extends BaseModel
 
         if( $validator->fails() ){
 
-            $this->errors = $validator->errors()->toArray();
+            $this->errors = $validator->errors()->all();
+            $this->errorsDetail = $validator->errors()->toArray();
             return false;
         }
 
@@ -163,14 +164,17 @@ class PasswordReset extends BaseModel
         $validator = \Validator::make( $request->all(), $this->rules(), $this->validationMessages() );
 
         if ($validator->fails() ){
-            $this->errors = $validator->errors()->toArray();
+            $this->errors = $validator->errors()->all();
+            $this->errorsDetail = $validator->errors()->toArray();
             return false;
         }
 
         $password_reset = PasswordReset::where( 'email', $request->email )->first();
 
         if( ! $password_reset ){
-            $this->errors = array('email' => ['Email '.$request->email.' did not request for a password reset']);
+            $message = 'Email '.$request->email.' did not request for a password reset';
+            $this->addError( $message );
+            $this->errorsDetail = array('email' => [$message]);
             return false;
         }
 
@@ -178,7 +182,10 @@ class PasswordReset extends BaseModel
         // remove or modify this code if token should not expire or expires not a hr
 
         if( time() > ( strtotime( $password_reset->created_at ) + 3600 ) ){
-            $this->errors = array('token' => ['Token expired. You have to reset password within an hour after request']);
+
+            $message = 'Token expired. You have to reset password within an hour after request';
+            $this->addError( $message );
+            $this->errorsDetail = array('token' => [$message]);
             return false;
         }
 
@@ -198,7 +205,10 @@ class PasswordReset extends BaseModel
             return true;
         }
 
-        $this->errors = array('token' => ['Invalid Token']);
+
+        $message = 'Invalid Token';
+        $this->addError( $message );
+        $this->errorsDetail = array('token' => [$message]);
         return false;
 
     }

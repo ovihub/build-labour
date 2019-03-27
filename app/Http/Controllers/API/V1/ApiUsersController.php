@@ -202,8 +202,10 @@ class ApiUsersController extends ApiBaseController
     public function uploadProfilePhoto( Request $request)
     {
         $user  = JWTAuth::toUser();
+       // $user = User::find(1);
+        $userRep = new UserRepository();
 
-        if( ! $user->uploadProfilePhoto( $request ) ){
+        if( ! $userRep->uploadProfilePhoto( $request ) ){
             return $this->apiErrorResponse(false, $user->getErrors( true ), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
         }
 

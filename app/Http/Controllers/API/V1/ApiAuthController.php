@@ -166,7 +166,7 @@ class ApiAuthController extends ApiBaseController
         $user =  new Users;
         try {
             if( ! $user->store( $request ) ){
-                return $this->apiErrorResponse( false, $user->getErrors(), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
+                return $this->apiErrorResponse( false, $user->getErrors( true ), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput', $user->getErrorsDetail());
             }
         } catch(\Exception $e) {
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
@@ -202,7 +202,8 @@ class ApiAuthController extends ApiBaseController
     public function checkEmail( Request $request )
     {
         if( ! filter_var( $request->email, FILTER_VALIDATE_EMAIL ) ){
-            return $this->apiErrorResponse(  false , 'Invalid Email Format', 400 , 'invalidInput' );
+            $message = 'Invalid Email Format';
+            return $this->apiErrorResponse(  false , $message, 422, 'invalidInput', array('email' => [$message]) );
         }
 
         if(  $user   = ( new User )->emailExists( $request->email ) ){
@@ -291,12 +292,13 @@ class ApiAuthController extends ApiBaseController
         // Emails can also be used instead of user id if the emails are unique and possibly used as usernames.
         $user = User::find( $request->uid );
 
-        if( ! $user ){
-            return $this->apiErrorResponse( false, array('verification' => ['Invalid User ID']), 400 , 'invalidInput' );
+        if( ! $user ) {
+            $message = 'Invalid User ID';
+            return $this->apiErrorResponse( false, $message, 400 , 'invalidInput', array('verification' => [$message]) );
         }
 
         if( ! $user->verify( $request->verification_code ) ){
-            return $this->apiErrorResponse( false, $user->getErrors(), 400 , 'invalidInput' );
+            return $this->apiErrorResponse( false, $user->getErrors( true ), 400 , 'invalidInput', $user->getErrorsDetail() );
         }
 
         $token = JWTAuth::fromUser( $user );
@@ -354,7 +356,9 @@ class ApiAuthController extends ApiBaseController
     public function resendVerificationCode(Request $request)
     {
         if( ! filter_var( $request->email , FILTER_VALIDATE_EMAIL)) {
-            return $this->apiErrorResponse( false, 'Invalid Email', self::HTTP_STATUS_INVALID_INPUT, 'invalidEmail' );
+
+            $message = 'Invalid Email';
+            return $this->apiErrorResponse( false, $message, self::HTTP_STATUS_INVALID_INPUT, 'invalidEmail', array('verification' => [$message]) );
         }
 
         // On instances that emails are not used as usernames or identifiers then
@@ -363,15 +367,17 @@ class ApiAuthController extends ApiBaseController
         $user = ( new Users )->emailExists( $request->email );
 
         if( ! $user ){
-            return $this->apiErrorResponse(false, 'Email does not exists', self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
+            $message = 'Email does not exists';
+            return $this->apiErrorResponse(false, $message, self::HTTP_STATUS_INVALID_INPUT, 'invalidInput', array('verification' => [$message]) );
         }
 
         if( $user->is_verified ){
-            return $this->apiErrorResponse(false, 'User already verified', self::HTTP_STATUS_INVALID_INPUT, 'userAlreadyVerified');
+            $message = 'User already verified';
+            return $this->apiErrorResponse(false, $message, self::HTTP_STATUS_INVALID_INPUT, 'userAlreadyVerified', array('verification' => [$message]) );
         }
 
         if( ! $user->resendVerificationCode() ){
-            return $this->apiErrorResponse(false, $user->getErrors( true ) , self::HTTP_STATUS_INVALID_INPUT, 'verificationCodeError');
+            return $this->apiErrorResponse(false, $user->getErrors( true ) , self::HTTP_STATUS_INVALID_INPUT, 'verificationCodeError', array('verification' => ['something wrong']));
         }
 
         return $this->apiSuccessResponse( [], true, 'Verification code successfully sent to email', self::HTTP_STATUS_REQUEST_OK);

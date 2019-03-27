@@ -64,7 +64,7 @@ class ApiPasswordResetsController extends ApiBaseController
         $password_reset = new PasswordReset();
 
         if( ! $password_reset->sendResetTokenWeb( $request ) ){
-            return $this->apiErrorResponse(false, $password_reset->getErrors(), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
+            return $this->apiErrorResponse(false, $password_reset->getErrors( true ), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput', $password_reset->getErrorsDetail());
         }
 
         return $this->apiSuccessResponse( [], true , 'Password reset code successfully sent to email' );
@@ -129,7 +129,7 @@ class ApiPasswordResetsController extends ApiBaseController
         $password_reset = new PasswordReset();
 
         if( ! $password_reset->resetPassword( $request ) ){
-            return $this->apiErrorResponse(false, $password_reset->getErrors(), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
+            return $this->apiErrorResponse(false, $password_reset->getErrors( true ), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput', $password_reset->getErrorsDetail());
         }
 
         return $this->apiSuccessResponse( compact( 'password_reset' ), true , 'Password reset code successfully sent to email' );
