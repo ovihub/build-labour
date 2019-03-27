@@ -1927,8 +1927,6 @@ __webpack_require__.r(__webpack_exports__);
           app.input.email = '';
           app.input.password = '';
           app.input.password_confirmation = '';
-          $('#createUserModal').modal('hide');
-          Bus.$emit('refreshDatatable');
           Bus.$emit('alertSuccess', data.message);
         }
       }).catch(function (error) {
@@ -1944,7 +1942,7 @@ __webpack_require__.r(__webpack_exports__);
             app.errors.password = data.errors.password ? data.errors.password[0] : '';
             app.input.password = '';
             app.input.password_confirmation = '';
-            Bus.$emit('alertError', data.message[0]);
+            Bus.$emit('alertError', 'Invalid input! Please see errors below.');
           }
         }
       });
@@ -1996,7 +1994,7 @@ __webpack_require__.r(__webpack_exports__);
             Bus.$emit('alertError', 'An internal error occurred.');
           } else {
             app.errors.email = data.errors.email ? data.errors.email[0] : '';
-            Bus.$emit('alertError', data.message[0]);
+            Bus.$emit('alertError', 'Invalid input! Please see errors below.');
           }
         }
       });
@@ -2057,7 +2055,7 @@ __webpack_require__.r(__webpack_exports__);
             app.errors.password = data.errors.password ? data.errors.password[0] : '';
             app.input.password = '';
             app.input.password_confirmation = '';
-            Bus.$emit('alertError', data.message[0]);
+            Bus.$emit('alertError', 'Invalid input! Please see errors below.');
           }
         }
       });

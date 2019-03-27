@@ -43,7 +43,7 @@ export default {
                             else {
                                 app.errors.email = data.errors.email ? data.errors.email[0] : '';
 
-                                Bus.$emit('alertError', data.message[0]);
+                                Bus.$emit('alertError', 'Invalid input! Please see errors below.');
                             }
                         }
                     });

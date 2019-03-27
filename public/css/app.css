@@ -10757,3 +10757,36 @@ a.text-dark:focus {
   padding-right: 10px;
 }
 
+.btn-primary {
+  color: #fff;
+  background-color: #FF9603;
+  border-color: #FF9603;
+}
+
+.btn-primary:hover {
+  background-color: #FF9603;
+  border-color: #FF9603;
+}
+
+.page-item.active .page-link {
+  z-index: 1;
+  color: #fff;
+  background-color: #FF9603;
+  border-color: #FF9603;
+}
+
+.page-link {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: #FF9603;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+}
+
+.page-link:hover {
+  color: #000;
+}
+

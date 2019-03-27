@@ -43,8 +43,6 @@ export default {
                             app.input.password = '';
                             app.input.password_confirmation = '';
 
-                            $('#createUserModal').modal('hide');
-                            Bus.$emit('refreshDatatable');
                             Bus.$emit('alertSuccess', data.message);
                         }
                     })
@@ -65,7 +63,7 @@ export default {
                                 app.input.password = '';
                                 app.input.password_confirmation = '';
 
-                                Bus.$emit('alertError', data.message[0]);
+                                Bus.$emit('alertError', 'Invalid input! Please see errors below.');
                             }
                         }
                     });

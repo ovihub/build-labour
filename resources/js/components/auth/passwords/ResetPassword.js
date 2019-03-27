@@ -53,7 +53,7 @@ export default {
                                 app.input.password = '';
                                 app.input.password_confirmation = '';
 
-                                Bus.$emit('alertError', data.message[0]);
+                                Bus.$emit('alertError', 'Invalid input! Please see errors below.');
                             }
                         }
                     });
