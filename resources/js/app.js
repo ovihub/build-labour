@@ -47,6 +47,12 @@ Vue.component('register', require('./components/auth/Register.vue').default);
 Vue.component('request-link', require('./components/auth/passwords/RequestLink.vue').default);
 Vue.component('reset-password', require('./components/auth/passwords/ResetPassword.vue').default);
 
+// User components
+Vue.component('profile', require('./components/user/Profile.vue').default);
+
+// Record components
+Vue.component('show-form', require('./components/record/ShowForm.vue').default);
+
 // Upload components
 Vue.component('upload-photo', require('./components/upload/UploadPhoto.vue').default);
 

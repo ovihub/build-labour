@@ -30,10 +30,10 @@ class ResendVerificationCodeEmail extends Mailable
      */
     public function build()
     {
-        $subject = env( 'SITE_NAME' ).' email verification ';
+        $subject = 'Email Verification';
         return $this->view('emails.resend_verification_code')
                 ->subject( $subject )
-                ->from(env('APP_EMAIL'), 'Appetiser')
+                ->from(env('APP_EMAIL'), env('SITE_NAME'))
                 ->with('user', $this->user );
     }
 }

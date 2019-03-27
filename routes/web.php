@@ -27,5 +27,6 @@ Route::prefix('user')
     ->group(function() {
         Route::middleware(['jwt'])->group(function(){
             Route::get('profile', 'UsersController@showProfile');
+            Route::get('verify', 'UsersController@showVerifyForm');
         });
     });

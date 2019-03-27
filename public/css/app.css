@@ -10718,12 +10718,12 @@ a.text-dark:focus {
 }
 
 .footer {
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  background: black;
-  padding: 30px 0px;
+  background-color: #FF9603;
+  min-height: 100px;
+  margin: 0 auto;
+  text-align: left;
+  padding: 30px;
+  color: white;
 }
 
 .footer .footer-text {
@@ -10731,7 +10731,7 @@ a.text-dark:focus {
 }
 
 .footer .copyright {
-  color: #999999;
+  color: black;
   font-size: 13px;
 }
 
@@ -10740,7 +10740,7 @@ a.text-dark:focus {
 }
 
 .footer .about a {
-  color: #999999;
+  color: blue;
   font-size: 13px;
 }
 
