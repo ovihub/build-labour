@@ -9,6 +9,104 @@
 @import '~bootstrap/scss/bootstrap';
 
 .navbar-laravel {
-  background-color: #fff;
+  background-color: #FF9603;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.nav-link-custom {
+  color: rgb(206, 202, 202);
+  padding: 15px;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  background-color: #fff;
+}
+
+.sidebar {
+  width: 200px;
+}
+
+.custom-table {
+  min-height: 73vh;
+}
+
+.sidebar-dark {
+  background-color: #343a40;
+  min-height: 94vh;
+}
+
+.err-msg {
+  color: #cc4242;
+  font-weight: normal;
+}
+
+.alert-main {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  // margin-bottom: 1rem;
+}
+
+.alert-success {
+  background-color: #3c763d;
+  border-color: #d6e9c6;
+  color: #dff0d8;
+}
+
+.alert-error {
+  background-color: #a94442;
+  border-color: #ebccd1;
+  color: #f2dede;
+}
+
+.alert-icon {
+  width: 20px;
+  margin-left: 20px;
+  margin-right: 10px;
+}
+
+.alert-close {
+  width: 10px;
+  margin-left: 750px;
+  cursor: pointer;
+}
+
+.footer {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background: black;
+  padding: 30px 0px;
+
+  .footer-text {
+    margin: inherit;
+  }
+  
+  .copyright {
+    color: #999999;
+    font-size: 13px;
+  }
+
+  .about {
+    margin-bottom:15px;
+
+    a {
+      color: #999999;
+      font-size: 13px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.items-wrapper {
+  height: 450px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: rgb(240, 243, 248);
+  border: 1px solid #e6e6e6;
+  padding-right: 10px;
 }

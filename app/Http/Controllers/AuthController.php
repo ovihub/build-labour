@@ -6,24 +6,14 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    /**
-     * @param Request $r
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function login( Request $r )
+    public function showLoginForm()
     {
-        if( $r->isMethod( 'post' ) ){
+        return view('auth.login');
+    }
 
-            if( $user = \Auth::attempt( [ 'email' => $r->username , 'password' => $r->pwd ] ) ){
-
-                return redirect( 'admin/clients');
-            }else{
-                return redirect( 'login' )->with( 'message', 'Invalid username or password' )
-                    ->with( 'alert' , 'danger' );
-            }
-        }
-
-        return view( 'themes.limit.auth.login' );
+    public function showRegisterForm()
+    {
+        return view('auth.register');
     }
 }
 

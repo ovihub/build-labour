@@ -25,14 +25,32 @@
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-import Vue from 'vue';
-import router from '@/router';
-import App from '../views/App';
-//import Store from '@/store';
+// import Vue from 'vue';
+// import router from '@/router';
+// import App from '../views/App';
+// import Store from '@/store';
+require('./bootstrap');
+require('./helpers');
+
+window.Vue = require('vue');
+window.Bus = new Vue();
+
+Vue.component('example-component', require('./components/ExampleComponent.vue'));
+
+// Message components
+Vue.component('alert', require('./components/message/Alert.vue').default);
+
+// Auth components
+Vue.component('login', require('./components/auth/Login.vue').default);
+Vue.component('logout', require('./components/auth/Logout.vue').default);
+Vue.component('register', require('./components/auth/Register.vue').default);
+
+// Upload components
+Vue.component('upload-photo', require('./components/upload/UploadPhoto.vue').default);
 
 const app = new Vue({
     el: '#app',
-    router,
+    // router,
     // store: Store,
-    components: { App },
+    // components: { App },
 });
