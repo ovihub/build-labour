@@ -64,7 +64,7 @@ class ApiAuthController extends ApiBaseController
 
         try {
             if (! $token = JWTAuth::attempt($credentials)) {
-                return $this->apiErrorResponse(false, 'Invalid Credentials', self::HTTP_STATUS_BAD_REQUEST, 'invalidCredentials');
+                return $this->apiErrorResponse(false, 'Invalid Credentials', self::HTTP_STATUS_BAD_REQUEST, 'invalidInput');
             }
 
         } catch (JWTException $e) {
@@ -166,7 +166,7 @@ class ApiAuthController extends ApiBaseController
         $user =  new Users;
         try {
             if( ! $user->store( $request ) ){
-                return $this->apiErrorResponse( false, $user->getErrors(), self::INTERNAL_SERVER_ERROR, 'sqlError');
+                return $this->apiErrorResponse( false, $user->getErrors(), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
             }
         } catch(\Exception $e) {
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
@@ -202,7 +202,7 @@ class ApiAuthController extends ApiBaseController
     public function checkEmail( Request $request )
     {
         if( ! filter_var( $request->email, FILTER_VALIDATE_EMAIL ) ){
-            return $this->apiErrorResponse(  false , 'Invalid Email Format', 400 , 'invalidEmailFormat' );
+            return $this->apiErrorResponse(  false , 'Invalid Email Format', 400 , 'invalidInput' );
         }
 
         if(  $user   = ( new User )->emailExists( $request->email ) ){
@@ -292,11 +292,11 @@ class ApiAuthController extends ApiBaseController
         $user = User::find( $request->uid );
 
         if( ! $user ){
-            return $this->apiErrorResponse( false, 'Invalid User ID', 400 , 'invalidUserId' );
+            return $this->apiErrorResponse( false, array('verification' => ['Invalid User ID']), 400 , 'invalidInput' );
         }
 
         if( ! $user->verify( $request->verification_code ) ){
-            return $this->apiErrorResponse( false, $user->getErrors( true ), 400 , 'verificationError' );
+            return $this->apiErrorResponse( false, $user->getErrors(), 400 , 'invalidInput' );
         }
 
         $token = JWTAuth::fromUser( $user );

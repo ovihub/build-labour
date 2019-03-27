@@ -50,6 +50,8 @@ class Users extends BaseModel implements
 
         return [
             'email'         => 'required|string|email|max:50|unique:users',
+            'first_name'    => 'required',
+            'last_name'     => 'required',
             'password'      => 'required|string|min:6|max:24|confirmed'
         ];
     }
@@ -67,17 +69,18 @@ class Users extends BaseModel implements
 
         if( $this->id ){
 
-            // Uusernames must not be modified
+            // Usernames must not be modified
             if( $request->email && $request->email != $this->email ){
 
                 $validator->errors()->add( 'email', 'Not allowed to modify Email or Username' );
-                $this->errors = $validator->errors()->all();
+                $this->errors = $validator->errors()->toArray();
                 return false;
 
             }
         }else{
             if( $validator->fails() ){
-                $this->errors = $validator->errors()->all();
+
+                $this->errors = $validator->errors()->toArray();
                 return false;
             }
         }
@@ -179,22 +182,22 @@ class Users extends BaseModel implements
     public function verify( $verification_code )
     {
         if( ! $this->id ){
-            $this->addError( 'Unknown user id' );
+            $this->errors = array('verification' => ['Unknown user id']);
             return false;
         }
 
         if( ! $verification_code ){
-            $this->addError( 'Verification code must not be empty' );
+            $this->errors = array('verification' => ['Verification code must not be empty']);
             return false;
         }
 
         if( $this->is_verified ){
-            $this->addError( 'User was already verified' );
+            $this->errors = array('verification' => ['User was already verified']);
             return false;
         }
 
         if( $verification_code != $this->verification_code ){
-            $this->addError( 'Incorrect verification code' );
+            $this->errors = array('verification' => ['Incorrect verification code']);
             return false;
         }
 
@@ -222,6 +225,7 @@ class Users extends BaseModel implements
             $this->addError(  $validator->errors()->first() ) ;
             return false;
         }
+
 
         $ext = $request->photo->getClientOriginalExtension();
 

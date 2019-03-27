@@ -58,13 +58,13 @@ class PasswordReset extends BaseModel
     public function store( Request $r )
     {
 
-        $validator = \Validator::make( $r->all() ,  [
-            'email' => 'required|string|email|exists:users'
-        ] );
-
+        $validator = \Validator::make( $r->all() , [
+            'email' => 'required|string|email|exists:users',
+        ]);
 
         if( $validator->fails() ){
-            $this->errors = $validator->errors()->all();
+
+            $this->errors = $validator->errors()->toArray();
             return false;
         }
 
@@ -163,14 +163,14 @@ class PasswordReset extends BaseModel
         $validator = \Validator::make( $request->all(), $this->rules(), $this->validationMessages() );
 
         if ($validator->fails() ){
-            $this->addError( $validator->errors()->first() );
+            $this->errors = $validator->errors()->toArray();
             return false;
         }
 
         $password_reset = PasswordReset::where( 'email', $request->email )->first();
 
         if( ! $password_reset ){
-            $this->addError( 'Email '.$request->email.' did not request for a password reset' );
+            $this->errors = array('email' => ['Email '.$request->email.' did not request for a password reset']);
             return false;
         }
 
@@ -178,7 +178,7 @@ class PasswordReset extends BaseModel
         // remove or modify this code if token should not expire or expires not a hr
 
         if( time() > ( strtotime( $password_reset->created_at ) + 3600 ) ){
-            $this->addError( 'Token expired. You have to reset password within an hour after request' );
+            $this->errors = array('token' => ['Token expired. You have to reset password within an hour after request']);
             return false;
         }
 
@@ -198,7 +198,7 @@ class PasswordReset extends BaseModel
             return true;
         }
 
-        $this->addError( ' Invalid Token ' );
+        $this->errors = array('token' => ['Invalid Token']);
         return false;
 
     }

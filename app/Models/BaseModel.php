@@ -99,6 +99,7 @@ class BaseModel extends Model
      */
     public function getErrors( $first_only = false )
     {
+
         if( $first_only ){
             return isset( $this->errors[0] ) ? $this->errors[0] : '';
         }
