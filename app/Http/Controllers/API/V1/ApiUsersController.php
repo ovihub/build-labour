@@ -21,7 +21,6 @@ use JWTAuth;
 class ApiUsersController extends ApiBaseController
 {
 
-
     public function resendVerificationCode( Request $r )
     {
 
@@ -202,10 +201,8 @@ class ApiUsersController extends ApiBaseController
     public function uploadProfilePhoto( Request $request)
     {
         $user  = JWTAuth::toUser();
-       // $user = User::find(1);
-        $userRep = new UserRepository();
 
-        if( ! $userRep->uploadProfilePhoto( $request ) ){
+        if( ! $user->uploadProfilePhoto( $request ) ){
             return $this->apiErrorResponse(false, $user->getErrors( true ), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
         }
 

@@ -150,6 +150,7 @@ class UserRepository
     public function uploadProfilePhoto($request)
     {
         DB::beginTransaction();
+
     	try {
             $photo = $request->get('photo');
             $user  = JWTAuth::toUser();
@@ -157,7 +158,17 @@ class UserRepository
             if ($user && $user->id == $request->get('id')) {
                 $uniqname  = date('Ymd') . $user->id . '_' . uniqid() . '.png';
                 $photo_url = url('storage/img/users' . $uniqname);
-                $dir_path  = storage_path() . '/app/public/img/users';
+
+                if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+
+                    $appendPath = '/app/public/img/users';
+
+                } else {
+
+                    $appendPath = '\app\public\img\users';
+                }
+
+                $dir_path  = storage_path() . $appendPath;
 
                 if (! is_dir($dir_path)) {
                     mkdir($dir_path, 755, true);
