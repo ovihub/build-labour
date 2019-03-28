@@ -1,4 +1,4 @@
-<div class="footer">
+<footer id="footer">
 	<div class="container footer-text">
 		<div class="row">
 			<div class="col-md-12 copyright">
@@ -11,4 +11,4 @@
 			</div>
 		</div>
 	</div>
-</div>
+</footer>
