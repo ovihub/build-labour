@@ -41,7 +41,7 @@
             <label for="dob" class="col-md-2 col-form-label text-md-left">Birth Date</label>
 
             <div class="col-md-7">
-                <input id="dob" type="text" name="dob" class="form-control" v-model="input.dob" :disabled="disabled_input" required />
+                <datepicker id="dob" name="dob" class="form-control" :format="format" v-model="input.dob"></datepicker>
 
                 <span class="err-msg" v-if="errors.dob">
                     {{ errors.dob }}

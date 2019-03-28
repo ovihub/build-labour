@@ -1,3 +1,5 @@
+import Datepicker from 'vuejs-datepicker';
+
 export default {
     data() {
         return {
@@ -28,8 +30,13 @@ export default {
                 get: '/api/v1/auth/user',
                 save: '/api/v1/user/update',
                 resend: '/api/v1/auth/verification/resend'
-            }
+            },
+            format: 'd MMMM yyyy',
         }
+    },
+
+    components: {
+        Datepicker
     },
 
     created() {
@@ -46,11 +53,6 @@ export default {
                 .then(function(response) {
                     component.input = response.data.data.user;
                     component.input_resend.email = response.data.data.user.email;
-
-                    delete component.record.date_created_at;
-                    delete component.record.date_updated_at;
-                    delete component.record.date_email_verified_at;
-                    delete component.record.deleted_at;
                 })
                 .catch(function(error) {
                     let data = error.response.data;
