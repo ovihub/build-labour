@@ -10,5 +10,10 @@ class UsersController extends Controller
     {
         return view('users.profile');
     }
+
+    public function showVerifyForm()
+    {
+        return view('users.verify');
+    }
 }
 

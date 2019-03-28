@@ -35,7 +35,7 @@
 									<tr>
 										<td class="content-block">
 											<p>
-												<b>Appetiser</b>
+												<b>{{ config('app.name', 'Appetiser') }}</b>
 											</p>
 										</td>
 									</tr>

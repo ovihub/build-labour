@@ -10718,12 +10718,12 @@ a.text-dark:focus {
 }
 
 .footer {
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  background: black;
-  padding: 30px 0px;
+  background-color: #FF9603;
+  min-height: 100px;
+  margin: 0 auto;
+  text-align: left;
+  padding: 30px;
+  color: white;
 }
 
 .footer .footer-text {
@@ -10731,7 +10731,7 @@ a.text-dark:focus {
 }
 
 .footer .copyright {
-  color: #999999;
+  color: black;
   font-size: 13px;
 }
 
@@ -10740,7 +10740,7 @@ a.text-dark:focus {
 }
 
 .footer .about a {
-  color: #999999;
+  color: blue;
   font-size: 13px;
 }
 
@@ -10755,5 +10755,38 @@ a.text-dark:focus {
   background-color: #f0f3f8;
   border: 1px solid #e6e6e6;
   padding-right: 10px;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #FF9603;
+  border-color: #FF9603;
+}
+
+.btn-primary:hover {
+  background-color: #FF9603;
+  border-color: #FF9603;
+}
+
+.page-item.active .page-link {
+  z-index: 1;
+  color: #fff;
+  background-color: #FF9603;
+  border-color: #FF9603;
+}
+
+.page-link {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: #FF9603;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+}
+
+.page-link:hover {
+  color: #000;
 }
 
