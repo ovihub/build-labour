@@ -33,4 +33,21 @@ class User extends Users implements JWTSubject
         return [];
     }
 
+    /**
+     * Return a Object relates to Role Class
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToRoleClass
+     */
+    public function Role() {
+
+        return $this->belongsTo(Role::class, 'role_id', 'id');
+    }
+
+    /**
+     * Return a collection relates to Work Experience class
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyWorkExperience
+     */
+    public function Experiences() {
+
+        return $this->hasMany(WorkExperience::class, 'user_id', 'id');
+    }
 }

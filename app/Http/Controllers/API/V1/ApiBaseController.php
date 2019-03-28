@@ -13,7 +13,7 @@
 
 /**
  *  @OA\Server(
- *      url="{ip or domain}/api/v1",
+ *      url="/api/v1",
  *      description="Base Endpoint"
  * )
  */
