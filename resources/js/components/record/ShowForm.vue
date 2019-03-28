@@ -16,7 +16,6 @@
 	export default {
 		data() {
 			return {
-				url_params: Helper.methods.getUrlParams(),
 				title: '',
 				record: null,
 				endpoints: {
@@ -32,25 +31,23 @@
 		methods: {
 			
 			viewRecord() {
-				let app = this;
+				let component = this;
 
-				axios.get(app.endpoints.get,
-							{
-								headers: {
-									"Authorization" : "Bearer " + this.url_params.token
-								}
-							})
+				axios.get(app.endpoints.get, Utils.getBearerAuth())
+					
 					.then(function(response) {
-								app.record = response.data.data.user;
-								
-								delete app.record.date_created_at;
-								delete app.record.date_updated_at;
-								delete app.record.date_email_verified_at;
-								delete app.record.deleted_at;
-							})
+						component.record = response.data.data.user;
+						
+						delete component.record.date_created_at;
+						delete component.record.date_updated_at;
+						delete component.record.date_email_verified_at;
+						delete component.record.deleted_at;
+					})
 					.catch(function(error) {
-								console.log('Error', error);
-							});
+						let data = error.response.data;
+
+						Utils.handleError(data);
+					});
 			}
 		}
 	}

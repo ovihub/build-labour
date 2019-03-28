@@ -26,6 +26,29 @@ window.Helper = {
             }
 
             return params;
+        },
+
+        setObjectValues(obj, val) {
+            for (let key in obj) {
+                obj[key] = val;
+            }
+        },
+
+        handleError(data) {
+            if (data.http_status == 422) {
+                Bus.$emit('alertError', 'Invalid input! Please see errors below.');
+            
+            } else {
+                Bus.$emit('alertError', data.message);
+            }
+        },
+
+        getBearerAuth() {
+            return {
+                headers: {
+                    "Authorization" : "Bearer " + this.getUrlParams().token
+                }
+            }
         }
     }
 }

@@ -1,9 +1,8 @@
 export default {
-
     data() {
         return {
-            url_params: Helper.methods.getUrlParams(),
-            disabled: false,
+            disabled_input: false,
+            disabled_resend: false,
             input_resend: {
                 email: '',
             },
@@ -42,111 +41,69 @@ export default {
         getProfile() {
             let component = this;
 
-            axios.get(component.endpoints.get,
-                        {
-                            headers: {
-                                "Authorization" : "Bearer " + this.url_params.token
-                            }
-                        })
-                  .then(function(response) {
-                            component.input = response.data.data.user;
-                            component.input_resend.email = response.data.data.user.email;
+            axios.get(component.endpoints.get, Utils.getBearerAuth())
+                
+                .then(function(response) {
+                    component.input = response.data.data.user;
+                    component.input_resend.email = response.data.data.user.email;
 
-                            delete component.record.date_created_at;
-                            delete component.record.date_updated_at;
-                            delete component.record.date_email_verified_at;
-                            delete component.record.deleted_at;
-                          })
-                  .catch(function(error) {
-                            console.log('Error', error);
-                          });
+                    delete component.record.date_created_at;
+                    delete component.record.date_updated_at;
+                    delete component.record.date_email_verified_at;
+                    delete component.record.deleted_at;
+                })
+                .catch(function(error) {
+                    let data = error.response.data;
+
+                    Utils.handleError(data);
+                });
         },
 
-        resendEmail() {
-            var app = this;
+        async resendEmail() {
+            let component = this;
             
-            axios.post(app.endpoints.resend,
-                       app.$data.input_resend,
-                       {
-                            headers: {
-                                "Authorization" : "Bearer " + this.url_params.token
-                            }
-                       })
-                 .then(function(response) {
-                        let data = response.data;
-                        
-                        if (data.success) {
-                            Bus.$emit('alertSuccess', data.message);
-                        }
-                    })
-                 .catch(function(error) {
-                        let data = error.response.data;
+            component.disabled_resend = true;
 
-                        if (! data.success) {
-                            if (data.http_status == 500) {
-                                Bus.$emit('alertError', 'An internal error occurred.');
-                            
-                            } else {
-                                Bus.$emit('alertError', 'An error occurred.');
-                            }
-                        }
-                    });
+            await axios.post(component.endpoints.resend, component.$data.input_resend, Utils.getBearerAuth())
+
+                .then(function(response) {
+                    let data = response.data;
+                    
+                    Bus.$emit('alertSuccess', data.message);
+                })
+                .catch(function(error) {
+                    let data = error.response.data;
+
+                    Utils.handleError(data);
+                });
+            
+            component.disabled_resend = false;
         },
 
         saveProfile() {
-            let component = this;
+            // TODO: trigger save
+            // let component = this;
             
-            component.errors.first_name = '';
-            component.errors.last_name = '';
-            component.errors.email = '';
-            component.errors.dob = '';
-            component.errors.country = '';
-            component.errors.address = '';
-            component.errors.mobile_number = '';
+            // Utils.setObjectValues(component.errors, '');
 
-            axios.post(component.endpoints.register,
-                       component.$data.input,
-                       {
-                            headers: {
-                                "Authorization" : "Bearer " + this.url_params.token
-                            }
-                       })
-                 .then(function(response) {
-                        let data = response.data;
-                        
-                        if (data.success) {
-                            component.input.first_name = '';
-                            component.input.last_name = '';
-                            component.input.email = '';
-                            component.input.dob = '';
-                            component.input.country = '';
-                            component.input.address = '';
-                            component.input.mobile_number = '';
+            // axios.post(component.endpoints.register, component.$data.input, Utils.getBearerAuth())
 
-                            Bus.$emit('alertSuccess', data.message);
-                        }
-                    })
-                 .catch(function(error) {
-                        let data = error.response.data;
+            //     .then(function(response) {
+            //         let data = response.data;
+                    
+            //         Utils.setObjectValues(component.input, '');
 
-                        if (! data.success) {
+            //         Bus.$emit('alertSuccess', data.message);
+            //     })
+            //     .catch(function(error) {
+            //         let data = error.response.data;
 
-                            if (data.http_status == 500) {
-                                Bus.$emit('alertError', 'An internal error occurred.');
-                            }
-                            else {
-                                component.errors.first_name = data.errors.first_name ? data.errors.first_name[0] : '';
-                                component.errors.last_name = data.errors.last_name ? data.errors.last_name[0] : '';
-                                component.errors.email = data.errors.email ? data.errors.email[0] : '';
-                                component.errors.dob = data.errors.dob ? data.errors.dob[0] : '';
-                                component.errors.country = data.errors.country ? data.errors.country[0] : '';
-                                component.errors.address = data.errors.address ? data.errors.address[0] : '';
-                                component.errors.mobile_number = data.errors.mobile_number ? data.errors.mobile_number[0] : '';
+            //         for (let key in component.errors) {
+            //             component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+            //         }
 
-                                Bus.$emit('alertError', 'Invalid input! Please see errors below.');
-                            }
-                        }
-                    });
+            //         Utils.handleError(data);
+            //     });
         }
         
     }

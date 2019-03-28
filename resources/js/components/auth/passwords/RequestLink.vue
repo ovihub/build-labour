@@ -15,7 +15,7 @@
 
         <div class="form-group row mb-0">
             <div class="col-md-7 offset-md-4">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" :disabled="disabled">
                     Send Reset Password Link
                 </button>
             </div>
@@ -25,9 +25,9 @@
 
 <script>
     export default {
-
         data() {
             return {
+                disabled: false,
                 input: {
                     email: '',
                 },
@@ -42,37 +42,31 @@
 
         methods: {
             
-            sendResetPasswordLink() {
-                var app = this;
+            async sendResetPasswordLink() {
+                let component = this;
                 
-                app.errors.email = '';
+                component.errors.email = '';
+                
+                component.disabled = true;
 
-                axios.post(app.endpoints.send,
-                        app.$data.input)
+                await axios.post(component.endpoints.send, component.$data.input)
+
                     .then(function(response) {
-                            let data = response.data;
-                            
-                            if (data.success) {
-                                app.input.email = '';
+                        let data = response.data;
+                        
+                        component.input.email = '';
 
-                                Bus.$emit('alertSuccess', data.message);
-                            }
-                        })
+                        Bus.$emit('alertSuccess', data.message);
+                    })
                     .catch(function(error) {
-                            let data = error.response.data;
+                        let data = error.response.data;
 
-                            if (! data.success) {
+                        component.errors.email = data.errors.email ? data.errors.email[0] : '';
 
-                                if (data.http_status == 500) {
-                                    Bus.$emit('alertError', 'An internal error occurred.');
-                                }
-                                else {
-                                    app.errors.email = data.errors.email ? data.errors.email[0] : '';
-
-                                    Bus.$emit('alertError', 'Invalid input! Please see errors below.');
-                                }
-                            }
-                        });
+                        Utils.handleError(data);
+                    });
+                
+                component.disabled = false;
             }
             
         }

@@ -27,14 +27,13 @@
 
         <div class="form-group row">
             <div class="col-md-6 offset-md-4">
-                <div class="form-check">
-                </div>
+                <div class="form-check"></div>
             </div>
         </div>
 
         <div class="form-group row mb-0">
             <div class="col-md-8 offset-md-4">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" :disabled="disabled">
                     Login
                 </button>
 
@@ -48,9 +47,9 @@
 
 <script>
     export default {
-
         data() {
             return {
+                disabled: false,
                 input: {
                     email: '',
                     password: '',
@@ -69,39 +68,29 @@
 
         methods: {
 
-            loginUser() {
-                var app = this;
+            async loginUser() {
+                let component = this;
                 
-                app.errors.email = '';
-                app.errors.password = '';
+                Utils.setObjectValues(component.errors, '');
 
-                axios.post(app.endpoints.login,
-                        app.$data.input)
+                component.disabled = true;
+
+                await axios.post(component.endpoints.login, component.$data.input)
+                
                     .then(function(response) {
-                            let data = response.data;
-                            
-                            if (data.success) {
-                                let token = data.data.token;
-                                
-                                window.location.href = app.endpoints.profile + token;
-                            }
-                        })
+                        let data = response.data;
+                        
+                        window.location.href = component.endpoints.profile + data.data.token;
+                    })
                     .catch(function(error) {
-                            let data = error.response.data;
+                        let data = error.response.data;
 
-                            if (! data.success) {
-
-                                if (data.http_status == 500) {
-                                    Bus.$emit('alertError', 'An internal error occurred.');
-                                }
-                                else {
-                                    app.input.email = '';
-                                    app.input.password = '';
-
-                                    Bus.$emit('alertError', data.message);
-                                }
-                            }
-                        });
+                        Utils.setObjectValues(component.input, '');
+                        
+                        Utils.handleError(data);
+                    });
+                
+                component.disabled = false;
             },
             
         }
