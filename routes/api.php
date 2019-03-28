@@ -30,6 +30,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             Route::put( '', 'ApiUsersController@update' );
             Route::post( 'photo', 'ApiUsersController@uploadProfilePhoto');
             Route::delete( 'photo', 'ApiUsersController@deleteProfilePhoto');
+            Route::post( 'work/experience', 'ApiUsersController@addWorkExperience');
         });
     });
 

@@ -31,7 +31,7 @@ class Users extends BaseModel implements
     public $timestamps = true;
 
     protected $fillable = [ 'id', 'email' , 'first_name' , 'last_name', 'password',
-        'dob' , 'country', 'address', 'mobile_number' ];
+        'dob' , 'country', 'address', 'mobile_number', 'role_id' ];
     protected $hidden =[ 'password' , 'remember_token','updated_at' , 'created_at', 'verification_code' ];
     protected $appends = [  'full_name'  ];
 
@@ -52,7 +52,8 @@ class Users extends BaseModel implements
             'email'         => 'required|string|email|max:50|unique:users',
             'password'      => 'required|string|min:6|max:24|confirmed',
             'first_name'    => 'required',
-            'last_name'     => 'required'
+            'last_name'     => 'required',
+            'role_id'       => 'required|integer|between:1,2'
         ];
     }
 
@@ -105,7 +106,6 @@ class Users extends BaseModel implements
             return false;
         }
 
-
         $this->fill( $r->all() );
         $pk = $this->primaryKey;
 
@@ -118,7 +118,6 @@ class Users extends BaseModel implements
             // do stuff for new users here
             $this->is_verified          =   null;
             $this->verification_code    =   $this->generateVerificationCode();
-
 
         }
 
