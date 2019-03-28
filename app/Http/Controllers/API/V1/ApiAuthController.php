@@ -248,7 +248,7 @@ class ApiAuthController extends ApiBaseController
             $user = JWTAuth::toUser();
             $user->experiences;
             $user->role;
-            
+
         } catch (\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');

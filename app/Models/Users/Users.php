@@ -53,7 +53,7 @@ class Users extends BaseModel implements
             'password'      => 'required|string|min:6|max:24|confirmed',
             'first_name'    => 'required',
             'last_name'     => 'required',
-            'role_id'       => 'required|integer|between:1,2'
+            'role_id'       => 'required|integer|between:1,4'
         ];
     }
 
