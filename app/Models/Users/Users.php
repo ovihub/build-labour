@@ -100,25 +100,37 @@ class Users extends BaseModel implements
 
     public function store( Request $r )
     {
+
         if( ! $this->validate( $r )){
             return false;
         }
+
 
         $this->fill( $r->all() );
         $pk = $this->primaryKey;
 
         if( $r->$pk  ){
+
             $this->exists = true;
-        }else{
+
+        } else {
+
             // do stuff for new users here
             $this->is_verified          =   null;
             $this->verification_code    =   $this->generateVerificationCode();
+
+
         }
 
         try{
-            \Mail::to( $this->email )->send( new ResendVerificationCodeEmail( $this ) );
+
+            if (!$this->exists) {
+
+                \Mail::to( $this->email )->send( new ResendVerificationCodeEmail( $this ) );
+            }
 
             $this->save();
+
         }catch( \Exception $e ){
             $this->errors[] = $e->getMessage();
             return false;
@@ -208,7 +220,7 @@ class Users extends BaseModel implements
         }
 
         if( $verification_code != $this->verification_code ){
-            
+
             $message = 'Incorrect verification code';
             $this->addError( $message );
             $this->errorsDetail = array('verification' => [$message]);
@@ -228,65 +240,67 @@ class Users extends BaseModel implements
      */
     public function uploadProfilePhoto( Request $request )
     {
-        if( ! $this->id ){
-            $this->addError(  'Unknown user' ) ;
-            return false;
-        }
 
-        $validator = \Validator::make( $request->all(), [ 'photo' => 'required|mimes:jpeg,jpg,png' ] );
+        try {
 
-        if( $validator->fails() ){
-            $this->addError(  $validator->errors()->first() ) ;
-            return false;
-        }
+            if( ! $this->id ){
+                $this->addError(  'Unknown user' ) ;
+                return false;
+            }
 
-        $ext = $request->photo->getClientOriginalExtension();
+            $validator = \Validator::make( $request->all(), [ 'photo' => 'required|image64:jpeg,jpg,png' ] );
 
-        // rename photo files if you like
-        $new_filename   = 'p_'.str_random( 12 ).'.'.$ext;
-        $destination    = $this->generateUserImagePath( $request );
-        $url = url( '/storage'.$destination.$new_filename );
+            if( $validator->fails() ){
+                $this->addError(  $validator->errors()->first() ) ;
+                return false;
+            }
 
-        // Defaults to a storage path but you may save it to a public for non sensitive files
-        // Do not forget to call php artisan storage:link
-        $dir_path  = storage_path() . '/app/public'.$destination;
+            $photo = $request->get('photo');
 
-        if( ! is_dir( $dir_path )){
-            mkdir( $dir_path , 755 , true );
-        }
+            // $ext = $request->photo->getClientOriginalExtension();
+            $ext = '.png';
 
-        $file_path = $dir_path.$new_filename;
+            // rename photo files if you like
+            $new_filename   = 'p_'.str_random( 12 ).'.'.$ext;
+            $destination    = $this->generateUserImagePath( $request );
+            $url = url( '/storage'.$destination.$new_filename );
 
-        try{
-            $request->photo->move( $dir_path, $new_filename );
-        }catch( \Exception $e ){
-            $this->addError(  $e->getMessage() ) ;
-            return false;
-        }
+            // Defaults to a storage path but you may save it to a public for non sensitive files
+            // Do not forget to call php artisan storage:link
+            $dir_path  = storage_path() . '/app/public'.$destination;
 
-        // default compression to 320x320
-        // you need to improve this to handle images that has large difference in aspect ratio
+            if( ! is_dir( $dir_path )){
+                mkdir( $dir_path , 755 , true );
+            }
 
-        Image::make(  $file_path )
-            ->resize( 320, 320 )
-            ->save( $file_path );
+            $file_path = $dir_path.$new_filename;
 
-        // file path can be handy on some cases
-        // $file_path  = $dir_path.$new_filename;
+            // default compression to 320x320
+            // you need to improve this to handle images that has large difference in aspect ratio
 
-        // you may generate thumbnails if needed
-        // Utils::generateThumbnail( $file_path, [] );
-        $this->profile_photo_url = $url;
+            Image::make(  file_get_contents($photo) )
+                ->resize( 320, 320 )
+                ->save( $file_path );
 
-        try{
+            // file path can be handy on some cases
+            // $file_path  = $dir_path.$new_filename;
+
+            // you may generate thumbnails if needed
+            // Utils::generateThumbnail( $file_path, [] );
+
+            $this->profile_photo_url = $url;
+
             $this->save();
-        }catch( \Exception $e ){
+
+
+        } catch (\Exception $e) {
+
             $this->addError(  $e->getMessage() ) ;
+            $this->errorsDetail = ['image' => ['Something wrong while processing the image']];
             return false;
         }
 
         return $this;
-
     }
 
     /**

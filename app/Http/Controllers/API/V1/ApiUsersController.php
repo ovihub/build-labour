@@ -21,7 +21,6 @@ use JWTAuth;
 class ApiUsersController extends ApiBaseController
 {
 
-
     public function resendVerificationCode( Request $r )
     {
 
@@ -141,12 +140,13 @@ class ApiUsersController extends ApiBaseController
      */
     public function update(Request $request)
     {
+
         if( ! $user  = JWTAuth::toUser() ){
             return $this->apiErrorResponse( false, 'Invalid JWT Token', 400 , 'invalidToken' );
         }
 
         if( ! $user->store( $request ) ){
-            return $this->apiErrorResponse( false, $user->getErrors( true ) , 400 , 'savingError' );
+            return $this->apiErrorResponse( false, $user->getErrors( true ) , 422 , 'savingError', $user->getErrorsDetail() );
         }
 
         return $this->apiSuccessResponse( ['user' => $user ] , true , 'User successfully updated');
@@ -202,10 +202,8 @@ class ApiUsersController extends ApiBaseController
     public function uploadProfilePhoto( Request $request)
     {
         $user  = JWTAuth::toUser();
-       // $user = User::find(1);
-        $userRep = new UserRepository();
 
-        if( ! $userRep->uploadProfilePhoto( $request ) ){
+        if( ! $user->uploadProfilePhoto( $request ) ){
             return $this->apiErrorResponse(false, $user->getErrors( true ), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
         }
 
