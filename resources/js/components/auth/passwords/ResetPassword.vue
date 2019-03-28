@@ -35,7 +35,7 @@
         
         <div class="form-group row mb-0">
             <div class="col-md-7 offset-md-4">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" :disabled="disabled">
                     Reset Password
                 </button>
             </div>
@@ -48,9 +48,10 @@
 
         data() {
             return {
+                disabled: false,
                 input: {
                     email: '',
-                    token: Helper.methods.getUrlParams().token,
+                    token: Utils.getUrlParams().token,
                     password: '',
                     password_confirmation: ''
                 },
@@ -67,42 +68,33 @@
 
         methods: {
             
-            resetPassword() {
-                var app = this;
+            async resetPassword() {
+                let component = this;
                 
-                app.errors.email = '';
-                app.errors.password = '';
+                Utils.setObjectValues(component.errors, '');
 
-                axios.post(app.endpoints.reset,
-                        app.$data.input)
+                component.disabled = true;
+
+                await axios.post(component.endpoints.reset, component.$data.input)
+                    
                     .then(function(response) {
-                            let data = response.data;
-                            
-                            if (data.success) {
-                                window.location.href = app.endpoints.login;
+                        let data = response.data;
+                        
+                        window.location.href = component.endpoints.login;
 
-                                Bus.$emit('alertSuccess', data.message);
-                            }
-                        })
+                        Bus.$emit('alertSuccess', data.message);
+                    })
                     .catch(function(error) {
-                            let data = error.response.data;
+                        let data = error.response.data;
 
-                            if (! data.success) {
+                        for (let key in component.errors) {
+                            component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                        }
 
-                                if (data.http_status == 500) {
-                                    Bus.$emit('alertError', 'An internal error occurred.');
-                                }
-                                else {
-                                    app.errors.email = data.errors.email ? data.errors.email[0] : '';
-                                    app.errors.password = data.errors.password ? data.errors.password[0] : '';
-
-                                    app.input.password = '';
-                                    app.input.password_confirmation = '';
-
-                                    Bus.$emit('alertError', 'Invalid input! Please see errors below.');
-                                }
-                            }
-                        });
+                        Utils.handleError(data);
+                    });
+                
+                component.disabled = false;
             }
             
         }

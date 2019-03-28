@@ -59,7 +59,7 @@
         
         <div class="form-group row mb-0">
             <div class="col-md-7 offset-md-4">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" :disabled="disabled">
                     Register
                 </button>
             </div>
@@ -72,6 +72,7 @@
 
         data() {
             return {
+                disabled: false,
                 input: {
                     first_name: '',
                     last_name: '',
@@ -86,6 +87,7 @@
                     password: '',
                 },
                 endpoints: {
+                    profile: '/user/profile/?token=',
                     register: '/api/v1/auth/register'
                 }
             }
@@ -93,52 +95,32 @@
 
         methods: {
             
-            registerUser() {
-                var app = this;
+            async registerUser() {
+                let component = this;
                 
-                app.errors.first_name = '';
-                app.errors.last_name = '';
-                app.errors.email = '';
-                app.errors.password = '';
+                Utils.setObjectValues(component.errors, '');
 
-                axios.post(app.endpoints.register,
-                        app.$data.input)
+                component.disabled = true;
+
+                await axios.post(component.endpoints.register, component.$data.input)
+                    
                     .then(function(response) {
-                            let data = response.data;
-                            
-                            if (data.success) {
-                                app.input.first_name = '';
-                                app.input.last_name = '';
-                                app.input.email = '';
-                                app.input.password = '';
-                                app.input.password_confirmation = '';
+                        let data = response.data;
 
-                                Bus.$emit('alertSuccess', data.message);
-                            }
-                        })
+                        window.location.href = component.endpoints.profile + data.data.token;
+                    })
                     .catch(function(error) {
-                            let data = error.response.data;
+                        let data = error.response.data;
 
-                            if (! data.success) {
+                        for (let key in component.errors) {
+                            component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                        }
 
-                                if (data.http_status == 500) {
-                                    Bus.$emit('alertError', 'An internal error occurred.');
-                                }
-                                else {
-                                    app.errors.first_name = data.errors.first_name ? data.errors.first_name[0] : '';
-                                    app.errors.last_name = data.errors.last_name ? data.errors.last_name[0] : '';
-                                    app.errors.email = data.errors.email ? data.errors.email[0] : '';
-                                    app.errors.password = data.errors.password ? data.errors.password[0] : '';
-
-                                    app.input.password = '';
-                                    app.input.password_confirmation = '';
-
-                                    Bus.$emit('alertError', 'Invalid input! Please see errors below.');
-                                }
-                            }
-                        });
-            }
-            
+                        Utils.handleError(data);
+                    });
+                
+                component.disabled = false;
+            },
         }
     }
 </script>

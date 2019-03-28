@@ -11,7 +11,6 @@
 
         data() {
             return {
-                url_params: Helper.methods.getUrlParams(),
                 endpoints: {
                     logout: '/api/v1/auth/logout',
                 }
@@ -21,20 +20,18 @@
         methods: {
 
             logoutUser() {
-                var app = this;
+                let component = this;
                 
-                axios.get(app.endpoints.logout,
-                            {
-                                headers: {
-                                    "Authorization" : "Bearer " + this.url_params.token
-                                }
-                            })
+                axios.get(component.endpoints.logout, Utils.getBearerAuth())
+                
                     .then(function(response) {
-                            window.location.href = '/login';
-                        })
+                        window.location.href = '/login';
+                    })
                     .catch(function(error) {
-                            console.log('Logout Error', error);
-                        });
+                        let data = error.response.data;
+
+                        Utils.handleError(data);
+                    });
             }
             
         }
