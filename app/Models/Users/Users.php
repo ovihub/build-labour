@@ -100,25 +100,37 @@ class Users extends BaseModel implements
 
     public function store( Request $r )
     {
+
         if( ! $this->validate( $r )){
             return false;
         }
+
 
         $this->fill( $r->all() );
         $pk = $this->primaryKey;
 
         if( $r->$pk  ){
+
             $this->exists = true;
-        }else{
+
+        } else {
+
             // do stuff for new users here
             $this->is_verified          =   null;
             $this->verification_code    =   $this->generateVerificationCode();
+
+
         }
 
         try{
-            \Mail::to( $this->email )->send( new ResendVerificationCodeEmail( $this ) );
+
+            if (!$this->exists) {
+
+                \Mail::to( $this->email )->send( new ResendVerificationCodeEmail( $this ) );
+            }
 
             $this->save();
+
         }catch( \Exception $e ){
             $this->errors[] = $e->getMessage();
             return false;

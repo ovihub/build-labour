@@ -140,12 +140,13 @@ class ApiUsersController extends ApiBaseController
      */
     public function update(Request $request)
     {
+
         if( ! $user  = JWTAuth::toUser() ){
             return $this->apiErrorResponse( false, 'Invalid JWT Token', 400 , 'invalidToken' );
         }
 
         if( ! $user->store( $request ) ){
-            return $this->apiErrorResponse( false, $user->getErrors( true ) , 400 , 'savingError' );
+            return $this->apiErrorResponse( false, $user->getErrors( true ) , 422 , 'savingError', $user->getErrorsDetail() );
         }
 
         return $this->apiSuccessResponse( ['user' => $user ] , true , 'User successfully updated');
