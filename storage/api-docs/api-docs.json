@@ -11,7 +11,7 @@
     },
     "servers": [
         {
-            "url": "{ip or domain}/api/v1",
+            "url": "/api/v1",
             "description": "Base Endpoint"
         }
     ],
@@ -758,6 +758,62 @@
                                         "description": "Image File",
                                         "type": "string",
                                         "format": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "422": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/user/work/experience": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Add a work experience",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiUsersController::addWorkExperience",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "job_role": {
+                                        "description": "<b>Required</b> Job Role",
+                                        "type": "string",
+                                        "example": "Developer"
+                                    },
+                                    "company_name": {
+                                        "description": "<b>Required</b> Company",
+                                        "type": "string",
+                                        "example": "Appetiser"
                                     }
                                 },
                                 "type": "object"

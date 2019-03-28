@@ -58,6 +58,9 @@ Vue.component('show-form', require('./components/record/ShowForm.vue').default);
 // Upload components
 Vue.component('upload-photo', require('./components/upload/UploadPhoto.vue').default);
 
+// Modal components
+Vue.component('main-modal', require('./components/MainModal.vue').default);
+
 const app = new Vue({
     el: '#app',
     // router,
