@@ -34,6 +34,9 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
         });
     });
 
+    Route::get('roles', 'ApiRolesController@index');
+
+    
 //    Route::prefix('device')->middleware([ 'jwt' ])->group(function () {
 //        Route::post( 'register', 'ApiDevicesController@registerDevice' );
 //        Route::post( 'unregister', 'ApiDevicesController@unregisterDevice' );
