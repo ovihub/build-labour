@@ -2,7 +2,7 @@
 /**
  * @OA\Info(
  *      version="1.0.0",
- *      title="Base Plate API",
+ *      title="Build Labour Api",
  *      description="A product of Appetiser",
  *      @OA\Contact(
  *          name="API Support",

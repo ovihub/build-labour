@@ -9,6 +9,34 @@ use App\Http\Controllers\Controller;
 class ApiRolesController extends ApiBaseController
 {
 
+    /**
+     * @OA\Get(
+     *      path="/roles",
+     *      tags={"Role"},
+     *      summary="Get Roles by List",
+     *      security={},
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description=""
+     *      )
+     * )
+     */
     public function index() {
 
         $roles = [];
