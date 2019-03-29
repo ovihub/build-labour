@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Base Plate API",
+        "title": "Build Labour Api",
         "description": "A product of Appetiser",
         "contact": {
             "name": "API Support",
@@ -657,6 +657,33 @@
                         "BearerAuth": []
                     }
                 ]
+            }
+        },
+        "/roles": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Get Roles by List",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiRolesController::index",
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "security": []
             }
         },
         "/user": {

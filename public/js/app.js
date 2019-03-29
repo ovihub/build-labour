@@ -2053,12 +2053,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      roles: [],
       disabled: false,
       input: {
-        // role_id: 1,
+        role_id: 0,
         first_name: '',
         last_name: '',
         email: '',
@@ -2066,6 +2083,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         password_confirmation: ''
       },
       errors: {
+        role_id: '',
         first_name: '',
         last_name: '',
         email: '',
@@ -2073,11 +2091,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       endpoints: {
         profile: '/user/profile/?token=',
-        register: '/api/v1/auth/register'
+        register: '/api/v1/auth/register',
+        get_roles: '/api/v1/roles'
       }
     };
   },
+  created: function created() {
+    this.getRoles();
+  },
   methods: {
+    getRoles: function getRoles() {
+      var component = this;
+      axios.get(component.endpoints.get_roles, Utils.getBearerAuth()).then(function (response) {
+        component.roles = response.data.data.roles;
+      }).catch(function (error) {
+        var data = error.response.data;
+        Utils.handleError(data);
+      });
+    },
     registerUser: function () {
       var _registerUser = _asyncToGenerator(
       /*#__PURE__*/
@@ -2730,23 +2761,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      roles: [],
       disabled_input: false,
       disabled_resend: false,
       disabled_verify: false,
+      input_resend: {
+        email: ''
+      },
       input_verify: {
         uid: 0,
         email: '',
         verification_code: ''
       },
-      input_resend: {
-        email: ''
-      },
       input: {
+        role: '',
         first_name: '',
         last_name: '',
         email: '',
@@ -2756,6 +2799,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         mobile_number: ''
       },
       errors: {
+        role: '',
         first_name: '',
         last_name: '',
         email: '',
@@ -2768,8 +2812,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         get: '/api/v1/auth/user',
         save: '/api/v1/user/update',
         verify: '/api/v1/auth/verify',
-        resend: '/api/v1/auth/verification/resend',
-        get_roles: '/api/v1/roles'
+        resend: '/api/v1/auth/verification/resend'
       },
       format: 'd MMMM yyyy'
     };
@@ -2788,15 +2831,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         component.input_resend.email = response.data.data.user.email;
         component.input_verify.email = response.data.data.user.email;
         component.input_verify.uid = response.data.data.user.id;
-      }).catch(function (error) {
-        var data = error.response.data;
-        Utils.handleError(data);
-      });
-    },
-    getRoles: function getRoles() {
-      var component = this;
-      axios.get(component.endpoints.get_roles, Utils.getBearerAuth()).then(function (response) {
-        component.roles = response.data.data.roles;
       }).catch(function (error) {
         var data = error.response.data;
         Utils.handleError(data);
@@ -39929,6 +39963,73 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
+      _c("div", { staticClass: "form-group row" }, [
+        _c(
+          "label",
+          {
+            staticClass: "col-md-4 col-form-label text-md-right",
+            attrs: { for: "password" }
+          },
+          [_vm._v("Role")]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-7" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.input.role_id,
+                  expression: "input.role_id"
+                }
+              ],
+              staticClass: "form-control",
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.$set(
+                    _vm.input,
+                    "role_id",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
+                }
+              }
+            },
+            _vm._l(_vm.roles, function(role) {
+              return _c(
+                "option",
+                { key: role.id, domProps: { value: role.id } },
+                [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(role.name) +
+                      "\n                "
+                  )
+                ]
+              )
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _vm.errors.role_id
+          ? _c("span", { staticClass: "err-msg" }, [
+              _vm._v(
+                "\n            " + _vm._s(_vm.errors.role_id) + "\n        "
+              )
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
       _c("div", { staticClass: "form-group row mb-0" }, [
         _c("div", { staticClass: "col-md-7 offset-md-4" }, [
           _c(
@@ -40484,6 +40585,58 @@ var render = function() {
           }
         },
         [
+          _c("div", { staticClass: "form-group row" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-md-2 col-form-label text-md-left",
+                attrs: { for: "role" }
+              },
+              [_vm._v("Role")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-5" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.input.role.name,
+                    expression: "input.role.name"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  id: "role",
+                  type: "text",
+                  name: "role",
+                  disabled: _vm.disabled_input,
+                  required: "",
+                  autofocus: ""
+                },
+                domProps: { value: _vm.input.role.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.input.role, "name", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.role
+                ? _c("span", { staticClass: "err-msg" }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.errors.role) +
+                        "\n                "
+                    )
+                  ])
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
           _c("div", { staticClass: "form-group row" }, [
             _c(
               "label",

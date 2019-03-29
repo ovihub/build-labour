@@ -31,6 +31,18 @@
 
         <form method="POST" @submit.prevent="saveProfile">
             <div class="form-group row">
+                <label for="role" class="col-md-2 col-form-label text-md-left">Role</label>
+
+                <div class="col-md-5">
+                    <input id="role" type="text" name="role" class="form-control" v-model="input.role.name" :disabled="disabled_input" required autofocus />
+
+                    <span class="err-msg" v-if="errors.role">
+                        {{ errors.role }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group row">
                 <label for="first_name" class="col-md-2 col-form-label text-md-left">First Name</label>
 
                 <div class="col-md-5">
@@ -135,28 +147,26 @@
     export default {
         data() {
             return {
-                roles: [],
                 disabled_input: false,
                 disabled_resend: false,
                 disabled_verify: false,
-                input_verify: {
-                    uid: 0, email: '', verification_code: '',
-                },
                 input_resend: {
                     email: '',
                 },
+                input_verify: {
+                    uid: 0, email: '', verification_code: '',
+                },
                 input: {
-                    first_name: '', last_name: '', email: '', dob: '', country: '', address: '', mobile_number: '',
+                    role: '', first_name: '', last_name: '', email: '', dob: '', country: '', address: '', mobile_number: '',
                 },
                 errors: {
-                    first_name: '', last_name: '', email: '', dob: '', country: '', address: '', mobile_number: '',
+                    role: '', first_name: '', last_name: '', email: '', dob: '', country: '', address: '', mobile_number: '',
                 },
                 endpoints: {
                     get: '/api/v1/auth/user',
                     save: '/api/v1/user/update',
                     verify: '/api/v1/auth/verify',
                     resend: '/api/v1/auth/verification/resend',
-                    get_roles: '/api/v1/roles',
                 },
                 format: 'd MMMM yyyy',
             }
@@ -182,21 +192,6 @@
                         component.input_resend.email = response.data.data.user.email;
                         component.input_verify.email = response.data.data.user.email;
                         component.input_verify.uid = response.data.data.user.id;
-                    })
-                    .catch(function(error) {
-                        let data = error.response.data;
-
-                        Utils.handleError(data);
-                    });
-            },
-
-            getRoles() {
-                let component = this;
-
-                axios.get(component.endpoints.get_roles, Utils.getBearerAuth())
-                    
-                    .then(function(response) {
-                        component.roles = response.data.data.roles;
                     })
                     .catch(function(error) {
                         let data = error.response.data;
@@ -239,7 +234,6 @@
                         Bus.$emit('alertSuccess', data.message);
 
                         $('#verifyEmailModal').modal('hide');
-                        
                     })
                     .catch(function(error) {
                         let data = error.response.data;

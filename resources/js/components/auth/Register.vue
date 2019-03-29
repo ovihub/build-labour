@@ -57,6 +57,22 @@
             </div>
         </div>
         
+        <div class="form-group row">
+            <label for="password" class="col-md-4 col-form-label text-md-right">Role</label>
+
+            <div class="col-md-7">
+                <select v-model="input.role_id" class="form-control">
+                    <option v-for="role in roles" v-bind:key="role.id" v-bind:value="role.id">
+                        {{ role.name }}
+                    </option>
+                </select>
+            </div>
+
+            <span class="err-msg" v-if="errors.role_id">
+                {{ errors.role_id }}
+            </span>
+        </div>
+
         <div class="form-group row mb-0">
             <div class="col-md-7 offset-md-4">
                 <button type="submit" class="btn btn-primary" :disabled="disabled">
@@ -72,30 +88,43 @@
 
         data() {
             return {
+                roles: [],
                 disabled: false,
                 input: {
-                    // role_id: 1,
-                    first_name: '',
-                    last_name: '',
-                    email: '',
-                    password: '',
-                    password_confirmation: ''
+                    role_id:  0, first_name: '', last_name: '', email: '', password: '', password_confirmation: ''
                 },
                 errors: {
-                    first_name: '',
-                    last_name: '',
-                    email: '',
-                    password: '',
+                    role_id: '', first_name: '', last_name: '', email: '', password: '',
                 },
                 endpoints: {
                     profile: '/user/profile/?token=',
-                    register: '/api/v1/auth/register'
+                    register: '/api/v1/auth/register',
+                    get_roles: '/api/v1/roles',
                 }
             }
         },
 
+        created() {
+            this.getRoles();
+        },
+
         methods: {
             
+            getRoles() {
+                let component = this;
+
+                axios.get(component.endpoints.get_roles, Utils.getBearerAuth())
+                    
+                    .then(function(response) {
+                        component.roles = response.data.data.roles;
+                    })
+                    .catch(function(error) {
+                        let data = error.response.data;
+
+                        Utils.handleError(data);
+                    });
+            },
+
             async registerUser() {
                 let component = this;
                 

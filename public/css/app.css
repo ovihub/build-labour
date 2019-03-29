@@ -10672,7 +10672,7 @@ a.text-dark:focus {
 
 .sidebar {
   background-color: #343a40;
-  min-height: 87vh;
+  min-height: 100vh;
   width: 200px;
 }
 

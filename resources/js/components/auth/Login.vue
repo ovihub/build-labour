@@ -51,12 +51,10 @@
             return {
                 disabled: false,
                 input: {
-                    email: '',
-                    password: '',
+                    email: '', password: '',
                 },
                 errors: {
-                    email: '',
-                    password: '',
+                    email: '', password: '',
                 },
                 endpoints: {
                     login: '/api/v1/auth/login',
