@@ -144,6 +144,12 @@ class ApiAuthController extends ApiBaseController
      *                      type="string",
      *                      example="85 Dover Street Melbourne VIC"
      *                  ),
+     *                  @OA\Property(
+     *                      property="role_id",
+     *                      description="Job role",
+     *                      type="integer",
+     *                      example=1
+     *                  ),
      *              ),
      *          ),
      *      ),
