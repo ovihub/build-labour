@@ -33,7 +33,7 @@
             <div class="form-group row">
                 <label for="role" class="col-md-2 col-form-label text-md-left">Role</label>
 
-                <div class="col-md-5">
+                <div class="col-md-7">
                     <input id="role" type="text" name="role" class="form-control" v-model="input.role.name" :disabled="disabled_input" required autofocus />
 
                     <span class="err-msg" v-if="errors.role">
@@ -45,7 +45,7 @@
             <div class="form-group row">
                 <label for="first_name" class="col-md-2 col-form-label text-md-left">First Name</label>
 
-                <div class="col-md-5">
+                <div class="col-md-7">
                     <input id="first_name" type="text" name="first_name" class="form-control" v-model="input.first_name" :disabled="disabled_input" required autofocus />
 
                     <span class="err-msg" v-if="errors.first_name">

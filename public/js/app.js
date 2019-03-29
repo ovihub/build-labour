@@ -40595,7 +40595,7 @@ var render = function() {
               [_vm._v("Role")]
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "col-md-5" }, [
+            _c("div", { staticClass: "col-md-7" }, [
               _c("input", {
                 directives: [
                   {
@@ -40647,7 +40647,7 @@ var render = function() {
               [_vm._v("First Name")]
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "col-md-5" }, [
+            _c("div", { staticClass: "col-md-7" }, [
               _c("input", {
                 directives: [
                   {
