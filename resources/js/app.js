@@ -39,8 +39,10 @@ Utils = Helper.methods;
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
-// Message components
-Vue.component('alert', require('./components/message/Alert.vue').default);
+// Common components
+Vue.component('alert', require('./components/common/Alert.vue').default);
+Vue.component('main-modal', require('./components/common/MainModal.vue').default);
+Vue.component('navigation', require('./components/common/Navigation.vue').default);
 
 // Auth components
 Vue.component('login', require('./components/auth/Login.vue').default);
@@ -49,17 +51,19 @@ Vue.component('register', require('./components/auth/Register.vue').default);
 Vue.component('request-link', require('./components/auth/passwords/RequestLink.vue').default);
 Vue.component('reset-password', require('./components/auth/passwords/ResetPassword.vue').default);
 
-// User components
-Vue.component('profile', require('./components/user/Profile.vue').default);
+// Profile components
+Vue.component('profile', require('./components/profile/Profile.vue').default);
+Vue.component('employment', require('./components/profile/Employment.vue').default);
+Vue.component('about-me', require('./components/profile/AboutMe.vue').default);
+Vue.component('ideal-role', require('./components/profile/IdealRole.vue').default);
+Vue.component('education', require('./components/profile/Education.vue').default);
+Vue.component('tickets', require('./components/profile/Tickets.vue').default);
 
 // Record components
 Vue.component('show-form', require('./components/record/ShowForm.vue').default);
 
 // Upload components
 Vue.component('upload-photo', require('./components/upload/UploadPhoto.vue').default);
-
-// Modal components
-Vue.component('main-modal', require('./components/MainModal.vue').default);
 
 const app = new Vue({
     el: '#app',

@@ -1,5 +1,34 @@
 <template>
-    <div>
+    <div class="col-md-4">
+        <div class="profile-item-1">
+            <div class="profile-header">
+                <img class="profile-picture" src="/img/icons/default.png">
+            </div>
+            <div class="profile-content">
+                <div class="profile-name">{{ input.full_name }}</div>
+            
+                <span class="profile-role">Project Manager - <span class="profile-role text-style-1">Probuild</span></span>
+                
+                <span class="profile-address">Richmond, Victoria, Australia</span>
+
+                <span class="profile-education">Studied <b>Construction & Engineer -</b></span>
+
+                <span class="profile-education-2">Royal Melbourne Institute of Technology</span>
+                
+                <span class="profile-experience">
+                    Experienced Senior Project Manager;<br>
+                    demonstrated history of working on a wide range<br>
+                    of construction projects for leading companies.
+                </span>
+                
+                <span class="profile-role-header">Current Role</span>
+                <span class="profile-role-name">Project Manager</span>
+                <span class="profile-label">Probuild</span>
+                <span class="profile-text">2 years and 4 months</span>
+            </div>
+        </div>
+    </div>
+    <!-- <div>
         <main-modal id="verifyEmailModal">
             <template slot="custom-modal-title">
                 <h4 class="modal-title">Verify Email</h4>
@@ -138,7 +167,7 @@
                 </div>
             </div>
         </form>
-    </div>
+    </div> -->
 </template>
 
 <script>

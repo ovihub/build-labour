@@ -1,36 +1,49 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
-        <div class="row">
-        
-            @include('layouts.sidebar')
-    
-            <main role="main" class="col-md-12 pl-sm-5 col-lg-10 px-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">My Profile</h1>
-                    
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                        <!-- <div class="btn-group mr-2">
-                            <button class="btn btn-sm btn-outline-secondary">Share</button>
-                            <button class="btn btn-sm btn-outline-secondary">Export</button>
+    <div class="content-section">
+        <div class="container">
+            <div class="row">
+                
+                <profile></profile>
+
+                <employment></employment>
+
+                <div class="col-md-3">
+                    <div class="profile-item-3">
+                        <div class="profile-thumb">
+                            <img src="/img/featured/1.jpg" alt="">
                         </div>
-                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                            <span data-feather="calendar"></span>
-                            This week
-                        </button> -->
+                        <div class="profile-content">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-3">
+
+                                </div>
+                                <div class="col-md-9 col-sm-9">
+                                    CBus Super
+                                    <div class="profile-label">
+                                        Come and chat with one of
+                                        our experts on how you can
+                                        build for your retirement.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="panel-body">
-                    <upload-photo></upload-photo>
-                    <!-- <show-form></show-form> -->
-                    <profile></profile>
-                </div>
+            <div class="row">
+                <about-me></about-me>
 
-            </main>
-            
+                <education></education>
+            </div>
+
+            <div class="row">
+                <ideal-role></ideal-role>
+
+                <tickets></tickets>
+            </div>
         </div>
     </div>
-
 @endsection

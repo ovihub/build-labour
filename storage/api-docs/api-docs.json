@@ -116,6 +116,11 @@
                                         "description": "Address",
                                         "type": "string",
                                         "example": "85 Dover Street Melbourne VIC"
+                                    },
+                                    "role_id": {
+                                        "description": "Job role",
+                                        "type": "integer",
+                                        "example": 1
                                     }
                                 },
                                 "type": "object"
@@ -819,13 +824,13 @@
                 ]
             }
         },
-        "/user/work/experience": {
+        "/work/experience": {
             "post": {
                 "tags": [
-                    "User"
+                    "Work"
                 ],
                 "summary": "Add a work experience",
-                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiUsersController::addWorkExperience",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiWorksController::addWorkExperience",
                 "requestBody": {
                     "required": true,
                     "content": {
