@@ -3,7 +3,7 @@
         <div class="profile-content">
             <div class="profile-title">Main Industry Skills and Achievements</div>
             
-            <span class="profile-text">
+            <span class="profile-intro">
                 Worked on Rail link, saved $30,000 on
                 budget, and delivered 2 weeks before
                 project deadline

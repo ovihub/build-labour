@@ -1,6 +1,10 @@
 <template>
     <div class="profile-item-1">
         <div class="profile-content">
+            <span class="edit-icon">
+                <a href="#">Edit</a>
+            </span>
+            
             <div class="profile-title">About Me</div>
             <span class="profile-label mt-2 pt-1">Gender</span>
             <span class="profile-text">Male</span>

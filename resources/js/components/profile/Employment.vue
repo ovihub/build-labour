@@ -1,6 +1,10 @@
 <template>
     <div class="profile-item-2">
         <div class="profile-content">
+            <span class="edit-icon">
+                <a href="#">Edit</a>
+            </span>
+            
             <div class="profile-title">Employment History</div>
         
             <div class="row mt-4 mb-2">

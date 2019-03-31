@@ -2580,6 +2580,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -2644,6 +2648,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -2786,6 +2794,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -2805,6 +2817,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3350,6 +3367,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -41146,6 +41167,10 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "profile-item-1" }, [
       _c("div", { staticClass: "profile-content" }, [
+        _c("span", { staticClass: "edit-icon" }, [
+          _c("a", { attrs: { href: "#" } }, [_vm._v("Edit")])
+        ]),
+        _vm._v(" "),
         _c("div", { staticClass: "profile-title" }, [_vm._v("About Me")]),
         _vm._v(" "),
         _c("span", { staticClass: "profile-label mt-2 pt-1" }, [
@@ -41243,7 +41268,7 @@ var staticRenderFns = [
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "profile-more" }, [
-              _vm._v("\n                    Learn More >\n                ")
+              _c("a", { attrs: { href: "#" } }, [_vm._v("Learn More >")])
             ])
           ])
         ])
@@ -41281,6 +41306,10 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "profile-item-2" }, [
       _c("div", { staticClass: "profile-content" }, [
+        _c("span", { staticClass: "edit-icon" }, [
+          _c("a", { attrs: { href: "#" } }, [_vm._v("Edit")])
+        ]),
+        _vm._v(" "),
         _c("div", { staticClass: "profile-title" }, [_vm._v("Education")]),
         _vm._v(" "),
         _c("span", { staticClass: "profile-label" }, [
@@ -41342,6 +41371,10 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "profile-item-2" }, [
       _c("div", { staticClass: "profile-content" }, [
+        _c("span", { staticClass: "edit-icon" }, [
+          _c("a", { attrs: { href: "#" } }, [_vm._v("Edit")])
+        ]),
+        _vm._v(" "),
         _c("div", { staticClass: "profile-title" }, [
           _vm._v("Employment History")
         ]),
@@ -41521,6 +41554,10 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "profile-item-1" }, [
       _c("div", { staticClass: "profile-content" }, [
+        _c("span", { staticClass: "edit-icon" }, [
+          _c("a", { attrs: { href: "#" } }, [_vm._v("Edit")])
+        ]),
+        _vm._v(" "),
         _c("div", { staticClass: "profile-title" }, [
           _vm._v("Your Ideal Next Role")
         ]),
@@ -41529,7 +41566,7 @@ var staticRenderFns = [
           _vm._v("(Visible only to you)")
         ]),
         _vm._v(" "),
-        _c("span", { staticClass: "profile-text" }, [
+        _c("span", { staticClass: "profile-intro" }, [
           _vm._v(
             "\n            My ideal next role would be as a qualified plumber\n            working on high-end residential jobs\n            with an awesome team\n        "
           )
@@ -41600,7 +41637,7 @@ var staticRenderFns = [
           _vm._v("Main Industry Skills and Achievements")
         ]),
         _vm._v(" "),
-        _c("span", { staticClass: "profile-text" }, [
+        _c("span", { staticClass: "profile-intro" }, [
           _vm._v(
             "\n            Worked on Rail link, saved $30,000 on\n            budget, and delivered 2 weeks before\n            project deadline\n        "
           )
@@ -41774,7 +41811,7 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "profile-more" }, [
-          _vm._v("\n            View More >\n        ")
+          _c("a", { attrs: { href: "#" } }, [_vm._v("View More >")])
         ])
       ])
     ])
@@ -41926,6 +41963,10 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "profile-item-2" }, [
       _c("div", { staticClass: "profile-content" }, [
+        _c("span", { staticClass: "edit-icon" }, [
+          _c("a", { attrs: { href: "#" } }, [_vm._v("Edit")])
+        ]),
+        _vm._v(" "),
         _c("div", { staticClass: "profile-title" }, [_vm._v("Tickets")]),
         _vm._v(" "),
         _c("span", { staticClass: "profile-label" }, [

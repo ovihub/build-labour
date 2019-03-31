@@ -1,9 +1,14 @@
 <template>
     <div class="profile-item-1">
         <div class="profile-content">
-            <div class="profile-title">Your Ideal Next Role</div>
+            <span class="edit-icon">
+                <a href="#">Edit</a>
+            </span>
+
+            <div class="profile-title">Your Ideal Next Role</div>        
+            
             <span class="profile-text">(Visible only to you)</span>
-            <span class="profile-text">
+            <span class="profile-intro">
                 My ideal next role would be as a qualified plumber
                 working on high-end residential jobs
                 with an awesome team

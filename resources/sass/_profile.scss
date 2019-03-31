@@ -23,7 +23,6 @@
 .profile-more {
   font-size: 14px;
   font-weight: 500;
-  letter-spacing: -0.2px;
   text-align: right;
   color: #f89f41;
 }
@@ -72,33 +71,22 @@
   padding: 16px;
 }
 .profile-item-3 .profile-content {
-  .row {
-    .job-logo {
-      width: 32px;
-      height: 32px;
-      border-radius: 4px;
-    }
-  }
   img {
     width: 32px;
     height: 32px;
+    border-radius: 4px;
   }
   ul {
-    padding: 27px 0 0;
+    padding: 16px 0 0 0;
     li {
       list-style-type: none;
-      border-bottom: 1px solid rgb(156, 173, 189, 0.5);
       padding: 13px 0px 13px 0px;
-
-      .job-logo {
-        width: 32px;
-        height: 32px;
-        border-radius: 4px;
-      }
 
       .job-text {
         font-size: 12px;
         color: #6b7172;
+        padding-bottom: 13px;
+        border-bottom: 1px solid rgb(156, 173, 189, 0.5);
       }
     }
   }
@@ -236,4 +224,10 @@
   font-size: 14px;
   font-weight: 200;
   color: #6b7172;
+}
+.profile-intro {
+  font-size: 15px;
+  line-height: 1.33;
+  color: #6b7172;
+  padding: 16px 0 6px 0;
 }

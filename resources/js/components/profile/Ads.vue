@@ -17,7 +17,7 @@
                     </span>
                     
                     <div class="profile-more">
-                        Learn More >
+                        <a href="#">Learn More ></a>
                     </div>
                 </div>
             </div>

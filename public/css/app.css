@@ -10684,7 +10684,6 @@ a.text-dark:focus {
 .profile-more {
   font-size: 14px;
   font-weight: 500;
-  letter-spacing: -0.2px;
   text-align: right;
   color: #f89f41;
 }
@@ -10745,36 +10744,26 @@ a.text-dark:focus {
   padding: 16px;
 }
 
-.profile-item-3 .profile-content .row .job-logo {
+.profile-item-3 .profile-content img {
   width: 32px;
   height: 32px;
   border-radius: 4px;
 }
 
-.profile-item-3 .profile-content img {
-  width: 32px;
-  height: 32px;
-}
-
 .profile-item-3 .profile-content ul {
-  padding: 27px 0 0;
+  padding: 16px 0 0 0;
 }
 
 .profile-item-3 .profile-content ul li {
   list-style-type: none;
-  border-bottom: 1px solid rgba(156, 173, 189, 0.5);
   padding: 13px 0px 13px 0px;
-}
-
-.profile-item-3 .profile-content ul li .job-logo {
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
 }
 
 .profile-item-3 .profile-content ul li .job-text {
   font-size: 12px;
   color: #6b7172;
+  padding-bottom: 13px;
+  border-bottom: 1px solid rgba(156, 173, 189, 0.5);
 }
 
 .profile-item-3 .profile-content .profile-label {
@@ -10932,6 +10921,13 @@ a.text-dark:focus {
   font-size: 14px;
   font-weight: 200;
   color: #6b7172;
+}
+
+.profile-intro {
+  font-size: 15px;
+  line-height: 1.33;
+  color: #6b7172;
+  padding: 16px 0 6px 0;
 }
 
 html {
@@ -11599,6 +11595,10 @@ p.site-nav-tab-label {
   width: 10px;
   margin-left: 750px;
   cursor: pointer;
+}
+
+.edit-icon {
+  float: right;
 }
 
 /* ==========================================================================

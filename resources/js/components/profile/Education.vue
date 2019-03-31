@@ -1,6 +1,10 @@
 <template>
     <div class="profile-item-2">
         <div class="profile-content">
+            <span class="edit-icon">
+                <a href="#">Edit</a>
+            </span>
+            
             <div class="profile-title">Education</div>
             
             <span class="profile-label">

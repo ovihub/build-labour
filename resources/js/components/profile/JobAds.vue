@@ -52,7 +52,7 @@
                 </li>
             </ul>
             <div class="profile-more">
-                View More >
+                <a href="#">View More ></a>
             </div>
         </div>
     </div>
