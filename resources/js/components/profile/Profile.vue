@@ -31,7 +31,7 @@
 
             <div class="row">
                 <div class="col-md-3 col-sm-3">
-                    <img class="profile-role-image" src="/img/icons/default.png">
+                    <img class="profile-role-image" src="/img/logo/1.jpg">
                 </div>
                 <div class="col-md-9 col-sm-9">
                     <span class="profile-role-name">Project Manager</span>

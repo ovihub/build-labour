@@ -5,7 +5,7 @@
         
             <div class="row mt-4 mb-2">
                 <div class="col-md-2 col-sm-2">
-                    <img class="profile-role-image" src="/img/icons/default.png">
+                    <img class="profile-role-image" src="/img/logo/1.jpg">
                 </div>
                 <div class="col-md-10 col-sm-10">
                     <div class="profile-role-name">Project Manager</div>
@@ -82,7 +82,7 @@
             
             <div class="row mt-4">
                 <div class="col-md-2 col-sm-2">
-                    <img class="profile-role-image" src="/img/icons/default.png">
+                    <img class="profile-role-image" src="/img/logo/1.jpg">
                 </div>
                 <div class="col-md-10 col-sm-10">
                     <span class="profile-role-name">Site Manager</span>

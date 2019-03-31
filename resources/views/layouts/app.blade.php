@@ -27,7 +27,13 @@
         <navigation></navigation>
         <alert></alert>
         
-        @yield('content')
+        <div class="content-section">
+            <div class="container">
+
+                @yield('content')
+                
+            </div>
+        </div>
 
         @include('layouts.footer')
 

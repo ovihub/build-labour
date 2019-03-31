@@ -60,6 +60,7 @@ Vue.component('industry-skills', require('./components/profile/IndustrySkills.vu
 Vue.component('education', require('./components/profile/Education.vue').default);
 Vue.component('tickets', require('./components/profile/Tickets.vue').default);
 Vue.component('ads', require('./components/profile/Ads.vue').default);
+Vue.component('job-ads', require('./components/profile/JobAds.vue').default);
 
 // Record components
 Vue.component('show-form', require('./components/record/ShowForm.vue').default);
