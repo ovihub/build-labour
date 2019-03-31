@@ -2580,13 +2580,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {};
+  },
+  created: function created() {},
+  methods: {}
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/profile/Ads.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/profile/Ads.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
   },
-  created: function created() {},
   methods: {}
 });
 
@@ -2601,8 +2640,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
 //
 //
 //
@@ -2717,6 +2754,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -2736,6 +2801,62 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {};
+  },
+  created: function created() {},
+  methods: {}
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/profile/IndustrySkills.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/profile/IndustrySkills.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2789,6 +2910,19 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3134,8 +3268,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
 //
 //
 //
@@ -40930,47 +41062,100 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("div", { staticClass: "profile-item-1" }, [
-        _c("div", { staticClass: "profile-content" }, [
-          _c("div", { staticClass: "profile-title" }, [_vm._v("About Me")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-label" }, [_vm._v("Gender")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [_vm._v("Male")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-label" }, [
-            _vm._v("Date of Birth")
+    return _c("div", { staticClass: "profile-item-1" }, [
+      _c("div", { staticClass: "profile-content" }, [
+        _c("div", { staticClass: "profile-title" }, [_vm._v("About Me")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label mt-2 pt-1" }, [
+          _vm._v("Gender")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [_vm._v("Male")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label mt-2 pt-1" }, [
+          _vm._v("Date of Birth")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [_vm._v("1 January 1990")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label mt-2 pt-1" }, [
+          _vm._v("Marital Status")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [_vm._v("Single")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label mt-2 pt-1" }, [
+          _vm._v("English Skill")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("Proficient in written and spoken")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label mt-2 pt-1" }, [
+          _vm._v("Driver's License")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("Owns valid license")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("Don't own/have access to personal registered vehicle")
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/profile/Ads.vue?vue&type=template&id=5818892f&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/profile/Ads.vue?vue&type=template&id=5818892f& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "profile-item-3" }, [
+      _c("div", { staticClass: "profile-thumb" }, [
+        _c("img", { attrs: { src: "/img/featured/1.jpg", alt: "" } })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "profile-content" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-2 col-sm-2" }, [
+            _c("img", {
+              staticClass: "profile-logo",
+              attrs: { src: "/img/icons/default.png" }
+            })
           ]),
           _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
-            _vm._v("1 January 1990")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-label" }, [
-            _vm._v("Marital Status")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [_vm._v("Single")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-label" }, [
-            _vm._v("English Skill")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
-            _vm._v("Proficient in written and spoken")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-label" }, [
-            _vm._v("Driver's License")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
-            _vm._v("Owns valid license")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
-            _vm._v("Don't own/have access to personal registered vehicle")
+          _c("div", { staticClass: "col-md-10 col-sm-10" }, [
+            _vm._v("\n                CBus Super\n                "),
+            _c("div", { staticClass: "profile-label" }, [
+              _vm._v(
+                "\n                    Come and chat with one of\n                    our experts on how you can\n                    build for your retirement.\n                "
+              )
+            ])
           ])
         ])
       ])
@@ -41005,36 +41190,34 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-5" }, [
-      _c("div", { staticClass: "profile-item-2" }, [
-        _c("div", { staticClass: "profile-content" }, [
-          _c("div", { staticClass: "profile-title" }, [_vm._v("Education")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-label" }, [
-            _vm._v(
-              "\n                Masters in Construction Management\n                "
-            )
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
-            _vm._v("\n                March 2015 - November 2018\n            ")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-label" }, [
-            _vm._v("\n                Cert II - Construction\n            ")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
-            _vm._v("\n                June 2009 - April 2010\n            ")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-label" }, [
-            _vm._v("\n                Cert I - Construction\n            ")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
-            _vm._v("\n                Novemeber 2008 - June 2009\n            ")
-          ])
+    return _c("div", { staticClass: "profile-item-2" }, [
+      _c("div", { staticClass: "profile-content" }, [
+        _c("div", { staticClass: "profile-title" }, [_vm._v("Education")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label" }, [
+          _vm._v(
+            "\n            Masters in Construction Management\n            "
+          )
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("\n            March 2015 - November 2018\n        ")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label" }, [
+          _vm._v("\n            Cert II - Construction\n        ")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("\n            June 2009 - April 2010\n        ")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label" }, [
+          _vm._v("\n            Cert I - Construction\n        ")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("\n            November 2008 - June 2009\n        ")
         ])
       ])
     ])
@@ -41068,99 +41251,151 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-5" }, [
-      _c("div", { staticClass: "profile-item-2" }, [
-        _c("div", { staticClass: "profile-content" }, [
-          _c("div", { staticClass: "profile-title" }, [
-            _vm._v("Employment History")
+    return _c("div", { staticClass: "profile-item-2" }, [
+      _c("div", { staticClass: "profile-content" }, [
+        _c("div", { staticClass: "profile-title" }, [
+          _vm._v("Employment History")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row mt-4 mb-2" }, [
+          _c("div", { staticClass: "col-md-2 col-sm-2" }, [
+            _c("img", {
+              staticClass: "profile-role-image",
+              attrs: { src: "/img/icons/default.png" }
+            })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "profile-role-name" }, [
-            _vm._v("Project Manager")
+          _c("div", { staticClass: "col-md-10 col-sm-10" }, [
+            _c("div", { staticClass: "profile-role-name" }, [
+              _vm._v("Project Manager")
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
+              _vm._v("Probuild")
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "profile-text" }, [
+              _vm._v("2 years and 4 months")
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-2 col-sm-2" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-10 col-sm-10" }, [
+            _c("span", { staticClass: "employment-label" }, [
+              _vm._v("Richmond, Victoria, Australia")
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "employment-label" }, [
+              _vm._v("$1,750,000")
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "employment-label" }, [
+              _vm._v("Responsibilities:")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "profile-label" }, [
+              _c("ul", { staticClass: "list-items" }, [
+                _c("li", [
+                  _vm._v(
+                    "\n                            Meeting with engineers, architects and contractors\n                            on an ongoing basis regarding project objective\n                            and progress\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _vm._v(
+                    "\n                            Managing and motivating site foremen and teams\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _vm._v(
+                    "\n                            Ensuring all equipment needed is available on site\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _vm._v(
+                    "\n                            Conducting ongoing quality inspections\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _vm._v(
+                    "\n                            Ensuring the construction process starts and ends\n                            on time, and ensuring  daily and weekly deadlines\n                            are met\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _vm._v(
+                    "\n                            Ensuring budget costs relating to wages,\n                            contractors, materials and equipment aren't\n                            exceeded\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _vm._v(
+                    "\n                            Approving purchase requests\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _vm._v(
+                    "\n                            Ensuring compliance with health, safety and all\n                            other regulations\n                        "
+                  )
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-2 col-sm-2" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-10 col-sm-10" }, [
+            _c("div", { staticClass: "profile-label mt-4" }, [
+              _vm._v(
+                "\n                    Assistant Project Manager\n                "
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "profile-text" }, [
+              _vm._v(
+                "\n                    1 year and 2 months\n                "
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "profile-label mt-4" }, [
+              _vm._v("\n                    Construction\n                ")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "profile-text" }, [
+              _vm._v("\n                    3 months\n                ")
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row mt-4" }, [
+          _c("div", { staticClass: "col-md-2 col-sm-2" }, [
+            _c("img", {
+              staticClass: "profile-role-image",
+              attrs: { src: "/img/icons/default.png" }
+            })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "profile-label" }, [
-            _vm._v("\n                Probuild\n            ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "profile-text" }, [
-            _vm._v("\n                2 years and 4 months\n            ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "profile-label" }, [
-            _vm._v(
-              "\n                Meeting with engineers, architects and contractors\n                on an ongoing basis regarding project objective\n                and progress\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "profile-label" }, [
-            _vm._v(
-              "\n                Managing and motivating site foremen and teams\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "profile-label" }, [
-            _vm._v(
-              "\n                Ensuring all equipment needed is available on site\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "profile-label" }, [
-            _vm._v(
-              "\n                Conducting ongoing quality inspections\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "profile-label" }, [
-            _vm._v(
-              "\n                Ensuring the construction process starts and ends\n                on time, and ensuring  daily and weekly deadlines\n                are met\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "profile-label" }, [
-            _vm._v(
-              "\n                Ensuring budget costs relating to wages,\n                contractors, materials and equipment aren't\n                exceeded    \n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "profile-label" }, [
-            _vm._v(
-              "\n                Approving purchase requests\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "profile-text" }, [
-            _vm._v(
-              "\n                Ensuring compliance with health, safety and all\n                other regulations\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "profile-label" }, [
-            _vm._v("\n                Assistant Project Manager\n            ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "profile-text" }, [
-            _vm._v("\n                1 year and 2 months\n            ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "profile-label" }, [
-            _vm._v("\n                Construction\n            ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "profile-text" }, [
-            _vm._v("\n                3 months\n            ")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-role-name" }, [
-            _vm._v("Site Manager")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-label" }, [
-            _vm._v("Richmond Surveying")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
-            _vm._v("2 years and 4 months")
+          _c("div", { staticClass: "col-md-10 col-sm-10" }, [
+            _c("span", { staticClass: "profile-role-name" }, [
+              _vm._v("Site Manager")
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
+              _vm._v("Richmond Surveying")
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "profile-text" }, [
+              _vm._v("2 years and 4 months")
+            ])
           ])
         ])
       ])
@@ -41195,52 +41430,129 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("div", { staticClass: "profile-item-1" }, [
-        _c("div", { staticClass: "profile-content" }, [
-          _c("div", { staticClass: "profile-title" }, [
-            _vm._v("Your Ideal Next Role")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
-            _vm._v("(Visible only to you)")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
-            _vm._v(
-              "\n                My ideal next role would be as a qualified plumber\n                working on high-end residential jobs\n                with an awesome team\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-label" }, [_vm._v("When")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
-            _vm._v("in 6 months (June 2019)")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-label" }, [
-            _vm._v("Maximum Distance from home")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [_vm._v("100km")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-label" }, [
-            _vm._v("Willing to relocate to")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
-            _vm._v("New South Wales")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [_vm._v("Victoria")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-label" }, [
-            _vm._v("Right to Work")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
-            _vm._v("Yes, I have right to work in Australia")
-          ])
+    return _c("div", { staticClass: "profile-item-1" }, [
+      _c("div", { staticClass: "profile-content" }, [
+        _c("div", { staticClass: "profile-title" }, [
+          _vm._v("Your Ideal Next Role")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("(Visible only to you)")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v(
+            "\n            My ideal next role would be as a qualified plumber\n            working on high-end residential jobs\n            with an awesome team\n        "
+          )
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label" }, [_vm._v("When")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("in 6 months (June 2019)")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label" }, [
+          _vm._v("Maximum Distance from home")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [_vm._v("100km")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label" }, [
+          _vm._v("Willing to relocate to")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("New South Wales")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [_vm._v("Victoria")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label" }, [_vm._v("Right to Work")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("Yes, I have right to work in Australia")
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/profile/IndustrySkills.vue?vue&type=template&id=a9b7f3de&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/profile/IndustrySkills.vue?vue&type=template&id=a9b7f3de& ***!
+  \*************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "profile-item-2" }, [
+      _c("div", { staticClass: "profile-content" }, [
+        _c("div", { staticClass: "profile-title" }, [
+          _vm._v("Main Industry Skills and Achievements")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v(
+            "\n            Worked on Rail link, saved $30,000 on\n            budget, and delivered 2 weeks before\n            project deadline\n        "
+          )
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label" }, [
+          _vm._v("Quality Control")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("\n            Expert\n        ")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label" }, [
+          _vm._v("Communication Skills")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("\n            Expert\n        ")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label" }, [
+          _vm._v("Time Management")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("\n            Competent\n        ")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label" }, [
+          _vm._v("Can Accept Criticism")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("\n            Competent\n        ")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label" }, [_vm._v("Teamwork")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("\n            Competent\n        ")
         ])
       ])
     ])
@@ -41267,43 +41579,27 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-4" }, [
-    _c("div", { staticClass: "profile-item-1" }, [
-      _vm._m(0),
+  return _c("div", { staticClass: "profile-item-1" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "profile-content" }, [
+      _c("div", { staticClass: "profile-name" }, [
+        _vm._v(_vm._s(_vm.input.full_name))
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "profile-content" }, [
-        _c("div", { staticClass: "profile-name" }, [
-          _vm._v(_vm._s(_vm.input.full_name))
-        ]),
-        _vm._v(" "),
-        _vm._m(1),
-        _vm._v(" "),
-        _c("span", { staticClass: "profile-address" }, [
-          _vm._v("Richmond, Victoria, Australia")
-        ]),
-        _vm._v(" "),
-        _vm._m(2),
-        _vm._v(" "),
-        _c("span", { staticClass: "profile-education-2" }, [
-          _vm._v("Royal Melbourne Institute of Technology")
-        ]),
-        _vm._v(" "),
-        _vm._m(3),
-        _vm._v(" "),
-        _c("span", { staticClass: "profile-role-header" }, [
-          _vm._v("Current Role")
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "profile-role-name" }, [
-          _vm._v("Project Manager")
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "profile-label" }, [_vm._v("Probuild")]),
-        _vm._v(" "),
-        _c("span", { staticClass: "profile-text" }, [
-          _vm._v("2 years and 4 months")
-        ])
-      ])
+      _c("div", { staticClass: "profile-role" }, [
+        _vm._v("\n            Project Manager - Probuild\n        ")
+      ]),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _vm._m(2),
+      _vm._v(" "),
+      _c("span", { staticClass: "profile-role-header" }, [
+        _vm._v("Current Role")
+      ]),
+      _vm._v(" "),
+      _vm._m(3)
     ])
   ])
 }
@@ -41323,10 +41619,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "profile-role" }, [
-      _vm._v("Project Manager - "),
-      _c("span", { staticClass: "profile-role text-style-1" }, [
-        _vm._v("Probuild")
+    return _c("div", { staticClass: "profile-display" }, [
+      _c("span", { staticClass: "profile-address" }, [
+        _vm._v("Richmond, Victoria, Australia")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "profile-education" }, [
+        _vm._v("\n                Studied "),
+        _c("b", [_vm._v("Construction & Engineer")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "text-style-1" }, [
+          _vm._v("Royal Melbourne Institute of Technology")
+        ])
       ])
     ])
   },
@@ -41334,25 +41638,39 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "profile-education" }, [
-      _vm._v("Studied "),
-      _c("b", [_vm._v("Construction & Engineer -")])
+    return _c("div", { staticClass: "profile-display" }, [
+      _c("div", { staticClass: "profile-experience" }, [
+        _vm._v(
+          "\n                Experienced Senior Project Manager;\n                demonstrated history of working on a wide range\n                of construction projects for leading companies.\n            "
+        )
+      ])
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "profile-experience" }, [
-      _vm._v("\n                Experienced Senior Project Manager;"),
-      _c("br"),
-      _vm._v(
-        "\n                demonstrated history of working on a wide range"
-      ),
-      _c("br"),
-      _vm._v(
-        "\n                of construction projects for leading companies.\n            "
-      )
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-3 col-sm-3" }, [
+        _c("img", {
+          staticClass: "profile-role-image",
+          attrs: { src: "/img/icons/default.png" }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-9 col-sm-9" }, [
+        _c("span", { staticClass: "profile-role-name" }, [
+          _vm._v("Project Manager")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
+          _vm._v("Probuild")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("2 years and 4 months")
+        ])
+      ])
     ])
   }
 ]
@@ -41384,40 +41702,32 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-5" }, [
-      _c("div", { staticClass: "profile-item-2" }, [
-        _c("div", { staticClass: "profile-content" }, [
-          _c("div", { staticClass: "profile-title" }, [_vm._v("Tickets")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-label" }, [
-            _vm._v("\n                TLILIC2001\n                ")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
-            _vm._v(
-              "\n                License to operate a Forklift Truck\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-label" }, [
-            _vm._v("\n                RIIHAN301D\n            ")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
-            _vm._v(
-              "\n                Elevating Work Platform Under 11m\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-label" }, [
-            _vm._v("\n                RIIWHS205D\n            ")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
-            _vm._v(
-              "\n                Control Traffic with Stop - Slow Bat\n            "
-            )
-          ])
+    return _c("div", { staticClass: "profile-item-2" }, [
+      _c("div", { staticClass: "profile-content" }, [
+        _c("div", { staticClass: "profile-title" }, [_vm._v("Tickets")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label" }, [
+          _vm._v("\n            TLILIC2001\n            ")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("\n            License to operate a Forklift Truck\n        ")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label" }, [
+          _vm._v("\n            RIIHAN301D\n        ")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("\n            Elevating Work Platform Under 11m\n        ")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-label" }, [
+          _vm._v("\n            RIIWHS205D\n        ")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "profile-text" }, [
+          _vm._v("\n            Control Traffic with Stop - Slow Bat\n        ")
         ])
       ])
     ])
@@ -55211,11 +55521,13 @@ Vue.component('request-link', __webpack_require__(/*! ./components/auth/password
 Vue.component('reset-password', __webpack_require__(/*! ./components/auth/passwords/ResetPassword.vue */ "./resources/js/components/auth/passwords/ResetPassword.vue").default); // Profile components
 
 Vue.component('profile', __webpack_require__(/*! ./components/profile/Profile.vue */ "./resources/js/components/profile/Profile.vue").default);
-Vue.component('employment', __webpack_require__(/*! ./components/profile/Employment.vue */ "./resources/js/components/profile/Employment.vue").default);
 Vue.component('about-me', __webpack_require__(/*! ./components/profile/AboutMe.vue */ "./resources/js/components/profile/AboutMe.vue").default);
 Vue.component('ideal-role', __webpack_require__(/*! ./components/profile/IdealRole.vue */ "./resources/js/components/profile/IdealRole.vue").default);
+Vue.component('employment', __webpack_require__(/*! ./components/profile/Employment.vue */ "./resources/js/components/profile/Employment.vue").default);
+Vue.component('industry-skills', __webpack_require__(/*! ./components/profile/IndustrySkills.vue */ "./resources/js/components/profile/IndustrySkills.vue").default);
 Vue.component('education', __webpack_require__(/*! ./components/profile/Education.vue */ "./resources/js/components/profile/Education.vue").default);
-Vue.component('tickets', __webpack_require__(/*! ./components/profile/Tickets.vue */ "./resources/js/components/profile/Tickets.vue").default); // Record components
+Vue.component('tickets', __webpack_require__(/*! ./components/profile/Tickets.vue */ "./resources/js/components/profile/Tickets.vue").default);
+Vue.component('ads', __webpack_require__(/*! ./components/profile/Ads.vue */ "./resources/js/components/profile/Ads.vue").default); // Record components
 
 Vue.component('show-form', __webpack_require__(/*! ./components/record/ShowForm.vue */ "./resources/js/components/record/ShowForm.vue").default); // Upload components
 
@@ -55979,6 +56291,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/profile/Ads.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/components/profile/Ads.vue ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Ads_vue_vue_type_template_id_5818892f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Ads.vue?vue&type=template&id=5818892f& */ "./resources/js/components/profile/Ads.vue?vue&type=template&id=5818892f&");
+/* harmony import */ var _Ads_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Ads.vue?vue&type=script&lang=js& */ "./resources/js/components/profile/Ads.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Ads_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Ads_vue_vue_type_template_id_5818892f___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Ads_vue_vue_type_template_id_5818892f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/profile/Ads.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/profile/Ads.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/components/profile/Ads.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Ads_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Ads.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/profile/Ads.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Ads_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/profile/Ads.vue?vue&type=template&id=5818892f&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/profile/Ads.vue?vue&type=template&id=5818892f& ***!
+  \********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Ads_vue_vue_type_template_id_5818892f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Ads.vue?vue&type=template&id=5818892f& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/profile/Ads.vue?vue&type=template&id=5818892f&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Ads_vue_vue_type_template_id_5818892f___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Ads_vue_vue_type_template_id_5818892f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/profile/Education.vue":
 /*!*******************************************************!*\
   !*** ./resources/js/components/profile/Education.vue ***!
@@ -56181,6 +56562,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_IdealRole_vue_vue_type_template_id_c67657ac___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_IdealRole_vue_vue_type_template_id_c67657ac___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/profile/IndustrySkills.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/components/profile/IndustrySkills.vue ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _IndustrySkills_vue_vue_type_template_id_a9b7f3de___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./IndustrySkills.vue?vue&type=template&id=a9b7f3de& */ "./resources/js/components/profile/IndustrySkills.vue?vue&type=template&id=a9b7f3de&");
+/* harmony import */ var _IndustrySkills_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IndustrySkills.vue?vue&type=script&lang=js& */ "./resources/js/components/profile/IndustrySkills.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _IndustrySkills_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _IndustrySkills_vue_vue_type_template_id_a9b7f3de___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _IndustrySkills_vue_vue_type_template_id_a9b7f3de___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/profile/IndustrySkills.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/profile/IndustrySkills.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/profile/IndustrySkills.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IndustrySkills_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./IndustrySkills.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/profile/IndustrySkills.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IndustrySkills_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/profile/IndustrySkills.vue?vue&type=template&id=a9b7f3de&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/profile/IndustrySkills.vue?vue&type=template&id=a9b7f3de& ***!
+  \*******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_IndustrySkills_vue_vue_type_template_id_a9b7f3de___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./IndustrySkills.vue?vue&type=template&id=a9b7f3de& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/profile/IndustrySkills.vue?vue&type=template&id=a9b7f3de&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_IndustrySkills_vue_vue_type_template_id_a9b7f3de___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_IndustrySkills_vue_vue_type_template_id_a9b7f3de___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

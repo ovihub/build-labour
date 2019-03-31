@@ -1,0 +1,56 @@
+<template>
+    <div class="profile-item-2">
+        <div class="profile-content">
+            <div class="profile-title">Main Industry Skills and Achievements</div>
+            
+            <span class="profile-text">
+                Worked on Rail link, saved $30,000 on
+                budget, and delivered 2 weeks before
+                project deadline
+            </span>
+
+            <span class="profile-label">Quality Control</span>
+            <span class="profile-text">
+                Expert
+            </span>
+
+            <span class="profile-label">Communication Skills</span>
+            <span class="profile-text">
+                Expert
+            </span>
+
+            <span class="profile-label">Time Management</span>
+            <span class="profile-text">
+                Competent
+            </span>
+
+            <span class="profile-label">Can Accept Criticism</span>
+            <span class="profile-text">
+                Competent
+            </span>
+
+            <span class="profile-label">Teamwork</span>
+            <span class="profile-text">
+                Competent
+            </span>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        data() {
+            return {
+
+            }
+        },
+
+        created() {
+
+        },
+
+        methods: {
+            
+        }
+    }
+</script>

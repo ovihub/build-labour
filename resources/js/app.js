@@ -53,11 +53,13 @@ Vue.component('reset-password', require('./components/auth/passwords/ResetPasswo
 
 // Profile components
 Vue.component('profile', require('./components/profile/Profile.vue').default);
-Vue.component('employment', require('./components/profile/Employment.vue').default);
 Vue.component('about-me', require('./components/profile/AboutMe.vue').default);
 Vue.component('ideal-role', require('./components/profile/IdealRole.vue').default);
+Vue.component('employment', require('./components/profile/Employment.vue').default);
+Vue.component('industry-skills', require('./components/profile/IndustrySkills.vue').default);
 Vue.component('education', require('./components/profile/Education.vue').default);
 Vue.component('tickets', require('./components/profile/Tickets.vue').default);
+Vue.component('ads', require('./components/profile/Ads.vue').default);
 
 // Record components
 Vue.component('show-form', require('./components/record/ShowForm.vue').default);
