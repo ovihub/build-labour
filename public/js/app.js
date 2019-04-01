@@ -1942,6 +1942,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2453,6 +2458,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -40249,7 +40262,13 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("a", { on: { click: _vm.logoutUser } }, [_vm._v("\n    Logout\n")])
+  return _c("a", { on: { click: _vm.logoutUser } }, [
+    _c("img", {
+      staticClass: "profile-picture-nav",
+      staticStyle: { width: "25px", height: "25px" },
+      attrs: { title: "LOGOUT", src: "/img/icons/default.png" }
+    })
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -41007,9 +41026,14 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "col-md-3 col-sm-3" }),
     _vm._v(" "),
-    _vm._m(5),
-    _vm._v(" "),
-    _c("div", { staticClass: "col-md-1 col-sm-1 mt-2 pt-1" }, [_c("logout")], 1)
+    _c("div", { staticClass: "col-md-2 col-sm-2 mt-1" }, [
+      _c(
+        "div",
+        { staticClass: "row justify-content-center" },
+        [_c("logout"), _vm._v(" "), _vm._m(5)],
+        1
+      )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -41114,20 +41138,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1 col-sm-1 mt-1" }, [
-      _c("a", { attrs: { href: "#" } }, [
-        _c("img", {
-          staticClass: "site-nav-tab",
-          attrs: {
-            src: "/img/icons/notificationsinactive.png",
-            srcset:
-              "/img/icons/notificationsinactive@2x.png" +
-              " 2x, " +
-              "/img/icons/notificationsinactive@3x.png" +
-              " 3x"
-          }
-        })
-      ])
+    return _c("a", { attrs: { href: "#" } }, [
+      _c("img", {
+        staticClass: "site-nav-tab",
+        attrs: {
+          src: "/img/icons/notificationsinactive.png",
+          srcset:
+            "/img/icons/notificationsinactive@2x.png" +
+            " 2x, " +
+            "/img/icons/notificationsinactive@3x.png" +
+            " 3x"
+        }
+      })
     ])
   }
 ]

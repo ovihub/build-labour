@@ -37,14 +37,22 @@
         </div>
         <div class="col-md-3 col-sm-3">
         </div>
-        <div class="col-md-1 col-sm-1 mt-1">
-            <a href="#">
-                <img class="site-nav-tab" src="/img/icons/notificationsinactive.png"
-                    srcset="/img/icons/notificationsinactive@2x.png 2x, /img/icons/notificationsinactive@3x.png 3x">
-            </a>
-        </div>
-        <div class="col-md-1 col-sm-1 mt-2 pt-1">
+        <!-- <div class="col-md-1 col-sm-1 mt-2 pt-1">
             <logout></logout>
+            <div class="col-md-1 col-sm-1">
+                <a href="#">
+                    <img class="profile-picture-nav" style="width:25px;height:25px;" src="/img/icons/default.png">
+                </a>
+            </div>
+        </div> -->
+        <div class="col-md-2 col-sm-2 mt-1">
+            <div class="row justify-content-center">
+                <logout></logout>
+                <a href="#">
+                    <img class="site-nav-tab" src="/img/icons/notificationsinactive.png"
+                        srcset="/img/icons/notificationsinactive@2x.png 2x, /img/icons/notificationsinactive@3x.png 3x">
+                </a>
+            </div>
         </div>
     </div>
     <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
