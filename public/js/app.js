@@ -1942,8 +1942,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2455,21 +2453,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -40266,18 +40249,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "dropdown-menu dropdown-menu-right",
-      attrs: { "aria-labelledby": "navbarDropdown" }
-    },
-    [
-      _c("a", { staticClass: "dropdown-item", on: { click: _vm.logoutUser } }, [
-        _vm._v("\n        Logout\n    ")
-      ])
-    ]
-  )
+  return _c("a", { on: { click: _vm.logoutUser } }, [_vm._v("\n    Logout\n")])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -41022,117 +40994,139 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "row" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _vm._m(1),
+    _vm._v(" "),
+    _vm._m(2),
+    _vm._v(" "),
+    _vm._m(3),
+    _vm._v(" "),
+    _vm._m(4),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-3 col-sm-3" }),
+    _vm._v(" "),
+    _vm._m(5),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-1 col-sm-1 mt-2 pt-1" }, [_c("logout")], 1)
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("header", { staticClass: "site-header" }, [
-      _c("div", { staticClass: "main-nav" }, [
-        _c("div", { staticClass: "container" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-1 col-sm-1" }, [
-              _c("a", { attrs: { href: "#" } }, [
-                _c("img", {
-                  staticClass: "site-nav-brand",
-                  attrs: {
-                    src: "/img/build-labour-logo-white.png",
-                    srcset:
-                      "/img/icons/build-labour-logo-white@2x.png" +
-                      " 2x, " +
-                      "/img/icons/build-labour-logo-white@3x.png" +
-                      " 3x"
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-3 col-sm-3" }, [
-              _c("input", {
-                staticClass: "site-nav-search",
-                attrs: { id: "search", type: "text", name: "search" }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-1" }, [
-              _c("a", { attrs: { href: "#" } }, [
-                _c("img", {
-                  staticClass: "site-nav-tab",
-                  attrs: {
-                    src: "/img/icons/dashboardinactive.png",
-                    srcset:
-                      "/img/icons/dashboardinactive@2x.png" +
-                      " 2x, " +
-                      "/img/icons/dashboardinactive@3x.png" +
-                      " 3x"
-                  }
-                }),
-                _vm._v(" "),
-                _c("p", { staticClass: "site-nav-tab-label" }, [
-                  _vm._v("Dashboard")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-1" }, [
-              _c("a", { attrs: { href: "#" } }, [
-                _c("img", {
-                  staticClass: "site-nav-tab",
-                  attrs: {
-                    src: "/img/icons/jobsearchinactive.png",
-                    srcset:
-                      "/img/icons/jobsearchinactive@2x.png" +
-                      " 2x, " +
-                      "/img/icons/jobsearchinactive@3x.png" +
-                      " 3x"
-                  }
-                }),
-                _vm._v(" "),
-                _c("p", { staticClass: "site-nav-tab-label" }, [_vm._v("Jobs")])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-1" }, [
-              _c("a", { attrs: { href: "#" } }, [
-                _c("img", {
-                  staticClass: "site-nav-tab",
-                  attrs: {
-                    src: "/img/icons/messagesinactive.png",
-                    srcset:
-                      "/img/icons/messagesinactive@2x.png" +
-                      " 2x, " +
-                      "/img/icons/messagesinactive@3x.png" +
-                      " 3x"
-                  }
-                }),
-                _vm._v(" "),
-                _c("p", { staticClass: "site-nav-tab-label" }, [
-                  _vm._v("Messages")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-4 col-sm-4" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-1 col-sm-1" }, [
-              _c("a", { attrs: { href: "#" } }, [
-                _c("img", {
-                  staticClass: "site-nav-tab",
-                  attrs: {
-                    src: "/img/icons/notificationsinactive.png",
-                    srcset:
-                      "/img/icons/notificationsinactive@2x.png" +
-                      " 2x, " +
-                      "/img/icons/notificationsinactive@3x.png" +
-                      " 3x"
-                  }
-                })
-              ])
-            ])
-          ])
-        ])
+    return _c("div", { staticClass: "col-md-1 col-sm-1" }, [
+      _c("a", { attrs: { href: "#" } }, [
+        _c("img", {
+          staticClass: "site-nav-brand",
+          attrs: {
+            src: "/img/build-labour-logo-white.png",
+            srcset:
+              "/img/icons/build-labour-logo-white@2x.png" +
+              " 2x, " +
+              "/img/icons/build-labour-logo-white@3x.png" +
+              " 3x"
+          }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-3 col-sm-3" }, [
+      _c("input", {
+        staticClass: "site-nav-search",
+        attrs: { id: "search", type: "text", name: "search" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-1" }, [
+      _c("a", { attrs: { href: "#" } }, [
+        _c("img", {
+          staticClass: "site-nav-tab",
+          attrs: {
+            src: "/img/icons/dashboardinactive.png",
+            srcset:
+              "/img/icons/dashboardinactive@2x.png" +
+              " 2x, " +
+              "/img/icons/dashboardinactive@3x.png" +
+              " 3x"
+          }
+        }),
+        _vm._v(" "),
+        _c("p", { staticClass: "site-nav-tab-label" }, [_vm._v("Dashboard")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-1" }, [
+      _c("a", { attrs: { href: "#" } }, [
+        _c("img", {
+          staticClass: "site-nav-tab",
+          attrs: {
+            src: "/img/icons/jobsearchinactive.png",
+            srcset:
+              "/img/icons/jobsearchinactive@2x.png" +
+              " 2x, " +
+              "/img/icons/jobsearchinactive@3x.png" +
+              " 3x"
+          }
+        }),
+        _vm._v(" "),
+        _c("p", { staticClass: "site-nav-tab-label" }, [_vm._v("Jobs")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-1" }, [
+      _c("a", { attrs: { href: "#" } }, [
+        _c("img", {
+          staticClass: "site-nav-tab",
+          attrs: {
+            src: "/img/icons/messagesinactive.png",
+            srcset:
+              "/img/icons/messagesinactive@2x.png" +
+              " 2x, " +
+              "/img/icons/messagesinactive@3x.png" +
+              " 3x"
+          }
+        }),
+        _vm._v(" "),
+        _c("p", { staticClass: "site-nav-tab-label" }, [_vm._v("Messages")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-1 col-sm-1 mt-1" }, [
+      _c("a", { attrs: { href: "#" } }, [
+        _c("img", {
+          staticClass: "site-nav-tab",
+          attrs: {
+            src: "/img/icons/notificationsinactive.png",
+            srcset:
+              "/img/icons/notificationsinactive@2x.png" +
+              " 2x, " +
+              "/img/icons/notificationsinactive@3x.png" +
+              " 3x"
+          }
+        })
       ])
     ])
   }

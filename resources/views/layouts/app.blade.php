@@ -23,8 +23,40 @@
 </head>
 <body>
     <div id="app">
+        <header class="site-header">
+            <div class="main-nav">
+                <div class="container">
+                    @if (Auth::guest())
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1">
+                                <a href="#">
+                                    <img class="site-nav-brand" src="/img/build-labour-logo-white.png"
+                                        srcset="/img/icons/build-labour-logo-white@2x.png 2x, /img/icons/build-labour-logo-white@3x.png 3x">
+                                </a>
+                            </div>
+
+                            <div class="col-md-9 col-sm-9">
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 mt-2 pt-1">
+                                <a href="/login">
+                                    Login
+                                </a>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 mt-2 pt-1">
+                                <a href="/register">
+                                    Register
+                                </a>
+                            </div>
+                        </div>
+                    @else
+                        <navigation></navigation>
+                    @endif
+                </div>
+            </div>
+        </header>
         
-        <navigation></navigation>
         <alert></alert>
         
         <div class="content-section">
