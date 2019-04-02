@@ -104,6 +104,24 @@ class ApiUsersController extends ApiBaseController
      *                      example="+63 9277468888"
      *                  ),
      *                  @OA\Property(
+     *                      property="dob",
+     *                      description="Date of Birth",
+     *                      type="string",
+     *                      example="1989-01-03"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="gender",
+     *                      description="Gender",
+     *                      type="string",
+     *                      example="female"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="marital_status",
+     *                      description="Marital Status",
+     *                      type="string",
+     *                      example="married"
+     *                  ),
+     *                  @OA\Property(
      *                      property="address",
      *                      description="Address",
      *                      type="string",

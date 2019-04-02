@@ -43,7 +43,9 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 
     Route::prefix('work')->group(function () {
         Route::middleware([ 'jwt' ])->group(function () {
-            Route::post('experience', 'ApiWorksController@addWorkExperience');
+            Route::post('experience', 'ApiWorksController@add');
+            Route::put('experience/{id}', 'ApiWorksController@update');
+            Route::delete('experience/{id}', 'ApiWorksController@delete');
         });
     });
 

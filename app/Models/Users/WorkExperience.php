@@ -19,7 +19,7 @@ class WorkExperience extends BaseModel
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
-    protected $fillable = [ 'job_role', 'company_name' ];
+    protected $fillable = [ 'job_role', 'company_name', 'user_id' ];
 
 
     /**
@@ -56,6 +56,11 @@ class WorkExperience extends BaseModel
         return true;
     }
 
+    public function setUserId($userId) {
+
+        $this->userId = $userId;
+    }
+
     public function User() {
 
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -69,9 +74,21 @@ class WorkExperience extends BaseModel
     public function store(Request $r) {
 
         $data = $r->all();
+
+        $pk = $this->primaryKey;
+
+        if ($r->$pk) {
+
+            $this->exists = true;
+            $data['updated_at'] = Carbon::now();
+
+        } else {
+
+            $data['created_at'] = Carbon::now();
+            $data['updated_at'] = Carbon::now();
+        }
+
         $data['user_id'] = $this->userId;
-        $data['created_at'] = Carbon::now();
-        $data['updated_at'] = Carbon::now();
 
         if( ! $this->validate( $data )) {
 
@@ -80,13 +97,6 @@ class WorkExperience extends BaseModel
 
 
         $this->fill( $data );
-
-        $pk = $this->primaryKey;
-
-        if ($r->$pk) {
-
-            $this->exists = true;
-        }
 
         try{
 
