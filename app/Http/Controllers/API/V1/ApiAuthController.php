@@ -82,7 +82,7 @@ class ApiAuthController extends ApiBaseController
      * @OA\Post(
      *      path="/auth/register",
      *      tags={"Auth"},
-     *      summary="Register user. Creates new user, sends 'thank you' email and returns a token.",
+     *      summary="Register user as worker, sends 'thank you' email and returns a token.",
      *      security={},
      *      @OA\RequestBody(
      *          required=true,
@@ -146,9 +146,15 @@ class ApiAuthController extends ApiBaseController
      *                  ),
      *                  @OA\Property(
      *                      property="role_id",
-     *                      description="Job role",
+     *                      description=" Register as Worker",
      *                      type="integer",
      *                      example=1
+     *                  ),
+     *                  @OA\Property(
+     *                      property="gender",
+     *                      description="Male or Female",
+     *                      type="string",
+     *                      example="male"
      *                  ),
      *              ),
      *          ),
@@ -254,7 +260,9 @@ class ApiAuthController extends ApiBaseController
             $user = JWTAuth::toUser();
             $user->experiences;
             $user->role;
-
+            $user->skills;
+            $user->educations;
+            
         } catch (\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');

@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\Users\WorkExperience;
 use Illuminate\Http\Request;
 use JWTAuth;
+use App\Models\Users\UserSkill;
 
-class ApiWorksController extends ApiBaseController
+class ApiUserSkillsController extends ApiBaseController
 {
 
     /**
      * @OA\Post(
-     *      path="/work/experience",
-     *      tags={"Work"},
-     *      summary="Add a work experience",
+     *      path="/user/skill",
+     *      tags={"User Skills"},
+     *      summary="Add a user skill",
      *      security={{"BearerAuth":{}}},
      *      @OA\RequestBody(
      *          required=true,
@@ -22,16 +22,16 @@ class ApiWorksController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="job_role",
+     *                      property="name",
      *                      description="<b>Required</b> Job Role",
      *                      type="string",
-     *                      example="Developer"
+     *                      example="Team Effort"
      *                  ),
      *          @OA\Property(
-     *                      property="company_name",
+     *                      property="description",
      *                      description="<b>Required</b> Company",
      *                      type="string",
-     *                      example="Appetiser"
+     *                      example="A Team player with a passion."
      *                  ),
      *              ),
      *          ),
@@ -62,22 +62,23 @@ class ApiWorksController extends ApiBaseController
      *      )
      * )
      */
-    public function addWorkExperience( Request $request )
+    public function add(Request $request)
     {
 
         $user = JWTAuth::toUser();
-        $workExp = new WorkExperience($user->id);
+        $skill = new UserSkill();
+        $skill->setUserId($user->id);
 
         try {
 
-            if( !$workExp->store($request) ){
+            if( !$skill->store($request) ){
 
                 return $this->apiErrorResponse(
                     false,
-                    $workExp->getErrors( true ),
+                    $skill->getErrors( true ),
                     self::HTTP_STATUS_INVALID_INPUT,
                     'invalidInput',
-                    $workExp->getErrorsDetail()
+                    $skill->getErrorsDetail()
                 );
             }
 
@@ -86,6 +87,6 @@ class ApiWorksController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'workExp' ), true, 'User has been registered successfully!', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'workExp' ), true, 'Successfully Added a Skill', self::HTTP_STATUS_REQUEST_OK);
     }
 }

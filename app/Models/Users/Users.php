@@ -31,7 +31,7 @@ class Users extends BaseModel implements
     public $timestamps = true;
 
     protected $fillable = [ 'id', 'email' , 'first_name' , 'last_name', 'password',
-        'dob' , 'country', 'address', 'mobile_number', 'role_id' ];
+        'dob' , 'country', 'address', 'mobile_number', 'role_id', 'gender', 'marital_status' ];
     protected $hidden =[ 'password' , 'remember_token','updated_at' , 'created_at', 'verification_code' ];
     protected $appends = [  'full_name'  ];
 
@@ -53,7 +53,8 @@ class Users extends BaseModel implements
             'password'      => 'required|string|min:6|max:24|confirmed',
             'first_name'    => 'required',
             'last_name'     => 'required',
-            'role_id'       => 'required|integer|between:1,4'
+            'role_id'       => 'required|integer|between:1,4',
+            'gender'        => 'required'
         ];
     }
 

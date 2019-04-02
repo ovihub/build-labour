@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Base Plate API",
+        "title": "Build Labour Api",
         "description": "A product of Appetiser",
         "contact": {
             "name": "API Support",
@@ -64,7 +64,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Register user. Creates new user, sends 'thank you' email and returns a token.",
+                "summary": "Register user as worker, sends 'thank you' email and returns a token.",
                 "operationId": "App\\Http\\Controllers\\API\\V1\\ApiAuthController::register",
                 "requestBody": {
                     "required": true,
@@ -116,6 +116,16 @@
                                         "description": "Address",
                                         "type": "string",
                                         "example": "85 Dover Street Melbourne VIC"
+                                    },
+                                    "role_id": {
+                                        "description": " Register as Worker",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "gender": {
+                                        "description": "Male or Female",
+                                        "type": "string",
+                                        "example": "male"
                                     }
                                 },
                                 "type": "object"
@@ -457,6 +467,77 @@
                 ]
             }
         },
+        "/company": {
+            "post": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Add a Company",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiCompaniesController::add",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "<b>Required</b> Company Name",
+                                        "type": "string",
+                                        "example": "Sample Company"
+                                    },
+                                    "address": {
+                                        "description": "<b>Required</b> Company Address",
+                                        "type": "string",
+                                        "example": "28 St James, Victoria Avenue"
+                                    },
+                                    "contact_name": {
+                                        "description": "<b>Required</b> Company Contact Name",
+                                        "type": "string",
+                                        "example": "James Hayward"
+                                    },
+                                    "contact_email": {
+                                        "description": "<b>Required</b> Company Email",
+                                        "type": "string",
+                                        "example": "sample@test.com"
+                                    },
+                                    "phone": {
+                                        "description": "<b>Required</b> Company Phone",
+                                        "type": "string",
+                                        "example": "61 2 9876 5432"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "422": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
         "/device/register": {
             "post": {
                 "tags": [
@@ -659,6 +740,145 @@
                 ]
             }
         },
+        "/roles": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Get Roles by List",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiRolesController::index",
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "security": []
+            }
+        },
+        "/user/educations": {
+            "post": {
+                "tags": [
+                    "User Educations"
+                ],
+                "summary": "Add a user education",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiUserEducationsController::add",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "<b>Required</b> Job Role",
+                                        "type": "string",
+                                        "example": "Bachelor of Psychology"
+                                    },
+                                    "description": {
+                                        "description": "<b>Required</b> Company",
+                                        "type": "string",
+                                        "example": "Where I study 4 years on this course."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "422": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/user/skill": {
+            "post": {
+                "tags": [
+                    "User Skills"
+                ],
+                "summary": "Add a user skill",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiUserSkillsController::add",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "<b>Required</b> Job Role",
+                                        "type": "string",
+                                        "example": "Team Effort"
+                                    },
+                                    "description": {
+                                        "description": "<b>Required</b> Company",
+                                        "type": "string",
+                                        "example": "A Team player with a passion."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Token"
+                    },
+                    "401": {
+                        "description": "Token Expired"
+                    },
+                    "404": {
+                        "description": "Token Not Found"
+                    },
+                    "422": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "200": {
+                        "description": "Request OK"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
         "/user": {
             "put": {
                 "tags": [
@@ -792,13 +1012,13 @@
                 ]
             }
         },
-        "/user/work/experience": {
+        "/work/experience": {
             "post": {
                 "tags": [
-                    "User"
+                    "Work"
                 ],
                 "summary": "Add a work experience",
-                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiUsersController::addWorkExperience",
+                "operationId": "App\\Http\\Controllers\\API\\V1\\ApiWorksController::addWorkExperience",
                 "requestBody": {
                     "required": true,
                     "content": {

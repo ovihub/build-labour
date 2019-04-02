@@ -33,6 +33,7 @@ class BaseModel extends Model
     protected $query;
     protected $fields = [];
 
+
     public static function factory()
     {
         return new static;

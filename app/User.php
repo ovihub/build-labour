@@ -6,7 +6,10 @@
 
 namespace App;
 
+use App\Models\Users\Education;
 use App\Models\Users\Users;
+use App\Models\Users\UserSkill;
+use App\Models\Users\WorkExperience;
 use Illuminate\Notifications\Notifiable;
 //use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -48,6 +51,16 @@ class User extends Users implements JWTSubject
      */
     public function Experiences() {
 
-        return $this->hasMany(WorkExperience::class, 'user_id', 'id');
+        return $this->hasMany(WorkExperience::class, 'user_id', 'id')->with('Company');
+    }
+
+    public function Skills() {
+
+        return $this->hasMany(UserSkill::class, 'user_id', 'id');
+    }
+
+    public function Educations() {
+
+        return $this->hasMany( Education::class, 'user_id', 'id');
     }
 }

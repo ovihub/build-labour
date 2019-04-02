@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Users\Users;
 use App\Repositories\UserRepository;
 use App\Http\Resources\UsersResource;
-use App\WorkExperience;
 use Illuminate\Support\Facades\Validator;
 use App\Validators\UpdateUserValidator;
 use App\Validators\MailValidator;
