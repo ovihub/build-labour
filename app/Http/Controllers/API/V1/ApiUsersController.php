@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Users\Users;
 use App\Repositories\UserRepository;
 use App\Http\Resources\UsersResource;
-use App\WorkExperience;
 use Illuminate\Support\Facades\Validator;
 use App\Validators\UpdateUserValidator;
 use App\Validators\MailValidator;
@@ -103,6 +102,24 @@ class ApiUsersController extends ApiBaseController
      *                      description="Mobile Number",
      *                      type="string",
      *                      example="+63 9277468888"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="dob",
+     *                      description="Date of Birth",
+     *                      type="string",
+     *                      example="1989-01-03"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="gender",
+     *                      description="Gender",
+     *                      type="string",
+     *                      example="female"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="marital_status",
+     *                      description="Marital Status",
+     *                      type="string",
+     *                      example="married"
      *                  ),
      *                  @OA\Property(
      *                      property="address",

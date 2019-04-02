@@ -1,8 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models\Users;
 
 use App\Models\BaseModel;
+use App\Models\Companies\Company;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -14,14 +16,11 @@ class WorkExperience extends BaseModel
     protected $table = 'work_experience';
     protected $primaryKey = 'id';
 
-    protected $fillable = [ 'job_role', 'company_name', 'location',
-        'size_of_project', 'duration', 'responsibilities', 'user_id' ];
+    const UPDATED_AT = null;
+    const CREATED_AT = null;
 
+    protected $fillable = [ 'job_role', 'company_name', 'user_id' ];
 
-    public function __construct($userId = null) {
-
-        $this->userId = $userId;
-    }
 
     /**
      * @return array
@@ -57,17 +56,39 @@ class WorkExperience extends BaseModel
         return true;
     }
 
+    public function setUserId($userId) {
+
+        $this->userId = $userId;
+    }
+
     public function User() {
 
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function Company() {
+
+        return $this->belongsTo( Company::class, 'company_id', 'id');
+    }
+
     public function store(Request $r) {
 
         $data = $r->all();
+
+        $pk = $this->primaryKey;
+
+        if ($r->$pk) {
+
+            $this->exists = true;
+            $data['updated_at'] = Carbon::now();
+
+        } else {
+
+            $data['created_at'] = Carbon::now();
+            $data['updated_at'] = Carbon::now();
+        }
+
         $data['user_id'] = $this->userId;
-        $data['created_at'] = Carbon::now();
-        $data['updated_at'] = Carbon::now();
 
         if( ! $this->validate( $data )) {
 
@@ -76,13 +97,6 @@ class WorkExperience extends BaseModel
 
 
         $this->fill( $data );
-
-        $pk = $this->primaryKey;
-
-        if ($r->$pk) {
-
-            $this->exists = true;
-        }
 
         try{
 

@@ -20,12 +20,14 @@ class CreateUsersTable extends Migration
             $table->string('email', 150)->unique();
             $table->string('password');
             $table->date('dob')->nullable();
-            $table->string( 'country', 150 )->nullable();
+            $table->string( 'country', 150 )->default('AU');
             $table->string( 'mobile_number', 150 )->nullable();
             $table->string( 'address' , 150)->nullable();
             $table->string( 'profile_photo_url', 150 )->nullable();
             $table->string( 'verification_code', 150 )->nullable();
-            $table->date( 'is_verified' )->nullable(  );
+            $table->string('marital_status', 20)->nullable(); // married or single
+            $table->string('gender', 10); // male or female
+            $table->date( 'is_verified' )->nullable();
             $table->smallInteger('role_id')->unsigned()->default(1); // 1 is for Worker Role
             $table->rememberToken();
             $table->timestamps();
