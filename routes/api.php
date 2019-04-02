@@ -21,21 +21,35 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 
     Route::prefix('password')->group(function () {
         // anyone can access
-        Route::post( 'email', 'ApiPasswordResetsController@sendResetCodeEmail' );
-        Route::post( 'reset', 'ApiPasswordResetsController@resetPassword' );
+        Route::post('email', 'ApiPasswordResetsController@sendResetCodeEmail');
+        Route::post('reset', 'ApiPasswordResetsController@resetPassword');
     });
 
     Route::prefix('user')->group(function () {
         Route::middleware([ 'jwt' ])->group(function () {
             Route::put( '', 'ApiUsersController@update' );
-            Route::post( 'photo', 'ApiUsersController@uploadProfilePhoto');
-            Route::delete( 'photo', 'ApiUsersController@deleteProfilePhoto');
+            Route::post('photo', 'ApiUsersController@uploadProfilePhoto');
+            Route::delete('photo', 'ApiUsersController@deleteProfilePhoto');
+
+            Route::prefix('skill')->group(function() {
+                Route::post('/', 'ApiUserSkillsController@add');
+            });
+
+            Route::prefix('education')->group(function() {
+                Route::post('/', 'ApiUserEducationsController@add');
+            });
         });
     });
 
     Route::prefix('work')->group(function () {
         Route::middleware([ 'jwt' ])->group(function () {
-            Route::post( 'experience', 'ApiWorksController@addWorkExperience' );
+            Route::post('experience', 'ApiWorksController@addWorkExperience');
+        });
+    });
+
+    Route::prefix('company')->group(function () {
+        Route::middleware([ 'jwt' ])->group(function () {
+            Route::post('', 'ApiCompaniesController@add');
         });
     });
 

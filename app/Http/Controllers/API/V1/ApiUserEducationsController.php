@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\Users\WorkExperience;
+use App\Models\Users\Education;
 use Illuminate\Http\Request;
 use JWTAuth;
 
-class ApiWorksController extends ApiBaseController
+class ApiUserEducationsController extends ApiBaseController
 {
-
     /**
      * @OA\Post(
-     *      path="/work/experience",
-     *      tags={"Work"},
-     *      summary="Add a work experience",
+     *      path="/user/educations",
+     *      tags={"User Educations"},
+     *      summary="Add a user education",
      *      security={{"BearerAuth":{}}},
      *      @OA\RequestBody(
      *          required=true,
@@ -22,16 +21,16 @@ class ApiWorksController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="job_role",
+     *                      property="name",
      *                      description="<b>Required</b> Job Role",
      *                      type="string",
-     *                      example="Developer"
+     *                      example="Bachelor of Psychology"
      *                  ),
-     *          @OA\Property(
-     *                      property="company_name",
+     *                  @OA\Property(
+     *                      property="description",
      *                      description="<b>Required</b> Company",
      *                      type="string",
-     *                      example="Appetiser"
+     *                      example="Where I study 4 years on this course."
      *                  ),
      *              ),
      *          ),
@@ -62,30 +61,32 @@ class ApiWorksController extends ApiBaseController
      *      )
      * )
      */
-    public function addWorkExperience( Request $request )
+    public function add(Request $request)
     {
 
         $user = JWTAuth::toUser();
-        $workExp = new WorkExperience($user->id);
+
+        $education = new Education();
+        $education->setId($user->id);
 
         try {
 
-            if( !$workExp->store($request) ){
+            if (!$education->store($request)) {
 
                 return $this->apiErrorResponse(
                     false,
-                    $workExp->getErrors( true ),
+                    $education->getErrors(true),
                     self::HTTP_STATUS_INVALID_INPUT,
                     'invalidInput',
-                    $workExp->getErrorsDetail()
+                    $education->getErrorsDetail()
                 );
             }
 
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'workExp' ), true, 'User has been registered successfully!', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse(compact('workExp'), true, 'Successfully Added an Education', self::HTTP_STATUS_REQUEST_OK);
     }
 }
