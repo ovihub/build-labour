@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Users\Education;
+use App\Models\Users\Ticket;
+use App\Models\Users\UserSkill;
 use App\Models\Users\WorkerDetail;
 use App\Models\Users\WorkExperience;
 use App\User;
@@ -34,11 +36,27 @@ class UsersTableSeeder extends Seeder
         $user->save();
 
         WorkExperience::create([
-            'job_role' => 'Human Resource Office',
+            'job_role' => 'Human Resource Officer',
             'responsibilities' => 'Meeting with engineers, architects and contractors on an ongoing basis regarding project objectives and progress',
+            'company_name' => 'Johnson & Johnson',
+            'company_id' => 1,
+            'isCurrent' => false,
+            'user_id' => $user->id,
+            'start_date' => Carbon::parse('11/10/2012'),
+            'end_date' => Carbon::parse('09/04/2017'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        WorkExperience::create([
+            'job_role' => 'Human Resource Manager',
+            'responsibilities' => 'Meeting with employees on how to discipline',
+            'company_name' => 'Cisco Network',
             'company_id' => 1,
             'isCurrent' => true,
             'user_id' => $user->id,
+            'start_date' => Carbon::parse('11/10/2012'),
+            'end_date' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -60,6 +78,36 @@ class UsersTableSeeder extends Seeder
             'nrole_address' => 'New South Wales',
             'nrole_state' => 'VI',
             'nrole_right_to_work_au' => true,
+            'user_id' => $user->id
+        ]);
+
+        UserSkill::create([
+            'name' => 'Team Leader',
+            'description' => 'A passion team leader',
+            'user_id' => $user->id
+        ]);
+
+        UserSkill::create([
+            'name' => 'Patience',
+            'description' => 'Kind person',
+            'user_id' => $user->id
+        ]);
+
+        UserSkill::create([
+            'name' => 'English Proficient',
+            'description' => 'Confidently can speak english',
+            'user_id' => $user->id
+        ]);
+
+        Ticket::create([
+            'title' => 'Cisco HR',
+            'description' => 'HR Cisco Certification',
+            'user_id' => $user->id
+        ]);
+
+        Ticket::create([
+            'title' => 'CMP LT',
+            'description' => 'Computer Literation Certification',
             'user_id' => $user->id
         ]);
     }

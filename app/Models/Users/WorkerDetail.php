@@ -33,7 +33,7 @@ class WorkerDetail extends BaseModel
 
             return false;
         }
-        
+
         $data = $r->all();
 
         $this->fill( $data );

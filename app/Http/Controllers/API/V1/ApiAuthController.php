@@ -263,6 +263,7 @@ class ApiAuthController extends ApiBaseController
             $user->skills;
             $user->educations;
             $user->workerDetail;
+            $user->tickets;
 
         } catch (\Exception $e) {
 

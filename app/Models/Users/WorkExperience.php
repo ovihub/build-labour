@@ -19,9 +19,9 @@ class WorkExperience extends BaseModel
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
-    protected $fillable = [ 'job_role', 'company_name', 'user_id' ];
+    protected $fillable = ['job_role', 'company_name', 'user_id', 'start_date', 'end_date'];
 
-
+    protected $appends = ['period'];
     /**
      * @return array
      */
@@ -30,6 +30,8 @@ class WorkExperience extends BaseModel
         return [
             'job_role'      => 'required',
             'company_name'  => 'required',
+            'start_date'    => 'nullable|date',
+            'end_date'      => 'nullable|date',
             'user_id'       => 'required|integer'
         ];
     }
@@ -56,6 +58,22 @@ class WorkExperience extends BaseModel
         return true;
     }
 
+    public function setStartDateAttribute($sd) {
+
+        if (!empty($sd)) {
+
+            $this->attributes['start_date'] = Carbon::parse($sd);
+        }
+    }
+
+    public function setEndDateAttribute($ed) {
+
+        if (!empty($sd)) {
+
+            $this->attributes['end_date'] = Carbon::parse($ed);
+        }
+    }
+
     public function setUserId($userId) {
 
         $this->userId = $userId;
@@ -69,6 +87,39 @@ class WorkExperience extends BaseModel
     public function Company() {
 
         return $this->belongsTo( Company::class, 'company_id', 'id');
+    }
+
+    public function getPeriodAttribute() {
+
+        $sDate = null;
+        $eDate = null;
+
+
+        if (!$this->start_date && !$this->end_date) {
+
+            return '';
+        }
+
+        if ($this->start_date && !$this->end_date) {
+
+            $sDate = Carbon::parse($this->start_date);
+            $eDate = Carbon::now();
+        }
+
+        if ($this->start_date && $this->end_date) {
+
+            $sDate = Carbon::parse($this->start_date);
+            $eDate = Carbon::parse($this->end_date);
+        }
+
+        if ($sDate > $eDate) {
+
+            $sDate = Carbon::parse($this->start_date);
+            $eDate = Carbon::now();
+        }
+
+        return $sDate->diff($eDate)->format('%y years and %m months');
+
     }
 
     public function store(Request $r) {
@@ -90,7 +141,7 @@ class WorkExperience extends BaseModel
 
         $data['user_id'] = $this->userId;
 
-        if( ! $this->validate( $data )) {
+        if (!$this->validate($data)) {
 
             return false;
         }
@@ -98,7 +149,7 @@ class WorkExperience extends BaseModel
 
         $this->fill( $data );
 
-        try{
+        try {
 
             $this->save();
 

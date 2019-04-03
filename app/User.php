@@ -7,6 +7,7 @@
 namespace App;
 
 use App\Models\Users\Education;
+use App\Models\Users\Ticket;
 use App\Models\Users\Users;
 use App\Models\Users\UserSkill;
 use App\Models\Users\WorkerDetail;
@@ -80,5 +81,15 @@ class User extends Users implements JWTSubject
     public function WorkerDetail() {
 
         return $this->belongsTo(WorkerDetail::class, 'id', 'user_id');
+    }
+
+
+    /**
+     * Return a collection relates to Tickets
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function Tickets() {
+
+        return $this->hasMany( Ticket::class, 'user_id', 'id');
     }
 }

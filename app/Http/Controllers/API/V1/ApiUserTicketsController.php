@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\Users\WorkExperience;
+use App\Models\Users\Ticket;
 use Illuminate\Http\Request;
 use JWTAuth;
 
-class ApiWorksController extends ApiBaseController
+class ApiUserTicketsController extends ApiBaseController
 {
 
     /**
      * @OA\Post(
-     *      path="/work/experience",
-     *      tags={"Work"},
-     *      summary="Add a work experience",
+     *      path="/user/ticket",
+     *      tags={"User Ticket"},
+     *      summary="Add a Ticket",
      *      security={{"BearerAuth":{}}},
      *      @OA\RequestBody(
      *          required=true,
@@ -22,34 +22,16 @@ class ApiWorksController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="job_role",
-     *                      description="<b>Required</b> Job Role",
+     *                      property="title",
+     *                      description="<b>Required</b> Title",
      *                      type="string",
-     *                      example="Developer"
+     *                      example="Certificate of HR"
      *                  ),
      *                  @OA\Property(
-     *                      property="company_name",
+     *                      property="description",
      *                      description="<b>Required</b> Company",
      *                      type="string",
-     *                      example="Appetiser"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="responsibilities",
-     *                      description="<b>Required</b> Responsibilities",
-     *                      type="string",
-     *                      example="Make computer programs."
-     *                  ),
-     *                  @OA\Property(
-     *                      property="start_date",
-     *                      description="<b>Required</b> Start Date",
-     *                      type="string",
-     *                      example="11/10/2012"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="end_date",
-     *                      description="<b>Required</b> End Date",
-     *                      type="string",
-     *                      example="09/04/2017"
+     *                      example="A certified HR Resource Master"
      *                  ),
      *              ),
      *          ),
@@ -85,19 +67,19 @@ class ApiWorksController extends ApiBaseController
 
         $user = JWTAuth::toUser();
 
-        $workExp = new WorkExperience();
-        $workExp->setUserId($user->id);
+        $ticket = new Ticket();
+        $ticket->setUserId($user->id);
 
         try {
 
-            if( !$workExp->store($request) ){
+            if( !$ticket->store($request) ){
 
                 return $this->apiErrorResponse(
                     false,
-                    $workExp->getErrors( true ),
+                    $ticket->getErrors( true ),
                     self::HTTP_STATUS_INVALID_INPUT,
                     'invalidInput',
-                    $workExp->getErrorsDetail()
+                    $ticket->getErrorsDetail()
                 );
             }
 
@@ -106,19 +88,19 @@ class ApiWorksController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'workExp' ), true, 'Successfully added an experience!', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'workExp' ), true, 'Successfully added a Ticket!', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
      * @OA\Put(
-     *      path="/work/experience/{id}",
-     *      tags={"Work"},
-     *      summary="Update a work experience",
+     *      path="/user/ticket/{id}",
+     *      tags={"User Ticket"},
+     *      summary="Update a ticket",
      *      security={{"BearerAuth":{}}},
      *      @OA\Parameter(
      *          in="path",
      *          name="id",
-     *          description="Work ID",
+     *          description="Ticket Id",
      *          required=true,
      *          @OA\Schema(
      *              type="integer",
@@ -131,34 +113,16 @@ class ApiWorksController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="job_role",
-     *                      description="<b>Required</b> Job Role",
+     *                      property="title",
+     *                      description="<b>Required</b> Title",
      *                      type="string",
-     *                      example="Developer"
+     *                      example="Certificate of HRA"
      *                  ),
      *                  @OA\Property(
-     *                      property="company_name",
+     *                      property="description",
      *                      description="<b>Required</b> Company",
      *                      type="string",
-     *                      example="Appetiser"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="responsibilities",
-     *                      description="<b>Required</b> Responsibilities",
-     *                      type="string",
-     *                      example="Make computer programs."
-     *                  ),
-     *                  @OA\Property(
-     *                      property="start_date",
-     *                      description="<b>Required</b> Start Date",
-     *                      type="string",
-     *                      example="11/10/2012"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="end_date",
-     *                      description="<b>Required</b> End Date",
-     *                      type="string",
-     *                      example="09/04/2017"
+     *                      example="A certified HR Resource Associate"
      *                  ),
      *              ),
      *          ),
@@ -193,25 +157,25 @@ class ApiWorksController extends ApiBaseController
     {
 
         $user = JWTAuth::toUser();
-        $workExp = WorkExperience::find($request->id);
+        $ticket = Ticket::find($request->id);
 
-        if (!$workExp) {
+        if (!$ticket) {
 
             return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
         }
 
         try {
 
-            $workExp->setUserId($user->id);
+            $ticket->setUserId($user->id);
 
-            if (!$workExp->store($request)) {
+            if (!$ticket->store($request)) {
 
                 return $this->apiErrorResponse(
                     false,
-                    $workExp->getErrors( true ),
+                    $ticket->getErrors( true ),
                     self::HTTP_STATUS_INVALID_INPUT,
                     'invalidInput',
-                    $workExp->getErrorsDetail()
+                    $ticket->getErrorsDetail()
                 );
             }
 
@@ -220,19 +184,19 @@ class ApiWorksController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'workExp' ), true, 'Successfully added a work experience', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'ticket' ), true, 'Successfully updated a ticket', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
      * @OA\Delete(
-     *      path="/work/experience/{id}",
-     *      tags={"Work"},
-     *      summary="Delete a work experience",
+     *      path="/user/ticket/{id}",
+     *      tags={"User Ticket"},
+     *      summary="Delete a ticket",
      *      security={{"BearerAuth":{}}},
      *      @OA\Parameter(
      *          in="path",
      *          name="id",
-     *          description="Work ID",
+     *          description="Ticket ID",
      *          required=true,
      *          @OA\Schema(
      *              type="integer",
@@ -267,22 +231,22 @@ class ApiWorksController extends ApiBaseController
     public function delete( Request $request )
     {
 
-        $workExp = WorkExperience::find($request->id);
+        $ticket = Ticket::find($request->id);
 
-        if (!$workExp) {
+        if (!$ticket) {
 
             return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
         }
 
         try {
 
-            $workExp->delete();
+            $ticket->delete();
 
         } catch(\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'workExp' ), true, 'Successfully deleted work experience', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'ticket' ), true, 'Successfully deleted a ticket', self::HTTP_STATUS_REQUEST_OK);
     }
 }

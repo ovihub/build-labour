@@ -6,15 +6,15 @@ use App\Models\BaseModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class Education extends BaseModel
+class Ticket extends BaseModel
 {
 
     private $userId = null;
 
-    protected $table = 'educations';
+    protected $table = 'tickets';
     protected $primaryKey = 'id';
 
-    protected $fillable = [ 'course', 'school', 'description', 'start_date', 'end_date', 'user_id' ];
+    protected $fillable = [ 'title', 'description', 'user_id' ];
 
     const UPDATED_AT = null;
     const CREATED_AT = null;
@@ -25,11 +25,9 @@ class Education extends BaseModel
     private function rules()
     {
         return [
-            'course'        => 'required',
-            'school'        => 'required',
-            'start_date'    => 'required',
-            'end_date'      => 'required',
-            'user_id'       => 'required|integer'
+            'title'          => 'required',
+            'description'    => 'required',
+            'user_id'        => 'required|integer'
         ];
     }
 
@@ -55,14 +53,14 @@ class Education extends BaseModel
         return true;
     }
 
-    public function User() {
-
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
     public function setUserId($userId) {
 
         $this->userId = $userId;
+    }
+
+    public function User() {
+
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function store(Request $r) {
