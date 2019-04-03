@@ -88,7 +88,7 @@ class ApiWorksController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'workExp' ), true, 'User has been registered successfully!', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'workExp' ), true, 'Successfully added an experience!', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**

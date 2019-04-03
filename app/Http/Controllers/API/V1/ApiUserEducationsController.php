@@ -10,8 +10,8 @@ class ApiUserEducationsController extends ApiBaseController
 {
     /**
      * @OA\Post(
-     *      path="/user/educations",
-     *      tags={"User Educations"},
+     *      path="/user/education",
+     *      tags={"User Education"},
      *      summary="Add a user education",
      *      security={{"BearerAuth":{}}},
      *      @OA\RequestBody(
@@ -27,7 +27,7 @@ class ApiUserEducationsController extends ApiBaseController
      *                      example="Bachelor of Psychology"
      *                  ),
      *                  @OA\Property(
-     *                      property="University of Melbourne",
+     *                      property="school",
      *                      description="<b>Required</b> School",
      *                      type="string",
      *                      example="University of Melbourne"
@@ -36,13 +36,13 @@ class ApiUserEducationsController extends ApiBaseController
      *                      property="start_date",
      *                      description="<b>Required</b> Start Date",
      *                      type="string",
-     *                      example="08/10/2007"
+     *                      example="2007/10/11"
      *                  ),
      *                  @OA\Property(
      *                      property="end_date",
      *                      description="<b>Required</b> End Date",
      *                      type="string",
-     *                      example="03/11/2012"
+     *                      example="2012/12/01"
      *                  ),
      *                  @OA\Property(
      *                      property="description",
