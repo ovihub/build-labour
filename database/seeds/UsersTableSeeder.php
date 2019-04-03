@@ -34,11 +34,27 @@ class UsersTableSeeder extends Seeder
         $user->save();
 
         WorkExperience::create([
-            'job_role' => 'Human Resource Office',
+            'job_role' => 'Human Resource Officer',
             'responsibilities' => 'Meeting with engineers, architects and contractors on an ongoing basis regarding project objectives and progress',
+            'company_name' => 'Johnson & Johnson',
+            'company_id' => 1,
+            'isCurrent' => false,
+            'user_id' => $user->id,
+            'start_date' => Carbon::parse('11/10/2012'),
+            'end_date' => Carbon::parse('09/04/2017'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        WorkExperience::create([
+            'job_role' => 'Human Resource Manager',
+            'responsibilities' => 'Meeting with employees on how to discipline',
+            'company_name' => 'Cisco Network',
             'company_id' => 1,
             'isCurrent' => true,
             'user_id' => $user->id,
+            'start_date' => Carbon::parse('11/10/2012'),
+            'end_date' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);

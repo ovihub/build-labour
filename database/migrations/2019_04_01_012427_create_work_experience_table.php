@@ -21,6 +21,8 @@ class CreateWorkExperienceTable extends Migration
             $table->text('responsibilities')->nullable();
             $table->string('salary')->nullable();
             $table->boolean('isCurrent')->default(0);
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->integer('user_id')->unsigned();
            $table->timestamps();
         });

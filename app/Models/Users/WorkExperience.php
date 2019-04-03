@@ -19,9 +19,9 @@ class WorkExperience extends BaseModel
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
-    protected $fillable = [ 'job_role', 'company_name', 'user_id' ];
+    protected $fillable = ['job_role', 'company_name', 'user_id'];
 
-
+    protected $appends = ['period'];
     /**
      * @return array
      */
@@ -69,6 +69,39 @@ class WorkExperience extends BaseModel
     public function Company() {
 
         return $this->belongsTo( Company::class, 'company_id', 'id');
+    }
+
+    public function getPeriodAttribute() {
+
+        $sDate = null;
+        $eDate = null;
+
+
+        if (!$this->start_date && !$this->end_date) {
+
+            return '';
+        }
+
+        if ($this->start_date && !$this->end_date) {
+
+            $sDate = Carbon::parse($this->start_date);
+            $eDate = Carbon::now();
+        }
+
+        if ($this->start_date && $this->end_date) {
+
+            $sDate = Carbon::parse($this->start_date);
+            $eDate = Carbon::parse($this->end_date);
+        }
+
+        if ($sDate > $eDate) {
+
+            $sDate = Carbon::parse($this->start_date);
+            $eDate = Carbon::now();
+        }
+
+        return $sDate->diff($eDate)->format('%y years and %m months');
+
     }
 
     public function store(Request $r) {
