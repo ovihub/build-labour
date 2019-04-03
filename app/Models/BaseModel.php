@@ -27,6 +27,8 @@ class BaseModel extends Model
 
     protected $collection    = null;
 
+    const USER_TYPE_WORKER = 1;
+
     /**
      * @var Illuminate\Database\Query\Builder
      */

@@ -14,7 +14,7 @@ class Education extends BaseModel
     protected $table = 'educations';
     protected $primaryKey = 'id';
 
-    protected $fillable = [ 'name', 'description', 'user_id' ];
+    protected $fillable = [ 'course', 'school', 'description', 'start_date', 'end_date', 'user_id' ];
 
     /**
      * @return array
@@ -22,8 +22,10 @@ class Education extends BaseModel
     private function rules()
     {
         return [
-            'name'          => 'required',
-            'description'   => 'required',
+            'course'        => 'required',
+            'school'        => 'required',
+            'start_date'    => 'required',
+            'end_date'      => 'required',
             'user_id'       => 'required|integer'
         ];
     }

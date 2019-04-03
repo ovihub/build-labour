@@ -10,8 +10,8 @@ class ApiUserEducationsController extends ApiBaseController
 {
     /**
      * @OA\Post(
-     *      path="/user/educations",
-     *      tags={"User Educations"},
+     *      path="/user/education",
+     *      tags={"User Education"},
      *      summary="Add a user education",
      *      security={{"BearerAuth":{}}},
      *      @OA\RequestBody(
@@ -21,10 +21,28 @@ class ApiUserEducationsController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="name",
-     *                      description="<b>Required</b> Job Role",
+     *                      property="course",
+     *                      description="<b>Required</b> Course",
      *                      type="string",
      *                      example="Bachelor of Psychology"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="school",
+     *                      description="<b>Required</b> School",
+     *                      type="string",
+     *                      example="University of Melbourne"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="start_date",
+     *                      description="<b>Required</b> Start Date",
+     *                      type="string",
+     *                      example="2007/10/11"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="end_date",
+     *                      description="<b>Required</b> End Date",
+     *                      type="string",
+     *                      example="2012/12/01"
      *                  ),
      *                  @OA\Property(
      *                      property="description",
@@ -87,6 +105,64 @@ class ApiUserEducationsController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse(compact('workExp'), true, 'Successfully Added an Education', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse(compact('education'), true, 'Successfully Added an Education', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+
+    public function update(Request $request)
+    {
+
+        $user = JWTAuth::toUser();
+
+        $education = Education::find($request->id);
+
+        if (!$education) {
+
+            return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
+        }
+
+        try {
+
+            $education->setUserId($user->id);
+
+            if( !$education->store($request) ){
+
+                return $this->apiErrorResponse(
+                    false,
+                    $education->getErrors( true ),
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    $education->getErrorsDetail()
+                );
+            }
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( compact( 'skill' ), true, 'Successfully updated a Education', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    public function delete(Request $request)
+    {
+
+        $education = Education::find($request->id);
+
+        if (!$education) {
+
+            return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
+        }
+
+        try {
+
+            $education->delete();
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( compact( 'education' ), true, 'Successfully deleted a Skill', self::HTTP_STATUS_REQUEST_OK);
     }
 }

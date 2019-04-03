@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Users\Education;
+use App\Models\Users\WorkerDetail;
 use App\Models\Users\WorkExperience;
 use App\User;
 
@@ -33,6 +35,7 @@ class UsersTableSeeder extends Seeder
 
         WorkExperience::create([
             'job_role' => 'Human Resource Office',
+            'responsibilities' => 'Meeting with engineers, architects and contractors on an ongoing basis regarding project objectives and progress',
             'company_id' => 1,
             'isCurrent' => true,
             'user_id' => $user->id,
@@ -40,9 +43,23 @@ class UsersTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        \App\Models\Users\Education::create([
-            'name' => 'Study Bachelor of Science in Psychology in University of Melbourne',
+        Education::create([
+            'course' => 'Study Bachelor of Science in Psychology',
+            'school' => 'University of Melbourne',
+            'start_date' => Carbon::parse('08/10/2006'),
+            'end_date' => Carbon::parse('08/10/2010'),
             'description' => 'Learning at this school to be become a Psychologist',
+            'user_id' => $user->id
+        ]);
+
+        WorkerDetail::create([
+            'profile_description' => 'Experienced Senior Project Manager; demonstrated history of working on a wide range of construction projects for leading companies.',
+            'nrole_info' => 'My ideal next role would be as a qualified plumber working on high-end residential jobs with an awesome team. ',
+            'nrole_when' => 'In 6 months (June 2019)',
+            'nrole_travel_to_home' => '100km',
+            'nrole_address' => 'New South Wales',
+            'nrole_state' => 'VI',
+            'nrole_right_to_work_au' => true,
             'user_id' => $user->id
         ]);
     }

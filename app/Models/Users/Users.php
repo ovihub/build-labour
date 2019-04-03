@@ -32,7 +32,9 @@ class Users extends BaseModel implements
 
     protected $fillable = [ 'id', 'email' , 'first_name' , 'last_name', 'password',
         'dob' , 'country', 'address', 'mobile_number', 'role_id', 'gender', 'marital_status' ];
+
     protected $hidden =[ 'password' , 'remember_token','updated_at' , 'created_at', 'verification_code' ];
+
     protected $appends = [  'full_name'  ];
 
     public $sql;
@@ -130,6 +132,13 @@ class Users extends BaseModel implements
             }
 
             $this->save();
+
+            // create worker detail record if the user type is WORKER
+
+            if ($this->role_id == self::USER_TYPE_WORKER) {
+
+                WorkerDetail::create(['user_id' => $this->id]);
+            }
 
         }catch( \Exception $e ){
             $this->errors[] = $e->getMessage();

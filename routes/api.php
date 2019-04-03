@@ -39,6 +39,8 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 
             Route::prefix('education')->group(function() {
                 Route::post('/', 'ApiUserEducationsController@add');
+                Route::put('/{id}', 'ApiUserSkillsController@update');
+                Route::delete('/{id}', 'ApiUserSkillsController@delete');
             });
         });
     });
