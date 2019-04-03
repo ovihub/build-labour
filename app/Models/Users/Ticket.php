@@ -18,7 +18,7 @@ class Ticket extends BaseModel
 
     const UPDATED_AT = null;
     const CREATED_AT = null;
-    
+
     /**
      * @return array
      */

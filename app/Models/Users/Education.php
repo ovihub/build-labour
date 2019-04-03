@@ -16,6 +16,9 @@ class Education extends BaseModel
 
     protected $fillable = [ 'course', 'school', 'description', 'start_date', 'end_date', 'user_id' ];
 
+    const UPDATED_AT = null;
+    const CREATED_AT = null;
+
     /**
      * @return array
      */
@@ -57,7 +60,7 @@ class Education extends BaseModel
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function setId($userId) {
+    public function setUserId($userId) {
 
         $this->userId = $userId;
     }
@@ -66,8 +69,6 @@ class Education extends BaseModel
 
         $data = $r->all();
         $data['user_id'] = $this->userId;
-        $data['created_at'] = Carbon::now();
-        $data['updated_at'] = Carbon::now();
 
         if( ! $this->validate( $data )) {
 
@@ -82,6 +83,12 @@ class Education extends BaseModel
         if ($r->$pk) {
 
             $this->exists = true;
+            $data['updated_at'] = Carbon::now();
+
+        } else {
+
+            $data['created_at'] = Carbon::now();
+            $data['updated_at'] = Carbon::now();
         }
 
         try{
