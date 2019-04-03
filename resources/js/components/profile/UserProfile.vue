@@ -4,18 +4,24 @@
             <img class="profile-picture" v-bind:src="input.profile_photo_url">
         </div>
         <div class="profile-content">
-            <div class="profile-name">{{ input.first_name }} {{ input.last_name }}</div>
+            <div class="profile-name m0">{{ input.first_name }} {{ input.last_name }}</div>
         
             <div class="profile-role">
                 {{ input.job_role }} - {{ input.company_name }}
             </div>
             
             <div class="profile-display">
-                <span class="profile-address">{{ input.address }} {{ input.country }}</span>
+                <span class="profile-address">
+                    <img class="text-icon" src="/img/icons/pinlocation.png"
+                        srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
+                    {{ input.address }} {{ input.country }}
+                </span>
 
                 <div class="profile-education">
-                    Studied <b>{{ input.course }}</b>
-                    <span class="text-style-1">{{ input.school }}</span>
+                    <img class="text-icon" src="/img/icons/dollarsign.png"
+                        srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
+
+                    Studied <b>{{ input.course }}</b> - <span class="text-style-1">{{ input.school }}</span>
                 </div>
             </div>
             

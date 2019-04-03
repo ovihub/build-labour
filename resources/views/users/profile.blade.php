@@ -3,12 +3,12 @@
 @section('content')
     <div class="row">
         <load-user></load-user>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <user-profile></user-profile>
             <about-me></about-me>
             <ideal-role></ideal-role>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-6">
             <employment></employment>
             <industry-skills></industry-skills>
             <education></education>

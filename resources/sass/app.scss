@@ -631,7 +631,24 @@ p.site-nav-tab-label {
 }
 .edit-icon {
   float: right;
+
+  img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
+.text-icon {
+  margin-right: 6px;
+  width: 10px;
+  height: 15px;
+  object-fit: contain;
+}
+
 /* ==========================================================================
     Custom Bootstrap Styling
   ========================================================================== */

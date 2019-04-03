@@ -2614,6 +2614,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2690,6 +2691,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2856,6 +2863,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -2875,6 +2904,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -2950,6 +2980,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3243,6 +3278,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3278,6 +3319,12 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -41530,7 +41577,16 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "edit-icon" }, [
-      _c("a", { attrs: { href: "#" } }, [_vm._v("Edit")])
+      _c("img", {
+        attrs: {
+          src: "/img/icons/editbutton.png",
+          srcset:
+            "/img/icons/editbutton@2x.png" +
+            " 2x, " +
+            "/img/icons/editbutton@3x.png" +
+            " 3x"
+        }
+      })
     ])
   }
 ]
@@ -41624,7 +41680,7 @@ var render = function() {
       [
         _vm._m(0),
         _vm._v(" "),
-        _c("div", { staticClass: "profile-title" }, [_vm._v("Education")]),
+        _vm._m(1),
         _vm._v(" "),
         _vm._l(_vm.educations, function(education) {
           return _c("div", { key: education.id }, [
@@ -41658,7 +41714,34 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "edit-icon" }, [
-      _c("a", { attrs: { href: "#" } }, [_vm._v("Edit")])
+      _c("img", {
+        attrs: {
+          src: "/img/icons/editbutton.png",
+          srcset:
+            "/img/icons/editbutton@2x.png" +
+            " 2x, " +
+            "/img/icons/editbutton@3x.png" +
+            " 3x"
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "profile-title" }, [
+      _c("img", {
+        attrs: {
+          src: "/img/icons/education.png",
+          srcset:
+            "/img/icons/education@2x.png" +
+            " 2x, " +
+            "/img/icons/education@3x.png" +
+            " 3x"
+        }
+      }),
+      _vm._v("\n\n            Education\n        ")
     ])
   }
 ]
@@ -41693,151 +41776,229 @@ var staticRenderFns = [
     return _c("div", { staticClass: "profile-item-2" }, [
       _c("div", { staticClass: "profile-content" }, [
         _c("span", { staticClass: "edit-icon" }, [
-          _c("a", { attrs: { href: "#" } }, [_vm._v("Edit")])
+          _c("img", {
+            attrs: {
+              src: "/img/icons/editbutton.png",
+              srcset:
+                "/img/icons/editbutton@2x.png" +
+                " 2x, " +
+                "/img/icons/editbutton@3x.png" +
+                " 3x"
+            }
+          })
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "profile-title" }, [
           _vm._v("Employment History")
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "row mt-4 mb-2" }, [
-          _c("div", { staticClass: "col-md-2 col-sm-2" }, [
-            _c("img", {
-              staticClass: "profile-role-image",
-              attrs: { src: "/img/logo/1.jpg" }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-10 col-sm-10" }, [
-            _c("div", { staticClass: "profile-role-name" }, [
-              _vm._v("Project Manager")
+        _c("ul", { staticClass: "list-main-items" }, [
+          _c("li", { staticClass: "main-items-top" }, [
+            _c("div", { staticClass: "row mt-4 mb-2" }, [
+              _c("div", { staticClass: "col-md-2 col-sm-2" }, [
+                _c("img", {
+                  staticClass: "profile-role-image",
+                  attrs: { src: "/img/logo/1.jpg" }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-10 col-sm-10" }, [
+                _c("div", { staticClass: "profile-role-name" }, [
+                  _vm._v("Project Manager")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
+                  _vm._v("Probuild")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "profile-text" }, [
+                  _vm._v("2 years and 4 months")
+                ])
+              ])
             ]),
             _vm._v(" "),
-            _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
-              _vm._v("Probuild")
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "profile-text" }, [
-              _vm._v("2 years and 4 months")
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-2 col-sm-2" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-10 col-sm-10" }, [
-            _c("span", { staticClass: "employment-label" }, [
-              _vm._v("Richmond, Victoria, Australia")
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "employment-label" }, [
-              _vm._v("$1,750,000")
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "employment-label" }, [
-              _vm._v("Responsibilities:")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "profile-label" }, [
-              _c("ul", { staticClass: "list-items" }, [
-                _c("li", [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-2 col-sm-2" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-10 col-sm-10" }, [
+                _c("span", { staticClass: "employment-label" }, [
+                  _c("img", {
+                    staticClass: "text-icon",
+                    attrs: {
+                      src: "/img/icons/pinlocation.png",
+                      srcset:
+                        "/img/icons/pinlocation@2x.png" +
+                        " 2x, " +
+                        "/img/icons/pinlocation@3x.png" +
+                        " 3x"
+                    }
+                  }),
                   _vm._v(
-                    "\n                            Meeting with engineers, architects and contractors\n                            on an ongoing basis regarding project objective\n                            and progress\n                        "
+                    "\n                            Richmond, Victoria, Australia\n                        "
                   )
                 ]),
                 _vm._v(" "),
-                _c("li", [
+                _c("span", { staticClass: "employment-label" }, [
+                  _c("img", {
+                    staticClass: "text-icon",
+                    attrs: {
+                      src: "/img/icons/dollarsign.png",
+                      srcset:
+                        "/img/icons/dollarsign@2x.png" +
+                        " 2x, " +
+                        "/img/icons/dollarsign@3x.png" +
+                        " 3x"
+                    }
+                  }),
                   _vm._v(
-                    "\n                            Managing and motivating site foremen and teams\n                        "
+                    "\n                            $1,750,000\n                        "
                   )
                 ]),
                 _vm._v(" "),
-                _c("li", [
+                _c("span", { staticClass: "employment-label" }, [
+                  _c("img", {
+                    staticClass: "text-icon",
+                    attrs: {
+                      src: "/img/icons/responsibilities.png",
+                      srcset:
+                        "/img/icons/responsibilities@2x.png" +
+                        " 2x, " +
+                        "/img/icons/responsibilities@3x.png" +
+                        " 3x"
+                    }
+                  }),
                   _vm._v(
-                    "\n                            Ensuring all equipment needed is available on site\n                        "
+                    "\n                            Responsibilities:\n                        "
                   )
                 ]),
                 _vm._v(" "),
-                _c("li", [
-                  _vm._v(
-                    "\n                            Conducting ongoing quality inspections\n                        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("li", [
-                  _vm._v(
-                    "\n                            Ensuring the construction process starts and ends\n                            on time, and ensuring  daily and weekly deadlines\n                            are met\n                        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("li", [
-                  _vm._v(
-                    "\n                            Ensuring budget costs relating to wages,\n                            contractors, materials and equipment aren't\n                            exceeded\n                        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("li", [
-                  _vm._v(
-                    "\n                            Approving purchase requests\n                        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("li", [
-                  _vm._v(
-                    "\n                            Ensuring compliance with health, safety and all\n                            other regulations\n                        "
-                  )
+                _c("div", { staticClass: "profile-label" }, [
+                  _c("ul", { staticClass: "list-items" }, [
+                    _c("li", [
+                      _vm._v(
+                        "\n                                    Meeting with engineers, architects and contractors\n                                    on an ongoing basis regarding project objective\n                                    and progress\n                                "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("li", [
+                      _vm._v(
+                        "\n                                    Managing and motivating site foremen and teams\n                                "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("li", [
+                      _vm._v(
+                        "\n                                    Ensuring all equipment needed is available on site\n                                "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("li", [
+                      _vm._v(
+                        "\n                                    Conducting ongoing quality inspections\n                                "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("li", [
+                      _vm._v(
+                        "\n                                    Ensuring the construction process starts and ends\n                                    on time, and ensuring  daily and weekly deadlines\n                                    are met\n                                "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("li", [
+                      _vm._v(
+                        "\n                                    Ensuring budget costs relating to wages,\n                                    contractors, materials and equipment aren't\n                                    exceeded\n                                "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("li", [
+                      _vm._v(
+                        "\n                                    Approving purchase requests\n                                "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("li", [
+                      _vm._v(
+                        "\n                                    Ensuring compliance with health, safety and all\n                                    other regulations\n                                "
+                      )
+                    ])
+                  ])
                 ])
               ])
             ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-2 col-sm-2" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-10 col-sm-10" }, [
-            _c("div", { staticClass: "profile-label mt-4" }, [
-              _vm._v(
-                "\n                    Assistant Project Manager\n                "
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "profile-text" }, [
-              _vm._v(
-                "\n                    1 year and 2 months\n                "
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "profile-label mt-4" }, [
-              _vm._v("\n                    Construction\n                ")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "profile-text" }, [
-              _vm._v("\n                    3 months\n                ")
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row mt-4" }, [
-          _c("div", { staticClass: "col-md-2 col-sm-2" }, [
-            _c("img", {
-              staticClass: "profile-role-image",
-              attrs: { src: "/img/logo/1.jpg" }
-            })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-10 col-sm-10" }, [
-            _c("span", { staticClass: "profile-role-name" }, [
-              _vm._v("Site Manager")
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
-              _vm._v("Richmond Surveying")
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "profile-text" }, [
-              _vm._v("2 years and 4 months")
+          _c("li", { staticClass: "main-items" }, [
+            _c("div", { staticClass: "row mt-4" }, [
+              _c("div", { staticClass: "col-md-2 col-sm-2" }, [
+                _c("img", {
+                  staticClass: "profile-role-image-second",
+                  attrs: { src: "/img/logo/1.jpg" }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-10 col-sm-10" }, [
+                _c("div", { staticClass: "profile-role-name-second" }, [
+                  _vm._v("Assistant Project Manager")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
+                  _vm._v("BBUILD")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "profile-text" }, [
+                  _vm._v("1 year and 2 months")
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "main-items" }, [
+            _c("div", { staticClass: "row mt-4" }, [
+              _c("div", { staticClass: "col-md-2 col-sm-2" }, [
+                _c("img", {
+                  staticClass: "profile-role-image",
+                  attrs: { src: "/img/logo/1.jpg" }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-10 col-sm-10" }, [
+                _c("div", { staticClass: "profile-role-name" }, [
+                  _vm._v("Construction")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
+                  _vm._v("Tools 'r' Us")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "profile-text" }, [
+                  _vm._v("2 years and 4 months")
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "main-items" }, [
+            _c("div", { staticClass: "row mt-4" }, [
+              _c("div", { staticClass: "col-md-2 col-sm-2" }, [
+                _c("img", {
+                  staticClass: "profile-role-image",
+                  attrs: { src: "/img/logo/1.jpg" }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-10 col-sm-10" }, [
+                _c("span", { staticClass: "profile-role-name" }, [
+                  _vm._v("Site Manager")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
+                  _vm._v("Richmond Surveying")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "profile-text" }, [
+                  _vm._v("2 years and 4 months")
+                ])
+              ])
             ])
           ])
         ])
@@ -41932,7 +42093,16 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "edit-icon" }, [
-      _c("a", { attrs: { href: "#" } }, [_vm._v("Edit")])
+      _c("img", {
+        attrs: {
+          src: "/img/icons/editbutton.png",
+          srcset:
+            "/img/icons/editbutton@2x.png" +
+            " 2x, " +
+            "/img/icons/editbutton@3x.png" +
+            " 3x"
+        }
+      })
     ])
   }
 ]
@@ -41962,9 +42132,7 @@ var render = function() {
       "div",
       { staticClass: "profile-content" },
       [
-        _c("div", { staticClass: "profile-title" }, [
-          _vm._v("Main Industry Skills and Achievements")
-        ]),
+        _vm._m(0),
         _vm._v(" "),
         _c("span", { staticClass: "profile-intro" }, [
           _vm._v(
@@ -41996,7 +42164,26 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "profile-title" }, [
+      _c("img", {
+        attrs: {
+          src: "/img/icons/ticket.png",
+          srcset:
+            "/img/icons/ticket@2x.png" +
+            " 2x, " +
+            "/img/icons/ticket@3x.png" +
+            " 3x"
+        }
+      }),
+      _vm._v("\n\n            Main Industry Skills and Achievements\n        ")
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -42182,7 +42369,7 @@ var render = function() {
       [
         _vm._m(0),
         _vm._v(" "),
-        _c("div", { staticClass: "profile-title" }, [_vm._v("Tickets")]),
+        _vm._m(1),
         _vm._v(" "),
         _vm._l(_vm.tickets, function(ticket) {
           return _c("div", { key: ticket.id }, [
@@ -42212,7 +42399,34 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "edit-icon" }, [
-      _c("a", { attrs: { href: "#" } }, [_vm._v("Edit")])
+      _c("img", {
+        attrs: {
+          src: "/img/icons/editbutton.png",
+          srcset:
+            "/img/icons/editbutton@2x.png" +
+            " 2x, " +
+            "/img/icons/editbutton@3x.png" +
+            " 3x"
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "profile-title" }, [
+      _c("img", {
+        attrs: {
+          src: "/img/icons/ticket.png",
+          srcset:
+            "/img/icons/ticket@2x.png" +
+            " 2x, " +
+            "/img/icons/ticket@3x.png" +
+            " 3x"
+        }
+      }),
+      _vm._v("\n\n            Tickets\n        ")
     ])
   }
 ]
@@ -42246,7 +42460,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "profile-content" }, [
-      _c("div", { staticClass: "profile-name" }, [
+      _c("div", { staticClass: "profile-name m0" }, [
         _vm._v(_vm._s(_vm.input.first_name) + " " + _vm._s(_vm.input.last_name))
       ]),
       _vm._v(" "),
@@ -42262,13 +42476,41 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "profile-display" }, [
         _c("span", { staticClass: "profile-address" }, [
-          _vm._v(_vm._s(_vm.input.address) + " " + _vm._s(_vm.input.country))
+          _c("img", {
+            staticClass: "text-icon",
+            attrs: {
+              src: "/img/icons/pinlocation.png",
+              srcset:
+                "/img/icons/pinlocation@2x.png" +
+                " 2x, " +
+                "/img/icons/pinlocation@3x.png" +
+                " 3x"
+            }
+          }),
+          _vm._v(
+            "\n                " +
+              _vm._s(_vm.input.address) +
+              " " +
+              _vm._s(_vm.input.country) +
+              "\n            "
+          )
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "profile-education" }, [
-          _vm._v("\n                Studied "),
+          _c("img", {
+            staticClass: "text-icon",
+            attrs: {
+              src: "/img/icons/dollarsign.png",
+              srcset:
+                "/img/icons/dollarsign@2x.png" +
+                " 2x, " +
+                "/img/icons/dollarsign@3x.png" +
+                " 3x"
+            }
+          }),
+          _vm._v("\n\n                Studied "),
           _c("b", [_vm._v(_vm._s(_vm.input.course))]),
-          _vm._v(" "),
+          _vm._v(" - "),
           _c("span", { staticClass: "text-style-1" }, [
             _vm._v(_vm._s(_vm.input.school))
           ])

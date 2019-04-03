@@ -2,10 +2,16 @@
     <div class="profile-item-2">
         <div class="profile-content">
             <span class="edit-icon">
-                <a href="#">Edit</a>
+                <img src="/img/icons/editbutton.png"
+                    srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
             </span>
             
-            <div class="profile-title">Education</div>
+            <span class="profile-title">
+                <img src="/img/icons/education.png"
+                    srcset="/img/icons/education@2x.png 2x, /img/icons/education@3x.png 3x">
+
+                Education
+            </span>
             
             <div v-for="education in educations" v-bind:key="education.id">
                 <span class="profile-label">

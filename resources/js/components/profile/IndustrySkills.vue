@@ -1,7 +1,12 @@
 <template>
     <div class="profile-item-2">
         <div class="profile-content">
-            <div class="profile-title">Main Industry Skills and Achievements</div>
+            <div class="profile-title">
+                <img src="/img/icons/ticket.png"
+                    srcset="/img/icons/ticket@2x.png 2x, /img/icons/ticket@3x.png 3x">
+
+                Main Industry Skills and Achievements
+            </div>
             
             <span class="profile-intro">
                 Worked on Rail link, saved $30,000 on
