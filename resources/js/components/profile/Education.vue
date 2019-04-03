@@ -7,7 +7,16 @@
             
             <div class="profile-title">Education</div>
             
-            <span class="profile-label">
+            <div v-for="education in educations" v-bind:key="education.id">
+                <span class="profile-label">
+                    {{ education.course }}
+                </span>
+                <span class="profile-text">
+                    {{ education.start_date_formatted }} - {{ education.end_date_formatted }}
+                </span>
+            </div>
+
+            <!-- <span class="profile-label">
                 Masters in Construction Management
                 </span>
             <span class="profile-text">
@@ -24,7 +33,7 @@
             </span>
             <span class="profile-text">
                 November 2008 - June 2009
-            </span>
+            </span> -->
         </div>
     </div>
 </template>
@@ -33,12 +42,16 @@
     export default {
         data() {
             return {
-
+                educations: []
             }
         },
 
         created() {
+            let component = this;
 
+            Bus.$on('educationDetails', function(detailsArray) {
+                component.educations = detailsArray;
+            });
         },
 
         methods: {

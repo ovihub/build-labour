@@ -6,22 +6,35 @@
             </span>
 
             <div class="profile-title">Your Ideal Next Role</div>        
-            
             <span class="profile-text">(Visible only to you)</span>
+            
             <span class="profile-intro">
-                My ideal next role would be as a qualified plumber
-                working on high-end residential jobs
-                with an awesome team
+                {{ input.nrole_info }}
             </span>
+
             <span class="profile-label">When</span>
-            <span class="profile-text">in 6 months (June 2019)</span>
+            <span class="profile-text">
+                {{ input.nrole_when }}
+            </span>
+
             <span class="profile-label">Maximum Distance from home</span>
-            <span class="profile-text">100km</span>
+            <span class="profile-text">
+                {{ input.nrole_travel_to_home }}
+            </span>
+
             <span class="profile-label">Willing to relocate to</span>
-            <span class="profile-text">New South Wales</span>
-            <span class="profile-text">Victoria</span>
+            <span class="profile-text">
+                {{ input.nrole_address }}
+            </span>
+
+            <span class="profile-text">
+                {{ input.nrole_state }}
+            </span>
+
             <span class="profile-label">Right to Work</span>
-            <span class="profile-text">Yes, I have right to work in Australia</span>
+            <span class="profile-text">
+                {{ input.nrole_right_to_work_au_desc }}
+            </span>
         </div>
     </div>
 </template>
@@ -30,12 +43,19 @@
     export default {
         data() {
             return {
-            
+                input: { 
+                    nrole_info: '', nrole_when: '', nrole_travel_to_home: '', nrole_address: '',  nrole_state: '',
+                    nrole_right_to_work_au: '', nrole_right_to_work_au_desc: '',
+                }
             }
         },
 
         created() {
-            
+            let component = this;
+
+            Bus.$on('idealRoleDetails', function(details) {
+                component.input = details;
+            });
         },
 
         methods: {

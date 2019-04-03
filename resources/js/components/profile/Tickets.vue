@@ -7,9 +7,18 @@
             
             <div class="profile-title">Tickets</div>
             
-            <span class="profile-label">
-                TLILIC2001
+            <div v-for="ticket in tickets" v-bind:key="ticket.id">
+                <span class="profile-label">
+                    {{ ticket.title }}
                 </span>
+                <span class="profile-text">
+                    {{ ticket.description }}
+                </span>
+            </div>
+            
+            <!-- <span class="profile-label">
+                TLILIC2001
+            </span>
             <span class="profile-text">
                 License to operate a Forklift Truck
             </span>
@@ -24,7 +33,7 @@
             </span>
             <span class="profile-text">
                 Control Traffic with Stop - Slow Bat
-            </span>
+            </span> -->
         </div>
     </div>
 </template>
@@ -33,12 +42,16 @@
     export default {
         data() {
             return {
-
+                tickets: []
             }
         },
 
         created() {
+            let component = this;
 
+            Bus.$on('ticketsDetails', function(detailsArray) {
+                component.tickets = detailsArray;
+            });
         },
 
         methods: {

@@ -16,6 +16,8 @@ class Education extends BaseModel
 
     protected $fillable = [ 'course', 'school', 'description', 'start_date', 'end_date', 'user_id' ];
 
+    protected $appends = [  'start_date_formatted', 'end_date_formatted'  ];
+
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
@@ -31,6 +33,16 @@ class Education extends BaseModel
             'end_date'      => 'required',
             'user_id'       => 'required|integer'
         ];
+    }
+
+    public function getStartDateFormattedAttribute()
+    {
+        return \Carbon\Carbon::parse($this->start_date)->format('F Y');
+    }
+
+    public function getEndDateFormattedAttribute()
+    {
+        return \Carbon\Carbon::parse($this->end_date)->format('F Y');
     }
 
     /**

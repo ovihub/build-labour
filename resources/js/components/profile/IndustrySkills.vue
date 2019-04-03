@@ -9,7 +9,16 @@
                 project deadline
             </span>
 
-            <span class="profile-label">Quality Control</span>
+            <div v-for="industry_skill in industry_skills" v-bind:key="industry_skill.id">
+                <span class="profile-label">
+                    {{ industry_skill.name }}
+                </span>
+                <span class="profile-text">
+                    {{ industry_skill.description }}
+                </span>
+            </div>
+
+            <!-- <span class="profile-label">Quality Control</span>
             <span class="profile-text">
                 Expert
             </span>
@@ -32,7 +41,7 @@
             <span class="profile-label">Teamwork</span>
             <span class="profile-text">
                 Competent
-            </span>
+            </span> -->
         </div>
     </div>
 </template>
@@ -41,12 +50,16 @@
     export default {
         data() {
             return {
-
+                industry_skills: []
             }
         },
 
         created() {
+            let component = this;
 
+            Bus.$on('industrySkillsDetails', function(detailsArray) {
+                component.industry_skills = detailsArray;
+            });
         },
 
         methods: {

@@ -35,7 +35,7 @@ class Users extends BaseModel implements
 
     protected $hidden =[ 'password' , 'remember_token','updated_at' , 'created_at', 'verification_code' ];
 
-    protected $appends = [  'full_name'  ];
+    protected $appends = [  'full_name', 'dob_formatted'  ];
 
     public $sql;
     public $bindings;
@@ -185,6 +185,11 @@ class Users extends BaseModel implements
     public function getFullNameAttribute()
     {
         return $this->first_name.' '.$this->last_name;
+    }
+
+    public function getDobFormattedAttribute()
+    {
+        return \Carbon\Carbon::parse($this->dob)->format('d F Y');
     }
 
     public function resendVerificationCode()

@@ -52,7 +52,7 @@ Vue.component('request-link', require('./components/auth/passwords/RequestLink.v
 Vue.component('reset-password', require('./components/auth/passwords/ResetPassword.vue').default);
 
 // Profile components
-Vue.component('profile', require('./components/profile/Profile.vue').default);
+Vue.component('user-profile', require('./components/profile/UserProfile.vue').default);
 Vue.component('about-me', require('./components/profile/AboutMe.vue').default);
 Vue.component('ideal-role', require('./components/profile/IdealRole.vue').default);
 Vue.component('employment', require('./components/profile/Employment.vue').default);
@@ -67,6 +67,9 @@ Vue.component('show-form', require('./components/record/ShowForm.vue').default);
 
 // Upload components
 Vue.component('upload-photo', require('./components/upload/UploadPhoto.vue').default);
+
+// Load components
+Vue.component('load-user', require('./components/profile/LoadUser.vue').default);
 
 const app = new Vue({
     el: '#app',

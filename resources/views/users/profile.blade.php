@@ -2,8 +2,9 @@
 
 @section('content')
     <div class="row">
+        <load-user></load-user>
         <div class="col-md-4">
-            <profile></profile>
+            <user-profile></user-profile>
             <about-me></about-me>
             <ideal-role></ideal-role>
         </div>

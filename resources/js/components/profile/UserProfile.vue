@@ -1,21 +1,21 @@
 <template>
     <div class="profile-item-1">
         <div class="profile-header">
-            <img class="profile-picture" src="/img/icons/default.png">
+            <img class="profile-picture" v-bind:src="input.profile_photo_url">
         </div>
         <div class="profile-content">
-            <div class="profile-name">{{ input.full_name }}</div>
+            <div class="profile-name">{{ input.first_name }} {{ input.last_name }}</div>
         
             <div class="profile-role">
-                Project Manager - Probuild
+                {{ input.job_role }} - {{ input.company_name }}
             </div>
             
             <div class="profile-display">
-                <span class="profile-address">Richmond, Victoria, Australia</span>
+                <span class="profile-address">{{ input.address }} {{ input.country }}</span>
 
                 <div class="profile-education">
-                    Studied <b>Construction & Engineer</b>
-                    <span class="text-style-1">Royal Melbourne Institute of Technology</span>
+                    Studied <b>{{ input.course }}</b>
+                    <span class="text-style-1">{{ input.school }}</span>
                 </div>
             </div>
             
@@ -34,9 +34,15 @@
                     <img class="profile-role-image" src="/img/logo/1.jpg">
                 </div>
                 <div class="col-md-9 col-sm-9">
-                    <span class="profile-role-name">Project Manager</span>
-                    <span class="profile-label mt-0 pt-0">Probuild</span>
-                    <span class="profile-text">2 years and 4 months</span>
+                    <span class="profile-role-name">
+                        {{ input.job_role }}
+                    </span>
+                    <span class="profile-label mt-0 pt-0">
+                        {{ input.company_name }}
+                    </span>
+                    <span class="profile-text">
+                        {{ input.period }}
+                    </span>
                 </div>
             </div>
         </div>
@@ -199,13 +205,14 @@
                     uid: 0, email: '', verification_code: '',
                 },
                 input: {
-                    role: '', first_name: '', last_name: '', email: '', dob: '', country: '', address: '', mobile_number: '',
+                    profile_photo_url: '', first_name: '', last_name: '', email: '', course: '', school: '', country: '', address: '',
+                    role: '', company_name: '', job_role: '', start_date:'', end_date:'', period: '',
                 },
                 errors: {
-                    role: '', first_name: '', last_name: '', email: '', dob: '', country: '', address: '', mobile_number: '',
+                    profile_photo_url: '', first_name: '', last_name: '', email: '', course: '', school: '', country: '', address: '',
+                    role: '', company_name: '', job_role: '', start_date:'', end_date:'', period: '',
                 },
                 endpoints: {
-                    get: '/api/v1/auth/user',
                     save: '/api/v1/user/update',
                     verify: '/api/v1/auth/verify',
                     resend: '/api/v1/auth/verification/resend',
@@ -219,29 +226,19 @@
         },
 
         created() {
-            this.getProfile();
+            let component = this;
+
+            Bus.$on('userProfileDetails', function(details) {
+                component.input = details;
+
+                component.input_resend.email = component.input.email;
+                component.input_verify.email = component.input.email;
+                component.input_verify.uid = component.input.id;
+            });
         },
 
         methods: {
             
-            getProfile() {
-                let component = this;
-
-                axios.get(component.endpoints.get, Utils.getBearerAuth())
-                    
-                    .then(function(response) {
-                        component.input = response.data.data.user;
-                        component.input_resend.email = response.data.data.user.email;
-                        component.input_verify.email = response.data.data.user.email;
-                        component.input_verify.uid = response.data.data.user.id;
-                    })
-                    .catch(function(error) {
-                        let data = error.response.data;
-
-                        Utils.handleError(data);
-                    });
-            },
-
             async resendEmail() {
                 let component = this;
                 

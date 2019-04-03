@@ -73,6 +73,21 @@
             </span>
         </div>
 
+        <div class="form-group row">
+            <label for="password" class="col-md-4 col-form-label text-md-right">Gender</label>
+
+            <div class="col-md-7">
+                <select v-model="input.gender" class="form-control">
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
+            </div>
+
+            <span class="err-msg" v-if="errors.role_id">
+                {{ errors.role_id }}
+            </span>
+        </div>
+
         <div class="form-group row mb-0">
             <div class="col-md-7 offset-md-4">
                 <button type="submit" class="btn btn-primary" :disabled="disabled">
@@ -91,10 +106,10 @@
                 roles: [],
                 disabled: false,
                 input: {
-                    role_id:  0, first_name: '', last_name: '', email: '', password: '', password_confirmation: ''
+                    role_id:  0, gender: '', first_name: '', last_name: '', email: '', password: '', password_confirmation: ''
                 },
                 errors: {
-                    role_id: '', first_name: '', last_name: '', email: '', password: '',
+                    role_id: '', gender: '', first_name: '', last_name: '', email: '', password: '',
                 },
                 endpoints: {
                     profile: '/user/profile/?token=',
