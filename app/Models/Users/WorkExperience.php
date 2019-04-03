@@ -19,7 +19,7 @@ class WorkExperience extends BaseModel
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
-    protected $fillable = ['job_role', 'company_name', 'user_id'];
+    protected $fillable = ['job_role', 'company_name', 'user_id', 'start_date', 'end_date'];
 
     protected $appends = ['period'];
     /**
@@ -30,6 +30,8 @@ class WorkExperience extends BaseModel
         return [
             'job_role'      => 'required',
             'company_name'  => 'required',
+            'start_date'    => 'nullable|date',
+            'end_date'      => 'nullable|date',
             'user_id'       => 'required|integer'
         ];
     }
@@ -54,6 +56,22 @@ class WorkExperience extends BaseModel
         }
 
         return true;
+    }
+
+    public function setStartDateAttribute($sd) {
+
+        if (!empty($sd)) {
+
+            $this->attributes['start_date'] = Carbon::parse($sd);
+        }
+    }
+
+    public function setEndDateAttribute($ed) {
+
+        if (!empty($sd)) {
+
+            $this->attributes['end_date'] = Carbon::parse($ed);
+        }
     }
 
     public function setUserId($userId) {

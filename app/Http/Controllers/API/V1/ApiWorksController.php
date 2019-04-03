@@ -33,6 +33,24 @@ class ApiWorksController extends ApiBaseController
      *                      type="string",
      *                      example="Appetiser"
      *                  ),
+     *                  @OA\Property(
+     *                      property="responsibilities",
+     *                      description="<b>Required</b> Responsibilities",
+     *                      type="string",
+     *                      example="Make computer programs."
+     *                  ),
+     *                  @OA\Property(
+     *                      property="start_date",
+     *                      description="<b>Required</b> Start Date",
+     *                      type="string",
+     *                      example="11/10/2012"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="end_date",
+     *                      description="<b>Required</b> End Date",
+     *                      type="string",
+     *                      example="09/04/2017"
+     *                  ),
      *              ),
      *          ),
      *      ),
@@ -116,13 +134,31 @@ class ApiWorksController extends ApiBaseController
      *                      property="job_role",
      *                      description="<b>Required</b> Job Role",
      *                      type="string",
-     *                      example="HR Manager"
+     *                      example="Developer"
      *                  ),
      *                  @OA\Property(
      *                      property="company_name",
      *                      description="<b>Required</b> Company",
      *                      type="string",
-     *                      example="Apple"
+     *                      example="Appetiser"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="responsibilities",
+     *                      description="<b>Required</b> Responsibilities",
+     *                      type="string",
+     *                      example="Make computer programs."
+     *                  ),
+     *                  @OA\Property(
+     *                      property="start_date",
+     *                      description="<b>Required</b> Start Date",
+     *                      type="string",
+     *                      example="11/10/2012"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="end_date",
+     *                      description="<b>Required</b> End Date",
+     *                      type="string",
+     *                      example="09/04/2017"
      *                  ),
      *              ),
      *          ),
