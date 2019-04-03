@@ -141,7 +141,7 @@ class WorkExperience extends BaseModel
 
         $data['user_id'] = $this->userId;
 
-        if( ! $this->validate( $data )) {
+        if (!$this->validate($data)) {
 
             return false;
         }
@@ -149,7 +149,7 @@ class WorkExperience extends BaseModel
 
         $this->fill( $data );
 
-        try{
+        try {
 
             $this->save();
 
