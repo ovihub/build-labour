@@ -41,7 +41,10 @@ class UsersTableSeeder extends Seeder
         ]);
 
         \App\Models\Users\Education::create([
-            'name' => 'Study Bachelor of Science in Psychology in University of Melbourne',
+            'course' => 'Study Bachelor of Science in Psychology',
+            'school' => 'University of Melbourne',
+            'start_date' => Carbon::parse('08/10/2006'),
+            'end_date' => Carbon::parse('08/10/2010'),
             'description' => 'Learning at this school to be become a Psychologist',
             'user_id' => $user->id
         ]);

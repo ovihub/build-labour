@@ -90,7 +90,6 @@ class ApiUserSkillsController extends ApiBaseController
         return $this->apiSuccessResponse( compact( 'skill' ), true, 'Successfully Added a Skill', self::HTTP_STATUS_REQUEST_OK);
     }
 
-
     /**
      * @OA\Put(
      *      path="/user/skill/{id}",
