@@ -21,10 +21,28 @@ class ApiUserEducationsController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="name",
-     *                      description="<b>Required</b> Job Role",
+     *                      property="course",
+     *                      description="<b>Required</b> Course",
      *                      type="string",
      *                      example="Bachelor of Psychology"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="University of Melbourne",
+     *                      description="<b>Required</b> School",
+     *                      type="string",
+     *                      example="University of Melbourne"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="start_date",
+     *                      description="<b>Required</b> Start Date",
+     *                      type="string",
+     *                      example="08/10/2007"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="end_date",
+     *                      description="<b>Required</b> End Date",
+     *                      type="string",
+     *                      example="03/11/2012"
      *                  ),
      *                  @OA\Property(
      *                      property="description",
@@ -90,68 +108,7 @@ class ApiUserEducationsController extends ApiBaseController
         return $this->apiSuccessResponse(compact('education'), true, 'Successfully Added an Education', self::HTTP_STATUS_REQUEST_OK);
     }
 
-    /**
-     * @OA\Put(
-     *      path="/user/skill/{id}",
-     *      tags={"User Skill"},
-     *      summary="Update a user skill",
-     *      security={{"BearerAuth":{}}},
-     *      @OA\Parameter(
-     *          in="path",
-     *          name="id",
-     *          description="Skill Id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer",
-     *          ),
-     *      ),
-     *      @OA\RequestBody(
-     *          required=true,
-     *          @OA\MediaType(
-     *              mediaType="application/x-www-form-urlencoded",
-     *              @OA\Schema(
-     *                  type="object",
-     *                  @OA\Property(
-     *                      property="name",
-     *                      description="<b>Required</b> Job Role",
-     *                      type="string",
-     *                      example="Proficient in Spanish"
-     *                  ),
-     *          @OA\Property(
-     *                      property="description",
-     *                      description="<b>Required</b> Company",
-     *                      type="string",
-     *                      example="Able to handle client with spanish confidently."
-     *                  ),
-     *              ),
-     *          ),
-     *      ),
-     *      @OA\Response(
-     *          response=400,
-     *          description="Invalid Token"
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Token Expired"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Token Not Found"
-     *      ),
-     *      @OA\Response(
-     *          response=422,
-     *          description="Bad Request"
-     *      )
-     *      @OA\Response(
-     *          response=500,
-     *          description="Internal Server Error"
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Request OK"
-     *      )
-     * )
-     */
+
     public function update(Request $request)
     {
 
@@ -187,48 +144,6 @@ class ApiUserEducationsController extends ApiBaseController
         return $this->apiSuccessResponse( compact( 'skill' ), true, 'Successfully updated a Education', self::HTTP_STATUS_REQUEST_OK);
     }
 
-
-    /**
-     * @OA\Delete(
-     *      path="/user/skill/{id}",
-     *      tags={"User Skill"},
-     *      summary="Delete a user skill",
-     *      security={{"BearerAuth":{}}},
-     *      @OA\Parameter(
-     *          in="path",
-     *          name="id",
-     *          description="Skill Id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer",
-     *          ),
-     *      ),
-     *      @OA\Response(
-     *          response=400,
-     *          description="Invalid Token"
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Token Expired"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Token Not Found"
-     *      ),
-     *      @OA\Response(
-     *          response=422,
-     *          description="Bad Request"
-     *      ),
-     *      @OA\Response(
-     *          response=500,
-     *          description="Internal Server Error"
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Request OK"
-     *      )
-     * )
-     */
     public function delete(Request $request)
     {
 
