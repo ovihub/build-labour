@@ -9,6 +9,7 @@ namespace App;
 use App\Models\Users\Education;
 use App\Models\Users\Users;
 use App\Models\Users\UserSkill;
+use App\Models\Users\WorkerDetail;
 use App\Models\Users\WorkExperience;
 use Illuminate\Notifications\Notifiable;
 //use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -38,7 +39,7 @@ class User extends Users implements JWTSubject
 
     /**
      * Return a Object relates to Role Class
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToRoleClass
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function Role() {
 
@@ -47,20 +48,37 @@ class User extends Users implements JWTSubject
 
     /**
      * Return a collection relates to Work Experience class
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyWorkExperience
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function Experiences() {
 
         return $this->hasMany(WorkExperience::class, 'user_id', 'id')->with('Company');
     }
 
+    /**
+     * Return a collection relates to Worker Skills
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function Skills() {
 
         return $this->hasMany(UserSkill::class, 'user_id', 'id');
     }
 
+    /**
+     * Return a collection relates to Worker Educations
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function Educations() {
 
         return $this->hasMany( Education::class, 'user_id', 'id');
+    }
+
+    /**
+     * Return a collection relates to Worker Detail, e.g Worker Extra information
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function WorkerDetail() {
+
+        return $this->belongsTo(WorkerDetail::class, 'id', 'user_id');
     }
 }
