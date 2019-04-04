@@ -46,6 +46,9 @@
 </template>
 
 <script>
+
+    import Api from '@/api';
+
     export default {
         data() {
             return {
@@ -58,7 +61,7 @@
                 },
                 endpoints: {
                     login: '/api/v1/auth/login',
-                    profile: '/user/profile?token=',
+                    profile: '/user/profile',
                     reset: '/password/request',
                 }
             }
@@ -77,8 +80,9 @@
                 
                     .then(function(response) {
                         let data = response.data;
-                        
-                        window.location.href = component.endpoints.profile + data.data.token;
+
+                        Api.setToken(data.data.token);
+                        window.location.href = component.endpoints.profile;
                     })
                     .catch(function(error) {
                         let data = error.response.data;

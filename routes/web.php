@@ -14,8 +14,8 @@
 Route::get('/', 'PageController@index');
 Route::get('home', 'PageController@index');
 
-Route::get('login', 'AuthController@showLoginForm')->name('login');
-Route::get('register', 'AuthController@showRegisterForm')->name('register');
+Route::get('login', 'AuthController@showLoginForm')->name('login')->middleware('checktoken');
+Route::get('register', 'AuthController@showRegisterForm')->name('register')->middleware('checktoken');
 
 Route::prefix('password')
     ->group(function() {
@@ -25,7 +25,7 @@ Route::prefix('password')
 
 Route::prefix('user')
     ->group(function() {
-        Route::middleware(['jwt'])->group(function(){
+        Route::middleware(['checktoken'])->group(function(){
             Route::get('profile', 'UsersController@showProfile');
             Route::get('verify', 'UsersController@showVerifyForm');
         });

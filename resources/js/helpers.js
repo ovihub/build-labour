@@ -1,3 +1,5 @@
+import Api from '@/api';
+
 window.Helper = {
     data() {
         return {
@@ -46,7 +48,7 @@ window.Helper = {
         getBearerAuth() {
             return {
                 headers: {
-                    "Authorization" : "Bearer " + this.getUrlParams().token
+                    "Authorization" : "Bearer " + Api._getBearerToken()
                 }
             }
         }
