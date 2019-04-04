@@ -54,7 +54,7 @@
   height: 100%;
 }
 .profile-item-2 .profile-content {
-  padding: 15px 20px 20px 20px;
+  padding: 20px 20px 20px 20px;
   overflow: hidden;
 
   ul.list-main-items {
@@ -65,29 +65,21 @@
     li.main-items {
       list-style-type: none;
 
-      .profile-text {
-        font-size: 14px;
-        font-weight: 200;
-        color: #6b7172;
-        padding-bottom: 20px;
-        border-bottom: 1px solid rgb(156, 173, 189, 0.5);
-      }
-
-      .profile-role-name-second {
+      .profile-role-name {
         font-size: 16px;
         font-weight: 500;
         color: #000000;
-        padding-top: 20px;
+        padding-top: 15px;
         border-top: 1px solid rgb(156, 173, 189, 0.5);
       }
 
-      .profile-role-image-second {
+      .profile-role-image {
         width: 56px;
         height: 56px;
         border-radius: 8px;
         box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.08), 0 0 10px 0 rgba(57, 86, 101, 0.08);
         background-color: #fcfeff;
-        margin-top: 20px;
+        margin-top: 18px;
       }
     }
   }
@@ -252,7 +244,7 @@
     width: 24px;
     height: 24px;
     object-fit: contain;
-    margin-right: 3px;
+    margin-right: 8px;
   }
 }
 .profile-label {

@@ -1,19 +1,35 @@
 <template>
-    <div class="profile-item-2">
+    <div class="profile-item-2 m0">
         <div class="profile-content">
             <span class="edit-icon">
                 <img src="/img/icons/editbutton.png"
                     srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
             </span>
             
-            <div class="profile-title">Employment History</div>
+            <div class="profile-title">
+                <img src="/img/icons/employmenthistory.png"
+                    srcset="/img/icons/employmenthistory@2x.png 2x, /img/icons/employmenthistory@3x.png 3x">
+                
+                Employment History
+            </div>
         
             <ul class="list-main-items">
                 <li class="main-items-top">
-                    <div class="row mt-4 mb-2">
+                    <span class="text-icon-2" v-if="expanded === false">
+                        <img src="/img/icons/expand.png"
+                            srcset="/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x"
+                            @click="expand">
+                    </span>
+                    <span class="text-icon-2" v-if="expanded">
+                        <img src="/img/icons/collapse.png"
+                            srcset="/img/icons/collapse@2x.png 2x, /img/icons/collapse@3x.png 3x"
+                            @click="collapse">
+                    </span>
+                    <div class="row mt-2 mb-2">
                         <div class="col-md-2 col-sm-2">
                             <img class="profile-role-image" src="/img/logo/1.jpg">
                         </div>
+
                         <div class="col-md-10 col-sm-10">
                             <div class="profile-role-name">Project Manager</div>
                             <span class="profile-label mt-0 pt-0">Probuild</span>
@@ -21,7 +37,7 @@
                         </div>
                     </div>
                     
-                    <div class="row">
+                    <div class="row" v-if="expanded">
                         <div class="col-md-2 col-sm-2">
 
                         </div>
@@ -79,19 +95,36 @@
                         </div>
                     </div>
                 </li>
-                <li class="main-items">
-                    <div class="row mt-4">
-                        <div class="col-md-2 col-sm-2">
-                            <img class="profile-role-image-second" src="/img/logo/1.jpg">
+                <div v-for="employment in employments" v-bind:key="employment.id">
+                    <li class="main-items">
+                        <span class="text-icon-2">
+                            <img src="/img/icons/expand.png"
+                                srcset="/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x">
+                        </span>
+                        <div class="row mt-4">
+                            <div class="col-md-2 col-sm-2">
+                                <img class="profile-role-image" src="/img/logo/1.jpg">
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+                                <div class="profile-role-name">
+                                    {{ employment.job_role }}
+                                </div>
+                                <span class="profile-label mt-0 pt-0">
+                                    {{ employment.company_name }}
+                                </span>
+                                <span class="profile-text mb-0 pb-0">
+                                    {{ employment.period }}
+                                </span>
+                            </div>
                         </div>
-                        <div class="col-md-10 col-sm-10">
-                            <div class="profile-role-name-second">Assistant Project Manager</div>
-                            <span class="profile-label mt-0 pt-0">BBUILD</span>
-                            <span class="profile-text">1 year and 2 months</span>
-                        </div>
-                    </div>
-                </li>
-                <li class="main-items">
+                    </li>
+                </div>
+                
+                <!-- <li class="main-items">
+                    <span class="text-icon-2">
+                        <img src="/img/icons/expand.png"
+                            srcset="/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x">
+                    </span>
                     <div class="row mt-4">
                         <div class="col-md-2 col-sm-2">
                             <img class="profile-role-image" src="/img/logo/1.jpg">
@@ -104,6 +137,10 @@
                     </div>
                 </li>
                 <li class="main-items">
+                    <span class="text-icon-2">
+                        <img src="/img/icons/expand.png"
+                            srcset="/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x">
+                    </span>
                     <div class="row mt-4">
                         <div class="col-md-2 col-sm-2">
                             <img class="profile-role-image" src="/img/logo/1.jpg">
@@ -114,7 +151,7 @@
                             <span class="profile-text">2 years and 4 months</span>
                         </div>
                     </div>  
-                </li>
+                </li> -->
             </ul>
         </div>
     </div>
@@ -124,16 +161,26 @@
     export default {
         data() {
             return {
-
+                expanded: true,
+                employments: []
             }
         },
 
         created() {
+            let component = this;
 
+            Bus.$on('employmentDetails', function(detailsArray) {
+                component.employments = detailsArray;
+            });
         },
 
         methods: {
-            
+            collapse() {
+                this.expanded = false;
+            },
+            expand() {
+                this.expanded = true;
+            }
         }
     }
 </script>

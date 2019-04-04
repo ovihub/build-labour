@@ -14,32 +14,23 @@
             </span>
             
             <div v-for="education in educations" v-bind:key="education.id">
-                <span class="profile-label">
-                    {{ education.course }}
-                </span>
-                <span class="profile-text">
-                    {{ education.start_date_formatted }} - {{ education.end_date_formatted }}
-                </span>
+                <div class="row mt-4">
+                    <div class="col-md-2 col-sm-2">
+                        <img class="profile-role-image" src="/img/logo/1.jpg">
+                    </div>
+                    <div class="col-md-10 col-sm-10">
+                        <div class="profile-role-name">
+                            {{ education.course }}
+                        </div>
+                        <span class="profile-label mt-0 pt-0">
+                            {{ education.school }}
+                        </span>
+                        <span class="profile-text mb-0 pb-0">
+                            {{ education.start_date_formatted }} - {{ education.end_date_formatted }}
+                        </span>
+                    </div>
+                </div>
             </div>
-
-            <!-- <span class="profile-label">
-                Masters in Construction Management
-                </span>
-            <span class="profile-text">
-                March 2015 - November 2018
-            </span>
-            <span class="profile-label">
-                Cert II - Construction
-            </span>
-            <span class="profile-text">
-                June 2009 - April 2010
-            </span>
-            <span class="profile-label">
-                Cert I - Construction
-            </span>
-            <span class="profile-text">
-                November 2008 - June 2009
-            </span> -->
         </div>
     </div>
 </template>

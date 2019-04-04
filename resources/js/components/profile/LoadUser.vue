@@ -15,7 +15,7 @@
                     gender: '', dob: '', dob_formatted: '', marital_status: ''
                 },
                 ideal_role: {},
-                employment: [],
+                employments: [],
                 educations: [],
                 tickets: [],
                 industry_skills: [],
@@ -66,7 +66,7 @@
                             component.ideal_role.nrole_right_to_work_au_desc = 'Yes, I have right to work in Australia';
                         }
 
-                        component.employment = user.work_experience;
+                        component.employments = user.experiences;
                         component.educations = user.educations;
                         component.tickets = user.tickets;
                         component.industry_skills = user.skills;
@@ -74,7 +74,7 @@
                         Bus.$emit('userProfileDetails', component.profile);
                         Bus.$emit('aboutMeDetails', component.about_me);
                         Bus.$emit('idealRoleDetails', component.ideal_role);
-                        Bus.$emit('employmentDetails', component.experiences);
+                        Bus.$emit('employmentDetails', component.employments);
                         Bus.$emit('educationDetails', component.educations);
                         Bus.$emit('ticketsDetails', component.tickets);
                         Bus.$emit('industrySkillsDetails', component.industry_skills);

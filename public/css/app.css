@@ -10723,7 +10723,7 @@ a.text-dark:focus {
 }
 
 .profile-item-2 .profile-content {
-  padding: 15px 20px 20px 20px;
+  padding: 20px 20px 20px 20px;
   overflow: hidden;
 }
 
@@ -10739,29 +10739,21 @@ a.text-dark:focus {
   list-style-type: none;
 }
 
-.profile-item-2 .profile-content ul.list-main-items li.main-items .profile-text {
-  font-size: 14px;
-  font-weight: 200;
-  color: #6b7172;
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(156, 173, 189, 0.5);
-}
-
-.profile-item-2 .profile-content ul.list-main-items li.main-items .profile-role-name-second {
+.profile-item-2 .profile-content ul.list-main-items li.main-items .profile-role-name {
   font-size: 16px;
   font-weight: 500;
   color: #000000;
-  padding-top: 20px;
+  padding-top: 15px;
   border-top: 1px solid rgba(156, 173, 189, 0.5);
 }
 
-.profile-item-2 .profile-content ul.list-main-items li.main-items .profile-role-image-second {
+.profile-item-2 .profile-content ul.list-main-items li.main-items .profile-role-image {
   width: 56px;
   height: 56px;
   border-radius: 8px;
   box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.08), 0 0 10px 0 rgba(57, 86, 101, 0.08);
   background-color: #fcfeff;
-  margin-top: 20px;
+  margin-top: 18px;
 }
 
 .profile-item-3 {
@@ -10951,7 +10943,7 @@ a.text-dark:focus {
   height: 24px;
   -o-object-fit: contain;
      object-fit: contain;
-  margin-right: 3px;
+  margin-right: 8px;
 }
 
 .profile-label {
@@ -11042,6 +11034,16 @@ textarea {
   resize: vertical;
 }
 
+button {
+  border: none;
+  background: #f5a623;
+  color: #fff;
+}
+
+button:hover {
+  color: #000;
+}
+
 /* ==========================================================================
   Helper classes
   ========================================================================== */
@@ -11119,6 +11121,14 @@ form .button.yellow {
   background: #e7af2a;
   color: #fff;
   border: 1px solid #c89316;
+}
+
+a.button {
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+  text-decoration: none;
+  color: initial;
 }
 
 /* ==========================================================================
@@ -11267,6 +11277,10 @@ h6 {
 /* ==========================================================================
     Header Site Styling
   ========================================================================== */
+
+.site-header .main-nav .container a:hover {
+  color: #000;
+}
 
 .main-header {
   padding: 35px 0;
@@ -11483,10 +11497,6 @@ textarea {
     background-color: #f5a623 !important;
   }
 
-  .profile-content .full-row {
-    margin-top: 20px;
-  }
-
   .profile-content select {
     width: 100%;
   }
@@ -11681,19 +11691,40 @@ p.site-nav-tab-label {
      object-fit: contain;
 }
 
+.text-icon-2 {
+  float: right;
+  margin-right: 6px;
+  margin-top: 30px;
+  width: 10px;
+  height: 15px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.text-icon-2:hover {
+  cursor: pointer;
+}
+
 /* ==========================================================================
     Custom Bootstrap Styling
   ========================================================================== */
 
 .btn-primary {
-  color: #fff;
-  background-color: #f5a623;
+  color: #f5a623;
+  background-color: #fff;
   border-color: #f5a623;
 }
 
 .btn-primary:hover {
   background-color: #f5a623;
   border-color: #f5a623;
+  color: #fff;
+}
+
+.btn-link {
+  font-weight: 400;
+  color: #7B7B7B;
+  text-decoration: none;
 }
 
 .page-item.active .page-link {

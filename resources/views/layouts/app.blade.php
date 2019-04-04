@@ -42,16 +42,10 @@
                             <div class="col-md-9 col-sm-9">
                             </div>
 
-                            <div class="col-md-1 col-sm-1 mt-2 pt-1">
-                                <a href="/login">
-                                    Login
-                                </a>
-                            </div>
-
-                            <div class="col-md-1 col-sm-1 mt-2 pt-1">
-                                <a href="/register">
-                                    Register
-                                </a>
+                            <div class="col-md-2 col-sm-2 mt-2 pt-1">
+                                <a href="/login">Login</a>
+                                &nbsp;|&nbsp;
+                                <a href="/register">Register</a>
                             </div>
                         </div>
                     @else
