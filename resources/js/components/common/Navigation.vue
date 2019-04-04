@@ -11,7 +11,7 @@
             <input class="site-nav-search" id="search" type="text" name="search" />
         </div>
 
-        <div class="col-md-1">
+        <div class="col-md-1 col-sm-1">
             <a href="#">
                 <img class="site-nav-tab" src="/img/icons/dashboardinactive.png"
                     srcset="/img/icons/dashboardinactive@2x.png 2x, /img/icons/dashboardinactive@3x.png 3x">
@@ -19,7 +19,7 @@
                 <p class="site-nav-tab-label">Dashboard</p>
             </a>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-1 col-sm-1">
             <a href="#">
                 <img class="site-nav-tab" src="/img/icons/jobsearchinactive.png"
                     srcset="/img/icons/jobsearchinactive@2x.png 2x, /img/icons/jobsearchinactive@3x.png 3x">
@@ -27,7 +27,7 @@
                 <p class="site-nav-tab-label">Jobs</p>
             </a>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-1 col-sm-1">
             <a href="#">
                 <img class="site-nav-tab" src="/img/icons/messagesinactive.png"
                     srcset="/img/icons/messagesinactive@2x.png 2x, /img/icons/messagesinactive@3x.png 3x">

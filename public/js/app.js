@@ -41411,7 +41411,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1" }, [
+    return _c("div", { staticClass: "col-md-1 col-sm-1" }, [
       _c("a", { attrs: { href: "#" } }, [
         _c("img", {
           staticClass: "site-nav-tab",
@@ -41433,7 +41433,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1" }, [
+    return _c("div", { staticClass: "col-md-1 col-sm-1" }, [
       _c("a", { attrs: { href: "#" } }, [
         _c("img", {
           staticClass: "site-nav-tab",
@@ -41455,7 +41455,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1" }, [
+    return _c("div", { staticClass: "col-md-1 col-sm-1" }, [
       _c("a", { attrs: { href: "#" } }, [
         _c("img", {
           staticClass: "site-nav-tab",

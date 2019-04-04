@@ -19,7 +19,11 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <!-- <link rel="shortcut icon" href="{{{ asset('/public/favicon.ico') }}}"> -->
+    <!-- Favicon -->
+    <!-- <link rel="shortcut icon" href="{{{ asset('/public/favicon2.ico') }}}"> -->
+    <!-- <link rel="icon" type="image/png" sizes="16x16" href="/favicon2.ico"> -->
+    <!-- <link rel="shortcut icon" href="/favicon2.ico" type="image/x-icon"> -->
+    <!-- <link rel="icon" href="/favicon2.ico" type="image/x-icon"> -->
 </head>
 <body>
     <div id="app">
