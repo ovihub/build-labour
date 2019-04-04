@@ -65,6 +65,16 @@ textarea {
   resize: vertical;
 }
 
+button {
+  border: none;
+  background: $brand;
+  color: #fff;
+
+  &:hover {
+    color: #000;
+  }
+}
+
 /* ==========================================================================
   Helper classes
   ========================================================================== */
@@ -136,7 +146,14 @@ form .button.yellow {
   color: #fff;
   border: 1px solid #c89316;
 }
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
 
+    text-decoration: none;
+    color: initial;
+}
 /* ==========================================================================
   Print styles
   ========================================================================== */
@@ -279,6 +296,13 @@ h6 {
 /* ==========================================================================
     Header Site Styling
   ========================================================================== */
+.site-header .main-nav .container {
+  a {
+    &:hover {
+      color: #000;
+    }
+  }
+}
 .main-header {
   padding: 35px 0;
 }
@@ -473,9 +497,6 @@ textarea {
     background-color: $brand !important;
   }
 
-  .profile-content .full-row {
-    margin-top: 20px;
-  }
   .profile-content select {
     width: 100%;
   }
@@ -648,18 +669,36 @@ p.site-nav-tab-label {
   height: 15px;
   object-fit: contain;
 }
+.text-icon-2 {
+  float: right;
+  margin-right: 6px;
+  margin-top: 30px;
+  width: 10px;
+  height: 15px;
+  object-fit: contain;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
 
 /* ==========================================================================
     Custom Bootstrap Styling
   ========================================================================== */
 .btn-primary {
-  color: #fff;
-  background-color: $brand;
+  color: $brand;
+  background-color: #fff;
   border-color: $brand;
 }
 .btn-primary:hover {
   background-color: $brand;
   border-color: $brand;
+  color: #fff;
+}
+.btn-link {
+  font-weight: 400;
+  color: #7B7B7B;
+  text-decoration: none;
 }
 .page-item.active .page-link {
   z-index: 1;

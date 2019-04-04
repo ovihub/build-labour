@@ -21,7 +21,8 @@
                     <img class="text-icon" src="/img/icons/dollarsign.png"
                         srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
 
-                    Studied <b>{{ input.course }}</b> - <span class="text-style-1">{{ input.school }}</span>
+                    Studied <b>{{ input.course }}</b> - {{ input.school }}
+                    <!-- <span class="text-style-1">{{ input.school }}</span> -->
                 </div>
             </div>
             
