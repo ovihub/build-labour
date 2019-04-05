@@ -10,6 +10,9 @@
 </template>
 
 <script>
+
+    import Api from '@/api';
+
     export default {
 
         data() {
@@ -28,6 +31,8 @@
                 axios.get(component.endpoints.logout, Utils.getBearerAuth())
                 
                     .then(function(response) {
+
+                        Api.deleteToken();
                         window.location.href = '/login';
                     })
                     .catch(function(error) {

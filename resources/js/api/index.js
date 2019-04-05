@@ -2,9 +2,12 @@ import Axios from 'axios'
 import VueCookie from 'vue-cookie'
 
 class BuildLabourApi {
+
     constructor () {
-        const prod = ''
-        const local = ''
+
+        const prod = '';
+        const local = '';
+        this.tokenName = 'bl_token';
 
         this.options = {
             Api: {
@@ -12,13 +15,13 @@ class BuildLabourApi {
                 Version: 'v1'
             }
         }
-      //  this._headers()
+        //  this._headers()
     }
 
     _headers () {
-        Axios.defaults.headers.put['Content-Type'] = 'application/json'
-        Axios.defaults.headers.post['Content-Type'] = 'application/json'
-        Axios.defaults.baseURL = this._apiURL()
+        Axios.defaults.headers.put['Content-Type'] = 'application/json';
+        Axios.defaults.headers.post['Content-Type'] = 'application/json';
+        Axios.defaults.baseURL = this._apiURL();
 
         if(this.isAuthenticated())
             this._invalidateToken();
@@ -29,7 +32,7 @@ class BuildLabourApi {
     }
 
     _getBearerToken() {
-        let token = JSON.parse(VueCookie.get("bl_token"))
+        let token = JSON.parse(VueCookie.get(this.tokenName));
         return token
     }
 
@@ -38,16 +41,21 @@ class BuildLabourApi {
     }
 
     isAuthenticated() {
-        const authed = JSON.parse(VueCookie.get("bl_token"))
+        const authed = JSON.parse(VueCookie.get(this.tokenName));
         return authed != null;
     }
 
     setToken(token) {
 
         console.log('xxxxxxxxx');
-        console.log(token);
-        VueCookie.set("bl_token", JSON.stringify(token))
+        console.log(this.tokenName);
+        VueCookie.set(this.tokenName, JSON.stringify(token));
         this._invalidateToken()
+    }
+
+    deleteToken() {
+
+        VueCookie.delete(this.tokenName);
     }
 
 }

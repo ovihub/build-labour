@@ -1939,6 +1939,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
@@ -1950,6 +1951,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1962,6 +1964,7 @@ __webpack_require__.r(__webpack_exports__);
     logoutUser: function logoutUser() {
       var component = this;
       axios.get(component.endpoints.logout, Utils.getBearerAuth()).then(function (response) {
+        _api__WEBPACK_IMPORTED_MODULE_0__["default"].deleteToken();
         window.location.href = '/login';
       }).catch(function (error) {
         var data = error.response.data;
@@ -56683,6 +56686,7 @@ function () {
 
     var prod = '';
     var local = '';
+    this.tokenName = 'bl_token';
     this.options = {
       Api: {
         Domain: local,
@@ -56708,7 +56712,7 @@ function () {
   }, {
     key: "_getBearerToken",
     value: function _getBearerToken() {
-      var token = JSON.parse(vue_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.get("bl_token"));
+      var token = JSON.parse(vue_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.get(this.tokenName));
       return token;
     }
   }, {
@@ -56719,17 +56723,22 @@ function () {
   }, {
     key: "isAuthenticated",
     value: function isAuthenticated() {
-      var authed = JSON.parse(vue_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.get("bl_token"));
+      var authed = JSON.parse(vue_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.get(this.tokenName));
       return authed != null;
     }
   }, {
     key: "setToken",
     value: function setToken(token) {
       console.log('xxxxxxxxx');
-      console.log(token);
-      vue_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.set("bl_token", JSON.stringify(token));
+      console.log(this.tokenName);
+      vue_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.set(this.tokenName, JSON.stringify(token));
 
       this._invalidateToken();
+    }
+  }, {
+    key: "deleteToken",
+    value: function deleteToken() {
+      vue_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.delete(this.tokenName);
     }
   }]);
 
