@@ -8,32 +8,32 @@
             
             <div class="profile-title">About Me</div>
 
-            <span class="profile-label mt-2 pt-1">Gender</span>
-            <span class="profile-text">
+            <span class="bl-label-s15 mt-2 pt-1">Gender</span>
+            <span class="bl-label-s14">
                 {{ input.gender }}
             </span>
 
-            <span class="profile-label mt-2 pt-1">Date of Birth</span>
-            <span class="profile-text">
+            <span class="bl-label-s15 mt-2 pt-1">Date of Birth</span>
+            <span class="bl-label-s14">
                 {{ input.dob_formatted }}
             </span>
 
-            <span class="profile-label mt-2 pt-1">Marital Status</span>
-            <span class="profile-text">
+            <span class="bl-label-s15 mt-2 pt-1">Marital Status</span>
+            <span class="bl-label-s14">
                 {{ input.marital_status }}
             </span>
 
-            <span class="profile-label mt-2 pt-1">English Skill</span>
-            <span class="profile-text">
+            <span class="bl-label-s15 mt-2 pt-1">English Skill</span>
+            <span class="bl-label-s14">
                 Proficient in written and spoken
             </span>
 
-            <span class="profile-label mt-2 pt-1">Driver's License</span>
-            <span class="profile-text">
+            <span class="bl-label-s15 mt-2 pt-1">Driver's License</span>
+            <span class="bl-label-s14">
                 Owns valid license
             </span>
-            <span class="profile-text">
-                Don't own/have access to personal registered vehicle
+            <span class="bl-label-s14">
+                Don't own/have access to personal registered vehicle vehicle vehicles
             </span>
         </div>
     </div>

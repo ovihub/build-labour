@@ -2,37 +2,37 @@
     <div class="row">
         <div class="col-md-1 col-sm-1">
             <a href="#">
-                <img class="site-nav-brand" src="/img/icons/build-labour-logo-white.png"
+                <img class="bl-nav-brand" src="/img/icons/build-labour-logo-white.png"
                     srcset="/img/icons/build-labour-logo-white@2x.png 2x, /img/icons/build-labour-logo-white@3x.png 3x">
             </a>
         </div>
 
         <div class="col-md-3 col-sm-3">
-            <input class="site-nav-search" id="search" type="text" name="search" />
+            <input class="bl-nav-search" id="search" type="text" name="search" />
         </div>
 
         <div class="col-md-1 col-sm-1">
             <a href="#">
-                <img class="site-nav-tab" src="/img/icons/dashboardinactive.png"
+                <img class="bl-nav-tab" src="/img/icons/dashboardinactive.png"
                     srcset="/img/icons/dashboardinactive@2x.png 2x, /img/icons/dashboardinactive@3x.png 3x">
 
-                <p class="site-nav-tab-label">Dashboard</p>
+                <p class="bl-nav-tab-label">Dashboard</p>
             </a>
         </div>
         <div class="col-md-1 col-sm-1">
             <a href="#">
-                <img class="site-nav-tab" src="/img/icons/jobsearchinactive.png"
+                <img class="bl-nav-tab" src="/img/icons/jobsearchinactive.png"
                     srcset="/img/icons/jobsearchinactive@2x.png 2x, /img/icons/jobsearchinactive@3x.png 3x">
         
-                <p class="site-nav-tab-label">Jobs</p>
+                <p class="bl-nav-tab-label">Jobs</p>
             </a>
         </div>
         <div class="col-md-1 col-sm-1">
             <a href="#">
-                <img class="site-nav-tab" src="/img/icons/messagesinactive.png"
+                <img class="bl-nav-tab" src="/img/icons/messagesinactive.png"
                     srcset="/img/icons/messagesinactive@2x.png 2x, /img/icons/messagesinactive@3x.png 3x">
 
-                <p class="site-nav-tab-label">Messages</p>
+                <p class="bl-nav-tab-label">Messages</p>
             </a>
         </div>
         <div class="col-md-3 col-sm-3">
@@ -49,7 +49,7 @@
             <div class="row justify-content-center">
                 <logout></logout>
                 <a href="#">
-                    <img class="site-nav-tab" src="/img/icons/notificationsinactive.png"
+                    <img class="bl-nav-tab" src="/img/icons/notificationsinactive.png"
                         srcset="/img/icons/notificationsinactive@2x.png 2x, /img/icons/notificationsinactive@3x.png 3x">
                 </a>
             </div>

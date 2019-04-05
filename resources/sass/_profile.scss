@@ -65,7 +65,7 @@
     li.main-items {
       list-style-type: none;
 
-      .profile-role-name {
+      .bl-label-s16 {
         font-size: 16px;
         font-weight: 500;
         color: #000000;
@@ -73,7 +73,7 @@
         border-top: 1px solid rgb(156, 173, 189, 0.5);
       }
 
-      .profile-role-image {
+      .bl-image-56 {
         width: 56px;
         height: 56px;
         border-radius: 8px;
@@ -102,6 +102,8 @@
     width: 32px;
     height: 32px;
     border-radius: 4px;
+    margin-left: 15px;
+    margin-right: 10px;
   }
   ul {
     padding: 16px 0 0 0;
@@ -118,7 +120,7 @@
     }
   }
 }
-.profile-item-3 .profile-content .profile-label {
+.profile-item-3 .profile-content .bl-label-s15 {
   font-size: 15px;
   font-weight: normal;
   font-style: normal;
@@ -177,13 +179,13 @@
   margin-left: auto;
   margin-right: auto;
 }
-.profile-name {
+.bl-label-s22 {
   font-size: 22px;
   font-weight: 500;
   color: #252829;
   text-align: center;
 }
-.profile-display {
+.bl-display {
   display: inline-block;
 }
 .profile-role {
@@ -196,7 +198,7 @@
     color: #6b7172;
   }
 }
-.profile-address {
+.bl-label-s15-mtb {
   font-size: 15px;
   color: #000000;
   margin: 25px 0px 11px;
@@ -211,19 +213,21 @@
     color: #6b7172;
   }
 }
-.profile-experience {
+.bl-label-s15-mb20 {
   font-size: 15px;
   line-height: 1.33;
   letter-spacing: -0.2px;
   color: #2f2f2f;
   margin-bottom: 20px;
 }
-.profile-role-image {
+.bl-image-56 {
   width: 56px;
   height: 56px;
   border-radius: 8px;
   box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.08), 0 0 10px 0 rgba(57, 86, 101, 0.08);
   background-color: #fcfeff;
+  margin-left: 15px;
+  margin-right: 20px;
 }
 .profile-role-header {
   font-size: 16px;
@@ -231,7 +235,7 @@
   color: #000000;
   margin-bottom: 15px;
 }
-.profile-role-name {
+.bl-label-s16 {
   font-size: 16px;
   font-weight: 500;
   color: #000000;
@@ -247,7 +251,7 @@
     margin-right: 8px;
   }
 }
-.profile-label {
+.bl-label-s15 {
   font-size: 15px;
   color: #393939;
   line-height: normal;
@@ -264,13 +268,13 @@
     }
   }
 }
-.employment-label {
+.bl-label-s14-mt-13 {
   font-size: 14px;
   letter-spacing: -0.2px;
   color: #000000;
-  margin-bottom: 13px;
+  margin-top: 13px;
 }
-.profile-text {
+.bl-label-s14 {
   font-size: 14px;
   font-weight: 200;
   color: #6b7172;
@@ -280,4 +284,7 @@
   line-height: 1.33;
   color: #6b7172;
   padding: 16px 0 6px 0;
+}
+.responsibilities {
+  margin-left: 75px;
 }

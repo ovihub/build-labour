@@ -3,6 +3,8 @@
 </template>
 
 <script>
+
+    import Api from '@/api';
     
     export default {
         data() {
@@ -82,6 +84,7 @@
                     .catch(function(error) {
                         // let data = error.response.data;
 
+                        Api.deleteToken();
                         Utils.handleError(error);
                     });
             },

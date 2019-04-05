@@ -4,14 +4,14 @@
             <img class="profile-picture" v-bind:src="input.profile_photo_url">
         </div>
         <div class="profile-content">
-            <div class="profile-name m0">{{ input.first_name }} {{ input.last_name }}</div>
+            <div class="bl-label-s22 m0">{{ input.first_name }} {{ input.last_name }}</div>
         
             <div class="profile-role">
                 {{ input.job_role }} - {{ input.company_name }}
             </div>
             
-            <div class="profile-display">
-                <span class="profile-address">
+            <div class="bl-display">
+                <span class="bl-label-s15-mtb">
                     <img class="text-icon" src="/img/icons/pinlocation.png"
                         srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
                     {{ input.address }} {{ input.country }}
@@ -26,8 +26,8 @@
                 </div>
             </div>
             
-            <div class="profile-display">
-                <div class="profile-experience">
+            <div class="bl-display">
+                <div class="bl-label-s15-mb20">
                     Experienced Senior Project Manager;
                     demonstrated history of working on a wide range
                     of construction projects for leading companies.
@@ -37,17 +37,15 @@
             <span class="profile-role-header">Current Role</span>
 
             <div class="row">
-                <div class="col-md-3 col-sm-3">
-                    <img class="profile-role-image" src="/img/logo/1.jpg">
-                </div>
-                <div class="col-md-9 col-sm-9">
-                    <span class="profile-role-name">
+                <img class="bl-image-56" src="/img/logo/1.jpg">
+                <div class="bl-display">
+                    <span class="bl-label-s16">
                         {{ input.job_role }}
                     </span>
-                    <span class="profile-label mt-0 pt-0">
+                    <span class="bl-label-s15 mt-0 pt-0">
                         {{ input.company_name }}
                     </span>
-                    <span class="profile-text">
+                    <span class="bl-label-s14">
                         {{ input.period }}
                     </span>
                 </div>

@@ -5,15 +5,13 @@
         </div>
         <div class="profile-content">
             <div class="row">
-                <div class="col-md-2 col-sm-2">
-                    <img class="job-logo" src="/img/logo/1.jpg">
-                </div>
-                <div class="col-md-10 col-sm-10">
-                    <span class="profile-role-name mt-0 pt-0">CBus Super</span>
-                    <span class="profile-label mt-0 pt-0">
-                        Come and chat with one of
-                        our experts on how you can
-                        build for your retirement.
+                <img src="/img/logo/1.jpg">
+                <div class="bl-display">
+                    <span class="bl-label-s15 mt-0 pt-0">
+                        CBus Super
+                    </span>
+                    <span class="bl-label-s14">
+                        Come and chat with one of our experts on how you can build for your retirement.
                     </span>
                     
                     <div class="profile-more">

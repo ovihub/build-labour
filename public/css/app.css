@@ -10739,7 +10739,7 @@ a.text-dark:focus {
   list-style-type: none;
 }
 
-.profile-item-2 .profile-content ul.list-main-items li.main-items .profile-role-name {
+.profile-item-2 .profile-content ul.list-main-items li.main-items .bl-label-s16 {
   font-size: 16px;
   font-weight: 500;
   color: #000000;
@@ -10747,7 +10747,7 @@ a.text-dark:focus {
   border-top: 1px solid rgba(156, 173, 189, 0.5);
 }
 
-.profile-item-2 .profile-content ul.list-main-items li.main-items .profile-role-image {
+.profile-item-2 .profile-content ul.list-main-items li.main-items .bl-image-56 {
   width: 56px;
   height: 56px;
   border-radius: 8px;
@@ -10777,6 +10777,8 @@ a.text-dark:focus {
   width: 32px;
   height: 32px;
   border-radius: 4px;
+  margin-left: 15px;
+  margin-right: 10px;
 }
 
 .profile-item-3 .profile-content ul {
@@ -10795,7 +10797,7 @@ a.text-dark:focus {
   border-bottom: 1px solid rgba(156, 173, 189, 0.5);
 }
 
-.profile-item-3 .profile-content .profile-label {
+.profile-item-3 .profile-content .bl-label-s15 {
   font-size: 15px;
   font-weight: normal;
   font-style: normal;
@@ -10865,14 +10867,14 @@ a.text-dark:focus {
   margin-right: auto;
 }
 
-.profile-name {
+.bl-label-s22 {
   font-size: 22px;
   font-weight: 500;
   color: #252829;
   text-align: center;
 }
 
-.profile-display {
+.bl-display {
   display: inline-block;
 }
 
@@ -10887,7 +10889,7 @@ a.text-dark:focus {
   color: #6b7172;
 }
 
-.profile-address {
+.bl-label-s15-mtb {
   font-size: 15px;
   color: #000000;
   margin: 25px 0px 11px;
@@ -10904,7 +10906,7 @@ a.text-dark:focus {
   color: #6b7172;
 }
 
-.profile-experience {
+.bl-label-s15-mb20 {
   font-size: 15px;
   line-height: 1.33;
   letter-spacing: -0.2px;
@@ -10912,12 +10914,14 @@ a.text-dark:focus {
   margin-bottom: 20px;
 }
 
-.profile-role-image {
+.bl-image-56 {
   width: 56px;
   height: 56px;
   border-radius: 8px;
   box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.08), 0 0 10px 0 rgba(57, 86, 101, 0.08);
   background-color: #fcfeff;
+  margin-left: 15px;
+  margin-right: 20px;
 }
 
 .profile-role-header {
@@ -10927,7 +10931,7 @@ a.text-dark:focus {
   margin-bottom: 15px;
 }
 
-.profile-role-name {
+.bl-label-s16 {
   font-size: 16px;
   font-weight: 500;
   color: #000000;
@@ -10946,7 +10950,7 @@ a.text-dark:focus {
   margin-right: 8px;
 }
 
-.profile-label {
+.bl-label-s15 {
   font-size: 15px;
   color: #393939;
   line-height: normal;
@@ -10954,23 +10958,23 @@ a.text-dark:focus {
   padding-top: 0.25rem;
 }
 
-.profile-label ul.list-items {
+.bl-label-s15 ul.list-items {
   list-style-type: square;
   padding: 0 0 0 20px;
 }
 
-.profile-label ul.list-items li {
+.bl-label-s15 ul.list-items li {
   margin-bottom: 12px;
 }
 
-.employment-label {
+.bl-label-s14-mt-13 {
   font-size: 14px;
   letter-spacing: -0.2px;
   color: #000000;
-  margin-bottom: 13px;
+  margin-top: 13px;
 }
 
-.profile-text {
+.bl-label-s14 {
   font-size: 14px;
   font-weight: 200;
   color: #6b7172;
@@ -10981,6 +10985,10 @@ a.text-dark:focus {
   line-height: 1.33;
   color: #6b7172;
   padding: 16px 0 6px 0;
+}
+
+.responsibilities {
+  margin-left: 75px;
 }
 
 html {
@@ -11244,30 +11252,6 @@ h6 {
   font-weight: 700;
 }
 
-h1 {
-  font-size: 2.6em;
-}
-
-h2 {
-  font-size: 2.2em;
-}
-
-h3 {
-  font-size: 1.8em;
-}
-
-h4 {
-  font-size: 1.4em;
-}
-
-h5 {
-  font-size: 1em;
-}
-
-h6 {
-  font-size: 0.8em;
-}
-
 *,
 *:before,
 *:after {
@@ -11377,34 +11361,42 @@ h6 {
     Default Styling
   ========================================================================== */
 
+.content-section .container .row .col-xl-6,
+.content-section .container .row .col-xl-3,
+.content-section .container .row .col-lg-6,
+.content-section .container .row .col-lg-3,
+.content-section .container .row .col-md-6,
+.content-section .container .row .col-md-3,
+.content-section .container .row .col-sm-6,
+.content-section .container .row .col-sm-3,
+.content-section .container .row .col-6,
+.content-section .container .row .col-3 {
+  position: relative;
+  width: 100%;
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.content-section .container .row .col-xl-6,
+.content-section .container .row .col-lg-6,
+.content-section .container .row .col-md-6,
+.content-section .container .row .col-sm-6,
+.content-section .container .row .col-6 {
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+.profile-item-2 .profile-content .row .col-md-6,
+.profile-item-2 .profile-content .row .col-sm-6 {
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 .content-section {
-  margin: 50px 0;
+  margin: 40px 0;
   min-height: 70vh;
-}
-
-.section-title h2 {
-  margin-top: 0;
-  margin-bottom: 50px;
-}
-
-.main-btn {
-  display: inline-block;
-  background-color: #f5a623;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  width: 160px;
-  height: 46px;
-  line-height: 46px;
-  text-align: center;
-  border-radius: 4px;
-  background-clip: padding-box;
-  /* stops bg color from leaking outside the border: */
-}
-
-.main-btn:hover {
-  background-color: #e84c3d;
-  color: white;
 }
 
 form input[type=text],
@@ -11438,38 +11430,38 @@ textarea {
     Footer Site Styling
   ========================================================================== */
 
-.site-footer {
+.bl-footer {
   color: white;
   font-size: 13px;
 }
 
-.site-footer a {
+.bl-footer a {
   color: white;
 }
 
-.site-footer a:hover {
+.bl-footer a:hover {
   color: #bfddf0;
 }
 
-.site-footer h3.widget-title {
+.bl-footer h3.widget-title {
   font-weight: 600;
   color: white;
   margin: 0 0 30px 0;
   font-size: 1.4em;
 }
 
-.bottom-footer {
+.bl-bottom-footer {
   background-color: #f5a623;
   padding: 20px 0;
   font-size: 12px;
 }
 
-.bottom-footer span {
+.bl-bottom-footer span {
   display: block;
   margin-bottom: 10px;
 }
 
-.bottom-footer p {
+.bl-bottom-footer p {
   width: 70%;
   margin: 0 auto;
 }
@@ -11478,108 +11470,69 @@ textarea {
   RESPONSIVE STYLES 
 --------------------------------------------------------*/
 
-@media (max-width: 991px) {
-  ul.menu {
-    text-align: left;
-    background-color: #f5a623 !important;
-    width: 100%;
-    height: auto !important;
-    background-color: red;
-    right: 60px !important;
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1257px;
   }
 
-  ul.menu li {
-    float: none;
-    display: block !important;
+  .content-section .container .row .col-md-6 {
+    flex: 0 0 47%;
+    max-width: 47%;
   }
 
-  .toggle-menu {
-    background-color: #f5a623 !important;
-  }
-
-  .profile-content select {
-    width: 100%;
-  }
-
-  .profile-item-1,
-  .profile-item-2,
-  .profile-item-3 {
-    width: 100%;
-  }
-
-  .profile-item-2 .profile-thumb,
-  .profile-item-3 .profile-thumb {
-    height: auto;
-  }
-
-  .profile-item-3 {
-    margin-bottom: 30px;
+  .content-section .container .row .col-md-3 {
+    flex: 0 0 23%;
+    max-width: 23%;
   }
 }
 
-@media (max-width: 767px) {
-  .top-header {
-    border-bottom: 0;
+@media (max-width: 991px) {
+  .col-md-6,
+  .col-sm-6,
+  .col-md-3,
+  .col-sm-3 {
+    max-width: 540px;
   }
 
-  ul.menu {
-    min-width: 320px !important;
+  .col-md-2,
+  .col-sm-2 {
+    flex: 0 0 16.6666666667%;
+    max-width: 16.6666666667%;
   }
 
-  .top-header-left {
-    border-bottom: 1px solid #dddddd;
+  .col-md-10,
+  .col-sm-10 {
+    flex: 0 0 83%;
+    max-width: 83%;
   }
 
-  .main-nav {
-    height: 100%;
+  .responsibilities {
+    margin-left: 0px;
+  }
+}
+
+@media (min-width: 768px) {
+  .col-md-6,
+  .col-sm-6 {
+    flex: 0 0 47%;
+    max-width: 47%;
   }
 
-  .main-nav .list-menu {
-    border-bottom: 1px solid #3598db;
-  }
-
-  .main-nav .notification {
-    padding: 20px 0;
-    text-align: left;
-  }
-
-  .profile-content select {
-    width: 40%;
-  }
-
-  .profile-item-2,
-  .profile-item-4 {
-    width: 100%;
-  }
-
-  .profile-item-4 {
-    margin-bottom: 30px;
-  }
-
-  .profile-item-4 .profile-content p {
-    display: none;
+  .col-md-3,
+  .col-sm-3 {
+    flex: 0 0 23%;
+    max-width: 23%;
   }
 }
 
 @media (max-width: 581px) {
-  ul.menu {
-    min-width: 220px !important;
-  }
-
-  .main-nav .list-menu ul li {
-    padding: 20px 15px;
-  }
-
-  .main-nav .list-menu ul li a {
-    font-size: 14px;
-  }
-
-  .profile-content select {
-    width: 100%;
-  }
-
-  .profile-item-2 .profile-content p {
-    display: none;
+  .content-section .container .row .col-xl-3,
+  .content-section .container .row .col-lg-3,
+  .content-section .container .row .col-md-3,
+  .content-section .container .row .col-sm-3,
+  .content-section .container .row .col-3 {
+    margin-left: 24px;
+    margin-right: 24px;
   }
 }
 
@@ -11587,7 +11540,7 @@ textarea {
     Navigation Bar Styling
   ========================================================================== */
 
-.site-nav-brand {
+.bl-nav-brand {
   width: 52px;
   height: 21px;
   -o-object-fit: contain;
@@ -11599,7 +11552,7 @@ textarea {
   margin-right: auto;
 }
 
-.site-nav-search {
+.bl-nav-search {
   width: 100%;
   height: 32px;
   border-radius: 4px;
@@ -11611,7 +11564,7 @@ textarea {
   min-width: 0;
 }
 
-.site-nav-tab {
+.bl-nav-tab {
   width: 24px;
   height: 24px;
   -o-object-fit: contain;
@@ -11623,7 +11576,7 @@ textarea {
   margin-right: auto;
 }
 
-p.site-nav-tab-label {
+p.bl-nav-tab-label {
   text-align: center;
   opacity: 0.5;
   font-size: 12px;

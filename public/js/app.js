@@ -2682,8 +2682,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -2702,8 +2700,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
 //
 //
 //
@@ -2839,95 +2835,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      expanded: true,
+      expanded: [],
       employments: []
     };
   },
@@ -2935,14 +2846,18 @@ __webpack_require__.r(__webpack_exports__);
     var component = this;
     Bus.$on('employmentDetails', function (detailsArray) {
       component.employments = detailsArray;
+
+      for (var i = 0; i < component.employments.length; i++) {
+        component.expanded[i] = false;
+      }
     });
   },
   methods: {
-    collapse: function collapse() {
-      this.expanded = false;
+    collapse: function collapse(index) {
+      this.expanded[index] = false;
     },
-    expand: function expand() {
-      this.expanded = true;
+    expand: function expand(index) {
+      this.expanded[index] = true;
     }
   }
 });
@@ -3179,16 +3094,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -3207,10 +3112,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3291,6 +3198,7 @@ __webpack_require__.r(__webpack_exports__);
         Bus.$emit('industrySkillsDetails', component.industry_skills);
       }).catch(function (error) {
         // let data = error.response.data;
+        _api__WEBPACK_IMPORTED_MODULE_0__["default"].deleteToken();
         Utils.handleError(error);
       });
     }
@@ -3407,8 +3315,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
 //
 //
 //
@@ -41684,7 +41590,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-md-1 col-sm-1" }, [
       _c("a", { attrs: { href: "#" } }, [
         _c("img", {
-          staticClass: "site-nav-brand",
+          staticClass: "bl-nav-brand",
           attrs: {
             src: "/img/icons/build-labour-logo-white.png",
             srcset:
@@ -41703,7 +41609,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-3 col-sm-3" }, [
       _c("input", {
-        staticClass: "site-nav-search",
+        staticClass: "bl-nav-search",
         attrs: { id: "search", type: "text", name: "search" }
       })
     ])
@@ -41715,7 +41621,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-md-1 col-sm-1" }, [
       _c("a", { attrs: { href: "#" } }, [
         _c("img", {
-          staticClass: "site-nav-tab",
+          staticClass: "bl-nav-tab",
           attrs: {
             src: "/img/icons/dashboardinactive.png",
             srcset:
@@ -41726,7 +41632,7 @@ var staticRenderFns = [
           }
         }),
         _vm._v(" "),
-        _c("p", { staticClass: "site-nav-tab-label" }, [_vm._v("Dashboard")])
+        _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Dashboard")])
       ])
     ])
   },
@@ -41737,7 +41643,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-md-1 col-sm-1" }, [
       _c("a", { attrs: { href: "#" } }, [
         _c("img", {
-          staticClass: "site-nav-tab",
+          staticClass: "bl-nav-tab",
           attrs: {
             src: "/img/icons/jobsearchinactive.png",
             srcset:
@@ -41748,7 +41654,7 @@ var staticRenderFns = [
           }
         }),
         _vm._v(" "),
-        _c("p", { staticClass: "site-nav-tab-label" }, [_vm._v("Jobs")])
+        _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Jobs")])
       ])
     ])
   },
@@ -41759,7 +41665,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-md-1 col-sm-1" }, [
       _c("a", { attrs: { href: "#" } }, [
         _c("img", {
-          staticClass: "site-nav-tab",
+          staticClass: "bl-nav-tab",
           attrs: {
             src: "/img/icons/messagesinactive.png",
             srcset:
@@ -41770,7 +41676,7 @@ var staticRenderFns = [
           }
         }),
         _vm._v(" "),
-        _c("p", { staticClass: "site-nav-tab-label" }, [_vm._v("Messages")])
+        _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Messages")])
       ])
     ])
   },
@@ -41780,7 +41686,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("a", { attrs: { href: "#" } }, [
       _c("img", {
-        staticClass: "site-nav-tab",
+        staticClass: "bl-nav-tab",
         attrs: {
           src: "/img/icons/notificationsinactive.png",
           srcset:
@@ -41820,53 +41726,51 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "profile-title" }, [_vm._v("About Me")]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-label mt-2 pt-1" }, [
-        _vm._v("Gender")
-      ]),
+      _c("span", { staticClass: "bl-label-s15 mt-2 pt-1" }, [_vm._v("Gender")]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-text" }, [
+      _c("span", { staticClass: "bl-label-s14" }, [
         _vm._v("\n            " + _vm._s(_vm.input.gender) + "\n        ")
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-label mt-2 pt-1" }, [
+      _c("span", { staticClass: "bl-label-s15 mt-2 pt-1" }, [
         _vm._v("Date of Birth")
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-text" }, [
+      _c("span", { staticClass: "bl-label-s14" }, [
         _vm._v(
           "\n            " + _vm._s(_vm.input.dob_formatted) + "\n        "
         )
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-label mt-2 pt-1" }, [
+      _c("span", { staticClass: "bl-label-s15 mt-2 pt-1" }, [
         _vm._v("Marital Status")
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-text" }, [
+      _c("span", { staticClass: "bl-label-s14" }, [
         _vm._v(
           "\n            " + _vm._s(_vm.input.marital_status) + "\n        "
         )
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-label mt-2 pt-1" }, [
+      _c("span", { staticClass: "bl-label-s15 mt-2 pt-1" }, [
         _vm._v("English Skill")
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-text" }, [
+      _c("span", { staticClass: "bl-label-s14" }, [
         _vm._v("\n            Proficient in written and spoken\n        ")
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-label mt-2 pt-1" }, [
+      _c("span", { staticClass: "bl-label-s15 mt-2 pt-1" }, [
         _vm._v("Driver's License")
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-text" }, [
+      _c("span", { staticClass: "bl-label-s14" }, [
         _vm._v("\n            Owns valid license\n        ")
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-text" }, [
+      _c("span", { staticClass: "bl-label-s14" }, [
         _vm._v(
-          "\n            Don't own/have access to personal registered vehicle\n        "
+          "\n            Don't own/have access to personal registered vehicle vehicle vehicles\n        "
         )
       ])
     ])
@@ -41926,21 +41830,16 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("div", { staticClass: "profile-content" }, [
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-2 col-sm-2" }, [
-            _c("img", {
-              staticClass: "job-logo",
-              attrs: { src: "/img/logo/1.jpg" }
-            })
-          ]),
+          _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-10 col-sm-10" }, [
-            _c("span", { staticClass: "profile-role-name mt-0 pt-0" }, [
-              _vm._v("CBus Super")
+          _c("div", { staticClass: "bl-display" }, [
+            _c("span", { staticClass: "bl-label-s15 mt-0 pt-0" }, [
+              _vm._v("\n                    CBus Super\n                ")
             ]),
             _vm._v(" "),
-            _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
+            _c("span", { staticClass: "bl-label-s14" }, [
               _vm._v(
-                "\n                    Come and chat with one of\n                    our experts on how you can\n                    build for your retirement.\n                "
+                "\n                    Come and chat with one of our experts on how you can build for your retirement.\n                "
               )
             ]),
             _vm._v(" "),
@@ -41986,10 +41885,13 @@ var render = function() {
         _vm._l(_vm.educations, function(education) {
           return _c("div", { key: education.id }, [
             _c("div", { staticClass: "row mt-4" }, [
-              _vm._m(2, true),
+              _c("img", {
+                staticClass: "bl-image-56",
+                attrs: { src: "/img/logo/1.jpg" }
+              }),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-10 col-sm-10" }, [
-                _c("div", { staticClass: "profile-role-name" }, [
+              _c("div", { staticClass: "bl-display" }, [
+                _c("span", { staticClass: "bl-label-s16" }, [
                   _vm._v(
                     "\n                        " +
                       _vm._s(education.course) +
@@ -41997,7 +41899,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
+                _c("span", { staticClass: "bl-label-s15 mt-0 pt-0" }, [
                   _vm._v(
                     "\n                        " +
                       _vm._s(education.school) +
@@ -42005,7 +41907,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("span", { staticClass: "profile-text mb-0 pb-0" }, [
+                _c("span", { staticClass: "bl-label-s14 mb-0 pb-0" }, [
                   _vm._v(
                     "\n                        " +
                       _vm._s(education.start_date_formatted) +
@@ -42058,17 +41960,6 @@ var staticRenderFns = [
       }),
       _vm._v("\n\n            Education\n        ")
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-2 col-sm-2" }, [
-      _c("img", {
-        staticClass: "profile-role-image",
-        attrs: { src: "/img/logo/1.jpg" }
-      })
-    ])
   }
 ]
 render._withStripped = true
@@ -42101,90 +41992,111 @@ var render = function() {
       _c(
         "ul",
         { staticClass: "list-main-items" },
-        [
-          _c("li", { staticClass: "main-items-top" }, [
-            _vm.expanded === false
-              ? _c("span", { staticClass: "text-icon-2" }, [
-                  _c("img", {
-                    attrs: {
-                      src: "/img/icons/expand.png",
-                      srcset:
-                        "/img/icons/expand@2x.png" +
-                        " 2x, " +
-                        "/img/icons/expand@3x.png" +
-                        " 3x"
-                    },
-                    on: { click: _vm.expand }
-                  })
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.expanded
-              ? _c("span", { staticClass: "text-icon-2" }, [
-                  _c("img", {
-                    attrs: {
-                      src: "/img/icons/collapse.png",
-                      srcset:
-                        "/img/icons/collapse@2x.png" +
-                        " 2x, " +
-                        "/img/icons/collapse@3x.png" +
-                        " 3x"
-                    },
-                    on: { click: _vm.collapse }
-                  })
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm._m(2),
-            _vm._v(" "),
-            _vm.expanded
-              ? _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-2 col-sm-2" }),
-                  _vm._v(" "),
-                  _vm._m(3)
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _vm._l(_vm.employments, function(employment) {
-            return _c("div", { key: employment.id }, [
-              _c("li", { staticClass: "main-items" }, [
-                _vm._m(4, true),
+        _vm._l(_vm.employments, function(employment, index) {
+          return _c("div", { key: index }, [
+            _c("li", { staticClass: "main-items" }, [
+              !_vm.expanded[index]
+                ? _c("span", { staticClass: "text-icon-2" }, [
+                    _c("img", {
+                      attrs: {
+                        src: "/img/icons/expand.png",
+                        srcset:
+                          "/img/icons/expand@2x.png" +
+                          " 2x, " +
+                          "/img/icons/expand@3x.png" +
+                          " 3x"
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.expand(index)
+                        }
+                      }
+                    })
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.expanded[index]
+                ? _c("span", { staticClass: "text-icon-2" }, [
+                    _c("img", {
+                      attrs: {
+                        src: "/img/icons/collapse.png",
+                        srcset:
+                          "/img/icons/collapse@2x.png" +
+                          " 2x, " +
+                          "/img/icons/collapse@3x.png" +
+                          " 3x"
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.collapse(index)
+                        }
+                      }
+                    })
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mt-4" }, [
+                _c("img", {
+                  staticClass: "bl-image-56",
+                  attrs: { src: "/img/logo/1.jpg" }
+                }),
                 _vm._v(" "),
-                _c("div", { staticClass: "row mt-4" }, [
-                  _vm._m(5, true),
+                _c("div", { staticClass: "bl-display" }, [
+                  _c("span", { staticClass: "bl-label-s16" }, [
+                    _vm._v(
+                      "\n                                " +
+                        _vm._s(employment.job_role) +
+                        "\n                            "
+                    )
+                  ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-10 col-sm-10" }, [
-                    _c("div", { staticClass: "profile-role-name" }, [
-                      _vm._v(
-                        "\n                                " +
-                          _vm._s(employment.job_role) +
-                          "\n                            "
-                      )
-                    ]),
+                  _c("span", { staticClass: "bl-label-s15 mt-0 pt-0" }, [
+                    _vm._v(
+                      "\n                                " +
+                        _vm._s(employment.company_name) +
+                        "\n                            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "bl-label-s14" }, [
+                    _vm._v(
+                      "\n                                " +
+                        _vm._s(employment.period) +
+                        "\n                            "
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _vm.expanded[index]
+                ? _c("div", { staticClass: "responsibilities" }, [
+                    _vm._m(2, true),
                     _vm._v(" "),
-                    _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
-                      _vm._v(
-                        "\n                                " +
-                          _vm._s(employment.company_name) +
-                          "\n                            "
-                      )
-                    ]),
+                    _vm._m(3, true),
                     _vm._v(" "),
-                    _c("span", { staticClass: "profile-text mb-0 pb-0" }, [
-                      _vm._v(
-                        "\n                                " +
-                          _vm._s(employment.period) +
-                          "\n                            "
+                    _vm._m(4, true),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "bl-label-s15" }, [
+                      _c(
+                        "ul",
+                        { staticClass: "list-items" },
+                        _vm._l(employment.responsibilities_detail, function(
+                          responsibility,
+                          idx
+                        ) {
+                          return _c("div", { key: idx }, [
+                            _c("li", [_vm._v(_vm._s(responsibility))])
+                          ])
+                        }),
+                        0
                       )
                     ])
                   ])
-                ])
-              ])
+                : _vm._e()
             ])
-          })
-        ],
-        2
+          ])
+        }),
+        0
       )
     ])
   ])
@@ -42229,164 +42141,63 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row mt-2 mb-2" }, [
-      _c("div", { staticClass: "col-md-2 col-sm-2" }, [
-        _c("img", {
-          staticClass: "profile-role-image",
-          attrs: { src: "/img/logo/1.jpg" }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-10 col-sm-10" }, [
-        _c("div", { staticClass: "profile-role-name" }, [
-          _vm._v("Project Manager")
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
-          _vm._v("Probuild")
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "profile-text" }, [
-          _vm._v("2 years and 4 months")
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-10 col-sm-10" }, [
-      _c("span", { staticClass: "employment-label" }, [
-        _c("img", {
-          staticClass: "text-icon",
-          attrs: {
-            src: "/img/icons/pinlocation.png",
-            srcset:
-              "/img/icons/pinlocation@2x.png" +
-              " 2x, " +
-              "/img/icons/pinlocation@3x.png" +
-              " 3x"
-          }
-        }),
-        _vm._v(
-          "\n                            Richmond, Victoria, Australia\n                        "
-        )
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "employment-label" }, [
-        _c("img", {
-          staticClass: "text-icon",
-          attrs: {
-            src: "/img/icons/dollarsign.png",
-            srcset:
-              "/img/icons/dollarsign@2x.png" +
-              " 2x, " +
-              "/img/icons/dollarsign@3x.png" +
-              " 3x"
-          }
-        }),
-        _vm._v(
-          "\n                            $1,750,000\n                        "
-        )
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "employment-label" }, [
-        _c("img", {
-          staticClass: "text-icon",
-          attrs: {
-            src: "/img/icons/responsibilities.png",
-            srcset:
-              "/img/icons/responsibilities@2x.png" +
-              " 2x, " +
-              "/img/icons/responsibilities@3x.png" +
-              " 3x"
-          }
-        }),
-        _vm._v(
-          "\n                            Responsibilities:\n                        "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "profile-label" }, [
-        _c("ul", { staticClass: "list-items" }, [
-          _c("li", [
-            _vm._v(
-              "\n                                    Meeting with engineers, architects and contractors\n                                    on an ongoing basis regarding project objective\n                                    and progress\n                                "
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _vm._v(
-              "\n                                    Managing and motivating site foremen and teams\n                                "
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _vm._v(
-              "\n                                    Ensuring all equipment needed is available on site\n                                "
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _vm._v(
-              "\n                                    Conducting ongoing quality inspections\n                                "
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _vm._v(
-              "\n                                    Ensuring the construction process starts and ends\n                                    on time, and ensuring  daily and weekly deadlines\n                                    are met\n                                "
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _vm._v(
-              "\n                                    Ensuring budget costs relating to wages,\n                                    contractors, materials and equipment aren't\n                                    exceeded\n                                "
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _vm._v(
-              "\n                                    Approving purchase requests\n                                "
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _vm._v(
-              "\n                                    Ensuring compliance with health, safety and all\n                                    other regulations\n                                "
-            )
-          ])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "text-icon-2" }, [
+    return _c("span", { staticClass: "bl-label-s14-mt-13" }, [
       _c("img", {
+        staticClass: "text-icon",
         attrs: {
-          src: "/img/icons/expand.png",
+          src: "/img/icons/pinlocation.png",
           srcset:
-            "/img/icons/expand@2x.png" +
+            "/img/icons/pinlocation@2x.png" +
             " 2x, " +
-            "/img/icons/expand@3x.png" +
+            "/img/icons/pinlocation@3x.png" +
             " 3x"
         }
-      })
+      }),
+      _vm._v(
+        "\n                            Richmond, Victoria, Australia\n                        "
+      )
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-2 col-sm-2" }, [
+    return _c("span", { staticClass: "bl-label-s14-mt-13" }, [
       _c("img", {
-        staticClass: "profile-role-image",
-        attrs: { src: "/img/logo/1.jpg" }
-      })
+        staticClass: "text-icon",
+        attrs: {
+          src: "/img/icons/dollarsign.png",
+          srcset:
+            "/img/icons/dollarsign@2x.png" +
+            " 2x, " +
+            "/img/icons/dollarsign@3x.png" +
+            " 3x"
+        }
+      }),
+      _vm._v(
+        "\n                            $1,750,000\n                        "
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "bl-label-s14-mt-13" }, [
+      _c("img", {
+        staticClass: "text-icon",
+        attrs: {
+          src: "/img/icons/responsibilities.png",
+          srcset:
+            "/img/icons/responsibilities@2x.png" +
+            " 2x, " +
+            "/img/icons/responsibilities@3x.png" +
+            " 3x"
+        }
+      }),
+      _vm._v(
+        "\n                            Responsibilities:\n                        "
+      )
     ])
   }
 ]
@@ -42419,7 +42230,7 @@ var render = function() {
         _vm._v("Your Ideal Next Role")
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-text" }, [
+      _c("span", { staticClass: "bl-label-s14" }, [
         _vm._v("(Visible only to you)")
       ]),
       _vm._v(" "),
@@ -42427,17 +42238,17 @@ var render = function() {
         _vm._v("\n            " + _vm._s(_vm.input.nrole_info) + "\n        ")
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-label" }, [_vm._v("When")]),
+      _c("span", { staticClass: "bl-label-s15" }, [_vm._v("When")]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-text" }, [
+      _c("span", { staticClass: "bl-label-s14" }, [
         _vm._v("\n            " + _vm._s(_vm.input.nrole_when) + "\n        ")
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-label" }, [
+      _c("span", { staticClass: "bl-label-s15" }, [
         _vm._v("Maximum Distance from home")
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-text" }, [
+      _c("span", { staticClass: "bl-label-s14" }, [
         _vm._v(
           "\n            " +
             _vm._s(_vm.input.nrole_travel_to_home) +
@@ -42445,23 +42256,23 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-label" }, [
+      _c("span", { staticClass: "bl-label-s15" }, [
         _vm._v("Willing to relocate to")
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-text" }, [
+      _c("span", { staticClass: "bl-label-s14" }, [
         _vm._v(
           "\n            " + _vm._s(_vm.input.nrole_address) + "\n        "
         )
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-text" }, [
+      _c("span", { staticClass: "bl-label-s14" }, [
         _vm._v("\n            " + _vm._s(_vm.input.nrole_state) + "\n        ")
       ]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-label" }, [_vm._v("Right to Work")]),
+      _c("span", { staticClass: "bl-label-s15" }, [_vm._v("Right to Work")]),
       _vm._v(" "),
-      _c("span", { staticClass: "profile-text" }, [
+      _c("span", { staticClass: "bl-label-s14" }, [
         _vm._v(
           "\n            " +
             _vm._s(_vm.input.nrole_right_to_work_au_desc) +
@@ -42530,7 +42341,7 @@ var render = function() {
               "div",
               { key: first.id, staticClass: "col-md-6 col-sm-6" },
               [
-                _c("span", { staticClass: "profile-label" }, [
+                _c("span", { staticClass: "bl-label-s15" }, [
                   _vm._v(
                     "\n                    " +
                       _vm._s(first.name) +
@@ -42538,7 +42349,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("span", { staticClass: "profile-text" }, [
+                _c("span", { staticClass: "bl-label-s14" }, [
                   _vm._v(
                     "\n                    " +
                       _vm._s(first.description) +
@@ -42554,7 +42365,7 @@ var render = function() {
               "div",
               { key: second.id, staticClass: "col-md-6 col-sm-6" },
               [
-                _c("span", { staticClass: "profile-label" }, [
+                _c("span", { staticClass: "bl-label-s15" }, [
                   _vm._v(
                     "\n                    " +
                       _vm._s(second.name) +
@@ -42562,7 +42373,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("span", { staticClass: "profile-text" }, [
+                _c("span", { staticClass: "bl-label-s14" }, [
                   _vm._v(
                     "\n                    " +
                       _vm._s(second.description) +
@@ -42628,28 +42439,21 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "profile-item-3" }, [
       _c("div", { staticClass: "profile-content" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "profile-role-name ml-3" }, [
-            _vm._v("Jobs you may be interested in")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "profile-text ml-3" }, [
-            _vm._v("Based off on your profile")
-          ])
+        _c("span", { staticClass: "bl-label-s16" }, [
+          _vm._v("Jobs you may be interested in")
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "bl-label-s14" }, [
+          _vm._v("Based off on your profile")
         ]),
         _vm._v(" "),
         _c("ul", [
           _c("li", [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-2 col-sm-2" }, [
-                _c("img", {
-                  staticClass: "job-logo",
-                  attrs: { src: "/img/logo/1.jpg" }
-                })
-              ]),
+              _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-10 col-sm-10" }, [
-                _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
+              _c("div", { staticClass: "bl-display" }, [
+                _c("span", { staticClass: "bl-label-s15 mt-0 pt-0" }, [
                   _vm._v("Project Manager")
                 ]),
                 _vm._v(" "),
@@ -42662,15 +42466,10 @@ var staticRenderFns = [
           _vm._v(" "),
           _c("li", [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-2 col-sm-2" }, [
-                _c("img", {
-                  staticClass: "job-logo",
-                  attrs: { src: "/img/logo/1.jpg" }
-                })
-              ]),
+              _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-10 col-sm-10" }, [
-                _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
+              _c("div", { staticClass: "bl-display" }, [
+                _c("span", { staticClass: "bl-label-s15 mt-0 pt-0" }, [
                   _vm._v("Project Manager")
                 ]),
                 _vm._v(" "),
@@ -42683,15 +42482,10 @@ var staticRenderFns = [
           _vm._v(" "),
           _c("li", [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-2 col-sm-2" }, [
-                _c("img", {
-                  staticClass: "job-logo",
-                  attrs: { src: "/img/logo/1.jpg" }
-                })
-              ]),
+              _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-10 col-sm-10" }, [
-                _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
+              _c("div", { staticClass: "bl-display" }, [
+                _c("span", { staticClass: "bl-label-s15 mt-0 pt-0" }, [
                   _vm._v("Project Manager")
                 ]),
                 _vm._v(" "),
@@ -42704,15 +42498,10 @@ var staticRenderFns = [
           _vm._v(" "),
           _c("li", [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-2 col-sm-2" }, [
-                _c("img", {
-                  staticClass: "job-logo",
-                  attrs: { src: "/img/logo/1.jpg" }
-                })
-              ]),
+              _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-10 col-sm-10" }, [
-                _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
+              _c("div", { staticClass: "bl-display" }, [
+                _c("span", { staticClass: "bl-label-s15 mt-0 pt-0" }, [
                   _vm._v("Project Manager")
                 ]),
                 _vm._v(" "),
@@ -42791,7 +42580,7 @@ var render = function() {
               "div",
               { key: first.id, staticClass: "col-md-6 col-sm-6" },
               [
-                _c("span", { staticClass: "profile-label" }, [
+                _c("span", { staticClass: "bl-label-s15" }, [
                   _vm._v(
                     "\n                    " +
                       _vm._s(first.title) +
@@ -42799,7 +42588,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("span", { staticClass: "profile-text" }, [
+                _c("span", { staticClass: "bl-label-s14" }, [
                   _vm._v(
                     "\n                    " +
                       _vm._s(first.description) +
@@ -42815,7 +42604,7 @@ var render = function() {
               "div",
               { key: second.id, staticClass: "col-md-6 col-sm-6" },
               [
-                _c("span", { staticClass: "profile-label" }, [
+                _c("span", { staticClass: "bl-label-s15" }, [
                   _vm._v(
                     "\n                    " +
                       _vm._s(second.title) +
@@ -42823,7 +42612,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("span", { staticClass: "profile-text" }, [
+                _c("span", { staticClass: "bl-label-s14" }, [
                   _vm._v(
                     "\n                    " +
                       _vm._s(second.description) +
@@ -42906,7 +42695,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "profile-content" }, [
-      _c("div", { staticClass: "profile-name m0" }, [
+      _c("div", { staticClass: "bl-label-s22 m0" }, [
         _vm._v(_vm._s(_vm.input.first_name) + " " + _vm._s(_vm.input.last_name))
       ]),
       _vm._v(" "),
@@ -42920,8 +42709,8 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "profile-display" }, [
-        _c("span", { staticClass: "profile-address" }, [
+      _c("div", { staticClass: "bl-display" }, [
+        _c("span", { staticClass: "bl-label-s15-mtb" }, [
           _c("img", {
             staticClass: "text-icon",
             attrs: {
@@ -42967,10 +42756,13 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
-        _vm._m(1),
+        _c("img", {
+          staticClass: "bl-image-56",
+          attrs: { src: "/img/logo/1.jpg" }
+        }),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-9 col-sm-9" }, [
-          _c("span", { staticClass: "profile-role-name" }, [
+        _c("div", { staticClass: "bl-display" }, [
+          _c("span", { staticClass: "bl-label-s16" }, [
             _vm._v(
               "\n                    " +
                 _vm._s(_vm.input.job_role) +
@@ -42978,7 +42770,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("span", { staticClass: "profile-label mt-0 pt-0" }, [
+          _c("span", { staticClass: "bl-label-s15 mt-0 pt-0" }, [
             _vm._v(
               "\n                    " +
                 _vm._s(_vm.input.company_name) +
@@ -42986,7 +42778,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("span", { staticClass: "profile-text" }, [
+          _c("span", { staticClass: "bl-label-s14" }, [
             _vm._v(
               "\n                    " +
                 _vm._s(_vm.input.period) +
@@ -43003,23 +42795,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-display" }, [
-      _c("div", { staticClass: "profile-experience" }, [
+    return _c("div", { staticClass: "bl-display" }, [
+      _c("div", { staticClass: "bl-label-s15-mb20" }, [
         _vm._v(
           "\n                Experienced Senior Project Manager;\n                demonstrated history of working on a wide range\n                of construction projects for leading companies.\n            "
         )
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3 col-sm-3" }, [
-      _c("img", {
-        staticClass: "profile-role-image",
-        attrs: { src: "/img/logo/1.jpg" }
-      })
     ])
   }
 ]

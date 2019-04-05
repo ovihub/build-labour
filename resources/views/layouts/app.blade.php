@@ -34,18 +34,15 @@
                         <div class="row">
                             <div class="col-md-1 col-sm-1">
                                 <a href="#">
-                                    <img class="site-nav-brand" src="/img/icons/build-labour-logo-white.png"
+                                    <img class="bl-nav-brand" src="/img/icons/build-labour-logo-white.png"
                                         srcset="/img/icons/build-labour-logo-white@2x.png 2x, /img/icons/build-labour-logo-white@3x.png 3x">
                                 </a>
                             </div>
 
-                            <div class="col-md-9 col-sm-9">
-                            </div>
+                            <div class="col-md-9 col-sm-9"></div>
 
                             <div class="col-md-2 col-sm-2 mt-2 pt-1">
-                                <a href="/login">Login</a>
-                                &nbsp;|&nbsp;
-                                <a href="/register">Register</a>
+                                <a href="/login">Login</a> &nbsp; | &nbsp; <a href="/register">Register</a>
                             </div>
                         </div>
                     @else

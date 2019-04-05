@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="container">
-        <div class="profile-name">
+        <div class="bl-label-s22">
             Oops, Something went wrong!
         </div>
-        <div class="profile-label ta-center">
+        <div class="bl-label-s15 ta-center">
             An internal error occurred. Please contact administrator.
         </div>
         <div class="text-404 ta-center">

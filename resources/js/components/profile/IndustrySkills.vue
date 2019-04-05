@@ -16,45 +16,45 @@
 
             <div class="row">
                 <div class="col-md-6 col-sm-6" v-for="first in firstColumn" v-bind:key="first.id">
-                    <span class="profile-label">
+                    <span class="bl-label-s15">
                         {{ first.name }}
                     </span>
-                    <span class="profile-text">
+                    <span class="bl-label-s14">
                         {{ first.description }}
                     </span>
                 </div>
                 <div class="col-md-6 col-sm-6" v-for="second in secondColumn" v-bind:key="second.id">
-                    <span class="profile-label">
+                    <span class="bl-label-s15">
                         {{ second.name }}
                     </span>
-                    <span class="profile-text">
+                    <span class="bl-label-s14">
                         {{ second.description }}
                     </span>
                 </div>
             </div>
 
-            <!-- <span class="profile-label">Quality Control</span>
-            <span class="profile-text">
+            <!-- <span class="bl-label-s15">Quality Control</span>
+            <span class="bl-label-s14">
                 Expert
             </span>
 
-            <span class="profile-label">Communication Skills</span>
-            <span class="profile-text">
+            <span class="bl-label-s15">Communication Skills</span>
+            <span class="bl-label-s14">
                 Expert
             </span>
 
-            <span class="profile-label">Time Management</span>
-            <span class="profile-text">
+            <span class="bl-label-s15">Time Management</span>
+            <span class="bl-label-s14">
                 Competent
             </span>
 
-            <span class="profile-label">Can Accept Criticism</span>
-            <span class="profile-text">
+            <span class="bl-label-s15">Can Accept Criticism</span>
+            <span class="bl-label-s14">
                 Competent
             </span>
 
-            <span class="profile-label">Teamwork</span>
-            <span class="profile-text">
+            <span class="bl-label-s15">Teamwork</span>
+            <span class="bl-label-s14">
                 Competent
             </span> -->
         </div>

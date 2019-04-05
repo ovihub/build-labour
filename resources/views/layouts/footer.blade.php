@@ -1,5 +1,5 @@
-<footer class="site-footer">
-	<div class="bottom-footer">
+<footer class="bl-footer">
+	<div class="bl-bottom-footer">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 text-center">

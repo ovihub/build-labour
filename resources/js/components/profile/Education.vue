@@ -15,17 +15,15 @@
             
             <div v-for="education in educations" v-bind:key="education.id">
                 <div class="row mt-4">
-                    <div class="col-md-2 col-sm-2">
-                        <img class="profile-role-image" src="/img/logo/1.jpg">
-                    </div>
-                    <div class="col-md-10 col-sm-10">
-                        <div class="profile-role-name">
+                    <img class="bl-image-56" src="/img/logo/1.jpg">
+                    <div class="bl-display">
+                        <span class="bl-label-s16">
                             {{ education.course }}
-                        </div>
-                        <span class="profile-label mt-0 pt-0">
+                        </span>
+                        <span class="bl-label-s15 mt-0 pt-0">
                             {{ education.school }}
                         </span>
-                        <span class="profile-text mb-0 pb-0">
+                        <span class="bl-label-s14 mb-0 pb-0">
                             {{ education.start_date_formatted }} - {{ education.end_date_formatted }}
                         </span>
                     </div>

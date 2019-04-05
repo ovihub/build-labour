@@ -263,30 +263,6 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
-h1 {
-  font-size: 2.6em;
-}
-
-h2 {
-  font-size: 2.2em;
-}
-
-h3 {
-  font-size: 1.8em;
-}
-
-h4 {
-  font-size: 1.4em;
-}
-
-h5 {
-  font-size: 1em;
-}
-
-h6 {
-  font-size: .8em;
-}
-
 *, *:before, *:after {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -365,7 +341,6 @@ h6 {
   background-clip: padding-box;
   /* stops bg color from leaking outside the border: */
 }
-
 .main-nav {
   background-color: $brand;
   color: white;
@@ -388,32 +363,39 @@ h6 {
 /* ==========================================================================
     Default Styling
   ========================================================================== */
+.content-section .container .row .col-xl-6,
+.content-section .container .row .col-xl-3,
+.content-section .container .row .col-lg-6, 
+.content-section .container .row .col-lg-3,
+.content-section .container .row .col-md-6,
+.content-section .container .row .col-md-3,
+.content-section .container .row .col-sm-6,
+.content-section .container .row .col-sm-3,
+.content-section .container .row .col-6,
+.content-section .container .row .col-3 {
+    position: relative;
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+.content-section .container .row .col-xl-6,
+.content-section .container .row .col-lg-6, 
+.content-section .container .row .col-md-6,
+.content-section .container .row .col-sm-6,
+.content-section .container .row .col-6 {
+  margin-left: 24px;
+  margin-right: 24px;
+}
+.profile-item-2 .profile-content .row .col-md-6,
+.profile-item-2 .profile-content .row .col-sm-6 {
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
 .content-section {
-  margin: 50px 0;
+  margin: 40px 0;
   min-height: 70vh;
-}
-.section-title h2 {
-  margin-top: 0;
-  margin-bottom: 50px;
-}
-.main-btn {
-  display: inline-block;
-  background-color: $brand;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  width: 160px;
-  height: 46px;
-  line-height: 46px;
-  text-align: center;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  background-clip: padding-box;
-  /* stops bg color from leaking outside the border: */
-}
-.main-btn:hover {
-  background-color: #e84c3d;
-  color: white;
 }
 
 form input[type="text"], 
@@ -446,32 +428,32 @@ textarea {
 /* ==========================================================================
     Footer Site Styling
   ========================================================================== */
-.site-footer {
+.bl-footer {
   color: white;
   font-size: 13px;
 }
-.site-footer a {
+.bl-footer a {
   color: white;
 }
-.site-footer a:hover {
+.bl-footer a:hover {
   color: #bfddf0;
 }
-.site-footer h3.widget-title {
+.bl-footer h3.widget-title {
   font-weight: 600;
   color: white;
   margin: 0 0 30px 0;
   font-size: 1.4em;
 }
-.bottom-footer {
+.bl-bottom-footer {
   background-color: $brand;
   padding: 20px 0;
   font-size: 12px;
 }
-.bottom-footer span {
+.bl-bottom-footer span {
   display: block;
   margin-bottom: 10px;
 }
-.bottom-footer p {
+.bl-bottom-footer p {
   width: 70%;
   margin: 0 auto;
 }
@@ -479,106 +461,67 @@ textarea {
 /*------------------------------------------------------
   RESPONSIVE STYLES 
 --------------------------------------------------------*/
-@media (max-width: 991px) {
-  ul.menu {
-    text-align: left;
-    background-color: $brand !important;
-    width: 100%;
-    height: auto !important;
-    background-color: red;
-    right: 60px !important;
+@media (min-width: 1200px) {
+  .container {
+      max-width: 1257px;
   }
-  ul.menu li {
-    float: none;
-    display: block !important;
+  .content-section .container .row .col-md-6 {
+    flex: 0 0 47%;
+    max-width: 47%;
   }
-
-  .toggle-menu {
-    background-color: $brand !important;
-  }
-
-  .profile-content select {
-    width: 100%;
-  }
-
-  .profile-item-1, .profile-item-2, .profile-item-3 {
-    width: 100%;
-  }
-  .profile-item-2 .profile-thumb, .profile-item-3 .profile-thumb {
-    height: auto;
-  }
-
-  .profile-item-3 {
-    margin-bottom: 30px;
+  .content-section .container .row .col-md-3 {
+    flex: 0 0 23%;
+    max-width: 23%;
   }
 }
-@media (max-width: 767px) {
-  .top-header {
-    border-bottom: 0;
+@media (max-width: 991px) {
+  .col-md-6, .col-sm-6, .col-md-3, .col-sm-3 {
+      max-width: 540px;
   }
-
-  ul.menu {
-    min-width: 320px !important;
+  // .content-section .container .row .col-xl-3,
+  // .content-section .container .row .col-lg-3, 
+  // .content-section .container .row .col-md-3,
+  // .content-section .container .row .col-sm-3,
+  // .content-section .container .row .col-3 {
+  //   margin-left: 24px;
+  //   margin-right: 24px;
+  // }
+  .col-md-2, .col-sm-2 {
+    flex: 0 0 16.6666666667%;
+    max-width: 16.6666666667%;
   }
-
-  .top-header-left {
-    border-bottom: 1px solid #dddddd;
+  .col-md-10, .col-sm-10 {
+    flex: 0 0 83%;
+    max-width: 83%;
   }
-
-  .main-nav {
-    height: 100%;
+  .responsibilities {
+    margin-left: 0px;
+    }
+}
+@media (min-width: 768px) {
+  .col-md-6, .col-sm-6 {
+    flex: 0 0 47%;
+    max-width: 47%;
   }
-
-  .main-nav .list-menu {
-    border-bottom: 1px solid #3598db;
-  }
-
-  .main-nav .notification {
-    padding: 20px 0;
-    text-align: left;
-  }
-
-  .profile-content select {
-    width: 40%;
-  }
-
-  .profile-item-2, .profile-item-4 {
-    width: 100%;
-  }
-  .profile-item-4 {
-    margin-bottom: 30px;
-  }
-  .profile-item-4 .profile-content p {
-    display: none;
+  .col-md-3, .col-sm-3 {
+    flex: 0 0 23%;
+    max-width: 23%;
   }
 }
 @media (max-width: 581px) {
-  ul.menu {
-    min-width: 220px !important;
-  }
-
-  .main-nav .list-menu ul li {
-    padding: 20px 15px;
-  }
-  .main-nav .list-menu ul li a {
-    font-size: 14px;
-  }
-
-  .profile-content select {
-    width: 100%;
-  }
-
-  .profile-item-2 .profile-content p {
-    display: none;
+  .content-section .container .row .col-xl-3,
+  .content-section .container .row .col-lg-3,
+  .content-section .container .row .col-md-3,
+  .content-section .container .row .col-sm-3,
+  .content-section .container .row .col-3 {
+      margin-left: 24px;
+      margin-right: 24px;
   }
 }
-
-
-
 /* ==========================================================================
     Navigation Bar Styling
   ========================================================================== */
-.site-nav-brand {
+.bl-nav-brand {
   width: 52px;
   height: 21px;
   object-fit: contain;
@@ -588,7 +531,7 @@ textarea {
   margin-left: auto;
   margin-right: auto;
 }
-.site-nav-search {
+.bl-nav-search {
   width: 100%;
   height: 32px;
   border-radius: 4px;
@@ -601,7 +544,7 @@ textarea {
   flex-direction: column;
   min-width: 0;
 }
-.site-nav-tab {
+.bl-nav-tab {
   width: 24px;
   height: 24px;
   object-fit: contain;
@@ -611,7 +554,7 @@ textarea {
   margin-left: auto;
   margin-right: auto;
 }
-p.site-nav-tab-label {
+p.bl-nav-tab-label {
   text-align: center;
   opacity: 0.5;
   font-size: 12px;

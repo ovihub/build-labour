@@ -7,33 +7,33 @@
             </span>
 
             <div class="profile-title">Your Ideal Next Role</div>        
-            <span class="profile-text">(Visible only to you)</span>
+            <span class="bl-label-s14">(Visible only to you)</span>
             
             <span class="profile-intro">
                 {{ input.nrole_info }}
             </span>
 
-            <span class="profile-label">When</span>
-            <span class="profile-text">
+            <span class="bl-label-s15">When</span>
+            <span class="bl-label-s14">
                 {{ input.nrole_when }}
             </span>
 
-            <span class="profile-label">Maximum Distance from home</span>
-            <span class="profile-text">
+            <span class="bl-label-s15">Maximum Distance from home</span>
+            <span class="bl-label-s14">
                 {{ input.nrole_travel_to_home }}
             </span>
 
-            <span class="profile-label">Willing to relocate to</span>
-            <span class="profile-text">
+            <span class="bl-label-s15">Willing to relocate to</span>
+            <span class="bl-label-s14">
                 {{ input.nrole_address }}
             </span>
 
-            <span class="profile-text">
+            <span class="bl-label-s14">
                 {{ input.nrole_state }}
             </span>
 
-            <span class="profile-label">Right to Work</span>
-            <span class="profile-text">
+            <span class="bl-label-s15">Right to Work</span>
+            <span class="bl-label-s14">
                 {{ input.nrole_right_to_work_au_desc }}
             </span>
         </div>

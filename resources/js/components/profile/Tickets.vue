@@ -15,41 +15,41 @@
             
             <div class="row">
                 <div class="col-md-6 col-sm-6" v-for="first in firstColumn" v-bind:key="first.id">
-                    <span class="profile-label">
+                    <span class="bl-label-s15">
                         {{ first.title }}
                     </span>
-                    <span class="profile-text">
+                    <span class="bl-label-s14">
                         {{ first.description }}
                     </span>
                 </div>
 
                 <div class="col-md-6 col-sm-6" v-for="second in secondColumn" v-bind:key="second.id">
-                    <span class="profile-label">
+                    <span class="bl-label-s15">
                         {{ second.title }}
                     </span>
-                    <span class="profile-text">
+                    <span class="bl-label-s14">
                         {{ second.description }}
                     </span>
                 </div>
             </div>
             
             
-            <!-- <span class="profile-label">
+            <!-- <span class="bl-label-s15">
                 TLILIC2001
             </span>
-            <span class="profile-text">
+            <span class="bl-label-s14">
                 License to operate a Forklift Truck
             </span>
-            <span class="profile-label">
+            <span class="bl-label-s15">
                 RIIHAN301D
             </span>
-            <span class="profile-text">
+            <span class="bl-label-s14">
                 Elevating Work Platform Under 11m
             </span>
-            <span class="profile-label">
+            <span class="bl-label-s15">
                 RIIWHS205D
             </span>
-            <span class="profile-text">
+            <span class="bl-label-s14">
                 Control Traffic with Stop - Slow Bat
             </span> -->
         </div>

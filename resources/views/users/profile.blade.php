@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
+    <div class="row justify-content-center">
         <load-user></load-user>
         <div class="col-md-3">
             <user-profile></user-profile>
