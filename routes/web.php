@@ -19,8 +19,8 @@ Route::get('register', 'AuthController@showRegisterForm')->name('register')->mid
 
 Route::prefix('password')
     ->group(function() {
-        Route::get('request', 'PasswordResetsController@showRequestForm');
-        Route::get('reset', 'PasswordResetsController@showResetForm');
+        Route::get('request', 'PasswordResetsController@showRequestForm')->name('password_request')->middleware('checktoken');
+        Route::get('reset', 'PasswordResetsController@showResetForm')->name('password_reset')->middleware('checktoken');
     });
 
 Route::prefix('user')
