@@ -36,7 +36,7 @@ class CheckToken
 
         if ($page == 'login' || $page == 'register') {
 
-            return redirect('home');
+            return redirect('/user/profile');
         }
 
         return $next($request);

@@ -30,7 +30,7 @@
         <header class="site-header">
             <div class="main-nav">
                 <div class="container">
-                    @if (Auth::guest())
+                    @if (!isset($_COOKIE['bl_token']))
                         <div class="row">
                             <div class="col-md-1 col-sm-1">
                                 <a href="#">
