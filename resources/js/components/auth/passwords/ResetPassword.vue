@@ -85,13 +85,15 @@
                         Bus.$emit('alertSuccess', data.message);
                     })
                     .catch(function(error) {
-                        let data = error.response.data;
+                        if (error.response) {
+                            let data = error.response.data;
 
-                        for (let key in component.errors) {
-                            component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                            for (let key in component.errors) {
+                                component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                            }
                         }
 
-                        Utils.handleError(data);
+                        Utils.handleError(error);
                     });
                 
                 component.disabled = false;

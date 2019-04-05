@@ -112,7 +112,7 @@
                     role_id: '', gender: '', first_name: '', last_name: '', email: '', password: '',
                 },
                 endpoints: {
-                    profile: '/user/profile/?token=',
+                    profile: '/user/profile',
                     register: '/api/v1/auth/register',
                     get_roles: '/api/v1/roles',
                 }
@@ -134,9 +134,9 @@
                         component.roles = response.data.data.roles;
                     })
                     .catch(function(error) {
-                        let data = error.response.data;
+                        // let data = error.response.data;
 
-                        Utils.handleError(data);
+                        Utils.handleError(error);
                     });
             },
 
@@ -152,16 +152,20 @@
                     .then(function(response) {
                         let data = response.data;
 
-                        window.location.href = component.endpoints.profile + data.data.token;
+                        Api.setToken(data.data.token);
+
+                        window.location.href = component.endpoints.profile;
                     })
                     .catch(function(error) {
-                        let data = error.response.data;
+                        if (error.response) {
+                            let data = error.response.data;
 
-                        for (let key in component.errors) {
-                            component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                            for (let key in component.errors) {
+                                component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                            }
                         }
 
-                        Utils.handleError(data);
+                        Utils.handleError(error);
                     });
                 
                 component.disabled = false;

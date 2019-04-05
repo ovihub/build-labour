@@ -1903,9 +1903,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _api__WEBPACK_IMPORTED_MODULE_1__["default"].setToken(data.data.token);
                   window.location.href = component.endpoints.profile;
                 }).catch(function (error) {
-                  var data = error.response.data;
+                  // let data = error.response.data;
                   Utils.setObjectValues(component.input, '');
-                  Utils.handleError(data);
+                  Utils.handleError(error);
                 });
 
               case 5:
@@ -1964,8 +1964,8 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(component.endpoints.logout, Utils.getBearerAuth()).then(function (response) {
         window.location.href = '/login';
       }).catch(function (error) {
-        var data = error.response.data;
-        Utils.handleError(data);
+        // let data = error.response.data;
+        Utils.handleError(error);
       });
     }
   }
@@ -2113,7 +2113,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         password: ''
       },
       endpoints: {
-        profile: '/user/profile/?token=',
+        profile: '/user/profile',
         register: '/api/v1/auth/register',
         get_roles: '/api/v1/roles'
       }
@@ -2128,8 +2128,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       axios.get(component.endpoints.get_roles, Utils.getBearerAuth()).then(function (response) {
         component.roles = response.data.data.roles;
       }).catch(function (error) {
-        var data = error.response.data;
-        Utils.handleError(data);
+        // let data = error.response.data;
+        Utils.handleError(error);
       });
     },
     registerUser: function () {
@@ -2147,15 +2147,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 5;
                 return axios.post(component.endpoints.register, component.$data.input).then(function (response) {
                   var data = response.data;
-                  window.location.href = component.endpoints.profile + data.data.token;
+                  Api.setToken(data.data.token);
+                  window.location.href = component.endpoints.profile;
                 }).catch(function (error) {
-                  var data = error.response.data;
+                  if (error.response) {
+                    var data = error.response.data;
 
-                  for (var key in component.errors) {
-                    component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                    for (var key in component.errors) {
+                      component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                    }
                   }
 
-                  Utils.handleError(data);
+                  Utils.handleError(error);
                 });
 
               case 5:
@@ -2256,9 +2259,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   component.input.email = '';
                   Bus.$emit('alertSuccess', data.message);
                 }).catch(function (error) {
-                  var data = error.response.data;
+                  // let data = error.response.data;
                   component.errors.email = data.errors.email ? data.errors.email[0] : '';
-                  Utils.handleError(data);
+                  Utils.handleError(error);
                 });
 
               case 5:
@@ -2384,13 +2387,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   window.location.href = component.endpoints.login;
                   Bus.$emit('alertSuccess', data.message);
                 }).catch(function (error) {
-                  var data = error.response.data;
+                  if (error.response) {
+                    var data = error.response.data;
 
-                  for (var key in component.errors) {
-                    component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                    for (var key in component.errors) {
+                      component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                    }
                   }
 
-                  Utils.handleError(data);
+                  Utils.handleError(error);
                 });
 
               case 5:
@@ -3079,16 +3084,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      industry_skills: []
+      industry_skills: [],
+      firstColumn: [],
+      secondColumn: []
     };
   },
   created: function created() {
     var component = this;
     Bus.$on('industrySkillsDetails', function (detailsArray) {
       component.industry_skills = detailsArray;
+      var len = component.industry_skills.length;
+      var half = Math.ceil(len / 2);
+      component.firstColumn = detailsArray.slice(0, half);
+      component.secondColumn = detailsArray.slice(half, len);
     });
   },
   methods: {}
@@ -3266,8 +3287,8 @@ __webpack_require__.r(__webpack_exports__);
         Bus.$emit('ticketsDetails', component.tickets);
         Bus.$emit('industrySkillsDetails', component.industry_skills);
       }).catch(function (error) {
-        var data = error.response.data;
-        Utils.handleError(data);
+        // let data = error.response.data;
+        Utils.handleError(error);
       });
     }
   }
@@ -3330,16 +3351,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      tickets: []
+      tickets: [],
+      firstColumn: [],
+      secondColumn: []
     };
   },
   created: function created() {
     var component = this;
     Bus.$on('ticketsDetails', function (detailsArray) {
       component.tickets = detailsArray;
+      var len = component.tickets.length;
+      var half = Math.ceil(len / 2);
+      component.firstColumn = detailsArray.slice(0, half);
+      component.secondColumn = detailsArray.slice(half, len);
     });
   },
   methods: {}
@@ -3647,8 +3686,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   var data = response.data;
                   Bus.$emit('alertSuccess', data.message);
                 }).catch(function (error) {
-                  var data = error.response.data;
-                  Utils.handleError(data);
+                  // let data = error.response.data;
+                  Utils.handleError(error);
                 });
 
               case 4:
@@ -3685,8 +3724,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Bus.$emit('alertSuccess', data.message);
                   $('#verifyEmailModal').modal('hide');
                 }).catch(function (error) {
-                  var data = error.response.data;
-                  Utils.handleError(data);
+                  // let data = error.response.data;
+                  Utils.handleError(error);
                 });
 
               case 4:
@@ -3778,8 +3817,8 @@ __webpack_require__.r(__webpack_exports__);
         delete component.record.date_email_verified_at;
         delete component.record.deleted_at;
       }).catch(function (error) {
-        var data = error.response.data;
-        Utils.handleError(data);
+        // let data = error.response.data;
+        Utils.handleError(error);
       });
     }
   }
@@ -3857,8 +3896,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   var data = response.data;
                   Bus.$emit('alertSuccess', data.message);
                 }).catch(function (error) {
-                  var data = error.response.data;
-                  Utils.handleError(data);
+                  // let data = error.response.data;
+                  Utils.handleError(error);
                 });
 
               case 4:
@@ -42470,40 +42509,70 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "profile-item-2" }, [
-    _c(
-      "div",
-      { staticClass: "profile-content" },
-      [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("span", { staticClass: "profile-intro" }, [
-          _vm._v(
-            "\n            Worked on Rail link, saved $30,000 on\n            budget, and delivered 2 weeks before\n            project deadline\n        "
-          )
-        ]),
-        _vm._v(" "),
-        _vm._l(_vm.industry_skills, function(industry_skill) {
-          return _c("div", { key: industry_skill.id }, [
-            _c("span", { staticClass: "profile-label" }, [
-              _vm._v(
-                "\n                " +
-                  _vm._s(industry_skill.name) +
-                  "\n            "
-              )
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "profile-text" }, [
-              _vm._v(
-                "\n                " +
-                  _vm._s(industry_skill.description) +
-                  "\n            "
-              )
-            ])
-          ])
-        })
-      ],
-      2
-    )
+    _c("div", { staticClass: "profile-content" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("span", { staticClass: "profile-intro" }, [
+        _vm._v(
+          "\n            Worked on Rail link, saved $30,000 on\n            budget, and delivered 2 weeks before\n            project deadline\n        "
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "row" },
+        [
+          _vm._l(_vm.firstColumn, function(first) {
+            return _c(
+              "div",
+              { key: first.id, staticClass: "col-md-6 col-sm-6" },
+              [
+                _c("span", { staticClass: "profile-label" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(first.name) +
+                      "\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "profile-text" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(first.description) +
+                      "\n                "
+                  )
+                ])
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _vm._l(_vm.secondColumn, function(second) {
+            return _c(
+              "div",
+              { key: second.id, staticClass: "col-md-6 col-sm-6" },
+              [
+                _c("span", { staticClass: "profile-label" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(second.name) +
+                      "\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "profile-text" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(second.description) +
+                      "\n                "
+                  )
+                ])
+              ]
+            )
+          })
+        ],
+        2
+      )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -42705,34 +42774,66 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "profile-item-2" }, [
-    _c(
-      "div",
-      { staticClass: "profile-content" },
-      [
-        _vm._m(0),
-        _vm._v(" "),
-        _vm._m(1),
-        _vm._v(" "),
-        _vm._l(_vm.tickets, function(ticket) {
-          return _c("div", { key: ticket.id }, [
-            _c("span", { staticClass: "profile-label" }, [
-              _vm._v(
-                "\n                " + _vm._s(ticket.title) + "\n            "
-              )
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "profile-text" }, [
-              _vm._v(
-                "\n                " +
-                  _vm._s(ticket.description) +
-                  "\n            "
-              )
-            ])
-          ])
-        })
-      ],
-      2
-    )
+    _c("div", { staticClass: "profile-content" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "row" },
+        [
+          _vm._l(_vm.firstColumn, function(first) {
+            return _c(
+              "div",
+              { key: first.id, staticClass: "col-md-6 col-sm-6" },
+              [
+                _c("span", { staticClass: "profile-label" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(first.title) +
+                      "\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "profile-text" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(first.description) +
+                      "\n                "
+                  )
+                ])
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _vm._l(_vm.secondColumn, function(second) {
+            return _c(
+              "div",
+              { key: second.id, staticClass: "col-md-6 col-sm-6" },
+              [
+                _c("span", { staticClass: "profile-label" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(second.title) +
+                      "\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "profile-text" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(second.description) +
+                      "\n                "
+                  )
+                ])
+              ]
+            )
+          })
+        ],
+        2
+      )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -58356,11 +58457,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 
 window.Helper = {
-  data: function data() {
-    return {};
-  },
-  created: function created() {},
-  mounted: function mounted() {},
+  data: {},
   methods: {
     getUrlParams: function getUrlParams() {
       var regex = /[?&]([^=#]+)=([^&#]*)/g,
@@ -58379,11 +58476,17 @@ window.Helper = {
         obj[key] = val;
       }
     },
-    handleError: function handleError(data) {
-      if (data.http_status == 422) {
-        Bus.$emit('alertError', 'Invalid input! Please see errors below.');
+    handleError: function handleError(error) {
+      if (error.response) {
+        var data = error.response.data;
+
+        if (data.http_status == 422) {
+          Bus.$emit('alertError', 'Invalid input! Please see errors below.');
+        } else {
+          Bus.$emit('alertError', data.message);
+        }
       } else {
-        Bus.$emit('alertError', data.message);
+        console.log(error);
       }
     },
     getBearerAuth: function getBearerAuth() {
@@ -58416,8 +58519,8 @@ window.Helper = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\appetiser\build-labour-backend\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\appetiser\build-labour-backend\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -82,14 +82,15 @@
                         let data = response.data;
 
                         Api.setToken(data.data.token);
+                        
                         window.location.href = component.endpoints.profile;
                     })
                     .catch(function(error) {
-                        let data = error.response.data;
+                        // let data = error.response.data;
 
                         Utils.setObjectValues(component.input, '');
                         
-                        Utils.handleError(data);
+                        Utils.handleError(error);
                     });
                 
                 component.disabled = false;

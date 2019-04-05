@@ -59,11 +59,11 @@
                         Bus.$emit('alertSuccess', data.message);
                     })
                     .catch(function(error) {
-                        let data = error.response.data;
+                        // let data = error.response.data;
 
                         component.errors.email = data.errors.email ? data.errors.email[0] : '';
 
-                        Utils.handleError(data);
+                        Utils.handleError(error);
                     });
                 
                 component.disabled = false;

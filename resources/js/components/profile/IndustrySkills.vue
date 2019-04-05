@@ -14,13 +14,23 @@
                 project deadline
             </span>
 
-            <div v-for="industry_skill in industry_skills" v-bind:key="industry_skill.id">
-                <span class="profile-label">
-                    {{ industry_skill.name }}
-                </span>
-                <span class="profile-text">
-                    {{ industry_skill.description }}
-                </span>
+            <div class="row">
+                <div class="col-md-6 col-sm-6" v-for="first in firstColumn" v-bind:key="first.id">
+                    <span class="profile-label">
+                        {{ first.name }}
+                    </span>
+                    <span class="profile-text">
+                        {{ first.description }}
+                    </span>
+                </div>
+                <div class="col-md-6 col-sm-6" v-for="second in secondColumn" v-bind:key="second.id">
+                    <span class="profile-label">
+                        {{ second.name }}
+                    </span>
+                    <span class="profile-text">
+                        {{ second.description }}
+                    </span>
+                </div>
             </div>
 
             <!-- <span class="profile-label">Quality Control</span>
@@ -55,7 +65,9 @@
     export default {
         data() {
             return {
-                industry_skills: []
+                industry_skills: [],
+                firstColumn: [],
+                secondColumn: [],
             }
         },
 
@@ -64,6 +76,12 @@
 
             Bus.$on('industrySkillsDetails', function(detailsArray) {
                 component.industry_skills = detailsArray;
+
+                let len = component.industry_skills.length;
+                let half = Math.ceil(len / 2);
+
+                component.firstColumn = detailsArray.slice(0, half);
+                component.secondColumn = detailsArray.slice(half, len);
             });
         },
 

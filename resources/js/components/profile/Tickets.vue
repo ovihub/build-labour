@@ -13,14 +13,26 @@
                 Tickets
             </div>
             
-            <div v-for="ticket in tickets" v-bind:key="ticket.id">
-                <span class="profile-label">
-                    {{ ticket.title }}
-                </span>
-                <span class="profile-text">
-                    {{ ticket.description }}
-                </span>
+            <div class="row">
+                <div class="col-md-6 col-sm-6" v-for="first in firstColumn" v-bind:key="first.id">
+                    <span class="profile-label">
+                        {{ first.title }}
+                    </span>
+                    <span class="profile-text">
+                        {{ first.description }}
+                    </span>
+                </div>
+
+                <div class="col-md-6 col-sm-6" v-for="second in secondColumn" v-bind:key="second.id">
+                    <span class="profile-label">
+                        {{ second.title }}
+                    </span>
+                    <span class="profile-text">
+                        {{ second.description }}
+                    </span>
+                </div>
             </div>
+            
             
             <!-- <span class="profile-label">
                 TLILIC2001
@@ -48,7 +60,9 @@
     export default {
         data() {
             return {
-                tickets: []
+                tickets: [],
+                firstColumn: [],
+                secondColumn: [],
             }
         },
 
@@ -57,6 +71,12 @@
 
             Bus.$on('ticketsDetails', function(detailsArray) {
                 component.tickets = detailsArray;
+                
+                let len = component.tickets.length;
+                let half = Math.ceil(len / 2);
+
+                component.firstColumn = detailsArray.slice(0, half);
+                component.secondColumn = detailsArray.slice(half, len);
             });
         },
 

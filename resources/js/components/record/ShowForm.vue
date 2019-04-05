@@ -44,9 +44,9 @@
 						delete component.record.deleted_at;
 					})
 					.catch(function(error) {
-						let data = error.response.data;
+						// let data = error.response.data;
 
-						Utils.handleError(data);
+						Utils.handleError(error);
 					});
 			}
 		}

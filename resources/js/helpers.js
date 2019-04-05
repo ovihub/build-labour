@@ -1,20 +1,10 @@
 import Api from '@/api';
 
 window.Helper = {
-    data() {
-        return {
+    data: {
 
-        }
     },
     
-    created () {
-
-    },
-  
-    mounted () {
-
-    },
-  
     methods: {
 
         getUrlParams() {
@@ -36,12 +26,18 @@ window.Helper = {
             }
         },
 
-        handleError(data) {
-            if (data.http_status == 422) {
-                Bus.$emit('alertError', 'Invalid input! Please see errors below.');
-            
+        handleError(error) {
+            if (error.response) {
+                let data = error.response.data;
+                
+                if (data.http_status == 422) {
+                    Bus.$emit('alertError', 'Invalid input! Please see errors below.');
+                
+                } else {
+                    Bus.$emit('alertError', data.message);
+                }
             } else {
-                Bus.$emit('alertError', data.message);
+                console.log(error);
             }
         },
 
