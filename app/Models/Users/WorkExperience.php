@@ -2,6 +2,7 @@
 
 namespace App\Models\Users;
 
+use App\Helpers\Utils;
 use App\Models\BaseModel;
 use App\Models\Companies\Company;
 use App\User;
@@ -21,7 +22,8 @@ class WorkExperience extends BaseModel
 
     protected $fillable = ['job_role', 'company_name', 'user_id', 'start_date', 'end_date'];
 
-    protected $appends = ['period'];
+    protected $appends = ['period', 'responsibilities_detail'];
+
     /**
      * @return array
      */
@@ -120,6 +122,16 @@ class WorkExperience extends BaseModel
 
         return $sDate->diff($eDate)->format('%y years and %m months');
 
+    }
+
+    public function getResponsibilitiesDetailAttribute() {
+
+        if (Utils::isJson($this->responsibilities)) {
+
+            return json_decode($this->responsibilities);
+        }
+
+        return [];
     }
 
     public function store(Request $r) {

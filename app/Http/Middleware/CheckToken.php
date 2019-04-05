@@ -25,7 +25,7 @@ class CheckToken
                 return $next($request);
             }
         }
-        
+
         // other page
         if (!$token) {
 

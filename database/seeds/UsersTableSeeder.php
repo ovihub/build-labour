@@ -35,9 +35,19 @@ class UsersTableSeeder extends Seeder
         $user->role_id = 1; // worker
         $user->save();
 
+        $responsibilities = [
+            'Consult with employers to identify needs and preferred qualifications',
+            'Interview applicants about their experience, education and skills',
+            'Contact references and perform background checks',
+            'Inform applicants about job details such as benefits and conditions',
+            'Hire or refer qualified candidates',
+            'Conduct new employee orientations',
+            'Process paperwork'
+        ];
+
         WorkExperience::create([
             'job_role' => 'Human Resource Officer',
-            'responsibilities' => 'Meeting with engineers, architects and contractors on an ongoing basis regarding project objectives and progress',
+            'responsibilities' => json_encode($responsibilities),
             'company_name' => 'Johnson & Johnson',
             'company_id' => 1,
             'isCurrent' => false,
@@ -50,7 +60,7 @@ class UsersTableSeeder extends Seeder
 
         WorkExperience::create([
             'job_role' => 'Human Resource Manager',
-            'responsibilities' => 'Meeting with employees on how to discipline',
+            'responsibilities' => 'test',
             'company_name' => 'Cisco Network',
             'company_id' => 1,
             'isCurrent' => true,
