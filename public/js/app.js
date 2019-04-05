@@ -3186,10 +3186,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3270,6 +3272,7 @@ __webpack_require__.r(__webpack_exports__);
         Bus.$emit('industrySkillsDetails', component.industry_skills);
       }).catch(function (error) {
         var data = error.response.data;
+        _api__WEBPACK_IMPORTED_MODULE_0__["default"].deleteToken();
         Utils.handleError(data);
       });
     }
