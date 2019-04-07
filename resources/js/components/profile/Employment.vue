@@ -18,14 +18,14 @@
                     <span class="text-icon-2" v-if="! expanded[index]">
                         <img src="/img/icons/expand.png"
                             srcset="/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x"
-                            @click="expand(index)">
+                            @click="toggle(index)">
                     </span>
                     <span class="text-icon-2" v-if="expanded[index]">
                         <img src="/img/icons/collapse.png"
                             srcset="/img/icons/collapse@2x.png 2x, /img/icons/collapse@3x.png 3x"
-                            @click="collapse(index)">
+                            @click="toggle(index)">
                     </span>
-                    <div class="row mt-3">
+                    <div class="row mt-3" @click="toggle(index)">
                         <div class="bl-col-1">
                             <img class="bl-image-56" src="/img/logo/1.jpg">
                         </div>
@@ -44,7 +44,7 @@
                         </div>
                     </div>
 
-                    <div class="responsibilities" v-if="expanded[index]">
+                    <div :class="responseClass" v-show="expanded[index]">
                         <span class="bl-label-14-mt-13">
                             <img class="text-icon" src="/img/icons/pinlocation.png"
                                 srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
@@ -80,6 +80,7 @@
             return {
                 expanded: [],
                 employments: [],
+                responseClass: '',
             }
         },
 
@@ -96,12 +97,10 @@
         },
 
         methods: {
-            collapse(index) {
-                this.expanded[index] = false;
+            toggle(index) {
+                this.responseClass = this.expanded[index] == true ? 'responsibilities hidden' : 'responsibilities';
+                this.expanded[index] = ! this.expanded[index];
             },
-            expand(index) {
-                this.expanded[index] = true;
-            }
         }
     }
 </script>

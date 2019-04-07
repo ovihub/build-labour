@@ -2850,7 +2850,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       expanded: [],
-      employments: []
+      employments: [],
+      responseClass: ''
     };
   },
   created: function created() {
@@ -2864,11 +2865,9 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    collapse: function collapse(index) {
-      this.expanded[index] = false;
-    },
-    expand: function expand(index) {
-      this.expanded[index] = true;
+    toggle: function toggle(index) {
+      this.responseClass = this.expanded[index] == true ? 'responsibilities hidden' : 'responsibilities';
+      this.expanded[index] = !this.expanded[index];
     }
   }
 });
@@ -42059,7 +42058,7 @@ var render = function() {
                     },
                     on: {
                       click: function($event) {
-                        return _vm.expand(index)
+                        return _vm.toggle(index)
                       }
                     }
                   })
@@ -42079,70 +42078,101 @@ var render = function() {
                     },
                     on: {
                       click: function($event) {
-                        return _vm.collapse(index)
+                        return _vm.toggle(index)
                       }
                     }
                   })
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("div", { staticClass: "row mt-3" }, [
-              _vm._m(2, true),
-              _vm._v(" "),
-              _c("div", { staticClass: "bl-col-2" }, [
-                _c("div", { staticClass: "bl-display" }, [
-                  _c("span", { staticClass: "bl-label-16 bl-ml15" }, [
-                    _vm._v(
-                      "\n                                " +
-                        _vm._s(employment.job_role) +
-                        "\n                            "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "bl-label-15 bl-ml15 mt-0 pt-0" }, [
-                    _vm._v(
-                      "\n                                " +
-                        _vm._s(employment.company_name) +
-                        "\n                            "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "bl-label-14 bl-ml15 mt-0 pt-0" }, [
-                    _vm._v(
-                      "\n                                " +
-                        _vm._s(employment.period) +
-                        "\n                            "
-                    )
-                  ])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _vm.expanded[index]
-              ? _c("div", { staticClass: "responsibilities" }, [
-                  _vm._m(3, true),
-                  _vm._v(" "),
-                  _vm._m(4, true),
-                  _vm._v(" "),
-                  _vm._m(5, true),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "bl-label-15" }, [
+            _c(
+              "div",
+              {
+                staticClass: "row mt-3",
+                on: {
+                  click: function($event) {
+                    return _vm.toggle(index)
+                  }
+                }
+              },
+              [
+                _vm._m(2, true),
+                _vm._v(" "),
+                _c("div", { staticClass: "bl-col-2" }, [
+                  _c("div", { staticClass: "bl-display" }, [
+                    _c("span", { staticClass: "bl-label-16 bl-ml15" }, [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(employment.job_role) +
+                          "\n                            "
+                      )
+                    ]),
+                    _vm._v(" "),
                     _c(
-                      "ul",
-                      { staticClass: "list-items" },
-                      _vm._l(employment.responsibilities_detail, function(
-                        responsibility,
-                        idx
-                      ) {
-                        return _c("div", { key: idx }, [
-                          _c("li", [_vm._v(_vm._s(responsibility))])
-                        ])
-                      }),
-                      0
+                      "span",
+                      { staticClass: "bl-label-15 bl-ml15 mt-0 pt-0" },
+                      [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(employment.company_name) +
+                            "\n                            "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      { staticClass: "bl-label-14 bl-ml15 mt-0 pt-0" },
+                      [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(employment.period) +
+                            "\n                            "
+                        )
+                      ]
                     )
                   ])
                 ])
-              : _vm._e()
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.expanded[index],
+                    expression: "expanded[index]"
+                  }
+                ],
+                class: _vm.responseClass
+              },
+              [
+                _vm._m(3, true),
+                _vm._v(" "),
+                _vm._m(4, true),
+                _vm._v(" "),
+                _vm._m(5, true),
+                _vm._v(" "),
+                _c("div", { staticClass: "bl-label-15" }, [
+                  _c(
+                    "ul",
+                    { staticClass: "list-items" },
+                    _vm._l(employment.responsibilities_detail, function(
+                      responsibility,
+                      idx
+                    ) {
+                      return _c("div", { key: idx }, [
+                        _c("li", [_vm._v(_vm._s(responsibility))])
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              ]
+            )
           ])
         }),
         0
