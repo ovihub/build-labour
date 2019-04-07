@@ -1,53 +1,61 @@
 <template>
     <div class="profile-item-1">
-        <div class="profile-header">
-            <img class="profile-picture" v-bind:src="input.profile_photo_url">
-        </div>
         <div class="profile-content">
-            <div class="bl-label-s22 m0">{{ input.first_name }} {{ input.last_name }}</div>
-        
-            <div class="profile-role">
-                {{ input.job_role }} - {{ input.company_name }}
+            <div class="profile-header">
+                <img class="profile-picture" v-bind:src="input.profile_photo_url">
             </div>
+            <div class="profile-content-p20 pb-4">
+                <div class="bl-label-s22 m0">{{ input.first_name }} {{ input.last_name }}</div>
             
-            <div class="bl-display">
-                <span class="bl-label-s15-mtb">
-                    <img class="text-icon" src="/img/icons/pinlocation.png"
-                        srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
-                    {{ input.address }} {{ input.country }}
-                </span>
-
-                <div class="profile-education">
-                    <img class="text-icon" src="/img/icons/dollarsign.png"
-                        srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
-
-                    Studied <b>{{ input.course }}</b> - {{ input.school }}
-                    <!-- <span class="text-style-1">{{ input.school }}</span> -->
+                <div class="bl-label-17 pb-3">
+                    {{ input.job_role }} <div class="text-style-1">- {{ input.company_name }}</div>
                 </div>
-            </div>
-            
-            <div class="bl-display">
-                <div class="bl-label-s15-mb20">
-                    Experienced Senior Project Manager;
-                    demonstrated history of working on a wide range
-                    of construction projects for leading companies.
-                </div>
-            </div>
-            
-            <span class="profile-role-header">Current Role</span>
-
-            <div class="row">
-                <img class="bl-image-56" src="/img/logo/1.jpg">
+                
                 <div class="bl-display">
-                    <span class="bl-label-s16">
-                        {{ input.job_role }}
-                    </span>
-                    <span class="bl-label-s15 mt-0 pt-0">
-                        {{ input.company_name }}
-                    </span>
-                    <span class="bl-label-s14">
-                        {{ input.period }}
-                    </span>
+                    <div class="row bl-label-15">
+                        <div class="bl-col-3">
+                            <img class="text-icon-3" src="/img/icons/pinlocation.png"
+                                srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
+                        </div>
+                        <div class="bl-col-4">
+                            {{ input.address }} {{ input.country }}
+                        </div>
+                    </div>
+
+                    <div class="row bl-label-15 bl-mb24">
+                        <div class="bl-col-3">
+                            <img class="text-icon-3" src="/img/icons/dollarsign.png"
+                                srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
+                        </div>
+                        <div class="bl-col-4">
+                            Studied <b>{{ input.course }}</b> <div class="text-style-1">- {{ input.school }}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bl-display">
+                    <div class="bl-label-15-mb20">
+                        Experienced Senior Project Manager;
+                        demonstrated history of working on a wide range
+                        of construction projects for leading companies.
+                    </div>
+                </div>
+                
+                <span class="profile-role-header">Current Role</span>
+
+                <div class="row">
+                    <img class="bl-image-56" src="/img/logo/1.jpg">
+                    <div class="bl-display">
+                        <span class="bl-label-16 bl-ml15">
+                            {{ input.job_role }}
+                        </span>
+                        <span class="bl-label-15 bl-ml15 mt-0 pt-0">
+                            {{ input.company_name }}
+                        </span>
+                        <span class="bl-label-14 bl-ml15">
+                            {{ input.period }}
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

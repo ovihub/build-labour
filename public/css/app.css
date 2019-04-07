@@ -10688,38 +10688,35 @@ a.text-dark:focus {
   color: #f89f41;
 }
 
-.profile-thumb img {
-  width: 100%;
-  height: 100%;
-}
-
 .profile-item-1 {
   margin-bottom: 20px;
-  float: left;
   position: relative;
 }
 
 .profile-item-1 .profile-content {
   border-top: 0;
-  padding: 15px 20px 24px 20px;
+  padding: 0;
 }
 
-.profile-item-1 .profile-thumb {
-  overflow: hidden;
+.profile-content-p20 {
+  padding: 0 20px 0 20px;
+}
+
+.profile-content-p16 {
+  padding: 0 16px 0 16px;
+}
+
+.profile-content-p16 .profile-more {
+  font-size: 14px;
+  font-weight: 500;
+  text-align: right;
+  color: #f89f41;
+  margin: 10px 16px 16px;
 }
 
 .profile-item-2 {
   margin-bottom: 20px;
   position: relative;
-}
-
-.profile-item-2 .profile-thumb {
-  width: 100%;
-}
-
-.profile-item-2 .profile-thumb img {
-  width: 100%;
-  height: 100%;
 }
 
 .profile-item-2 .profile-content {
@@ -10737,14 +10734,14 @@ a.text-dark:focus {
 
 .profile-item-2 .profile-content ul.list-main-items li.main-items {
   list-style-type: none;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(156, 173, 189, 0.5);
 }
 
-.profile-item-2 .profile-content ul.list-main-items li.main-items .bl-label-s16 {
+.profile-item-2 .profile-content ul.list-main-items li.main-items .bl-label-16 {
   font-size: 16px;
   font-weight: 500;
   color: #000000;
-  padding-top: 15px;
-  border-top: 1px solid rgba(156, 173, 189, 0.5);
 }
 
 .profile-item-2 .profile-content ul.list-main-items li.main-items .bl-image-56 {
@@ -10753,19 +10750,15 @@ a.text-dark:focus {
   border-radius: 8px;
   box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.08), 0 0 10px 0 rgba(57, 86, 101, 0.08);
   background-color: #fcfeff;
-  margin-top: 18px;
+}
+
+.profile-item-4 .profile-content {
+  border-top: 0;
+  overflow: hidden;
 }
 
 .profile-item-3 {
   margin-bottom: 20px;
-}
-
-.profile-item-3 .profile-thumb {
-  overflow: hidden;
-}
-
-.profile-item-3 .profile-thumb img {
-  width: 100%;
 }
 
 .profile-item-3 .profile-content {
@@ -10778,7 +10771,7 @@ a.text-dark:focus {
   height: 32px;
   border-radius: 4px;
   margin-left: 15px;
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
 .profile-item-3 .profile-content ul {
@@ -10787,17 +10780,16 @@ a.text-dark:focus {
 
 .profile-item-3 .profile-content ul li {
   list-style-type: none;
-  padding: 13px 0px 0px 0px;
+  padding: 13px 0px 13px 0px;
+  border-bottom: 1px solid rgba(156, 173, 189, 0.5);
 }
 
 .profile-item-3 .profile-content ul li .job-text {
   font-size: 12px;
   color: #6b7172;
-  padding-bottom: 13px;
-  border-bottom: 1px solid rgba(156, 173, 189, 0.5);
 }
 
-.profile-item-3 .profile-content .bl-label-s15 {
+.profile-item-3 .profile-content .bl-label-15 {
   font-size: 15px;
   font-weight: normal;
   font-style: normal;
@@ -10805,22 +10797,6 @@ a.text-dark:focus {
   line-height: 1.33;
   letter-spacing: -0.4px;
   color: #383d3f;
-}
-
-.profile-item-3 label {
-  width: 60px;
-  font-weight: normal;
-}
-
-.profile-item-3 select,
-.profile-item-3 option {
-  color: #a3a7aa;
-  border: 1px solid #c4c4c4;
-}
-
-.profile-item-3 select:focus,
-.profile-item-3 option:focus {
-  outline: 0;
 }
 
 .profile-image {
@@ -10878,35 +10854,23 @@ a.text-dark:focus {
   display: inline-block;
 }
 
-.profile-role {
+.bl-label-17 {
   font-size: 17px;
   color: #484c4e;
   text-align: center;
 }
 
-.profile-role .text-style-1 {
+.bl-label-17 .text-style-1 {
   font-weight: 300;
   color: #6b7172;
+  display: inline;
 }
 
-.bl-label-s15-mtb {
-  font-size: 15px;
-  color: #000000;
-  margin: 25px 0px 11px;
-}
-
-.profile-education {
-  font-size: 15px;
-  color: #000000;
-  float: left;
+.bl-mb24 {
   margin-bottom: 24px;
 }
 
-.profile-education .text-style-1 {
-  color: #6b7172;
-}
-
-.bl-label-s15-mb20 {
+.bl-label-15-mb20 {
   font-size: 15px;
   line-height: 1.33;
   letter-spacing: -0.2px;
@@ -10921,7 +10885,22 @@ a.text-dark:focus {
   box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.08), 0 0 10px 0 rgba(57, 86, 101, 0.08);
   background-color: #fcfeff;
   margin-left: 15px;
-  margin-right: 20px;
+}
+
+.bl-image-34 {
+  width: 34px;
+  height: 34px;
+  border-radius: 4px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.bl-ml15 {
+  margin-left: 15px;
+}
+
+.bl-ml5 {
+  margin-left: 10px;
 }
 
 .profile-role-header {
@@ -10931,7 +10910,7 @@ a.text-dark:focus {
   margin-bottom: 15px;
 }
 
-.bl-label-s16 {
+.bl-label-16 {
   font-size: 16px;
   font-weight: 500;
   color: #000000;
@@ -10950,7 +10929,7 @@ a.text-dark:focus {
   margin-right: 8px;
 }
 
-.bl-label-s15 {
+.bl-label-15 {
   font-size: 15px;
   color: #393939;
   line-height: normal;
@@ -10958,23 +10937,28 @@ a.text-dark:focus {
   padding-top: 0.25rem;
 }
 
-.bl-label-s15 ul.list-items {
-  list-style-type: square;
-  padding: 0 0 0 20px;
+.bl-label-15 .text-style-1 {
+  color: #6b7172;
+  display: inline;
 }
 
-.bl-label-s15 ul.list-items li {
+.bl-label-15 ul.list-items {
+  list-style-type: circle;
+  padding: 0 0 0 40px;
+}
+
+.bl-label-15 ul.list-items li {
   margin-bottom: 12px;
 }
 
-.bl-label-s14-mt-13 {
+.bl-label-14-mt-13 {
   font-size: 14px;
   letter-spacing: -0.2px;
   color: #000000;
   margin-top: 13px;
 }
 
-.bl-label-s14 {
+.bl-label-14 {
   font-size: 14px;
   font-weight: 200;
   color: #6b7172;
@@ -10988,7 +10972,7 @@ a.text-dark:focus {
 }
 
 .responsibilities {
-  margin-left: 75px;
+  margin-left: 70px;
 }
 
 html {
@@ -11470,6 +11454,14 @@ textarea {
   RESPONSIVE STYLES 
 --------------------------------------------------------*/
 
+.bl-col-5 {
+  max-width: 10%;
+}
+
+.bl-col-6 {
+  max-width: 90%;
+}
+
 @media (min-width: 1200px) {
   .container {
     max-width: 1257px;
@@ -11484,14 +11476,19 @@ textarea {
     flex: 0 0 23%;
     max-width: 23%;
   }
+
+  .bl-col-3 {
+    max-width: 15%;
+  }
+
+  .bl-col-4 {
+    max-width: 85%;
+  }
 }
 
 @media (max-width: 991px) {
-  .col-md-6,
-  .col-sm-6,
-  .col-md-3,
-  .col-sm-3 {
-    max-width: 540px;
+  .container {
+    max-width: 991px;
   }
 
   .col-md-2,
@@ -11506,8 +11503,36 @@ textarea {
     max-width: 83%;
   }
 
-  .responsibilities {
-    margin-left: 0px;
+  .container .col-md-3,
+  .container .col-sm-3,
+  .container .col-md-6,
+  .container .col-sm-6 {
+    flex: 0 0 90%;
+    max-width: 90%;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .profile-item-2 .profile-content .row .col-md-6,
+  .profile-item-2 .profile-content .row .col-sm-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  .bl-col-1 {
+    max-width: 20%;
+  }
+
+  .bl-col-2 {
+    max-width: 80%;
+  }
+
+  .bl-col-3 {
+    max-width: 8%;
+  }
+
+  .bl-col-4 {
+    max-width: 92%;
   }
 }
 
@@ -11523,6 +11548,14 @@ textarea {
     flex: 0 0 23%;
     max-width: 23%;
   }
+
+  .bl-col-3 {
+    max-width: 15%;
+  }
+
+  .bl-col-4 {
+    max-width: 85%;
+  }
 }
 
 @media (max-width: 581px) {
@@ -11531,8 +11564,38 @@ textarea {
   .content-section .container .row .col-md-3,
   .content-section .container .row .col-sm-3,
   .content-section .container .row .col-3 {
+    flex: 0 0 90%;
+    max-width: 90%;
     margin-left: 24px;
     margin-right: 24px;
+  }
+
+  .profile-item-2 .profile-content .row .col-md-6,
+  .profile-item-2 .profile-content .row .col-sm-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .bl-col-1 {
+    max-width: 20%;
+  }
+
+  .bl-col-2 {
+    max-width: 80%;
+  }
+
+  .bl-col-3 {
+    max-width: 13%;
+  }
+
+  .bl-col-4 {
+    max-width: 87%;
+  }
+}
+
+@media (max-width: 400px) {
+  .responsibilities {
+    margin-left: 60px;
   }
 }
 
@@ -11637,7 +11700,7 @@ p.bl-nav-tab-label {
 }
 
 .text-icon {
-  margin-right: 6px;
+  margin-right: 10px;
   width: 10px;
   height: 15px;
   -o-object-fit: contain;
@@ -11656,6 +11719,14 @@ p.bl-nav-tab-label {
 
 .text-icon-2:hover {
   cursor: pointer;
+}
+
+.text-icon-3 {
+  margin: 0 15px 0 15px;
+  width: 10px;
+  height: 15px;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 /* ==========================================================================

@@ -5,7 +5,7 @@
         <div class="bl-label-s22">
             Oops, Something went wrong!
         </div>
-        <div class="bl-label-s15 ta-center">
+        <div class="bl-label-15 ta-center">
             An internal error occurred. Please contact administrator.
         </div>
         <div class="text-404 ta-center">

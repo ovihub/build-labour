@@ -461,6 +461,12 @@ textarea {
 /*------------------------------------------------------
   RESPONSIVE STYLES 
 --------------------------------------------------------*/
+.bl-col-5 {
+  max-width: 10%;
+}
+.bl-col-6 {
+  max-width: 90%;
+}
 @media (min-width: 1200px) {
   .container {
       max-width: 1257px;
@@ -473,19 +479,17 @@ textarea {
     flex: 0 0 23%;
     max-width: 23%;
   }
+  .bl-col-3 {
+    max-width: 15%;
+  }
+  .bl-col-4 {
+    max-width: 85%;
+  }
 }
 @media (max-width: 991px) {
-  .col-md-6, .col-sm-6, .col-md-3, .col-sm-3 {
-      max-width: 540px;
+  .container {
+    max-width: 991px;
   }
-  // .content-section .container .row .col-xl-3,
-  // .content-section .container .row .col-lg-3, 
-  // .content-section .container .row .col-md-3,
-  // .content-section .container .row .col-sm-3,
-  // .content-section .container .row .col-3 {
-  //   margin-left: 24px;
-  //   margin-right: 24px;
-  // }
   .col-md-2, .col-sm-2 {
     flex: 0 0 16.6666666667%;
     max-width: 16.6666666667%;
@@ -494,9 +498,32 @@ textarea {
     flex: 0 0 83%;
     max-width: 83%;
   }
-  .responsibilities {
-    margin-left: 0px;
+  .container {
+    .col-md-3, .col-sm-3,
+    .col-md-6, .col-sm-6 {
+      flex: 0 0 90%;
+      max-width: 90%;
+      margin-left: 10px;
+      margin-right: 10px;
     }
+  }
+  .profile-item-2 .profile-content .row .col-md-6,
+  .profile-item-2 .profile-content .row .col-sm-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  .bl-col-1 {
+    max-width: 20%;
+  }
+  .bl-col-2 {
+    max-width: 80%;
+  }
+  .bl-col-3 {
+    max-width: 8%;
+  }
+  .bl-col-4 {
+    max-width: 92%;
+  }
 }
 @media (min-width: 768px) {
   .col-md-6, .col-sm-6 {
@@ -507,15 +534,45 @@ textarea {
     flex: 0 0 23%;
     max-width: 23%;
   }
+  .bl-col-3 {
+    max-width: 15%;
+  }
+  .bl-col-4 {
+    max-width: 85%;
+  }
 }
 @media (max-width: 581px) {
-  .content-section .container .row .col-xl-3,
-  .content-section .container .row .col-lg-3,
-  .content-section .container .row .col-md-3,
-  .content-section .container .row .col-sm-3,
-  .content-section .container .row .col-3 {
+  .content-section .container .row {
+    .col-xl-3, .col-lg-3,
+    .col-md-3, .col-sm-3,
+    .col-3 {
+      flex: 0 0 90%;
+      max-width: 90%;
       margin-left: 24px;
       margin-right: 24px;
+    }
+  }
+  .profile-item-2 .profile-content .row .col-md-6,
+  .profile-item-2 .profile-content .row .col-sm-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .bl-col-1 {
+    max-width: 20%;
+  }
+  .bl-col-2 {
+    max-width: 80%;
+  }
+  .bl-col-3 {
+    max-width: 13%;
+  }
+  .bl-col-4 {
+    max-width: 87%;
+  }
+}
+@media (max-width: 400px) {
+  .responsibilities {
+    margin-left: 60px;
   }
 }
 /* ==========================================================================
@@ -607,7 +664,7 @@ p.bl-nav-tab-label {
   }
 }
 .text-icon {
-  margin-right: 6px;
+  margin-right: 10px;
   width: 10px;
   height: 15px;
   object-fit: contain;
@@ -623,6 +680,12 @@ p.bl-nav-tab-label {
   &:hover {
     cursor: pointer;
   }
+}
+.text-icon-3 {
+  margin: 0 15px 0 15px;
+  width: 10px;
+  height: 15px;
+  object-fit: contain;
 }
 
 /* ==========================================================================

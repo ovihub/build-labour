@@ -203,7 +203,7 @@ class UsersTableSeeder extends Seeder
 
         Ticket::create([
             'title' => 'TLILIC2001',
-            'description' => 'Licence to operate a Forklift Truc',
+            'description' => 'Licence to operate a Forklift Truck',
             'user_id' => $user->id
         ]);
     }

@@ -14,59 +14,61 @@
             </div>
         
             <ul class="list-main-items">
-                <div v-for="(employment, index) in employments" v-bind:key="index">
-                    <li class="main-items">
-                        <span class="text-icon-2" v-if="! expanded[index]">
-                            <img src="/img/icons/expand.png"
-                                srcset="/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x"
-                                @click="expand(index)">
-                        </span>
-                        <span class="text-icon-2" v-if="expanded[index]">
-                            <img src="/img/icons/collapse.png"
-                                srcset="/img/icons/collapse@2x.png 2x, /img/icons/collapse@3x.png 3x"
-                                @click="collapse(index)">
-                        </span>
-                        <div class="row mt-4">
+                <li class="main-items" v-for="(employment, index) in employments" v-bind:key="index">
+                    <span class="text-icon-2" v-if="! expanded[index]">
+                        <img src="/img/icons/expand.png"
+                            srcset="/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x"
+                            @click="expand(index)">
+                    </span>
+                    <span class="text-icon-2" v-if="expanded[index]">
+                        <img src="/img/icons/collapse.png"
+                            srcset="/img/icons/collapse@2x.png 2x, /img/icons/collapse@3x.png 3x"
+                            @click="collapse(index)">
+                    </span>
+                    <div class="row mt-3">
+                        <div class="bl-col-1">
                             <img class="bl-image-56" src="/img/logo/1.jpg">
+                        </div>
+                        <div class="bl-col-2">
                             <div class="bl-display">
-                                <span class="bl-label-s16">
+                                <span class="bl-label-16 bl-ml15">
                                     {{ employment.job_role }}
                                 </span>
-                                <span class="bl-label-s15 mt-0 pt-0">
+                                <span class="bl-label-15 bl-ml15 mt-0 pt-0">
                                     {{ employment.company_name }}
                                 </span>
-                                <span class="bl-label-s14">
+                                <span class="bl-label-14 bl-ml15 mt-0 pt-0">
                                     {{ employment.period }}
                                 </span>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="responsibilities" v-if="expanded[index]">
-                            <span class="bl-label-s14-mt-13">
-                                <img class="text-icon" src="/img/icons/pinlocation.png"
-                                    srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
-                                Richmond, Victoria, Australia
-                            </span>
-                            <span class="bl-label-s14-mt-13">
-                                <img class="text-icon" src="/img/icons/dollarsign.png"
-                                    srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
-                                $1,750,000
-                            </span>
-                            <span class="bl-label-s14-mt-13">
-                                <img class="text-icon" src="/img/icons/responsibilities.png"
-                                    srcset="/img/icons/responsibilities@2x.png 2x, /img/icons/responsibilities@3x.png 3x">
-                                Responsibilities:
-                            </span>
-                            <div class="bl-label-s15">
-                                <ul class="list-items">
-                                    <div v-for="(responsibility, idx) in employment.responsibilities_detail" v-bind:key="idx">
-                                        <li>{{ responsibility }}</li>
-                                    </div>
-                                </ul>
-                            </div>
+                    <div class="responsibilities" v-if="expanded[index]">
+                        <span class="bl-label-14-mt-13">
+                            <img class="text-icon" src="/img/icons/pinlocation.png"
+                                srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
+                            Richmond, Victoria, Australia
+                        </span>
+                        <span class="bl-label-14-mt-13">
+                            <img class="text-icon" src="/img/icons/dollarsign.png"
+                                srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
+                            $1,750,000
+                        </span>
+                        <span class="bl-label-14-mt-13">
+                            <img class="text-icon" src="/img/icons/responsibilities.png"
+                                srcset="/img/icons/responsibilities@2x.png 2x, /img/icons/responsibilities@3x.png 3x">
+                            Responsibilities:
+                        </span>
+                        <div class="bl-label-15">
+                            <ul class="list-items">
+                                <div v-for="(responsibility, idx) in employment.responsibilities_detail" v-bind:key="idx">
+                                    <li>{{ responsibility }}</li>
+                                </div>
+                            </ul>
                         </div>
-                    </li>
-                </div>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
