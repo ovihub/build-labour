@@ -38,6 +38,7 @@ window.Helper = {
                 }
             } else {
                 console.log(error);
+                Bus.$emit('alertError', error);
             }
         },
 

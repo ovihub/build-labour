@@ -49,13 +49,13 @@
                         component.profile.address = user.address;
                         component.profile.country = user.country;
 
-                        component.profile.course = user.educations[0].course;
-                        component.profile.school = user.educations[0].school;
+                        component.profile.course = user.educations[0] ? user.educations[0].course : '';
+                        component.profile.school = user.educations[0] ? user.educations[0].school : '';
                         
                         component.profile.role = user.role.name;
-                        component.profile.job_role = user.experiences[0].job_role;
-                        component.profile.company_name = user.experiences[0].company_name;
-                        component.profile.period = user.experiences[0].period;
+                        component.profile.job_role = user.experiences[0] ? user.experiences[0].job_role : '';
+                        component.profile.company_name = user.experiences[0] ? user.experiences[0].company_name : '';
+                        component.profile.period = user.experiences[0] ? user.experiences[0].period : '';
 
                         component.about_me = {};
                         component.about_me.gender = user.gender;
@@ -84,7 +84,6 @@
                     .catch(function(error) {
                         // let data = error.response.data;
 
-                        Api.deleteToken();
                         Utils.handleError(error);
                     });
             },

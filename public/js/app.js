@@ -2562,11 +2562,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -3180,12 +3175,12 @@ __webpack_require__.r(__webpack_exports__);
         component.profile.email = user.email;
         component.profile.address = user.address;
         component.profile.country = user.country;
-        component.profile.course = user.educations[0].course;
-        component.profile.school = user.educations[0].school;
+        component.profile.course = user.educations[0] ? user.educations[0].course : '';
+        component.profile.school = user.educations[0] ? user.educations[0].school : '';
         component.profile.role = user.role.name;
-        component.profile.job_role = user.experiences[0].job_role;
-        component.profile.company_name = user.experiences[0].company_name;
-        component.profile.period = user.experiences[0].period;
+        component.profile.job_role = user.experiences[0] ? user.experiences[0].job_role : '';
+        component.profile.company_name = user.experiences[0] ? user.experiences[0].company_name : '';
+        component.profile.period = user.experiences[0] ? user.experiences[0].period : '';
         component.about_me = {};
         component.about_me.gender = user.gender;
         component.about_me.dob = user.dob;
@@ -3210,7 +3205,6 @@ __webpack_require__.r(__webpack_exports__);
         Bus.$emit('industrySkillsDetails', component.industry_skills);
       }).catch(function (error) {
         // let data = error.response.data;
-        _api__WEBPACK_IMPORTED_MODULE_0__["default"].deleteToken();
         Utils.handleError(error);
       });
     }
@@ -41590,12 +41584,10 @@ var render = function() {
     _vm._v(" "),
     _vm._m(4),
     _vm._v(" "),
-    _c("div", { staticClass: "col-md-3 col-sm-3" }),
-    _vm._v(" "),
-    _c("div", { staticClass: "col-md-2 col-sm-2 mt-1" }, [
+    _c("div", { staticClass: "bl-nav-notification" }, [
       _c(
         "div",
-        { staticClass: "row justify-content-center" },
+        { staticClass: "row" },
         [_c("logout"), _vm._v(" "), _vm._m(5)],
         1
       )
@@ -41610,7 +41602,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-md-1 col-sm-1" }, [
       _c("a", { attrs: { href: "#" } }, [
         _c("img", {
-          staticClass: "bl-nav-brand",
+          staticClass: "bl-nav-logo",
           attrs: {
             src: "/img/icons/build-labour-logo-white.png",
             srcset:
@@ -58407,6 +58399,7 @@ window.Helper = {
         }
       } else {
         console.log(error);
+        Bus.$emit('alertError', error);
       }
     },
     getBearerAuth: function getBearerAuth() {
