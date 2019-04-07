@@ -1,0 +1,127 @@
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1257px;
+  }
+  .content-section .container .row .col-md-6 {
+    flex: 0 0 47%;
+    max-width: 47%;
+  }
+  .content-section .container .row .col-md-3 {
+    flex: 0 0 23%;
+    max-width: 23%;
+  }
+}
+@media (max-width: 991px) {
+  .site-header .main-nav
+  .container .col-md-3,
+  .container .col-sm-3 {
+    flex: 0 0 33%;
+    max-width: 33%;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .site-header .main-nav
+  .container .col-md-5,
+  .container .col-sm-5 {
+    flex: 0 0 20%;
+    max-width: 20%;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .container {
+    max-width: 991px;
+  }
+  .col-md-2, .col-sm-2 {
+    flex: 0 0 16.6666666667%;
+    max-width: 16.6666666667%;
+  }
+  .col-md-10, .col-sm-10 {
+    flex: 0 0 83%;
+    max-width: 83%;
+  }
+  .container {
+    .col-md-3, .col-sm-3,
+    .col-md-6, .col-sm-6 {
+      flex: 0 0 90%;
+      max-width: 90%;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+  .profile-item-2 .profile-content .row .col-md-6,
+  .profile-item-2 .profile-content .row .col-sm-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  .bl-col-1 {
+    max-width: 20%;
+  }
+  .bl-col-2 {
+    max-width: 80%;
+  }
+  .bl-col-3 {
+    max-width: 8%;
+  }
+  .bl-col-4 {
+    max-width: 92%;
+  }
+}
+@media (min-width: 768px) {
+  .col-md-6, .col-sm-6 {
+    flex: 0 0 47%;
+    max-width: 47%;
+  }
+  .col-md-3, .col-sm-3 {
+    flex: 0 0 23%;
+    max-width: 23%;
+  }
+  .bl-col-3 {
+    max-width: 20%;
+  }
+  .bl-col-4 {
+    max-width: 80%;
+  }
+}
+@media (max-width: 581px) {
+  .site-header .main-nav
+  .container .col-md-1,
+  .container .col-sm-1 {
+    flex: 0 0 10%;
+    max-width: 10%;
+  }
+
+  .content-section .container .row {
+    .col-xl-3, .col-lg-3,
+    .col-md-3, .col-sm-3,
+    .col-3 {
+      flex: 0 0 90%;
+      max-width: 90%;
+      margin-left: 24px;
+      margin-right: 24px;
+    }
+  }
+  .profile-item-2 .profile-content .row .col-md-6,
+  .profile-item-2 .profile-content .row .col-sm-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .bl-col-1 {
+    max-width: 20%;
+  }
+  .bl-col-2 {
+    max-width: 80%;
+  }
+  .bl-col-3 {
+    max-width: 13%;
+  }
+  .bl-col-4 {
+    max-width: 87%;
+  }
+}
+@media (max-width: 426px) {
+  .responsibilities {
+    margin-left: 68px;
+  }
+}
