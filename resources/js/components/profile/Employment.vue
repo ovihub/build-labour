@@ -29,7 +29,7 @@
                         <div class="bl-col-1">
                             <img class="bl-image-56" src="/img/logo/1.jpg">
                         </div>
-                        <div class="bl-col-2">
+                        <div class="bl-col-2 ml-2">
                             <div class="bl-display">
                                 <span class="bl-label-16 bl-ml15">
                                     {{ employment.job_role }}

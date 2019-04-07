@@ -10728,10 +10728,6 @@ a.text-dark:focus {
   padding: 16px 0 0 0;
 }
 
-.profile-item-2 .profile-content ul.list-main-items li.main-items-top {
-  list-style-type: none;
-}
-
 .profile-item-2 .profile-content ul.list-main-items li.main-items {
   list-style-type: none;
   padding-bottom: 15px;
@@ -10972,7 +10968,7 @@ a.text-dark:focus {
 }
 
 .responsibilities {
-  margin-left: 70px;
+  margin-left: 78px;
 }
 
 html {
@@ -11593,9 +11589,9 @@ textarea {
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 426px) {
   .responsibilities {
-    margin-left: 60px;
+    margin-left: 68px;
   }
 }
 

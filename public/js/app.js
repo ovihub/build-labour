@@ -42098,7 +42098,7 @@ var render = function() {
               [
                 _vm._m(2, true),
                 _vm._v(" "),
-                _c("div", { staticClass: "bl-col-2" }, [
+                _c("div", { staticClass: "bl-col-2 ml-2" }, [
                   _c("div", { staticClass: "bl-display" }, [
                     _c("span", { staticClass: "bl-label-16 bl-ml15" }, [
                       _vm._v(
