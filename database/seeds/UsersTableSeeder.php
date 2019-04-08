@@ -47,7 +47,7 @@ class UsersTableSeeder extends Seeder
 
         WorkExperience::create([
             'job_role' => 'Project Manager',
-            'responsibilities' => json_encode($responsibilities),
+            'responsibilities' => $responsibilities,
             'company_name' => 'Probuild',
             'company_id' => 1,
             'isCurrent' => false,
@@ -60,7 +60,7 @@ class UsersTableSeeder extends Seeder
 
         WorkExperience::create([
             'job_role' => 'Assistant Project Manager',
-            'responsibilities' => json_encode(['test']),
+            'responsibilities' => ['test'],
             'company_name' => 'BBUILD',
             'company_id' => 1,
             'isCurrent' => true,
@@ -73,7 +73,7 @@ class UsersTableSeeder extends Seeder
 
         WorkExperience::create([
             'job_role' => 'Construction',
-            'responsibilities' => json_encode(['test']),
+            'responsibilities' => ['test'],
             'company_name' => 'Tools ‘r’ Us',
             'company_id' => 1,
             'isCurrent' => true,

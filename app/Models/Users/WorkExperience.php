@@ -142,7 +142,7 @@ class WorkExperience extends BaseModel
 
         if (Utils::isJson($this->responsibilities)) {
 
-            return json_decode(json_decode($this->responsibilities));
+            return json_decode($this->responsibilities);
         }
 
         return [];
