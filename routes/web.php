@@ -26,7 +26,7 @@ Route::prefix('password')
 Route::prefix('user')
     ->group(function() {
         Route::middleware(['checktoken'])->group(function(){
-            Route::get('profile', 'UsersController@showProfile');
-            Route::get('verify', 'UsersController@showVerifyForm');
+            Route::get('profile', 'UsersController@showProfile')->name('profile');
         });
+        Route::get('verify', 'UsersController@showVerifyForm')->name('verify');
     });

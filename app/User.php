@@ -92,4 +92,5 @@ class User extends Users implements JWTSubject
 
         return $this->hasMany( Ticket::class, 'user_id', 'id');
     }
+
 }
