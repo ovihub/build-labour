@@ -20,7 +20,7 @@ class WorkExperience extends BaseModel
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
-    protected $fillable = ['job_role', 'company_name', 'user_id', 'start_date', 'end_date'];
+    protected $fillable = ['job_role', 'company_name', 'user_id', 'start_date', 'end_date', 'responsibilities'];
 
     protected $appends = ['period', 'responsibilities_detail'];
 
@@ -70,10 +70,24 @@ class WorkExperience extends BaseModel
 
     public function setEndDateAttribute($ed) {
 
-        if (!empty($sd)) {
+        if (!empty($ed)) {
 
             $this->attributes['end_date'] = Carbon::parse($ed);
         }
+    }
+
+    public function setResponsibilitiesAttribute($r) {
+
+        $r = json_encode($r);
+
+        if (Utils::isJson($r)) {
+
+            $this->attributes['responsibilities'] = $r;
+        } else {
+
+            $this->attributes['responsibilities'] = '';
+        }
+
     }
 
     public function setUserId($userId) {
@@ -128,7 +142,7 @@ class WorkExperience extends BaseModel
 
         if (Utils::isJson($this->responsibilities)) {
 
-            return json_decode($this->responsibilities);
+            return json_decode(json_decode($this->responsibilities));
         }
 
         return [];
@@ -137,7 +151,7 @@ class WorkExperience extends BaseModel
     public function store(Request $r) {
 
         $data = $r->all();
-
+        
         $pk = $this->primaryKey;
 
         if ($r->$pk) {
