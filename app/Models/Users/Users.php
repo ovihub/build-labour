@@ -40,6 +40,8 @@ class Users extends BaseModel implements
     public $sql;
     public $bindings;
 
+    public $isWeb = true;
+
     /**
      * @return array
      */
@@ -335,7 +337,16 @@ class Users extends BaseModel implements
 
     private function generateVerificationCode()
     {
-        $code = strtoupper( str_random( 6 ) );
+
+        if ($this->isWeb) {
+
+            $code = strtoupper( str_random( 50 ) );
+
+        } else {
+
+            $code = strtoupper( str_random( 6 ) );
+
+        }
 
         $has_code = static::where( 'verification_code' , $code )->count();
 

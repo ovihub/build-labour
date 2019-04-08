@@ -31,7 +31,8 @@ class ResendVerificationCodeEmail extends Mailable
     public function build()
     {
         $subject = 'Email Verification';
-        return $this->view('emails.resend_verification_code')
+        $template = $this->user->isWeb ? 'emails.verify_web' : 'emails.resend_verification_code';
+        return $this->view($template)
                 ->subject( $subject )
                 ->from(env('APP_EMAIL'), env('SITE_NAME'))
                 ->with('user', $this->user );
