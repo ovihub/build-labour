@@ -25,29 +25,34 @@
 </head>
 <body>
     <div id="app">
-        @if (isset($_COOKIE['bl_token']))
-            <header class="site-header">
-                <div class="main-nav">
-                    <div class="container">
-                        <navigation></navigation>
-                    </div>
-                </div>
-            </header>
-        @endif
         
         <alert></alert>
         
-        <div class="content-section">
-            <div class="container">
+        <div class="auth-content-section">
+            <div class="row justify-content-center">
+                <img src="/img/build-labour-logo-orange.png"
+                    srcset="/img/build-labour-logo-orange@2x.png 2x, /img/build-labour-logo-orange@3x.png 3x">
+            </div>
 
-                @yield('content')
-                
+            <div class="auth-text-logo">
+                BUILD<br>
+                LABOUR
+            </div>
+
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card auth-card">
+                            <div class="card-body">
+                                
+                                @yield('content')
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        @if (isset($_COOKIE['bl_token']))
-            @include('layouts.footer')
-        @endif
 
     </div>
 </body>

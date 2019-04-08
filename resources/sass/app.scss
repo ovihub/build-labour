@@ -400,7 +400,26 @@ h1, h2, h3, h4, h5, h6 {
   margin: 40px 0;
   min-height: 70vh;
 }
-
+.auth-card {
+  padding: 29px 50px 30px 50px;
+}
+.auth-content-section {
+  margin: 70px 0;
+}
+.auth-text-logo {
+  font-size: 23px;
+  font-weight: bold;
+  line-height: 1.35;
+  letter-spacing: 2.4px;
+  text-align: center;
+  color: #000000;
+  margin: 29px 0 29px 0;
+}
+.auth-mobile-icon {
+  width: 28px;
+  height: 20px;
+  object-fit: contain;
+}
 form input[type="text"], 
 form input[type="email"], 
 form input[type="number"], 

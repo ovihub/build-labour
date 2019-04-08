@@ -1,64 +1,59 @@
 <template>
     <form method="POST" @submit.prevent="registerUser">
-
-        <div class="form-group row">
-            <label for="first_name" class="col-md-4 col-form-label text-md-right">First Name</label>
-
-            <div class="col-md-7">
-                <input id="first_name" type="text" name="first_name" class="form-control" v-model="input.first_name" required autofocus />
-
-                <span class="err-msg" v-if="errors.first_name">
-                    {{ errors.first_name }}
-                </span>
-            </div>
+        <div class="row justify-content-center">
+            Registration
         </div>
 
         <div class="form-group row">
-            <label for="last_name" class="col-md-4 col-form-label text-md-right">Last Name</label>
+            <input id="first_name" type="text" name="first_name" class="form-control" v-model="input.first_name" placeholder="First Name" required autofocus />
 
-            <div class="col-md-7">
-                <input id="last_name" type="text" name="last_name" class="form-control" v-model="input.last_name" required autofocus />
-
-                <span class="err-msg" v-if="errors.last_name">
-                    {{ errors.last_name }}
-                </span>
-            </div>
+            <span class="err-msg" v-if="errors.first_name">
+                {{ errors.first_name }}
+            </span>
         </div>
 
         <div class="form-group row">
-            <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
+            <input id="last_name" type="text" name="last_name" class="form-control" v-model="input.last_name" placeholder="Last Name" required autofocus />
 
-            <div class="col-md-7">
-                <input id="email" type="email" name="email" class="form-control" v-model="input.email" required />
-
-                <span class="err-msg" v-if="errors.email">
-                    {{ errors.email }}
-                </span>
-            </div>
+            <span class="err-msg" v-if="errors.last_name">
+                {{ errors.last_name }}
+            </span>
         </div>
 
         <div class="form-group row">
-            <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
+            <img class="auth-mobile-icon" src="/img/icons/au.png"
+                    srcset="/img/icons/au@2x.png 2x, /img/icons/au@3x.png 3x">
+            +61
+            
+            <input id="mobile_number" type="text" name="mobile_number" class="form-control" v-model="input.mobile_number" placeholder="Mobile Number" required />
 
-            <div class="col-md-7">
-                <input id="password" type="password" name="password" class="form-control" v-model="input.password" required />
-
-                <span class="err-msg" v-if="errors.password">
-                    {{ errors.password }}
-                </span>
-            </div>
+            <span class="err-msg" v-if="errors.mobile_number">
+                {{ errors.mobile_number }}
+            </span>
         </div>
 
         <div class="form-group row">
-            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm Password</label>
+            <input id="email" type="email" name="email" class="form-control" v-model="input.email" placeholder="Email Address" required />
 
-             <div class="col-md-7">
-                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" v-model="input.password_confirmation" required>
-            </div>
+            <span class="err-msg" v-if="errors.email">
+                {{ errors.email }}
+            </span>
+        </div>
+
+        <div class="form-group row">
+            <input id="password" type="password" name="password" class="form-control" v-model="input.password" placeholder="Password" required />
+
+            <span class="err-msg" v-if="errors.password">
+                {{ errors.password }}
+            </span>
+        </div>
+
+        <div class="form-group row">
+            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" v-model="input.password_confirmation" placeholder="Confirm Password" required>
         </div>
         
-        <div class="form-group row">
-            <label for="password" class="col-md-4 col-form-label text-md-right">Role</label>
+        <!-- <div class="form-group row">
+            <label for="role" class="col-md-4 col-form-label text-md-right">Role</label>
 
             <div class="col-md-7">
                 <select v-model="input.role_id" class="form-control">
@@ -86,19 +81,23 @@
             <span class="err-msg" v-if="errors.role_id">
                 {{ errors.role_id }}
             </span>
-        </div>
+        </div> -->
 
         <div class="form-group row mb-0">
-            <div class="col-md-7 offset-md-4">
-                <button type="submit" class="btn btn-primary" :disabled="disabled">
-                    Register
-                </button>
-            </div>
+            <a class="btn btn-link" v-bind:href="endpoints.login">
+                Back to login
+            </a>
+            
+            <button type="submit" class="btn btn-primary" :disabled="disabled">
+                Login
+            </button>
         </div>
     </form>
 </template>
 
 <script>
+    import Api from '@/api';
+    
     export default {
 
         data() {
@@ -106,12 +105,13 @@
                 roles: [],
                 disabled: false,
                 input: {
-                    role_id:  0, gender: '', first_name: '', last_name: '', email: '', password: '', password_confirmation: ''
+                    role_id:  1, gender: 'Female', first_name: '', last_name: '', mobile_number: '', email: '', password: '', password_confirmation: ''
                 },
                 errors: {
-                    role_id: '', gender: '', first_name: '', last_name: '', email: '', password: '',
+                    role_id: '', gender: '', first_name: '', last_name: '', mobile_number: '', email: '', password: '',
                 },
                 endpoints: {
+                    login: '/login',
                     profile: '/user/profile',
                     register: '/api/v1/auth/register',
                     get_roles: '/api/v1/roles',

@@ -1,5 +1,5 @@
 <!-- Reset Password Email -->
-@extends('emails.layout')
+@extends('layouts.emails')
 
 @section('content')
 	<table class="body-wrap">
