@@ -16,14 +16,6 @@ class Company extends BaseModel
 
     protected $fillable = [ 'name', 'address', 'contact_email', 'contact_name', 'phone', 'created_by' ];
 
-
-    public function __construct($userId = null) {
-
-        parent::__construct([]);
-        $this->userId = $userId;
-
-    }
-
     /**
      * @return array
      */
@@ -35,7 +27,6 @@ class Company extends BaseModel
             'contact_email' => 'required',
             'contact_name'  => 'required',
             'phone'         => 'required',
-            'created_by'    => 'required|integer'
         ];
     }
 
@@ -66,12 +57,14 @@ class Company extends BaseModel
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function setUserId($userId) {
+
+        $this->userId = $userId;
+    }
+
     public function store(Request $r) {
 
         $data = $r->all();
-        $data['created_by'] = $this->userId;
-        $data['created_at'] = Carbon::now();
-        $data['updated_at'] = Carbon::now();
 
         if( ! $this->validate( $data )) {
 

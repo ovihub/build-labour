@@ -4,6 +4,7 @@ namespace App\Models\Users;
 
 use App\Mails\ResendVerificationCodeEmail;
 use App\Models\BaseModel;
+use App\Models\Companies\Company;
 use App\User;
 use App\Helpers\Utils;
 use Illuminate\Http\Request;
@@ -57,8 +58,8 @@ class Users extends BaseModel implements
             'password'      => 'required|string|min:6|max:24|confirmed',
             'first_name'    => 'required',
             'last_name'     => 'required',
-            'role_id'       => 'required|integer|between:1,4',
-            'gender'        => 'required'
+            //'role_id'       => 'required|integer|between:1,4',
+            'mobile'        => 'required'
         ];
     }
 
@@ -135,15 +136,31 @@ class Users extends BaseModel implements
 
             $this->save();
 
-            // create worker detail record if the user type is WORKER
+            // deal with roles
+            if ($this->exists) {
 
-            if ($this->role_id == self::USER_TYPE_WORKER) {
+                $user = JWTAuth::toUser();
 
-                WorkerDetail::create(['user_id' => $this->id]);
+                // create worker detail record if the user type is WORKER
+
+                if ($user) {
+
+                    if ($this->role_id == self::USER_TYPE_WORKER && !$user->WorkerDetail) {
+
+                        WorkerDetail::create(['user_id' => $this->id]);
+
+                    } else if ($this->role_id == self::USER_TYPE_COMPANY && !$user->Company) {
+
+                        Company::create(['created_by' => $this->id]);
+                    }
+                }
+
             }
 
-        }catch( \Exception $e ){
+        } catch( \Exception $e ){
+
             $this->errors[] = $e->getMessage();
+
             return false;
         }
 

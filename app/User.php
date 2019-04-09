@@ -6,6 +6,7 @@
 
 namespace App;
 
+use App\Models\Companies\Company;
 use App\Models\Users\Education;
 use App\Models\Users\Ticket;
 use App\Models\Users\Users;
@@ -93,4 +94,12 @@ class User extends Users implements JWTSubject
         return $this->hasMany( Ticket::class, 'user_id', 'id');
     }
 
+    /**
+     * Return a collection relates to Company, e.g User as a company
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function Company() {
+
+        return $this->belongsTo(Company::class, 'id', 'created_by');
+    }
 }

@@ -12,7 +12,7 @@ class ApiCompaniesController extends ApiBaseController
      * @OA\Post(
      *      path="/company",
      *      tags={"Company"},
-     *      summary="Add a Company",
+     *      summary="Update a Company",
      *      security={{"BearerAuth":{}}},
      *      @OA\RequestBody(
      *          required=true,
@@ -79,11 +79,16 @@ class ApiCompaniesController extends ApiBaseController
      *      )
      * )
      */
-    public function add( Request $request )
+    public function update( Request $request )
     {
 
         $user = JWTAuth::toUser();
-        $company = new Company($user->id);
+        $company = $user->company;
+
+        if (!$company) {
+
+            return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
+        }
 
         try {
 
@@ -103,6 +108,6 @@ class ApiCompaniesController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'workExp' ), true, 'Successfully registered a company', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'company' ), true, 'Successfully registered a company', self::HTTP_STATUS_REQUEST_OK);
     }
 }
