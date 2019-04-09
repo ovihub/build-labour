@@ -5,7 +5,7 @@
                 <img class="profile-picture" v-bind:src="input.profile_photo_url">
             </div>
             <div class="profile-content-p20 pb-4">
-                <div class="bl-label-s22 m0">{{ input.first_name }} {{ input.last_name }}</div>
+                <div class="bl-label-22 m0">{{ input.first_name }} {{ input.last_name }}</div>
             
                 <div class="bl-label-17 pb-3" v-if="input.job_role">
                     {{ input.job_role }} <div class="text-style-1">- {{ input.company_name }}</div>

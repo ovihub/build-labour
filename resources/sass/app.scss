@@ -650,7 +650,7 @@ p.bl-nav-tab-label {
 .page-link:hover {
   color: #000;
 }
-.text-404 {
+.text-error {
   font-size: 200px;
   line-height: 1.7;
   color: $brand;
@@ -663,4 +663,25 @@ p.bl-nav-tab-label {
 }
 .ta-left {
   text-align: left;
+}
+.bl-label-22 {
+  font-size: 22px;
+  font-weight: 500;
+  color: #252829;
+  text-align: center;
+}
+.bl-label-48 {
+  font-size: 48px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  text-align: center;
+  color: #000000;
+}
+.bl-label-17-center {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  text-align: center;
+  color: #ff9934;
+  margin: 40px 0 40px 0;
 }

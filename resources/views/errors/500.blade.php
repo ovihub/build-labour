@@ -1,14 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.errors')
 
 @section('content')
     <div class="container">
-        <div class="bl-label-s22">
+        <div class="bl-label-22">
             Oops, Something went wrong!
         </div>
         <div class="bl-label-15 ta-center">
             An internal error occurred. Please contact administrator.
         </div>
-        <div class="text-404 ta-center">
+        <div class="text-error ta-center">
             :(
         </div>
         <div class="ta-center">
