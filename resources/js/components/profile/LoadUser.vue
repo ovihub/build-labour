@@ -14,7 +14,7 @@
                     role: '', company_name: '', job_role: '', start_date:'', end_date:'', period: '',
                 },
                 about_me: {
-                    gender: '', dob: '', dob_formatted: '', marital_status: ''
+                    gender: '', dob: '', dob_formatted: '', marital_status: '', english_skill: '', drivers_license: ''
                 },
                 ideal_role: {},
                 employments: [],
@@ -43,7 +43,7 @@
 
                         component.profile = {};
                         component.profile.profile_photo_url = user.profile_photo_url ? user.profile_photo_url : '/img/icons/default.png';
-                        component.profile.profile_description = user.worker_detail.profile_description;
+                        component.profile.profile_description = user.worker_detail ? user.worker_detail.profile_description : '';
                         component.profile.first_name = user.first_name;
                         component.profile.last_name = user.last_name;
                         component.profile.email = user.email;
@@ -62,14 +62,12 @@
                         component.about_me = {};
                         component.about_me.gender = user.gender;
                         component.about_me.dob = user.dob;
-                        component.about_me.dob_formatted = user.dob_formatted;
+                        component.about_me.dob_formatted = user.dob ? user.dob_formatted : '';
                         component.about_me.marital_status = user.marital_status;
+                        component.about_me.english_skill = user.worker_detail ? user.worker_detail.english_skill : '';
+                        component.about_me.drivers_license = user.worker_detail ? user.worker_detail.drivers_license : '';
 
                         component.ideal_role = user.worker_detail;
-                        if (component.ideal_role.nrole_right_to_work_au === 1) {
-                            component.ideal_role.nrole_right_to_work_au_desc = 'Yes, I have right to work in Australia';
-                        }
-
                         component.employments = user.experiences;
                         component.educations = user.educations;
                         component.tickets = user.tickets;
@@ -81,7 +79,7 @@
                         Bus.$emit('employmentDetails', component.employments);
                         Bus.$emit('educationDetails', component.educations);
                         Bus.$emit('ticketsDetails', component.tickets);
-                        Bus.$emit('industrySkillsDetails', component.industry_skills);
+                        Bus.$emit('industrySkillsDetails', component.industry_skills, user.worker_detail ? user.worker_detail.main_skill : '');
                     })
                     .catch(function(error) {
                         // let data = error.response.data;

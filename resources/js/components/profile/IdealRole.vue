@@ -35,7 +35,7 @@
 
                 <span class="bl-label-15">Right to Work</span>
                 <span class="bl-label-14">
-                    {{ input.nrole_right_to_work_au_desc }}
+                    {{ input.right_to_work_au }}
                 </span>
             </div>
         </div>
@@ -47,8 +47,7 @@
         data() {
             return {
                 input: { 
-                    nrole_info: '', nrole_when: '', nrole_travel_to_home: '', nrole_address: '',  nrole_state: '',
-                    nrole_right_to_work_au: '', nrole_right_to_work_au_desc: '',
+                    nrole_info: '', nrole_when: '', nrole_travel_to_home: '', nrole_address: '',  nrole_state: '', right_to_work_au: '',
                 }
             }
         },
@@ -57,7 +56,9 @@
             let component = this;
 
             Bus.$on('idealRoleDetails', function(details) {
-                component.input = details;
+                if (details) {
+                    component.input = details;
+                }
             });
         },
 

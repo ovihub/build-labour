@@ -2652,7 +2652,9 @@ __webpack_require__.r(__webpack_exports__);
         gender: '',
         dob: '',
         dob_formatted: '',
-        marital_status: ''
+        marital_status: '',
+        english_skill: '',
+        drivers_license: ''
       }
     };
   },
@@ -2953,15 +2955,16 @@ __webpack_require__.r(__webpack_exports__);
         nrole_travel_to_home: '',
         nrole_address: '',
         nrole_state: '',
-        nrole_right_to_work_au: '',
-        nrole_right_to_work_au_desc: ''
+        right_to_work_au: ''
       }
     };
   },
   created: function created() {
     var component = this;
     Bus.$on('idealRoleDetails', function (details) {
-      component.input = details;
+      if (details) {
+        component.input = details;
+      }
     });
   },
   methods: {}
@@ -3039,11 +3042,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      skills_intro: '',
       industry_skills: [],
       firstColumn: [],
       secondColumn: []
@@ -3051,7 +3053,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var component = this;
-    Bus.$on('industrySkillsDetails', function (detailsArray) {
+    Bus.$on('industrySkillsDetails', function (detailsArray, skillsIntroduction) {
+      component.skills_intro = skillsIntroduction;
       component.industry_skills = detailsArray;
       var len = component.industry_skills.length;
       var half = Math.ceil(len / 2);
@@ -3170,7 +3173,9 @@ __webpack_require__.r(__webpack_exports__);
         gender: '',
         dob: '',
         dob_formatted: '',
-        marital_status: ''
+        marital_status: '',
+        english_skill: '',
+        drivers_license: ''
       },
       ideal_role: {},
       employments: [],
@@ -3192,7 +3197,7 @@ __webpack_require__.r(__webpack_exports__);
         var user = response.data.data.user;
         component.profile = {};
         component.profile.profile_photo_url = user.profile_photo_url ? user.profile_photo_url : '/img/icons/default.png';
-        component.profile.profile_description = user.worker_detail.profile_description;
+        component.profile.profile_description = user.worker_detail ? user.worker_detail.profile_description : '';
         component.profile.first_name = user.first_name;
         component.profile.last_name = user.last_name;
         component.profile.email = user.email;
@@ -3208,14 +3213,11 @@ __webpack_require__.r(__webpack_exports__);
         component.about_me = {};
         component.about_me.gender = user.gender;
         component.about_me.dob = user.dob;
-        component.about_me.dob_formatted = user.dob_formatted;
+        component.about_me.dob_formatted = user.dob ? user.dob_formatted : '';
         component.about_me.marital_status = user.marital_status;
+        component.about_me.english_skill = user.worker_detail ? user.worker_detail.english_skill : '';
+        component.about_me.drivers_license = user.worker_detail ? user.worker_detail.drivers_license : '';
         component.ideal_role = user.worker_detail;
-
-        if (component.ideal_role.nrole_right_to_work_au === 1) {
-          component.ideal_role.nrole_right_to_work_au_desc = 'Yes, I have right to work in Australia';
-        }
-
         component.employments = user.experiences;
         component.educations = user.educations;
         component.tickets = user.tickets;
@@ -3226,7 +3228,7 @@ __webpack_require__.r(__webpack_exports__);
         Bus.$emit('employmentDetails', component.employments);
         Bus.$emit('educationDetails', component.educations);
         Bus.$emit('ticketsDetails', component.tickets);
-        Bus.$emit('industrySkillsDetails', component.industry_skills);
+        Bus.$emit('industrySkillsDetails', component.industry_skills, user.worker_detail ? user.worker_detail.main_skill : '');
       }).catch(function (error) {
         // let data = error.response.data;
         Utils.handleError(error);
@@ -41595,7 +41597,9 @@ var render = function() {
         _vm._v(" "),
         _c("span", { staticClass: "bl-label-14" }, [
           _vm._v(
-            "\n                Proficient in written and spoken\n            "
+            "\n                " +
+              _vm._s(_vm.input.english_skill) +
+              "\n            "
           )
         ]),
         _vm._v(" "),
@@ -41604,12 +41608,10 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("span", { staticClass: "bl-label-14" }, [
-          _vm._v("\n                Owns valid license\n            ")
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "bl-label-14" }, [
           _vm._v(
-            "\n                Don't own/have access to personal registered vehicle vehicle vehicles\n            "
+            "\n                " +
+              _vm._s(_vm.input.drivers_license) +
+              "\n            "
           )
         ])
       ])
@@ -42186,7 +42188,7 @@ var render = function() {
         _c("span", { staticClass: "bl-label-14" }, [
           _vm._v(
             "\n                " +
-              _vm._s(_vm.input.nrole_right_to_work_au_desc) +
+              _vm._s(_vm.input.right_to_work_au) +
               "\n            "
           )
         ])
@@ -42239,9 +42241,7 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("span", { staticClass: "profile-intro" }, [
-        _vm._v(
-          "\n            Worked on Rail link, saved $30,000 on\n            budget, and delivered 2 weeks before\n            project deadline\n        "
-        )
+        _vm._v("\n            " + _vm._s(_vm.skills_intro) + "\n        ")
       ]),
       _vm._v(" "),
       _c(

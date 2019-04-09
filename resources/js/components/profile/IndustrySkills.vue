@@ -9,9 +9,7 @@
             </div>
             
             <span class="profile-intro">
-                Worked on Rail link, saved $30,000 on
-                budget, and delivered 2 weeks before
-                project deadline
+                {{ skills_intro }}
             </span>
 
             <div class="row">
@@ -65,6 +63,7 @@
     export default {
         data() {
             return {
+                skills_intro: '',
                 industry_skills: [],
                 firstColumn: [],
                 secondColumn: [],
@@ -74,7 +73,8 @@
         created() {
             let component = this;
 
-            Bus.$on('industrySkillsDetails', function(detailsArray) {
+            Bus.$on('industrySkillsDetails', function(detailsArray, skillsIntroduction) {
+                component.skills_intro = skillsIntroduction;
                 component.industry_skills = detailsArray;
 
                 let len = component.industry_skills.length;

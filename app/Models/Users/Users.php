@@ -59,7 +59,7 @@ class Users extends BaseModel implements
             'first_name'    => 'required',
             'last_name'     => 'required',
             //'role_id'       => 'required|integer|between:1,4',
-            'mobile'        => 'required'
+            'mobile_number' => 'required'
         ];
     }
 

@@ -26,16 +26,16 @@
 
                 <span class="bl-label-15 mt-2 pt-1">English Skill</span>
                 <span class="bl-label-14">
-                    Proficient in written and spoken
+                    {{ input.english_skill }}
                 </span>
 
                 <span class="bl-label-15 mt-2 pt-1">Driver's License</span>
                 <span class="bl-label-14">
-                    Owns valid license
+                    {{ input.drivers_license }}
                 </span>
-                <span class="bl-label-14">
+                <!-- <span class="bl-label-14">
                     Don't own/have access to personal registered vehicle vehicle vehicles
-                </span>
+                </span> -->
             </div>
         </div>
     </div>
@@ -45,7 +45,9 @@
     export default {
         data() {
             return {
-                input: { gender: '', dob: '', dob_formatted: '', marital_status: '' }
+                input: {
+                    gender: '', dob: '', dob_formatted: '', marital_status: '', english_skill: '', drivers_license: ''
+                }
             }
         },
 
