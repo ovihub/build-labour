@@ -25,7 +25,7 @@
 							<tr>
 								<td class="content-block">
 									<p>Just click the following link to reset your password:</p>
-                                    <p><b><a href="{{ url('/password/reset?token=') . $token  }}">Reset Password</a></b></p>
+                                    <p><b><a href="{{ route('password_reset', "token={$token}&email={$user->email}") }}">Reset Password</a></b></p>
 								</td>
 							</tr>
 							<tr>

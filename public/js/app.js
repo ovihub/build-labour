@@ -1849,12 +1849,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1894,7 +1888,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _api__WEBPACK_IMPORTED_MODULE_1__["default"].setToken(data.data.token);
                   window.location.href = component.endpoints.profile;
                 }).catch(function (error) {
-                  // let data = error.response.data;
                   Utils.setObjectValues(component.input, '');
                   Utils.handleError(error);
                 });
@@ -2047,8 +2040,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2087,7 +2078,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       axios.get(component.endpoints.get_roles, Utils.getBearerAuth()).then(function (response) {
         component.roles = response.data.data.roles;
       }).catch(function (error) {
-        // let data = error.response.data;
         Utils.handleError(error);
       });
     },
@@ -2187,7 +2177,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2223,7 +2212,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   component.input.email = '';
                   Bus.$emit('alertSuccess', data.message);
                 }).catch(function (error) {
-                  // let data = error.response.data;
                   component.errors.email = data.errors.email ? data.errors.email[0] : '';
                   Utils.handleError(error);
                 });
@@ -2299,22 +2287,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       disabled: false,
+      email_formatted: '',
       input: {
         email: '',
-        token: Utils.getUrlParams().token,
+        token: '',
         password: '',
         password_confirmation: ''
       },
@@ -2327,6 +2307,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         reset: '/api/v1/password/reset'
       }
     };
+  },
+  created: function created() {
+    this.input.email = Utils.getUrlParams().email;
+    this.input.token = Utils.getUrlParams().token;
+    var split = this.input.email.split('@', 2),
+        first = split[0],
+        second = '@' + split[1];
+    this.email_formatted = first.charAt(0).toUpperCase() + first.substr(0, 3).slice(1) + first.substr(3).replace(/./g, '*') + second;
   },
   methods: {
     resetPassword: function () {
@@ -2474,7 +2462,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   component.icon = '/img/icons/alert-success.png';
                   component.resend = false;
                 }).catch(function (error) {
-                  // let data = error.response.data;
                   Utils.handleError(error);
                 });
 
@@ -3228,7 +3215,6 @@ __webpack_require__.r(__webpack_exports__);
         Bus.$emit('ticketsDetails', component.tickets);
         Bus.$emit('industrySkillsDetails', component.industry_skills, user.worker_detail ? user.worker_detail.main_skill : '');
       }).catch(function (error) {
-        // let data = error.response.data;
         _api__WEBPACK_IMPORTED_MODULE_0__["default"].deleteToken();
         Utils.handleError(error);
       });
@@ -3507,58 +3493,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       disabled_input: false,
-      disabled_verify: false,
-      input_verify: {
-        uid: 0,
-        email: '',
-        verification_code: ''
-      },
       input: {
         profile_photo_url: '',
         profile_description: '',
@@ -3596,8 +3535,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         period: ''
       },
       endpoints: {
-        save: '/api/v1/user/update',
-        verify: '/api/v1/auth/verify'
+        save: '/api/v1/user/update'
       },
       format: 'd MMMM yyyy'
     };
@@ -3609,8 +3547,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var component = this;
     Bus.$on('userProfileDetails', function (details) {
       component.input = details;
-      component.input_verify.email = component.input.email;
-      component.input_verify.uid = component.input.id;
 
       if (!component.input.is_verified) {
         Bus.$emit('alertVerify', component.input.email);
@@ -3618,56 +3554,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
   },
   methods: {
-    verifyEmail: function () {
-      var _verifyEmail = _asyncToGenerator(
+    saveProfile: function () {
+      var _saveProfile = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var component;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                component = this;
-                component.disabled_verify = true;
-                _context.next = 4;
-                return axios.post(component.endpoints.verify, component.$data.input_verify, Utils.getBearerAuth()).then(function (response) {
-                  var data = response.data;
-                  Bus.$emit('alertSuccess', data.message); // $('#verifyEmailModal').modal('hide');
-                }).catch(function (error) {
-                  // let data = error.response.data;
-                  Utils.handleError(error);
-                });
-
-              case 4:
-                component.disabled_verify = false;
-
-              case 5:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this);
-      }));
-
-      function verifyEmail() {
-        return _verifyEmail.apply(this, arguments);
-      }
-
-      return verifyEmail;
-    }(),
-    saveProfile: function () {
-      var _saveProfile = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
+        }, _callee);
       }));
 
       function saveProfile() {
@@ -3727,7 +3626,6 @@ __webpack_require__.r(__webpack_exports__);
         delete component.record.date_email_verified_at;
         delete component.record.deleted_at;
       }).catch(function (error) {
-        // let data = error.response.data;
         Utils.handleError(error);
       });
     }
@@ -3806,7 +3704,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   var data = response.data;
                   Bus.$emit('alertSuccess', data.message);
                 }).catch(function (error) {
-                  // let data = error.response.data;
                   Utils.handleError(error);
                 });
 
@@ -40591,11 +40488,9 @@ var render = function() {
       }
     },
     [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _vm._v("\n        Login\n    ")
-      ]),
+      _c("div", { staticClass: "form-text-header" }, [_vm._v("Login")]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
+      _c("div", { staticClass: "form-group" }, [
         _c("input", {
           directives: [
             {
@@ -40632,7 +40527,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
+      _c("div", { staticClass: "form-group" }, [
         _c("input", {
           directives: [
             {
@@ -40670,9 +40565,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group row mb-0" }, [
+      _c("div", { staticClass: "form-group" }, [
         _c(
           "a",
           { staticClass: "btn btn-link", attrs: { href: _vm.endpoints.reset } },
@@ -40682,7 +40575,7 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "btn btn-primary",
+            staticClass: "pull-right",
             attrs: { type: "submit", disabled: _vm.disabled }
           },
           [_vm._v("\n            Login\n        ")]
@@ -40691,16 +40584,7 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c("div", { staticClass: "form-check" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -40725,7 +40609,6 @@ var render = function() {
   return _c("a", { on: { click: _vm.logoutUser } }, [
     _c("img", {
       staticClass: "profile-picture-nav",
-      staticStyle: { width: "25px", height: "25px" },
       attrs: { title: "LOGOUT", src: "/img/icons/default.png" }
     })
   ])
@@ -40764,11 +40647,9 @@ var render = function() {
       }
     },
     [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _vm._v("\n        Registration\n    ")
-      ]),
+      _c("div", { staticClass: "form-text-header" }, [_vm._v("Registration")]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
+      _c("div", { staticClass: "form-group" }, [
         _c("input", {
           directives: [
             {
@@ -40807,7 +40688,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
+      _c("div", { staticClass: "form-group" }, [
         _c("input", {
           directives: [
             {
@@ -40846,16 +40727,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
-        _c("img", {
-          staticClass: "auth-mobile-icon",
-          attrs: {
-            src: "/img/icons/au.png",
-            srcset:
-              "/img/icons/au@2x.png" + " 2x, " + "/img/icons/au@3x.png" + " 3x"
-          }
-        }),
-        _vm._v("\n        +61\n        \n        "),
+      _c("div", { staticClass: "form-group" }, [
         _c("input", {
           directives: [
             {
@@ -40870,7 +40742,7 @@ var render = function() {
             id: "mobile_number",
             type: "text",
             name: "mobile_number",
-            placeholder: "Mobile Number",
+            placeholder: "Mobile Number (+61)",
             required: ""
           },
           domProps: { value: _vm.input.mobile_number },
@@ -40895,7 +40767,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
+      _c("div", { staticClass: "form-group" }, [
         _c("input", {
           directives: [
             {
@@ -40931,7 +40803,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
+      _c("div", { staticClass: "form-group" }, [
         _c("input", {
           directives: [
             {
@@ -40969,7 +40841,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
+      _c("div", { staticClass: "form-group" }, [
         _c("input", {
           directives: [
             {
@@ -40999,7 +40871,7 @@ var render = function() {
         })
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group row mb-0" }, [
+      _c("div", { staticClass: "form-group" }, [
         _c(
           "a",
           { staticClass: "btn btn-link", attrs: { href: _vm.endpoints.login } },
@@ -41009,10 +40881,10 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "btn btn-primary",
+            staticClass: "pull-right",
             attrs: { type: "submit", disabled: _vm.disabled }
           },
-          [_vm._v("\n            Login\n        ")]
+          [_vm._v("\n            Sign Up\n        ")]
         )
       ])
     ]
@@ -41052,17 +40924,17 @@ var render = function() {
       }
     },
     [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _vm._v("\n        Forgot Password\n    ")
+      _c("div", { staticClass: "form-text-header" }, [
+        _vm._v("Forgot Password")
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "form-text" }, [
         _vm._v(
           "\n        Enter your Email Address to receive an email with a link to reset your password\n    "
         )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
+      _c("div", { staticClass: "form-group" }, [
         _c("input", {
           directives: [
             {
@@ -41098,7 +40970,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group row mb-0" }, [
+      _c("div", { staticClass: "form-group" }, [
         _c(
           "a",
           { staticClass: "btn btn-link", attrs: { href: _vm.endpoints.login } },
@@ -41108,7 +40980,7 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "btn btn-primary",
+            staticClass: "pull-right",
             attrs: { type: "submit", disabled: _vm.disabled }
           },
           [_vm._v("\n            Send Reset\n        ")]
@@ -41151,49 +41023,19 @@ var render = function() {
       }
     },
     [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _vm._v("\n        Forgot Password\n    ")
+      _c("div", { staticClass: "form-text-header" }, [
+        _vm._v("Reset Password")
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "form-text" }, [
         _vm._v(
           "\n        Enter your new password for " +
-            _vm._s(_vm.input.email) +
+            _vm._s(_vm.email_formatted) +
             "\n    "
         )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.input.email,
-              expression: "input.email"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { id: "email", type: "email", name: "email", required: "" },
-          domProps: { value: _vm.input.email },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.input, "email", $event.target.value)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _vm.errors.email
-          ? _c("span", { staticClass: "err-msg" }, [
-              _vm._v("\n            " + _vm._s(_vm.errors.email) + "\n        ")
-            ])
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
+      _c("div", { staticClass: "form-group" }, [
         _c("input", {
           directives: [
             {
@@ -41208,6 +41050,7 @@ var render = function() {
             id: "password",
             type: "password",
             name: "password",
+            placeholder: "Password",
             required: ""
           },
           domProps: { value: _vm.input.password },
@@ -41230,7 +41073,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
+      _c("div", { staticClass: "form-group" }, [
         _c("input", {
           directives: [
             {
@@ -41245,6 +41088,7 @@ var render = function() {
             id: "password-confirm",
             type: "password",
             name: "password_confirmation",
+            placeholder: "Confirm Password",
             required: ""
           },
           domProps: { value: _vm.input.password_confirmation },
@@ -41259,7 +41103,7 @@ var render = function() {
         })
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group row mb-0" }, [
+      _c("div", { staticClass: "form-group" }, [
         _c(
           "a",
           { staticClass: "btn btn-link", attrs: { href: _vm.endpoints.login } },
@@ -41269,7 +41113,7 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "btn btn-primary",
+            staticClass: "pull-right",
             attrs: { type: "submit", disabled: _vm.disabled }
           },
           [_vm._v("\n            Done\n        ")]
@@ -42040,7 +41884,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "bl-label-14-mt-13" }, [
+    return _c("span", { staticClass: "bl-label-14-style-2 bl-mt13" }, [
       _c("img", {
         staticClass: "text-icon",
         attrs: {
@@ -42061,7 +41905,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "bl-label-14-mt-13" }, [
+    return _c("span", { staticClass: "bl-label-14-style-2 bl-mt13" }, [
       _c("img", {
         staticClass: "text-icon",
         attrs: {
@@ -42080,7 +41924,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "bl-label-14-mt-13" }, [
+    return _c("span", { staticClass: "bl-label-14-style-2 bl-mt13" }, [
       _c("img", {
         staticClass: "text-icon",
         attrs: {
@@ -42652,7 +42496,7 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "bl-display" }, [
-          _c("div", { staticClass: "bl-label-15-mb20" }, [
+          _c("div", { staticClass: "bl-label-15-style-2 bl-mb20" }, [
             _vm._v(
               "\n                    " +
                 _vm._s(_vm.input.profile_description) +
@@ -42732,7 +42576,7 @@ var staticRenderFns = [
       _c("img", {
         staticClass: "text-icon-3",
         attrs: {
-          src: "/img/icons/dollarsign.png",
+          src: "/img/icons/responsibilities.png",
           srcset:
             "/img/icons/dollarsign@2x.png" +
             " 2x, " +

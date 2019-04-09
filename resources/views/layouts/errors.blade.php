@@ -25,13 +25,13 @@
 </head>
 <body>
     <div id="app">
-        <div class="auth-content-section">
+        <div class="errors-content-section">
             <div class="row justify-content-center">
                 <img src="/img/build-labour-logo-orange.png"
                     srcset="/img/build-labour-logo-orange@2x.png 2x, /img/build-labour-logo-orange@3x.png 3x">
             </div>
 
-            <div class="auth-text-logo">
+            <div class="form-text-logo">
                 BUILD<br>
                 LABOUR
             </div>

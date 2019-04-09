@@ -1,13 +1,12 @@
 <template>
     <form method="POST" @submit.prevent="sendResetPasswordLink">
-        <div class="row justify-content-center">
-            Forgot Password
-        </div>
-        <div class="row justify-content-center">
+        <div class="form-text-header">Forgot Password</div>
+
+        <div class="form-text">
             Enter your Email Address to receive an email with a link to reset your password
         </div>
 
-        <div class="form-group row">
+        <div class="form-group">
             <input id="email" type="email" name="email" class="form-control" v-model="input.email" placeholder="Email Address" required />
 
             <span class="err-msg" v-if="errors.email">
@@ -15,12 +14,12 @@
             </span>
         </div>
 
-        <div class="form-group row mb-0">
+        <div class="form-group">
             <a class="btn btn-link" v-bind:href="endpoints.login">
                 Back to login
             </a>
             
-            <button type="submit" class="btn btn-primary" :disabled="disabled">
+            <button class="pull-right" type="submit" :disabled="disabled">
                 Send Reset
             </button>
         </div>
@@ -64,7 +63,6 @@
                         Bus.$emit('alertSuccess', data.message);
                     })
                     .catch(function(error) {
-                        // let data = error.response.data;
 
                         component.errors.email = data.errors.email ? data.errors.email[0] : '';
 

@@ -1,10 +1,8 @@
 <template>
     <form method="POST" @submit.prevent="loginUser">
-        <div class="row justify-content-center">
-            Login
-        </div>
+        <div class="form-text-header">Login</div>
 
-        <div class="form-group row">
+        <div class="form-group">
             <input id="email" type="email"  name="email" class="form-control" v-model="input.email" placeholder="Email Address" required autofocus>
 
             <span class="err-msg" v-if="errors.email">
@@ -12,7 +10,7 @@
             </span>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group">
             <input id="password" type="password"  name="password" class="form-control" v-model="input.password" placeholder="Password" required>
 
             <span class="err-msg" v-if="errors.password">
@@ -20,16 +18,12 @@
             </span>
         </div>
 
-        <div class="form-group row">
-            <div class="form-check"></div>
-        </div>
-
-        <div class="form-group row mb-0">
+        <div class="form-group">
             <a class="btn btn-link" v-bind:href="endpoints.reset">
                 Forgot Your Password
             </a>
-            
-            <button type="submit" class="btn btn-primary" :disabled="disabled">
+
+            <button class="pull-right" type="submit" :disabled="disabled">
                 Login
             </button>
         </div>
@@ -77,8 +71,7 @@
                         window.location.href = component.endpoints.profile;
                     })
                     .catch(function(error) {
-                        // let data = error.response.data;
-
+                        
                         Utils.setObjectValues(component.input, '');
                         
                         Utils.handleError(error);

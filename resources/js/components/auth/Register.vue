@@ -1,10 +1,8 @@
 <template>
     <form method="POST" @submit.prevent="registerUser">
-        <div class="row justify-content-center">
-            Registration
-        </div>
+        <div class="form-text-header">Registration</div>
 
-        <div class="form-group row">
+        <div class="form-group">
             <input id="first_name" type="text" name="first_name" class="form-control" v-model="input.first_name" placeholder="First Name" required autofocus />
 
             <span class="err-msg" v-if="errors.first_name">
@@ -12,7 +10,7 @@
             </span>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group">
             <input id="last_name" type="text" name="last_name" class="form-control" v-model="input.last_name" placeholder="Last Name" required autofocus />
 
             <span class="err-msg" v-if="errors.last_name">
@@ -20,19 +18,19 @@
             </span>
         </div>
 
-        <div class="form-group row">
-            <img class="auth-mobile-icon" src="/img/icons/au.png"
+        <div class="form-group">
+            <!-- <img class="form-mobile-icon" src="/img/icons/au.png"
                     srcset="/img/icons/au@2x.png 2x, /img/icons/au@3x.png 3x">
-            +61
+            +61 -->
             
-            <input id="mobile_number" type="text" name="mobile_number" class="form-control" v-model="input.mobile_number" placeholder="Mobile Number" required />
+            <input id="mobile_number" type="text" name="mobile_number" class="form-control" v-model="input.mobile_number" placeholder="Mobile Number (+61)" required />
 
             <span class="err-msg" v-if="errors.mobile_number">
                 {{ errors.mobile_number }}
             </span>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group">
             <input id="email" type="email" name="email" class="form-control" v-model="input.email" placeholder="Email Address" required />
 
             <span class="err-msg" v-if="errors.email">
@@ -40,7 +38,7 @@
             </span>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group">
             <input id="password" type="password" name="password" class="form-control" v-model="input.password" placeholder="Password" required />
 
             <span class="err-msg" v-if="errors.password">
@@ -48,17 +46,17 @@
             </span>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group">
             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" v-model="input.password_confirmation" placeholder="Confirm Password" required>
         </div>
 
-        <div class="form-group row mb-0">
+        <div class="form-group">
             <a class="btn btn-link" v-bind:href="endpoints.login">
                 Back to login
             </a>
             
-            <button type="submit" class="btn btn-primary" :disabled="disabled">
-                Login
+            <button class="pull-right" type="submit" :disabled="disabled">
+                Sign Up
             </button>
         </div>
     </form>
@@ -100,10 +98,10 @@
                 axios.get(component.endpoints.get_roles, Utils.getBearerAuth())
                     
                     .then(function(response) {
+                        
                         component.roles = response.data.data.roles;
                     })
                     .catch(function(error) {
-                        // let data = error.response.data;
 
                         Utils.handleError(error);
                     });

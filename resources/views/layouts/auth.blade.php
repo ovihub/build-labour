@@ -34,20 +34,18 @@
                     srcset="/img/build-labour-logo-orange@2x.png 2x, /img/build-labour-logo-orange@3x.png 3x">
             </div>
 
-            <div class="auth-text-logo">
+            <div class="form-text-logo">
                 BUILD<br>
                 LABOUR
             </div>
 
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        <div class="card auth-card">
-                            <div class="card-body">
-                                
-                                @yield('content')
+                    <div class="form-card">
+                        <div class="form-card-body">
                             
-                            </div>
+                            @yield('content')
+                        
                         </div>
                     </div>
                 </div>

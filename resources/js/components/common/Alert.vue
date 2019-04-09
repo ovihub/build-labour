@@ -81,7 +81,6 @@
 						component.resend = false;
 					})
 					.catch(function(error) {
-						// let data = error.response.data;
 
 						Utils.handleError(error);
 					});

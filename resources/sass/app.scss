@@ -1,21 +1,17 @@
 
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-
-// Variables
-@import 'variables';
+@import url('https://fonts.googleapis.com/css?family=Krona+One');
+@import url('https://rsms.me/inter/inter.css');
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-// Profile
+// Other Styles
+@import 'variables';
+@import 'labels';
 @import 'profile';
-
-// Responsive Styles
 @import 'responsive';
-
-// Font Family
-@import url('https://rsms.me/inter/inter.css');
 
 html { 
   font-family: 'Inter', sans-serif;
@@ -69,12 +65,22 @@ textarea {
 }
 
 button {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  text-align: center;
+  color: #ffffff;
+  width: 142px;
+  height: 42px;
+  border-radius: 8px;
   border: none;
-  background: $brand;
-  color: #fff;
+  background-image: linear-gradient(43deg, #ffb600, $brand-orange);
+  margin-top: 12px;
 
   &:hover {
-    color: #000;
+    color: $brand-orange;
+    background: #fff;
+    border: 1px solid $brand-orange;
   }
 }
 
@@ -134,10 +140,11 @@ form input[type="email"]:focus,
 form input[type="number"]:focus,
 form input[type="password"]:focus {
   outline: none !important;
+  border: 1px solid $brand-orange;
+  box-shadow: 0 0 1px 0 $brand;
 }
 form .button {
   background: #fff;
-  border: 1px solid #fff;
   padding: 7px 20px;
   text-transform: uppercase;
 }
@@ -147,7 +154,6 @@ form .button:focus, form .button:active {
 form .button.yellow {
   background: #e7af2a;
   color: #fff;
-  border: 1px solid #c89316;
 }
 a.button {
     -webkit-appearance: button;
@@ -400,51 +406,76 @@ h1, h2, h3, h4, h5, h6 {
   margin: 40px 0;
   min-height: 70vh;
 }
-.auth-card {
-  padding: 29px 50px 30px 50px;
+.errors-content-section {
+  margin: 40px 0;
 }
 .auth-content-section {
   margin: 70px 0;
 }
-.auth-text-logo {
-  font-size: 23px;
-  font-weight: bold;
-  line-height: 1.35;
-  letter-spacing: 2.4px;
-  text-align: center;
-  color: #000000;
-  margin: 29px 0 29px 0;
-}
-.auth-mobile-icon {
-  width: 28px;
-  height: 20px;
-  object-fit: contain;
-}
+
 form input[type="text"], 
 form input[type="email"], 
 form input[type="number"], 
 form input[type="password"],
 textarea {
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 12px 15px;
+  max-width: 488px;
+  height: 56px;
+  border: solid 1px rgba(0, 0, 0, 0.32);
+  padding: 15px 24px 17px;
+  margin: 0 auto;
+  margin-bottom: 28px;
 }
 
-#contactform textarea,
-#contactform input {
-  width: 100%;
+/* ==========================================================================
+    Forms Styling
+  ========================================================================== */
+.form-text-logo {
+  font-family: 'Krona One';
+  font-size: 23px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.35;
+  letter-spacing: 2.4px;
+  text-align: center;
+  color: #000000;
+  margin: 29px 0 50px 0;
 }
-
-#contactform textarea {
-  min-height: 140px;
+.form-card {
+  width: 588px;
+  padding: 29px 50px 30px 50px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  border-radius: 8px;
+  box-shadow: 0 0 1px 0 rgba(33, 49, 60, 0.18), 0 3px 4px 0 rgba(38, 52, 64, 0.09);
+  background-color: #ffffff;
+  margin-right: 20px;
+  margin-left: 20px;
 }
-
-#contactform input.mainBtn {
-  border: 0;
-  outline: 0;
-  padding: 12px;
-  color: #fff;
-  background: $brand;
+.form-card-body {
+  flex: 1 1 auto;
+}
+.form-mobile-icon {
+  width: 28px;
+  height: 20px;
+  object-fit: contain;
+}
+.form-text-header {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  text-align: center;
+  color: #435256;
+  margin-bottom: 30px;
+}
+.form-text {
+  font-size: 16px;
+  color: #435256;
+  margin-bottom: 27px;
+  text-align: justify;
 }
 
 /* ==========================================================================
@@ -616,20 +647,16 @@ p.bl-nav-tab-label {
 /* ==========================================================================
     Custom Bootstrap Styling
   ========================================================================== */
-.btn-primary {
-  color: $brand;
-  background-color: #fff;
-  border-color: $brand;
-}
-.btn-primary:hover {
-  background-color: $brand;
-  border-color: $brand;
-  color: #fff;
-}
 .btn-link {
-  font-weight: 400;
-  color: #7B7B7B;
-  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  color: #ffc658;
+  margin-top: 12px;
+
+  &:hover {
+    color: $brand-orange;
+    cursor: pointer;    
+  }
 }
 .page-item.active .page-link {
   z-index: 1;
@@ -664,24 +691,6 @@ p.bl-nav-tab-label {
 .ta-left {
   text-align: left;
 }
-.bl-label-22 {
-  font-size: 22px;
-  font-weight: 500;
-  color: #252829;
-  text-align: center;
-}
-.bl-label-48 {
-  font-size: 48px;
-  font-weight: 500;
-  letter-spacing: 0.2px;
-  text-align: center;
-  color: #000000;
-}
-.bl-label-17-center {
-  font-size: 17px;
-  font-weight: 500;
-  letter-spacing: 0.1px;
-  text-align: center;
-  color: #ff9934;
-  margin: 40px 0 40px 0;
+.pull-right {
+  float: right;
 }

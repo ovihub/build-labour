@@ -45,17 +45,17 @@
                     </div>
 
                     <div :class="responseClass" v-show="expanded[index]">
-                        <span class="bl-label-14-mt-13">
+                        <span class="bl-label-14-style-2 bl-mt13">
                             <img class="text-icon" src="/img/icons/pinlocation.png"
                                 srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
                             Richmond, Victoria, Australia
                         </span>
-                        <span class="bl-label-14-mt-13">
+                        <span class="bl-label-14-style-2 bl-mt13">
                             <img class="text-icon" src="/img/icons/dollarsign.png"
                                 srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
                             $1,750,000
                         </span>
-                        <span class="bl-label-14-mt-13">
+                        <span class="bl-label-14-style-2 bl-mt13">
                             <img class="text-icon" src="/img/icons/responsibilities.png"
                                 srcset="/img/icons/responsibilities@2x.png 2x, /img/icons/responsibilities@3x.png 3x">
                             Responsibilities:

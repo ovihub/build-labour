@@ -82,9 +82,9 @@
                         Bus.$emit('industrySkillsDetails', component.industry_skills, user.worker_detail ? user.worker_detail.main_skill : '');
                     })
                     .catch(function(error) {
-                        // let data = error.response.data;
 
                         Api.deleteToken();
+                        
                         Utils.handleError(error);
                     });
             },

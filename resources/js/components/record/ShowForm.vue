@@ -44,7 +44,6 @@
 						delete component.record.deleted_at;
 					})
 					.catch(function(error) {
-						// let data = error.response.data;
 
 						Utils.handleError(error);
 					});

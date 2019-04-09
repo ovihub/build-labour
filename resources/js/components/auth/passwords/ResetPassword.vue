@@ -1,38 +1,29 @@
 <template>
     <form method="POST" @submit.prevent="resetPassword">
-        <div class="row justify-content-center">
-            Forgot Password
-        </div>
-        <div class="row justify-content-center">
-            Enter your new password for {{ input.email }}
-        </div>
-
-        <div class="form-group row">
-            <input id="email" type="email" name="email" class="form-control" v-model="input.email" required />
-
-            <span class="err-msg" v-if="errors.email">
-                {{ errors.email }}
-            </span>
+        <div class="form-text-header">Reset Password</div>
+        
+        <div class="form-text">
+            Enter your new password for {{ email_formatted }}
         </div>
 
-        <div class="form-group row">
-            <input id="password" type="password" name="password" class="form-control" v-model="input.password" required />
+        <div class="form-group">
+            <input id="password" type="password" name="password" class="form-control" v-model="input.password" placeholder="Password" required />
 
             <span class="err-msg" v-if="errors.password">
                 {{ errors.password }}
             </span>
         </div>
 
-        <div class="form-group row">
-            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" v-model="input.password_confirmation" required>
+        <div class="form-group">
+            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" v-model="input.password_confirmation" placeholder="Confirm Password" required>
         </div>
         
-        <div class="form-group row mb-0">
+        <div class="form-group">
             <a class="btn btn-link" v-bind:href="endpoints.login">
                 Back to login
             </a>
             
-            <button type="submit" class="btn btn-primary" :disabled="disabled">
+            <button class="pull-right" type="submit" :disabled="disabled">
                 Done
             </button>
         </div>
@@ -45,9 +36,10 @@
         data() {
             return {
                 disabled: false,
+                email_formatted: '',
                 input: {
                     email: '',
-                    token: Utils.getUrlParams().token,
+                    token: '',
                     password: '',
                     password_confirmation: ''
                 },
@@ -60,6 +52,17 @@
                     reset: '/api/v1/password/reset'
                 }
             }
+        },
+
+        created() {
+            this.input.email = Utils.getUrlParams().email;
+            this.input.token = Utils.getUrlParams().token;
+            
+            let split = this.input.email.split('@', 2),
+                first = split[0],
+                second = '@' + split[1];
+
+            this.email_formatted = first.charAt(0).toUpperCase() + first.substr(0, 3).slice(1) + first.substr(3).replace(/./g, '*') + second;
         },
 
         methods: {

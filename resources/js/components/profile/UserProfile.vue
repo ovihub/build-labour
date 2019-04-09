@@ -24,7 +24,7 @@
 
                     <div class="row bl-label-15 bl-mb24">
                         <div class="bl-col-3">
-                            <img class="text-icon-3" src="/img/icons/dollarsign.png"
+                            <img class="text-icon-3" src="/img/icons/responsibilities.png"
                                 srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
                         </div>
                         <div class="bl-col-4">
@@ -34,7 +34,7 @@
                 </div>
                 
                 <div class="bl-display">
-                    <div class="bl-label-15-mb20">
+                    <div class="bl-label-15-style-2 bl-mb20">
                         {{ input.profile_description }}
                     </div>
                 </div>
@@ -59,35 +59,6 @@
         </div>
     </div>
     <!-- <div>
-        <main-modal id="verifyEmailModal">
-            <template slot="custom-modal-title">
-                <h4 class="modal-title">Verify Email</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </template>
-
-            <template slot="custom-modal-content">
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label text-md-right">Email</label>
-
-                    <div class="col-md-7">
-                        <span class="form-control">{{ input_verify.email }}</span>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label text-md-right">Verification Code</label>
-                    
-                    <div class="col-md-7">
-                        <input id="verification_code" type="text" name="verification_code" class="form-control" v-model="input_verify.verification_code" :disabled="disabled_input" required autofocus />
-                    </div>
-                </div>
-
-                <button type="button" class="btn btn-primary" @click="verifyEmail" :disabled="disabled_verify">
-                    Submit
-                </button>
-            </template>
-        </main-modal>
-
         <form method="POST" @submit.prevent="saveProfile">
             <div class="form-group row">
                 <label for="role" class="col-md-2 col-form-label text-md-left">Role</label>
@@ -184,18 +155,6 @@
                     </span>
                 </div>
             </div>
-            
-            <div class="form-group row mb-0">
-                <div class="col-md-7 offset-md-4">
-                    <button type="button" class="btn btn-primary" @click="resendEmail" :disabled="disabled_resend">
-                        Resend Verification Code
-                    </button>
-
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#verifyEmailModal" :disabled="disabled_verify">
-                        Verify Email
-                    </button>
-                </div>
-            </div>
         </form>
     </div> -->
 </template>
@@ -207,21 +166,18 @@
         data() {
             return {
                 disabled_input: false,
-                disabled_verify: false,
-                input_verify: {
-                    uid: 0, email: '', verification_code: '',
-                },
                 input: {
                     profile_photo_url: '', profile_description: '', first_name: '', last_name: '', email: '', is_verified: '',
-                    course: '', school: '', country: '', address: '', role: '', company_name: '', job_role: '', start_date:'', end_date:'', period: '',
+                    course: '', school: '', country: '', address: '',
+                    role: '', company_name: '', job_role: '', start_date:'', end_date:'', period: '',
                 },
                 errors: {
                     profile_photo_url: '', profile_description: '', first_name: '', last_name: '', email: '', is_verified: '',
-                    course: '', school: '', country: '', address: '', role: '', company_name: '', job_role: '', start_date:'', end_date:'', period: '',
+                    course: '', school: '', country: '', address: '',
+                    role: '', company_name: '', job_role: '', start_date:'', end_date:'', period: '',
                 },
                 endpoints: {
                     save: '/api/v1/user/update',
-                    verify: '/api/v1/auth/verify',
                 },
                 format: 'd MMMM yyyy',
             }
@@ -236,9 +192,6 @@
 
             Bus.$on('userProfileDetails', function(details) {
                 component.input = details;
-
-                component.input_verify.email = component.input.email;
-                component.input_verify.uid = component.input.id;
                 
                 if (! component.input.is_verified) {
                     Bus.$emit('alertVerify', component.input.email);
@@ -247,29 +200,6 @@
         },
 
         methods: {
-
-            async verifyEmail() {
-                let component = this;
-                
-                component.disabled_verify = true;
-
-                await axios.post(component.endpoints.verify, component.$data.input_verify, Utils.getBearerAuth())
-
-                    .then(function(response) {
-                        let data = response.data;
-                        
-                        Bus.$emit('alertSuccess', data.message);
-
-                        // $('#verifyEmailModal').modal('hide');
-                    })
-                    .catch(function(error) {
-                        // let data = error.response.data;
-
-                        Utils.handleError(error);
-                    });
-                
-                component.disabled_verify = false;
-            },
 
             async saveProfile() {
                 // TODO: trigger save

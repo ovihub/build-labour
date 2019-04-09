@@ -5,7 +5,7 @@
         </a>
     </div> -->
     <a v-on:click="logoutUser">
-        <img title="LOGOUT" class="profile-picture-nav" style="width:25px;height:25px;" src="/img/icons/default.png">
+        <img title="LOGOUT" class="profile-picture-nav" src="/img/icons/default.png">
     </a>
 </template>
 
