@@ -2845,19 +2845,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       expanded: [],
       employments: [],
-      responseClass: ''
+      getBox: 'bl-box-2 hidden',
+      getCls: 'responsibilities hidden',
+      imgSrc: '/img/icons/expand.png',
+      imgSrcSet: '/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x'
     };
   },
   created: function created() {
@@ -2872,7 +2868,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     toggle: function toggle(index) {
-      this.responseClass = this.expanded[index] == true ? 'responsibilities hidden' : 'responsibilities';
+      if (this.expanded[index] === true) {
+        this.$refs['boxCls-' + index][0].className = 'bl-box-2 hidden';
+        this.$refs['toggleCls-' + index][0].className = 'responsibilities hidden';
+        this.$refs['toggleImg-' + index][0].src = '/img/icons/expand.png';
+        this.$refs['toggleImg-' + index][0].srcset = '/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x';
+      } else {
+        this.$refs['boxCls-' + index][0].className = 'bl-box-2';
+        this.$refs['toggleCls-' + index][0].className = 'responsibilities';
+        this.$refs['toggleImg-' + index][0].src = '/img/icons/collapse.png';
+        this.$refs['toggleImg-' + index][0].srcset = '/img/icons/collapse@2x.png 2x, /img/icons/collapse@3x.png 3x';
+      }
+
       this.expanded[index] = !this.expanded[index];
     }
   }
@@ -41720,45 +41727,18 @@ var render = function() {
         { staticClass: "list-main-items" },
         _vm._l(_vm.employments, function(employment, index) {
           return _c("li", { key: index, staticClass: "main-items" }, [
-            !_vm.expanded[index]
-              ? _c("span", { staticClass: "text-icon-2" }, [
-                  _c("img", {
-                    attrs: {
-                      src: "/img/icons/expand.png",
-                      srcset:
-                        "/img/icons/expand@2x.png" +
-                        " 2x, " +
-                        "/img/icons/expand@3x.png" +
-                        " 3x"
-                    },
-                    on: {
-                      click: function($event) {
-                        return _vm.toggle(index)
-                      }
-                    }
-                  })
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.expanded[index]
-              ? _c("span", { staticClass: "text-icon-2" }, [
-                  _c("img", {
-                    attrs: {
-                      src: "/img/icons/collapse.png",
-                      srcset:
-                        "/img/icons/collapse@2x.png" +
-                        " 2x, " +
-                        "/img/icons/collapse@3x.png" +
-                        " 3x"
-                    },
-                    on: {
-                      click: function($event) {
-                        return _vm.toggle(index)
-                      }
-                    }
-                  })
-                ])
-              : _vm._e(),
+            _c("span", { staticClass: "text-icon-2" }, [
+              _c("img", {
+                ref: "toggleImg-" + index,
+                refInFor: true,
+                attrs: { src: _vm.imgSrc, srcset: _vm.imgSrcSet },
+                on: {
+                  click: function($event) {
+                    return _vm.toggle(index)
+                  }
+                }
+              })
+            ]),
             _vm._v(" "),
             _c(
               "div",
@@ -41813,17 +41793,7 @@ var render = function() {
             _vm._v(" "),
             _c(
               "div",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.expanded[index],
-                    expression: "expanded[index]"
-                  }
-                ],
-                class: _vm.responseClass
-              },
+              { ref: "toggleCls-" + index, refInFor: true, class: _vm.getCls },
               [
                 _vm._m(3, true),
                 _vm._v(" "),
@@ -41850,15 +41820,9 @@ var render = function() {
             ),
             _vm._v(" "),
             _c("div", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.expanded[index],
-                  expression: "expanded[index]"
-                }
-              ],
-              staticClass: "bl-box-2"
+              ref: "boxCls-" + index,
+              refInFor: true,
+              class: _vm.getBox
             })
           ])
         }),

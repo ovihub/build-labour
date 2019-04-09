@@ -15,15 +15,8 @@
         
             <ul class="list-main-items">
                 <li class="main-items" v-for="(employment, index) in employments" v-bind:key="index">
-                    <span class="text-icon-2" v-if="! expanded[index]">
-                        <img src="/img/icons/expand.png"
-                            srcset="/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x"
-                            @click="toggle(index)">
-                    </span>
-                    <span class="text-icon-2" v-if="expanded[index]">
-                        <img src="/img/icons/collapse.png"
-                            srcset="/img/icons/collapse@2x.png 2x, /img/icons/collapse@3x.png 3x"
-                            @click="toggle(index)">
+                    <span class="text-icon-2">
+                        <img :src="imgSrc" :srcset="imgSrcSet" :ref="'toggleImg-' + index" @click="toggle(index)">
                     </span>
                     <div class="row mt-3" @click="toggle(index)">
                         <div class="bl-col-1">
@@ -45,7 +38,7 @@
                         </div>
                     </div>
 
-                    <div :class="responseClass" v-show="expanded[index]">
+                    <div :class="getCls" :ref="'toggleCls-' + index">
                         <span class="bl-label-14-style-2 bl-mt13">
                             <img class="text-icon" src="/img/icons/pinlocation.png"
                                 srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
@@ -69,7 +62,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="bl-box-2" v-show="expanded[index]"></div>
+                    <div :class="getBox" :ref="'boxCls-' + index"></div>
                 </li>
             </ul>
         </div>
@@ -82,7 +75,10 @@
             return {
                 expanded: [],
                 employments: [],
-                responseClass: '',
+                getBox: 'bl-box-2 hidden',
+                getCls: 'responsibilities hidden',
+                imgSrc: '/img/icons/expand.png',
+                imgSrcSet: '/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x',
             }
         },
 
@@ -100,7 +96,19 @@
 
         methods: {
             toggle(index) {
-                this.responseClass = this.expanded[index] == true ? 'responsibilities hidden' : 'responsibilities';
+                if (this.expanded[index] === true) {
+                    this.$refs['boxCls-' + index][0].className = 'bl-box-2 hidden';
+                    this.$refs['toggleCls-' + index][0].className = 'responsibilities hidden';
+                    this.$refs['toggleImg-' + index][0].src = '/img/icons/expand.png';
+                    this.$refs['toggleImg-' + index][0].srcset = '/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x';
+                
+                } else {
+                    this.$refs['boxCls-' + index][0].className = 'bl-box-2';
+                    this.$refs['toggleCls-' + index][0].className = 'responsibilities';
+                    this.$refs['toggleImg-' + index][0].src = '/img/icons/collapse.png';
+                    this.$refs['toggleImg-' + index][0].srcset = '/img/icons/collapse@2x.png 2x, /img/icons/collapse@3x.png 3x';
+                }
+
                 this.expanded[index] = ! this.expanded[index];
             },
         }
