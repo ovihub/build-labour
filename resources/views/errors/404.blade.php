@@ -1,18 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.errors')
 
 @section('content')
     <div class="container">
-        <div class="bl-label-s22">
-            The page you are looking for does not exists!
+        <div class="bl-label-48">
+            404 - Oops, couldn't find that page!
         </div>
-        <div class="bl-label-15 ta-center">
-            The page you are looking for is not available or has been removed or changed.
+        <div class="bl-label-17-center">
+            <a href="/user/profile">Return to your feed by clicking here</a>
         </div>
-        <div class="text-404 ta-center">
-            404
-        </div>
-        <div class="ta-center">
-            <a href="index.html">GO TO HOME ></a>
+        <div class="row justify-content-center">
+            <img src="/img/undraw-warning-cyit.png"
+                srcset="/img/undraw-warning-cyit@2x.png 2x, /img/undraw-warning-cyit@3x.png 3x">
         </div>
     </div>
 @endsection

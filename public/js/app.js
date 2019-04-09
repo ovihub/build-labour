@@ -42608,7 +42608,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "profile-content-p20 pb-4" }, [
-        _c("div", { staticClass: "bl-label-s22 m0" }, [
+        _c("div", { staticClass: "bl-label-22 m0" }, [
           _vm._v(
             _vm._s(_vm.input.first_name) + " " + _vm._s(_vm.input.last_name)
           )
