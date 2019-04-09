@@ -43,9 +43,11 @@
 
                         component.profile = {};
                         component.profile.profile_photo_url = user.profile_photo_url ? user.profile_photo_url : '/img/icons/default.png';
+                        component.profile.profile_description = user.worker_detail.profile_description;
                         component.profile.first_name = user.first_name;
                         component.profile.last_name = user.last_name;
                         component.profile.email = user.email;
+                        component.profile.is_verified = user.is_verified;
                         component.profile.address = user.address;
                         component.profile.country = user.country;
 

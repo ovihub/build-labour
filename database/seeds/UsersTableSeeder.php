@@ -28,7 +28,7 @@ class UsersTableSeeder extends Seeder
         $user->password = 'secret';
         $user->dob = Carbon::parse('08/10/1988');
         $user->mobile_number = '+61 412345678';
-        $user->address = 'Richmond, Victoria';
+        $user->address = 'Richmond, Victoria, Australia';
         $user->marital_status = 'Single';
         $user->gender = 'Male';
         $user->is_verified = Carbon::now();

@@ -51,37 +51,6 @@
         <div class="form-group row">
             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" v-model="input.password_confirmation" placeholder="Confirm Password" required>
         </div>
-        
-        <!-- <div class="form-group row">
-            <label for="role" class="col-md-4 col-form-label text-md-right">Role</label>
-
-            <div class="col-md-7">
-                <select v-model="input.role_id" class="form-control">
-                    <option v-for="role in roles" v-bind:key="role.id" v-bind:value="role.id">
-                        {{ role.name }}
-                    </option>
-                </select>
-            </div>
-
-            <span class="err-msg" v-if="errors.role_id">
-                {{ errors.role_id }}
-            </span>
-        </div>
-
-        <div class="form-group row">
-            <label for="password" class="col-md-4 col-form-label text-md-right">Gender</label>
-
-            <div class="col-md-7">
-                <select v-model="input.gender" class="form-control">
-                    <option>Male</option>
-                    <option>Female</option>
-                </select>
-            </div>
-
-            <span class="err-msg" v-if="errors.role_id">
-                {{ errors.role_id }}
-            </span>
-        </div> -->
 
         <div class="form-group row mb-0">
             <a class="btn btn-link" v-bind:href="endpoints.login">
@@ -105,10 +74,10 @@
                 roles: [],
                 disabled: false,
                 input: {
-                    role_id:  1, gender: 'Female', first_name: '', last_name: '', mobile_number: '', email: '', password: '', password_confirmation: ''
+                    first_name: '', last_name: '', mobile_number: '', email: '', password: '', password_confirmation: ''
                 },
                 errors: {
-                    role_id: '', gender: '', first_name: '', last_name: '', mobile_number: '', email: '', password: '',
+                    first_name: '', last_name: '', mobile_number: '', email: '', password: '',
                 },
                 endpoints: {
                     login: '/login',

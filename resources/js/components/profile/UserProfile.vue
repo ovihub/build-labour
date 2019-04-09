@@ -7,18 +7,18 @@
             <div class="profile-content-p20 pb-4">
                 <div class="bl-label-s22 m0">{{ input.first_name }} {{ input.last_name }}</div>
             
-                <div class="bl-label-17 pb-3">
+                <div class="bl-label-17 pb-3" v-if="input.job_role">
                     {{ input.job_role }} <div class="text-style-1">- {{ input.company_name }}</div>
                 </div>
                 
-                <div class="bl-display">
+                <div class="bl-display" v-if="input.address">
                     <div class="row bl-label-15">
                         <div class="bl-col-3">
                             <img class="text-icon-3" src="/img/icons/pinlocation.png"
                                 srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
                         </div>
                         <div class="bl-col-4">
-                            {{ input.address }} {{ input.country }}
+                            {{ input.address }}
                         </div>
                     </div>
 
@@ -35,15 +35,13 @@
                 
                 <div class="bl-display">
                     <div class="bl-label-15-mb20">
-                        Experienced Senior Project Manager;
-                        demonstrated history of working on a wide range
-                        of construction projects for leading companies.
+                        {{ input.profile_description }}
                     </div>
                 </div>
                 
-                <span class="profile-role-header">Current Role</span>
+                <span class="profile-role-header" v-if="input.job_role">Current Role</span>
 
-                <div class="row">
+                <div class="row" v-if="input.job_role">
                     <img class="bl-image-56" src="/img/logo/1.jpg">
                     <div class="bl-display">
                         <span class="bl-label-16 bl-ml15">
@@ -209,26 +207,21 @@
         data() {
             return {
                 disabled_input: false,
-                disabled_resend: false,
                 disabled_verify: false,
-                input_resend: {
-                    email: '',
-                },
                 input_verify: {
                     uid: 0, email: '', verification_code: '',
                 },
                 input: {
-                    profile_photo_url: '', first_name: '', last_name: '', email: '', course: '', school: '', country: '', address: '',
-                    role: '', company_name: '', job_role: '', start_date:'', end_date:'', period: '',
+                    profile_photo_url: '', profile_description: '', first_name: '', last_name: '', email: '', is_verified: '',
+                    course: '', school: '', country: '', address: '', role: '', company_name: '', job_role: '', start_date:'', end_date:'', period: '',
                 },
                 errors: {
-                    profile_photo_url: '', first_name: '', last_name: '', email: '', course: '', school: '', country: '', address: '',
-                    role: '', company_name: '', job_role: '', start_date:'', end_date:'', period: '',
+                    profile_photo_url: '', profile_description: '', first_name: '', last_name: '', email: '', is_verified: '',
+                    course: '', school: '', country: '', address: '', role: '', company_name: '', job_role: '', start_date:'', end_date:'', period: '',
                 },
                 endpoints: {
                     save: '/api/v1/user/update',
                     verify: '/api/v1/auth/verify',
-                    resend: '/api/v1/auth/verification/resend',
                 },
                 format: 'd MMMM yyyy',
             }
@@ -244,34 +237,16 @@
             Bus.$on('userProfileDetails', function(details) {
                 component.input = details;
 
-                component.input_resend.email = component.input.email;
                 component.input_verify.email = component.input.email;
                 component.input_verify.uid = component.input.id;
+                
+                if (! component.input.is_verified) {
+                    Bus.$emit('alertVerify', component.input.email);
+                }
             });
         },
 
         methods: {
-            
-            async resendEmail() {
-                let component = this;
-                
-                component.disabled_resend = true;
-
-                await axios.post(component.endpoints.resend, component.$data.input_resend, Utils.getBearerAuth())
-
-                    .then(function(response) {
-                        let data = response.data;
-                        
-                        Bus.$emit('alertSuccess', data.message);
-                    })
-                    .catch(function(error) {
-                        // let data = error.response.data;
-
-                        Utils.handleError(error);
-                    });
-                
-                component.disabled_resend = false;
-            },
 
             async verifyEmail() {
                 let component = this;
@@ -285,7 +260,7 @@
                         
                         Bus.$emit('alertSuccess', data.message);
 
-                        $('#verifyEmailModal').modal('hide');
+                        // $('#verifyEmailModal').modal('hide');
                     })
                     .catch(function(error) {
                         // let data = error.response.data;

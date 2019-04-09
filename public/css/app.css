@@ -11687,6 +11687,7 @@ p.bl-nav-tab-label {
 .alert-main {
   position: relative;
   padding: 0.75rem 1.25rem;
+  font-size: 13px;
 }
 
 .alert-success {
@@ -11701,6 +11702,12 @@ p.bl-nav-tab-label {
   color: #f2dede;
 }
 
+.alert-info {
+  background-color: blue;
+  border-color: #FF5E00;
+  color: #fff;
+}
+
 .alert-icon {
   width: 20px;
   margin-left: 20px;
@@ -11709,7 +11716,17 @@ p.bl-nav-tab-label {
 
 .alert-close {
   width: 10px;
-  margin-left: 750px;
+  margin-top: 5px;
+  float: right;
+  cursor: pointer;
+}
+
+.alert-link .disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.alert-link:hover {
   cursor: pointer;
 }
 

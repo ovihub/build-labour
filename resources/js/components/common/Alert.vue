@@ -1,52 +1,91 @@
 <template>
-    <div v-bind:class="alert" v-if="alert != 'hidden'">
-      <div class="container">
-          <img v-bind:src="icon" class="alert-icon" />
-          {{ message }}
-          <img src="/img/icons/alert-close.png" class="alert-close" @click="hide" />
-      </div>
-    </div>
+	<div v-bind:class="alert" v-if="alert != 'hidden'">
+		<div class="container">
+			<img v-bind:src="icon" class="alert-icon" />
+			{{ message }} <a class="alert-link" v-if="resend" @click="resendEmail">resend</a>
+			<img src="/img/icons/alert-close.png" class="alert-close" @click="hide" />
+		</div>
+	</div>
 </template>
 
 <script>
-  export default {
+	export default {
+		data() {
+			return {
+				message: '',
+				alert: 'hidden',
+				icon: '',
+				resend: false,
+				input_resend: {
+					email: '',
+				},
+				endpoints: {
+					resend: '/api/v1/auth/verification/resend',
+				}
+			}
+		},
 
-      data() {
-          return {
-              message: '',
-              alert: 'hidden',
-              icon: '',
-          }
-      },
+    	mounted() {
+			let component = this;
 
-      mounted() {
-          var app = this;
+			Bus.$on('alertSuccess', function (message) {
+				component.message = message;
+				component.alert = 'alert-main alert-success alert-dismissible';
+				component.icon = '/img/icons/alert-success.png';
+				component.resend = false;
+			});
 
-          Bus.$on('alertSuccess', function (message) {
-              app.message = message;
-              app.alert = 'alert-main alert-success alert-dismissible';
-              app.icon = '/img/icons/alert-success.png';
-          });
+			Bus.$on('alertError', function (message) {
+				component.message = message;
+				component.alert = 'alert-main alert-error alert-dismissible';
+				component.icon = '/img/icons/alert-error.png';
+				component.resend = false;
+			});
 
-          Bus.$on('alertError', function (message) {
-              app.message = message;
-              app.alert = 'alert-main alert-error alert-dismissible';
-              app.icon = '/img/icons/alert-error.png';
-          });
+			Bus.$on('alertVerify', function (email) {
+				component.message = 'Please verify your account. You may check your confirmation email or click ';
+				component.alert = 'alert-main alert-info alert-dismissible';
+				component.icon = '/img/icons/alert-info.png';
+				component.resend = true;
+				component.input_resend.email = email;
+			});
 
-          Bus.$on('alertHide', function () {
-              app.hide();
-          });
-      },
+			Bus.$on('alertHide', function () {
+				component.hide();
+			});
+		},
 
-      methods: {
+		methods: {
 
-          hide() {
-              this.message = ''
-              this.alert = 'hidden';
-              this.icon = '';
-          }
-      }
+			hide() {
+				this.message = ''
+				this.alert = 'hidden';
+				this.icon = '';
+				this.resend = false;
+			},
+			
+			async resendEmail() {
+				let component = this;
+				
+				component.resend = false;
+				component.hide();
 
-  }
+				await axios.post(component.endpoints.resend, component.$data.input_resend, Utils.getBearerAuth())
+
+					.then(function(response) {
+						let data = response.data;
+						
+						component.message = data.message;
+						component.alert = 'alert-main alert-success alert-dismissible';
+						component.icon = '/img/icons/alert-success.png';
+						component.resend = false;
+					})
+					.catch(function(error) {
+						// let data = error.response.data;
+
+						Utils.handleError(error);
+					});
+			},
+		}
+  	}
 </script>

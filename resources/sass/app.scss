@@ -538,6 +538,7 @@ p.bl-nav-tab-label {
   position: relative;
   padding: 0.75rem 1.25rem;
   // margin-bottom: 1rem;
+  font-size: 13px;
 }
 .alert-success {
   background-color: #3c763d;
@@ -549,6 +550,11 @@ p.bl-nav-tab-label {
   border-color: #ebccd1;
   color: #f2dede;
 }
+.alert-info {
+  background-color: blue;
+  border-color: #FF5E00;
+  color: #fff;
+}
 .alert-icon {
   width: 20px;
   margin-left: 20px;
@@ -556,8 +562,18 @@ p.bl-nav-tab-label {
 }
 .alert-close {
   width: 10px;
-  margin-left: 750px;
+  margin-top: 5px;
+  float: right;
   cursor: pointer;
+}
+.alert-link {
+  .disabled {
+    pointer-events: none;
+    cursor: default;
+  }
+  &:hover {
+    cursor: pointer;
+  }
 }
 .edit-icon {
   float: right;

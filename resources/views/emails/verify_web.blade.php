@@ -1,5 +1,5 @@
 <!-- Verification Email -->
-@extends('emails.layout')
+@extends('layouts.emails')
 
 @section('content')
 	<table class="body-wrap">
@@ -23,13 +23,13 @@
 									</tr>
 									<tr>
 										<td class="content-block">
-											<p>Click <b><a href="{{ route('verify', "tk={$user->verification_code}") }}">here</a></b> to confirm verify your account</p>
+											<p>Click <b><a href="{{ route('verify', "tk={$user->verification_code}") }}">here</a></b> to verify your account</p>
 											<p></p>
 										</td>
 									</tr>
 									<tr>
 										<td class="content-block">
-											<p>If you did not request a confirmation token, no further action is required.</p>
+											<p>If you did not request for confirmation email, no further action is required.</p>
 										</td>
 									</tr>
 									<tr>

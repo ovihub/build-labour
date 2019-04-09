@@ -2051,37 +2051,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2089,8 +2058,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       roles: [],
       disabled: false,
       input: {
-        role_id: 1,
-        gender: 'Female',
         first_name: '',
         last_name: '',
         mobile_number: '',
@@ -2099,8 +2066,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         password_confirmation: ''
       },
       errors: {
-        role_id: '',
-        gender: '',
         first_name: '',
         last_name: '',
         mobile_number: '',
@@ -2426,6 +2391,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -2441,23 +2414,39 @@ __webpack_require__.r(__webpack_exports__);
     return {
       message: '',
       alert: 'hidden',
-      icon: ''
+      icon: '',
+      resend: false,
+      input_resend: {
+        email: ''
+      },
+      endpoints: {
+        resend: '/api/v1/auth/verification/resend'
+      }
     };
   },
   mounted: function mounted() {
-    var app = this;
+    var component = this;
     Bus.$on('alertSuccess', function (message) {
-      app.message = message;
-      app.alert = 'alert-main alert-success alert-dismissible';
-      app.icon = '/img/icons/alert-success.png';
+      component.message = message;
+      component.alert = 'alert-main alert-success alert-dismissible';
+      component.icon = '/img/icons/alert-success.png';
+      component.resend = false;
     });
     Bus.$on('alertError', function (message) {
-      app.message = message;
-      app.alert = 'alert-main alert-error alert-dismissible';
-      app.icon = '/img/icons/alert-error.png';
+      component.message = message;
+      component.alert = 'alert-main alert-error alert-dismissible';
+      component.icon = '/img/icons/alert-error.png';
+      component.resend = false;
+    });
+    Bus.$on('alertVerify', function (email) {
+      component.message = 'Please verify your account. You may check your confirmation email or click ';
+      component.alert = 'alert-main alert-info alert-dismissible';
+      component.icon = '/img/icons/alert-info.png';
+      component.resend = true;
+      component.input_resend.email = email;
     });
     Bus.$on('alertHide', function () {
-      app.hide();
+      component.hide();
     });
   },
   methods: {
@@ -2465,7 +2454,46 @@ __webpack_require__.r(__webpack_exports__);
       this.message = '';
       this.alert = 'hidden';
       this.icon = '';
-    }
+      this.resend = false;
+    },
+    resendEmail: function () {
+      var _resendEmail = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var component;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                component = this;
+                component.resend = false;
+                component.hide();
+                _context.next = 5;
+                return axios.post(component.endpoints.resend, component.$data.input_resend, Utils.getBearerAuth()).then(function (response) {
+                  var data = response.data;
+                  component.message = data.message;
+                  component.alert = 'alert-main alert-success alert-dismissible';
+                  component.icon = '/img/icons/alert-success.png';
+                  component.resend = false;
+                }).catch(function (error) {
+                  // let data = error.response.data;
+                  Utils.handleError(error);
+                });
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function resendEmail() {
+        return _resendEmail.apply(this, arguments);
+      }
+
+      return resendEmail;
+    }()
   }
 });
 
@@ -3164,9 +3192,11 @@ __webpack_require__.r(__webpack_exports__);
         var user = response.data.data.user;
         component.profile = {};
         component.profile.profile_photo_url = user.profile_photo_url ? user.profile_photo_url : '/img/icons/default.png';
+        component.profile.profile_description = user.worker_detail.profile_description;
         component.profile.first_name = user.first_name;
         component.profile.last_name = user.last_name;
         component.profile.email = user.email;
+        component.profile.is_verified = user.is_verified;
         component.profile.address = user.address;
         component.profile.country = user.country;
         component.profile.course = user.educations[0] ? user.educations[0].course : '';
@@ -3517,18 +3547,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       disabled_input: false,
-      disabled_resend: false,
       disabled_verify: false,
-      input_resend: {
-        email: ''
-      },
       input_verify: {
         uid: 0,
         email: '',
@@ -3536,9 +3560,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       input: {
         profile_photo_url: '',
+        profile_description: '',
         first_name: '',
         last_name: '',
         email: '',
+        is_verified: '',
         course: '',
         school: '',
         country: '',
@@ -3552,9 +3578,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       errors: {
         profile_photo_url: '',
+        profile_description: '',
         first_name: '',
         last_name: '',
         email: '',
+        is_verified: '',
         course: '',
         school: '',
         country: '',
@@ -3568,8 +3596,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       endpoints: {
         save: '/api/v1/user/update',
-        verify: '/api/v1/auth/verify',
-        resend: '/api/v1/auth/verification/resend'
+        verify: '/api/v1/auth/verify'
       },
       format: 'd MMMM yyyy'
     };
@@ -3581,14 +3608,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var component = this;
     Bus.$on('userProfileDetails', function (details) {
       component.input = details;
-      component.input_resend.email = component.input.email;
       component.input_verify.email = component.input.email;
       component.input_verify.uid = component.input.id;
+
+      if (!component.input.is_verified) {
+        Bus.$emit('alertVerify', component.input.email);
+      }
     });
   },
   methods: {
-    resendEmail: function () {
-      var _resendEmail = _asyncToGenerator(
+    verifyEmail: function () {
+      var _verifyEmail = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var component;
@@ -3597,49 +3627,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 component = this;
-                component.disabled_resend = true;
-                _context.next = 4;
-                return axios.post(component.endpoints.resend, component.$data.input_resend, Utils.getBearerAuth()).then(function (response) {
-                  var data = response.data;
-                  Bus.$emit('alertSuccess', data.message);
-                }).catch(function (error) {
-                  // let data = error.response.data;
-                  Utils.handleError(error);
-                });
-
-              case 4:
-                component.disabled_resend = false;
-
-              case 5:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function resendEmail() {
-        return _resendEmail.apply(this, arguments);
-      }
-
-      return resendEmail;
-    }(),
-    verifyEmail: function () {
-      var _verifyEmail = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var component;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                component = this;
                 component.disabled_verify = true;
-                _context2.next = 4;
+                _context.next = 4;
                 return axios.post(component.endpoints.verify, component.$data.input_verify, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
-                  Bus.$emit('alertSuccess', data.message);
-                  $('#verifyEmailModal').modal('hide');
+                  Bus.$emit('alertSuccess', data.message); // $('#verifyEmailModal').modal('hide');
                 }).catch(function (error) {
                   // let data = error.response.data;
                   Utils.handleError(error);
@@ -3650,10 +3642,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 5:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee, this);
       }));
 
       function verifyEmail() {
@@ -3665,16 +3657,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     saveProfile: function () {
       var _saveProfile = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
-        }, _callee3);
+        }, _callee2);
       }));
 
       function saveProfile() {
@@ -41311,7 +41303,15 @@ var render = function() {
     ? _c("div", { class: _vm.alert }, [
         _c("div", { staticClass: "container" }, [
           _c("img", { staticClass: "alert-icon", attrs: { src: _vm.icon } }),
-          _vm._v("\n      " + _vm._s(_vm.message) + "\n      "),
+          _vm._v("\n\t\t" + _vm._s(_vm.message) + " "),
+          _vm.resend
+            ? _c(
+                "a",
+                { staticClass: "alert-link", on: { click: _vm.resendEmail } },
+                [_vm._v("resend")]
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c("img", {
             staticClass: "alert-close",
             attrs: { src: "/img/icons/alert-close.png" },
@@ -42614,80 +42614,94 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "bl-label-17 pb-3" }, [
-          _vm._v("\n                " + _vm._s(_vm.input.job_role) + " "),
-          _c("div", { staticClass: "text-style-1" }, [
-            _vm._v("- " + _vm._s(_vm.input.company_name))
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "bl-display" }, [
-          _c("div", { staticClass: "row bl-label-15" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("div", { staticClass: "bl-col-4" }, [
-              _vm._v(
-                "\n                        " +
-                  _vm._s(_vm.input.address) +
-                  " " +
-                  _vm._s(_vm.input.country) +
-                  "\n                    "
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row bl-label-15 bl-mb24" }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c("div", { staticClass: "bl-col-4" }, [
-              _vm._v("\n                        Studied "),
-              _c("b", [_vm._v(_vm._s(_vm.input.course))]),
-              _vm._v(" "),
+        _vm.input.job_role
+          ? _c("div", { staticClass: "bl-label-17 pb-3" }, [
+              _vm._v("\n                " + _vm._s(_vm.input.job_role) + " "),
               _c("div", { staticClass: "text-style-1" }, [
-                _vm._v("- " + _vm._s(_vm.input.school))
+                _vm._v("- " + _vm._s(_vm.input.company_name))
               ])
             ])
-          ])
-        ]),
+          : _vm._e(),
         _vm._v(" "),
-        _vm._m(2),
-        _vm._v(" "),
-        _c("span", { staticClass: "profile-role-header" }, [
-          _vm._v("Current Role")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("img", {
-            staticClass: "bl-image-56",
-            attrs: { src: "/img/logo/1.jpg" }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "bl-display" }, [
-            _c("span", { staticClass: "bl-label-16 bl-ml15" }, [
-              _vm._v(
-                "\n                        " +
-                  _vm._s(_vm.input.job_role) +
-                  "\n                    "
-              )
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "bl-label-15 bl-ml15 mt-0 pt-0" }, [
-              _vm._v(
-                "\n                        " +
-                  _vm._s(_vm.input.company_name) +
-                  "\n                    "
-              )
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "bl-label-14 bl-ml15" }, [
-              _vm._v(
-                "\n                        " +
-                  _vm._s(_vm.input.period) +
-                  "\n                    "
-              )
+        _vm.input.address
+          ? _c("div", { staticClass: "bl-display" }, [
+              _c("div", { staticClass: "row bl-label-15" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "bl-col-4" }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(_vm.input.address) +
+                      "\n                    "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row bl-label-15 bl-mb24" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("div", { staticClass: "bl-col-4" }, [
+                  _vm._v("\n                        Studied "),
+                  _c("b", [_vm._v(_vm._s(_vm.input.course))]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "text-style-1" }, [
+                    _vm._v("- " + _vm._s(_vm.input.school))
+                  ])
+                ])
+              ])
             ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "bl-display" }, [
+          _c("div", { staticClass: "bl-label-15-mb20" }, [
+            _vm._v(
+              "\n                    " +
+                _vm._s(_vm.input.profile_description) +
+                "\n                "
+            )
           ])
-        ])
+        ]),
+        _vm._v(" "),
+        _vm.input.job_role
+          ? _c("span", { staticClass: "profile-role-header" }, [
+              _vm._v("Current Role")
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.input.job_role
+          ? _c("div", { staticClass: "row" }, [
+              _c("img", {
+                staticClass: "bl-image-56",
+                attrs: { src: "/img/logo/1.jpg" }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "bl-display" }, [
+                _c("span", { staticClass: "bl-label-16 bl-ml15" }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(_vm.input.job_role) +
+                      "\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "bl-label-15 bl-ml15 mt-0 pt-0" }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(_vm.input.company_name) +
+                      "\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "bl-label-14 bl-ml15" }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(_vm.input.period) +
+                      "\n                    "
+                  )
+                ])
+              ])
+            ])
+          : _vm._e()
       ])
     ])
   ])
@@ -42727,18 +42741,6 @@ var staticRenderFns = [
             " 3x"
         }
       })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bl-display" }, [
-      _c("div", { staticClass: "bl-label-15-mb20" }, [
-        _vm._v(
-          "\n                    Experienced Senior Project Manager;\n                    demonstrated history of working on a wide range\n                    of construction projects for leading companies.\n                "
-        )
-      ])
     ])
   }
 ]
