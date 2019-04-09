@@ -133,9 +133,7 @@ class Users extends BaseModel implements
 
                 \Mail::to( $this->email )->send( new ResendVerificationCodeEmail( $this ) );
             }
-
-            $this->save();
-
+            
             // deal with roles
             if ($this->exists) {
 
@@ -156,6 +154,8 @@ class Users extends BaseModel implements
                 }
 
             }
+
+            $this->save();
 
         } catch( \Exception $e ){
 
