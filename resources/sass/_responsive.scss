@@ -120,6 +120,24 @@
     max-width: 87%;
   }
 }
+@media (max-width: 460px) {
+  .bl-box {
+    position:absolute;
+    float:left;
+    background:#fff;
+    width:80px;
+    height:15px;
+    margin-top:15px;
+  }
+  .bl-box-2 {
+    position:absolute;
+    float:left;
+    background:#fff;
+    width:65px;
+    height:15px;
+    margin-top:15px;
+  }
+}
 @media (max-width: 426px) {
   .responsibilities {
     margin-left: 68px;

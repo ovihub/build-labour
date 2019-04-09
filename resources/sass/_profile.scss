@@ -63,7 +63,7 @@
     li.main-items {
       list-style-type: none;
       padding-bottom: 15px;
-      border-bottom: 1px solid rgb(156, 173, 189, 0.5);
+      border-bottom: 1px solid rgb(156, 173, 189, 0.16);
 
       .bl-label-16 {
         font-size: 16px;
@@ -77,6 +77,31 @@
         border-radius: 8px;
         box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.08), 0 0 10px 0 rgba(57, 86, 101, 0.08);
         background-color: #fcfeff;
+      }
+
+      .bl-label-15 {
+        font-size: 15px;
+        color: #393939;
+        line-height: normal;
+        margin-top: 0.5rem;
+        padding-top: 0.25rem;
+
+        ul.list-items {
+          list-style-type: none;
+          padding: 0 0 0 40px;
+      
+          li::before {
+            content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+            color: #d8d8d8;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1.2em;
+          }
+          
+          li {
+            margin-bottom: 12px;
+          }
+        }
       }
     }
   }
@@ -106,7 +131,7 @@
     li {
       list-style-type: none;
       padding: 13px 0px 13px 0px;
-      border-bottom: 1px solid rgb(156, 173, 189, 0.5);
+      border-bottom: 1px solid rgb(156, 173, 189, 0.16);
       
       .job-text {
         font-size: 12px;
@@ -162,6 +187,30 @@
   flex-wrap: wrap;
   margin-left: auto;
   margin-right: auto;
+}
+.bl-box {
+  position: absolute;
+  float: left;
+  background: #fff;
+  width: 92px;
+  height: 15px;
+  margin-top: 15px;
+}
+.bl-box-2 {
+  position: absolute;
+  float: left;
+  background: #fff;
+  width: 78px;
+  height: 15px;
+  margin-top: 15px;
+}
+.bl-box-3 {
+  position: absolute;
+  float: left;
+  background: #fff;
+  width: 62px;
+  height: 15px;
+  margin-top: 15px;
 }
 .bl-display {
   display: inline-block;

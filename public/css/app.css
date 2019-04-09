@@ -10680,15 +10680,6 @@ a.text-dark:focus {
   display: inline;
 }
 
-.bl-label-15 ul.list-items {
-  list-style-type: circle;
-  padding: 0 0 0 40px;
-}
-
-.bl-label-15 ul.list-items li {
-  margin-bottom: 12px;
-}
-
 .bl-label-15-style-2 {
   font-size: 15px;
   line-height: 1.33;
@@ -10823,7 +10814,7 @@ a.text-dark:focus {
 .profile-item-2 .profile-content ul.list-main-items li.main-items {
   list-style-type: none;
   padding-bottom: 15px;
-  border-bottom: 1px solid rgba(156, 173, 189, 0.5);
+  border-bottom: 1px solid rgba(156, 173, 189, 0.16);
 }
 
 .profile-item-2 .profile-content ul.list-main-items li.main-items .bl-label-16 {
@@ -10838,6 +10829,32 @@ a.text-dark:focus {
   border-radius: 8px;
   box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.08), 0 0 10px 0 rgba(57, 86, 101, 0.08);
   background-color: #fcfeff;
+}
+
+.profile-item-2 .profile-content ul.list-main-items li.main-items .bl-label-15 {
+  font-size: 15px;
+  color: #393939;
+  line-height: normal;
+  margin-top: 0.5rem;
+  padding-top: 0.25rem;
+}
+
+.profile-item-2 .profile-content ul.list-main-items li.main-items .bl-label-15 ul.list-items {
+  list-style-type: none;
+  padding: 0 0 0 40px;
+}
+
+.profile-item-2 .profile-content ul.list-main-items li.main-items .bl-label-15 ul.list-items li::before {
+  content: "\2022";
+  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+  color: #d8d8d8;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1.2em;
+}
+
+.profile-item-2 .profile-content ul.list-main-items li.main-items .bl-label-15 ul.list-items li {
+  margin-bottom: 12px;
 }
 
 .profile-item-4 .profile-content {
@@ -10869,7 +10886,7 @@ a.text-dark:focus {
 .profile-item-3 .profile-content ul li {
   list-style-type: none;
   padding: 13px 0px 13px 0px;
-  border-bottom: 1px solid rgba(156, 173, 189, 0.5);
+  border-bottom: 1px solid rgba(156, 173, 189, 0.16);
 }
 
 .profile-item-3 .profile-content ul li .job-text {
@@ -10929,6 +10946,33 @@ a.text-dark:focus {
   flex-wrap: wrap;
   margin-left: auto;
   margin-right: auto;
+}
+
+.bl-box {
+  position: absolute;
+  float: left;
+  background: #fff;
+  width: 92px;
+  height: 15px;
+  margin-top: 15px;
+}
+
+.bl-box-2 {
+  position: absolute;
+  float: left;
+  background: #fff;
+  width: 78px;
+  height: 15px;
+  margin-top: 15px;
+}
+
+.bl-box-3 {
+  position: absolute;
+  float: left;
+  background: #fff;
+  width: 62px;
+  height: 15px;
+  margin-top: 15px;
 }
 
 .bl-display {
@@ -11141,6 +11185,26 @@ a.text-dark:focus {
 
   .bl-col-4 {
     max-width: 87%;
+  }
+}
+
+@media (max-width: 460px) {
+  .bl-box {
+    position: absolute;
+    float: left;
+    background: #fff;
+    width: 80px;
+    height: 15px;
+    margin-top: 15px;
+  }
+
+  .bl-box-2 {
+    position: absolute;
+    float: left;
+    background: #fff;
+    width: 65px;
+    height: 15px;
+    margin-top: 15px;
   }
 }
 

@@ -2850,6 +2850,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3061,6 +3063,26 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -41687,7 +41709,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "profile-item-2 m0" }, [
+  return _c("div", { staticClass: "profile-item-2" }, [
     _c("div", { staticClass: "profile-content" }, [
       _vm._m(0),
       _vm._v(" "),
@@ -41825,7 +41847,19 @@ var render = function() {
                   )
                 ])
               ]
-            )
+            ),
+            _vm._v(" "),
+            _c("div", {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.expanded[index],
+                  expression: "expanded[index]"
+                }
+              ],
+              staticClass: "bl-box-2"
+            })
           ])
         }),
         0
@@ -41877,7 +41911,9 @@ var staticRenderFns = [
       _c("img", {
         staticClass: "bl-image-56",
         attrs: { src: "/img/logo/1.jpg" }
-      })
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "bl-box" })
     ])
   },
   function() {
@@ -42205,15 +42241,21 @@ var staticRenderFns = [
         _c("ul", { staticClass: "list-items" }, [
           _c("li", [
             _c("div", { staticClass: "row" }, [
-              _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
-              _vm._v(" "),
-              _c("div", { staticClass: "bl-display" }, [
-                _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                  _vm._v("Project Manager")
-                ]),
+              _c("div", { staticClass: "bl-col-1" }, [
+                _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
                 _vm._v(" "),
-                _c("span", { staticClass: "job-text" }, [
-                  _vm._v("Probuild . Melbourne VIC")
+                _c("div", { staticClass: "bl-box-3" })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "bl-col-2" }, [
+                _c("div", { staticClass: "bl-display" }, [
+                  _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
+                    _vm._v("Project Manager")
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "job-text" }, [
+                    _vm._v("Probuild . Melbourne VIC")
+                  ])
                 ])
               ])
             ])
@@ -42221,15 +42263,21 @@ var staticRenderFns = [
           _vm._v(" "),
           _c("li", [
             _c("div", { staticClass: "row" }, [
-              _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
-              _vm._v(" "),
-              _c("div", { staticClass: "bl-display" }, [
-                _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                  _vm._v("Project Manager")
-                ]),
+              _c("div", { staticClass: "bl-col-1" }, [
+                _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
                 _vm._v(" "),
-                _c("span", { staticClass: "job-text" }, [
-                  _vm._v("Probuild . Melbourne VIC")
+                _c("div", { staticClass: "bl-box-3" })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "bl-col-2" }, [
+                _c("div", { staticClass: "bl-display" }, [
+                  _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
+                    _vm._v("Project Manager")
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "job-text" }, [
+                    _vm._v("Probuild . Melbourne VIC")
+                  ])
                 ])
               ])
             ])
@@ -42237,15 +42285,21 @@ var staticRenderFns = [
           _vm._v(" "),
           _c("li", [
             _c("div", { staticClass: "row" }, [
-              _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
-              _vm._v(" "),
-              _c("div", { staticClass: "bl-display" }, [
-                _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                  _vm._v("Project Manager")
-                ]),
+              _c("div", { staticClass: "bl-col-1" }, [
+                _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
                 _vm._v(" "),
-                _c("span", { staticClass: "job-text" }, [
-                  _vm._v("Probuild . Melbourne VIC")
+                _c("div", { staticClass: "bl-box-3" })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "bl-col-2" }, [
+                _c("div", { staticClass: "bl-display" }, [
+                  _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
+                    _vm._v("Project Manager")
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "job-text" }, [
+                    _vm._v("Probuild . Melbourne VIC")
+                  ])
                 ])
               ])
             ])
@@ -42253,15 +42307,21 @@ var staticRenderFns = [
           _vm._v(" "),
           _c("li", [
             _c("div", { staticClass: "row" }, [
-              _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
-              _vm._v(" "),
-              _c("div", { staticClass: "bl-display" }, [
-                _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                  _vm._v("Project Manager")
-                ]),
+              _c("div", { staticClass: "bl-col-1" }, [
+                _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
                 _vm._v(" "),
-                _c("span", { staticClass: "job-text" }, [
-                  _vm._v("Probuild . Melbourne VIC")
+                _c("div", { staticClass: "bl-box-3" })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "bl-col-2" }, [
+                _c("div", { staticClass: "bl-display" }, [
+                  _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
+                    _vm._v("Project Manager")
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "job-text" }, [
+                    _vm._v("Probuild . Melbourne VIC")
+                  ])
                 ])
               ])
             ])

@@ -1,5 +1,5 @@
 <template>
-    <div class="profile-item-2 m0">
+    <div class="profile-item-2">
         <div class="profile-content">
             <span class="edit-icon">
                 <img src="/img/icons/editbutton.png"
@@ -28,6 +28,7 @@
                     <div class="row mt-3" @click="toggle(index)">
                         <div class="bl-col-1">
                             <img class="bl-image-56" src="/img/logo/1.jpg">
+                            <div class="bl-box"></div>
                         </div>
                         <div class="bl-col-2 ml-2">
                             <div class="bl-display">
@@ -68,6 +69,7 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="bl-box-2" v-show="expanded[index]"></div>
                 </li>
             </ul>
         </div>
