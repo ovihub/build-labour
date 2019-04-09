@@ -126,6 +126,10 @@ class UsersTableSeeder extends Seeder
 
         WorkerDetail::create([
             'profile_description' => 'Experienced Senior Project Manager; demonstrated history of working on a wide range of construction projects for leading companies.',
+            'english_skill' => 'Proficient in written and spoken',
+            'drivers_license' => 'Owns a license.',
+            'right_to_work_au' => 'Yes, I have right to work in Australia',
+            'main_skill' => 'Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline.',
             'nrole_info' => 'My ideal next role would be as a qualified plumber working on high-end residential jobs with an awesome team. ',
             'nrole_when' => 'In 6 months (June 2019)',
             'nrole_travel_to_home' => '100km',

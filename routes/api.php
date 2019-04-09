@@ -61,7 +61,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 
     Route::prefix('company')->group(function () {
         Route::middleware([ 'jwt' ])->group(function () {
-            Route::post('', 'ApiCompaniesController@add');
+            Route::put('', 'ApiCompaniesController@update');
         });
     });
 

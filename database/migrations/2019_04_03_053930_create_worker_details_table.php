@@ -16,6 +16,10 @@ class CreateWorkerDetailsTable extends Migration
         Schema::create('worker_details', function (Blueprint $table) {
             $table->increments('id');
             $table->string('profile_description')->nullable();
+            $table->string('english_skill')->nullable();
+            $table->string('drivers_license')->nullable();
+            $table->string('right_to_work_au')->nullable();
+            $table->string('main_skill')->nullable();
             $table->string('nrole_info')->nullable();
             $table->string('nrole_when')->nullable();
             $table->string('nrole_travel_to_home')->nullable();

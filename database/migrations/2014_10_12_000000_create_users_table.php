@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->string( 'profile_photo_url', 150 )->nullable();
             $table->string( 'verification_code', 150 )->nullable();
             $table->string('marital_status', 20)->nullable(); // married or single
-            $table->string('gender', 10); // male or female
+            $table->string('gender', 10)->nullable(); // male or female
             $table->date( 'is_verified' )->nullable();
             $table->smallInteger('role_id')->unsigned()->default(1); // 1 is for Worker Role
             $table->rememberToken();
