@@ -30,7 +30,7 @@ class UsersController extends Controller
 
         }
 
-        return view('users.verify');
+        return view('errors.500');
     }
 }
 

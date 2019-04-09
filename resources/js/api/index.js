@@ -56,6 +56,8 @@ class BuildLabourApi {
     deleteToken() {
 
         VueCookie.delete(this.tokenName);
+
+        window.location.href = '/login';
     }
 
 }

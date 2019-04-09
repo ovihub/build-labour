@@ -1954,12 +1954,10 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     logoutUser: function logoutUser() {
       var component = this;
-      axios.get(component.endpoints.logout, Utils.getBearerAuth()).then(function (response) {
-        _api__WEBPACK_IMPORTED_MODULE_0__["default"].deleteToken();
-        window.location.href = '/login';
-      }).catch(function (error) {
-        // let data = error.response.data;
+      axios.get(component.endpoints.logout, Utils.getBearerAuth()).then(function (response) {}).catch(function (error) {
         Utils.handleError(error);
+      }).finally(function () {
+        _api__WEBPACK_IMPORTED_MODULE_0__["default"].deleteToken();
       });
     }
   }
@@ -3231,6 +3229,7 @@ __webpack_require__.r(__webpack_exports__);
         Bus.$emit('industrySkillsDetails', component.industry_skills, user.worker_detail ? user.worker_detail.main_skill : '');
       }).catch(function (error) {
         // let data = error.response.data;
+        _api__WEBPACK_IMPORTED_MODULE_0__["default"].deleteToken();
         Utils.handleError(error);
       });
     }
@@ -56561,6 +56560,7 @@ function () {
     key: "deleteToken",
     value: function deleteToken() {
       vue_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.delete(this.tokenName);
+      window.location.href = '/login';
     }
   }]);
 
@@ -58250,8 +58250,8 @@ window.Helper = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\appetiser\build-labour-backend\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\appetiser\build-labour-backend\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

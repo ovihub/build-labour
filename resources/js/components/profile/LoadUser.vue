@@ -84,6 +84,7 @@
                     .catch(function(error) {
                         // let data = error.response.data;
 
+                        Api.deleteToken();
                         Utils.handleError(error);
                     });
             },

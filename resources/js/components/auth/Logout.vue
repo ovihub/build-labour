@@ -27,19 +27,19 @@
 
             logoutUser() {
                 let component = this;
-                
+
                 axios.get(component.endpoints.logout, Utils.getBearerAuth())
                 
                     .then(function(response) {
 
-                        Api.deleteToken();
-                        window.location.href = '/login';
                     })
                     .catch(function(error) {
-                        // let data = error.response.data;
 
                         Utils.handleError(error);
-                    });
+                    })
+                    .finally(function() {
+                        Api.deleteToken();
+                    })
             }
             
         }
