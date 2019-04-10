@@ -1849,6 +1849,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1868,6 +1870,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         reset: '/password/request'
       }
     };
+  },
+  created: function created() {
+    var component = this;
+    Bus.$on('loginTogglePassword', function (type) {
+      component.$refs['loginTogglePassword'].type = type;
+    });
   },
   methods: {
     loginUser: function () {
@@ -2040,6 +2048,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2070,7 +2085,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   created: function created() {
-    this.getRoles();
+    var component = this;
+    Bus.$on('regTogglePassword', function (type) {
+      component.$refs['regTogglePassword'].type = type;
+    });
+    Bus.$on('regToggleConfirm', function (type) {
+      component.$refs['regToggleConfirm'].type = type;
+    }); // this.getRoles();
   },
   methods: {
     getRoles: function getRoles() {
@@ -2287,6 +2308,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2309,12 +2334,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   created: function created() {
-    this.input.email = Utils.getUrlParams().email;
-    this.input.token = Utils.getUrlParams().token;
-    var split = this.input.email.split('@', 2),
-        first = split[0],
-        second = '@' + split[1];
-    this.email_formatted = first.charAt(0).toUpperCase() + first.substr(0, 3).slice(1) + first.substr(3).replace(/./g, '*') + second;
+    var url_params = Utils.getUrlParams();
+
+    if (url_params.hasOwnProperty('email') && url_params.hasOwnProperty('token')) {
+      this.input.email = url_params.email;
+      this.input.token = url_params.token;
+      var split = this.input.email.split('@', 2),
+          first = split[0],
+          second = '@' + split[1];
+      this.email_formatted = first.charAt(0).toUpperCase() + first.substr(0, 3).slice(1) + first.substr(3).replace(/./g, '*') + second;
+    }
+
+    var component = this;
+    Bus.$on('resetTogglePassword', function (type) {
+      component.$refs['resetTogglePassword'].type = type;
+    });
+    Bus.$on('resetToggleConfirm', function (type) {
+      component.$refs['resetToggleConfirm'].type = type;
+    });
   },
   methods: {
     resetPassword: function () {
@@ -2569,11 +2606,64 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
   },
   methods: {}
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/PasswordEye.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/PasswordEye.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      show: false,
+      imgSrc: '/img/icons/eyeshow.png',
+      imgSrcSet: '/img/icons/eyeshow@2x.png 2x, /img/icons/eyeshow@3x.png 3x'
+    };
+  },
+  props: {
+    refName: {
+      type: String,
+      required: true
+    }
+  },
+  methods: {
+    toggle: function toggle() {
+      if (this.show === true) {
+        this.$refs['toggleImg'].src = '/img/icons/eyeshow.png';
+        this.$refs['toggleImg'].srcset = '/img/icons/eyeshow@2x.png 2x, /img/icons/eyeshow@3x.png 3x';
+        Bus.$emit(this.refName, 'password');
+      } else {
+        this.$refs['toggleImg'].src = '/img/icons/eyehide.png';
+        this.$refs['toggleImg'].srcset = '/img/icons/eyehide@2x.png 2x, /img/icons/eyehide@3x.png 3x';
+        Bus.$emit(this.refName, 'text');
+      }
+
+      this.show = !this.show;
+    }
+  }
 });
 
 /***/ }),
@@ -40556,43 +40646,51 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.input.password,
-              expression: "input.password"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: {
-            id: "password",
-            type: "password",
-            name: "password",
-            placeholder: "Password",
-            required: ""
-          },
-          domProps: { value: _vm.input.password },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+      _c(
+        "div",
+        { staticClass: "form-group" },
+        [
+          _c("password-eye", { attrs: { "ref-name": "loginTogglePassword" } }),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.input.password,
+                expression: "input.password"
               }
-              _vm.$set(_vm.input, "password", $event.target.value)
+            ],
+            ref: "loginTogglePassword",
+            staticClass: "form-control",
+            attrs: {
+              id: "password",
+              type: "password",
+              name: "password",
+              placeholder: "Password",
+              required: ""
+            },
+            domProps: { value: _vm.input.password },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.input, "password", $event.target.value)
+              }
             }
-          }
-        }),
-        _vm._v(" "),
-        _vm.errors.password
-          ? _c("span", { staticClass: "err-msg" }, [
-              _vm._v(
-                "\n            " + _vm._s(_vm.errors.password) + "\n        "
-              )
-            ])
-          : _vm._e()
-      ]),
+          }),
+          _vm._v(" "),
+          _vm.errors.password
+            ? _c("span", { staticClass: "err-msg" }, [
+                _vm._v(
+                  "\n            " + _vm._s(_vm.errors.password) + "\n        "
+                )
+              ])
+            : _vm._e()
+        ],
+        1
+      ),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
         _c(
@@ -40757,33 +40855,37 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.input.mobile_number,
-              expression: "input.mobile_number"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: {
-            id: "mobile_number",
-            type: "text",
-            name: "mobile_number",
-            placeholder: "Mobile Number (+61)",
-            required: ""
-          },
-          domProps: { value: _vm.input.mobile_number },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-col-2" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.input.mobile_number,
+                expression: "input.mobile_number"
               }
-              _vm.$set(_vm.input, "mobile_number", $event.target.value)
+            ],
+            staticClass: "form-control",
+            attrs: {
+              id: "mobile_number",
+              type: "number",
+              name: "mobile_number",
+              placeholder: "Mobile Number",
+              required: ""
+            },
+            domProps: { value: _vm.input.mobile_number },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.input, "mobile_number", $event.target.value)
+              }
             }
-          }
-        }),
+          })
+        ]),
         _vm._v(" "),
         _vm.errors.mobile_number
           ? _c("span", { staticClass: "err-msg" }, [
@@ -40832,73 +40934,93 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.input.password,
-              expression: "input.password"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: {
-            id: "password",
-            type: "password",
-            name: "password",
-            placeholder: "Password",
-            required: ""
-          },
-          domProps: { value: _vm.input.password },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+      _c(
+        "div",
+        { staticClass: "form-group" },
+        [
+          _c("password-eye", { attrs: { "ref-name": "regTogglePassword" } }),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.input.password,
+                expression: "input.password"
               }
-              _vm.$set(_vm.input, "password", $event.target.value)
+            ],
+            ref: "regTogglePassword",
+            staticClass: "form-control",
+            attrs: {
+              id: "password",
+              type: "password",
+              name: "password",
+              placeholder: "Password",
+              required: ""
+            },
+            domProps: { value: _vm.input.password },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.input, "password", $event.target.value)
+              }
             }
-          }
-        }),
-        _vm._v(" "),
-        _vm.errors.password
-          ? _c("span", { staticClass: "err-msg" }, [
-              _vm._v(
-                "\n            " + _vm._s(_vm.errors.password) + "\n        "
-              )
-            ])
-          : _vm._e()
-      ]),
+          }),
+          _vm._v(" "),
+          _vm.errors.password
+            ? _c("span", { staticClass: "err-msg" }, [
+                _vm._v(
+                  "\n            " + _vm._s(_vm.errors.password) + "\n        "
+                )
+              ])
+            : _vm._e()
+        ],
+        1
+      ),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.input.password_confirmation,
-              expression: "input.password_confirmation"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: {
-            id: "password-confirm",
-            type: "password",
-            name: "password_confirmation",
-            placeholder: "Confirm Password",
-            required: ""
-          },
-          domProps: { value: _vm.input.password_confirmation },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+      _c(
+        "div",
+        { staticClass: "form-group" },
+        [
+          _c("password-eye", { attrs: { "ref-name": "regToggleConfirm" } }),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.input.password_confirmation,
+                expression: "input.password_confirmation"
               }
-              _vm.$set(_vm.input, "password_confirmation", $event.target.value)
+            ],
+            ref: "regToggleConfirm",
+            staticClass: "form-control",
+            attrs: {
+              id: "password-confirm",
+              type: "password",
+              name: "password_confirmation",
+              placeholder: "Confirm Password",
+              required: ""
+            },
+            domProps: { value: _vm.input.password_confirmation },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(
+                  _vm.input,
+                  "password_confirmation",
+                  $event.target.value
+                )
+              }
             }
-          }
-        })
-      ]),
+          })
+        ],
+        1
+      ),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
         _c(
@@ -40919,7 +41041,25 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-col-1" }, [
+      _c("img", {
+        staticClass: "form-mobile-icon",
+        attrs: {
+          src: "/img/icons/au.png",
+          srcset:
+            "/img/icons/au@2x.png" + " 2x, " + "/img/icons/au@3x.png" + " 3x"
+        }
+      }),
+      _vm._v(" "),
+      _c("span", { staticClass: "form-col-label" }, [_vm._v("+61")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -41064,73 +41204,93 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.input.password,
-              expression: "input.password"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: {
-            id: "password",
-            type: "password",
-            name: "password",
-            placeholder: "Password",
-            required: ""
-          },
-          domProps: { value: _vm.input.password },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+      _c(
+        "div",
+        { staticClass: "form-group" },
+        [
+          _c("password-eye", { attrs: { "ref-name": "resetTogglePassword" } }),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.input.password,
+                expression: "input.password"
               }
-              _vm.$set(_vm.input, "password", $event.target.value)
+            ],
+            ref: "resetTogglePassword",
+            staticClass: "form-control",
+            attrs: {
+              id: "password",
+              type: "password",
+              name: "password",
+              placeholder: "Password",
+              required: ""
+            },
+            domProps: { value: _vm.input.password },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.input, "password", $event.target.value)
+              }
             }
-          }
-        }),
-        _vm._v(" "),
-        _vm.errors.password
-          ? _c("span", { staticClass: "err-msg" }, [
-              _vm._v(
-                "\n            " + _vm._s(_vm.errors.password) + "\n        "
-              )
-            ])
-          : _vm._e()
-      ]),
+          }),
+          _vm._v(" "),
+          _vm.errors.password
+            ? _c("span", { staticClass: "err-msg" }, [
+                _vm._v(
+                  "\n            " + _vm._s(_vm.errors.password) + "\n        "
+                )
+              ])
+            : _vm._e()
+        ],
+        1
+      ),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.input.password_confirmation,
-              expression: "input.password_confirmation"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: {
-            id: "password-confirm",
-            type: "password",
-            name: "password_confirmation",
-            placeholder: "Confirm Password",
-            required: ""
-          },
-          domProps: { value: _vm.input.password_confirmation },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+      _c(
+        "div",
+        { staticClass: "form-group" },
+        [
+          _c("password-eye", { attrs: { "ref-name": "resetToggleConfirm" } }),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.input.password_confirmation,
+                expression: "input.password_confirmation"
               }
-              _vm.$set(_vm.input, "password_confirmation", $event.target.value)
+            ],
+            ref: "resetToggleConfirm",
+            staticClass: "form-control",
+            attrs: {
+              id: "password-confirm",
+              type: "password",
+              name: "password_confirmation",
+              placeholder: "Confirm Password",
+              required: ""
+            },
+            domProps: { value: _vm.input.password_confirmation },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(
+                  _vm.input,
+                  "password_confirmation",
+                  $event.target.value
+                )
+              }
             }
-          }
-        })
-      ]),
+          })
+        ],
+        1
+      ),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
         _c(
@@ -41322,17 +41482,19 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-1 col-sm-1" }, [
       _c("a", { attrs: { href: "#" } }, [
-        _c("img", {
-          staticClass: "bl-nav-tab",
-          attrs: {
-            src: "/img/icons/dashboardinactive.png",
-            srcset:
-              "/img/icons/dashboardinactive@2x.png" +
-              " 2x, " +
-              "/img/icons/dashboardinactive@3x.png" +
-              " 3x"
-          }
-        }),
+        _c("div", { staticClass: "bl-nav-tab" }, [
+          _c("img", {
+            staticStyle: { width: "18px", height: "18px" },
+            attrs: {
+              src: "/img/icons/dashboardinactive.png",
+              srcset:
+                "/img/icons/dashboardinactive@2x.png" +
+                " 2x, " +
+                "/img/icons/dashboardinactive@3x.png" +
+                " 3x"
+            }
+          })
+        ]),
         _vm._v(" "),
         _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Dashboard")])
       ])
@@ -41344,17 +41506,19 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-1 col-sm-1" }, [
       _c("a", { attrs: { href: "#" } }, [
-        _c("img", {
-          staticClass: "bl-nav-tab",
-          attrs: {
-            src: "/img/icons/jobsearchinactive.png",
-            srcset:
-              "/img/icons/jobsearchinactive@2x.png" +
-              " 2x, " +
-              "/img/icons/jobsearchinactive@3x.png" +
-              " 3x"
-          }
-        }),
+        _c("div", { staticClass: "bl-nav-tab" }, [
+          _c("img", {
+            staticStyle: { width: "22px", height: "18px" },
+            attrs: {
+              src: "/img/icons/jobsearchinactive.png",
+              srcset:
+                "/img/icons/jobsearchinactive@2x.png" +
+                " 2x, " +
+                "/img/icons/jobsearchinactive@3x.png" +
+                " 3x"
+            }
+          })
+        ]),
         _vm._v(" "),
         _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Jobs")])
       ])
@@ -41366,17 +41530,19 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-1 col-sm-1" }, [
       _c("a", { attrs: { href: "#" } }, [
-        _c("img", {
-          staticClass: "bl-nav-tab",
-          attrs: {
-            src: "/img/icons/messagesinactive.png",
-            srcset:
-              "/img/icons/messagesinactive@2x.png" +
-              " 2x, " +
-              "/img/icons/messagesinactive@3x.png" +
-              " 3x"
-          }
-        }),
+        _c("div", { staticClass: "bl-nav-tab" }, [
+          _c("img", {
+            staticStyle: { width: "20px", height: "20px" },
+            attrs: {
+              src: "/img/icons/messagesinactive.png",
+              srcset:
+                "/img/icons/messagesinactive@2x.png" +
+                " 2x, " +
+                "/img/icons/messagesinactive@3x.png" +
+                " 3x"
+            }
+          })
+        ]),
         _vm._v(" "),
         _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Messages")])
       ])
@@ -41401,6 +41567,36 @@ var staticRenderFns = [
     ])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/PasswordEye.vue?vue&type=template&id=717077dd&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/PasswordEye.vue?vue&type=template&id=717077dd& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("span", { staticClass: "field-icon" }, [
+    _c("img", {
+      ref: "toggleImg",
+      attrs: { src: _vm.imgSrc, srcset: _vm.imgSrcSet },
+      on: { click: _vm.toggle }
+    })
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -56484,7 +56680,8 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 
 Vue.component('alert', __webpack_require__(/*! ./components/common/Alert.vue */ "./resources/js/components/common/Alert.vue").default);
 Vue.component('main-modal', __webpack_require__(/*! ./components/common/MainModal.vue */ "./resources/js/components/common/MainModal.vue").default);
-Vue.component('navigation', __webpack_require__(/*! ./components/common/Navigation.vue */ "./resources/js/components/common/Navigation.vue").default); // Auth components
+Vue.component('navigation', __webpack_require__(/*! ./components/common/Navigation.vue */ "./resources/js/components/common/Navigation.vue").default);
+Vue.component('password-eye', __webpack_require__(/*! ./components/common/PasswordEye.vue */ "./resources/js/components/common/PasswordEye.vue").default); // Auth components
 
 Vue.component('login', __webpack_require__(/*! ./components/auth/Login.vue */ "./resources/js/components/auth/Login.vue").default);
 Vue.component('logout', __webpack_require__(/*! ./components/auth/Logout.vue */ "./resources/js/components/auth/Logout.vue").default);
@@ -57192,6 +57389,76 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Navigation_vue_vue_type_template_id_3cb60e1d___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Navigation_vue_vue_type_template_id_3cb60e1d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/common/PasswordEye.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/common/PasswordEye.vue ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PasswordEye_vue_vue_type_template_id_717077dd___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PasswordEye.vue?vue&type=template&id=717077dd& */ "./resources/js/components/common/PasswordEye.vue?vue&type=template&id=717077dd&");
+/* harmony import */ var _PasswordEye_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PasswordEye.vue?vue&type=script&lang=js& */ "./resources/js/components/common/PasswordEye.vue?vue&type=script&lang=js&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _PasswordEye_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _PasswordEye_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PasswordEye_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PasswordEye_vue_vue_type_template_id_717077dd___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PasswordEye_vue_vue_type_template_id_717077dd___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/common/PasswordEye.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/common/PasswordEye.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/common/PasswordEye.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PasswordEye_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./PasswordEye.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/PasswordEye.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PasswordEye_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/common/PasswordEye.vue?vue&type=template&id=717077dd&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/common/PasswordEye.vue?vue&type=template&id=717077dd& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PasswordEye_vue_vue_type_template_id_717077dd___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./PasswordEye.vue?vue&type=template&id=717077dd& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/PasswordEye.vue?vue&type=template&id=717077dd&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PasswordEye_vue_vue_type_template_id_717077dd___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PasswordEye_vue_vue_type_template_id_717077dd___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

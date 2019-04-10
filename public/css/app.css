@@ -11171,6 +11171,14 @@ a.text-dark:focus {
     max-width: 100%;
   }
 
+  .form-col-1 .form-mobile-icon {
+    width: 28px;
+    height: 20px;
+    -o-object-fit: contain;
+       object-fit: contain;
+    margin-right: 0px;
+  }
+
   .bl-col-1 {
     max-width: 20%;
   }
@@ -11185,6 +11193,29 @@ a.text-dark:focus {
 
   .bl-col-4 {
     max-width: 87%;
+  }
+}
+
+@media (max-width: 514px) {
+  .form-group .form-col-1 {
+    width: 18%;
+    float: left;
+    margin-top: 6px;
+  }
+
+  .container .bl-label-48 {
+    font-size: 32px;
+  }
+
+  .err-img img {
+    width: 80%;
+    height: 50%;
+  }
+}
+
+@media (max-width: 479px) {
+  .form-group button {
+    width: 100%;
   }
 }
 
@@ -11280,9 +11311,21 @@ button {
 }
 
 button:hover {
-  color: #ff7705;
-  background: #fff;
+  color: #fff;
+  background: #ff7705;
   border: 1px solid #ff7705;
+}
+
+.field-icon {
+  float: right;
+  margin-left: -25px;
+  margin-top: 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.field-icon:hover {
+  cursor: pointer;
 }
 
 /* ==========================================================================
@@ -11689,13 +11732,6 @@ textarea {
   flex: 1 1 auto;
 }
 
-.form-mobile-icon {
-  width: 28px;
-  height: 20px;
-  -o-object-fit: contain;
-     object-fit: contain;
-}
-
 .form-text-header {
   font-size: 20px;
   font-weight: 500;
@@ -11710,6 +11746,32 @@ textarea {
   color: #435256;
   margin-bottom: 27px;
   text-align: justify;
+}
+
+.form-col-1 {
+  width: 18%;
+  float: left;
+  margin-top: 16px;
+}
+
+.form-col-2 {
+  width: 82%;
+  float: right;
+}
+
+.form-col-label {
+  display: inline;
+  font-size: 16px;
+  text-align: center;
+  color: #435256;
+}
+
+.form-mobile-icon {
+  width: 28px;
+  height: 20px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  margin-right: 13.5px;
 }
 
 /* ==========================================================================
@@ -11770,13 +11832,21 @@ textarea {
 
 .bl-nav-search {
   width: 100%;
+  height: 32px;
   border-radius: 4px;
   background-color: #ffffff;
   position: relative;
   top: 9px;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
+  box-shadow: 0;
+  border: 0;
+  padding: 7px 8px;
+  background-image: url(/img/icons/search.png);
+  background-position: 5px 5px;
+  background-repeat: no-repeat;
+}
+
+.bl-nav-search:focus {
+  background-image: none;
 }
 
 .bl-nav-tab {
@@ -11784,7 +11854,7 @@ textarea {
   height: 24px;
   -o-object-fit: contain;
      object-fit: contain;
-  margin-top: 8px;
+  margin-top: 9px;
   display: flex;
   flex-wrap: wrap;
   margin-left: auto;
@@ -11796,6 +11866,7 @@ p.bl-nav-tab-label {
   opacity: 0.5;
   font-size: 12px;
   color: #ffffff;
+  margin-top: -3px;
 }
 
 .bl-nav-notification {
@@ -11912,7 +11983,8 @@ p.bl-nav-tab-label {
   font-size: 15px;
   font-weight: 500;
   color: #ffc658;
-  margin-top: 12px;
+  padding-top: 20px;
+  padding-left: 0px;
 }
 
 .btn-link:hover {

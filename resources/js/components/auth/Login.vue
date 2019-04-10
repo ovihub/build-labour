@@ -11,7 +11,9 @@
         </div>
 
         <div class="form-group">
-            <input id="password" type="password"  name="password" class="form-control" v-model="input.password" placeholder="Password" required>
+            <password-eye ref-name="loginTogglePassword"></password-eye>
+            
+            <input id="password" ref="loginTogglePassword" type="password"  name="password" class="form-control" v-model="input.password" placeholder="Password" required>
 
             <span class="err-msg" v-if="errors.password">
                 {{ errors.password }}
@@ -50,6 +52,14 @@
                     reset: '/password/request',
                 }
             }
+        },
+
+        created() {
+            let component = this;
+
+            Bus.$on('loginTogglePassword', function(type) {
+                component.$refs['loginTogglePassword'].type = type;
+            });
         },
 
         methods: {

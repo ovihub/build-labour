@@ -107,6 +107,12 @@
     flex: 0 0 100%;
     max-width: 100%;
   }
+  .form-col-1 .form-mobile-icon {
+    width: 28px;
+    height: 20px;
+    object-fit: contain;
+    margin-right: 0px;
+  }
   .bl-col-1 {
     max-width: 20%;
   }
@@ -118,6 +124,27 @@
   }
   .bl-col-4 {
     max-width: 87%;
+  }
+}
+@media (max-width: 514px) {
+  .form-group .form-col-1 {
+    width: 18%;
+    float: left;
+    margin-top: 6px;
+  }
+  .container .bl-label-48 {
+    font-size: 32px;
+  }
+  .err-img {
+    img {
+      width: 80%;
+      height: 50%;
+    }
+  }
+}
+@media (max-width: 479px) {
+  .form-group button {
+    width: 100%;
   }
 }
 @media (max-width: 460px) {

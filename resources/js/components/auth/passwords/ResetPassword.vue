@@ -7,7 +7,9 @@
         </div>
 
         <div class="form-group">
-            <input id="password" type="password" name="password" class="form-control" v-model="input.password" placeholder="Password" required />
+            <password-eye ref-name="resetTogglePassword"></password-eye>
+            
+            <input id="password" ref="resetTogglePassword" type="password" name="password" class="form-control" v-model="input.password" placeholder="Password" required />
 
             <span class="err-msg" v-if="errors.password">
                 {{ errors.password }}
@@ -15,7 +17,9 @@
         </div>
 
         <div class="form-group">
-            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" v-model="input.password_confirmation" placeholder="Confirm Password" required>
+            <password-eye ref-name="resetToggleConfirm"></password-eye>
+
+            <input id="password-confirm" ref="resetToggleConfirm" type="password" class="form-control" name="password_confirmation" v-model="input.password_confirmation" placeholder="Confirm Password" required>
         </div>
         
         <div class="form-group">
@@ -55,14 +59,29 @@
         },
 
         created() {
-            this.input.email = Utils.getUrlParams().email;
-            this.input.token = Utils.getUrlParams().token;
-            
-            let split = this.input.email.split('@', 2),
-                first = split[0],
-                second = '@' + split[1];
+            let url_params = Utils.getUrlParams();
 
-            this.email_formatted = first.charAt(0).toUpperCase() + first.substr(0, 3).slice(1) + first.substr(3).replace(/./g, '*') + second;
+            if (url_params.hasOwnProperty('email') && url_params.hasOwnProperty('token')) {
+                this.input.email = url_params.email;
+                this.input.token = url_params.token;
+                
+                let split = this.input.email.split('@', 2),
+                    first = split[0],
+                    second = '@' + split[1];
+
+                this.email_formatted = first.charAt(0).toUpperCase() + first.substr(0, 3).slice(1) + 
+                    first.substr(3).replace(/./g, '*') + second;
+            }
+
+            let component = this;
+
+            Bus.$on('resetTogglePassword', function(type) {
+                component.$refs['resetTogglePassword'].type = type;
+            });
+
+            Bus.$on('resetToggleConfirm', function(type) {
+                component.$refs['resetToggleConfirm'].type = type;
+            });
         },
 
         methods: {
@@ -96,8 +115,7 @@
                     });
                 
                 component.disabled = false;
-            }
-            
+            },
         }
     }
 </script>

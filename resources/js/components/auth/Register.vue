@@ -19,12 +19,15 @@
         </div>
 
         <div class="form-group">
-            <!-- <img class="form-mobile-icon" src="/img/icons/au.png"
+            <div class="form-col-1">
+                <img class="form-mobile-icon" src="/img/icons/au.png"
                     srcset="/img/icons/au@2x.png 2x, /img/icons/au@3x.png 3x">
-            +61 -->
-            
-            <input id="mobile_number" type="text" name="mobile_number" class="form-control" v-model="input.mobile_number" placeholder="Mobile Number (+61)" required />
-
+                
+                <span class="form-col-label">+61</span>
+            </div>
+            <div class="form-col-2">
+                <input id="mobile_number" type="number" name="mobile_number" class="form-control" v-model="input.mobile_number" placeholder="Mobile Number" required />
+            </div>
             <span class="err-msg" v-if="errors.mobile_number">
                 {{ errors.mobile_number }}
             </span>
@@ -39,7 +42,9 @@
         </div>
 
         <div class="form-group">
-            <input id="password" type="password" name="password" class="form-control" v-model="input.password" placeholder="Password" required />
+            <password-eye ref-name="regTogglePassword"></password-eye>
+            
+            <input id="password" ref="regTogglePassword" type="password" name="password" class="form-control" v-model="input.password" placeholder="Password" required />
 
             <span class="err-msg" v-if="errors.password">
                 {{ errors.password }}
@@ -47,7 +52,9 @@
         </div>
 
         <div class="form-group">
-            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" v-model="input.password_confirmation" placeholder="Confirm Password" required>
+            <password-eye ref-name="regToggleConfirm"></password-eye>
+
+            <input id="password-confirm" ref="regToggleConfirm" type="password" class="form-control" name="password_confirmation" v-model="input.password_confirmation" placeholder="Confirm Password" required>
         </div>
 
         <div class="form-group">
@@ -87,7 +94,17 @@
         },
 
         created() {
-            this.getRoles();
+            let component = this;
+
+            Bus.$on('regTogglePassword', function(type) {
+                component.$refs['regTogglePassword'].type = type;
+            });
+
+            Bus.$on('regToggleConfirm', function(type) {
+                component.$refs['regToggleConfirm'].type = type;
+            });
+
+            // this.getRoles();
         },
 
         methods: {

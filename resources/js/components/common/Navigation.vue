@@ -13,8 +13,10 @@
 
         <div class="col-md-1 col-sm-1">
             <a href="#">
-                <img class="bl-nav-tab" src="/img/icons/dashboardinactive.png"
-                    srcset="/img/icons/dashboardinactive@2x.png 2x, /img/icons/dashboardinactive@3x.png 3x">
+                <div class="bl-nav-tab">
+                    <img style="width:18px;height:18px" src="/img/icons/dashboardinactive.png"
+                        srcset="/img/icons/dashboardinactive@2x.png 2x, /img/icons/dashboardinactive@3x.png 3x">
+                </div>
 
                 <p class="bl-nav-tab-label">Dashboard</p>
             </a>
@@ -22,17 +24,20 @@
 
         <div class="col-md-1 col-sm-1">
             <a href="#">
-                <img class="bl-nav-tab" src="/img/icons/jobsearchinactive.png"
-                    srcset="/img/icons/jobsearchinactive@2x.png 2x, /img/icons/jobsearchinactive@3x.png 3x">
-        
+                <div class="bl-nav-tab">
+                    <img style="width:22px;height:18px" src="/img/icons/jobsearchinactive.png"
+                        srcset="/img/icons/jobsearchinactive@2x.png 2x, /img/icons/jobsearchinactive@3x.png 3x">
+                </div>
                 <p class="bl-nav-tab-label">Jobs</p>
             </a>
         </div>
         
         <div class="col-md-1 col-sm-1">
             <a href="#">
-                <img class="bl-nav-tab" src="/img/icons/messagesinactive.png"
-                    srcset="/img/icons/messagesinactive@2x.png 2x, /img/icons/messagesinactive@3x.png 3x">
+                <div class="bl-nav-tab">
+                    <img style="width:20px;height:20px" src="/img/icons/messagesinactive.png"
+                        srcset="/img/icons/messagesinactive@2x.png 2x, /img/icons/messagesinactive@3x.png 3x">
+                </div>
 
                 <p class="bl-nav-tab-label">Messages</p>
             </a>
