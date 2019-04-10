@@ -136,25 +136,13 @@ class ApiAuthController extends ApiBaseController
      *                      property="mobile_number",
      *                      description="Mobile Number",
      *                      type="string",
-     *                      example="+61 412345678"
+     *                      example="6141234567"
      *                  ),
      *                  @OA\Property(
      *                      property="address",
      *                      description="Address",
      *                      type="string",
      *                      example="85 Dover Street Melbourne VIC"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="role_id",
-     *                      description=" Register as Worker",
-     *                      type="integer",
-     *                      example=1
-     *                  ),
-     *                  @OA\Property(
-     *                      property="gender",
-     *                      description="Male or Female",
-     *                      type="string",
-     *                      example="male"
      *                  ),
      *              ),
      *          ),

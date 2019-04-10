@@ -48,7 +48,8 @@ class Users extends BaseModel implements
      */
     private function rules()
     {
-        if( $this->id ){
+        if( $this->id ) {
+
             // validation rules for updated users
             return [];
         }
@@ -59,7 +60,7 @@ class Users extends BaseModel implements
             'first_name'    => 'required',
             'last_name'     => 'required',
             //'role_id'       => 'required|integer|between:1,4',
-            'mobile_number' => 'required'
+            'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|digits:10'
         ];
     }
 
