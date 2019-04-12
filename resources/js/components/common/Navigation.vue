@@ -1,49 +1,39 @@
 <template>
     <div class="row">
-        <div class="col-md-1 col-sm-1">
-            <a href="#">
-                <img class="bl-nav-logo" src="/img/icons/build-labour-logo-white.png"
-                    srcset="/img/icons/build-labour-logo-white@2x.png 2x, /img/icons/build-labour-logo-white@3x.png 3x">
-            </a>
-        </div>
+        <a href="#">
+            <img class="bl-nav-logo" src="/img/icons/build-labour-logo-white.png"
+                srcset="/img/icons/build-labour-logo-white@2x.png 2x, /img/icons/build-labour-logo-white@3x.png 3x">
+        </a>
 
-        <div class="col-md-3 col-sm-3">
-            <input class="bl-nav-search" id="search" type="text" name="search" />
-        </div>
+        <input class="bl-nav-search" id="search" type="text" name="search" />
 
-        <div class="col-md-1 col-sm-1">
-            <a href="#">
+        <ul class="row bl-nav-list">
+            <li>
                 <div class="bl-nav-tab">
                     <img style="width:18px;height:18px" src="/img/icons/dashboardinactive.png"
                         srcset="/img/icons/dashboardinactive@2x.png 2x, /img/icons/dashboardinactive@3x.png 3x">
                 </div>
 
                 <p class="bl-nav-tab-label">Dashboard</p>
-            </a>
-        </div>
+            </li>
 
-        <div class="col-md-1 col-sm-1">
-            <a href="#">
+            <li>
                 <div class="bl-nav-tab">
                     <img style="width:22px;height:18px" src="/img/icons/jobsearchinactive.png"
                         srcset="/img/icons/jobsearchinactive@2x.png 2x, /img/icons/jobsearchinactive@3x.png 3x">
                 </div>
                 <p class="bl-nav-tab-label">Jobs</p>
-            </a>
-        </div>
-        
-        <div class="col-md-1 col-sm-1">
-            <a href="#">
+            </li>
+
+            <li>
                 <div class="bl-nav-tab">
                     <img style="width:20px;height:20px" src="/img/icons/messagesinactive.png"
                         srcset="/img/icons/messagesinactive@2x.png 2x, /img/icons/messagesinactive@3x.png 3x">
                 </div>
 
                 <p class="bl-nav-tab-label">Messages</p>
-            </a>
-        </div>
-
-        <!-- <div class="col-md-3 col-sm-3"></div> -->
+            </li>
+        </ul>
 
         <div class="bl-nav-notification">
             <div class="row">
@@ -88,7 +78,9 @@
         },
 
         methods: {
-
+            toggleNav() {
+                $('ul.menu').fadeToggle("slow");
+            }
         }
     }
 </script>

@@ -2055,6 +2055,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2601,21 +2603,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
   },
-  methods: {}
+  methods: {
+    toggleNav: function toggleNav() {
+      $('ul.menu').fadeToggle("slow");
+    }
+  }
 });
 
 /***/ }),
@@ -40884,18 +40880,18 @@ var render = function() {
                 _vm.$set(_vm.input, "mobile_number", $event.target.value)
               }
             }
-          })
-        ]),
-        _vm._v(" "),
-        _vm.errors.mobile_number
-          ? _c("span", { staticClass: "err-msg" }, [
-              _vm._v(
-                "\n            " +
-                  _vm._s(_vm.errors.mobile_number) +
-                  "\n        "
-              )
-            ])
-          : _vm._e()
+          }),
+          _vm._v(" "),
+          _vm.errors.mobile_number
+            ? _c("span", { staticClass: "err-msg" }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.errors.mobile_number) +
+                    "\n            "
+                )
+              ])
+            : _vm._e()
+        ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
@@ -41426,19 +41422,18 @@ var render = function() {
   return _c("div", { staticClass: "row" }, [
     _vm._m(0),
     _vm._v(" "),
+    _c("input", {
+      staticClass: "bl-nav-search",
+      attrs: { id: "search", type: "text", name: "search" }
+    }),
+    _vm._v(" "),
     _vm._m(1),
-    _vm._v(" "),
-    _vm._m(2),
-    _vm._v(" "),
-    _vm._m(3),
-    _vm._v(" "),
-    _vm._m(4),
     _vm._v(" "),
     _c("div", { staticClass: "bl-nav-notification" }, [
       _c(
         "div",
         { staticClass: "row" },
-        [_c("logout"), _vm._v(" "), _vm._m(5)],
+        [_c("logout"), _vm._v(" "), _vm._m(2)],
         1
       )
     ])
@@ -41449,30 +41444,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1 col-sm-1" }, [
-      _c("a", { attrs: { href: "#" } }, [
-        _c("img", {
-          staticClass: "bl-nav-logo",
-          attrs: {
-            src: "/img/icons/build-labour-logo-white.png",
-            srcset:
-              "/img/icons/build-labour-logo-white@2x.png" +
-              " 2x, " +
-              "/img/icons/build-labour-logo-white@3x.png" +
-              " 3x"
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3 col-sm-3" }, [
-      _c("input", {
-        staticClass: "bl-nav-search",
-        attrs: { id: "search", type: "text", name: "search" }
+    return _c("a", { attrs: { href: "#" } }, [
+      _c("img", {
+        staticClass: "bl-nav-logo",
+        attrs: {
+          src: "/img/icons/build-labour-logo-white.png",
+          srcset:
+            "/img/icons/build-labour-logo-white@2x.png" +
+            " 2x, " +
+            "/img/icons/build-labour-logo-white@3x.png" +
+            " 3x"
+        }
       })
     ])
   },
@@ -41480,8 +41462,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1 col-sm-1" }, [
-      _c("a", { attrs: { href: "#" } }, [
+    return _c("ul", { staticClass: "row bl-nav-list" }, [
+      _c("li", [
         _c("div", { staticClass: "bl-nav-tab" }, [
           _c("img", {
             staticStyle: { width: "18px", height: "18px" },
@@ -41497,15 +41479,9 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Dashboard")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1 col-sm-1" }, [
-      _c("a", { attrs: { href: "#" } }, [
+      ]),
+      _vm._v(" "),
+      _c("li", [
         _c("div", { staticClass: "bl-nav-tab" }, [
           _c("img", {
             staticStyle: { width: "22px", height: "18px" },
@@ -41521,15 +41497,9 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Jobs")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1 col-sm-1" }, [
-      _c("a", { attrs: { href: "#" } }, [
+      ]),
+      _vm._v(" "),
+      _c("li", [
         _c("div", { staticClass: "bl-nav-tab" }, [
           _c("img", {
             staticStyle: { width: "20px", height: "20px" },
@@ -57398,15 +57368,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!********************************************************!*\
   !*** ./resources/js/components/common/PasswordEye.vue ***!
   \********************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PasswordEye_vue_vue_type_template_id_717077dd___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PasswordEye.vue?vue&type=template&id=717077dd& */ "./resources/js/components/common/PasswordEye.vue?vue&type=template&id=717077dd&");
 /* harmony import */ var _PasswordEye_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PasswordEye.vue?vue&type=script&lang=js& */ "./resources/js/components/common/PasswordEye.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _PasswordEye_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _PasswordEye_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -57436,7 +57405,7 @@ component.options.__file = "resources/js/components/common/PasswordEye.vue"
 /*!*********************************************************************************!*\
   !*** ./resources/js/components/common/PasswordEye.vue?vue&type=script&lang=js& ***!
   \*********************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

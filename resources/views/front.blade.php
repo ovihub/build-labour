@@ -37,18 +37,23 @@
                 BUILD<br>
                 LABOUR
             </div>
-
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="form-group">
                         <br><br>
-                        <button type="submit" onclick="location.href='/login'">
-                            Login
-                        </button>
-                        <br><br>
-                        <button type="submit" onclick="location.href='/register'">
-                            Sign Up
-                        </button>
+                        @if (! isset($_COOKIE['bl_token']))
+                            <button type="submit" onclick="location.href='/login'">
+                                Login
+                            </button>
+                            <br><br>
+                            <button type="submit" onclick="location.href='/register'">
+                                Sign Up
+                            </button>
+                        @else
+                            <button type="submit" onclick="location.href='/login'">
+                                My Profile
+                            </button>
+                        @endif
                     </div>
                 </div>
             </div>

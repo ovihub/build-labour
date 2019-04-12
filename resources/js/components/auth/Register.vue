@@ -25,12 +25,14 @@
                 
                 <span class="form-col-label">+61</span>
             </div>
+            
             <div class="form-col-2">
                 <input id="mobile_number" type="number" name="mobile_number" class="form-control" v-model="input.mobile_number" placeholder="Mobile Number" required />
+
+                <span class="err-msg" v-if="errors.mobile_number">
+                    {{ errors.mobile_number }}
+                </span>
             </div>
-            <span class="err-msg" v-if="errors.mobile_number">
-                {{ errors.mobile_number }}
-            </span>
         </div>
 
         <div class="form-group">
