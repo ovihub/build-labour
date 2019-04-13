@@ -11566,20 +11566,6 @@ h6 {
     Header Site Styling
   ========================================================================== */
 
-.site-header .main-nav .container a:hover {
-  color: #000;
-}
-
-.main-header {
-  padding: 35px 0;
-}
-
-.main-header .logo h1 {
-  margin: 4px 0 0 0;
-  font-size: 3em;
-  text-transform: uppercase;
-}
-
 .site-header .main-nav .container .row .main-menu ul.menu {
   margin-right: -7px;
   position: absolute;
@@ -11594,34 +11580,6 @@ h6 {
 
 .site-header .main-nav .container .row .main-menu ul.menu li {
   display: block;
-}
-
-.site-header .main-nav .container .row .main-menu ul.menu li a {
-  color: white;
-  text-transform: none;
-  margin: 0 15px;
-  font-size: 16px;
-}
-
-.site-header .main-nav .container .row .main-menu ul.menu li a:hover {
-  color: #bfddf0;
-}
-
-.site-header .main-nav .container .row .main-menu a.toggle-menu {
-  float: left;
-  display: block;
-  text-align: center;
-  background-color: #f5a623;
-  color: white;
-  font-size: 24px;
-  position: absolute;
-  right: 0;
-  z-index: 7;
-  -webkit-backface-visibility: hidden;
-  /* Chrome, Safari, Opera */
-  backface-visibility: hidden;
-  background-clip: padding-box;
-  /* stops bg color from leaking outside the border: */
 }
 
 .main-nav {
