@@ -11345,11 +11345,10 @@ button:hover {
 }
 
 .field-icon {
-  float: right;
-  margin-left: -25px;
-  margin-top: 14px;
-  position: relative;
-  z-index: 2;
+  position: absolute;
+  right: 0;
+  margin-right: 63px;
+  margin-top: 15px;
 }
 
 .field-icon:hover {
@@ -11605,8 +11604,7 @@ h6 {
 }
 
 .bl-nav-search {
-  min-width: 258px;
-  max-width: 282px;
+  width: 282px;
   height: 32px;
   border-radius: 4px;
   background-color: #ffffff;
@@ -11616,7 +11614,7 @@ h6 {
   border: 0;
   padding: 7px 8px;
   background-image: url(/img/icons/search.png);
-  background-position: 5px 5px;
+  background-position: 8px 7px;
   background-repeat: no-repeat;
   margin-left: 37px;
 }
