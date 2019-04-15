@@ -1941,8 +1941,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2532,8 +2530,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
 //
 //
 //
@@ -40707,12 +40703,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("a", { on: { click: _vm.logoutUser } }, [
-    _c("img", {
-      staticClass: "profile-picture-nav",
-      attrs: { title: "LOGOUT", src: "/img/icons/default.png" }
-    })
-  ])
+  return _c("img", {
+    staticClass: "bl-nav-profile-pic",
+    attrs: { title: "LOGOUT", src: "/img/icons/default.png" },
+    on: { click: _vm.logoutUser }
+  })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -41398,44 +41393,60 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _vm._m(0),
+    _c("img", {
+      staticClass: "bl-nav-logo",
+      attrs: {
+        src: "/img/icons/build-labour-logo-white.png",
+        srcset:
+          "/img/icons/build-labour-logo-white@2x.png" +
+          " 2x, " +
+          "/img/icons/build-labour-logo-white@3x.png" +
+          " 3x"
+      }
+    }),
     _vm._v(" "),
     _c("input", {
       staticClass: "bl-nav-search",
       attrs: { id: "search", type: "text", name: "search" }
     }),
     _vm._v(" "),
-    _vm._m(1),
+    _vm._m(0),
     _vm._v(" "),
-    _c("div", { staticClass: "bl-nav-notification" }, [
-      _c(
-        "div",
-        { staticClass: "row" },
-        [_c("logout"), _vm._v(" "), _vm._m(2)],
-        1
-      )
-    ])
+    _c(
+      "div",
+      { staticClass: "bl-nav-notification" },
+      [
+        _c("logout"),
+        _vm._v(" "),
+        _c("img", {
+          staticClass: "bl-nav-tab",
+          attrs: {
+            src: "/img/icons/notificationsinactive.png",
+            srcset:
+              "/img/icons/notificationsinactive@2x.png" +
+              " 2x, " +
+              "/img/icons/notificationsinactive@3x.png" +
+              " 3x"
+          }
+        }),
+        _vm._v(" "),
+        _c("img", {
+          staticClass: "bl-nav-tab-search",
+          attrs: {
+            src: "/img/icons/search.png",
+            srcset:
+              "/img/icons/search@2x.png" +
+              " 2x, " +
+              "/img/icons/search@3x.png" +
+              " 3x"
+          }
+        })
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "#" } }, [
-      _c("img", {
-        staticClass: "bl-nav-logo",
-        attrs: {
-          src: "/img/icons/build-labour-logo-white.png",
-          srcset:
-            "/img/icons/build-labour-logo-white@2x.png" +
-            " 2x, " +
-            "/img/icons/build-labour-logo-white@3x.png" +
-            " 3x"
-        }
-      })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -41494,24 +41505,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Messages")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "#" } }, [
-      _c("img", {
-        staticClass: "bl-nav-tab",
-        attrs: {
-          src: "/img/icons/notificationsinactive.png",
-          srcset:
-            "/img/icons/notificationsinactive@2x.png" +
-            " 2x, " +
-            "/img/icons/notificationsinactive@3x.png" +
-            " 3x"
-        }
-      })
     ])
   }
 ]

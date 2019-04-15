@@ -320,12 +320,9 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 15px;
   display: flex;
   flex-wrap: wrap;
-  margin-right: auto;
   margin-left: 18px;
 }
 .bl-nav-search {
-  // min-width: 258px;
-  // max-width: 282px;
   width: 282px;
   height: 32px;
   border-radius: 4px;
@@ -336,6 +333,7 @@ h1, h2, h3, h4, h5, h6 {
   border: 0;
   padding: 7px 8px;
   background-image: url(/img/icons/search.png);
+  background-image: -webkit-image-set( url('/img/icons/search@2x.png') 2x, url('/img/icons/search@3x.png') 3x );
   background-position: 8px 7px;
   background-repeat: no-repeat;
   margin-left: 37px;
@@ -362,6 +360,16 @@ ul.bl-nav-list {
   margin-left: auto;
   margin-right: auto;
 }
+.bl-nav-tab-search {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  margin-top: 9px;
+  display: none;
+  flex-wrap: wrap;
+  margin-left: auto;
+  margin-right: auto;
+}
 p.bl-nav-tab-label {
   text-align: center;
   opacity: 0.5;
@@ -373,8 +381,22 @@ p.bl-nav-tab-label {
   position: absolute;
   right: 10%;
   margin-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
 }
-
+.bl-nav-profile-pic {
+  width: 32px;
+  height: 32px;
+  border: solid 2px #ffffff;
+  background-color: #d8d8d8;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 4px;
+  margin-left: 32px;
+  margin-right: 32px;
+}
 /* ==========================================================================
     Default Styling
   ========================================================================== */

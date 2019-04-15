@@ -1,9 +1,7 @@
 <template>
     <div class="row">
-        <a href="#">
-            <img class="bl-nav-logo" src="/img/icons/build-labour-logo-white.png"
-                srcset="/img/icons/build-labour-logo-white@2x.png 2x, /img/icons/build-labour-logo-white@3x.png 3x">
-        </a>
+        <img class="bl-nav-logo" src="/img/icons/build-labour-logo-white.png"
+            srcset="/img/icons/build-labour-logo-white@2x.png 2x, /img/icons/build-labour-logo-white@3x.png 3x">
 
         <input class="bl-nav-search" id="search" type="text" name="search" />
 
@@ -36,13 +34,13 @@
         </ul>
 
         <div class="bl-nav-notification">
-            <div class="row">
-                <logout></logout>
-                <a href="#">
-                    <img class="bl-nav-tab" src="/img/icons/notificationsinactive.png"
-                        srcset="/img/icons/notificationsinactive@2x.png 2x, /img/icons/notificationsinactive@3x.png 3x">
-                </a>
-            </div>
+            <logout></logout>
+
+            <img class="bl-nav-tab" src="/img/icons/notificationsinactive.png"
+                srcset="/img/icons/notificationsinactive@2x.png 2x, /img/icons/notificationsinactive@3x.png 3x">
+                
+            <img class="bl-nav-tab-search" src="/img/icons/search.png"
+                srcset="/img/icons/search@2x.png 2x, /img/icons/search@3x.png 3x">
         </div>
     </div>
 </template>
