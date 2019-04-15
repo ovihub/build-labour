@@ -42296,11 +42296,11 @@ var staticRenderFns = [
     return _c("div", { staticClass: "profile-title" }, [
       _c("img", {
         attrs: {
-          src: "/img/icons/ticket.png",
+          src: "/img/icons/achieve.png",
           srcset:
-            "/img/icons/ticket@2x.png" +
+            "/img/icons/achieve@2x.png" +
             " 2x, " +
-            "/img/icons/ticket@3x.png" +
+            "/img/icons/achieve@3x.png" +
             " 3x"
         }
       }),
@@ -42742,13 +42742,13 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "bl-col-3" }, [
       _c("img", {
-        staticClass: "text-icon-3",
+        staticClass: "text-icon-4",
         attrs: {
-          src: "/img/icons/responsibilities.png",
+          src: "/img/icons/smalleducation.png",
           srcset:
-            "/img/icons/dollarsign@2x.png" +
+            "/img/icons/smalleducation@2x.png" +
             " 2x, " +
-            "/img/icons/dollarsign@3x.png" +
+            "/img/icons/smalleducation@3x.png" +
             " 3x"
         }
       })

@@ -24,8 +24,8 @@
 
                     <div class="row bl-label-15 bl-mb24">
                         <div class="bl-col-3">
-                            <img class="text-icon-3" src="/img/icons/responsibilities.png"
-                                srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
+                            <img class="text-icon-4" src="/img/icons/smalleducation.png"
+                                srcset="/img/icons/smalleducation@2x.png 2x, /img/icons/smalleducation@3x.png 3x">
                         </div>
                         <div class="bl-col-4">
                             Studied <b>{{ input.course }}</b> <div class="text-style-1">- {{ input.school }}</div>

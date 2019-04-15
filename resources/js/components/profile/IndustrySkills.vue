@@ -2,8 +2,8 @@
     <div class="profile-item-2">
         <div class="profile-content">
             <div class="profile-title">
-                <img src="/img/icons/ticket.png"
-                    srcset="/img/icons/ticket@2x.png 2x, /img/icons/ticket@3x.png 3x">
+                <img src="/img/icons/achieve.png"
+                    srcset="/img/icons/achieve@2x.png 2x, /img/icons/achieve@3x.png 3x">
 
                 Main Industry Skills & Achievements
             </div>
