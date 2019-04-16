@@ -4,9 +4,7 @@
             Logout
         </a>
     </div> -->
-    <a v-on:click="logoutUser">
-        <img title="LOGOUT" class="profile-picture-nav" src="/img/icons/default.png">
-    </a>
+    <img title="LOGOUT" class="bl-nav-profile-pic" src="/img/icons/default.png" v-on:click="logoutUser">
 </template>
 
 <script>
