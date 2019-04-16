@@ -36,7 +36,7 @@ class Users extends BaseModel implements
 
     protected $hidden =[ 'password' , 'remember_token','updated_at' , 'created_at', 'verification_code' ];
 
-    protected $appends = [  'full_name', 'dob_formatted'  ];
+    protected $appends = [ 'full_name', 'dob_formatted' ];
 
     public $sql;
     public $bindings;
@@ -51,7 +51,11 @@ class Users extends BaseModel implements
         if( $this->id ) {
 
             // validation rules for updated users
-            return [];
+            return [
+                'first_name'    => 'required',
+                'last_name'     => 'required',
+                'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|digits:10'
+            ];
         }
 
         return [
@@ -73,11 +77,11 @@ class Users extends BaseModel implements
 
     private function validate( $request ){
 
-        $validator = \Validator::make( $request->all() , $this->rules() );
-
         if( $this->id ){
 
-            // Uusernames must not be modified
+            $validator = \Validator::make( $request->all() , $this->rules() );
+
+            // email must not be modified
             if( $request->email && $request->email != $this->email ){
 
                 $validator->errors()->add( 'email', 'Not allowed to modify Email or Username' );
@@ -87,7 +91,18 @@ class Users extends BaseModel implements
                 return false;
 
             }
-        }else{
+
+            if( $validator->fails() ){
+                $this->errors = $validator->errors()->all();
+                $this->errorsDetail = $validator->errors()->toArray();
+                return false;
+            }
+
+
+        } else {
+
+            $validator = \Validator::make( $request->all() , $this->rules() );
+
             if( $validator->fails() ){
                 $this->errors = $validator->errors()->all();
                 $this->errorsDetail = $validator->errors()->toArray();
@@ -172,6 +187,16 @@ class Users extends BaseModel implements
     {
         if ( ! empty( $password ) ) {
             $this->attributes['password'] = \Hash::make( $password );
+        }
+    }
+
+    public function setMobileNumberAttribute($mobile) {
+
+        if ( ! empty( $mobile ) ) {
+
+            $mobile = str_replace('+61', '', trim($mobile));
+
+            $this->attributes['mobile_number'] = '+61' . $mobile;
         }
     }
 
