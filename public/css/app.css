@@ -11964,7 +11964,7 @@ textarea {
 }
 
 .alert-info {
-  background-color: blue;
+  background-color: #ff7705;
   border-color: #FF5E00;
   color: #fff;
 }
@@ -11978,6 +11978,7 @@ textarea {
 .alert-close {
   width: 10px;
   margin-top: 5px;
+  margin-right: 22px;
   float: right;
   cursor: pointer;
 }
