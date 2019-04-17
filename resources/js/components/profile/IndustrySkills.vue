@@ -1,6 +1,11 @@
 <template>
     <div class="profile-item-2">
         <div class="profile-content">
+            <span class="edit-icon">
+                <img src="/img/icons/editbutton.png"
+                    srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
+            </span>
+
             <div class="profile-title">
                 <img src="/img/icons/achieve.png"
                     srcset="/img/icons/achieve@2x.png 2x, /img/icons/achieve@3x.png 3x">
@@ -8,11 +13,12 @@
                 Main Industry Skills & Achievements
             </div>
             
-            <span class="profile-intro">
-                {{ skills_intro }}
-            </span>
+            
 
-            <div class="row">
+            <div class="row" v-if="industry_skills.length > 0">
+                <div class="col-md-12 col-sm-12 profile-intro">
+                    {{ skills_intro }}
+                </div>
                 <div class="col-md-6 col-sm-6" v-for="first in firstColumn" v-bind:key="first.id">
                     <span class="bl-label-15">
                         {{ first.name }}

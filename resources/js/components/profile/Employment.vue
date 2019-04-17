@@ -13,7 +13,7 @@
                 Employment History
             </div>
         
-            <ul class="list-main-items">
+            <ul class="list-main-items" v-if="employments.length > 0">
                 <li class="main-items" v-for="(employment, index) in employments" v-bind:key="index">
                     <span class="text-icon-2">
                         <img :src="imgSrc" :srcset="imgSrcSet" :ref="'toggleImg-' + index" @click="toggle(index)">

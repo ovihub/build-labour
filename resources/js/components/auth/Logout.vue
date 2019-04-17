@@ -1,10 +1,12 @@
 <template>
-    <!-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" v-on:click="logoutUser">
-            Logout
-        </a>
-    </div> -->
-    <img title="LOGOUT" class="bl-nav-profile-pic" src="/img/icons/default.png" v-on:click="logoutUser">
+    <div class="" id="navbarSupportedContent">
+        <img id="navbarDropdown" class="bl-nav-profile-pic" src="/img/icons/default.png" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+        <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
+            <div class="dropdown-item" v-on:click="logoutUser">
+                Logout
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
