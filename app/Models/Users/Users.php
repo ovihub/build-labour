@@ -54,7 +54,7 @@ class Users extends BaseModel implements
             return [
                 'first_name'    => 'required',
                 'last_name'     => 'required',
-                'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|digits:10'
+                'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|digits_between:9,10'
             ];
         }
 
@@ -64,7 +64,7 @@ class Users extends BaseModel implements
             'first_name'    => 'required',
             'last_name'     => 'required',
             //'role_id'       => 'required|integer|between:1,4',
-            'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|digits:10'
+            'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|digits_between:9,10'
         ];
     }
 
