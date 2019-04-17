@@ -11807,7 +11807,6 @@ textarea {
   border: solid 1px rgba(0, 0, 0, 0.32);
   padding: 15px 24px 17px;
   margin: 0 auto;
-  margin-bottom: 28px;
 }
 
 /* ==========================================================================
@@ -11853,6 +11852,11 @@ textarea {
   text-align: center;
   color: #435256;
   margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 0px;
+  margin-top: 28px;
 }
 
 .form-text {
@@ -12095,5 +12099,9 @@ textarea {
 
 .pull-right {
   float: right;
+}
+
+.disp-flex {
+  display: flex;
 }
 

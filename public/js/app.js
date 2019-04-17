@@ -2233,7 +2233,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   component.input.email = '';
                   Bus.$emit('alertSuccess', data.message);
                 }).catch(function (error) {
-                  component.errors.email = data.errors.email ? data.errors.email[0] : '';
+                  if (error.response) {
+                    var data = error.response.data;
+                    component.errors.email = data.errors.email ? data.errors.email[0] : '';
+                  }
+
                   Utils.handleError(error);
                 });
 
@@ -40823,7 +40827,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
+      _c("div", { staticClass: "form-group disp-flex" }, [
         _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "form-col-2" }, [
@@ -40839,7 +40843,7 @@ var render = function() {
             staticClass: "form-control",
             attrs: {
               id: "mobile_number",
-              type: "number",
+              type: "text",
               name: "mobile_number",
               placeholder: "Mobile Number",
               required: ""
