@@ -1,8 +1,11 @@
 <template>
     <div class="" id="navbarSupportedContent">
-        <img id="navbarDropdown" class="bl-nav-profile-pic" src="/img/icons/default.png" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+        <div id="navbarDropdown" data-toggle="dropdown">
+            <img v-if="input.profile_photo_url" id="navbarDropdown" class="bl-nav-profile-pic" :src="input.profile_photo_url" />
+            <avatar cls="bl-nav-profile-pic" size="32" border="2" :is-logout=true v-else></avatar>
+        </div>
         <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
-            <div class="dropdown-item" v-on:click="logoutUser">
+            <div class="dropdown-item" @click="logoutUser">
                 Logout
             </div>
         </div>
@@ -17,10 +20,21 @@
 
         data() {
             return {
+                input: {
+                    initials: '', profile_photo_url: ''
+                },
                 endpoints: {
                     logout: '/api/v1/auth/logout',
                 }
             }
+        },
+
+        created() {
+            let component = this;
+
+            Bus.$on('avatarDetails', function(details) {
+                component.input = details;
+			});
         },
 
         methods: {

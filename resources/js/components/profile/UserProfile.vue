@@ -2,7 +2,10 @@
     <div class="profile-item-1">
         <div class="profile-content">
             <div class="profile-header">
-                <img class="profile-picture" v-bind:src="input.profile_photo_url">
+                <img v-if="input.profile_photo_url" class="profile-picture" v-bind:src="input.profile_photo_url" alt="">
+                <div v-else>
+                    <avatar cls="profile-picture" size="110" border="7"></avatar>
+                </div>
             </div>
             <div class="profile-content-p20 pb-4">
                 <div class="bl-label-22 m0">{{ input.first_name }} {{ input.last_name }}</div>

@@ -9,6 +9,9 @@
     export default {
         data() {
             return {
+                avatar: {
+                    initials: '', profile_photo_url: '',
+                },
                 profile: {
                     profile_photo_url: '', first_name: '', last_name: '', email: '', course: '', school: '', country: '', address: '',
                     role: '', company_name: '', job_role: '', start_date:'', end_date:'', period: '',
@@ -41,8 +44,12 @@
                     .then(function(response) {
                         let user = response.data.data.user;
 
+                        component.avatar = {};
+                        component.avatar.initials = user.first_name.charAt(0) + user.last_name.charAt(0);
+                        component.avatar.profile_photo_url = user.profile_photo_url;
+                        
                         component.profile = {};
-                        component.profile.profile_photo_url = user.profile_photo_url ? user.profile_photo_url : '/img/icons/default.png';
+                        component.profile.profile_photo_url = user.profile_photo_url;
                         component.profile.profile_description = user.worker_detail ? user.worker_detail.profile_description : '';
                         component.profile.first_name = user.first_name;
                         component.profile.last_name = user.last_name;
@@ -73,6 +80,7 @@
                         component.tickets = user.tickets;
                         component.industry_skills = user.skills;
 
+                        Bus.$emit('avatarDetails', component.avatar);
                         Bus.$emit('userProfileDetails', component.profile);
                         Bus.$emit('aboutMeDetails', component.about_me);
                         Bus.$emit('idealRoleDetails', component.ideal_role);
