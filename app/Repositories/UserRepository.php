@@ -25,7 +25,7 @@ class UserRepository
             // check for nullable values
             $first_name = $request->get('first_name') ? $request->get('first_name') : null;
             $last_name = $request->get('last_name') ? $request->get('last_name') : null;
-            $dob = $request->get('dob') ? $request->get('dob') : null;
+            $date_of_birth = $request->get('date_of_birth') ? $request->get('date_of_birth') : null;
             $country = $request->get('country') ? $request->get('country') : null;
             $mobile_number = $request->get('mobile_number') ? $request->get('mobile_number') : null;
             $address = $request->get('address') ? $request->get('address') : null;
@@ -38,7 +38,7 @@ class UserRepository
                 'password' => Hash::make($request->get('password')),
                 'first_name' => $first_name,
                 'last_name' => $last_name,
-                'dob' => $dob,
+                'date_of_birth' => $date_of_birth,
                 'country' => $country,
                 'mobile_number' => $mobile_number,
                 'address' => $address,

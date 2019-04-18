@@ -36,7 +36,7 @@
 				disabled: true,
 				errors: {},
                 textArea: [
-					'nrole_info'
+					'introduction'
 				]
             }
 		},

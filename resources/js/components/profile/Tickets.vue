@@ -2,9 +2,9 @@
     <div class="profile-item-2">
         <div class="profile-content">
 
-            <record-form title="AddTickets" :record="input" save-endpoint="/api/v1/user/ticket"></record-form>
+            <record-form title="AddTicket" :record="input" save-endpoint="/api/v1/user/ticket"></record-form>
 
-            <span class="edit-icon" data-toggle="modal" data-target="#modalAddTickets">
+            <span class="edit-icon" data-toggle="modal" data-target="#modalAddTicket">
                 <img src="/img/icons/editbutton.png"
                     srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
             </span>
@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6" v-for="first in firstColumn" v-bind:key="first.id">
                     <span class="bl-label-15">
-                        {{ first.title }}
+                        {{ first.ticket }}
                     </span>
                     <span class="bl-label-14">
                         {{ first.description }}
@@ -28,7 +28,7 @@
 
                 <div class="col-md-6 col-sm-6" v-for="second in secondColumn" v-bind:key="second.id">
                     <span class="bl-label-15">
-                        {{ second.title }}
+                        {{ second.ticket }}
                     </span>
                     <span class="bl-label-14">
                         {{ second.description }}
@@ -44,7 +44,7 @@
         data() {
             return {
                 input: {
-                    title: '', description: ''
+                    ticket: '', description: ''
                 },
                 tickets: [],
                 firstColumn: [],
@@ -61,7 +61,7 @@
                 component.display();
             });
 
-            Bus.$on('AddTickets', function(details) {
+            Bus.$on('AddTicket', function(details) {
                 component.tickets.push(details);
 
                 component.display();

@@ -2799,7 +2799,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       disabled: true,
       errors: {},
-      textArea: ['nrole_info']
+      textArea: ['introduction']
     };
   },
   props: {
@@ -2935,7 +2935,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       input: {
         gender: '',
-        dob: '',
+        date_of_birth: '',
         dob_formatted: '',
         marital_status: '',
         english_skill: '',
@@ -3267,12 +3267,12 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       input: {
-        nrole_info: '',
-        nrole_when: '',
-        nrole_travel_to_home: '',
-        nrole_address: '',
-        nrole_state: '',
-        right_to_work_au: ''
+        introduction: '',
+        when: '',
+        max_distance: '',
+        address: '',
+        state: '',
+        right_to_work: ''
       }
     };
   },
@@ -3348,7 +3348,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       input: {
-        name: '',
+        skill: '',
         description: ''
       },
       skills_intro: '',
@@ -3364,7 +3364,7 @@ __webpack_require__.r(__webpack_exports__);
       component.industry_skills = detailsArray;
       component.display();
     });
-    Bus.$on('AddSkills', function (details) {
+    Bus.$on('AddSkill', function (details) {
       component.industry_skills.push(details);
       component.display();
     });
@@ -3509,19 +3509,19 @@ __webpack_require__.r(__webpack_exports__);
       },
       about_me: {
         gender: '',
-        dob: '',
+        date_of_birth: '',
         dob_formatted: '',
         marital_status: '',
         english_skill: '',
         drivers_license: ''
       },
       ideal_role: {
-        nrole_info: '',
-        nrole_when: '',
-        nrole_travel_to_home: '',
-        nrole_address: '',
-        nrole_state: '',
-        right_to_work_au: ''
+        introduction: '',
+        when: '',
+        max_distance: '',
+        address: '',
+        state: '',
+        right_to_work: ''
       },
       employments: [],
       educations: [],
@@ -3560,19 +3560,19 @@ __webpack_require__.r(__webpack_exports__);
         component.profile.period = user.experiences[0] ? user.experiences[0].period : '';
         component.about_me = {};
         component.about_me.gender = user.gender;
-        component.about_me.dob = user.dob;
-        component.about_me.dob_formatted = user.dob ? user.dob_formatted : '';
+        component.about_me.date_of_birth = user.date_of_birth;
+        component.about_me.dob_formatted = user.date_of_birth ? user.dob_formatted : '';
         component.about_me.marital_status = user.marital_status;
         component.about_me.english_skill = user.worker_detail ? user.worker_detail.english_skill : '';
         component.about_me.drivers_license = user.worker_detail ? user.worker_detail.drivers_license : '';
 
         if (user.worker_detail) {
-          component.ideal_role.nrole_info = user.worker_detail.nrole_info;
-          component.ideal_role.nrole_when = user.worker_detail.nrole_when;
-          component.ideal_role.nrole_travel_to_home = user.worker_detail.nrole_travel_to_home;
-          component.ideal_role.nrole_address = user.worker_detail.nrole_address;
-          component.ideal_role.nrole_state = user.worker_detail.nrole_state;
-          component.ideal_role.right_to_work_au = user.worker_detail.right_to_work_au;
+          component.ideal_role.introduction = user.worker_detail.introduction;
+          component.ideal_role.when = user.worker_detail.when;
+          component.ideal_role.max_distance = user.worker_detail.max_distance;
+          component.ideal_role.address = user.worker_detail.address;
+          component.ideal_role.state = user.worker_detail.state;
+          component.ideal_role.right_to_work = user.worker_detail.right_to_work;
         } else {
           Utils.setObjectValues(component.ideal_role, '');
         }
@@ -3657,7 +3657,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       input: {
-        title: '',
+        ticket: '',
         description: ''
       },
       tickets: [],
@@ -3671,7 +3671,7 @@ __webpack_require__.r(__webpack_exports__);
       component.tickets = detailsArray;
       component.display();
     });
-    Bus.$on('AddTickets', function (details) {
+    Bus.$on('AddTicket', function (details) {
       component.tickets.push(details);
       component.display();
     });
@@ -42734,7 +42734,7 @@ var render = function() {
           _c("span", { staticClass: "profile-intro" }, [
             _vm._v(
               "\n                " +
-                _vm._s(_vm.input.nrole_info) +
+                _vm._s(_vm.input.introduction) +
                 "\n            "
             )
           ]),
@@ -42743,9 +42743,7 @@ var render = function() {
           _vm._v(" "),
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
-              "\n                " +
-                _vm._s(_vm.input.nrole_when) +
-                "\n            "
+              "\n                " + _vm._s(_vm.input.when) + "\n            "
             )
           ]),
           _vm._v(" "),
@@ -42756,7 +42754,7 @@ var render = function() {
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
               "\n                " +
-                _vm._s(_vm.input.nrole_travel_to_home) +
+                _vm._s(_vm.input.max_distance) +
                 "\n            "
             )
           ]),
@@ -42768,16 +42766,14 @@ var render = function() {
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
               "\n                " +
-                _vm._s(_vm.input.nrole_address) +
+                _vm._s(_vm.input.address) +
                 "\n            "
             )
           ]),
           _vm._v(" "),
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
-              "\n                " +
-                _vm._s(_vm.input.nrole_state) +
-                "\n            "
+              "\n                " + _vm._s(_vm.input.state) + "\n            "
             )
           ]),
           _vm._v(" "),
@@ -42786,7 +42782,7 @@ var render = function() {
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
               "\n                " +
-                _vm._s(_vm.input.right_to_work_au) +
+                _vm._s(_vm.input.right_to_work) +
                 "\n            "
             )
           ])
@@ -42853,7 +42849,7 @@ var render = function() {
       [
         _c("record-form", {
           attrs: {
-            title: "AddSkills",
+            title: "AddSkill",
             record: _vm.input,
             "save-endpoint": "/api/v1/user/skill"
           }
@@ -42888,7 +42884,7 @@ var render = function() {
                       _c("span", { staticClass: "bl-label-15" }, [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(first.name) +
+                            _vm._s(first.skill) +
                             "\n                "
                         )
                       ]),
@@ -42912,7 +42908,7 @@ var render = function() {
                       _c("span", { staticClass: "bl-label-15" }, [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(second.name) +
+                            _vm._s(second.skill) +
                             "\n                "
                         )
                       ]),
@@ -42945,7 +42941,7 @@ var staticRenderFns = [
       "span",
       {
         staticClass: "edit-icon",
-        attrs: { "data-toggle": "modal", "data-target": "#modalAddSkills" }
+        attrs: { "data-toggle": "modal", "data-target": "#modalAddSkill" }
       },
       [
         _c("img", {
@@ -43167,7 +43163,7 @@ var render = function() {
       [
         _c("record-form", {
           attrs: {
-            title: "AddTickets",
+            title: "AddTicket",
             record: _vm.input,
             "save-endpoint": "/api/v1/user/ticket"
           }
@@ -43189,7 +43185,7 @@ var render = function() {
                   _c("span", { staticClass: "bl-label-15" }, [
                     _vm._v(
                       "\n                    " +
-                        _vm._s(first.title) +
+                        _vm._s(first.ticket) +
                         "\n                "
                     )
                   ]),
@@ -43213,7 +43209,7 @@ var render = function() {
                   _c("span", { staticClass: "bl-label-15" }, [
                     _vm._v(
                       "\n                    " +
-                        _vm._s(second.title) +
+                        _vm._s(second.ticket) +
                         "\n                "
                     )
                   ]),
@@ -43245,7 +43241,7 @@ var staticRenderFns = [
       "span",
       {
         staticClass: "edit-icon",
-        attrs: { "data-toggle": "modal", "data-target": "#modalAddTickets" }
+        attrs: { "data-toggle": "modal", "data-target": "#modalAddTicket" }
       },
       [
         _c("img", {

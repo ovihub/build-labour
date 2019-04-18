@@ -121,7 +121,7 @@ class ApiAuthController extends ApiBaseController
      *                      example="Doe"
      *                  ),
      *                  @OA\Property(
-     *                      property="dob",
+     *                      property="date_of_birth",
      *                      description="Date of Birth (Y-m-d)",
      *                      type="date",
      *                      example="1991-01-01"

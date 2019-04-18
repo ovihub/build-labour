@@ -22,37 +22,37 @@ class ApiWorkerController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="nrole_info",
+     *                      property="introduction",
      *                      description="Ideal next role",
      *                      type="string",
      *                      example="My next target is as CEO"
      *                  ),
      *                  @OA\Property(
-     *                      property="nrole_when",
+     *                      property="when",
      *                      description="When or what date",
      *                      type="string",
      *                      example="Next 2 years"
      *                  ),
      *                  @OA\Property(
-     *                      property="nrole_travel_to_home",
+     *                      property="max_distance",
      *                      description="Distance from home",
      *                      type="string",
      *                      example="100km"
      *                  ),
      *                  @OA\Property(
-     *                      property="nrole_address",
+     *                      property="address",
      *                      description="Address",
      *                      type="string",
      *                      example="21st corner st conwalum"
      *                  ),
      *                  @OA\Property(
-     *                      property="nrole_state",
+     *                      property="state",
      *                      description="State",
      *                      type="string",
      *                      example="VIC"
      *                  ),
      *                  @OA\Property(
-     *                      property="right_to_work_au",
+     *                      property="right_to_work",
      *                      description="right to work in Australia?",
      *                      type="string",
      *                      example="yes, i have right to work"

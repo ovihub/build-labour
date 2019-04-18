@@ -14,7 +14,7 @@ class UserSkill extends BaseModel
     protected $table = 'user_skills';
     protected $primaryKey = 'id';
 
-    protected $fillable = [ 'name', 'description', 'user_id' ];
+    protected $fillable = [ 'skill', 'description', 'user_id' ];
 
 
     /**
@@ -23,7 +23,7 @@ class UserSkill extends BaseModel
     private function rules()
     {
         return [
-            'name'          => 'required',
+            'skill'          => 'required',
             'description'   => 'required',
             'user_id'       => 'required|integer'
         ];

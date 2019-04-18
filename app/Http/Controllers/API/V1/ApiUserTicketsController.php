@@ -22,7 +22,7 @@ class ApiUserTicketsController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="title",
+     *                      property="ticket",
      *                      description="<b>Required</b> Title",
      *                      type="string",
      *                      example="Certificate of HR"
@@ -113,7 +113,7 @@ class ApiUserTicketsController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="title",
+     *                      property="ticket",
      *                      description="<b>Required</b> Title",
      *                      type="string",
      *                      example="Certificate of HRA"

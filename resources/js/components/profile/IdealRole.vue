@@ -14,31 +14,31 @@
                 <span class="bl-label-14">(Visible only to you)</span>
                 
                 <span class="profile-intro">
-                    {{ input.nrole_info }}
+                    {{ input.introduction }}
                 </span>
 
                 <span class="bl-label-15">When</span>
                 <span class="bl-label-14">
-                    {{ input.nrole_when }}
+                    {{ input.when }}
                 </span>
 
                 <span class="bl-label-15">Maximum Distance from home</span>
                 <span class="bl-label-14">
-                    {{ input.nrole_travel_to_home }}
+                    {{ input.max_distance }}
                 </span>
 
                 <span class="bl-label-15">Willing to relocate to</span>
                 <span class="bl-label-14">
-                    {{ input.nrole_address }}
+                    {{ input.address }}
                 </span>
 
                 <span class="bl-label-14">
-                    {{ input.nrole_state }}
+                    {{ input.state }}
                 </span>
 
                 <span class="bl-label-15">Right to Work</span>
                 <span class="bl-label-14">
-                    {{ input.right_to_work_au }}
+                    {{ input.right_to_work }}
                 </span>
             </div>
         </div>
@@ -50,7 +50,7 @@
         data() {
             return {
                 input: { 
-                    nrole_info: '', nrole_when: '', nrole_travel_to_home: '', nrole_address: '',  nrole_state: '', right_to_work_au: '',
+                    introduction: '', when: '', max_distance: '', address: '',  state: '', right_to_work: '',
                 }
             }
         },

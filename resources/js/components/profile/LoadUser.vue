@@ -17,10 +17,10 @@
                     role: '', company_name: '', job_role: '', start_date:'', end_date:'', period: '',
                 },
                 about_me: {
-                    gender: '', dob: '', dob_formatted: '', marital_status: '', english_skill: '', drivers_license: ''
+                    gender: '', date_of_birth: '', dob_formatted: '', marital_status: '', english_skill: '', drivers_license: ''
                 },
                 ideal_role: { 
-                    nrole_info: '', nrole_when: '', nrole_travel_to_home: '', nrole_address: '',  nrole_state: '', right_to_work_au: '',
+                    introduction: '', when: '', max_distance: '', address: '',  state: '', right_to_work: '',
                 },
                 employments: [],
                 educations: [],
@@ -70,19 +70,19 @@
 
                         component.about_me = {};
                         component.about_me.gender = user.gender;
-                        component.about_me.dob = user.dob;
-                        component.about_me.dob_formatted = user.dob ? user.dob_formatted : '';
+                        component.about_me.date_of_birth = user.date_of_birth;
+                        component.about_me.dob_formatted = user.date_of_birth ? user.dob_formatted : '';
                         component.about_me.marital_status = user.marital_status;
                         component.about_me.english_skill = user.worker_detail ? user.worker_detail.english_skill : '';
                         component.about_me.drivers_license = user.worker_detail ? user.worker_detail.drivers_license : '';
 
                         if (user.worker_detail) {
-                            component.ideal_role.nrole_info = user.worker_detail.nrole_info;
-                            component.ideal_role.nrole_when = user.worker_detail.nrole_when;
-                            component.ideal_role.nrole_travel_to_home = user.worker_detail.nrole_travel_to_home;
-                            component.ideal_role.nrole_address = user.worker_detail.nrole_address;
-                            component.ideal_role.nrole_state = user.worker_detail.nrole_state;
-                            component.ideal_role.right_to_work_au = user.worker_detail.right_to_work_au;
+                            component.ideal_role.introduction = user.worker_detail.introduction;
+                            component.ideal_role.when = user.worker_detail.when;
+                            component.ideal_role.max_distance = user.worker_detail.max_distance;
+                            component.ideal_role.address = user.worker_detail.address;
+                            component.ideal_role.state = user.worker_detail.state;
+                            component.ideal_role.right_to_work = user.worker_detail.right_to_work;
 
                         } else {
                             Utils.setObjectValues(component.ideal_role,  '');

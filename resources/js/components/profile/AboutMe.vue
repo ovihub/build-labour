@@ -46,7 +46,7 @@
         data() {
             return {
                 input: {
-                    gender: '', dob: '', dob_formatted: '', marital_status: '', english_skill: '', drivers_license: ''
+                    gender: '', date_of_birth: '', dob_formatted: '', marital_status: '', english_skill: '', drivers_license: ''
                 }
             }
         },

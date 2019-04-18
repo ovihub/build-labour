@@ -112,13 +112,13 @@
             </div>
 
             <div class="form-group row">
-                <label for="dob" class="col-md-2 col-form-label text-md-left">Birth Date</label>
+                <label for="date_of_birth" class="col-md-2 col-form-label text-md-left">Birth Date</label>
 
                 <div class="col-md-7">
-                    <datepicker id="dob" name="dob" class="form-control" :format="format" v-model="input.dob"></datepicker>
+                    <datepicker id="date_of_birth" name="date_of_birth" class="form-control" :format="format" v-model="input.date_of_birth"></datepicker>
 
-                    <span class="err-msg" v-if="errors.dob">
-                        {{ errors.dob }}
+                    <span class="err-msg" v-if="errors.date_of_birth">
+                        {{ errors.date_of_birth }}
                     </span>
                 </div>
             </div>

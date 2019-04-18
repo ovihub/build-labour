@@ -11,7 +11,7 @@ class RegisterUserValidator
             'password'      => 'required|string|min:8|max:50|confirmed',
             'first_name'    => 'nullable|string',
             'last_name'     => 'nullable|string',
-            'dob'           => 'nullable|date|date_format:Y-m-d',
+            'date_of_birth'           => 'nullable|date|date_format:Y-m-d',
             'country'       => 'nullable|string',
             'mobile_number' => 'nullable|string',
             'address'       => 'nullable|string',

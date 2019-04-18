@@ -32,7 +32,7 @@ class Users extends BaseModel implements
     public $timestamps = true;
 
     protected $fillable = [ 'id', 'email' , 'first_name' , 'last_name', 'password',
-        'dob' , 'country', 'address', 'mobile_number', 'role_id', 'gender', 'marital_status' ];
+        'date_of_birth' , 'country', 'address', 'mobile_number', 'role_id', 'gender', 'marital_status' ];
 
     protected $hidden =[ 'password' , 'remember_token','updated_at' , 'created_at', 'verification_code' ];
 
@@ -234,7 +234,7 @@ class Users extends BaseModel implements
 
     public function getDobFormattedAttribute()
     {
-        return \Carbon\Carbon::parse($this->dob)->format('d F Y');
+        return \Carbon\Carbon::parse($this->date_of_birth)->format('d F Y');
     }
 
     public function resendVerificationCode()
