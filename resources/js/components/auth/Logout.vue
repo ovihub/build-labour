@@ -1,14 +1,18 @@
 <template>
     <div class="" id="navbarSupportedContent">
         <div id="navbarDropdown" data-toggle="dropdown">
-            <img v-if="input.profile_photo_url" id="navbarDropdown" class="bl-nav-profile-pic" :src="input.profile_photo_url" />
+            <img v-if="input.profile_photo_url" class="bl-nav-profile-pic" :src="input.profile_photo_url" />
             <avatar cls="bl-nav-profile-pic" size="32" border="2" :is-logout=true v-else></avatar>
         </div>
-        <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
-            <div class="dropdown-item" @click="logoutUser">
+
+        <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
+            <li class="dropdown-item" @click="showProfile">
+                My Profile
+            </li>
+            <li class="dropdown-item" @click="logoutUser">
                 Logout
-            </div>
-        </div>
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -39,6 +43,10 @@
 
         methods: {
 
+            showProfile() {
+                window.location.href = '/user/profile';
+            },
+            
             logoutUser() {
                 let component = this;
 

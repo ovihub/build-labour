@@ -1946,6 +1946,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1966,6 +1970,9 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    showProfile: function showProfile() {
+      window.location.href = '/user/profile';
+    },
     logoutUser: function logoutUser() {
       var component = this;
       axios.get(component.endpoints.logout, Utils.getBearerAuth()).then(function (response) {}).catch(function (error) {
@@ -2664,15 +2671,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
   },
-  methods: {
-    toggleNav: function toggleNav() {
-      $('ul.menu').fadeToggle("slow");
-    }
-  }
+  methods: {}
 });
 
 /***/ }),
@@ -40978,7 +40999,7 @@ var render = function() {
         _vm.input.profile_photo_url
           ? _c("img", {
               staticClass: "bl-nav-profile-pic",
-              attrs: { id: "navbarDropdown", src: _vm.input.profile_photo_url }
+              attrs: { src: _vm.input.profile_photo_url }
             })
           : _c("avatar", {
               attrs: {
@@ -40993,14 +41014,20 @@ var render = function() {
     ),
     _vm._v(" "),
     _c(
-      "div",
+      "ul",
       {
         staticClass: "dropdown-menu dropdown-menu-left",
         attrs: { "aria-labelledby": "navbarDropdown" }
       },
       [
         _c(
-          "div",
+          "li",
+          { staticClass: "dropdown-item", on: { click: _vm.showProfile } },
+          [_vm._v("\n            My Profile\n        ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
           { staticClass: "dropdown-item", on: { click: _vm.logoutUser } },
           [_vm._v("\n            Logout\n        ")]
         )
@@ -41747,7 +41774,103 @@ var render = function() {
       attrs: { id: "search", type: "text", name: "search" }
     }),
     _vm._v(" "),
-    _vm._m(0),
+    _c("ul", { staticClass: "row bl-nav-list" }, [
+      _c("li", [
+        _c("div", { staticClass: "bl-nav-tab" }, [
+          _c(
+            "svg",
+            {
+              attrs: {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "18",
+                height: "18",
+                viewBox: "0 0 18 18"
+              }
+            },
+            [
+              _c("g", { attrs: { fill: "none", "fill-rule": "evenodd" } }, [
+                _c("path", { attrs: { d: "M-3-3h24v24H-3z" } }),
+                _vm._v(" "),
+                _c("path", {
+                  attrs: {
+                    fill: "#FFF",
+                    "fill-rule": "nonzero",
+                    d:
+                      "M15 4h-2a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2zM5 8H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1zm10 8h-2a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1zM5 16H3a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2zM16 0h-4a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM6 0H2a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm10 8h-4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2zM6 12H2a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2z"
+                  }
+                })
+              ])
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Dashboard")])
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bl-nav-tab" }, [
+          _c(
+            "svg",
+            {
+              attrs: {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "22",
+                height: "18",
+                viewBox: "0 0 22 18"
+              }
+            },
+            [
+              _c("g", { attrs: { fill: "none", "fill-rule": "evenodd" } }, [
+                _c("path", { attrs: { d: "M-1-3h24v24H-1z" } }),
+                _vm._v(" "),
+                _c("path", {
+                  attrs: {
+                    fill: "#FFF",
+                    "fill-rule": "nonzero",
+                    d:
+                      "M20 0H2C.9 0 0 .9 0 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2zm-1 16H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1zM5 7h7a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2zm0-3h7a1 1 0 0 1 0 2H5a1 1 0 1 1 0-2z"
+                  }
+                })
+              ])
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Jobs")])
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("div", { staticClass: "bl-nav-tab" }, [
+          _c(
+            "svg",
+            {
+              attrs: {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "20",
+                height: "20",
+                viewBox: "0 0 20 20"
+              }
+            },
+            [
+              _c("g", { attrs: { fill: "none", "fill-rule": "evenodd" } }, [
+                _c("path", { attrs: { d: "M-2-2h24v24H-2z" } }),
+                _vm._v(" "),
+                _c("path", {
+                  attrs: {
+                    fill: "#FFF",
+                    "fill-rule": "nonzero",
+                    d:
+                      "M18 3v10a1 1 0 0 1-1 1H3.584a1 1 0 0 0-.707.293L2 15.17V3a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1zM2 0C.9 0 .01.9.01 2L0 20l4-4h14c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2H2zm3 10h6a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2zm0-3h10a1 1 0 0 1 0 2H5a1 1 0 1 1 0-2zm0-3h9a1 1 0 0 1 0 2H5a1 1 0 1 1 0-2z"
+                  }
+                })
+              ])
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Messages")])
+      ])
+    ]),
     _vm._v(" "),
     _c(
       "div",
@@ -41755,17 +41878,33 @@ var render = function() {
       [
         _c("logout"),
         _vm._v(" "),
-        _c("img", {
-          staticClass: "bl-nav-tab",
-          attrs: {
-            src: "/img/icons/notificationsinactive.png",
-            srcset:
-              "/img/icons/notificationsinactive@2x.png" +
-              " 2x, " +
-              "/img/icons/notificationsinactive@3x.png" +
-              " 3x"
-          }
-        }),
+        _c("div", { staticClass: "bl-nav-tab-style-2" }, [
+          _c(
+            "svg",
+            {
+              attrs: {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "16",
+                height: "20",
+                viewBox: "0 0 16 20"
+              }
+            },
+            [
+              _c("g", { attrs: { fill: "none", "fill-rule": "evenodd" } }, [
+                _c("path", { attrs: { d: "M-4-2h24v24H-4z" } }),
+                _vm._v(" "),
+                _c("path", {
+                  attrs: {
+                    fill: "#FFF",
+                    "fill-rule": "nonzero",
+                    d:
+                      "M8 20c1.1 0 2-.9 2-2H6c0 1.1.9 2 2 2zm6-6V9c0-3.07-1.63-5.64-4.5-6.32V2C9.5 1.17 8.83.5 8 .5S6.5 1.17 6.5 2v.68C3.64 3.36 2 5.92 2 9v5L.354 15.646A1.207 1.207 0 0 0 0 16.5a.5.5 0 0 0 .5.5h15a.5.5 0 0 0 .5-.5c0-.32-.127-.627-.354-.854L14 14zm-3 1H5a1 1 0 0 1-1-1V9c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v5a1 1 0 0 1-1 1z"
+                  }
+                })
+              ])
+            ]
+          )
+        ]),
         _vm._v(" "),
         _c("img", {
           staticClass: "bl-nav-tab-search",
@@ -41783,68 +41922,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "row bl-nav-list" }, [
-      _c("li", [
-        _c("div", { staticClass: "bl-nav-tab" }, [
-          _c("img", {
-            staticStyle: { width: "18px", height: "18px" },
-            attrs: {
-              src: "/img/icons/dashboardinactive.png",
-              srcset:
-                "/img/icons/dashboardinactive@2x.png" +
-                " 2x, " +
-                "/img/icons/dashboardinactive@3x.png" +
-                " 3x"
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Dashboard")])
-      ]),
-      _vm._v(" "),
-      _c("li", [
-        _c("div", { staticClass: "bl-nav-tab" }, [
-          _c("img", {
-            staticStyle: { width: "22px", height: "18px" },
-            attrs: {
-              src: "/img/icons/jobsearchinactive.png",
-              srcset:
-                "/img/icons/jobsearchinactive@2x.png" +
-                " 2x, " +
-                "/img/icons/jobsearchinactive@3x.png" +
-                " 3x"
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Jobs")])
-      ]),
-      _vm._v(" "),
-      _c("li", [
-        _c("div", { staticClass: "bl-nav-tab" }, [
-          _c("img", {
-            staticStyle: { width: "20px", height: "20px" },
-            attrs: {
-              src: "/img/icons/messagesinactive.png",
-              srcset:
-                "/img/icons/messagesinactive@2x.png" +
-                " 2x, " +
-                "/img/icons/messagesinactive@3x.png" +
-                " 3x"
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Messages")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
