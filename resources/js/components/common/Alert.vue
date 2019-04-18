@@ -45,7 +45,7 @@
 			Bus.$on('alertVerify', function (email) {
 				component.message = 'Please verify your account. You may check your confirmation email or click ';
 				component.alert = 'alert-main alert-info alert-dismissible';
-				component.icon = '/img/icons/alert-info.png';
+				component.icon = '';
 				component.resend = true;
 				component.input_resend.email = email;
 			});
