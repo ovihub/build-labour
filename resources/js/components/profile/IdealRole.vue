@@ -2,7 +2,10 @@
     <div class="profile-item-1">
         <div class="profile-content">
             <div class="profile-content-p20 pt-3 pb-4">
-                <span class="edit-icon">
+                
+                <record-form title="YourIdealNextRole" :record="input" save-endpoint=""></record-form>
+
+                <span class="edit-icon" data-toggle="modal" data-target="#modalYourIdealNextRole">
                     <img src="/img/icons/editbutton.png"
                         srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
                 </span>

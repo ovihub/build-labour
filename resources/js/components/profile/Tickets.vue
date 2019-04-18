@@ -1,7 +1,10 @@
 <template>
     <div class="profile-item-2">
         <div class="profile-content">
-            <span class="edit-icon">
+
+            <record-form title="AddTickets" :record="input" save-endpoint="/api/v1/user/ticket"></record-form>
+
+            <span class="edit-icon" data-toggle="modal" data-target="#modalAddTickets">
                 <img src="/img/icons/editbutton.png"
                     srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
             </span>
@@ -32,26 +35,6 @@
                     </span>
                 </div>
             </div>
-            
-            
-            <!-- <span class="bl-label-15">
-                TLILIC2001
-            </span>
-            <span class="bl-label-14">
-                License to operate a Forklift Truck
-            </span>
-            <span class="bl-label-15">
-                RIIHAN301D
-            </span>
-            <span class="bl-label-14">
-                Elevating Work Platform Under 11m
-            </span>
-            <span class="bl-label-15">
-                RIIWHS205D
-            </span>
-            <span class="bl-label-14">
-                Control Traffic with Stop - Slow Bat
-            </span> -->
         </div>
     </div>
 </template>
@@ -60,6 +43,9 @@
     export default {
         data() {
             return {
+                input: {
+                    title: '', description: ''
+                },
                 tickets: [],
                 firstColumn: [],
                 secondColumn: [],
@@ -72,16 +58,26 @@
             Bus.$on('ticketsDetails', function(detailsArray) {
                 component.tickets = detailsArray;
                 
-                let len = component.tickets.length;
-                let half = Math.ceil(len / 2);
+                component.display();
+            });
 
-                component.firstColumn = detailsArray.slice(0, half);
-                component.secondColumn = detailsArray.slice(half, len);
+            Bus.$on('AddTickets', function(details) {
+                component.tickets.push(details);
+
+                component.display();
             });
         },
 
         methods: {
-            
+         
+            display() {
+                let len = this.tickets.length;
+                let half = Math.ceil(len / 2);
+
+                this.firstColumn = this.tickets.slice(0, half);
+                this.secondColumn = this.tickets.slice(half, len);
+            },
+
         }
     }
 </script>

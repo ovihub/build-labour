@@ -19,7 +19,9 @@
                 about_me: {
                     gender: '', dob: '', dob_formatted: '', marital_status: '', english_skill: '', drivers_license: ''
                 },
-                ideal_role: {},
+                ideal_role: { 
+                    nrole_info: '', nrole_when: '', nrole_travel_to_home: '', nrole_address: '',  nrole_state: '', right_to_work_au: '',
+                },
                 employments: [],
                 educations: [],
                 tickets: [],
@@ -74,7 +76,18 @@
                         component.about_me.english_skill = user.worker_detail ? user.worker_detail.english_skill : '';
                         component.about_me.drivers_license = user.worker_detail ? user.worker_detail.drivers_license : '';
 
-                        component.ideal_role = user.worker_detail;
+                        if (user.worker_detail) {
+                            component.ideal_role.nrole_info = user.worker_detail.nrole_info;
+                            component.ideal_role.nrole_when = user.worker_detail.nrole_when;
+                            component.ideal_role.nrole_travel_to_home = user.worker_detail.nrole_travel_to_home;
+                            component.ideal_role.nrole_address = user.worker_detail.nrole_address;
+                            component.ideal_role.nrole_state = user.worker_detail.nrole_state;
+                            component.ideal_role.right_to_work_au = user.worker_detail.right_to_work_au;
+
+                        } else {
+                            Utils.setObjectValues(component.ideal_role,  '');
+                        }
+
                         component.employments = user.experiences;
                         component.educations = user.educations;
                         component.tickets = user.tickets;
@@ -91,7 +104,11 @@
                     })
                     .catch(function(error) {
 
-                        Api.deleteToken();
+                        /** 
+                         * NOTE: Please do not delete token if error occurs
+                         * Instead, this should deleted if unauthorized access is returned
+                         */
+                        // Api.deleteToken();
                         
                         Utils.handleError(error);
                     });

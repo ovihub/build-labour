@@ -1,7 +1,10 @@
 <template>
     <div class="profile-item-2">
         <div class="profile-content">
-            <span class="edit-icon">
+
+            <record-form title="AddEducation" :record="input" save-endpoint="/api/v1/user/education"></record-form>
+
+            <span class="edit-icon" data-toggle="modal" data-target="#modalAddEducation">
                 <img src="/img/icons/editbutton.png"
                     srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
             </span>
@@ -41,6 +44,9 @@
     export default {
         data() {
             return {
+                input: {
+                    course: '', school: '', start_date: '', end_date: ''
+                },
                 educations: []
             }
         },
@@ -50,6 +56,10 @@
 
             Bus.$on('educationDetails', function(detailsArray) {
                 component.educations = detailsArray;
+            });
+
+            Bus.$on('AddEducation', function(details) {
+                component.educations.push(details);
             });
         },
 
