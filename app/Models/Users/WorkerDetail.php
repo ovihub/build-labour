@@ -4,6 +4,7 @@ namespace App\Models\Users;
 
 use App\Models\BaseModel;
 use App\User;
+use Illuminate\Http\Request;
 
 class WorkerDetail extends BaseModel
 {
@@ -28,12 +29,6 @@ class WorkerDetail extends BaseModel
 
     public function store(Request $r) {
 
-
-        if (!$this->userId) {
-
-            return false;
-        }
-
         $data = $r->all();
 
         $this->fill( $data );
@@ -43,6 +38,7 @@ class WorkerDetail extends BaseModel
         if ($r->$pk) {
 
             $this->exists = true;
+            $this->userId = $this->user_id;
         }
 
         try{
