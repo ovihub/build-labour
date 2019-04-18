@@ -18,7 +18,7 @@ class ApiWorksController extends ApiBaseController
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
-     *              mediaType="application/x-www-form-urlencoded",
+     *              mediaType="application/json",
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(

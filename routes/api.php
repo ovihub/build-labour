@@ -48,6 +48,14 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
                 Route::put('/{id}', 'ApiUserTicketsController@update');
                 Route::delete('/{id}', 'ApiUserTicketsController@delete');
             });
+
+
+        });
+    });
+
+    Route::prefix('worker')->group(function () {
+        Route::middleware([ 'jwt' ])->group(function () {
+            Route::post('next-role', 'ApiWorkerController@updateNextRole');
         });
     });
 
@@ -84,6 +92,14 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 //        Route::get( 'history', 'ApiChatController@historyByChannel' );
 //        Route::get( 'unread', 'ApiChatController@unread' );
 //        Route::post( 'reset_unread', 'ApiChatController@resetUnread' );
+//    });
+//
+//
+//    Route::prefix( 'connections' )->middleware([ 'jwt' , 'chat' ])->group(function () {
+//        Route::post( 'connect', 'ApiConnectionsController@connect' );
+//        Route::post( 'status/change', 'ApiConnectionsController@changeStatus' );
+//        Route::get( 'active', 'ApiConnectionsController@activeConnections' );
+//        Route::get( 'pending', 'ApiConnectionsController@pendingConnections' );
 //    });
 
 });
