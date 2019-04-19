@@ -69,6 +69,37 @@ window.Helper = {
 
         getMonth(index) {
             return month[index];
-        }
+        },
+
+        getPeriod(start, end) {
+            let diff = (end === null) ? new Date() - new Date(start) : new Date(end) - new Date(start),
+                offset = new Date().getTimezoneOffset()/60,
+                hours = Math.abs(diff / 36e5) + offset,
+                years, months, days, period = '';
+            
+            hours = Math.floor(hours);
+            days = Math.floor(hours/24);
+
+            if (days > 29) {
+                months = Math.floor(days/30);
+
+                if (months > 11) {
+                    years = Math.floor(months/12);
+                    period = (years == 1) ? '1 year' : years + ' years';
+
+                    months = months - (years * 12);
+                    period += (months == 1) ? ' and 1 month' : '';
+                    period += (months != 1 && months > 0) ? ' and ' + months + ' months' : '';
+                
+                } else {
+                    period += (months == 1) ? '1 month' : months + ' months';
+                }
+
+            } else {
+                period = '1 month';
+            }
+
+            return period;
+        },
     }
 }

@@ -66,7 +66,8 @@
                         component.profile.role = user.role.name;
                         component.profile.job_role = user.experiences[0] ? user.experiences[0].job_role : '';
                         component.profile.company_name = user.experiences[0] ? user.experiences[0].company_name : '';
-                        component.profile.period = user.experiences[0] ? user.experiences[0].period : '';
+                        component.profile.start_date = user.experiences[0] ? user.experiences[0].start_date : '';
+                        component.profile.end_date = user.experiences[0] ? user.experiences[0].end_date : '';
 
                         component.about_me = {};
                         component.about_me.gender = user.gender;

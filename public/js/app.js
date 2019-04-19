@@ -3234,33 +3234,7 @@ __webpack_require__.r(__webpack_exports__);
       this.expanded[index] = !this.expanded[index];
     },
     getPeriod: function getPeriod(start, end) {
-      var diff = end === null ? new Date() - new Date(start) : new Date(end) - new Date(start),
-          offset = new Date().getTimezoneOffset() / 60,
-          hours = Math.abs(diff / 36e5) + offset,
-          years,
-          months,
-          days,
-          period = '';
-      hours = Math.floor(hours);
-      days = Math.floor(hours / 24);
-
-      if (days > 29) {
-        months = Math.floor(days / 30);
-
-        if (months > 11) {
-          years = Math.floor(months / 12);
-          period = years == 1 ? '1 year' : years + ' years';
-          months = months - years * 12;
-          period += months == 1 ? ' and 1 month' : '';
-          period += months != 1 && months > 0 ? ' and ' + months + ' months' : '';
-        } else {
-          period += months == 1 ? '1 month' : months + ' months';
-        }
-      } else {
-        period = '1 month';
-      }
-
-      return period;
+      return Utils.getPeriod(start, end);
     }
   }
 });
@@ -3616,7 +3590,8 @@ __webpack_require__.r(__webpack_exports__);
         component.profile.role = user.role.name;
         component.profile.job_role = user.experiences[0] ? user.experiences[0].job_role : '';
         component.profile.company_name = user.experiences[0] ? user.experiences[0].company_name : '';
-        component.profile.period = user.experiences[0] ? user.experiences[0].period : '';
+        component.profile.start_date = user.experiences[0] ? user.experiences[0].start_date : '';
+        component.profile.end_date = user.experiences[0] ? user.experiences[0].end_date : '';
         component.about_me = {};
         component.about_me.gender = user.gender;
         component.about_me.date_of_birth = user.date_of_birth;
@@ -3829,105 +3804,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3948,8 +3824,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         company_name: '',
         job_role: '',
         start_date: '',
-        end_date: '',
-        period: ''
+        end_date: ''
       },
       errors: {
         profile_photo_url: '',
@@ -3966,8 +3841,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         company_name: '',
         job_role: '',
         start_date: '',
-        end_date: '',
-        period: ''
+        end_date: ''
       },
       endpoints: {
         save: '/api/v1/user/update'
@@ -3989,6 +3863,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
   },
   methods: {
+    getPeriod: function getPeriod(start, end) {
+      console.log(start, end);
+      return Utils.getPeriod(start, end);
+    },
     saveProfile: function () {
       var _saveProfile = _asyncToGenerator(
       /*#__PURE__*/
@@ -43504,7 +43382,9 @@ var render = function() {
                 _c("span", { staticClass: "bl-label-14 bl-ml15" }, [
                   _vm._v(
                     "\n                        " +
-                      _vm._s(_vm.input.period) +
+                      _vm._s(
+                        _vm.getPeriod(_vm.input.start_date, _vm.input.end_date)
+                      ) +
                       "\n                    "
                   )
                 ])
@@ -59264,6 +59144,35 @@ window.Helper = {
     },
     getMonth: function getMonth(index) {
       return month[index];
+    },
+    getPeriod: function getPeriod(start, end) {
+      var diff = end === null ? new Date() - new Date(start) : new Date(end) - new Date(start),
+          offset = new Date().getTimezoneOffset() / 60,
+          hours = Math.abs(diff / 36e5) + offset,
+          years,
+          months,
+          days,
+          period = '';
+      hours = Math.floor(hours);
+      days = Math.floor(hours / 24);
+
+      if (days > 29) {
+        months = Math.floor(days / 30);
+
+        if (months > 11) {
+          years = Math.floor(months / 12);
+          period = years == 1 ? '1 year' : years + ' years';
+          months = months - years * 12;
+          period += months == 1 ? ' and 1 month' : '';
+          period += months != 1 && months > 0 ? ' and ' + months + ' months' : '';
+        } else {
+          period += months == 1 ? '1 month' : months + ' months';
+        }
+      } else {
+        period = '1 month';
+      }
+
+      return period;
     }
   }
 };
