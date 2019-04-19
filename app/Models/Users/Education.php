@@ -29,8 +29,8 @@ class Education extends BaseModel
         return [
             'course'        => 'required',
             'school'        => 'required',
-            'start_date'    => 'required',
-            'end_date'      => 'required',
+            'start_date'    => 'required|date',
+            'end_date'      => 'required|date',
             'user_id'       => 'required|integer'
         ];
     }
@@ -45,6 +45,21 @@ class Education extends BaseModel
         return \Carbon\Carbon::parse($this->end_date)->format('F Y');
     }
 
+    public function setStartDateAttribute($date) {
+
+        if (!empty($date)) {
+
+            $this->attributes['start_date'] = Carbon::parse($date);
+        }
+    }
+
+    public function setEndDateAttribute($date) {
+
+        if (!empty($date)) {
+
+            $this->attributes['end_date'] = Carbon::parse($date);
+        }
+    }
     /**
      * Validate a user request
      *
@@ -86,7 +101,6 @@ class Education extends BaseModel
 
             return false;
         }
-
 
         $this->fill( $data );
 
