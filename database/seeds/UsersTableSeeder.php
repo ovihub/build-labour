@@ -26,7 +26,7 @@ class UsersTableSeeder extends Seeder
         $user->last_name = 'Ramirez';
         $user->email = 'testemail@test.com';
         $user->password = 'secret';
-        $user->dob = Carbon::parse('08/10/1988');
+        $user->date_of_birth = Carbon::parse('08/10/1988');
         $user->mobile_number = '+61 412345678';
         $user->address = 'Richmond, Victoria, Australia';
         $user->marital_status = 'Single';
@@ -128,85 +128,85 @@ class UsersTableSeeder extends Seeder
             'profile_description' => 'Experienced Senior Project Manager; demonstrated history of working on a wide range of construction projects for leading companies.',
             'english_skill' => 'Proficient in written and spoken',
             'drivers_license' => 'Owns a license.',
-            'right_to_work_au' => 'Yes, I have right to work in Australia',
+            'right_to_work' => 'Yes, I have right to work in Australia',
             'main_skill' => 'Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline.',
-            'nrole_info' => 'My ideal next role would be as a qualified plumber working on high-end residential jobs with an awesome team. ',
-            'nrole_when' => 'In 6 months (June 2019)',
-            'nrole_travel_to_home' => '100km',
-            'nrole_address' => 'New South Wales',
-            'nrole_state' => 'VIC',
+            'introduction' => 'My ideal next role would be as a qualified plumber working on high-end residential jobs with an awesome team. ',
+            'when' => 'In 6 months (June 2019)',
+            'max_distance' => '100km',
+            'address' => 'New South Wales',
+            'state' => 'VIC',
             'nrole_right_to_work_au' => true,
             'user_id' => $user->id
         ]);
 
         UserSkill::create([
-            'name' => 'Quality Control',
+            'skill' => 'Quality Control',
             'description' => 'Expert',
             'user_id' => $user->id
         ]);
 
         UserSkill::create([
-            'name' => 'Time Management',
+            'skill' => 'Time Management',
             'description' => 'Competent',
             'user_id' => $user->id
         ]);
 
         UserSkill::create([
-            'name' => 'Teamwork',
+            'skill' => 'Teamwork',
             'description' => 'Competent',
             'user_id' => $user->id
         ]);
 
         UserSkill::create([
-            'name' => 'Communication Skills',
+            'skill' => 'Communication Skills',
             'description' => 'Expert',
             'user_id' => $user->id
         ]);
 
         UserSkill::create([
-            'name' => 'Can Accept Criticism',
+            'skill' => 'Can Accept Criticism',
             'description' => 'Competent',
             'user_id' => $user->id
         ]);
 
         Ticket::create([
-            'title' => 'TLILIC2001',
+            'ticket' => 'TLILIC2001',
             'description' => 'Licence to operate a Forklift Truck',
             'user_id' => $user->id
         ]);
 
         Ticket::create([
-            'title' => 'RIIHAN301D',
+            'ticket' => 'RIIHAN301D',
             'description' => 'Elevating Work Platform Under 11m',
             'user_id' => $user->id
         ]);
 
         Ticket::create([
-            'title' => 'RIIWHS205D',
+            'ticket' => 'RIIWHS205D',
             'description' => 'Control Traffic with Stop - Slow Bat',
             'user_id' => $user->id
         ]);
 
         Ticket::create([
-            'title' => 'TLILIC2001',
+            'ticket' => 'TLILIC2001',
             'description' => 'Licence to operate a Forklift Truck',
             'user_id' => $user->id
         ]);
 
         Ticket::create([
-            'title' => 'RIIHAN301D',
+            'ticket' => 'RIIHAN301D',
             'description' => 'Control Traffic with Stop - Slow Bat',
             'user_id' => $user->id
         ]);
 
         Ticket::create([
-            'title' => 'RIIWHS205D',
+            'ticket' => 'RIIWHS205D',
             'description' => 'Licence to operate a Forklift Truck',
             'user_id' => $user->id
         ]);
 
         Ticket::create([
-            'title' => 'TLILIC2001',
+            'ticket' => 'TLILIC2001',
             'description' => 'Licence to operate a Forklift Truck',
             'user_id' => $user->id
         ]);

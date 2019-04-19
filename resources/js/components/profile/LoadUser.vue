@@ -9,14 +9,19 @@
     export default {
         data() {
             return {
+                avatar: {
+                    initials: '', profile_photo_url: '',
+                },
                 profile: {
                     profile_photo_url: '', first_name: '', last_name: '', email: '', course: '', school: '', country: '', address: '',
                     role: '', company_name: '', job_role: '', start_date:'', end_date:'', period: '',
                 },
                 about_me: {
-                    gender: '', dob: '', dob_formatted: '', marital_status: '', english_skill: '', drivers_license: ''
+                    gender: '', date_of_birth: '', dob_formatted: '', marital_status: '', english_skill: '', drivers_license: ''
                 },
-                ideal_role: {},
+                ideal_role: { 
+                    introduction: '', when: '', max_distance: '', address: '',  state: '', right_to_work: '',
+                },
                 employments: [],
                 educations: [],
                 tickets: [],
@@ -41,8 +46,12 @@
                     .then(function(response) {
                         let user = response.data.data.user;
 
+                        component.avatar = {};
+                        component.avatar.initials = user.first_name.charAt(0) + user.last_name.charAt(0);
+                        component.avatar.profile_photo_url = user.profile_photo_url;
+                        
                         component.profile = {};
-                        component.profile.profile_photo_url = user.profile_photo_url ? user.profile_photo_url : '/img/icons/default.png';
+                        component.profile.profile_photo_url = user.profile_photo_url;
                         component.profile.profile_description = user.worker_detail ? user.worker_detail.profile_description : '';
                         component.profile.first_name = user.first_name;
                         component.profile.last_name = user.last_name;
@@ -61,18 +70,30 @@
 
                         component.about_me = {};
                         component.about_me.gender = user.gender;
-                        component.about_me.dob = user.dob;
-                        component.about_me.dob_formatted = user.dob ? user.dob_formatted : '';
+                        component.about_me.date_of_birth = user.date_of_birth;
+                        component.about_me.dob_formatted = user.date_of_birth ? user.dob_formatted : '';
                         component.about_me.marital_status = user.marital_status;
                         component.about_me.english_skill = user.worker_detail ? user.worker_detail.english_skill : '';
                         component.about_me.drivers_license = user.worker_detail ? user.worker_detail.drivers_license : '';
 
-                        component.ideal_role = user.worker_detail;
+                        if (user.worker_detail) {
+                            component.ideal_role.introduction = user.worker_detail.introduction;
+                            component.ideal_role.when = user.worker_detail.when;
+                            component.ideal_role.max_distance = user.worker_detail.max_distance;
+                            component.ideal_role.address = user.worker_detail.address;
+                            component.ideal_role.state = user.worker_detail.state;
+                            component.ideal_role.right_to_work = user.worker_detail.right_to_work;
+
+                        } else {
+                            Utils.setObjectValues(component.ideal_role,  '');
+                        }
+
                         component.employments = user.experiences;
                         component.educations = user.educations;
                         component.tickets = user.tickets;
                         component.industry_skills = user.skills;
 
+                        Bus.$emit('avatarDetails', component.avatar);
                         Bus.$emit('userProfileDetails', component.profile);
                         Bus.$emit('aboutMeDetails', component.about_me);
                         Bus.$emit('idealRoleDetails', component.ideal_role);
@@ -83,7 +104,11 @@
                     })
                     .catch(function(error) {
 
-                        Api.deleteToken();
+                        /** 
+                         * NOTE: Please do not delete token if error occurs
+                         * Instead, this should deleted if unauthorized access is returned
+                         */
+                        // Api.deleteToken();
                         
                         Utils.handleError(error);
                     });

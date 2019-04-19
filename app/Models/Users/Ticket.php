@@ -14,7 +14,7 @@ class Ticket extends BaseModel
     protected $table = 'tickets';
     protected $primaryKey = 'id';
 
-    protected $fillable = [ 'title', 'description', 'user_id' ];
+    protected $fillable = [ 'ticket', 'description', 'user_id' ];
 
     const UPDATED_AT = null;
     const CREATED_AT = null;
@@ -25,7 +25,7 @@ class Ticket extends BaseModel
     private function rules()
     {
         return [
-            'title'          => 'required',
+            'ticket'          => 'required',
             'description'    => 'required',
             'user_id'        => 'required|integer'
         ];

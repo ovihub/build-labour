@@ -21,5 +21,6 @@
     .modal-ku {
         width: 500px;
         margin-top: 100px;
+        padding: 30px;
     }
 </style>

@@ -41,9 +41,11 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 
 // Common components
 Vue.component('alert', require('./components/common/Alert.vue').default);
+Vue.component('avatar', require('./components/common/Avatar.vue').default);
 Vue.component('main-modal', require('./components/common/MainModal.vue').default);
 Vue.component('navigation', require('./components/common/Navigation.vue').default);
 Vue.component('password-eye', require('./components/common/PasswordEye.vue').default);
+Vue.component('record-form', require('./components/common/RecordForm.vue').default);
 
 // Auth components
 Vue.component('login', require('./components/auth/Login.vue').default);

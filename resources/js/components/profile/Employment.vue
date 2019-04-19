@@ -1,7 +1,10 @@
 <template>
     <div class="profile-item-2">
         <div class="profile-content">
-            <span class="edit-icon">
+
+            <record-form title="AddEmployment" :record="input" save-endpoint="/api/v1/work/experience"></record-form>
+            
+            <span class="edit-icon" data-toggle="modal" data-target="#modalAddEmployment">
                 <img src="/img/icons/editbutton.png"
                     srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
             </span>
@@ -74,6 +77,9 @@
         data() {
             return {
                 expanded: [],
+                input: {
+                    job_role: '', company_name: '', period: ''
+                },
                 employments: [],
                 getBox: 'bl-box-2 hidden',
                 getCls: 'responsibilities hidden',

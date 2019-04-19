@@ -22,7 +22,7 @@ class ApiUserSkillsController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="name",
+     *                      property="skill",
      *                      description="<b>Required</b> Job Role",
      *                      type="string",
      *                      example="Team Effort"
@@ -112,7 +112,7 @@ class ApiUserSkillsController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="name",
+     *                      property="skill",
      *                      description="<b>Required</b> Job Role",
      *                      type="string",
      *                      example="Proficient in Spanish"

@@ -11691,6 +11691,12 @@ ul.bl-nav-list {
 ul.bl-nav-list li {
   margin-left: 10px;
   margin-right: 48px;
+  opacity: 0.5;
+}
+
+ul.bl-nav-list li:hover {
+  opacity: 1;
+  cursor: pointer;
 }
 
 .bl-nav-tab {
@@ -11703,6 +11709,24 @@ ul.bl-nav-list li {
   flex-wrap: wrap;
   margin-left: auto;
   margin-right: auto;
+}
+
+.bl-nav-tab-style-2 {
+  width: 24px;
+  height: 24px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  margin-top: 9px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.5;
+}
+
+.bl-nav-tab-style-2:hover {
+  opacity: 1;
+  cursor: pointer;
 }
 
 .bl-nav-tab-search {
@@ -11719,9 +11743,7 @@ ul.bl-nav-list li {
 
 p.bl-nav-tab-label {
   text-align: center;
-  opacity: 0.5;
   font-size: 12px;
-  color: #ffffff;
   margin-top: -3px;
 }
 
@@ -11736,7 +11758,6 @@ p.bl-nav-tab-label {
 .bl-nav-profile-pic {
   width: 32px;
   height: 32px;
-  border: solid 2px #ffffff;
   background-color: #d8d8d8;
   cursor: pointer;
   border-radius: 50%;
@@ -11745,6 +11766,10 @@ p.bl-nav-tab-label {
   margin-top: 4px;
   margin-left: 32px;
   margin-right: 32px;
+}
+
+.bl-nav-profile-pic:hover {
+  cursor: pointer;
 }
 
 .dropdown-item:hover {
@@ -12082,6 +12107,32 @@ textarea {
 
 .page-link:hover {
   color: #000;
+}
+
+.modal-header {
+  border-bottom: none;
+  padding: 0;
+}
+
+.modal-body {
+  padding: 0;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
+.close:hover {
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  margin-left: 30px;
+  margin-top: 10px;
+}
+
+.dropdown-item {
+  font-size: 14px;
 }
 
 .text-error {

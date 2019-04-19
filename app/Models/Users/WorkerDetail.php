@@ -10,7 +10,7 @@ class WorkerDetail extends BaseModel
 {
     protected $table = 'worker_details';
 
-    protected $fillable = ['profile_description', 'nrole_info', 'nrole_when', 'nrole_travel_to_home', 'nrole_address', 'nrole_state', 'nrole_right_to_work_au', 'user_id'];
+    protected $fillable = ['profile_description', 'introduction', 'when', 'max_distance', 'address', 'state', 'nrole_right_to_work_au', 'user_id'];
 
     private $userId = null;
 

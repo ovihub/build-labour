@@ -2,7 +2,10 @@
     <div class="profile-item-1">
         <div class="profile-content">
             <div class="profile-content-p20 pt-3 pb-4">
-                <span class="edit-icon">
+                
+                <record-form title="AboutMe" :record="input" save-endpoint="/api/v1/user"></record-form>
+                
+                <span class="edit-icon" data-toggle="modal" data-target="#modalAboutMe">
                     <img src="/img/icons/editbutton.png"
                         srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
                 </span>
@@ -33,9 +36,6 @@
                 <span class="bl-label-14">
                     {{ input.drivers_license }}
                 </span>
-                <!-- <span class="bl-label-14">
-                    Don't own/have access to personal registered vehicle vehicle vehicles
-                </span> -->
             </div>
         </div>
     </div>
@@ -46,7 +46,7 @@
         data() {
             return {
                 input: {
-                    gender: '', dob: '', dob_formatted: '', marital_status: '', english_skill: '', drivers_license: ''
+                    gender: '', date_of_birth: '', dob_formatted: '', marital_status: '', english_skill: '', drivers_license: ''
                 }
             }
         },
