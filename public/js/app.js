@@ -2757,6 +2757,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2794,12 +2795,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      disabled: true,
+      disabled: false,
+      inputted: {},
       errors: {},
-      textArea: ['introduction']
+      textArea: ['introduction'],
+      datePicker: ['date_of_birth', 'start_date', 'end_date'],
+      format: 'd MMMM yyyy'
     };
   },
   props: {
@@ -2821,6 +2830,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return this.record;
     }
   },
+  components: {
+    Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   methods: {
     getKeyName: function getKeyName(key) {
       return key.split('_').map(function (word) {
@@ -2838,11 +2850,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 component = this;
                 Utils.setObjectValues(component.errors, '');
+                component.inputted = component.input;
                 component.disabled = true;
-                _context.next = 5;
-                return axios.post(component.saveEndpoint, component.$data.input, Utils.getBearerAuth()).then(function (response) {
+                _context.next = 6;
+                return axios.post(component.saveEndpoint, component.$data.inputted, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
-                  Bus.$emit(component.title, component.input);
+                  Bus.$emit(component.title, component.inputted);
                   $('#modal' + component.title).modal('hide');
                 }).catch(function (error) {
                   if (error.response) {
@@ -2856,10 +2869,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Utils.handleError(error);
                 });
 
-              case 5:
+              case 6:
                 component.disabled = false;
 
-              case 6:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -2936,7 +2949,6 @@ __webpack_require__.r(__webpack_exports__);
       input: {
         gender: '',
         date_of_birth: '',
-        dob_formatted: '',
         marital_status: '',
         english_skill: '',
         drivers_license: ''
@@ -2949,7 +2961,14 @@ __webpack_require__.r(__webpack_exports__);
       component.input = details;
     });
   },
-  methods: {}
+  methods: {
+    formatDate: function formatDate(d) {
+      if (d != null) {
+        var date = new Date(d);
+        return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -3072,7 +3091,13 @@ __webpack_require__.r(__webpack_exports__);
       component.educations.push(details);
     });
   },
-  methods: {}
+  methods: {
+    getPeriod: function getPeriod(start, end) {
+      var start_date = new Date(start),
+          end_date = new Date(end);
+      return Utils.getMonth(start_date.getMonth()) + ' ' + start_date.getFullYear() + ' - ' + Utils.getMonth(end_date.getMonth()) + ' ' + end_date.getFullYear();
+    }
+  }
 });
 
 /***/ }),
@@ -3167,7 +3192,9 @@ __webpack_require__.r(__webpack_exports__);
       input: {
         job_role: '',
         company_name: '',
-        period: ''
+        salary: '',
+        start_date: '',
+        end_date: ''
       },
       employments: [],
       getBox: 'bl-box-2 hidden',
@@ -3185,6 +3212,10 @@ __webpack_require__.r(__webpack_exports__);
         component.expanded[i] = false;
       }
     });
+    Bus.$on('AddEmployment', function (details) {
+      component.employments.push(details);
+      component.expanded[component.employments.length - 1] = false;
+    });
   },
   methods: {
     toggle: function toggle(index) {
@@ -3201,6 +3232,35 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.expanded[index] = !this.expanded[index];
+    },
+    getPeriod: function getPeriod(start, end) {
+      var diff = end === null ? new Date() - new Date(start) : new Date(end) - new Date(start),
+          offset = new Date().getTimezoneOffset() / 60,
+          hours = Math.abs(diff / 36e5) + offset,
+          years,
+          months,
+          days,
+          period = '';
+      hours = Math.floor(hours);
+      days = Math.floor(hours / 24);
+
+      if (days > 29) {
+        months = Math.floor(days / 30);
+
+        if (months > 11) {
+          years = Math.floor(months / 12);
+          period = years == 1 ? '1 year' : years + ' years';
+          months = months - years * 12;
+          period += months == 1 ? ' and 1 month' : '';
+          period += months != 1 && months > 0 ? ' and ' + months + ' months' : '';
+        } else {
+          period += months == 1 ? '1 month' : months + ' months';
+        }
+      } else {
+        period = '1 month';
+      }
+
+      return period;
     }
   }
 });
@@ -3510,7 +3570,6 @@ __webpack_require__.r(__webpack_exports__);
       about_me: {
         gender: '',
         date_of_birth: '',
-        dob_formatted: '',
         marital_status: '',
         english_skill: '',
         drivers_license: ''
@@ -3561,7 +3620,6 @@ __webpack_require__.r(__webpack_exports__);
         component.about_me = {};
         component.about_me.gender = user.gender;
         component.about_me.date_of_birth = user.date_of_birth;
-        component.about_me.dob_formatted = user.date_of_birth ? user.dob_formatted : '';
         component.about_me.marital_status = user.marital_status;
         component.about_me.english_skill = user.worker_detail ? user.worker_detail.english_skill : '';
         component.about_me.drivers_license = user.worker_detail ? user.worker_detail.drivers_license : '';
@@ -42017,64 +42075,96 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-8" }, [
-                  !_vm.textArea.includes(key)
-                    ? _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
+                _c(
+                  "div",
+                  { staticClass: "col-md-8" },
+                  [
+                    !_vm.textArea.includes(key) && !_vm.datePicker.includes(key)
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input[key],
+                              expression: "input[key]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: key, name: key, type: "text" },
+                          domProps: { value: _vm.input[key] },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.input, key, $event.target.value)
+                            }
+                          }
+                        })
+                      : _vm.textArea.includes(key)
+                      ? _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input[key],
+                              expression: "input[key]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          domProps: { value: _vm.input[key] },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.input, key, $event.target.value)
+                            }
+                          }
+                        })
+                      : _vm.datePicker.includes(key)
+                      ? _c("datepicker", {
+                          attrs: {
+                            "input-class": "form-control",
+                            id: key,
+                            name: key,
+                            format: _vm.format
+                          },
+                          model: {
                             value: _vm.input[key],
+                            callback: function($$v) {
+                              _vm.$set(_vm.input, key, $$v)
+                            },
                             expression: "input[key]"
                           }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { id: key, name: key },
-                        domProps: { value: _vm.input[key] },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.input, key, $event.target.value)
-                          }
-                        }
-                      })
-                    : _c("textarea", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.input[key],
-                            expression: "input[key]"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        domProps: { value: _vm.input[key] },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.input, key, $event.target.value)
-                          }
-                        }
-                      }),
-                  _vm._v(" "),
-                  _vm.errors[key]
-                    ? _c("span", { staticClass: "err-msg" }, [
-                        _vm._v(
-                          "\n\t\t\t\t\t\t" +
-                            _vm._s(_vm.errors[key]) +
-                            "\n\t\t\t\t\t"
-                        )
-                      ])
-                    : _vm._e()
-                ])
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.errors[key]
+                      ? _c("span", { staticClass: "err-msg" }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t" +
+                              _vm._s(_vm.errors[key]) +
+                              "\n\t\t\t\t\t"
+                          )
+                        ])
+                      : _vm._e()
+                  ],
+                  1
+                )
               ])
             }),
             _vm._v(" "),
-            _c("div", { staticClass: "bl-mt13" })
+            _c("div", { staticClass: "bl-mt13" }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "pull-right",
+                attrs: { type: "submit", disabled: _vm.disabled }
+              },
+              [_vm._v("Save")]
+            )
           ],
           2
         )
@@ -42140,7 +42230,7 @@ var render = function() {
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
               "\n                " +
-                _vm._s(_vm.input.dob_formatted) +
+                _vm._s(_vm.formatDate(_vm.input.date_of_birth)) +
                 "\n            "
             )
           ]),
@@ -42342,9 +42432,12 @@ var render = function() {
                   _c("span", { staticClass: "bl-label-14 bl-ml15 mb-0 pb-0" }, [
                     _vm._v(
                       "\n                            " +
-                        _vm._s(education.start_date_formatted) +
-                        " - " +
-                        _vm._s(education.end_date_formatted) +
+                        _vm._s(
+                          _vm.getPeriod(
+                            education.start_date,
+                            education.end_date
+                          )
+                        ) +
                         "\n                        "
                     )
                   ])
@@ -42511,7 +42604,12 @@ var render = function() {
                             [
                               _vm._v(
                                 "\n                                " +
-                                  _vm._s(employment.period) +
+                                  _vm._s(
+                                    _vm.getPeriod(
+                                      employment.start_date,
+                                      employment.end_date
+                                    )
+                                  ) +
                                   "\n                            "
                               )
                             ]
@@ -42531,9 +42629,30 @@ var render = function() {
                     [
                       _vm._m(3, true),
                       _vm._v(" "),
-                      _vm._m(4, true),
+                      _c(
+                        "span",
+                        { staticClass: "bl-label-14-style-2 bl-mt13" },
+                        [
+                          _c("img", {
+                            staticClass: "text-icon",
+                            attrs: {
+                              src: "/img/icons/dollarsign.png",
+                              srcset:
+                                "/img/icons/dollarsign@2x.png" +
+                                " 2x, " +
+                                "/img/icons/dollarsign@3x.png" +
+                                " 3x"
+                            }
+                          }),
+                          _vm._v(
+                            "\n                        $" +
+                              _vm._s(employment.salary) +
+                              "\n                    "
+                          )
+                        ]
+                      ),
                       _vm._v(" "),
-                      _vm._m(5, true),
+                      _vm._m(4, true),
                       _vm._v(" "),
                       _c("div", { staticClass: "bl-label-15" }, [
                         _c(
@@ -42643,25 +42762,6 @@ var staticRenderFns = [
       _vm._v(
         "\n                        Richmond, Victoria, Australia\n                    "
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "bl-label-14-style-2 bl-mt13" }, [
-      _c("img", {
-        staticClass: "text-icon",
-        attrs: {
-          src: "/img/icons/dollarsign.png",
-          srcset:
-            "/img/icons/dollarsign@2x.png" +
-            " 2x, " +
-            "/img/icons/dollarsign@3x.png" +
-            " 3x"
-        }
-      }),
-      _vm._v("\n                        $1,750,000\n                    ")
     ])
   },
   function() {
@@ -59106,6 +59206,19 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 
+var month = new Array();
+month[0] = "January";
+month[1] = "February";
+month[2] = "March";
+month[3] = "April";
+month[4] = "May";
+month[5] = "June";
+month[6] = "July";
+month[7] = "August";
+month[8] = "September";
+month[9] = "October";
+month[10] = "November";
+month[11] = "December";
 window.Helper = {
   data: {},
   methods: {
@@ -59127,6 +59240,8 @@ window.Helper = {
       }
     },
     handleError: function handleError(error) {
+      window.scrollTo(0, 0);
+
       if (error.response) {
         var data = error.response.data;
 
@@ -59146,6 +59261,9 @@ window.Helper = {
           "Authorization": "Bearer " + _api__WEBPACK_IMPORTED_MODULE_0__["default"]._getBearerToken()
         }
       };
+    },
+    getMonth: function getMonth(index) {
+      return month[index];
     }
   }
 };

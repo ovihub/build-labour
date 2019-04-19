@@ -20,7 +20,7 @@ class WorkExperience extends BaseModel
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
-    protected $fillable = ['job_role', 'company_name', 'user_id', 'start_date', 'end_date', 'responsibilities'];
+    protected $fillable = ['job_role', 'company_name', 'salary', 'user_id', 'start_date', 'end_date', 'responsibilities'];
 
     protected $appends = ['period', 'responsibilities_detail'];
 
@@ -32,6 +32,7 @@ class WorkExperience extends BaseModel
         return [
             'job_role'      => 'required',
             'company_name'  => 'required',
+            'salary'        => 'required',
             'start_date'    => 'nullable|date',
             'end_date'      => 'nullable|date',
             'user_id'       => 'required|integer'

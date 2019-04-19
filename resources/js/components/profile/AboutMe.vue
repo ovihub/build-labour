@@ -19,7 +19,7 @@
 
                 <span class="bl-label-15 mt-2 pt-1">Date of Birth</span>
                 <span class="bl-label-14">
-                    {{ input.dob_formatted }}
+                    {{ formatDate(input.date_of_birth) }}
                 </span>
 
                 <span class="bl-label-15 mt-2 pt-1">Marital Status</span>
@@ -46,7 +46,7 @@
         data() {
             return {
                 input: {
-                    gender: '', date_of_birth: '', dob_formatted: '', marital_status: '', english_skill: '', drivers_license: ''
+                    gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: ''
                 }
             }
         },
@@ -61,6 +61,13 @@
 
         methods: {
             
+            formatDate(d) {
+                if (d != null) {
+                    let date = new Date(d);
+
+                    return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
+                }
+            }
         }
     }
 </script>

@@ -11495,6 +11495,16 @@ form .button.yellow {
   color: #fff;
 }
 
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: #F0F2F4;
+}
+
+.form-control:disabled:hover,
+.form-control[readonly]:hover {
+  cursor: pointer;
+}
+
 a.button {
   -webkit-appearance: button;
   -moz-appearance: button;

@@ -35,7 +35,7 @@
                                     {{ employment.company_name }}
                                 </span>
                                 <span class="bl-label-14 bl-ml15 mt-0 pt-0">
-                                    {{ employment.period }}
+                                    {{ getPeriod(employment.start_date, employment.end_date) }}
                                 </span>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                         <span class="bl-label-14-style-2 bl-mt13">
                             <img class="text-icon" src="/img/icons/dollarsign.png"
                                 srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
-                            $1,750,000
+                            ${{ employment.salary }}
                         </span>
                         <span class="bl-label-14-style-2 bl-mt13">
                             <img class="text-icon" src="/img/icons/responsibilities.png"
@@ -78,7 +78,7 @@
             return {
                 expanded: [],
                 input: {
-                    job_role: '', company_name: '', period: ''
+                    job_role: '', company_name: '', salary: '', start_date: '', end_date: '',
                 },
                 employments: [],
                 getBox: 'bl-box-2 hidden',
@@ -98,6 +98,12 @@
                     component.expanded[i] = false;
                 }
             });
+
+            Bus.$on('AddEmployment', function(details) {
+                component.employments.push(details);
+                
+                component.expanded[component.employments.length-1] = false;
+            });
         },
 
         methods: {
@@ -116,6 +122,37 @@
                 }
 
                 this.expanded[index] = ! this.expanded[index];
+            },
+
+            getPeriod(start, end) {
+                let diff = (end === null) ? new Date() - new Date(start) : new Date(end) - new Date(start),
+                    offset = new Date().getTimezoneOffset()/60,
+                    hours = Math.abs(diff / 36e5) + offset,
+                    years, months, days, period = '';
+                
+                hours = Math.floor(hours);
+                days = Math.floor(hours/24);
+
+                if (days > 29) {
+                    months = Math.floor(days/30);
+
+                    if (months > 11) {
+                        years = Math.floor(months/12);
+                        period = (years == 1) ? '1 year' : years + ' years';
+
+                        months = months - (years * 12);
+                        period += (months == 1) ? ' and 1 month' : '';
+                        period += (months != 1 && months > 0) ? ' and ' + months + ' months' : '';
+                    
+                    } else {
+                        period += (months == 1) ? '1 month' : months + ' months';
+                    }
+
+                } else {
+                    period = '1 month';
+                }
+
+                return period;
             },
         }
     }

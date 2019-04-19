@@ -17,7 +17,7 @@
                     role: '', company_name: '', job_role: '', start_date:'', end_date:'', period: '',
                 },
                 about_me: {
-                    gender: '', date_of_birth: '', dob_formatted: '', marital_status: '', english_skill: '', drivers_license: ''
+                    gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: ''
                 },
                 ideal_role: { 
                     introduction: '', when: '', max_distance: '', address: '',  state: '', right_to_work: '',
@@ -71,7 +71,6 @@
                         component.about_me = {};
                         component.about_me.gender = user.gender;
                         component.about_me.date_of_birth = user.date_of_birth;
-                        component.about_me.dob_formatted = user.date_of_birth ? user.dob_formatted : '';
                         component.about_me.marital_status = user.marital_status;
                         component.about_me.english_skill = user.worker_detail ? user.worker_detail.english_skill : '';
                         component.about_me.drivers_license = user.worker_detail ? user.worker_detail.drivers_license : '';

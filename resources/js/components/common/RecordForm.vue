@@ -14,15 +14,19 @@
 					</label>
 
 					<div class="col-md-8">
-						<input class="form-control" :id="key" :name="key" v-model="input[key]" v-if="! textArea.includes(key)" />
-						<textarea class="form-control" v-model="input[key]" v-else></textarea>
+						<input class="form-control" :id="key" :name="key" type="text" v-model="input[key]" v-if="! textArea.includes(key) && ! datePicker.includes(key)" />
+						
+						<textarea class="form-control" v-model="input[key]" v-else-if="textArea.includes(key)"></textarea>
+						
+						<datepicker input-class="form-control" :id="key" :name="key" :format="format" v-model="input[key]" v-else-if="datePicker.includes(key)"></datepicker>
+						
 						<span class="err-msg" v-if="errors[key]">
 							{{ errors[key] }}
 						</span>
 					</div>
 				</div>
 				<div class="bl-mt13"></div>
-				<!-- <button class="pull-right" type="submit" :disabled="disabled">Save</button> -->
+				<button class="pull-right" type="submit" :disabled="disabled">Save</button>
 			</form>
 		</template>
 
@@ -30,14 +34,23 @@
 </template>
 
 <script>
+	import Datepicker from 'vuejs-datepicker';
+
 	export default {
 		data() {
 			return {
-				disabled: true,
+				disabled: false,
+				inputted: {},
 				errors: {},
                 textArea: [
 					'introduction'
-				]
+				],
+				datePicker: [
+					'date_of_birth',
+					'start_date',
+					'end_date'
+				],
+				format: 'd MMMM yyyy',
             }
 		},
         
@@ -62,6 +75,10 @@
 			}
         },
 		
+		components: {
+            Datepicker
+		},
+		
 		methods: {
 
 			getKeyName(key) {
@@ -74,15 +91,15 @@
                 let component = this;
 
 				Utils.setObjectValues(component.errors, '');
-
+				component.inputted = component.input;
                 component.disabled = true;
 
-                await axios.post(component.saveEndpoint, component.$data.input, Utils.getBearerAuth())
+                await axios.post(component.saveEndpoint, component.$data.inputted, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         let data = response.data;
 						
-						Bus.$emit(component.title, component.input);
+						Bus.$emit(component.title, component.inputted);
 						
 						$('#modal' + component.title).modal('hide');
                     })
