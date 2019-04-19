@@ -33,7 +33,7 @@ class WorkExperience extends BaseModel
             'job_role'      => 'required',
             'company_name'  => 'required',
             'salary'        => 'required',
-            'start_date'    => 'nullable|date',
+            'start_date'    => 'required|date',
             'end_date'      => 'nullable|date',
             'user_id'       => 'required|integer'
         ];
