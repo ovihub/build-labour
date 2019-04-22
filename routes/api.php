@@ -58,6 +58,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 
             Route::post('next-role', 'ApiWorkerController@updateNextRole');
             Route::post('about-me', 'ApiWorkerController@updateNextRole');
+            Route::get('experiences', 'ApiWorkerController@experiences');
         });
     });
 

@@ -12,7 +12,7 @@ class ApiWorkerController extends ApiBaseController
     /**
      * @OA\Post(
      *      path="/worker/next-role",
-     *      tags={"Worker Next Role"},
+     *      tags={"Worker"},
      *      summary="Update worker next role",
      *      security={{"BearerAuth":{}}},
      *      @OA\RequestBody(
@@ -121,7 +121,7 @@ class ApiWorkerController extends ApiBaseController
     /**
      * @OA\Post(
      *      path="/worker/about-me",
-     *      tags={"Worker About me"},
+     *      tags={"Worker"},
      *      summary="Update worker about me",
      *      security={{"BearerAuth":{}}},
      *      @OA\RequestBody(
@@ -195,5 +195,52 @@ class ApiWorkerController extends ApiBaseController
 
 
         return $this->apiSuccessResponse( [ 'worker_detail' => $user->workerDetail ], true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/worker/experiences",
+     *      tags={"Worker"},
+     *      summary="Worker Employment History / Experiences",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Experiences"
+     *      )
+     * )
+     */
+    public function experiences() {
+
+        $user = JWTAuth::toUser();
+
+        if (!$user->workerDetail) {
+
+            return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
+        }
+
+        $experiences = $user->experiences;
+
+        $experiences->map(function($exp) {
+
+            $exp->responsibilities;
+        });
+
+        return $this->apiSuccessResponse( compact('experiences'), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
     }
 }
