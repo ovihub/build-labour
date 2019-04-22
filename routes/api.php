@@ -55,7 +55,9 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 
     Route::prefix('worker')->group(function () {
         Route::middleware([ 'jwt' ])->group(function () {
+
             Route::post('next-role', 'ApiWorkerController@updateNextRole');
+            Route::post('about-me', 'ApiWorkerController@updateNextRole');
         });
     });
 
@@ -63,7 +65,11 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
         Route::middleware([ 'jwt' ])->group(function () {
             Route::post('experience', 'ApiWorksController@add');
             Route::put('experience/{id}', 'ApiWorksController@update');
+            Route::post('experience/{id}', 'ApiWorksController@update');
             Route::delete('experience/{id}', 'ApiWorksController@delete');
+            Route::post('experience/{id}/responsibility', 'ApiWorksController@respAdd');
+            Route::post('experience/{id}/responsibility/{rid}/update', 'ApiWorksController@respUpdate');
+            Route::delete('experience/{id}/responsibility/{rid}/delete', 'ApiWorksController@respDelete');
         });
     });
 

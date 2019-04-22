@@ -3,21 +3,20 @@
 namespace App\Models\Users;
 
 use App\Models\BaseModel;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class UserSkill extends BaseModel
+class WorkExperienceResponsibility extends BaseModel
 {
 
     private $userId = null;
 
-    protected $table = 'user_skills';
+    protected $table = 'work_experience_responsibilities';
     protected $primaryKey = 'id';
-
-    protected $fillable = [ 'skill', 'description', 'user_id' ];
 
     const UPDATED_AT = null;
     const CREATED_AT = null;
+
+    protected $fillable = ['work_experience_id', 'responsibility'];
 
 
     /**
@@ -26,9 +25,7 @@ class UserSkill extends BaseModel
     private function rules()
     {
         return [
-            'skill'          => 'required',
-            'description'   => 'required',
-            'user_id'       => 'required|integer'
+            'responsibility'  => 'required|min:10'
         ];
     }
 
@@ -54,24 +51,25 @@ class UserSkill extends BaseModel
         return true;
     }
 
-    public function setUserId($userId) {
-
-        $this->userId = $userId;
-    }
-
-    public function User() {
-
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
 
     public function store(Request $r) {
 
         $data = $r->all();
-        $data['user_id'] = $this->userId;
-        $data['created_at'] = Carbon::now();
-        $data['updated_at'] = Carbon::now();
 
-        if( ! $this->validate( $data )) {
+        $pk = $this->primaryKey;
+
+        if ($r->work_experience_responsibility_id) {
+
+            $this->exists = true;
+
+        }
+
+        if ($r->id) {
+
+            $data['work_experience_id'] = $r->id;
+        }
+
+        if (!$this->validate($data)) {
 
             return false;
         }
@@ -79,14 +77,7 @@ class UserSkill extends BaseModel
 
         $this->fill( $data );
 
-        $pk = $this->primaryKey;
-
-        if ($r->$pk) {
-
-            $this->exists = true;
-        }
-
-        try{
+        try {
 
             $this->save();
 

@@ -91,7 +91,6 @@ class ApiWorkerController extends ApiBaseController
 
         $user = JWTAuth::toUser();
 
-       // dd($user->toArray());
         if (!$user->workerDetail) {
 
             return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
@@ -115,7 +114,86 @@ class ApiWorkerController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'workExp' ), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( [ 'worker_detail' => $user->workerDetail ], true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
     }
 
+
+    /**
+     * @OA\Post(
+     *      path="/worker/about-me",
+     *      tags={"Worker About me"},
+     *      summary="Update worker about me",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/x-www-form-urlencoded",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="profile_description",
+     *                      description="About me",
+     *                      type="string",
+     *                      example="Experienced Senior Project Manager; demonstrated history of working on a wide range of construction projects for leading companies."
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function updateAboutMe( Request $request )
+    {
+
+        $user = JWTAuth::toUser();
+
+        if (!$user->workerDetail) {
+
+            return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
+        }
+
+        try {
+
+            if( !$user->workerDetail->store($request) ){
+
+                return $this->apiErrorResponse(
+                    false,
+                    $user->workerDetail->getErrors( true ),
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    $user->workerDetail->getErrorsDetail()
+                );
+            }
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+
+        return $this->apiSuccessResponse( [ 'worker_detail' => $user->workerDetail ], true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
+    }
 }

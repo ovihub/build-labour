@@ -5,6 +5,7 @@ use App\Models\Users\Ticket;
 use App\Models\Users\UserSkill;
 use App\Models\Users\WorkerDetail;
 use App\Models\Users\WorkExperience;
+use App\Models\Users\WorkExperienceResponsibility;
 use App\User;
 
 use Carbon\Carbon;
@@ -45,9 +46,8 @@ class UsersTableSeeder extends Seeder
             'Process paperwork'
         ];
 
-        WorkExperience::create([
+        $w = WorkExperience::create([
             'job_role' => 'Project Manager',
-            'responsibilities' => $responsibilities,
             'company_name' => 'Probuild',
             'company_id' => 1,
             'isCurrent' => false,
@@ -58,9 +58,12 @@ class UsersTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
+//        WorkExperienceResponsibility::create([
+//            'work_experience_id'
+//        ]);
+
         WorkExperience::create([
             'job_role' => 'Assistant Project Manager',
-            'responsibilities' => ['test'],
             'company_name' => 'BBUILD',
             'company_id' => 1,
             'isCurrent' => true,
@@ -73,7 +76,6 @@ class UsersTableSeeder extends Seeder
 
         WorkExperience::create([
             'job_role' => 'Construction',
-            'responsibilities' => ['test'],
             'company_name' => 'Tools ‘r’ Us',
             'company_id' => 1,
             'isCurrent' => true,
@@ -86,7 +88,6 @@ class UsersTableSeeder extends Seeder
 
         WorkExperience::create([
             'job_role' => 'Site Manager',
-            'responsibilities' => json_encode(['test']),
             'company_name' => 'Richmond Surveying',
             'company_id' => 1,
             'isCurrent' => true,

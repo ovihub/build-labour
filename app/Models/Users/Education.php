@@ -60,6 +60,7 @@ class Education extends BaseModel
             $this->attributes['end_date'] = Carbon::parse($date);
         }
     }
+    
     /**
      * Validate a user request
      *
