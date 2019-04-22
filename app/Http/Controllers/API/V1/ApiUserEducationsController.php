@@ -110,7 +110,7 @@ class ApiUserEducationsController extends ApiBaseController
 
 
     /**
-     * @OA\Put(
+     * @OA\Post(
      *      path="/user/education/{id}",
      *      tags={"User Education"},
      *      summary="Update a user education",

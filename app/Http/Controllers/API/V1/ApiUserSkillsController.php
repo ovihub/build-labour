@@ -91,7 +91,7 @@ class ApiUserSkillsController extends ApiBaseController
     }
 
     /**
-     * @OA\Put(
+     * @OA\POST(
      *      path="/user/skill/{id}",
      *      tags={"User Skill"},
      *      summary="Update a user skill",

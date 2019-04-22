@@ -88,11 +88,11 @@ class ApiUserTicketsController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'workExp' ), true, 'Successfully added a Ticket!', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'ticket' ), true, 'Successfully added a Ticket!', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
-     * @OA\Put(
+     * @OA\Post(
      *      path="/user/ticket/{id}",
      *      tags={"User Ticket"},
      *      summary="Update a ticket",
