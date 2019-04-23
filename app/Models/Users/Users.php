@@ -54,10 +54,7 @@ class Users extends BaseModel implements
 
         if ($this->isOptionalTransaction) {
 
-            return [
-                'first_name'  => 'required',
-                'last_name'   => 'required',
-            ];
+            return [];
         }
 
 
@@ -196,10 +193,28 @@ class Users extends BaseModel implements
 
         return $this;
     }
-    
+
+    public function setFirstNameAttribute( $name )
+    {
+        if ( ! empty( $name ) ) {
+
+            $this->attributes['first_name'] = $name;
+        }
+    }
+
+    public function setLastNameAttribute( $name )
+    {
+        if ( ! empty( $name ) ) {
+
+            $this->attributes['last_name'] = $name;
+        }
+    }
+
+
     public function setPasswordAttribute( $password )
     {
         if ( ! empty( $password ) ) {
+
             $this->attributes['password'] = \Hash::make( $password );
         }
     }
