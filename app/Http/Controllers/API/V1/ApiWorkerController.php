@@ -198,6 +198,147 @@ class ApiWorkerController extends ApiBaseController
     }
 
     /**
+     * @OA\Post(
+     *      path="/worker/optional",
+     *      tags={"Worker"},
+     *      summary="Update Worker optional information",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/x-www-form-urlencoded",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="first_name",
+     *                      description="First Name",
+     *                      type="string",
+     *                      example="Chris"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="last_name",
+     *                      description="Last Name",
+     *                      type="string",
+     *                      example="Webber"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="address",
+     *                      description="Address",
+     *                      type="string",
+     *                      example="200 St. Southern Lane Avenue."
+     *                  ),
+     *                  @OA\Property(
+     *                      property="profile_description",
+     *                      description="Profile Description",
+     *                      type="string",
+     *                      example="Good worker"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="gender",
+     *                      description="Gender",
+     *                      type="string",
+     *                      example="Male"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="date_of_birth",
+     *                      description="Date of Birth",
+     *                      type="string",
+     *                      example="1988-10-08"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="marital_status",
+     *                      description="Marital Status",
+     *                      type="string",
+     *                      example="Married"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="english_skill",
+     *                      description="english_skill",
+     *                      type="string",
+     *                      example="Excellent in English"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="drivers_license",
+     *                      description="Drivers License",
+     *                      type="string",
+     *                      example="I have a professional drivers license."
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function updateOptional( Request $request )
+    {
+
+        $user = JWTAuth::toUser();
+
+        if (!$user->workerDetail) {
+
+            return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
+        }
+
+        try {
+
+            if( !$user->workerDetail->store($request)){
+
+                return $this->apiErrorResponse(
+                    false,
+                    $user->workerDetail->getErrors( true ),
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    $user->workerDetail->getErrorsDetail()
+                );
+            }
+
+            $user->isOptionalTransaction = true;
+
+            if( !$user->store($request)){
+
+                return $this->apiErrorResponse(
+                    false,
+                    $user->getErrors( true ),
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    $user->workerDetail->getErrorsDetail()
+                );
+            }
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        $optional = $request->all();
+
+        return $this->apiSuccessResponse( compact('optional'), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
      * @OA\Get(
      *      path="/worker/experiences",
      *      tags={"Worker"},

@@ -29,6 +29,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
         Route::middleware([ 'jwt' ])->group(function () {
 
             Route::put( '', 'ApiUsersController@update');
+            Route::post( '', 'ApiUsersController@update');
             Route::post('photo', 'ApiUsersController@uploadProfilePhoto');
             Route::delete('photo', 'ApiUsersController@deleteProfilePhoto');
 
@@ -62,6 +63,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 
             Route::post('next-role', 'ApiWorkerController@updateNextRole');
             Route::post('about-me', 'ApiWorkerController@updateNextRole');
+            Route::post('optional', 'ApiWorkerController@updateOptional');
             Route::get('experiences', 'ApiWorkerController@experiences');
         });
     });

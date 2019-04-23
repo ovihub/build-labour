@@ -43,11 +43,24 @@ class Users extends BaseModel implements
 
     public $isWeb = true;
 
+    /* Optional information to be updated */
+    public $isOptionalTransaction = false;
+
     /**
      * @return array
      */
     private function rules()
     {
+
+        if ($this->isOptionalTransaction) {
+
+            return [
+                'first_name'  => 'required',
+                'last_name'   => 'required',
+            ];
+        }
+
+
         if( $this->id ) {
 
             // validation rules for updated users
@@ -58,12 +71,12 @@ class Users extends BaseModel implements
             ];
         }
 
+
         return [
             'email'         => 'required|string|email|max:50|unique:users',
             'password'      => 'required|string|min:6|max:24|confirmed',
             'first_name'    => 'required',
             'last_name'     => 'required',
-            //'role_id'       => 'required|integer|between:1,4',
             'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|digits_between:9,10'
         ];
     }
@@ -124,6 +137,7 @@ class Users extends BaseModel implements
     public function store( Request $r )
     {
 
+
         if( ! $this->validate( $r )){
             return false;
         }
@@ -143,13 +157,13 @@ class Users extends BaseModel implements
 
         }
 
-        try{
+        try {
 
             if (!$this->exists) {
 
                 \Mail::to( $this->email )->send( new ResendVerificationCodeEmail( $this ) );
             }
-            
+
             // deal with roles
             if ($this->exists) {
 
