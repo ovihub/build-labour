@@ -135,6 +135,9 @@ class PasswordReset extends BaseModel
             $request->merge( [ 'token' => \Hash::make( $token ) ] );
 
             if( ! $this->store( $request ) ){
+
+                $this->errorsDetail = array('email' => ['Cannot verify email in the system.']);
+                
                 return false;
             }
 
