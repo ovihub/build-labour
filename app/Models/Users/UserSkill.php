@@ -26,8 +26,8 @@ class UserSkill extends BaseModel
     private function rules()
     {
         return [
-            'skill'          => 'required',
-            'description'   => 'required',
+            'skill'          => 'required|min:3',
+            'description'   => 'required|min:5',
             'user_id'       => 'required|integer'
         ];
     }

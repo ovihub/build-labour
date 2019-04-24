@@ -25,8 +25,8 @@ class Ticket extends BaseModel
     private function rules()
     {
         return [
-            'ticket'          => 'required',
-            'description'    => 'required',
+            'ticket'         => 'required|min:5',
+            'description'    => 'required|min:5',
             'user_id'        => 'required|integer'
         ];
     }
