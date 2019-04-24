@@ -54,7 +54,11 @@ class Users extends BaseModel implements
 
         if ($this->isOptionalTransaction) {
 
-            return [];
+            return [
+                'gender' => 'nullable|in:male,female,other',
+                'first_name'    => 'required|min:2',
+                'last_name'     => 'required|min:2',
+            ];
         }
 
 
@@ -62,8 +66,8 @@ class Users extends BaseModel implements
 
             // validation rules for updated users
             return [
-                'first_name'    => 'required',
-                'last_name'     => 'required',
+                'first_name'    => 'required|min:2',
+                'last_name'     => 'required|min:2',
                 'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|digits_between:9,10'
             ];
         }
@@ -72,9 +76,16 @@ class Users extends BaseModel implements
         return [
             'email'         => 'required|string|email|max:50|unique:users',
             'password'      => 'required|string|min:6|max:24|confirmed',
-            'first_name'    => 'required',
-            'last_name'     => 'required',
+            'first_name'    => 'required|min:2',
+            'last_name'     => 'required|min:2',
             'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|digits_between:9,10'
+        ];
+    }
+
+    public function validationMessages()
+    {
+        return [
+            'gender.in'  => 'Gender must be Male, Female or Other',
         ];
     }
 
@@ -89,7 +100,19 @@ class Users extends BaseModel implements
 
         if( $this->id ){
 
-            $validator = \Validator::make( $request->all() , $this->rules() );
+            $rules = $this->rules();
+
+            if (!$request->first_name) {
+
+                unset($rules['first_name']);
+            }
+
+            if (!$request->last_name) {
+
+                unset($rules['last_name']);
+            }
+
+            $validator = \Validator::make( $request->all() , $rules, $this->validationMessages() );
 
             // email must not be modified
             if( $request->email && $request->email != $this->email ){
@@ -108,10 +131,9 @@ class Users extends BaseModel implements
                 return false;
             }
 
-
         } else {
 
-            $validator = \Validator::make( $request->all() , $this->rules() );
+            $validator = \Validator::make( $request->all() , $this->rules(), $this->validationMessages() );
 
             if( $validator->fails() ){
                 $this->errors = $validator->errors()->all();
@@ -136,6 +158,7 @@ class Users extends BaseModel implements
 
 
         if( ! $this->validate( $r )){
+
             return false;
         }
 

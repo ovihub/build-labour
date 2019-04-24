@@ -323,7 +323,7 @@ class ApiWorkerController extends ApiBaseController
                     $user->getErrors( true ),
                     self::HTTP_STATUS_INVALID_INPUT,
                     'invalidInput',
-                    $user->workerDetail->getErrorsDetail()
+                    $user->getErrorsDetail()
                 );
             }
 

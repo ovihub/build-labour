@@ -23,7 +23,9 @@ class WorkerDetail extends BaseModel
     private function rules()
     {
         return [
-            'introduction'  => 'required|min:5'
+            'introduction'  => 'nullable|min:5',
+            'english_skill' => 'nullable|min:3',
+            'profile_description' => 'nullable|min:10'
         ];
     }
 
