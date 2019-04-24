@@ -6,11 +6,10 @@
                     <slot name="custom-modal-title"></slot>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <slot name="custom-modal-content"></slot>
-                        </div>
-                    </div>
+                    <slot name="custom-modal-content"></slot>
+                </div>
+                <div class="modal-footer">
+                    <slot name="custom-modal-footer"></slot>
                 </div>
             </div>
         </div>
@@ -19,8 +18,6 @@
 
 <style scoped>
     .modal-ku {
-        width: 500px;
-        margin-top: 100px;
-        padding: 30px;
+        width: 588px;
     }
 </style>

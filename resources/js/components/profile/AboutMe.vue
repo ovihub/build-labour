@@ -3,7 +3,7 @@
         <div class="profile-content">
             <div class="profile-content-p20 pt-3 pb-4">
                 
-                <record-form title="AboutMe" :record="input" save-endpoint="/api/v1/user"></record-form>
+                <record-form title="AboutMe" :record="input" save-endpoint="/api/v1/worker/optional"></record-form>
                 
                 <span class="edit-icon" data-toggle="modal" data-target="#modalAboutMe">
                     <img src="/img/icons/editbutton.png"
