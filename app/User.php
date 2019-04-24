@@ -8,6 +8,7 @@ namespace App;
 
 use App\Models\Companies\Company;
 use App\Models\Users\Education;
+use App\Models\Users\FirebaseUsers;
 use App\Models\Users\Ticket;
 use App\Models\Users\Users;
 use App\Models\Users\UserSkill;
@@ -54,7 +55,7 @@ class User extends Users implements JWTSubject
      */
     public function Experiences() {
 
-        return $this->hasMany(WorkExperience::class, 'user_id', 'id')->with('Company')->orderBy('isCurrent', 'desc')->orderBy('start_date', 'desc');
+        return $this->hasMany(WorkExperience::class, 'user_id', 'id')->with('Company')->orderBy('end_date', 'asc')->orderBy('start_date', 'desc');
     }
 
     /**
@@ -101,5 +102,10 @@ class User extends Users implements JWTSubject
     public function Company() {
 
         return $this->belongsTo(Company::class, 'id', 'created_by');
+    }
+
+    public function Firebase() {
+
+        return $this->belongsTo(FirebaseUsers::class, 'id', 'user_id');
     }
 }

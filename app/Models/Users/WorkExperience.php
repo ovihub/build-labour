@@ -20,9 +20,9 @@ class WorkExperience extends BaseModel
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
-    protected $fillable = ['job_role', 'company_name', 'salary', 'user_id', 'start_date', 'end_date'];
+    protected $fillable = ['job_role', 'company_name', 'salary', 'user_id', 'start_date', 'end_date', 'company_id'];
 
-    protected $appends = ['period'];
+    protected $appends = ['period', "isCurrent"];
 
     /**
      * @return array
@@ -32,10 +32,11 @@ class WorkExperience extends BaseModel
         return [
             'job_role'      => 'required',
             'company_name'  => 'required',
-            'salary'        => 'required',
+            'salary'        => 'required|regex:/^\d+(\.\d{1,2})?$/', /* monetary validation */
             'start_date'    => 'required|date',
             'end_date'      => 'nullable|date',
-            'user_id'       => 'required|integer'
+            'user_id'       => 'required|integer',
+            'company_id'    => 'nullable|integer'
         ];
     }
 
@@ -130,6 +131,10 @@ class WorkExperience extends BaseModel
 
     }
 
+    public function getIsCurrentAttribute() {
+
+        return !$this->end_date ? true : false;
+    }
 
     public function store(Request $r) {
 

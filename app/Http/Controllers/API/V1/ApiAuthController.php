@@ -163,12 +163,14 @@ class ApiAuthController extends ApiBaseController
      */
     public function register( Request $request )
     {
-        $user =  new Users;
+        $user = new Users;
+
         try {
             if( ! $user->store( $request ) ){
                 return $this->apiErrorResponse( false, $user->getErrors( true ), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput', $user->getErrorsDetail());
             }
         } catch(\Exception $e) {
+
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 

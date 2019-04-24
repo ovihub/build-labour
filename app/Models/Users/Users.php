@@ -34,9 +34,9 @@ class Users extends BaseModel implements
     protected $fillable = [ 'id', 'email' , 'first_name' , 'last_name', 'password',
         'date_of_birth' , 'country', 'address', 'mobile_number', 'role_id', 'gender', 'marital_status' ];
 
-    protected $hidden =[ 'password' , 'remember_token','updated_at' , 'created_at', 'verification_code' ];
+    protected $hidden =[ 'password' , 'remember_token','updated_at' , 'created_at', 'verification_code', 'firebase' ];
 
-    protected $appends = [ 'full_name', 'dob_formatted' ];
+    protected $appends = [ 'full_name', 'dob_formatted', 'device_token' ];
 
     public $sql;
     public $bindings;
@@ -210,7 +210,6 @@ class Users extends BaseModel implements
         }
     }
 
-
     public function setPasswordAttribute( $password )
     {
         if ( ! empty( $password ) ) {
@@ -264,6 +263,11 @@ class Users extends BaseModel implements
     public function getDobFormattedAttribute()
     {
         return \Carbon\Carbon::parse($this->date_of_birth)->format('d F Y');
+    }
+
+    public function getDeviceTokenAttribute() {
+
+        return $this->firebase ? $this->firebase->device_token : '';
     }
 
     public function resendVerificationCode()
