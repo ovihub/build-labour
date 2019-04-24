@@ -19,7 +19,7 @@ class ApiWorksController extends ApiBaseController
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
-     *              mediaType="application/json",
+     *             mediaType="application/x-www-form-urlencoded",
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
@@ -35,6 +35,12 @@ class ApiWorksController extends ApiBaseController
      *                      example="Appetiser"
      *                  ),
      *                  @OA\Property(
+     *                      property="salary",
+     *                      description="<b>Required</b> Salary",
+     *                      type="string",
+     *                      example="20000"
+     *                  ),
+     *                  @OA\Property(
      *                      property="responsibilities",
      *                      description="<b>Required</b> Responsibilities",
      *                      type="string",
@@ -48,9 +54,15 @@ class ApiWorksController extends ApiBaseController
      *                  ),
      *                  @OA\Property(
      *                      property="end_date",
-     *                      description="<b>Required</b> End Date",
+     *                      description="<b>Optional</b> End Date",
      *                      type="string",
      *                      example="09/04/2017"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="company_id",
+     *                      description="Existing Company",
+     *                      type="integer",
+     *                      example="1"
      *                  ),
      *              ),
      *          ),
@@ -144,6 +156,12 @@ class ApiWorksController extends ApiBaseController
      *                      example="Appetiser"
      *                  ),
      *                  @OA\Property(
+     *                      property="salary",
+     *                      description="<b>Required</b> Salary",
+     *                      type="string",
+     *                      example="20000"
+     *                  ),
+     *                  @OA\Property(
      *                      property="responsibilities",
      *                      description="<b>Required</b> Responsibilities",
      *                      type="string",
@@ -157,9 +175,15 @@ class ApiWorksController extends ApiBaseController
      *                  ),
      *                  @OA\Property(
      *                      property="end_date",
-     *                      description="<b>Required</b> End Date",
+     *                      description="<b>Optional</b> End Date",
      *                      type="string",
      *                      example="09/04/2017"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="company_id",
+     *                      description="Existing Company",
+     *                      type="integer",
+     *                      example="1"
      *                  ),
      *              ),
      *          ),

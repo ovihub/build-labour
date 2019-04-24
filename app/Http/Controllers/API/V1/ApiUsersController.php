@@ -59,7 +59,7 @@ class ApiUsersController extends ApiBaseController
     }
 
     /**
-     * @OA\Put(
+     * @OA\POST(
      *      path="/user",
      *      tags={"User"},
      *      summary="Update user's information",

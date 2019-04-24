@@ -27,8 +27,8 @@ class Education extends BaseModel
     private function rules()
     {
         return [
-            'course'        => 'required',
-            'school'        => 'required',
+            'course'        => 'required|min:5',
+            'school'        => 'required|min:5',
             'start_date'    => 'required|date',
             'end_date'      => 'required|date',
             'user_id'       => 'required|integer'

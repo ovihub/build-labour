@@ -117,7 +117,6 @@ class ApiWorkerController extends ApiBaseController
         return $this->apiSuccessResponse( [ 'worker_detail' => $user->workerDetail ], true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
     }
 
-
     /**
      * @OA\Post(
      *      path="/worker/about-me",
@@ -324,7 +323,7 @@ class ApiWorkerController extends ApiBaseController
                     $user->getErrors( true ),
                     self::HTTP_STATUS_INVALID_INPUT,
                     'invalidInput',
-                    $user->workerDetail->getErrorsDetail()
+                    $user->getErrorsDetail()
                 );
             }
 

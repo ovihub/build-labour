@@ -17,6 +17,40 @@ class WorkerDetail extends BaseModel
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
+    /**
+     * @return array
+     */
+    private function rules()
+    {
+        return [
+            'introduction'  => 'nullable|min:5',
+            'english_skill' => 'nullable|min:3',
+            'profile_description' => 'nullable|min:10'
+        ];
+    }
+
+    /**
+     * Validate a user request
+     *
+     * @param $request
+     * @return bool
+     */
+
+    private function validate( $data ){
+
+        $validator = \Validator::make($data, $this->rules());
+
+        if ( $validator->fails() ) {
+
+            $this->errors = $validator->errors()->all();
+            $this->errorsDetail = $validator->errors()->toArray();
+
+            return false;
+        }
+
+        return true;
+    }
+
     public function User() {
 
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -39,6 +73,11 @@ class WorkerDetail extends BaseModel
 
             $this->exists = true;
             $this->userId = $this->user_id;
+        }
+
+        if (!$this->validate($data)) {
+
+            return false;
         }
 
         try{
