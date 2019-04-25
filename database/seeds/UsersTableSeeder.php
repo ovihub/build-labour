@@ -136,36 +136,6 @@ class UsersTableSeeder extends Seeder
             'user_id' => $user->id
         ]);
 
-        UserSkill::create([
-            'skill' => 'Quality Control',
-            'description' => 'Expert',
-            'user_id' => $user->id
-        ]);
-
-        UserSkill::create([
-            'skill' => 'Time Management',
-            'description' => 'Competent',
-            'user_id' => $user->id
-        ]);
-
-        UserSkill::create([
-            'skill' => 'Teamwork',
-            'description' => 'Competent',
-            'user_id' => $user->id
-        ]);
-
-        UserSkill::create([
-            'skill' => 'Communication Skills',
-            'description' => 'Expert',
-            'user_id' => $user->id
-        ]);
-
-        UserSkill::create([
-            'skill' => 'Can Accept Criticism',
-            'description' => 'Competent',
-            'user_id' => $user->id
-        ]);
-
         Ticket::create([
             'ticket' => 'TLILIC2001',
             'description' => 'Licence to operate a Forklift Truck',

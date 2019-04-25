@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Models\Users\WorkExperience;
+use App\Repositories\SkillRepository;
 use Illuminate\Http\Request;
 use JWTAuth;
 
@@ -382,5 +383,40 @@ class ApiWorkerController extends ApiBaseController
         });
 
         return $this->apiSuccessResponse( compact('experiences'), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/worker/skill-options",
+     *      tags={"Worker"},
+     *      summary="Skill Options Default",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Experiences"
+     *      )
+     * )
+     */
+    public function skillOptions(SkillRepository $repo) {
+
+        $skillOptions = $repo->levels()->all();
+
+        return $this->apiSuccessResponse( compact('skillOptions'), true, 'Success', self::HTTP_STATUS_REQUEST_OK);
     }
 }
