@@ -3,6 +3,8 @@
 namespace App\Models\Users;
 
 use App\Models\BaseModel;
+use App\Models\Skills\Skill;
+use App\Models\Skills\SkillLevel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -14,11 +16,11 @@ class UserSkill extends BaseModel
     protected $table = 'user_skills';
     protected $primaryKey = 'id';
 
-    protected $fillable = [ 'skill', 'description', 'user_id' ];
+    protected $fillable = [ 'user_id', 'skill_id', 'skill_level_id' ];
+    protected $appends = [ 'skill_name', 'skill_level_name' ];
 
     const UPDATED_AT = null;
     const CREATED_AT = null;
-
 
     /**
      * @return array
@@ -26,10 +28,40 @@ class UserSkill extends BaseModel
     private function rules()
     {
         return [
-            'skill'          => 'required|min:3',
-            'description'   => 'required|min:5',
-            'user_id'       => 'required|integer'
+            'skill_id' => 'required|integer',
+            'skill_level_id' => 'required|integer',
+            'user_id' => 'required|integer'
         ];
+    }
+
+    public function Skill() {
+
+        return $this->belongsTo(Skill::class, 'skill_id', 'id');
+    }
+
+    public function SkillLevel() {
+
+        return $this->belongsTo(SkillLevel::class, 'skill_level_id', 'id');
+    }
+
+    public function getSkillNameAttribute() {
+
+        if ($this->skill) {
+
+            return $this->skill->skill;
+        }
+
+        return '';
+    }
+
+    public function getSkillLevelNameAttribute() {
+
+        if ($this->skillLevel->level) {
+
+            return $this->skillLevel->level;
+        }
+
+        return '';
     }
 
     /**
