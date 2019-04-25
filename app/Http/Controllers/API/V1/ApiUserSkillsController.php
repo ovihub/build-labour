@@ -2,12 +2,23 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use JWTAuth;
 use App\Models\Users\UserSkill;
 
 class ApiUserSkillsController extends ApiBaseController
 {
+
+    /**
+     * @var UserRepository
+     */
+    protected $userRepo;
+
+    public function __construct(UserRepository $repository) {
+
+        $this->userRepo = $repository;
+    }
 
     /**
      * @OA\Post(
@@ -155,36 +166,16 @@ class ApiUserSkillsController extends ApiBaseController
     public function update(Request $request)
     {
 
-        $user = JWTAuth::toUser();
-
-        $skill = UserSkill::find($request->id);
-
-        if (!$skill) {
-
-            return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
-        }
-
         try {
 
-            $skill->setUserId($user->id);
-
-            if( !$skill->store($request) ){
-
-                return $this->apiErrorResponse(
-                    false,
-                    $skill->getErrors( true ),
-                    self::HTTP_STATUS_INVALID_INPUT,
-                    'invalidInput',
-                    $skill->getErrorsDetail()
-                );
-            }
+            $skills = $this->userRepo->saveSkills($request);
 
         } catch(\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'skill' ), true, 'Successfully updated a Skill', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'skills' ), true, 'Successfully updated worker skills', self::HTTP_STATUS_REQUEST_OK);
     }
 
 
