@@ -16,113 +16,124 @@ class SkillsTableSeeder extends Seeder
      */
     public function run()
     {
+        $table_name = 'skills';
 
-        DB::statement("SET foreign_key_checks=0");
-        DB::table('user_skills')->truncate();
-        DB::statement("SET foreign_key_checks=1");
+    	DB::table($table_name)->delete();
 
-        // create default skills
-
-        $skill1 = Skill::create([
-           'skill' => 'Quality Control'
+        DB::table($table_name)->insert([
+            [ 'name' => 'Quality Control' ],
+            [ 'name' => 'Communication Skills' ],
+            [ 'name' => 'Time Management' ],
+            [ 'name' => 'Can Accept Criticism' ],
+            [ 'name' => 'Teamwork' ],
         ]);
 
-        $skill2 = Skill::create([
-            'skill' => 'Communication Skills'
-        ]);
+        // DB::statement("SET foreign_key_checks=0");
+        // DB::table('user_skills')->truncate();
+        // DB::statement("SET foreign_key_checks=1");
 
-        $skill3 = Skill::create([
-            'skill' => 'Example for the odd case it would be two lined'
-        ]);
+        // // create default skills
 
-        $skill4 = Skill::create([
-            'skill' => 'Can Accept Criticism'
-        ]);
+        // $skill1 = Skill::create([
+        //    'skill' => 'Quality Control'
+        // ]);
 
-        $skill5 = Skill::create([
-            'skill' => 'Team'
-        ]);
+        // $skill2 = Skill::create([
+        //     'skill' => 'Communication Skills'
+        // ]);
 
-        // 1
-        $levels = array(
-            ['level' => 'beginner', 'skill_id' => $skill1->id],
-            ['level' => 'competent', 'skill_id' => $skill1->id],
-            ['level' => 'expert', 'skill_id' => $skill1->id]
-        );
+        // $skill3 = Skill::create([
+        //     'skill' => 'Example for the odd case it would be two lined'
+        // ]);
 
-        SkillLevel::insert($levels);
+        // $skill4 = Skill::create([
+        //     'skill' => 'Can Accept Criticism'
+        // ]);
 
-        // 2
-        $levels = array(
-            ['level' => 'beginner', 'skill_id' => $skill2->id],
-            ['level' => 'competent', 'skill_id' => $skill2->id],
-            ['level' => 'expert', 'skill_id' => $skill2->id]
-        );
+        // $skill5 = Skill::create([
+        //     'skill' => 'Team'
+        // ]);
 
-        SkillLevel::insert($levels);
+        // // 1
+        // $levels = array(
+        //     ['level' => 'beginner', 'skill_id' => $skill1->id],
+        //     ['level' => 'competent', 'skill_id' => $skill1->id],
+        //     ['level' => 'expert', 'skill_id' => $skill1->id]
+        // );
 
-        // 3
-        $levels = array(
-            ['level' => '2017', 'skill_id' => $skill3->id]
-        );
+        // SkillLevel::insert($levels);
 
-        SkillLevel::insert($levels);
+        // // 2
+        // $levels = array(
+        //     ['level' => 'beginner', 'skill_id' => $skill2->id],
+        //     ['level' => 'competent', 'skill_id' => $skill2->id],
+        //     ['level' => 'expert', 'skill_id' => $skill2->id]
+        // );
 
-        // 4
-        $levels = array(
-            ['level' => 'beginner', 'skill_id' => $skill4->id],
-            ['level' => 'competent', 'skill_id' => $skill4->id],
-            ['level' => 'expert', 'skill_id' => $skill4->id]
-        );
+        // SkillLevel::insert($levels);
 
-        SkillLevel::insert($levels);
+        // // 3
+        // $levels = array(
+        //     ['level' => '2017', 'skill_id' => $skill3->id]
+        // );
 
-        // 5
-        $levels = array(
-            ['level' => 'beginner', 'skill_id' => $skill5->id],
-            ['level' => 'competent', 'skill_id' => $skill5->id],
-            ['level' => 'expert', 'skill_id' => $skill5->id]
-        );
+        // SkillLevel::insert($levels);
 
-        SkillLevel::insert($levels);
+        // // 4
+        // $levels = array(
+        //     ['level' => 'beginner', 'skill_id' => $skill4->id],
+        //     ['level' => 'competent', 'skill_id' => $skill4->id],
+        //     ['level' => 'expert', 'skill_id' => $skill4->id]
+        // );
+
+        // SkillLevel::insert($levels);
+
+        // // 5
+        // $levels = array(
+        //     ['level' => 'beginner', 'skill_id' => $skill5->id],
+        //     ['level' => 'competent', 'skill_id' => $skill5->id],
+        //     ['level' => 'expert', 'skill_id' => $skill5->id]
+        // );
+
+        // SkillLevel::insert($levels);
 
 
-        // get user testemail@test.com
+        // // get user testemail@test.com
 
-        $user = User::whereEmail('testemail@test.com')->first();
+        // $user = User::whereEmail('testemail@test.com')->first();
 
-        print_r($skill1->levels->toArray());
-        if ($user) {
+        // print_r($skill1->levels->toArray());
+        // if ($user) {
 
-            UserSkill::create([
-                'user_id' => $user->id,
-                'skill_id' => $skill1->id,
-                'skill_level_id' => $skill1->levels->toArray()[0]['id']
-            ]);
+        //     UserSkill::create([
+        //         'user_id' => $user->id,
+        //         'skill_id' => $skill1->id,
+        //         'skill_level_id' => $skill1->levels->toArray()[0]['id']
+        //     ]);
 
-            UserSkill::create([
-                'user_id' => $user->id,
-                'skill_id' => $skill2->id,
-                'skill_level_id' => $skill2->levels->toArray()[1]['id']
-            ]);
+        //     UserSkill::create([
+        //         'user_id' => $user->id,
+        //         'skill_id' => $skill2->id,
+        //         'skill_level_id' => $skill2->levels->toArray()[1]['id']
+        //     ]);
 
-            UserSkill::create([
-                'user_id' => $user->id,
-                'skill_id' => $skill3->id,
-                'skill_level_id' => $skill3->levels->toArray()[0]['id']
-            ]);
+        //     UserSkill::create([
+        //         'user_id' => $user->id,
+        //         'skill_id' => $skill3->id,
+        //         'skill_level_id' => $skill3->levels->toArray()[0]['id']
+        //     ]);
 
-            UserSkill::create([
-                'user_id' => $user->id,
-                'skill_id' => $skill4->id,
-                'skill_level_id' => $skill4->levels->toArray()[2]['id']
-            ]);
+        //     UserSkill::create([
+        //         'user_id' => $user->id,
+        //         'skill_id' => $skill4->id,
+        //         'skill_level_id' => $skill4->levels->toArray()[2]['id']
+        //     ]);
 
-            UserSkill::create([
-                'user_id' => $user->id,
-                'skill_id' => $skill5->id,
-                'skill_level_id' => $skill5->levels->toArray()[2]['id']
-            ]);
-        }
+        //     UserSkill::create([
+        //         'user_id' => $user->id,
+        //         'skill_id' => $skill5->id,
+        //         'skill_level_id' => $skill5->levels->toArray()[2]['id']
+        //     ]);
+        // }
     }
 }

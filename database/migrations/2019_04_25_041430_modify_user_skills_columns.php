@@ -20,7 +20,11 @@ class ModifyUserSkillsColumns extends Migration
             $table->dropColumn('created_at');
             $table->dropColumn('updated_at');
             $table->integer('skill_id')->unsigned();
-            $table->integer('skill_level_id')->unsigned();
+            $table->integer('level_id')->unsigned();
+
+            // $table->foreign('user_id')->references('id')->on('users');
+            // $table->foreign('skill_id')->references('id')->on('skills');
+            // $table->foreign('level_id')->references('id')->on('levels');
         });
     }
 
@@ -31,6 +35,6 @@ class ModifyUserSkillsColumns extends Migration
      */
     public function down()
     {
-
+        
     }
 }
