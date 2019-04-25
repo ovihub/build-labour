@@ -3735,8 +3735,8 @@ __webpack_require__.r(__webpack_exports__);
         component.profile.address = user.address;
         component.profile.country = user.country;
         component.profile.course = user.educations[0] ? user.educations[0].course : '';
-        component.profile.school = user.educations[0] ? user.educations[0].school : '';
-        component.profile.role = user.role.name;
+        component.profile.school = user.educations[0] ? user.educations[0].school : ''; // component.profile.role = user.role.name;
+
         component.profile.job_role = user.experiences[0] ? user.experiences[0].job_role : '';
         component.profile.company_name = user.experiences[0] ? user.experiences[0].company_name : '';
         component.profile.start_date = user.experiences[0] ? user.experiences[0].start_date : '';
