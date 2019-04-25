@@ -11335,16 +11335,6 @@ html {
   }
 }
 
-::-moz-selection {
-  background: #b3d4fc;
-  text-shadow: none;
-}
-
-::selection {
-  background: #b3d4fc;
-  text-shadow: none;
-}
-
 hr {
   display: block;
   height: 1px;
@@ -11386,7 +11376,10 @@ select {
   max-width: 524px;
   height: 56px;
   border: solid 1px rgba(0, 0, 0, 0.32);
-  padding: 15px 24px 17px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 16px;
   margin: 0 auto;
   display: block;
   width: 100%;
@@ -11397,6 +11390,10 @@ select {
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   background-color: #ffffff;
+  background-image: url(/img/icons/expand.png);
+  background-image: -webkit-image-set(url("/img/icons/expand@2x.png") 2x, url("/img/icons/expand@3x.png") 3x);
+  background-position: 210px;
+  background-repeat: no-repeat;
 }
 
 button {
@@ -12212,6 +12209,11 @@ p.bl-nav-tab-label {
   display: flex;
   flex-wrap: wrap;
   margin-top: 28px;
+}
+
+.row-center {
+  align-items: center;
+  justify-content: center;
 }
 
 .emp-col-right {

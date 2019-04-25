@@ -23,12 +23,12 @@
                             What are your main industry skills?
                         </div>
 
-                        <div class="row skill-row" v-for="skill in user_skills" :key="skill.skill_id">
-                            <label class="col-md-6 col-sm-6 skill-form-label text-md-right">
+                        <div class="emp-row row-center" v-for="skill in user_skills" :key="skill.skill_id">
+                            <label class="emp-col-left skill-form-label text-md-right">
                                 {{ skill.skill_name }}
                             </label>
 
-                            <div class="col-md-6 col-sm-6">
+                            <div class="emp-col-right">
                                 <select v-model="skill.level_id">
                                     <option v-for="level in levels" :key="level.id" v-bind:value="level.id">{{ level.name }}</option>
                                 </select>  

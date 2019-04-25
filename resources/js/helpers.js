@@ -15,6 +15,21 @@ month[9] = "October";
 month[10] = "November";
 month[11] = "December";
 
+var months = [];
+            
+months.push({ id: 1, name: 'January' });
+months.push({ id: 2, name: 'February' });
+months.push({ id: 3, name: 'March' });
+months.push({ id: 4, name: 'April' });
+months.push({ id: 5, name: 'May' });
+months.push({ id: 6, name: 'June' });
+months.push({ id: 7, name: 'July' });
+months.push({ id: 8, name: 'August' });
+months.push({ id: 9, name: 'September' });
+months.push({ id: 10, name: 'October' });
+months.push({ id: 11, name: 'November' });
+months.push({ id: 12, name: 'December' });
+
 window.Helper = {
     data: {
 
@@ -100,5 +115,19 @@ window.Helper = {
 
             return period;
         },
+
+        getMonths() {
+            return months;
+        },
+
+        getYears() {
+            let currentYear = new Date().getFullYear(), years = [], startYear = 1980;
+
+            while ( startYear <= currentYear ) {
+                years.push(startYear++);
+            }
+
+            return years;
+        }
     }
 }

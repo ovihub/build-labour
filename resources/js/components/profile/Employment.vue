@@ -39,21 +39,33 @@
                         <div class="emp-row">
                             <div class="emp-col-left">
                                 <div class="emp-form-label">Start Month</div>
-                                <input class="form-control" type="text" v-model="input.start_date" />
+                                <input type="hidden" v-model="input.start_date" />
+                                <select v-model="input.start_month">
+                                    <option v-for="month in months" :key="month.id">{{ month.name }}</option>
+                                </select>
                             </div>
                             <div class="emp-col-right">
                                 <div class="emp-form-label">Start Year</div>
-                                <input class="form-control" type="text" v-model="input.start_date" />
+                                <input type="hidden" v-model="input.start_date" />
+                                <select v-model="input.start_year">
+                                    <option v-for="(year, index) in years" :key="index">{{ year }}</option>
+                                </select>
                             </div>
                         </div>
                          <div class="emp-row">
                             <div class="emp-col-left">
                                 <div class="emp-form-label">Start Month</div>
-                                <input class="form-control" type="text" v-model="input.end_date" />
+                                <input type="hidden" v-model="input.end_date" />
+                                <select v-model="input.end_month">
+                                    <option v-for="month in months" :key="month.id">{{ month.name }}</option>
+                                </select>
                             </div>
                             <div class="emp-col-right">
                                 <div class="emp-form-label">Start Year</div>
-                                <input class="form-control" type="text" v-model="input.end_date" />
+                                <input type="hidden" v-model="input.end_date" />
+                                <select v-model="input.end_year">
+                                    <option v-for="(year, index) in years" :key="index">{{ year }}</option>
+                                </select>
                             </div>
                         </div>
 
@@ -153,9 +165,12 @@
             return {
                 disabled: false,
                 is_empty: false,
+                months: Utils.getMonths(),
+                years: Utils.getYears(),
                 expanded: [],
                 input: {
-                    job_role: '', company_name: '', location: '', project_size: '', start_date: '', end_date: '', responsibilities: []
+                    job_role: '', company_name: '', location: '', project_size: '', start_date: '', end_date: '',
+                    start_month: 0, start_year: 0, end_month: 0, end_year: 0, responsibilities: [],
                 },
                 employments: [],
                 getBox: 'bl-box-2 hidden',

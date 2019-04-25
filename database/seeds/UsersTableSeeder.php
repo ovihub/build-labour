@@ -57,8 +57,8 @@ class UsersTableSeeder extends Seeder
                 'user_id' => $user->id,
                 'location' => 'Richmond, Victoria, Australia',
                 'project_size' => '1,750,000',
-                'start_date' => Carbon::parse('11/10/2015'),
-                'end_date' => Carbon::parse('09/04/2019'),
+                'start_date' => Carbon::parse('11/1/2015'),
+                'end_date' => Carbon::parse('09/1/2019'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -77,8 +77,8 @@ class UsersTableSeeder extends Seeder
                 'user_id' => $user->id,
                 'location' => 'Richmond, Victoria, Australia',
                 'project_size' => '1,000,000',
-                'start_date' => Carbon::parse('11/10/2014'),
-                'end_date' => Carbon::parse('11/10/2015'),
+                'start_date' => Carbon::parse('11/1/2014'),
+                'end_date' => Carbon::parse('11/1/2015'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -90,8 +90,8 @@ class UsersTableSeeder extends Seeder
                 'user_id' => $user->id,
                 'location' => 'Richmond, Victoria, Australia',
                 'project_size' => '2,000,000',
-                'start_date' => Carbon::parse('11/10/2013'),
-                'end_date' => Carbon::parse('11/10/2014'),
+                'start_date' => Carbon::parse('11/1/2013'),
+                'end_date' => Carbon::parse('11/1/2014'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -103,8 +103,8 @@ class UsersTableSeeder extends Seeder
                 'user_id' => $user->id,
                 'location' => 'Richmond, Victoria, Australia',
                 'project_size' => '3,000,000',
-                'start_date' => Carbon::parse('11/10/2012'),
-                'end_date' => Carbon::parse('11/10/2013'),
+                'start_date' => Carbon::parse('11/1/2012'),
+                'end_date' => Carbon::parse('11/1/2013'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);

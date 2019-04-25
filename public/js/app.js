@@ -3264,11 +3264,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       disabled: false,
       is_empty: false,
+      months: Utils.getMonths(),
+      years: Utils.getYears(),
       expanded: [],
       input: {
         job_role: '',
@@ -3277,6 +3291,10 @@ __webpack_require__.r(__webpack_exports__);
         project_size: '',
         start_date: '',
         end_date: '',
+        start_month: 0,
+        start_year: 0,
+        end_month: 0,
+        end_year: 0,
         responsibilities: []
       },
       employments: [],
@@ -3400,9 +3418,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      disabled: false,
       input: {
         introduction: null,
         when: null,
@@ -3421,7 +3476,13 @@ __webpack_require__.r(__webpack_exports__);
       }
     });
   },
-  methods: {}
+  methods: {
+    textAreaAdjust: function textAreaAdjust() {
+      var o = this.$refs['idealIntro'];
+      o.style.height = o.scrollHeight + 'px';
+    },
+    submitForm: function submitForm() {}
+  }
 });
 
 /***/ }),
@@ -4035,7 +4096,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getPeriod: function getPeriod(start, end) {
-      console.log(start, end);
       return Utils.getPeriod(start, end);
     }
   }
@@ -42732,8 +42792,7 @@ var render = function() {
                             expression: "input.start_date"
                           }
                         ],
-                        staticClass: "form-control",
-                        attrs: { type: "text" },
+                        attrs: { type: "hidden" },
                         domProps: { value: _vm.input.start_date },
                         on: {
                           input: function($event) {
@@ -42747,7 +42806,46 @@ var render = function() {
                             )
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.start_month,
+                              expression: "input.start_month"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input,
+                                "start_month",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.months, function(month) {
+                          return _c("option", { key: month.id }, [
+                            _vm._v(_vm._s(month.name))
+                          ])
+                        }),
+                        0
+                      )
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-col-right" }, [
@@ -42764,8 +42862,7 @@ var render = function() {
                             expression: "input.start_date"
                           }
                         ],
-                        staticClass: "form-control",
-                        attrs: { type: "text" },
+                        attrs: { type: "hidden" },
                         domProps: { value: _vm.input.start_date },
                         on: {
                           input: function($event) {
@@ -42779,7 +42876,46 @@ var render = function() {
                             )
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.start_year,
+                              expression: "input.start_year"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input,
+                                "start_year",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.years, function(year, index) {
+                          return _c("option", { key: index }, [
+                            _vm._v(_vm._s(year))
+                          ])
+                        }),
+                        0
+                      )
                     ])
                   ]),
                   _vm._v(" "),
@@ -42798,8 +42934,7 @@ var render = function() {
                             expression: "input.end_date"
                           }
                         ],
-                        staticClass: "form-control",
-                        attrs: { type: "text" },
+                        attrs: { type: "hidden" },
                         domProps: { value: _vm.input.end_date },
                         on: {
                           input: function($event) {
@@ -42809,7 +42944,46 @@ var render = function() {
                             _vm.$set(_vm.input, "end_date", $event.target.value)
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.end_month,
+                              expression: "input.end_month"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input,
+                                "end_month",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.months, function(month) {
+                          return _c("option", { key: month.id }, [
+                            _vm._v(_vm._s(month.name))
+                          ])
+                        }),
+                        0
+                      )
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-col-right" }, [
@@ -42826,8 +43000,7 @@ var render = function() {
                             expression: "input.end_date"
                           }
                         ],
-                        staticClass: "form-control",
-                        attrs: { type: "text" },
+                        attrs: { type: "hidden" },
                         domProps: { value: _vm.input.end_date },
                         on: {
                           input: function($event) {
@@ -42837,7 +43010,46 @@ var render = function() {
                             _vm.$set(_vm.input, "end_date", $event.target.value)
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.end_year,
+                              expression: "input.end_year"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input,
+                                "end_year",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.years, function(year, index) {
+                          return _c("option", { key: index }, [
+                            _vm._v(_vm._s(year))
+                          ])
+                        }),
+                        0
+                      )
                     ])
                   ]),
                   _vm._v(" "),
@@ -43218,13 +43430,109 @@ var render = function() {
         "div",
         { staticClass: "profile-content-p20 pt-3 pb-4" },
         [
-          _c("record-form", {
-            attrs: {
-              title: "YourIdealNextRole",
-              record: _vm.input,
-              "save-endpoint": "/api/v1/worker/next-role"
-            }
-          }),
+          _c(
+            "main-modal",
+            { attrs: { id: "modalIdealRole" } },
+            [
+              _c("template", { slot: "custom-modal-title" }, [
+                _c("h4", { staticClass: "modal-title" }, [
+                  _vm._v("Edit Ideal Next Role")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "close", attrs: { "data-dismiss": "modal" } },
+                  [_vm._v("×")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("template", { slot: "custom-modal-content" }, [
+                _c(
+                  "form",
+                  {
+                    staticClass: "modal-form",
+                    attrs: { method: "POST" },
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.submitForm($event)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "skill-label" }, [
+                      _vm._v(
+                        "\n                            What is your ideal next role?\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.input.introduction,
+                          expression: "input.introduction"
+                        }
+                      ],
+                      ref: "idealIntro",
+                      staticClass: "form-control",
+                      staticStyle: { overflow: "hidden" },
+                      attrs: {
+                        placeholder:
+                          "Example: My ideal next role would be as a qualified plumber working on high-end residential jobs with an awesome team."
+                      },
+                      domProps: { value: _vm.input.introduction },
+                      on: {
+                        keyup: _vm.textAreaAdjust,
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.input,
+                            "introduction",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "skill-label" }, [
+                      _vm._v(
+                        "\n                            When could this happen?\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "skill-label" }, [
+                      _vm._v(
+                        "\n                            Maximum Distance from home\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "skill-label" }, [
+                      _vm._v(
+                        "\n                            Would you work/relocate to another state? If Yes, tick states that apply.\n                        "
+                      )
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("template", { slot: "custom-modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "mt-0",
+                    attrs: { type: "submit", disabled: _vm.disabled },
+                    on: { click: _vm.submitForm }
+                  },
+                  [_vm._v("Save Changes")]
+                )
+              ])
+            ],
+            2
+          ),
           _vm._v(" "),
           _vm._m(0),
           _vm._v(" "),
@@ -43322,10 +43630,7 @@ var staticRenderFns = [
       "span",
       {
         staticClass: "edit-icon",
-        attrs: {
-          "data-toggle": "modal",
-          "data-target": "#modalYourIdealNextRole"
-        }
+        attrs: { "data-toggle": "modal", "data-target": "#modalIdealRole" }
       },
       [
         _c("img", {
@@ -43441,13 +43746,16 @@ var render = function() {
                   _vm._l(_vm.user_skills, function(skill) {
                     return _c(
                       "div",
-                      { key: skill.skill_id, staticClass: "row skill-row" },
+                      {
+                        key: skill.skill_id,
+                        staticClass: "emp-row row-center"
+                      },
                       [
                         _c(
                           "label",
                           {
                             staticClass:
-                              "col-md-6 col-sm-6 skill-form-label text-md-right"
+                              "emp-col-left skill-form-label text-md-right"
                           },
                           [
                             _vm._v(
@@ -43458,7 +43766,7 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6 col-sm-6" }, [
+                        _c("div", { staticClass: "emp-col-right" }, [
                           _c(
                             "select",
                             {
@@ -58297,6 +58605,55 @@ month[8] = "September";
 month[9] = "October";
 month[10] = "November";
 month[11] = "December";
+var months = [];
+months.push({
+  id: 1,
+  name: 'January'
+});
+months.push({
+  id: 2,
+  name: 'February'
+});
+months.push({
+  id: 3,
+  name: 'March'
+});
+months.push({
+  id: 4,
+  name: 'April'
+});
+months.push({
+  id: 5,
+  name: 'May'
+});
+months.push({
+  id: 6,
+  name: 'June'
+});
+months.push({
+  id: 7,
+  name: 'July'
+});
+months.push({
+  id: 8,
+  name: 'August'
+});
+months.push({
+  id: 9,
+  name: 'September'
+});
+months.push({
+  id: 10,
+  name: 'October'
+});
+months.push({
+  id: 11,
+  name: 'November'
+});
+months.push({
+  id: 12,
+  name: 'December'
+});
 window.Helper = {
   data: {},
   methods: {
@@ -58369,6 +58726,20 @@ window.Helper = {
       }
 
       return period;
+    },
+    getMonths: function getMonths() {
+      return months;
+    },
+    getYears: function getYears() {
+      var currentYear = new Date().getFullYear(),
+          years = [],
+          startYear = 1980;
+
+      while (startYear <= currentYear) {
+        years.push(startYear++);
+      }
+
+      return years;
     }
   }
 };

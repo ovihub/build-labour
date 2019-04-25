@@ -100,7 +100,6 @@
         methods: {
 
             getPeriod(start, end) {
-                console.log(start, end)
                 return Utils.getPeriod(start, end);
             },
             

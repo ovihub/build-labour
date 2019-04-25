@@ -3,9 +3,45 @@
         <div class="profile-content">
             <div class="profile-content-p20 pt-3 pb-4">
                 
-                <record-form title="YourIdealNextRole" :record="input" save-endpoint="/api/v1/worker/next-role"></record-form>
+                <main-modal id="modalIdealRole">
+            
+                    <template slot="custom-modal-title">
+                        <h4 class="modal-title">Edit Ideal Next Role</h4>
+                        <div class="close" data-dismiss="modal">&times;</div>
+                    </template>
 
-                <span class="edit-icon" data-toggle="modal" data-target="#modalYourIdealNextRole">
+                    <template slot="custom-modal-content">
+                        <form class="modal-form" method="POST" @submit.prevent="submitForm">
+                            <div class="skill-label">
+                                What is your ideal next role?
+                            </div>
+                            
+                            <textarea ref="idealIntro" class="form-control" style="overflow:hidden"
+                                placeholder="Example: My ideal next role would be as a qualified plumber working on high-end residential jobs with an awesome team."
+                                @keyup="textAreaAdjust" v-model="input.introduction"></textarea>
+                            
+                            <div class="skill-label">
+                                When could this happen?
+                            </div>
+
+                            <div class="skill-label">
+                                Maximum Distance from home
+                            </div>
+
+                            <div class="skill-label">
+                                Would you work/relocate to another state? If Yes, tick states that apply.
+                            </div>
+
+                        </form>
+                    </template>
+
+                    <template slot="custom-modal-footer">
+                        <button class="mt-0" type="submit" @click="submitForm" :disabled="disabled">Save Changes</button>
+                    </template>
+
+                </main-modal>
+
+                <span class="edit-icon" data-toggle="modal" data-target="#modalIdealRole">
                     <img src="/img/icons/editbutton.png"
                         srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
                 </span>
@@ -49,6 +85,7 @@
     export default {
         data() {
             return {
+                disabled: false,
                 input: { 
                     introduction: null, when: null, max_distance: null, address: null,  state: null, right_to_work: null,
                 }
@@ -66,7 +103,14 @@
         },
 
         methods: {
-            
+            textAreaAdjust() {
+                let o = this.$refs['idealIntro'];
+                o.style.height = (o.scrollHeight) + 'px';
+            },
+
+            submitForm() {
+
+            },
         }
     }
 </script>
