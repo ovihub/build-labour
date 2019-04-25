@@ -4,11 +4,11 @@ namespace App\Models\Skills;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SkillLevel extends Model
+class Level extends Model
 {
-    protected $table = 'skill_levels';
+    protected $table = 'levels';
 
-    protected $fillable = [ 'level', 'skill_id' ];
+    protected $fillable = [ 'name' ];
 
     const UPDATED_AT = null;
     const CREATED_AT = null;
