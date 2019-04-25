@@ -11381,8 +11381,29 @@ fieldset {
   padding: 0;
 }
 
-textarea {
+textarea.form-control {
   resize: vertical;
+  max-width: 524px;
+  border: solid 1px rgba(0, 0, 0, 0.32);
+  padding: 15px 24px 17px;
+  margin: 0 auto;
+}
+
+select {
+  max-width: 524px;
+  height: 56px;
+  border: solid 1px rgba(0, 0, 0, 0.32);
+  padding: 15px 24px 17px;
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  background-color: #ffffff;
 }
 
 button {
@@ -11839,8 +11860,7 @@ p.bl-nav-tab-label {
 form input[type=text],
 form input[type=email],
 form input[type=number],
-form input[type=password],
-textarea {
+form input[type=password] {
   max-width: 524px;
   height: 56px;
   border: solid 1px rgba(0, 0, 0, 0.32);
@@ -12199,5 +12219,25 @@ textarea {
   z-index: 10;
   width: 240px;
   padding-left: 5px;
+}
+
+.skill-row {
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.skill-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #383d3f;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.skill-form-label {
+  font-size: 17px;
+  text-align: right;
+  color: #252829;
 }
 

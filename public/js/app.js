@@ -3370,17 +3370,99 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      input: {
-        skill: '',
-        description: ''
-      },
+      disabled: false,
+      levels: [{
+        id: 1,
+        name: 'Beginner'
+      }, {
+        id: 2,
+        name: 'Competent'
+      }, {
+        id: 3,
+        name: 'Expert'
+      }],
+      skills: [{
+        id: 1,
+        name: 'Quality Control'
+      }, {
+        id: 2,
+        name: 'Time Management'
+      }, {
+        id: 3,
+        name: 'Teamwork'
+      }, {
+        id: 4,
+        name: 'Communication Skills'
+      }, {
+        id: 5,
+        name: 'Can Accept Criticism'
+      }],
+      user_skills: [{
+        skill_id: 1,
+        level_id: 1
+      }, {
+        skill_id: 2,
+        level_id: 2
+      }, {
+        skill_id: 3,
+        level_id: 3
+      }, {
+        skill_id: 4,
+        level_id: 1
+      }, {
+        skill_id: 5,
+        level_id: 2
+      }],
       skills_intro: '',
       industry_skills: [],
       firstColumn: [],
-      secondColumn: []
+      secondColumn: [],
+      endpoints: {
+        get: 'api/v1/skills',
+        save: '/api/v1/user/skill'
+      }
     };
   },
   created: function created() {
@@ -3390,10 +3472,6 @@ __webpack_require__.r(__webpack_exports__);
       component.industry_skills = detailsArray;
       component.display();
     });
-    Bus.$on('AddSkill', function (details) {
-      component.industry_skills.push(details);
-      component.display();
-    });
   },
   methods: {
     display: function display() {
@@ -3401,6 +3479,20 @@ __webpack_require__.r(__webpack_exports__);
       var half = Math.ceil(len / 2);
       this.firstColumn = this.industry_skills.slice(0, half);
       this.secondColumn = this.industry_skills.slice(half, len);
+    },
+    textAreaAdjust: function textAreaAdjust() {
+      var o = this.$refs['skillsIntro'];
+      o.style.height = "1px";
+      o.style.height = 25 + o.scrollHeight + "px";
+    },
+    onChangeLevel: function onChangeLevel(e, skill_id) {
+      this.user_skills.push({
+        skill_id: skill_id,
+        level_id: parseInt(e.target.value)
+      });
+    },
+    submitForm: function submitForm() {
+      console.log(this.user_skills);
     }
   }
 });
@@ -42759,13 +42851,121 @@ var render = function() {
       "div",
       { staticClass: "profile-content" },
       [
-        _c("record-form", {
-          attrs: {
-            title: "AddSkill",
-            record: _vm.input,
-            "save-endpoint": "/api/v1/user/skill"
-          }
-        }),
+        _c(
+          "main-modal",
+          { attrs: { id: "modalIndustrySkill" } },
+          [
+            _c("template", { slot: "custom-modal-title" }, [
+              _c("h4", { staticClass: "modal-title" }, [
+                _vm._v("Edit Industry Skills & Achievements")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "close", attrs: { "data-dismiss": "modal" } },
+                [_vm._v("×")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("template", { slot: "custom-modal-content" }, [
+              _c(
+                "form",
+                {
+                  staticClass: "modal-form",
+                  attrs: { method: "POST" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.submitForm($event)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "skill-label" }, [
+                    _vm._v(
+                      "\n                        What are your main industry work achievements?\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    ref: "skillsIntro",
+                    staticClass: "form-control",
+                    staticStyle: { overflow: "hidden" },
+                    attrs: {
+                      placeholder:
+                        "Example: Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline."
+                    },
+                    on: { keyup: _vm.textAreaAdjust }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "skill-label" }, [
+                    _vm._v(
+                      "\n                        What are your main industry skills?\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.skills, function(skill) {
+                    return _c(
+                      "div",
+                      { key: skill.id, staticClass: "row skill-row" },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-6 col-sm-6 skill-form-label text-md-right"
+                          },
+                          [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(skill.name) +
+                                "\n                        "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6 col-sm-6" }, [
+                          _c(
+                            "select",
+                            {
+                              on: {
+                                change: function($event) {
+                                  return _vm.onChangeLevel($event, skill.id)
+                                }
+                              }
+                            },
+                            _vm._l(_vm.levels, function(level) {
+                              return _c(
+                                "option",
+                                { domProps: { value: level.id } },
+                                [_vm._v(_vm._s(level.name))]
+                              )
+                            }),
+                            0
+                          )
+                        ])
+                      ]
+                    )
+                  })
+                ],
+                2
+              )
+            ]),
+            _vm._v(" "),
+            _c("template", { slot: "custom-modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "mt-0",
+                  attrs: { type: "submit", disabled: _vm.disabled },
+                  on: { click: _vm.submitForm }
+                },
+                [_vm._v("Save Changes")]
+              )
+            ])
+          ],
+          2
+        ),
         _vm._v(" "),
         _vm._m(0),
         _vm._v(" "),
@@ -42853,7 +43053,7 @@ var staticRenderFns = [
       "span",
       {
         staticClass: "edit-icon",
-        attrs: { "data-toggle": "modal", "data-target": "#modalAddSkill" }
+        attrs: { "data-toggle": "modal", "data-target": "#modalIndustrySkill" }
       },
       [
         _c("img", {
