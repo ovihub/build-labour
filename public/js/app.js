@@ -3080,8 +3080,10 @@ __webpack_require__.r(__webpack_exports__);
       input: {
         course: '',
         school: '',
-        start_date: '',
-        end_date: ''
+        start_month: '',
+        start_year: '',
+        end_month: '',
+        end_year: ''
       },
       educations: []
     };
@@ -3096,10 +3098,8 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    getPeriod: function getPeriod(start, end) {
-      var start_date = new Date(start),
-          end_date = new Date(end);
-      return Utils.getMonth(start_date.getMonth()) + ' ' + start_date.getFullYear() + ' - ' + Utils.getMonth(end_date.getMonth()) + ' ' + end_date.getFullYear();
+    getPeriod: function getPeriod(edu) {
+      return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
     }
   }
 });
@@ -3289,12 +3289,10 @@ __webpack_require__.r(__webpack_exports__);
         company_name: '',
         location: '',
         project_size: '',
-        start_date: '',
-        end_date: '',
-        start_month: 0,
-        start_year: 0,
-        end_month: 0,
-        end_year: 0,
+        start_month: '',
+        start_year: '',
+        end_month: '',
+        end_year: '',
         responsibilities: []
       },
       employments: [],
@@ -3342,14 +3340,18 @@ __webpack_require__.r(__webpack_exports__);
       this.input.company_name = '';
       this.input.location = '';
       this.input.project_size = '';
-      this.input.start_date = '';
-      this.input.end_date = '';
+      this.input.start_month = '';
+      this.input.start_year = '';
+      this.input.end_month = '';
+      this.input.end_year = '';
       this.input.responsibilities = [];
     },
     editDetails: function editDetails(index) {
       this.input = this.employments[index];
     },
-    getPeriod: function getPeriod(start, end) {
+    getPeriod: function getPeriod(emp) {
+      var start = new Date(emp.start_year, emp.start_month - 1, 1),
+          end = new Date(emp.end_year, emp.end_month - 1, 1);
       return Utils.getPeriod(start, end);
     },
     textAreaAdjust: function textAreaAdjust(index) {
@@ -3782,9 +3784,10 @@ __webpack_require__.r(__webpack_exports__);
         role: '',
         company_name: '',
         job_role: '',
-        start_date: '',
-        end_date: '',
-        period: ''
+        start_month: '',
+        start_year: '',
+        end_month: '',
+        end_year: ''
       },
       about_me: {
         gender: '',
@@ -3835,8 +3838,10 @@ __webpack_require__.r(__webpack_exports__);
 
         component.profile.job_role = user.experiences[0] ? user.experiences[0].job_role : '';
         component.profile.company_name = user.experiences[0] ? user.experiences[0].company_name : '';
-        component.profile.start_date = user.experiences[0] ? user.experiences[0].start_date : '';
-        component.profile.end_date = user.experiences[0] ? user.experiences[0].end_date : '';
+        component.profile.start_month = user.experiences[0] ? user.experiences[0].start_month : '';
+        component.profile.start_year = user.experiences[0] ? user.experiences[0].start_year : '';
+        component.profile.end_month = user.experiences[0] ? user.experiences[0].end_month : '';
+        component.profile.end_year = user.experiences[0] ? user.experiences[0].end_year : '';
         component.about_me = {};
         component.about_me.gender = user.gender;
         component.about_me.date_of_birth = user.date_of_birth;
@@ -4058,8 +4063,10 @@ __webpack_require__.r(__webpack_exports__);
         role: '',
         company_name: '',
         job_role: '',
-        start_date: '',
-        end_date: ''
+        start_month: '',
+        start_year: '',
+        end_month: '',
+        end_year: ''
       },
       errors: {
         profile_photo_url: '',
@@ -4075,8 +4082,10 @@ __webpack_require__.r(__webpack_exports__);
         role: '',
         company_name: '',
         job_role: '',
-        start_date: '',
-        end_date: ''
+        start_month: '',
+        start_year: '',
+        end_month: '',
+        end_year: ''
       },
       endpoints: {
         save: '/api/v1/user/update'
@@ -42517,12 +42526,7 @@ var render = function() {
                   _c("span", { staticClass: "bl-label-14 bl-ml15 mb-0 pb-0" }, [
                     _vm._v(
                       "\n                            " +
-                        _vm._s(
-                          _vm.getPeriod(
-                            education.start_date,
-                            education.end_date
-                          )
-                        ) +
+                        _vm._s(_vm.getPeriod(education)) +
                         "\n                        "
                     )
                   ])
@@ -42788,12 +42792,12 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.input.start_date,
-                            expression: "input.start_date"
+                            value: _vm.input.start_month,
+                            expression: "input.start_month"
                           }
                         ],
                         attrs: { type: "hidden" },
-                        domProps: { value: _vm.input.start_date },
+                        domProps: { value: _vm.input.start_month },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
@@ -42801,7 +42805,7 @@ var render = function() {
                             }
                             _vm.$set(
                               _vm.input,
-                              "start_date",
+                              "start_month",
                               $event.target.value
                             )
                           }
@@ -42840,9 +42844,11 @@ var render = function() {
                           }
                         },
                         _vm._l(_vm.months, function(month) {
-                          return _c("option", { key: month.id }, [
-                            _vm._v(_vm._s(month.name))
-                          ])
+                          return _c(
+                            "option",
+                            { key: month.id, domProps: { value: month.id } },
+                            [_vm._v(_vm._s(month.name))]
+                          )
                         }),
                         0
                       )
@@ -42858,12 +42864,12 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.input.start_date,
-                            expression: "input.start_date"
+                            value: _vm.input.start_year,
+                            expression: "input.start_year"
                           }
                         ],
                         attrs: { type: "hidden" },
-                        domProps: { value: _vm.input.start_date },
+                        domProps: { value: _vm.input.start_year },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
@@ -42871,7 +42877,7 @@ var render = function() {
                             }
                             _vm.$set(
                               _vm.input,
-                              "start_date",
+                              "start_year",
                               $event.target.value
                             )
                           }
@@ -42910,9 +42916,11 @@ var render = function() {
                           }
                         },
                         _vm._l(_vm.years, function(year, index) {
-                          return _c("option", { key: index }, [
-                            _vm._v(_vm._s(year))
-                          ])
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: year } },
+                            [_vm._v(_vm._s(year))]
+                          )
                         }),
                         0
                       )
@@ -42930,18 +42938,22 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.input.end_date,
-                            expression: "input.end_date"
+                            value: _vm.input.end_month,
+                            expression: "input.end_month"
                           }
                         ],
                         attrs: { type: "hidden" },
-                        domProps: { value: _vm.input.end_date },
+                        domProps: { value: _vm.input.end_month },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(_vm.input, "end_date", $event.target.value)
+                            _vm.$set(
+                              _vm.input,
+                              "end_month",
+                              $event.target.value
+                            )
                           }
                         }
                       }),
@@ -42978,9 +42990,11 @@ var render = function() {
                           }
                         },
                         _vm._l(_vm.months, function(month) {
-                          return _c("option", { key: month.id }, [
-                            _vm._v(_vm._s(month.name))
-                          ])
+                          return _c(
+                            "option",
+                            { key: month.id, domProps: { value: month.id } },
+                            [_vm._v(_vm._s(month.name))]
+                          )
                         }),
                         0
                       )
@@ -42996,18 +43010,18 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.input.end_date,
-                            expression: "input.end_date"
+                            value: _vm.input.end_year,
+                            expression: "input.end_year"
                           }
                         ],
                         attrs: { type: "hidden" },
-                        domProps: { value: _vm.input.end_date },
+                        domProps: { value: _vm.input.end_year },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(_vm.input, "end_date", $event.target.value)
+                            _vm.$set(_vm.input, "end_year", $event.target.value)
                           }
                         }
                       }),
@@ -43044,9 +43058,11 @@ var render = function() {
                           }
                         },
                         _vm._l(_vm.years, function(year, index) {
-                          return _c("option", { key: index }, [
-                            _vm._v(_vm._s(year))
-                          ])
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: year } },
+                            [_vm._v(_vm._s(year))]
+                          )
                         }),
                         0
                       )
@@ -43245,12 +43261,7 @@ var render = function() {
                             [
                               _vm._v(
                                 "\n                                " +
-                                  _vm._s(
-                                    _vm.getPeriod(
-                                      employment.start_date,
-                                      employment.end_date
-                                    )
-                                  ) +
+                                  _vm._s(_vm.getPeriod(employment)) +
                                   "\n                            "
                               )
                             ]
@@ -44381,15 +44392,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("span", { staticClass: "bl-label-14 bl-ml15" }, [
-                  _vm._v(
-                    "\n                        " +
-                      _vm._s(
-                        _vm.getPeriod(_vm.input.start_date, _vm.input.end_date)
-                      ) +
-                      "\n                    "
-                  )
-                ])
+                _c("span", { staticClass: "bl-label-14 bl-ml15" })
               ])
             ])
           : _vm._e()

@@ -20,9 +20,12 @@ class WorkExperience extends BaseModel
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
-    protected $fillable = ['job_role', 'company_name', 'location', 'project_size', 'user_id', 'start_date', 'end_date', 'company_id'];
+    protected $fillable = [
+        'job_role', 'company_name', 'location', 'project_size', 'user_id', 'company_id',
+        'start_month', 'start_year', 'end_month', 'end_year',
+    ];
 
-    protected $appends = ['period', "isCurrent"];
+    protected $appends = ["isCurrent"];
 
     /**
      * @return array
@@ -34,8 +37,10 @@ class WorkExperience extends BaseModel
             'company_name'  => 'required',
             'project_size'  => 'required|regex:/^\d+(\.\d{1,2})?$/', /* monetary validation */
             'location'      => 'required|string',
-            'start_date'    => 'required|date',
-            'end_date'      => 'nullable|date',
+            'start_month'   => 'required|integer',
+            'start_year'    => 'required|integer',
+            'end_month'     => 'required|integer',
+            'end_year'      => 'required|integer',
             'user_id'       => 'required|integer',
             'company_id'    => 'nullable|integer'
         ];
@@ -63,22 +68,6 @@ class WorkExperience extends BaseModel
         return true;
     }
 
-    public function setStartDateAttribute($sd) {
-
-        if (!empty($sd)) {
-
-            $this->attributes['start_date'] = Carbon::parse($sd);
-        }
-    }
-
-    public function setEndDateAttribute($ed) {
-
-        if (!empty($ed)) {
-
-            $this->attributes['end_date'] = Carbon::parse($ed);
-        }
-    }
-
     public function setUserId($userId) {
 
         $this->userId = $userId;
@@ -99,42 +88,9 @@ class WorkExperience extends BaseModel
         return $this->hasMany(WorkExperienceResponsibility::class, 'work_experience_id', 'id');
     }
 
-    public function getPeriodAttribute() {
-
-        $sDate = null;
-        $eDate = null;
-
-
-        if (!$this->start_date && !$this->end_date) {
-
-            return '';
-        }
-
-        if ($this->start_date && !$this->end_date) {
-
-            $sDate = Carbon::parse($this->start_date);
-            $eDate = Carbon::now();
-        }
-
-        if ($this->start_date && $this->end_date) {
-
-            $sDate = Carbon::parse($this->start_date);
-            $eDate = Carbon::parse($this->end_date);
-        }
-
-        if ($sDate > $eDate) {
-
-            $sDate = Carbon::parse($this->start_date);
-            $eDate = Carbon::now();
-        }
-
-        return $sDate->diff($eDate)->format('%y years and %m months');
-
-    }
-
     public function getIsCurrentAttribute() {
 
-        return !$this->end_date ? true : false;
+        return !$this->end_year ? true : false;
     }
 
     public function store(Request $r) {

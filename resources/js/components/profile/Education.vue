@@ -30,7 +30,7 @@
                                 {{ education.school }}
                             </span>
                             <span class="bl-label-14 bl-ml15 mb-0 pb-0">
-                                {{ getPeriod(education.start_date, education.end_date) }}
+                                {{ getPeriod(education) }}
                             </span>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
         data() {
             return {
                 input: {
-                    course: '', school: '', start_date: '', end_date: ''
+                    course: '', school: '', start_month: '', start_year: '', end_month: '', end_year: '',
                 },
                 educations: []
             }
@@ -64,15 +64,10 @@
         },
 
         methods: {
-            
-            getPeriod(start, end) {
-                let start_date = new Date(start),
-                    end_date = new Date(end);
-                
-                return Utils.getMonth(start_date.getMonth()) + ' ' + start_date.getFullYear() + ' - ' +
-                       Utils.getMonth(end_date.getMonth()) + ' ' + end_date.getFullYear();
-            },
-
+            getPeriod(edu) {
+                return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + 
+                        Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
+            }
         }
     }
 </script>

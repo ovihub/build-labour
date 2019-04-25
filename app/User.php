@@ -55,7 +55,7 @@ class User extends Users implements JWTSubject
      */
     public function Experiences() {
 
-        return $this->hasMany(WorkExperience::class, 'user_id', 'id')->with('Company')->orderBy('end_date', 'desc')->orderBy('start_date', 'desc');
+        return $this->hasMany(WorkExperience::class, 'user_id', 'id')->with('Company')->orderBy('end_year', 'desc')->orderBy('end_year', 'desc');
     }
 
     /**

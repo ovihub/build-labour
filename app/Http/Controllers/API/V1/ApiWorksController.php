@@ -47,16 +47,16 @@ class ApiWorksController extends ApiBaseController
      *                      example="Make computer programs."
      *                  ),
      *                  @OA\Property(
-     *                      property="start_date",
-     *                      description="<b>Required</b> Start Date",
-     *                      type="string",
-     *                      example="11/10/2012"
+     *                      property="start_month",
+     *                      description="<b>Required</b> Start Month",
+     *                      type="integer",
+     *                      example="11"
      *                  ),
      *                  @OA\Property(
-     *                      property="end_date",
-     *                      description="<b>Optional</b> End Date",
-     *                      type="string",
-     *                      example="09/04/2017"
+     *                      property="end_month",
+     *                      description="<b>Optional</b> End Month",
+     *                      type="integer",
+     *                      example="12"
      *                  ),
      *                  @OA\Property(
      *                      property="company_id",
@@ -168,16 +168,16 @@ class ApiWorksController extends ApiBaseController
      *                      example="Make computer programs."
      *                  ),
      *                  @OA\Property(
-     *                      property="start_date",
-     *                      description="<b>Required</b> Start Date",
-     *                      type="string",
-     *                      example="11/10/2012"
+     *                      property="start_month",
+     *                      description="<b>Required</b> Start Month",
+     *                      type="integer",
+     *                      example="11"
      *                  ),
      *                  @OA\Property(
-     *                      property="end_date",
-     *                      description="<b>Optional</b> End Date",
-     *                      type="string",
-     *                      example="09/04/2017"
+     *                      property="end_month",
+     *                      description="<b>Optional</b> End Month",
+     *                      type="integer",
+     *                      example="9"
      *                  ),
      *                  @OA\Property(
      *                      property="company_id",

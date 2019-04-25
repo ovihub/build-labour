@@ -57,8 +57,10 @@ class UsersTableSeeder extends Seeder
                 'user_id' => $user->id,
                 'location' => 'Richmond, Victoria, Australia',
                 'project_size' => '1,750,000',
-                'start_date' => Carbon::parse('11/1/2015'),
-                'end_date' => Carbon::parse('09/1/2019'),
+                'start_month' => 11,
+                'start_year' => 2015,
+                'end_month' => 9,
+                'end_year' => 2019,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -77,8 +79,10 @@ class UsersTableSeeder extends Seeder
                 'user_id' => $user->id,
                 'location' => 'Richmond, Victoria, Australia',
                 'project_size' => '1,000,000',
-                'start_date' => Carbon::parse('11/1/2014'),
-                'end_date' => Carbon::parse('11/1/2015'),
+                'start_month' => 11,
+                'start_year' => 2014,
+                'end_month' => 9,
+                'end_year' => 2015,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -90,8 +94,10 @@ class UsersTableSeeder extends Seeder
                 'user_id' => $user->id,
                 'location' => 'Richmond, Victoria, Australia',
                 'project_size' => '2,000,000',
-                'start_date' => Carbon::parse('11/1/2013'),
-                'end_date' => Carbon::parse('11/1/2014'),
+                'start_month' => 11,
+                'start_year' => 2013,
+                'end_month' => 9,
+                'end_year' => 2014,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -103,8 +109,10 @@ class UsersTableSeeder extends Seeder
                 'user_id' => $user->id,
                 'location' => 'Richmond, Victoria, Australia',
                 'project_size' => '3,000,000',
-                'start_date' => Carbon::parse('11/1/2012'),
-                'end_date' => Carbon::parse('11/1/2013'),
+                'start_month' => 11,
+                'start_year' => 2012,
+                'end_month' => 11,
+                'end_year' => 2013,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -112,8 +120,10 @@ class UsersTableSeeder extends Seeder
             Education::create([
                 'course' => 'Construction & Engineer',
                 'school' => 'Royal Melbourne Institute of Technology',
-                'start_date' => Carbon::parse('06/10/2009'),
-                'end_date' => Carbon::parse('04/10/2010'),
+                'start_month' => 6,
+                'start_year' => 2009,
+                'end_month' => 4,
+                'end_year' => 2010,
                 'description' => 'Learning at this school to be become a Psychologist',
                 'user_id' => $user->id
             ]);
@@ -121,8 +131,10 @@ class UsersTableSeeder extends Seeder
             Education::create([
                 'course' => 'Cert II - Construction ',
                 'school' => 'Royal Melbourne Institute of Technology',
-                'start_date' => Carbon::parse('11/10/2008'),
-                'end_date' => Carbon::parse('06/10/2009'),
+                'start_month' => 11,
+                'start_year' => 2008,
+                'end_month' => 6,
+                'end_year' => 2009,
                 'description' => 'Learning at this school to be become a Psychologist',
                 'user_id' => $user->id
             ]);
@@ -130,8 +142,10 @@ class UsersTableSeeder extends Seeder
             Education::create([
                 'course' => 'Cert I - Construction ',
                 'school' => 'Royal Melbourne Institute of Technology',
-                'start_date' => Carbon::parse('03/10/2015'),
-                'end_date' => Carbon::parse('11/10/2018'),
+                'start_month' => 3,
+                'start_year' => 2015,
+                'end_month' => 11,
+                'end_year' => 2018,
                 'description' => 'Learning at this school to be become a Psychologist',
                 'user_id' => $user->id
             ]);

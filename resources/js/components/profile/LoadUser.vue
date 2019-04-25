@@ -14,7 +14,7 @@
                 },
                 profile: {
                     profile_photo_url: '', first_name: '', last_name: '', email: '', course: '', school: '', country: '', address: '',
-                    role: '', company_name: '', job_role: '', start_date:'', end_date:'', period: '',
+                    role: '', company_name: '', job_role: '', start_month: '', start_year: '', end_month: '', end_year: '',
                 },
                 about_me: {
                     gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: ''
@@ -66,8 +66,10 @@
                         // component.profile.role = user.role.name;
                         component.profile.job_role = user.experiences[0] ? user.experiences[0].job_role : '';
                         component.profile.company_name = user.experiences[0] ? user.experiences[0].company_name : '';
-                        component.profile.start_date = user.experiences[0] ? user.experiences[0].start_date : '';
-                        component.profile.end_date = user.experiences[0] ? user.experiences[0].end_date : '';
+                        component.profile.start_month = user.experiences[0] ? user.experiences[0].start_month : '';
+                        component.profile.start_year = user.experiences[0] ? user.experiences[0].start_year : '';
+                        component.profile.end_month = user.experiences[0] ? user.experiences[0].end_month : '';
+                        component.profile.end_year = user.experiences[0] ? user.experiences[0].end_year : '';
 
                         component.about_me = {};
                         component.about_me.gender = user.gender;

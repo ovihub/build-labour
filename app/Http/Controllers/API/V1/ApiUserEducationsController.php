@@ -33,16 +33,16 @@ class ApiUserEducationsController extends ApiBaseController
      *                      example="University of Melbourne"
      *                  ),
      *                  @OA\Property(
-     *                      property="start_date",
-     *                      description="<b>Required</b> Start Date",
-     *                      type="string",
-     *                      example="2007/10/11"
+     *                      property="start_month",
+     *                      description="<b>Required</b> Start Month",
+     *                      type="integer",
+     *                      example="11"
      *                  ),
      *                  @OA\Property(
-     *                      property="end_date",
-     *                      description="<b>Required</b> End Date",
-     *                      type="string",
-     *                      example="2012/12/01"
+     *                      property="end_month",
+     *                      description="<b>Required</b> End Month",
+     *                      type="integer",
+     *                      example="12"
      *                  ),
      *                  @OA\Property(
      *                      property="description",
@@ -143,16 +143,16 @@ class ApiUserEducationsController extends ApiBaseController
      *                      example="University of Victoria"
      *                  ),
      *                  @OA\Property(
-     *                      property="start_date",
-     *                      description="<b>Required</b> Start Date",
-     *                      type="string",
-     *                      example="2007/10/11"
+     *                      property="start_month",
+     *                      description="<b>Required</b> Start Month",
+     *                      type="integer",
+     *                      example="11"
      *                  ),
      *                  @OA\Property(
-     *                      property="end_date",
-     *                      description="<b>Required</b> End Date",
-     *                      type="string",
-     *                      example="2012/12/01"
+     *                      property="end_month",
+     *                      description="<b>Required</b> End Month",
+     *                      type="integer",
+     *                      example="12"
      *                  ),
      *                  @OA\Property(
      *                      property="description",

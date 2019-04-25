@@ -14,9 +14,7 @@ class Education extends BaseModel
     protected $table = 'educations';
     protected $primaryKey = 'id';
 
-    protected $fillable = [ 'course', 'school', 'description', 'start_date', 'end_date', 'user_id' ];
-
-    protected $appends = [  'start_date_formatted', 'end_date_formatted'  ];
+    protected $fillable = [ 'course', 'school', 'description', 'start_month', 'start_year', 'end_month', 'end_year', 'user_id' ];
 
     const UPDATED_AT = null;
     const CREATED_AT = null;
@@ -29,38 +27,14 @@ class Education extends BaseModel
         return [
             'course'        => 'required|min:5',
             'school'        => 'required|min:5',
-            'start_date'    => 'required|date',
-            'end_date'      => 'required|date',
+            'start_month'   => 'required|integer',
+            'start_year'    => 'required|integer',
+            'end_month'     => 'required|integer',
+            'end_year'      => 'required|integer',
             'user_id'       => 'required|integer'
         ];
     }
 
-    public function getStartDateFormattedAttribute()
-    {
-        return \Carbon\Carbon::parse($this->start_date)->format('F Y');
-    }
-
-    public function getEndDateFormattedAttribute()
-    {
-        return \Carbon\Carbon::parse($this->end_date)->format('F Y');
-    }
-
-    public function setStartDateAttribute($date) {
-
-        if (!empty($date)) {
-
-            $this->attributes['start_date'] = Carbon::parse($date);
-        }
-    }
-
-    public function setEndDateAttribute($date) {
-
-        if (!empty($date)) {
-
-            $this->attributes['end_date'] = Carbon::parse($date);
-        }
-    }
-    
     /**
      * Validate a user request
      *

@@ -54,7 +54,7 @@
                             {{ input.company_name }}
                         </span>
                         <span class="bl-label-14 bl-ml15">
-                            {{ getPeriod(input.start_date, input.end_date) }}
+                            
                         </span>
                     </div>
                 </div>
@@ -71,12 +71,12 @@
                 input: {
                     profile_photo_url: '', profile_description: '', first_name: '', last_name: '', email: '', is_verified: '',
                     course: '', school: '', country: '', address: '',
-                    role: '', company_name: '', job_role: '', start_date:'', end_date:'',
+                    role: '', company_name: '', job_role: '', start_month: '', start_year: '', end_month: '', end_year: '',
                 },
                 errors: {
                     profile_photo_url: '', profile_description: '', first_name: '', last_name: '', email: '', is_verified: '',
                     course: '', school: '', country: '', address: '',
-                    role: '', company_name: '', job_role: '', start_date:'', end_date:'',
+                    role: '', company_name: '', job_role: '', start_month: '', start_year: '', end_month: '', end_year: '',
                 },
                 endpoints: {
                     save: '/api/v1/user/update',

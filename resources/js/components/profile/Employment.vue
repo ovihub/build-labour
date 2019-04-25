@@ -39,32 +39,32 @@
                         <div class="emp-row">
                             <div class="emp-col-left">
                                 <div class="emp-form-label">Start Month</div>
-                                <input type="hidden" v-model="input.start_date" />
+                                <input type="hidden" v-model="input.start_month" />
                                 <select v-model="input.start_month">
-                                    <option v-for="month in months" :key="month.id">{{ month.name }}</option>
+                                    <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
                                 </select>
                             </div>
                             <div class="emp-col-right">
                                 <div class="emp-form-label">Start Year</div>
-                                <input type="hidden" v-model="input.start_date" />
+                                <input type="hidden" v-model="input.start_year" />
                                 <select v-model="input.start_year">
-                                    <option v-for="(year, index) in years" :key="index">{{ year }}</option>
+                                    <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
                                 </select>
                             </div>
                         </div>
                          <div class="emp-row">
                             <div class="emp-col-left">
                                 <div class="emp-form-label">Start Month</div>
-                                <input type="hidden" v-model="input.end_date" />
+                                <input type="hidden" v-model="input.end_month" />
                                 <select v-model="input.end_month">
-                                    <option v-for="month in months" :key="month.id">{{ month.name }}</option>
+                                    <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
                                 </select>
                             </div>
                             <div class="emp-col-right">
                                 <div class="emp-form-label">Start Year</div>
-                                <input type="hidden" v-model="input.end_date" />
+                                <input type="hidden" v-model="input.end_year" />
                                 <select v-model="input.end_year">
-                                    <option v-for="(year, index) in years" :key="index">{{ year }}</option>
+                                    <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
                                 </select>
                             </div>
                         </div>
@@ -122,7 +122,7 @@
                                     {{ employment.company_name }}
                                 </span>
                                 <span class="bl-label-14 bl-ml15 mt-0 pt-0">
-                                    {{ getPeriod(employment.start_date, employment.end_date) }}
+                                    {{ getPeriod(employment) }}
                                 </span>
                             </div>
                         </div>
@@ -169,8 +169,8 @@
                 years: Utils.getYears(),
                 expanded: [],
                 input: {
-                    job_role: '', company_name: '', location: '', project_size: '', start_date: '', end_date: '',
-                    start_month: 0, start_year: 0, end_month: 0, end_year: 0, responsibilities: [],
+                    job_role: '', company_name: '', location: '', project_size: '',
+                    start_month: '', start_year: '', end_month: '', end_year: '', responsibilities: [],
                 },
                 employments: [],
                 getBox: 'bl-box-2 hidden',
@@ -226,8 +226,10 @@
                 this.input.company_name = '';
                 this.input.location = '';
                 this.input.project_size = '';
-                this.input.start_date = '';
-                this.input.end_date = '';
+                this.input.start_month = '';
+                this.input.start_year = '';
+                this.input.end_month = '';
+                this.input.end_year = '';
                 this.input.responsibilities = [];
             },
 
@@ -235,7 +237,10 @@
                 this.input = this.employments[index];
             },
 
-            getPeriod(start, end) {
+            getPeriod(emp) {
+                let start = new Date(emp.start_year, emp.start_month-1, 1),
+                    end = new Date(emp.end_year, emp.end_month-1, 1);
+                
                 return Utils.getPeriod(start, end);
             },
 
