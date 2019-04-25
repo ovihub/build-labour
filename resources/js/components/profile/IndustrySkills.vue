@@ -6,7 +6,6 @@
 		
                 <template slot="custom-modal-title">
                     <h4 class="modal-title">Edit Industry Skills & Achievements</h4>
-
                     <div class="close" data-dismiss="modal">&times;</div>
                 </template>
 
@@ -31,7 +30,7 @@
 
                             <div class="col-md-6 col-sm-6">
                                 <select v-model="skill.level_id">
-                                    <option v-for="level in levels" v-bind:value="level.id">{{ level.name }}</option>
+                                    <option v-for="level in levels" :key="level.id" v-bind:value="level.id">{{ level.name }}</option>
                                 </select>  
                             </div>
                         </div>
@@ -147,8 +146,7 @@
 
             textAreaAdjust() {
                 let o = this.$refs['skillsIntro'];
-                o.style.height = '1px';
-                o.style.height = (25+o.scrollHeight) + 'px';
+                o.style.height = (o.scrollHeight) + 'px';
             },
 
             submitForm() {

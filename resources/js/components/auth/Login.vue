@@ -3,7 +3,8 @@
         <div class="form-text-header">Login</div>
 
         <div class="form-group">
-            <input id="email" type="email"  name="email" class="form-control" v-model="input.email" placeholder="Email Address" required autofocus>
+            <input id="email" type="email"  name="email" class="form-control" style="padding-left:24px"
+                v-model="input.email" placeholder="Email Address" required autofocus>
 
             <span class="err-msg" v-if="errors.email">
                 {{ errors.email }}
@@ -13,7 +14,8 @@
         <div class="form-group">
             <password-eye ref-name="loginTogglePassword"></password-eye>
             
-            <input id="password" ref="loginTogglePassword" type="password"  name="password" class="form-control" v-model="input.password" placeholder="Password" required>
+            <input id="password" ref="loginTogglePassword" type="password"  name="password" class="form-control" 
+                style="padding-left:24px" v-model="input.password" placeholder="Password" required>
 
             <span class="err-msg" v-if="errors.password">
                 {{ errors.password }}

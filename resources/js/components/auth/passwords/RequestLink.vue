@@ -7,7 +7,8 @@
         </div>
 
         <div class="form-group">
-            <input id="email" type="email" name="email" class="form-control" v-model="input.email" placeholder="Email Address" required />
+            <input id="email" type="email" name="email" class="form-control" style="padding-left:24px"
+                v-model="input.email" placeholder="Email Address" required />
 
             <span class="err-msg" v-if="errors.email">
                 {{ errors.email }}

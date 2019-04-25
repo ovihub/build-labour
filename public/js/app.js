@@ -1851,6 +1851,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2077,6 +2079,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2220,6 +2229,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2302,6 +2312,8 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
 //
 //
 //
@@ -3243,6 +3255,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3255,7 +3276,8 @@ __webpack_require__.r(__webpack_exports__);
         location: '',
         project_size: '',
         start_date: '',
-        end_date: ''
+        end_date: '',
+        responsibilities: []
       },
       employments: [],
       getBox: 'bl-box-2 hidden',
@@ -3277,7 +3299,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     toggle: function toggle(index) {
       this.expanded[index] === true ? this.collapse(index) : this.expand(index);
-      this.input = this.employments[index];
     },
     collapse: function collapse(index) {
       this.$refs['boxCls-' + index][0].className = 'bl-box-2 hidden';
@@ -3298,8 +3319,24 @@ __webpack_require__.r(__webpack_exports__);
         this.collapse(index);
       }
     },
+    addNew: function addNew() {
+      this.input.job_role = '';
+      this.input.company_name = '';
+      this.input.location = '';
+      this.input.project_size = '';
+      this.input.start_date = '';
+      this.input.end_date = '';
+      this.input.responsibilities = [];
+    },
+    editDetails: function editDetails(index) {
+      this.input = this.employments[index];
+    },
     getPeriod: function getPeriod(start, end) {
       return Utils.getPeriod(start, end);
+    },
+    textAreaAdjust: function textAreaAdjust(index) {
+      var o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
+      o.style.height = o.scrollHeight + 'px';
     },
     submitForm: function submitForm() {}
   }
@@ -3482,7 +3519,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3553,8 +3589,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     textAreaAdjust: function textAreaAdjust() {
       var o = this.$refs['skillsIntro'];
-      o.style.height = '1px';
-      o.style.height = 25 + o.scrollHeight + 'px';
+      o.style.height = o.scrollHeight + 'px';
     },
     submitForm: function submitForm() {
       console.log(this.user_skills);
@@ -40929,6 +40964,7 @@ var render = function() {
             }
           ],
           staticClass: "form-control",
+          staticStyle: { "padding-left": "24px" },
           attrs: {
             id: "email",
             type: "email",
@@ -40972,6 +41008,7 @@ var render = function() {
             ],
             ref: "loginTogglePassword",
             staticClass: "form-control",
+            staticStyle: { "padding-left": "24px" },
             attrs: {
               id: "password",
               type: "password",
@@ -41133,6 +41170,7 @@ var render = function() {
             }
           ],
           staticClass: "form-control",
+          staticStyle: { "padding-left": "24px" },
           attrs: {
             id: "first_name",
             type: "text",
@@ -41172,6 +41210,7 @@ var render = function() {
             }
           ],
           staticClass: "form-control",
+          staticStyle: { "padding-left": "24px" },
           attrs: {
             id: "last_name",
             type: "text",
@@ -41214,6 +41253,7 @@ var render = function() {
               }
             ],
             staticClass: "form-control",
+            staticStyle: { "padding-left": "24px" },
             attrs: {
               id: "mobile_number",
               type: "text",
@@ -41255,6 +41295,7 @@ var render = function() {
             }
           ],
           staticClass: "form-control",
+          staticStyle: { "padding-left": "24px" },
           attrs: {
             id: "email",
             type: "email",
@@ -41297,6 +41338,7 @@ var render = function() {
             ],
             ref: "regTogglePassword",
             staticClass: "form-control",
+            staticStyle: { "padding-left": "24px" },
             attrs: {
               id: "password",
               type: "password",
@@ -41343,6 +41385,7 @@ var render = function() {
             ],
             ref: "regToggleConfirm",
             staticClass: "form-control",
+            staticStyle: { "padding-left": "24px" },
             attrs: {
               id: "password-confirm",
               type: "password",
@@ -41460,6 +41503,7 @@ var render = function() {
             }
           ],
           staticClass: "form-control",
+          staticStyle: { "padding-left": "24px" },
           attrs: {
             id: "email",
             type: "email",
@@ -41567,6 +41611,7 @@ var render = function() {
             ],
             ref: "resetTogglePassword",
             staticClass: "form-control",
+            staticStyle: { "padding-left": "24px" },
             attrs: {
               id: "password",
               type: "password",
@@ -41613,6 +41658,7 @@ var render = function() {
             ],
             ref: "resetToggleConfirm",
             staticClass: "form-control",
+            staticStyle: { "padding-left": "24px" },
             attrs: {
               id: "password-confirm",
               type: "password",
@@ -42612,8 +42658,25 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.location,
+                            expression: "input.location"
+                          }
+                        ],
                         staticClass: "form-control",
-                        attrs: { type: "text" }
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input.location },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.input, "location", $event.target.value)
+                          }
+                        }
                       })
                     ]),
                     _vm._v(" "),
@@ -42655,7 +42718,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "emp-row" }, [
-                    _c("div", { staticClass: "emp-col" }, [
+                    _c("div", { staticClass: "emp-col-left" }, [
                       _c("div", { staticClass: "emp-form-label" }, [
                         _vm._v("Start Month")
                       ]),
@@ -42687,7 +42750,7 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "emp-col" }, [
+                    _c("div", { staticClass: "emp-col-right" }, [
                       _c("div", { staticClass: "emp-form-label" }, [
                         _vm._v("Start Year")
                       ]),
@@ -42721,7 +42784,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "emp-row" }, [
-                    _c("div", { staticClass: "emp-col" }, [
+                    _c("div", { staticClass: "emp-col-left" }, [
                       _c("div", { staticClass: "emp-form-label" }, [
                         _vm._v("Start Month")
                       ]),
@@ -42749,7 +42812,7 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "emp-col" }, [
+                    _c("div", { staticClass: "emp-col-right" }, [
                       _c("div", { staticClass: "emp-form-label" }, [
                         _vm._v("Start Year")
                       ]),
@@ -42778,18 +42841,66 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "emp-label" }, [
-                    _vm._v("Responsibilities")
-                  ]),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "emp-label",
+                      staticStyle: { "margin-bottom": "17px" }
+                    },
+                    [_vm._v("Responsibilities")]
+                  ),
                   _vm._v(" "),
-                  _c("input", {
+                  _vm._l(_vm.input.responsibilities, function(res, index) {
+                    return _c("div", { key: index }, [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: res.responsibility,
+                            expression: "res.responsibility"
+                          }
+                        ],
+                        ref: "respItem-" + index,
+                        refInFor: true,
+                        staticClass: "form-control",
+                        staticStyle: { overflow: "hidden" },
+                        attrs: { rows: "1" },
+                        domProps: { value: res.responsibility },
+                        on: {
+                          focus: function($event) {
+                            return _vm.textAreaAdjust(index)
+                          },
+                          keyup: function($event) {
+                            return _vm.textAreaAdjust(index)
+                          },
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(res, "responsibility", $event.target.value)
+                          }
+                        }
+                      })
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    ref: "respItem--1",
                     staticClass: "form-control",
+                    staticStyle: { overflow: "hidden" },
                     attrs: {
-                      placeholder: "Add Another Responsibility",
-                      type: "text"
+                      rows: "1",
+                      placeholder: "Add Another Responsibility"
+                    },
+                    on: {
+                      keyup: function($event) {
+                        return _vm.textAreaAdjust(-1)
+                      }
                     }
                   })
-                ]
+                ],
+                2
               )
             ]),
             _vm._v(" "),
@@ -42808,9 +42919,31 @@ var render = function() {
           2
         ),
         _vm._v(" "),
-        _vm._m(0),
+        _c(
+          "span",
+          {
+            staticClass: "edit-icon",
+            attrs: {
+              "data-toggle": "modal",
+              "data-target": "#modalEmployment"
+            },
+            on: { click: _vm.addNew }
+          },
+          [
+            _c("img", {
+              attrs: {
+                src: "/img/icons/editbutton.png",
+                srcset:
+                  "/img/icons/editbutton@2x.png" +
+                  " 2x, " +
+                  "/img/icons/editbutton@3x.png" +
+                  " 3x"
+              }
+            })
+          ]
+        ),
         _vm._v(" "),
-        _vm._m(1),
+        _vm._m(0),
         _vm._v(" "),
         _vm.employments.length > 0
           ? _c(
@@ -42818,6 +42951,34 @@ var render = function() {
               { staticClass: "list-main-items" },
               _vm._l(_vm.employments, function(employment, index) {
                 return _c("li", { key: index, staticClass: "main-items" }, [
+                  _c(
+                    "span",
+                    {
+                      staticClass: "edit-icon",
+                      attrs: {
+                        "data-toggle": "modal",
+                        "data-target": "#modalEmployment"
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.editDetails(index)
+                        }
+                      }
+                    },
+                    [
+                      _c("img", {
+                        attrs: {
+                          src: "/img/icons/editbutton.png",
+                          srcset:
+                            "/img/icons/editbutton@2x.png" +
+                            " 2x, " +
+                            "/img/icons/editbutton@3x.png" +
+                            " 3x"
+                        }
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
                   _c("span", { staticClass: "text-icon-2" }, [
                     _c("img", {
                       ref: "toggleImg-" + index,
@@ -42842,7 +43003,7 @@ var render = function() {
                       }
                     },
                     [
-                      _vm._m(2, true),
+                      _vm._m(1, true),
                       _vm._v(" "),
                       _c("div", { staticClass: "bl-col-2 ml-2" }, [
                         _c("div", { staticClass: "bl-display" }, [
@@ -42941,18 +43102,18 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._m(3, true),
+                      _vm._m(2, true),
                       _vm._v(" "),
                       _c("div", { staticClass: "bl-label-15" }, [
                         _c(
                           "ul",
                           { staticClass: "list-items" },
-                          _vm._l(employment.responsibilities_detail, function(
-                            responsibility,
+                          _vm._l(employment.responsibilities, function(
+                            res,
                             idx
                           ) {
                             return _c("div", { key: idx }, [
-                              _c("li", [_vm._v(_vm._s(responsibility))])
+                              _c("li", [_vm._v(_vm._s(res.responsibility))])
                             ])
                           }),
                           0
@@ -42977,30 +43138,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "span",
-      {
-        staticClass: "edit-icon",
-        attrs: { "data-toggle": "modal", "data-target": "#modalEmployment" }
-      },
-      [
-        _c("img", {
-          attrs: {
-            src: "/img/icons/editbutton.png",
-            srcset:
-              "/img/icons/editbutton@2x.png" +
-              " 2x, " +
-              "/img/icons/editbutton@3x.png" +
-              " 3x"
-          }
-        })
-      ]
-    )
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -43357,7 +43494,10 @@ var render = function() {
                             _vm._l(_vm.levels, function(level) {
                               return _c(
                                 "option",
-                                { domProps: { value: level.id } },
+                                {
+                                  key: level.id,
+                                  domProps: { value: level.id }
+                                },
                                 [_vm._v(_vm._s(level.name))]
                               )
                             }),

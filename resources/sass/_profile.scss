@@ -88,15 +88,16 @@
 
         ul.list-items {
           list-style-type: none;
-          padding: 0 0 0 40px;
+          padding: 0 0 0 22px;
+          // padding: 0 0 0 40px;
       
-          li::before {
-            content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-            color: #d8d8d8;
-            display: inline-block;
-            width: 1em;
-            margin-left: -1.2em;
-          }
+          // li::before {
+          //   content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+          //   color: #d8d8d8;
+          //   display: inline-block;
+          //   width: 1em;
+          //   margin-left: -1.2em;
+          // }
           
           li {
             margin-bottom: 12px;

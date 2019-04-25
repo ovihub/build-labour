@@ -2,12 +2,10 @@
     <div class="profile-item-2">
         <div class="profile-content">
 
-            <!-- <record-form title="AddEmployment" :record="input" save-endpoint="/api/v1/work/experience"></record-form> -->
             <main-modal id="modalEmployment">
 		
                 <template slot="custom-modal-title">
                     <h4 class="modal-title">Edit Employment History</h4>
-
                     <div class="close" data-dismiss="modal">&times;</div>
                 </template>
 
@@ -28,7 +26,7 @@
 
                             <div class="emp-row">
                                 <div class="modal-form-label">Location</div>
-                                <input class="form-control" type="text" />
+                                <input class="form-control" type="text" v-model="input.location" />
                             </div>
 
                             <div class="emp-row">
@@ -39,28 +37,35 @@
 
                         <div class="emp-label">Duration of Employment</div>
                         <div class="emp-row">
-                            <div class="emp-col">
+                            <div class="emp-col-left">
                                 <div class="emp-form-label">Start Month</div>
                                 <input class="form-control" type="text" v-model="input.start_date" />
                             </div>
-                            <div class="emp-col">
+                            <div class="emp-col-right">
                                 <div class="emp-form-label">Start Year</div>
                                 <input class="form-control" type="text" v-model="input.start_date" />
                             </div>
                         </div>
                          <div class="emp-row">
-                            <div class="emp-col">
+                            <div class="emp-col-left">
                                 <div class="emp-form-label">Start Month</div>
                                 <input class="form-control" type="text" v-model="input.end_date" />
                             </div>
-                            <div class="emp-col">
+                            <div class="emp-col-right">
                                 <div class="emp-form-label">Start Year</div>
                                 <input class="form-control" type="text" v-model="input.end_date" />
                             </div>
                         </div>
 
-                        <div class="emp-label">Responsibilities</div>
-                        <input class="form-control" placeholder="Add Another Responsibility" type="text" />
+                        <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
+                        <div v-for="(res, index) in input.responsibilities" v-bind:key="index">
+                            <textarea rows="1" :ref="'respItem-' + index" class="form-control" style="overflow:hidden"
+                                @focus="textAreaAdjust(index)" @keyup="textAreaAdjust(index)" v-model="res.responsibility"></textarea>
+                        </div>
+
+                        <textarea rows="1" ref="respItem--1" class="form-control" style="overflow:hidden"
+                                placeholder="Add Another Responsibility"
+                                @keyup="textAreaAdjust(-1)"></textarea>
                     </form>
                 </template>
 
@@ -70,7 +75,7 @@
 
             </main-modal>
             
-            <span class="edit-icon" data-toggle="modal" data-target="#modalEmployment">
+            <span class="edit-icon" data-toggle="modal" data-target="#modalEmployment" @click="addNew">
                 <img src="/img/icons/editbutton.png"
                     srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
             </span>
@@ -84,6 +89,10 @@
         
             <ul class="list-main-items" v-if="employments.length > 0">
                 <li class="main-items" v-for="(employment, index) in employments" v-bind:key="index">
+                    <span class="edit-icon" data-toggle="modal" data-target="#modalEmployment" @click="editDetails(index)">
+                        <img src="/img/icons/editbutton.png"
+                            srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
+                    </span>
                     <span class="text-icon-2">
                         <img :src="imgSrc" :srcset="imgSrcSet" :ref="'toggleImg-' + index" @click="toggle(index)">
                     </span>
@@ -125,8 +134,8 @@
                         </span>
                         <div class="bl-label-15">
                             <ul class="list-items">
-                                <div v-for="(responsibility, idx) in employment.responsibilities_detail" v-bind:key="idx">
-                                    <li>{{ responsibility }}</li>
+                                <div v-for="(res, idx) in employment.responsibilities" v-bind:key="idx">
+                                    <li>{{ res.responsibility }}</li>
                                 </div>
                             </ul>
                         </div>
@@ -146,7 +155,7 @@
                 is_empty: false,
                 expanded: [],
                 input: {
-                    job_role: '', company_name: '', location: '', project_size: '', start_date: '', end_date: '',
+                    job_role: '', company_name: '', location: '', project_size: '', start_date: '', end_date: '', responsibilities: []
                 },
                 employments: [],
                 getBox: 'bl-box-2 hidden',
@@ -161,7 +170,7 @@
 
             Bus.$on('employmentDetails', function(detailsArray) {
                 component.employments = detailsArray;
-
+                
                 for (let i = 0; i < component.employments.length; i++) {
                     component.expanded[i] = false;
                 }
@@ -170,10 +179,7 @@
 
         methods: {
             toggle(index) {
-
                 this.expanded[index] === true ? this.collapse(index) : this.expand(index);
-
-                this.input = this.employments[index];
             },
 
             collapse(index) {
@@ -200,8 +206,27 @@
                 }
             },
 
+            addNew() {
+                this.input.job_role = '';
+                this.input.company_name = '';
+                this.input.location = '';
+                this.input.project_size = '';
+                this.input.start_date = '';
+                this.input.end_date = '';
+                this.input.responsibilities = [];
+            },
+
+            editDetails(index) {
+                this.input = this.employments[index];
+            },
+
             getPeriod(start, end) {
                 return Utils.getPeriod(start, end);
+            },
+
+            textAreaAdjust(index) {
+                let o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
+                o.style.height = (o.scrollHeight) + 'px';
             },
 
             submitForm() {

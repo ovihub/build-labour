@@ -3,7 +3,8 @@
         <div class="form-text-header">Registration</div>
 
         <div class="form-group">
-            <input id="first_name" type="text" name="first_name" class="form-control" v-model="input.first_name" placeholder="First Name" required autofocus />
+            <input id="first_name" type="text" name="first_name" class="form-control" style="padding-left:24px"
+                v-model="input.first_name" placeholder="First Name" required autofocus />
 
             <span class="err-msg" v-if="errors.first_name">
                 {{ errors.first_name }}
@@ -11,7 +12,8 @@
         </div>
 
         <div class="form-group">
-            <input id="last_name" type="text" name="last_name" class="form-control" v-model="input.last_name" placeholder="Last Name" required autofocus />
+            <input id="last_name" type="text" name="last_name" class="form-control" style="padding-left:24px"
+                v-model="input.last_name" placeholder="Last Name" required autofocus />
 
             <span class="err-msg" v-if="errors.last_name">
                 {{ errors.last_name }}
@@ -27,7 +29,8 @@
             </div>
             
             <div class="form-col-2">
-                <input id="mobile_number" type="text" name="mobile_number" class="form-control" v-model="input.mobile_number" placeholder="Mobile Number" required />
+                <input id="mobile_number" type="text" name="mobile_number" class="form-control" style="padding-left:24px"
+                    v-model="input.mobile_number" placeholder="Mobile Number" required />
 
                 <span class="err-msg" v-if="errors.mobile_number">
                     {{ errors.mobile_number }}
@@ -36,7 +39,8 @@
         </div>
 
         <div class="form-group">
-            <input id="email" type="email" name="email" class="form-control" v-model="input.email" placeholder="Email Address" required />
+            <input id="email" type="email" name="email" class="form-control" style="padding-left:24px"
+                v-model="input.email" placeholder="Email Address" required />
 
             <span class="err-msg" v-if="errors.email">
                 {{ errors.email }}
@@ -46,7 +50,8 @@
         <div class="form-group">
             <password-eye ref-name="regTogglePassword"></password-eye>
             
-            <input id="password" ref="regTogglePassword" type="password" name="password" class="form-control" v-model="input.password" placeholder="Password" required />
+            <input id="password" ref="regTogglePassword" type="password" name="password" class="form-control" 
+                style="padding-left:24px" v-model="input.password" placeholder="Password" required />
 
             <span class="err-msg" v-if="errors.password">
                 {{ errors.password }}
@@ -56,7 +61,9 @@
         <div class="form-group">
             <password-eye ref-name="regToggleConfirm"></password-eye>
 
-            <input id="password-confirm" ref="regToggleConfirm" type="password" class="form-control" name="password_confirmation" v-model="input.password_confirmation" placeholder="Confirm Password" required>
+            <input id="password-confirm" ref="regToggleConfirm" type="password" class="form-control"
+                style="padding-left:24px" name="password_confirmation" v-model="input.password_confirmation"
+                placeholder="Confirm Password" required>
         </div>
 
         <div class="form-group">

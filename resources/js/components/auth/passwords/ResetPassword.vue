@@ -9,7 +9,8 @@
         <div class="form-group">
             <password-eye ref-name="resetTogglePassword"></password-eye>
             
-            <input id="password" ref="resetTogglePassword" type="password" name="password" class="form-control" v-model="input.password" placeholder="Password" required />
+            <input id="password" ref="resetTogglePassword" type="password" name="password" class="form-control" 
+                style="padding-left:24px" v-model="input.password" placeholder="Password" required />
 
             <span class="err-msg" v-if="errors.password">
                 {{ errors.password }}
@@ -19,7 +20,8 @@
         <div class="form-group">
             <password-eye ref-name="resetToggleConfirm"></password-eye>
 
-            <input id="password-confirm" ref="resetToggleConfirm" type="password" class="form-control" name="password_confirmation" v-model="input.password_confirmation" placeholder="Confirm Password" required>
+            <input id="password-confirm" ref="resetToggleConfirm" type="password" class="form-control" 
+                style="padding-left:24px" name="password_confirmation" v-model="input.password_confirmation" placeholder="Confirm Password" required>
         </div>
         
         <div class="form-group">
