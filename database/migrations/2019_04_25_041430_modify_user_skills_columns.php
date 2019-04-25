@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -13,6 +14,8 @@ class ModifyUserSkillsColumns extends Migration
      */
     public function up()
     {
+        DB::table('user_skills')->truncate();
+
         Schema::table('user_skills', function (Blueprint $table) {
 
             $table->dropColumn('skill');
@@ -22,9 +25,9 @@ class ModifyUserSkillsColumns extends Migration
             $table->integer('skill_id')->unsigned();
             $table->integer('level_id')->unsigned();
 
-            // $table->foreign('user_id')->references('id')->on('users');
-            // $table->foreign('skill_id')->references('id')->on('skills');
-            // $table->foreign('level_id')->references('id')->on('levels');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('level_id')->references('id')->on('levels');
+            $table->foreign('skill_id')->references('id')->on('skills');
         });
     }
 
