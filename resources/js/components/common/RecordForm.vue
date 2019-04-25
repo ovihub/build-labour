@@ -7,35 +7,31 @@
 		</template>
 
 		<template slot="custom-modal-content">
-			<form method="POST" @submit.prevent="submitForm">
-				<div class="form-group row" v-for="(value, key) in record" :key="key.id">
-					<label class="col-md-4 col-form-label text-md-left">
+			<form class="modal-form" method="POST" @submit.prevent="submitForm">
+				<div class="form-group bl-full-row" v-for="(value, key) in record" :key="key.id">
+					<div class="modal-form-label">
 						{{ getKeyName(key) }}
-					</label>
-
-					<div class="col-md-8">
-						<input class="form-control" :id="key" :name="key" type="text" v-model="input[key]" v-if="! textArea.includes(key) && ! datePicker.includes(key)" />
-						
-						<textarea class="form-control" v-model="input[key]" v-else-if="textArea.includes(key)"></textarea>
-						
-						<datepicker input-class="form-control" :id="key" :name="key" :format="format" v-model="input[key]" v-else-if="datePicker.includes(key)"></datepicker>
-						
-						<span class="err-msg" v-if="errors[key]">
-							{{ errors[key] }}
-						</span>
 					</div>
+
+					<input class="form-control" :id="key" :name="key" type="text" v-model="input[key]" v-if="! textArea.includes(key)" />
+					
+					<textarea class="form-control" v-model="input[key]" v-else-if="textArea.includes(key)"></textarea>
+					
+					<span class="err-msg" v-if="errors[key]">
+						{{ errors[key] }}
+					</span>
 				</div>
-				<div class="bl-mt13"></div>
-				<button class="pull-right" type="submit" :disabled="disabled">Save</button>
 			</form>
+		</template>
+
+		<template slot="custom-modal-footer">
+			<button class="mt-0" type="submit" @click="submitForm" :disabled="disabled">Save Changes</button>
 		</template>
 
 	</main-modal>
 </template>
 
 <script>
-	import Datepicker from 'vuejs-datepicker';
-
 	export default {
 		data() {
 			return {
@@ -44,11 +40,6 @@
 				errors: {},
                 textArea: [
 					'introduction'
-				],
-				datePicker: [
-					'date_of_birth',
-					'start_date',
-					'end_date'
 				],
 				format: 'd MMMM yyyy',
             }
@@ -74,10 +65,6 @@
 				return this.record;
 			}
         },
-		
-		components: {
-            Datepicker
-		},
 		
 		methods: {
 

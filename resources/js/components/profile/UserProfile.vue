@@ -64,8 +64,6 @@
 </template>
 
 <script>
-    import Datepicker from 'vuejs-datepicker';
-
     export default {
         data() {
             return {
@@ -87,10 +85,6 @@
             }
         },
 
-        components: {
-            Datepicker
-        },
-
         created() {
             let component = this;
 
@@ -109,32 +103,6 @@
                 console.log(start, end)
                 return Utils.getPeriod(start, end);
             },
-
-            async saveProfile() {
-                // TODO: trigger save
-                // let component = this;
-                
-                // Utils.setObjectValues(component.errors, '');
-
-                // await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
-
-                //     .then(function(response) {
-                //         let data = response.data;
-                        
-                //         Utils.setObjectValues(component.input, '');
-
-                //         Bus.$emit('alertSuccess', data.message);
-                //     })
-                //     .catch(function(error) {
-                //         let data = error.response.data;
-
-                //         for (let key in component.errors) {
-                //             component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                //         }
-
-                //         Utils.handleError(error);
-                //     });
-            }
             
         }
     }

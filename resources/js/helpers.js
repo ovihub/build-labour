@@ -42,19 +42,18 @@ window.Helper = {
         },
 
         handleError(error) {
-            window.scrollTo(0, 0);
-
             if (error.response) {
                 let data = error.response.data;
                 
                 if (data.http_status == 422) {
-                    Bus.$emit('alertError', 'Invalid input! Please see errors below.');
+                    // Bus.$emit('alertError', 'Invalid input! Please see errors below.');
                 
                 } else {
+                    window.scrollTo(0, 0);
                     Bus.$emit('alertError', data.message);
                 }
             } else {
-                console.log(error);
+                window.scrollTo(0, 0);
                 Bus.$emit('alertError', error);
             }
         },
