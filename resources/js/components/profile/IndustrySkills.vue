@@ -18,19 +18,19 @@
                         
                         <textarea ref="skillsIntro" class="form-control" style="overflow:hidden"
                             placeholder="Example: Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline."
-                            @keyup="textAreaAdjust"></textarea>
+                            @keyup="textAreaAdjust" v-model="skills_intro"></textarea>
                         
                         <div class="skill-label">
                             What are your main industry skills?
                         </div>
-                        
-                        <div class="row skill-row" v-for="skill in skills" :key="skill.id">
+
+                        <div class="row skill-row" v-for="skill in user_skills" :key="skill.skill_id">
                             <label class="col-md-6 col-sm-6 skill-form-label text-md-right">
-                                {{ skill.name }}
+                                {{ skill.skill_name }}
                             </label>
 
                             <div class="col-md-6 col-sm-6">
-                                <select @change="onChangeLevel($event, skill.id)">
+                                <select v-model="skill.level_id">
                                     <option v-for="level in levels" v-bind:value="level.id">{{ level.name }}</option>
                                 </select>  
                             </div>
@@ -57,24 +57,24 @@
                 Main Industry Skills & Achievements
             </div>
             
-            <div class="row" v-if="industry_skills.length > 0">
+            <div class="row" v-if="! is_empty">
                 <div class="col-md-12 col-sm-12 profile-intro">
                     {{ skills_intro }}
                 </div>
                 <div class="col-md-6 col-sm-6" v-for="first in firstColumn" v-bind:key="first.id">
                     <span class="bl-label-15">
-                        {{ first.skill }}
+                        {{ first.skill_name }}
                     </span>
                     <span class="bl-label-14">
-                        {{ first.description }}
+                        {{ first.level_name }}
                     </span>
                 </div>
                 <div class="col-md-6 col-sm-6" v-for="second in secondColumn" v-bind:key="second.id">
                     <span class="bl-label-15">
-                        {{ second.skill }}
+                        {{ second.skill_name }}
                     </span>
                     <span class="bl-label-14">
-                        {{ second.description }}
+                        {{ second.level_name }}
                     </span>
                 </div>
             </div>
@@ -88,6 +88,14 @@
         data() {
             return {
                 disabled: false,
+                skills_intro: '',
+                is_empty: false,
+                user_skills: [],
+                firstColumn: [],
+                secondColumn: [],
+                endpoints: {
+                    save: '/api/v1/user/skill',
+                },
                 levels: [
                     { id: 1, name: 'Beginner' },
                     { id: 2, name: 'Competent' },
@@ -100,21 +108,6 @@
                     { id: 4, name: 'Communication Skills' },
                     { id: 5, name: 'Can Accept Criticism' },
                 ],
-                user_skills: [
-                    { skill_id: 1, level_id: 1 },
-                    { skill_id: 2, level_id: 2 },
-                    { skill_id: 3, level_id: 3 },
-                    { skill_id: 4, level_id: 1 },
-                    { skill_id: 5, level_id: 2 },
-                ],
-                skills_intro: '',
-                industry_skills: [],
-                firstColumn: [],
-                secondColumn: [],
-                endpoints: {
-                    get: 'api/v1/skills',
-                    save: '/api/v1/user/skill',
-                }
             }
         },
 
@@ -123,7 +116,20 @@
 
             Bus.$on('industrySkillsDetails', function(detailsArray, skillsIntroduction) {
                 component.skills_intro = skillsIntroduction;
-                component.industry_skills = detailsArray;
+
+                if (detailsArray.length == 0) {
+                    component.is_empty = true;
+                    component.skills.map(function(skill) {
+                        component.user_skills.push({
+                            skill_id: skill.id,
+                            skill_name: skill.name,
+                            level_id: 1
+                        })
+                    });
+
+                } else {
+                    component.user_skills = detailsArray;
+                }
 
                 component.display();
             });
@@ -132,26 +138,23 @@
         methods: {
             
             display() {
-                let len = this.industry_skills.length;
+                let len = this.user_skills.length;
                 let half = Math.ceil(len / 2);
 
-                this.firstColumn = this.industry_skills.slice(0, half);
-                this.secondColumn = this.industry_skills.slice(half, len);
+                this.firstColumn = this.user_skills.slice(0, half);
+                this.secondColumn = this.user_skills.slice(half, len);
             },
 
             textAreaAdjust() {
                 let o = this.$refs['skillsIntro'];
-                o.style.height = "1px";
-                o.style.height = (25+o.scrollHeight)+"px";
-            },
-
-            onChangeLevel(e, skill_id) {
-                this.user_skills.push({ skill_id: skill_id, level_id: parseInt(e.target.value) })
+                o.style.height = '1px';
+                o.style.height = (25+o.scrollHeight) + 'px';
             },
 
             submitForm() {
                 console.log(this.user_skills)
             },
+
             // async submitForm() {
             //     let component = this;
 

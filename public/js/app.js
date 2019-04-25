@@ -2939,11 +2939,11 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       input: {
-        gender: '',
-        date_of_birth: '',
-        marital_status: '',
-        english_skill: '',
-        drivers_license: ''
+        gender: null,
+        date_of_birth: null,
+        marital_status: null,
+        english_skill: null,
+        drivers_license: null
       }
     };
   },
@@ -3177,14 +3177,83 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      disabled: false,
+      is_empty: false,
       expanded: [],
       input: {
         job_role: '',
         company_name: '',
-        salary: '',
+        location: '',
+        project_size: '',
         start_date: '',
         end_date: ''
       },
@@ -3204,30 +3273,35 @@ __webpack_require__.r(__webpack_exports__);
         component.expanded[i] = false;
       }
     });
-    Bus.$on('AddEmployment', function (details) {
-      component.employments.push(details);
-      component.expanded[component.employments.length - 1] = false;
-    });
   },
   methods: {
     toggle: function toggle(index) {
-      if (this.expanded[index] === true) {
-        this.$refs['boxCls-' + index][0].className = 'bl-box-2 hidden';
-        this.$refs['toggleCls-' + index][0].className = 'responsibilities hidden';
-        this.$refs['toggleImg-' + index][0].src = '/img/icons/expand.png';
-        this.$refs['toggleImg-' + index][0].srcset = '/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x';
-      } else {
-        this.$refs['boxCls-' + index][0].className = 'bl-box-2';
-        this.$refs['toggleCls-' + index][0].className = 'responsibilities';
-        this.$refs['toggleImg-' + index][0].src = '/img/icons/collapse.png';
-        this.$refs['toggleImg-' + index][0].srcset = '/img/icons/collapse@2x.png 2x, /img/icons/collapse@3x.png 3x';
+      this.expanded[index] === true ? this.collapse(index) : this.expand(index);
+      this.input = this.employments[index];
+    },
+    collapse: function collapse(index) {
+      this.$refs['boxCls-' + index][0].className = 'bl-box-2 hidden';
+      this.$refs['toggleCls-' + index][0].className = 'responsibilities hidden';
+      this.$refs['toggleImg-' + index][0].src = '/img/icons/expand.png';
+      this.$refs['toggleImg-' + index][0].srcset = '/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x';
+      this.expanded[index] = false;
+    },
+    expand: function expand(index) {
+      this.$refs['boxCls-' + index][0].className = 'bl-box-2';
+      this.$refs['toggleCls-' + index][0].className = 'responsibilities';
+      this.$refs['toggleImg-' + index][0].src = '/img/icons/collapse.png';
+      this.$refs['toggleImg-' + index][0].srcset = '/img/icons/collapse@2x.png 2x, /img/icons/collapse@3x.png 3x';
+      this.expanded[index] = true;
+    },
+    collapseAll: function collapseAll() {
+      for (var index = 0; index < this.employments.length; index++) {
+        this.collapse(index);
       }
-
-      this.expanded[index] = !this.expanded[index];
     },
     getPeriod: function getPeriod(start, end) {
       return Utils.getPeriod(start, end);
-    }
+    },
+    submitForm: function submitForm() {}
   }
 });
 
@@ -3293,12 +3367,12 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       input: {
-        introduction: '',
-        when: '',
-        max_distance: '',
-        address: '',
-        state: '',
-        right_to_work: ''
+        introduction: null,
+        when: null,
+        max_distance: null,
+        address: null,
+        state: null,
+        right_to_work: null
       }
     };
   },
@@ -3413,6 +3487,14 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       disabled: false,
+      skills_intro: '',
+      is_empty: false,
+      user_skills: [],
+      firstColumn: [],
+      secondColumn: [],
+      endpoints: {
+        save: '/api/v1/user/skill'
+      },
       levels: [{
         id: 1,
         name: 'Beginner'
@@ -3438,58 +3520,41 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         id: 5,
         name: 'Can Accept Criticism'
-      }],
-      user_skills: [{
-        skill_id: 1,
-        level_id: 1
-      }, {
-        skill_id: 2,
-        level_id: 2
-      }, {
-        skill_id: 3,
-        level_id: 3
-      }, {
-        skill_id: 4,
-        level_id: 1
-      }, {
-        skill_id: 5,
-        level_id: 2
-      }],
-      skills_intro: '',
-      industry_skills: [],
-      firstColumn: [],
-      secondColumn: [],
-      endpoints: {
-        get: 'api/v1/skills',
-        save: '/api/v1/user/skill'
-      }
+      }]
     };
   },
   created: function created() {
     var component = this;
     Bus.$on('industrySkillsDetails', function (detailsArray, skillsIntroduction) {
       component.skills_intro = skillsIntroduction;
-      component.industry_skills = detailsArray;
+
+      if (detailsArray.length == 0) {
+        component.is_empty = true;
+        component.skills.map(function (skill) {
+          component.user_skills.push({
+            skill_id: skill.id,
+            skill_name: skill.name,
+            level_id: 1
+          });
+        });
+      } else {
+        component.user_skills = detailsArray;
+      }
+
       component.display();
     });
   },
   methods: {
     display: function display() {
-      var len = this.industry_skills.length;
+      var len = this.user_skills.length;
       var half = Math.ceil(len / 2);
-      this.firstColumn = this.industry_skills.slice(0, half);
-      this.secondColumn = this.industry_skills.slice(half, len);
+      this.firstColumn = this.user_skills.slice(0, half);
+      this.secondColumn = this.user_skills.slice(half, len);
     },
     textAreaAdjust: function textAreaAdjust() {
       var o = this.$refs['skillsIntro'];
-      o.style.height = "1px";
-      o.style.height = 25 + o.scrollHeight + "px";
-    },
-    onChangeLevel: function onChangeLevel(e, skill_id) {
-      this.user_skills.push({
-        skill_id: skill_id,
-        level_id: parseInt(e.target.value)
-      });
+      o.style.height = '1px';
+      o.style.height = 25 + o.scrollHeight + 'px';
     },
     submitForm: function submitForm() {
       console.log(this.user_skills);
@@ -3709,7 +3774,7 @@ __webpack_require__.r(__webpack_exports__);
       }).catch(function (error) {
         /** 
          * NOTE: Please do not delete token if error occurs
-         * Instead, this should deleted if unauthorized access is returned
+         * Instead, this should be deleted if unauthorized access is returned
          */
         // Api.deleteToken();
         Utils.handleError(error);
@@ -42117,9 +42182,11 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "profile-title" }, [_vm._v("About Me")]),
           _vm._v(" "),
-          _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
-            _vm._v("Gender")
-          ]),
+          _vm.input.gender
+            ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
+                _vm._v("Gender")
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
@@ -42127,9 +42194,11 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
-            _vm._v("Date of Birth")
-          ]),
+          _vm.input.date_of_birth
+            ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
+                _vm._v("Date of Birth")
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
@@ -42139,9 +42208,11 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
-            _vm._v("Marital Status")
-          ]),
+          _vm.input.marital_status
+            ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
+                _vm._v("Marital Status")
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
@@ -42151,9 +42222,11 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
-            _vm._v("English Skill")
-          ]),
+          _vm.input.english_skill
+            ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
+                _vm._v("English Skill")
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
@@ -42163,9 +42236,11 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
-            _vm._v("Driver's License")
-          ]),
+          _vm.input.drivers_license
+            ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
+                _vm._v("Driver's License")
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
@@ -42436,13 +42511,302 @@ var render = function() {
       "div",
       { staticClass: "profile-content" },
       [
-        _c("record-form", {
-          attrs: {
-            title: "AddEmployment",
-            record: _vm.input,
-            "save-endpoint": "/api/v1/work/experience"
-          }
-        }),
+        _c(
+          "main-modal",
+          { attrs: { id: "modalEmployment" } },
+          [
+            _c("template", { slot: "custom-modal-title" }, [
+              _c("h4", { staticClass: "modal-title" }, [
+                _vm._v("Edit Employment History")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "close", attrs: { "data-dismiss": "modal" } },
+                [_vm._v("×")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("template", { slot: "custom-modal-content" }, [
+              _c(
+                "form",
+                {
+                  staticClass: "modal-form",
+                  attrs: { method: "POST" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.submitForm($event)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "emp-label" }, [
+                    _vm._v("Job Details")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("Your Role")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.job_role,
+                            expression: "input.job_role"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input.job_role },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.input, "job_role", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("Company/Project Name")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.company_name,
+                            expression: "input.company_name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input.company_name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input,
+                              "company_name",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("Location")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: { type: "text" }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("Size of the Project")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.project_size,
+                            expression: "input.project_size"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input.project_size },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input,
+                              "project_size",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-label" }, [
+                    _vm._v("Duration of Employment")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c("div", { staticClass: "emp-col" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("Start Month")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.start_date,
+                            expression: "input.start_date"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input.start_date },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input,
+                              "start_date",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-col" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("Start Year")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.start_date,
+                            expression: "input.start_date"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input.start_date },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input,
+                              "start_date",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c("div", { staticClass: "emp-col" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("Start Month")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.end_date,
+                            expression: "input.end_date"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input.end_date },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.input, "end_date", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-col" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("Start Year")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.end_date,
+                            expression: "input.end_date"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input.end_date },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.input, "end_date", $event.target.value)
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-label" }, [
+                    _vm._v("Responsibilities")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass: "form-control",
+                    attrs: {
+                      placeholder: "Add Another Responsibility",
+                      type: "text"
+                    }
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("template", { slot: "custom-modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "mt-0",
+                  attrs: { type: "submit", disabled: _vm.disabled },
+                  on: { click: _vm.submitForm }
+                },
+                [_vm._v("Save Changes")]
+              )
+            ])
+          ],
+          2
+        ),
         _vm._v(" "),
         _vm._m(0),
         _vm._v(" "),
@@ -42531,7 +42895,28 @@ var render = function() {
                       class: _vm.getCls
                     },
                     [
-                      _vm._m(3, true),
+                      _c(
+                        "span",
+                        { staticClass: "bl-label-14-style-2 bl-mt13" },
+                        [
+                          _c("img", {
+                            staticClass: "text-icon",
+                            attrs: {
+                              src: "/img/icons/pinlocation.png",
+                              srcset:
+                                "/img/icons/pinlocation@2x.png" +
+                                " 2x, " +
+                                "/img/icons/pinlocation@3x.png" +
+                                " 3x"
+                            }
+                          }),
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(employment.location) +
+                              "\n                    "
+                          )
+                        ]
+                      ),
                       _vm._v(" "),
                       _c(
                         "span",
@@ -42550,13 +42935,13 @@ var render = function() {
                           }),
                           _vm._v(
                             "\n                        $" +
-                              _vm._s(employment.salary) +
+                              _vm._s(employment.project_size) +
                               "\n                    "
                           )
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._m(4, true),
+                      _vm._m(3, true),
                       _vm._v(" "),
                       _c("div", { staticClass: "bl-label-15" }, [
                         _c(
@@ -42600,7 +42985,7 @@ var staticRenderFns = [
       "span",
       {
         staticClass: "edit-icon",
-        attrs: { "data-toggle": "modal", "data-target": "#modalAddEmployment" }
+        attrs: { "data-toggle": "modal", "data-target": "#modalEmployment" }
       },
       [
         _c("img", {
@@ -42645,27 +43030,6 @@ var staticRenderFns = [
       }),
       _vm._v(" "),
       _c("div", { staticClass: "bl-box" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "bl-label-14-style-2 bl-mt13" }, [
-      _c("img", {
-        staticClass: "text-icon",
-        attrs: {
-          src: "/img/icons/pinlocation.png",
-          srcset:
-            "/img/icons/pinlocation@2x.png" +
-            " 2x, " +
-            "/img/icons/pinlocation@3x.png" +
-            " 3x"
-        }
-      }),
-      _vm._v(
-        "\n                        Richmond, Victoria, Australia\n                    "
-      )
     ])
   },
   function() {
@@ -42735,15 +43099,19 @@ var render = function() {
             _vm._v("(Visible only to you)")
           ]),
           _vm._v(" "),
-          _c("span", { staticClass: "profile-intro" }, [
-            _vm._v(
-              "\n                " +
-                _vm._s(_vm.input.introduction) +
-                "\n            "
-            )
-          ]),
+          _vm.input.introduction
+            ? _c("span", { staticClass: "profile-intro" }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.input.introduction) +
+                    "\n            "
+                )
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _c("span", { staticClass: "bl-label-15" }, [_vm._v("When")]),
+          _vm.input.when
+            ? _c("span", { staticClass: "bl-label-15" }, [_vm._v("When")])
+            : _vm._e(),
           _vm._v(" "),
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
@@ -42751,9 +43119,11 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("span", { staticClass: "bl-label-15" }, [
-            _vm._v("Maximum Distance from home")
-          ]),
+          _vm.input.max_distance
+            ? _c("span", { staticClass: "bl-label-15" }, [
+                _vm._v("Maximum Distance from home")
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
@@ -42763,9 +43133,11 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("span", { staticClass: "bl-label-15" }, [
-            _vm._v("Willing to relocate to")
-          ]),
+          _vm.input.address
+            ? _c("span", { staticClass: "bl-label-15" }, [
+                _vm._v("Willing to relocate to")
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
@@ -42775,13 +43147,21 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("span", { staticClass: "bl-label-14" }, [
-            _vm._v(
-              "\n                " + _vm._s(_vm.input.state) + "\n            "
-            )
-          ]),
+          _vm.input.state
+            ? _c("span", { staticClass: "bl-label-14" }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.input.state) +
+                    "\n            "
+                )
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _c("span", { staticClass: "bl-label-15" }, [_vm._v("Right to Work")]),
+          _vm.input.right_to_work
+            ? _c("span", { staticClass: "bl-label-15" }, [
+                _vm._v("Right to Work")
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
@@ -42888,6 +43268,14 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.skills_intro,
+                        expression: "skills_intro"
+                      }
+                    ],
                     ref: "skillsIntro",
                     staticClass: "form-control",
                     staticStyle: { overflow: "hidden" },
@@ -42895,7 +43283,16 @@ var render = function() {
                       placeholder:
                         "Example: Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline."
                     },
-                    on: { keyup: _vm.textAreaAdjust }
+                    domProps: { value: _vm.skills_intro },
+                    on: {
+                      keyup: _vm.textAreaAdjust,
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.skills_intro = $event.target.value
+                      }
+                    }
                   }),
                   _vm._v(" "),
                   _c("div", { staticClass: "skill-label" }, [
@@ -42904,10 +43301,10 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._l(_vm.skills, function(skill) {
+                  _vm._l(_vm.user_skills, function(skill) {
                     return _c(
                       "div",
-                      { key: skill.id, staticClass: "row skill-row" },
+                      { key: skill.skill_id, staticClass: "row skill-row" },
                       [
                         _c(
                           "label",
@@ -42918,7 +43315,7 @@ var render = function() {
                           [
                             _vm._v(
                               "\n                            " +
-                                _vm._s(skill.name) +
+                                _vm._s(skill.skill_name) +
                                 "\n                        "
                             )
                           ]
@@ -42928,9 +43325,32 @@ var render = function() {
                           _c(
                             "select",
                             {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: skill.level_id,
+                                  expression: "skill.level_id"
+                                }
+                              ],
                               on: {
                                 change: function($event) {
-                                  return _vm.onChangeLevel($event, skill.id)
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    skill,
+                                    "level_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
                                 }
                               }
                             },
@@ -42971,7 +43391,7 @@ var render = function() {
         _vm._v(" "),
         _vm._m(1),
         _vm._v(" "),
-        _vm.industry_skills.length > 0
+        !_vm.is_empty
           ? _c(
               "div",
               { staticClass: "row" },
@@ -42996,7 +43416,7 @@ var render = function() {
                       _c("span", { staticClass: "bl-label-15" }, [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(first.skill) +
+                            _vm._s(first.skill_name) +
                             "\n                "
                         )
                       ]),
@@ -43004,7 +43424,7 @@ var render = function() {
                       _c("span", { staticClass: "bl-label-14" }, [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(first.description) +
+                            _vm._s(first.level_name) +
                             "\n                "
                         )
                       ])
@@ -43020,7 +43440,7 @@ var render = function() {
                       _c("span", { staticClass: "bl-label-15" }, [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(second.skill) +
+                            _vm._s(second.skill_name) +
                             "\n                "
                         )
                       ]),
@@ -43028,7 +43448,7 @@ var render = function() {
                       _c("span", { staticClass: "bl-label-14" }, [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(second.description) +
+                            _vm._s(second.level_name) +
                             "\n                "
                         )
                       ])

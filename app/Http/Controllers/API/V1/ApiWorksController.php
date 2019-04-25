@@ -35,8 +35,8 @@ class ApiWorksController extends ApiBaseController
      *                      example="Appetiser"
      *                  ),
      *                  @OA\Property(
-     *                      property="salary",
-     *                      description="<b>Required</b> Salary",
+     *                      property="project_size",
+     *                      description="<b>Required</b> Project Size",
      *                      type="string",
      *                      example="20000"
      *                  ),
@@ -156,8 +156,8 @@ class ApiWorksController extends ApiBaseController
      *                      example="Appetiser"
      *                  ),
      *                  @OA\Property(
-     *                      property="salary",
-     *                      description="<b>Required</b> Salary",
+     *                      property="project_size",
+     *                      description="<b>Required</b> Project Size",
      *                      type="string",
      *                      example="20000"
      *                  ),

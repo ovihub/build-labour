@@ -106,7 +106,7 @@
 
                         /** 
                          * NOTE: Please do not delete token if error occurs
-                         * Instead, this should deleted if unauthorized access is returned
+                         * Instead, this should be deleted if unauthorized access is returned
                          */
                         // Api.deleteToken();
                         

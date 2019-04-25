@@ -13,30 +13,30 @@
                 <div class="profile-title">Your Ideal Next Role</div>        
                 <span class="bl-label-14">(Visible only to you)</span>
                 
-                <span class="profile-intro">
+                <span class="profile-intro" v-if="input.introduction">
                     {{ input.introduction }}
                 </span>
 
-                <span class="bl-label-15">When</span>
+                <span class="bl-label-15" v-if="input.when">When</span>
                 <span class="bl-label-14">
                     {{ input.when }}
                 </span>
 
-                <span class="bl-label-15">Maximum Distance from home</span>
+                <span class="bl-label-15" v-if="input.max_distance">Maximum Distance from home</span>
                 <span class="bl-label-14">
                     {{ input.max_distance }}
                 </span>
 
-                <span class="bl-label-15">Willing to relocate to</span>
+                <span class="bl-label-15" v-if="input.address">Willing to relocate to</span>
                 <span class="bl-label-14">
                     {{ input.address }}
                 </span>
 
-                <span class="bl-label-14">
+                <span class="bl-label-14" v-if="input.state">
                     {{ input.state }}
                 </span>
 
-                <span class="bl-label-15">Right to Work</span>
+                <span class="bl-label-15" v-if="input.right_to_work">Right to Work</span>
                 <span class="bl-label-14">
                     {{ input.right_to_work }}
                 </span>
@@ -50,7 +50,7 @@
         data() {
             return {
                 input: { 
-                    introduction: '', when: '', max_distance: '', address: '',  state: '', right_to_work: '',
+                    introduction: null, when: null, max_distance: null, address: null,  state: null, right_to_work: null,
                 }
             }
         },

@@ -12,27 +12,27 @@
             
                 <div class="profile-title">About Me</div>
 
-                <span class="bl-label-15 mt-2 pt-1">Gender</span>
+                <span class="bl-label-15 mt-2 pt-1" v-if="input.gender">Gender</span>
                 <span class="bl-label-14">
                     {{ input.gender }}
                 </span>
 
-                <span class="bl-label-15 mt-2 pt-1">Date of Birth</span>
+                <span class="bl-label-15 mt-2 pt-1" v-if="input.date_of_birth">Date of Birth</span>
                 <span class="bl-label-14">
                     {{ formatDate(input.date_of_birth) }}
                 </span>
 
-                <span class="bl-label-15 mt-2 pt-1">Marital Status</span>
+                <span class="bl-label-15 mt-2 pt-1" v-if="input.marital_status">Marital Status</span>
                 <span class="bl-label-14">
                     {{ input.marital_status }}
                 </span>
 
-                <span class="bl-label-15 mt-2 pt-1">English Skill</span>
+                <span class="bl-label-15 mt-2 pt-1" v-if="input.english_skill">English Skill</span>
                 <span class="bl-label-14">
                     {{ input.english_skill }}
                 </span>
 
-                <span class="bl-label-15 mt-2 pt-1">Driver's License</span>
+                <span class="bl-label-15 mt-2 pt-1" v-if="input.drivers_license">Driver's License</span>
                 <span class="bl-label-14">
                     {{ input.drivers_license }}
                 </span>
@@ -46,7 +46,7 @@
         data() {
             return {
                 input: {
-                    gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: ''
+                    gender: null, date_of_birth: null, marital_status: null, english_skill: null, drivers_license: null
                 }
             }
         },

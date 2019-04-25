@@ -20,7 +20,7 @@ class WorkExperience extends BaseModel
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
-    protected $fillable = ['job_role', 'company_name', 'salary', 'user_id', 'start_date', 'end_date', 'company_id'];
+    protected $fillable = ['job_role', 'company_name', 'location', 'project_size', 'user_id', 'start_date', 'end_date', 'company_id'];
 
     protected $appends = ['period', "isCurrent"];
 
@@ -32,7 +32,8 @@ class WorkExperience extends BaseModel
         return [
             'job_role'      => 'required',
             'company_name'  => 'required',
-            'salary'        => 'required|regex:/^\d+(\.\d{1,2})?$/', /* monetary validation */
+            'project_size'  => 'required|regex:/^\d+(\.\d{1,2})?$/', /* monetary validation */
+            'location'      => 'required|string',
             'start_date'    => 'required|date',
             'end_date'      => 'nullable|date',
             'user_id'       => 'required|integer',

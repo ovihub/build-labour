@@ -51,23 +51,30 @@ class UsersTableSeeder extends Seeder
             'company_name' => 'Probuild',
             'company_id' => 1,
             'user_id' => $user->id,
-            'start_date' => Carbon::parse('11/10/2012'),
-            'end_date' => Carbon::parse('09/04/2017'),
+            'location' => 'Richmond, Victoria, Australia',
+            'project_size' => '1,750,000',
+            'start_date' => Carbon::parse('11/10/2015'),
+            'end_date' => Carbon::parse('09/04/2019'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
-//        WorkExperienceResponsibility::create([
-//            'work_experience_id'
-//        ]);
+        foreach ($responsibilities as $responsibility) {
+            WorkExperienceResponsibility::create([
+                'work_experience_id' => 1,
+                'responsibility' => $responsibility
+            ]);
+        }
 
         WorkExperience::create([
             'job_role' => 'Assistant Project Manager',
             'company_name' => 'BBUILD',
-            'company_id' => 1,
+            'company_id' => 2,
             'user_id' => $user->id,
-            'start_date' => Carbon::parse('11/10/2012'),
-            'end_date' => null,
+            'location' => 'Richmond, Victoria, Australia',
+            'project_size' => '1,000,000',
+            'start_date' => Carbon::parse('11/10/2014'),
+            'end_date' => Carbon::parse('11/10/2015'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -75,10 +82,12 @@ class UsersTableSeeder extends Seeder
         WorkExperience::create([
             'job_role' => 'Construction',
             'company_name' => 'Tools ‘r’ Us',
-            'company_id' => 1,
+            'company_id' => 3,
             'user_id' => $user->id,
-            'start_date' => Carbon::parse('11/10/2012'),
-            'end_date' => null,
+            'location' => 'Richmond, Victoria, Australia',
+            'project_size' => '2,000,000',
+            'start_date' => Carbon::parse('11/10/2013'),
+            'end_date' => Carbon::parse('11/10/2014'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -86,10 +95,12 @@ class UsersTableSeeder extends Seeder
         WorkExperience::create([
             'job_role' => 'Site Manager',
             'company_name' => 'Richmond Surveying',
-            'company_id' => 1,
+            'company_id' => 4,
             'user_id' => $user->id,
+            'location' => 'Richmond, Victoria, Australia',
+            'project_size' => '3,000,000',
             'start_date' => Carbon::parse('11/10/2012'),
-            'end_date' => null,
+            'end_date' => Carbon::parse('11/10/2013'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
