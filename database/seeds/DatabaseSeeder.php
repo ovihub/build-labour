@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         \App\Models\Users\UserSkill::truncate();
         DB::statement("SET foreign_key_checks=1");
 
+        $this->call(RolesTableSeeder::class);
+        $this->call(CompanyTableSeeder::class);
         $this->call(SkillsTableSeeder::class);
         $this->call(LevelsTableSeeder::class);
         $this->call(UsersTableSeeder::class);
