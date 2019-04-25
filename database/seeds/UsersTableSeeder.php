@@ -177,5 +177,35 @@ class UsersTableSeeder extends Seeder
             'description' => 'Licence to operate a Forklift Truck',
             'user_id' => $user->id
         ]);
+
+        UserSkill::create([
+            'user_id' => $user->id,
+            'skill_id' => 1,
+            'level_id' => 1
+        ]);
+
+        UserSkill::create([
+            'user_id' => $user->id,
+            'skill_id' => 2,
+            'level_id' => 2
+        ]);
+
+        UserSkill::create([
+            'user_id' => $user->id,
+            'skill_id' => 3,
+            'level_id' => 3
+        ]);
+
+        UserSkill::create([
+            'user_id' => $user->id,
+            'skill_id' => 4,
+            'level_id' => 1
+        ]);
+
+        UserSkill::create([
+            'user_id' => $user->id,
+            'skill_id' => 5,
+            'level_id' => 2
+        ]);
     }
 }
