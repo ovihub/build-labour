@@ -43,9 +43,20 @@ class DatabaseRerun extends Command
 
         $tables = DB::select('SHOW TABLES');
 
+        if (Schema::hasTable('user_skills')) {
+
+            Schema::drop('user_skills');
+
+        }
+
         foreach($tables as $table){
-            Schema::drop($table->Tables_in_buildlabour);
-            echo 'Table '.$table->Tables_in_buildlabour.' Droped. <br>';
+
+            if (Schema::hasTable($table->Tables_in_buildlabour)) {
+
+                Schema::drop($table->Tables_in_buildlabour);
+                echo 'Table '.$table->Tables_in_buildlabour.' Droped. <br>';
+            }
+
         }
 
         echo shell_exec('php artisan migrate');
