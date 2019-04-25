@@ -25,16 +25,4 @@ class SkillRepository extends AbstractRepository
         ],
     ];
 
-    /**
-     * Filter by author attribute
-     *
-     * @return self
-     */
-    public function scopeLevels()
-    {
-        return $this->addScopeQuery(function($query) {
-            return $query->with('levels');
-        });
-    }
-
 }

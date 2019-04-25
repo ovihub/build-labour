@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Models\Skills\Level;
 use App\Models\Users\WorkExperience;
 use App\Repositories\SkillRepository;
 use Illuminate\Http\Request;
@@ -415,8 +416,8 @@ class ApiWorkerController extends ApiBaseController
      */
     public function skillOptions(SkillRepository $repo) {
 
-        $skillOptions = $repo->levels()->all();
-
-        return $this->apiSuccessResponse( compact('skillOptions'), true, 'Success', self::HTTP_STATUS_REQUEST_OK);
+        $skills = $repo->all();
+        $levels = Level::all();
+        return $this->apiSuccessResponse( compact('skills', 'levels'), true, 'Success', self::HTTP_STATUS_REQUEST_OK);
     }
 }

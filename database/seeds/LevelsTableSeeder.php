@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Skills\Level;
+use App\Models\Skills\Skill;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,12 +16,15 @@ class LevelsTableSeeder extends Seeder
     {
         $table_name = 'levels';
 
-    	DB::table($table_name)->delete();
+        $result = Level::all();
 
-        DB::table($table_name)->insert([
-            [ 'name' => 'Beginner' ],
-            [ 'name' => 'Competent' ],
-            [ 'name' => 'Expert' ],
-        ]);
+       // if (!$result) {
+            DB::table($table_name)->insert([
+                [ 'name' => 'Beginner' ],
+                [ 'name' => 'Competent' ],
+                [ 'name' => 'Expert' ],
+            ]);
+       // }
+
     }
 }
