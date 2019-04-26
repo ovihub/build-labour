@@ -47,6 +47,42 @@ class UserRepository extends AbstractRepository
 
             $skills = $request->skills;
 
+            $existingSkills = UserSkill::where('user_id', $user->id)->exists();
+
+
+            if (!$existingSkills) {
+
+                UserSkill::create([
+                    'user_id' => $user->id,
+                    'skill_id' => 1,
+                    'level_id' => 1
+                ]);
+
+                UserSkill::create([
+                    'user_id' => $user->id,
+                    'skill_id' => 2,
+                    'level_id' => 1
+                ]);
+
+                UserSkill::create([
+                    'user_id' => $user->id,
+                    'skill_id' => 3,
+                    'level_id' => 1
+                ]);
+
+                UserSkill::create([
+                    'user_id' => $user->id,
+                    'skill_id' => 4,
+                    'level_id' => 1
+                ]);
+
+                UserSkill::create([
+                    'user_id' => $user->id,
+                    'skill_id' => 5,
+                    'level_id' => 1
+                ]);
+            }
+
             foreach ($skills as $skill) {
 
                 $existingSkill = UserSkill::where('user_id', $user->id)->where('skill_id', $skill['skill_id'])->first();
