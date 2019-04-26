@@ -106,8 +106,8 @@ class WorkExperience extends BaseModel
         if ( ! empty( $value ) ) {
 
             $format = preg_replace("/[^0-9.]/","",$value);
-            $format = number_format($format,2);
-            $this->attributes['project_size'] = '$' . $format;
+            $format = number_format($format,0);
+            $this->attributes['project_size'] = $format;
         }
     }
 
