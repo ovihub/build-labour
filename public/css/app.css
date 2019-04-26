@@ -12029,6 +12029,21 @@ p.bl-nav-tab-label {
   cursor: pointer;
 }
 
+.add-icon {
+  float: right;
+}
+
+.add-icon img {
+  width: 24px;
+  height: 24px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.add-icon img:hover {
+  cursor: pointer;
+}
+
 .edit-icon {
   float: right;
 }

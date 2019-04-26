@@ -1,6 +1,6 @@
 <template>
     <div class="profile-item-2">
-        <div class="profile-content">
+        <div class="profile-content" style="padding-bottom:0">
 
             <main-modal id="modalEmployment">
 		
@@ -83,7 +83,7 @@
 
             </main-modal>
             
-            <span class="edit-icon" data-toggle="modal" data-target="#modalEmployment" @click="addNew">
+            <span class="add-icon" data-toggle="modal" data-target="#modalEmployment" @click="addNew">
                 <img src="/img/icons/plus.png"
                     srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
             </span>

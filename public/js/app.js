@@ -4291,8 +4291,8 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    getPeriod: function getPeriod(start, end) {
-      return Utils.getPeriod(start, end);
+    getPeriod: function getPeriod(emp) {
+      return Utils.getPeriod(new Date(emp.start_year, emp.start_month - 1, 1), new Date(emp.end_year, emp.end_month - 1, 1));
     }
   }
 });
@@ -42976,7 +42976,7 @@ var render = function() {
         _c(
           "span",
           {
-            staticClass: "edit-icon",
+            staticClass: "add-icon",
             attrs: { "data-toggle": "modal", "data-target": "#modalEducation" },
             on: { click: _vm.addNew }
           },
@@ -43119,7 +43119,10 @@ var render = function() {
   return _c("div", { staticClass: "profile-item-2" }, [
     _c(
       "div",
-      { staticClass: "profile-content" },
+      {
+        staticClass: "profile-content",
+        staticStyle: { "padding-bottom": "0" }
+      },
       [
         _c(
           "main-modal",
@@ -43554,7 +43557,7 @@ var render = function() {
         _c(
           "span",
           {
-            staticClass: "edit-icon",
+            staticClass: "add-icon",
             attrs: {
               "data-toggle": "modal",
               "data-target": "#modalEmployment"
@@ -44796,7 +44799,13 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("span", { staticClass: "bl-label-14 bl-ml15" })
+                _c("span", { staticClass: "bl-label-14 bl-ml15" }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(_vm.getPeriod(_vm.input)) +
+                      "\n                    "
+                  )
+                ])
               ])
             ])
           : _vm._e()

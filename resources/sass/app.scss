@@ -663,6 +663,19 @@ p.bl-nav-tab-label {
     cursor: pointer;
   }
 }
+.add-icon {
+  float: right;
+
+  img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
 .edit-icon {
   float: right;
 
