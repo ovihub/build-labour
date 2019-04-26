@@ -20,7 +20,7 @@
                     gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: ''
                 },
                 ideal_role: { 
-                    introduction: '', when: '', max_distance: '', address: '',  state: '', right_to_work: '',
+                    introduction: '', when: '', max_distance: '', state: '', right_to_work: '',
                 },
                 employments: [],
                 educations: [],
@@ -82,7 +82,6 @@
                             component.ideal_role.introduction = user.worker_detail.introduction;
                             component.ideal_role.when = user.worker_detail.when;
                             component.ideal_role.max_distance = user.worker_detail.max_distance;
-                            component.ideal_role.address = user.worker_detail.address;
                             component.ideal_role.state = user.worker_detail.state;
                             component.ideal_role.right_to_work = user.worker_detail.right_to_work;
 

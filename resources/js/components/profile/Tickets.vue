@@ -4,9 +4,9 @@
 
             <record-form title="AddTicket" :record="input" save-endpoint="/api/v1/user/ticket"></record-form>
 
-            <span class="edit-icon" data-toggle="modal" data-target="#modalAddTicket">
-                <img src="/img/icons/editbutton.png"
-                    srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
+            <span class="add-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalAddTicket">
+                <img src="/img/icons/plus.png"
+                    srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
             </span>
             
             <div class="profile-title">

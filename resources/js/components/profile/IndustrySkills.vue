@@ -10,15 +10,19 @@
                 </template>
 
                 <template slot="custom-modal-content">
-                    <form class="modal-form" method="POST" @submit.prevent="submitForm">
+                    <form class="modal-form" method="POST" @submit.prevent="submit">
                         <div class="skill-label">
                             What are your main industry work achievements?
                         </div>
                         
                         <textarea ref="skillsIntro" class="form-control" style="overflow:hidden"
                             placeholder="Example: Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline."
-                            @keyup="textAreaAdjust" v-model="skills_intro"></textarea>
+                            @keyup="textAreaAdjust" v-model="main_skill"></textarea>
                         
+                        <span class="err-msg" v-if="errors.main_skill">
+                            {{ errors.main_skill }}
+                        </span>
+
                         <div class="skill-label">
                             What are your main industry skills?
                         </div>
@@ -39,12 +43,12 @@
                 </template>
 
                 <template slot="custom-modal-footer">
-                    <button class="mt-0" type="submit" @click="submitForm" :disabled="disabled">Save Changes</button>
+                    <button class="mt-0" type="submit" @click="submit" :disabled="disabled">Save Changes</button>
                 </template>
 
             </main-modal>
 
-            <span class="edit-icon" data-toggle="modal" data-target="#modalIndustrySkill">
+            <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalIndustrySkill">
                 <img src="/img/icons/editbutton.png"
                     srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
             </span>
@@ -58,7 +62,7 @@
             
             <div class="row" v-if="! is_empty">
                 <div class="col-md-12 col-sm-12 profile-intro">
-                    {{ skills_intro }}
+                    {{ main_skill }}
                 </div>
                 <div class="col-md-6 col-sm-6" v-for="first in firstColumn" v-bind:key="first.id">
                     <span class="bl-label-15">
@@ -87,13 +91,16 @@
         data() {
             return {
                 disabled: false,
-                skills_intro: '',
+                main_skill: '',
                 is_empty: false,
                 user_skills: [],
                 firstColumn: [],
                 secondColumn: [],
+                errors: {
+                    main_skill: ''
+                },
                 endpoints: {
-                    save: '/api/v1/user/skill',
+                    save: '/api/v1/user/skills',
                 },
                 levels: [
                     { id: 1, name: 'Beginner' },
@@ -114,7 +121,7 @@
             let component = this;
 
             Bus.$on('industrySkillsDetails', function(detailsArray, skillsIntroduction) {
-                component.skills_intro = skillsIntroduction;
+                component.main_skill = skillsIntroduction;
 
                 if (detailsArray.length == 0) {
                     component.is_empty = true;
@@ -130,18 +137,18 @@
                     component.user_skills = detailsArray;
                 }
 
-                component.display();
+                component.display(component.user_skills);
             });
         },
 
         methods: {
             
-            display() {
-                let len = this.user_skills.length;
+            display(skills) {
+                let len = skills.length;
                 let half = Math.ceil(len / 2);
 
-                this.firstColumn = this.user_skills.slice(0, half);
-                this.secondColumn = this.user_skills.slice(half, len);
+                this.firstColumn = skills.slice(0, half);
+                this.secondColumn = skills.slice(half, len);
             },
 
             textAreaAdjust() {
@@ -149,37 +156,42 @@
                 o.style.height = (o.scrollHeight) + 'px';
             },
 
-            submitForm() {
-                console.log(this.user_skills)
-            },
+            async submit() {
+                let component = this;
 
-            // async submitForm() {
-            //     let component = this;
-
-			// 	Utils.setObjectValues(component.errors, '');
-            //     component.disabled = true;
-
-            //     await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
-                    
-            //         .then(function(response) {
-            //             let data = response.data;
-						
-			// 			$('#modalIndustrySkill').modal('hide');
-            //         })
-            //         .catch(function(error) {
-            //             if (error.response) {
-            //                 let data = error.response.data;
-
-			// 				for (let key in data.errors) {
-			// 					component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-            //                 }
-            //             }
-
-            //             Utils.handleError(error);
-            //         });
+				Utils.setObjectValues(component.errors, '');
                 
-            //     component.disabled = false;
-            // },
+                component.disabled = true;
+
+                let skills = {
+                    main_skill: component.main_skill,
+                    skills: component.user_skills
+                };
+
+                await axios.post(component.endpoints.save, skills, Utils.getBearerAuth())
+                    
+                    .then(function(response) {
+                        let data = response.data;
+						
+                        $('#modalIndustrySkill').modal('hide');
+                        
+                        component.is_empty = false;
+                        component.display(data.data.skills);
+                    })
+                    .catch(function(error) {
+                        if (error.response) {
+                            let data = error.response.data;
+
+							for (let key in data.errors) {
+								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                            }
+                        }
+
+                        Utils.handleError(error);
+                    });
+                
+                component.disabled = false;
+            },
 
         }
     }

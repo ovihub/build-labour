@@ -2843,8 +2843,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return word.charAt(0).toUpperCase() + word.slice(1);
       }).join(' ');
     },
-    submitForm: function () {
-      var _submitForm = _asyncToGenerator(
+    close: function close() {
+      Utils.setObjectValues(this.errors, '');
+    },
+    submit: function () {
+      var _submit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var component;
@@ -2884,11 +2887,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee, this);
       }));
 
-      function submitForm() {
-        return _submitForm.apply(this, arguments);
+      function submit() {
+        return _submit.apply(this, arguments);
       }
 
-      return submitForm;
+      return submit;
     }()
   }
 });
@@ -2904,6 +2907,80 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2950,12 +3027,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      disabled: false,
       input: {
         gender: null,
         date_of_birth: null,
         marital_status: null,
         english_skill: null,
         drivers_license: null
+      },
+      errors: {
+        gender: '',
+        date_of_birth: '',
+        marital_status: '',
+        english_skill: '',
+        drivers_license: ''
+      },
+      endpoints: {
+        save: '/api/v1/worker/optional'
       }
     };
   },
@@ -2971,7 +3059,52 @@ __webpack_require__.r(__webpack_exports__);
         var date = new Date(d);
         return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
       }
-    }
+    },
+    submit: function () {
+      var _submit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var component;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                component = this;
+                Utils.setObjectValues(component.errors, '');
+                component.disabled = true;
+                _context.next = 5;
+                return axios.post(this.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
+                  var data = response.data;
+                  $('#modalAboutMe').modal('hide');
+                }).catch(function (error) {
+                  if (error.response) {
+                    var data = error.response.data;
+
+                    for (var key in data.errors) {
+                      component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                    }
+                  }
+
+                  Utils.handleError(error);
+                });
+
+              case 5:
+                component.disabled = false;
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function submit() {
+        return _submit.apply(this, arguments);
+      }
+
+      return submit;
+    }()
   }
 });
 
@@ -3142,6 +3275,100 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3149,6 +3376,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       months: Utils.getMonths(),
       years: Utils.getYears(),
       educations: [],
+      current: -1,
+      input_add: {
+        id: '',
+        course: '',
+        school: '',
+        start_month: '',
+        start_year: '',
+        end_month: '',
+        end_year: ''
+      },
       input: {
         id: '',
         course: '',
@@ -3181,29 +3418,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getPeriod: function getPeriod(edu) {
       return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
     },
-    addNew: function addNew() {
+    add: function add() {
       Utils.setObjectValues(this.input, '');
     },
-    editDetails: function editDetails(index) {
+    edit: function edit(index) {
+      this.current = index;
       this.input = this.educations[index];
     },
-    submitForm: function () {
-      var _submitForm = _asyncToGenerator(
+    close: function close() {
+      Utils.setObjectValues(this.errors, '');
+    },
+    submit: function () {
+      var _submit = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var saveEndpoint, component;
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(id) {
+        var saveEndpoint, saveInput, component;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                saveEndpoint = this.input.id == '' ? this.endpoints.save : this.endpoints.save + this.input.id;
+                saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + this.input.id;
+                saveInput = id == 0 ? this.$data.input_add : this.$data.input;
                 component = this;
                 Utils.setObjectValues(component.errors, '');
                 component.disabled = true;
-                _context.next = 6;
-                return axios.post(saveEndpoint, component.$data.input, Utils.getBearerAuth()).then(function (response) {
+                _context.next = 7;
+                return axios.post(saveEndpoint, saveInput, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalEducation').modal('hide');
+                  $('#modalAddEducation').modal('hide');
+                  id == 0 ? component.educations.push(data.data.education) : component.educations[component.current] = data.data.education;
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -3216,10 +3460,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Utils.handleError(error);
                 });
 
-              case 6:
+              case 7:
                 component.disabled = false;
 
-              case 7:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -3227,11 +3471,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee, this);
       }));
 
-      function submitForm() {
-        return _submitForm.apply(this, arguments);
+      function submit(_x) {
+        return _submit.apply(this, arguments);
       }
 
-      return submitForm;
+      return submit;
     }()
   }
 });
@@ -3412,6 +3656,131 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3419,8 +3788,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       is_empty: false,
       months: Utils.getMonths(),
       years: Utils.getYears(),
+      current: -1,
       expanded: [],
       employments: [],
+      input_add: {
+        job_role: '',
+        company_name: '',
+        location: '',
+        project_size: '',
+        start_month: '',
+        start_year: '',
+        end_month: '',
+        end_year: '',
+        responsibilities: []
+      },
       input: {
         id: '',
         job_role: '',
@@ -3486,11 +3867,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.collapse(index);
       }
     },
-    addNew: function addNew() {
-      Utils.setObjectValues(this.input, '');
-      this.input.responsibilities = [];
+    close: function close() {
+      Utils.setObjectValues(this.errors, '');
     },
-    editDetails: function editDetails(index) {
+    add: function add() {
+      Utils.setObjectValues(this.input_add, '');
+    },
+    edit: function edit(index) {
+      this.current = index;
       this.input = this.employments[index];
     },
     getPeriod: function getPeriod(emp) {
@@ -3500,23 +3884,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
       o.style.height = o.scrollHeight + 'px';
     },
-    submitForm: function () {
-      var _submitForm = _asyncToGenerator(
+    submit: function () {
+      var _submit = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var saveEndpoint, component;
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(id) {
+        var saveEndpoint, saveInput, component, i;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                saveEndpoint = this.input.id == '' ? this.endpoints.save : this.endpoints.save + this.input.id;
+                saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + this.input.id;
+                saveInput = id == 0 ? this.input_add : this.input;
                 component = this;
                 Utils.setObjectValues(component.errors, '');
                 component.disabled = true;
-                _context.next = 6;
-                return axios.post(saveEndpoint, component.$data.input, Utils.getBearerAuth()).then(function (response) {
+
+                for (i = 0; i < this.input.responsibilities.length; i++) {
+                  this.input.responsibilities[i] = this.$refs['respItem-' + i][0].value;
+                }
+
+                _context.next = 8;
+                return axios.post(saveEndpoint, saveInput, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalEmployment').modal('hide');
+                  $('#modalAddEmployment').modal('hide');
+                  id == 0 ? component.employments.push(data.data.work_experience) : component.employments[component.current] = data.data.work_experience;
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -3529,10 +3921,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Utils.handleError(error);
                 });
 
-              case 6:
+              case 8:
                 component.disabled = false;
 
-              case 7:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -3540,11 +3932,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee, this);
       }));
 
-      function submitForm() {
-        return _submitForm.apply(this, arguments);
+      function submit(_x) {
+        return _submit.apply(this, arguments);
       }
 
-      return submitForm;
+      return submit;
     }()
   }
 });
@@ -3643,15 +4035,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       disabled: false,
+      states: ['QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT'],
       input: {
         introduction: null,
         when: null,
         max_distance: null,
-        address: null,
         state: null,
         right_to_work: null
       }
@@ -3670,7 +4088,7 @@ __webpack_require__.r(__webpack_exports__);
       var o = this.$refs['idealIntro'];
       o.style.height = o.scrollHeight + 'px';
     },
-    submitForm: function submitForm() {}
+    submit: function submit() {}
   }
 });
 
@@ -3685,6 +4103,18 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
 //
 //
 //
@@ -3773,13 +4203,16 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       disabled: false,
-      skills_intro: '',
+      main_skill: '',
       is_empty: false,
       user_skills: [],
       firstColumn: [],
       secondColumn: [],
+      errors: {
+        main_skill: ''
+      },
       endpoints: {
-        save: '/api/v1/user/skill'
+        save: '/api/v1/user/skills'
       },
       levels: [{
         id: 1,
@@ -3812,7 +4245,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var component = this;
     Bus.$on('industrySkillsDetails', function (detailsArray, skillsIntroduction) {
-      component.skills_intro = skillsIntroduction;
+      component.main_skill = skillsIntroduction;
 
       if (detailsArray.length == 0) {
         component.is_empty = true;
@@ -3827,23 +4260,71 @@ __webpack_require__.r(__webpack_exports__);
         component.user_skills = detailsArray;
       }
 
-      component.display();
+      component.display(component.user_skills);
     });
   },
   methods: {
-    display: function display() {
-      var len = this.user_skills.length;
+    display: function display(skills) {
+      var len = skills.length;
       var half = Math.ceil(len / 2);
-      this.firstColumn = this.user_skills.slice(0, half);
-      this.secondColumn = this.user_skills.slice(half, len);
+      this.firstColumn = skills.slice(0, half);
+      this.secondColumn = skills.slice(half, len);
     },
     textAreaAdjust: function textAreaAdjust() {
       var o = this.$refs['skillsIntro'];
       o.style.height = o.scrollHeight + 'px';
     },
-    submitForm: function submitForm() {
-      console.log(this.user_skills);
-    }
+    submit: function () {
+      var _submit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var component, skills;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                component = this;
+                Utils.setObjectValues(component.errors, '');
+                component.disabled = true;
+                skills = {
+                  main_skill: component.main_skill,
+                  skills: component.user_skills
+                };
+                _context.next = 6;
+                return axios.post(component.endpoints.save, skills, Utils.getBearerAuth()).then(function (response) {
+                  var data = response.data;
+                  $('#modalIndustrySkill').modal('hide');
+                  component.is_empty = false;
+                  component.display(data.data.skills);
+                }).catch(function (error) {
+                  if (error.response) {
+                    var data = error.response.data;
+
+                    for (var key in data.errors) {
+                      component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                    }
+                  }
+
+                  Utils.handleError(error);
+                });
+
+              case 6:
+                component.disabled = false;
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function submit() {
+        return _submit.apply(this, arguments);
+      }
+
+      return submit;
+    }()
   }
 });
 
@@ -3987,7 +4468,6 @@ __webpack_require__.r(__webpack_exports__);
         introduction: '',
         when: '',
         max_distance: '',
-        address: '',
         state: '',
         right_to_work: ''
       },
@@ -4040,7 +4520,6 @@ __webpack_require__.r(__webpack_exports__);
           component.ideal_role.introduction = user.worker_detail.introduction;
           component.ideal_role.when = user.worker_detail.when;
           component.ideal_role.max_distance = user.worker_detail.max_distance;
-          component.ideal_role.address = user.worker_detail.address;
           component.ideal_role.state = user.worker_detail.state;
           component.ideal_role.right_to_work = user.worker_detail.right_to_work;
         } else {
@@ -4291,8 +4770,8 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    getPeriod: function getPeriod(start, end) {
-      return Utils.getPeriod(start, end);
+    getPeriod: function getPeriod(emp) {
+      return Utils.getPeriod(new Date(emp.start_year, emp.start_month - 1, 1), new Date(emp.end_year, emp.end_month - 1, 1));
     }
   }
 });
@@ -42341,7 +42820,11 @@ var render = function() {
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "close", attrs: { "data-dismiss": "modal" } },
+          {
+            staticClass: "close",
+            attrs: { "data-dismiss": "modal" },
+            on: { click: _vm.close }
+          },
           [_vm._v("×")]
         )
       ]),
@@ -42355,7 +42838,7 @@ var render = function() {
             on: {
               submit: function($event) {
                 $event.preventDefault()
-                return _vm.submitForm($event)
+                return _vm.submit($event)
               }
             }
           },
@@ -42435,7 +42918,7 @@ var render = function() {
           {
             staticClass: "mt-0",
             attrs: { type: "submit", disabled: _vm.disabled },
-            on: { click: _vm.submitForm }
+            on: { click: _vm.submit }
           },
           [_vm._v("Save Changes")]
         )
@@ -42472,13 +42955,261 @@ var render = function() {
         "div",
         { staticClass: "profile-content-p20 pt-3 pb-4" },
         [
-          _c("record-form", {
-            attrs: {
-              title: "AboutMe",
-              record: _vm.input,
-              "save-endpoint": "/api/v1/worker/optional"
-            }
-          }),
+          _c(
+            "main-modal",
+            { attrs: { id: "modalAboutMe" } },
+            [
+              _c("template", { slot: "custom-modal-title" }, [
+                _c("h4", { staticClass: "modal-title" }, [
+                  _vm._v("Edit About Me")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "close", attrs: { "data-dismiss": "modal" } },
+                  [_vm._v("×")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("template", { slot: "custom-modal-content" }, [
+                _c(
+                  "form",
+                  {
+                    staticClass: "modal-form",
+                    attrs: { method: "POST" },
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.submit($event)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("div", { staticClass: "emp-row" }, [
+                        _c("div", { staticClass: "modal-form-label" }, [
+                          _vm._v("Gender")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.gender,
+                              expression: "input.gender"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.input.gender },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.input, "gender", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.gender
+                          ? _c("span", { staticClass: "err-msg" }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(_vm.errors.gender) +
+                                  "\n                                "
+                              )
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "emp-row" }, [
+                        _c("div", { staticClass: "modal-form-label" }, [
+                          _vm._v("Date of Birth")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.date_of_birth,
+                              expression: "input.date_of_birth"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", placeholder: "YYYY-MM-DD" },
+                          domProps: { value: _vm.input.date_of_birth },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.input,
+                                "date_of_birth",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.date_of_birth
+                          ? _c("span", { staticClass: "err-msg" }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(_vm.errors.date_of_birth) +
+                                  "\n                                "
+                              )
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "emp-row" }, [
+                        _c("div", { staticClass: "modal-form-label" }, [
+                          _vm._v("Marital Status")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.marital_status,
+                              expression: "input.marital_status"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.input.marital_status },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.input,
+                                "marital_status",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.marital_status
+                          ? _c("span", { staticClass: "err-msg" }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(_vm.errors.marital_status) +
+                                  "\n                                "
+                              )
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "emp-row" }, [
+                        _c("div", { staticClass: "modal-form-label" }, [
+                          _vm._v("English Skill")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.english_skill,
+                              expression: "input.english_skill"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.input.english_skill },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.input,
+                                "english_skill",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.english_skill
+                          ? _c("span", { staticClass: "err-msg" }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(_vm.errors.english_skill) +
+                                  "\n                                "
+                              )
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "emp-row" }, [
+                        _c("div", { staticClass: "modal-form-label" }, [
+                          _vm._v("Driver's License")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.drivers_license,
+                              expression: "input.drivers_license"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.input.drivers_license },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.input,
+                                "drivers_license",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.drivers_license
+                          ? _c("span", { staticClass: "err-msg" }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(_vm.errors.drivers_license) +
+                                  "\n                                "
+                              )
+                            ])
+                          : _vm._e()
+                      ])
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("template", { slot: "custom-modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "mt-0",
+                    attrs: { type: "submit", disabled: _vm.disabled },
+                    on: { click: _vm.submit }
+                  },
+                  [_vm._v("Save Changes")]
+                )
+              ])
+            ],
+            2
+          ),
           _vm._v(" "),
           _vm._m(0),
           _vm._v(" "),
@@ -42566,7 +43297,12 @@ var staticRenderFns = [
       "span",
       {
         staticClass: "edit-icon",
-        attrs: { "data-toggle": "modal", "data-target": "#modalAboutMe" }
+        attrs: {
+          "data-toggle": "modal",
+          "data-backdrop": "static",
+          "data-keyboard": "false",
+          "data-target": "#modalAboutMe"
+        }
       },
       [
         _c("img", {
@@ -42677,7 +43413,7 @@ var render = function() {
       [
         _c(
           "main-modal",
-          { attrs: { id: "modalEducation" } },
+          { attrs: { id: "modalAddEducation" } },
           [
             _c("template", { slot: "custom-modal-title" }, [
               _c("h4", { staticClass: "modal-title" }, [
@@ -42686,7 +43422,11 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "close", attrs: { "data-dismiss": "modal" } },
+                {
+                  staticClass: "close",
+                  attrs: { "data-dismiss": "modal" },
+                  on: { click: _vm.close }
+                },
                 [_vm._v("×")]
               )
             ]),
@@ -42700,7 +43440,7 @@ var render = function() {
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
-                      return _vm.submitForm($event)
+                      return _vm.submit($event)
                     }
                   }
                 },
@@ -42708,7 +43448,381 @@ var render = function() {
                   _c("div", { staticClass: "form-group" }, [
                     _c("div", { staticClass: "emp-row" }, [
                       _c("div", { staticClass: "modal-form-label" }, [
-                        _vm._v("Degree")
+                        _vm._v("Course")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input_add.course,
+                            expression: "input_add.course"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input_add.course },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input_add,
+                              "course",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.course
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.course) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("School")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input_add.school,
+                            expression: "input_add.school"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input_add.school },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input_add,
+                              "school",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.school
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.school) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c("div", { staticClass: "emp-col-left" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("Start Month")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.start_month,
+                              expression: "input_add.start_month"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input_add,
+                                "start_month",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.months, function(month) {
+                          return _c(
+                            "option",
+                            { key: month.id, domProps: { value: month.id } },
+                            [_vm._v(_vm._s(month.name))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.start_month
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.start_month) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-col-right" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("Start Year")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.start_year,
+                              expression: "input_add.start_year"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input_add,
+                                "start_year",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.years, function(year, index) {
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: year } },
+                            [_vm._v(_vm._s(year))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.start_year
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.start_year) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c("div", { staticClass: "emp-col-left" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("End Month")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.end_month,
+                              expression: "input_add.end_month"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input_add,
+                                "end_month",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.months, function(month) {
+                          return _c(
+                            "option",
+                            { key: month.id, domProps: { value: month.id } },
+                            [_vm._v(_vm._s(month.name))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.end_month
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.end_month) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-col-right" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("End Year")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.end_year,
+                              expression: "input_add.end_year"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input_add,
+                                "end_year",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.years, function(year, index) {
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: year } },
+                            [_vm._v(_vm._s(year))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.end_year
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.end_year) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("template", { slot: "custom-modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "mt-0",
+                  attrs: { type: "submit", disabled: _vm.disabled },
+                  on: {
+                    click: function($event) {
+                      return _vm.submit(0)
+                    }
+                  }
+                },
+                [_vm._v("Save Changes")]
+              )
+            ])
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _c(
+          "main-modal",
+          { attrs: { id: "modalEducation" } },
+          [
+            _c("template", { slot: "custom-modal-title" }, [
+              _c("h4", { staticClass: "modal-title" }, [
+                _vm._v("Edit Education")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "close",
+                  attrs: { "data-dismiss": "modal" },
+                  on: { click: _vm.close }
+                },
+                [_vm._v("×")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("template", { slot: "custom-modal-content" }, [
+              _c(
+                "form",
+                {
+                  staticClass: "modal-form",
+                  attrs: { method: "POST" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.submit($event)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("Course")
                       ]),
                       _vm._v(" "),
                       _c("input", {
@@ -42731,12 +43845,22 @@ var render = function() {
                             _vm.$set(_vm.input, "course", $event.target.value)
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.course
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.course) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-row" }, [
                       _c("div", { staticClass: "modal-form-label" }, [
-                        _vm._v("University")
+                        _vm._v("School")
                       ]),
                       _vm._v(" "),
                       _c("input", {
@@ -42759,7 +43883,17 @@ var render = function() {
                             _vm.$set(_vm.input, "school", $event.target.value)
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.school
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.school) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ])
                   ]),
                   _vm._v(" "),
@@ -42808,7 +43942,17 @@ var render = function() {
                           )
                         }),
                         0
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.start_month
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.start_month) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-col-right" }, [
@@ -42855,7 +43999,17 @@ var render = function() {
                           )
                         }),
                         0
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.start_year
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.start_year) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ])
                   ]),
                   _vm._v(" "),
@@ -42904,7 +44058,17 @@ var render = function() {
                           )
                         }),
                         0
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.end_month
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.end_month) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-col-right" }, [
@@ -42951,7 +44115,17 @@ var render = function() {
                           )
                         }),
                         0
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.end_year
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.end_year) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ])
                   ])
                 ]
@@ -42964,7 +44138,7 @@ var render = function() {
                 {
                   staticClass: "mt-0",
                   attrs: { type: "submit", disabled: _vm.disabled },
-                  on: { click: _vm.submitForm }
+                  on: { click: _vm.submit }
                 },
                 [_vm._v("Save Changes")]
               )
@@ -42976,9 +44150,14 @@ var render = function() {
         _c(
           "span",
           {
-            staticClass: "edit-icon",
-            attrs: { "data-toggle": "modal", "data-target": "#modalEducation" },
-            on: { click: _vm.addNew }
+            staticClass: "add-icon",
+            attrs: {
+              "data-toggle": "modal",
+              "data-backdrop": "static",
+              "data-keyboard": "false",
+              "data-target": "#modalAddEducation"
+            },
+            on: { click: _vm.add }
           },
           [
             _c("img", {
@@ -43004,11 +44183,13 @@ var render = function() {
                 staticClass: "edit-icon",
                 attrs: {
                   "data-toggle": "modal",
+                  "data-backdrop": "static",
+                  "data-keyboard": "false",
                   "data-target": "#modalEducation"
                 },
                 on: {
                   click: function($event) {
-                    return _vm.editDetails(e)
+                    return _vm.edit(e)
                   }
                 }
               },
@@ -43123,7 +44304,7 @@ var render = function() {
       [
         _c(
           "main-modal",
-          { attrs: { id: "modalEmployment" } },
+          { attrs: { id: "modalAddEmployment" } },
           [
             _c("template", { slot: "custom-modal-title" }, [
               _c("h4", { staticClass: "modal-title" }, [
@@ -43132,7 +44313,11 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "close", attrs: { "data-dismiss": "modal" } },
+                {
+                  staticClass: "close",
+                  attrs: { "data-dismiss": "modal" },
+                  on: { click: _vm.close }
+                },
                 [_vm._v("×")]
               )
             ]),
@@ -43146,7 +44331,497 @@ var render = function() {
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
-                      return _vm.submitForm($event)
+                      return _vm.submit($event)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "emp-label" }, [
+                    _vm._v("Job Details")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("Your Role")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input_add.job_role,
+                            expression: "input_add.job_role"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input_add.job_role },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input_add,
+                              "job_role",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.job_role
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.job_role) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("Company/Project Name")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input_add.company_name,
+                            expression: "input_add.company_name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input_add.company_name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input_add,
+                              "company_name",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.company_name
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.company_name) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("Location")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input_add.location,
+                            expression: "input_add.location"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input_add.location },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input_add,
+                              "location",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.location
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.location) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("Size of the Project")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input_add.project_size,
+                            expression: "input_add.project_size"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input_add.project_size },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input_add,
+                              "project_size",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.project_size
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.project_size) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-label" }, [
+                    _vm._v("Duration of Employment")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c("div", { staticClass: "emp-col-left" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("Start Month")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.start_month,
+                              expression: "input_add.start_month"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input_add,
+                                "start_month",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.months, function(month) {
+                          return _c(
+                            "option",
+                            { key: month.id, domProps: { value: month.id } },
+                            [_vm._v(_vm._s(month.name))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.start_month
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.start_month) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-col-right" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("Start Year")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.start_year,
+                              expression: "input_add.start_year"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input_add,
+                                "start_year",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.years, function(year, index) {
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: year } },
+                            [_vm._v(_vm._s(year))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.start_year
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.start_year) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c("div", { staticClass: "emp-col-left" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("End Month")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.end_month,
+                              expression: "input_add.end_month"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input_add,
+                                "end_month",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.months, function(month) {
+                          return _c(
+                            "option",
+                            { key: month.id, domProps: { value: month.id } },
+                            [_vm._v(_vm._s(month.name))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.end_month
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.end_month) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-col-right" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("End Year")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.end_year,
+                              expression: "input_add.end_year"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input_add,
+                                "end_year",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.years, function(year, index) {
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: year } },
+                            [_vm._v(_vm._s(year))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.end_year
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.end_year) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "emp-label",
+                      staticStyle: { "margin-bottom": "17px" }
+                    },
+                    [_vm._v("Responsibilities")]
+                  ),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    ref: "respItem--1",
+                    staticClass: "form-control",
+                    staticStyle: { overflow: "hidden" },
+                    attrs: {
+                      rows: "1",
+                      placeholder: "Add Another Responsibility"
+                    },
+                    on: {
+                      keyup: function($event) {
+                        return _vm.textAreaAdjust(-1)
+                      }
+                    }
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("template", { slot: "custom-modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "mt-0",
+                  attrs: { type: "submit", disabled: _vm.disabled },
+                  on: {
+                    click: function($event) {
+                      return _vm.submit(0)
+                    }
+                  }
+                },
+                [_vm._v("Save Changes")]
+              )
+            ])
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _c(
+          "main-modal",
+          { attrs: { id: "modalEmployment" } },
+          [
+            _c("template", { slot: "custom-modal-title" }, [
+              _c("h4", { staticClass: "modal-title" }, [
+                _vm._v("Edit Employment History")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "close",
+                  attrs: { "data-dismiss": "modal" },
+                  on: { click: _vm.close }
+                },
+                [_vm._v("×")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("template", { slot: "custom-modal-content" }, [
+              _c(
+                "form",
+                {
+                  staticClass: "modal-form",
+                  attrs: { method: "POST" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.submit($event)
                     }
                   }
                 },
@@ -43181,7 +44856,17 @@ var render = function() {
                             _vm.$set(_vm.input, "job_role", $event.target.value)
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.job_role
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.job_role) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-row" }, [
@@ -43213,7 +44898,17 @@ var render = function() {
                             )
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.company_name
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.company_name) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-row" }, [
@@ -43241,7 +44936,17 @@ var render = function() {
                             _vm.$set(_vm.input, "location", $event.target.value)
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.location
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.location) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-row" }, [
@@ -43273,7 +44978,17 @@ var render = function() {
                             )
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.project_size
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.project_size) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ])
                   ]),
                   _vm._v(" "),
@@ -43326,7 +45041,17 @@ var render = function() {
                           )
                         }),
                         0
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.start_month
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.start_month) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-col-right" }, [
@@ -43373,7 +45098,17 @@ var render = function() {
                           )
                         }),
                         0
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.start_year
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.start_year) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ])
                   ]),
                   _vm._v(" "),
@@ -43422,7 +45157,17 @@ var render = function() {
                           )
                         }),
                         0
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.end_month
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.end_month) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-col-right" }, [
@@ -43469,7 +45214,17 @@ var render = function() {
                           )
                         }),
                         0
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.end_year
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.end_year) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ])
                   ]),
                   _vm._v(" "),
@@ -43484,36 +45239,24 @@ var render = function() {
                   _vm._v(" "),
                   _vm._l(_vm.input.responsibilities, function(res, index) {
                     return _c("div", { key: index }, [
-                      _c("textarea", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: res.responsibility,
-                            expression: "res.responsibility"
-                          }
-                        ],
-                        ref: "respItem-" + index,
-                        refInFor: true,
-                        staticClass: "form-control",
-                        staticStyle: { overflow: "hidden" },
-                        attrs: { rows: "1" },
-                        domProps: { value: res.responsibility },
-                        on: {
-                          focus: function($event) {
-                            return _vm.textAreaAdjust(index)
-                          },
-                          keyup: function($event) {
-                            return _vm.textAreaAdjust(index)
-                          },
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                      _c(
+                        "textarea",
+                        {
+                          ref: "respItem-" + index,
+                          refInFor: true,
+                          staticClass: "form-control",
+                          staticStyle: { overflow: "hidden" },
+                          on: {
+                            focus: function($event) {
+                              return _vm.textAreaAdjust(index)
+                            },
+                            keyup: function($event) {
+                              return _vm.textAreaAdjust(index)
                             }
-                            _vm.$set(res, "responsibility", $event.target.value)
                           }
-                        }
-                      })
+                        },
+                        [_vm._v(_vm._s(res))]
+                      )
                     ])
                   }),
                   _vm._v(" "),
@@ -43542,7 +45285,11 @@ var render = function() {
                 {
                   staticClass: "mt-0",
                   attrs: { type: "submit", disabled: _vm.disabled },
-                  on: { click: _vm.submitForm }
+                  on: {
+                    click: function($event) {
+                      return _vm.submit(1)
+                    }
+                  }
                 },
                 [_vm._v("Save Changes")]
               )
@@ -43554,12 +45301,14 @@ var render = function() {
         _c(
           "span",
           {
-            staticClass: "edit-icon",
+            staticClass: "add-icon",
             attrs: {
               "data-toggle": "modal",
-              "data-target": "#modalEmployment"
+              "data-backdrop": "static",
+              "data-keyboard": "false",
+              "data-target": "#modalAddEmployment"
             },
-            on: { click: _vm.addNew }
+            on: { click: _vm.add }
           },
           [
             _c("img", {
@@ -43589,11 +45338,13 @@ var render = function() {
                       staticClass: "edit-icon",
                       attrs: {
                         "data-toggle": "modal",
+                        "data-backdrop": "static",
+                        "data-keyboard": "false",
                         "data-target": "#modalEmployment"
                       },
                       on: {
                         click: function($event) {
-                          return _vm.editDetails(index)
+                          return _vm.edit(index)
                         }
                       }
                     },
@@ -43722,30 +45473,53 @@ var render = function() {
                             }
                           }),
                           _vm._v(
-                            "\n                        $" +
+                            "\n                        " +
                               _vm._s(employment.project_size) +
                               "\n                    "
                           )
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._m(2, true),
+                      employment.responsibilities.length != 0
+                        ? _c(
+                            "span",
+                            { staticClass: "bl-label-14-style-2 bl-mt13" },
+                            [
+                              _c("img", {
+                                staticClass: "text-icon",
+                                attrs: {
+                                  src: "/img/icons/responsibilities.png",
+                                  srcset:
+                                    "/img/icons/responsibilities@2x.png" +
+                                    " 2x, " +
+                                    "/img/icons/responsibilities@3x.png" +
+                                    " 3x"
+                                }
+                              }),
+                              _vm._v(
+                                "\n                        Responsibilities:\n                    "
+                              )
+                            ]
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c("div", { staticClass: "bl-label-15" }, [
-                        _c(
-                          "ul",
-                          { staticClass: "list-items" },
-                          _vm._l(employment.responsibilities, function(
-                            res,
-                            idx
-                          ) {
-                            return _c("div", { key: idx }, [
-                              _c("li", [_vm._v(_vm._s(res.responsibility))])
-                            ])
-                          }),
-                          0
-                        )
-                      ])
+                      employment.responsibilities.length != 0
+                        ? _c("div", { staticClass: "bl-label-15" }, [
+                            _c(
+                              "ul",
+                              { staticClass: "list-items" },
+                              _vm._l(employment.responsibilities, function(
+                                res,
+                                idx
+                              ) {
+                                return _c("div", { key: idx }, [
+                                  _c("li", [_vm._v(_vm._s(res))])
+                                ])
+                              }),
+                              0
+                            )
+                          ])
+                        : _vm._e()
                     ]
                   ),
                   _vm._v(" "),
@@ -43794,27 +45568,6 @@ var staticRenderFns = [
       }),
       _vm._v(" "),
       _c("div", { staticClass: "bl-box" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "bl-label-14-style-2 bl-mt13" }, [
-      _c("img", {
-        staticClass: "text-icon",
-        attrs: {
-          src: "/img/icons/responsibilities.png",
-          srcset:
-            "/img/icons/responsibilities@2x.png" +
-            " 2x, " +
-            "/img/icons/responsibilities@3x.png" +
-            " 3x"
-        }
-      }),
-      _vm._v(
-        "\n                        Responsibilities:\n                    "
-      )
     ])
   }
 ]
@@ -43870,7 +45623,7 @@ var render = function() {
                     on: {
                       submit: function($event) {
                         $event.preventDefault()
-                        return _vm.submitForm($event)
+                        return _vm.submit($event)
                       }
                     }
                   },
@@ -43919,18 +45672,97 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
+                    _c("div", { staticClass: "emp-row row-center" }, [
+                      _c("div", { staticClass: "emp-col-left" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.when,
+                              expression: "input.when"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.input.when },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.input, "when", $event.target.value)
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "emp-col-right" }, [
+                        _c("label", [
+                          _vm._v(
+                            "\n                                    In months\n                                "
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
                     _c("div", { staticClass: "skill-label" }, [
                       _vm._v(
                         "\n                            Maximum Distance from home\n                        "
                       )
                     ]),
                     _vm._v(" "),
+                    _c("div", { staticClass: "emp-row row-center" }, [
+                      _c("div", { staticClass: "emp-col-left" }, [
+                        _c("div", { staticClass: "slidecontainer" }, [
+                          _c("input", {
+                            staticClass: "slider",
+                            attrs: {
+                              type: "range",
+                              min: "1",
+                              max: "500",
+                              value: "50",
+                              id: "myRange"
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "emp-col-right" }, [
+                        _c("label", [
+                          _vm._v(
+                            "\n                                    500 km\n                                "
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
                     _c("div", { staticClass: "skill-label" }, [
                       _vm._v(
                         "\n                            Would you work/relocate to another state? If Yes, tick states that apply.\n                        "
                       )
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.states, function(state, index) {
+                      return _c("div", { key: index }, [
+                        _c("input", {
+                          attrs: { type: "checkbox", id: "myCheck" }
+                        }),
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(state) +
+                            "\n                        "
+                        )
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "skill-label" }, [
+                      _vm._v(
+                        "\n                            I have the right to work in Australia\n                        "
+                      )
                     ])
-                  ]
+                  ],
+                  2
                 )
               ]),
               _vm._v(" "),
@@ -43940,7 +45772,7 @@ var render = function() {
                   {
                     staticClass: "mt-0",
                     attrs: { type: "submit", disabled: _vm.disabled },
-                    on: { click: _vm.submitForm }
+                    on: { click: _vm.submit }
                   },
                   [_vm._v("Save Changes")]
                 )
@@ -43948,8 +45780,6 @@ var render = function() {
             ],
             2
           ),
-          _vm._v(" "),
-          _vm._m(0),
           _vm._v(" "),
           _c("div", { staticClass: "profile-title" }, [
             _vm._v("Your Ideal Next Role")
@@ -43993,7 +45823,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm.input.address
+          _vm.input.state
             ? _c("span", { staticClass: "bl-label-15" }, [
                 _vm._v("Willing to relocate to")
               ])
@@ -44001,21 +45831,9 @@ var render = function() {
           _vm._v(" "),
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
-              "\n                " +
-                _vm._s(_vm.input.address) +
-                "\n            "
+              "\n                " + _vm._s(_vm.input.state) + "\n            "
             )
           ]),
-          _vm._v(" "),
-          _vm.input.state
-            ? _c("span", { staticClass: "bl-label-14" }, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.input.state) +
-                    "\n            "
-                )
-              ])
-            : _vm._e(),
           _vm._v(" "),
           _vm.input.right_to_work
             ? _c("span", { staticClass: "bl-label-15" }, [
@@ -44036,32 +45854,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "span",
-      {
-        staticClass: "edit-icon",
-        attrs: { "data-toggle": "modal", "data-target": "#modalIdealRole" }
-      },
-      [
-        _c("img", {
-          attrs: {
-            src: "/img/icons/editbutton.png",
-            srcset:
-              "/img/icons/editbutton@2x.png" +
-              " 2x, " +
-              "/img/icons/editbutton@3x.png" +
-              " 3x"
-          }
-        })
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -44113,7 +45906,7 @@ var render = function() {
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
-                      return _vm.submitForm($event)
+                      return _vm.submit($event)
                     }
                   }
                 },
@@ -44129,8 +45922,8 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.skills_intro,
-                        expression: "skills_intro"
+                        value: _vm.main_skill,
+                        expression: "main_skill"
                       }
                     ],
                     ref: "skillsIntro",
@@ -44140,17 +45933,27 @@ var render = function() {
                       placeholder:
                         "Example: Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline."
                     },
-                    domProps: { value: _vm.skills_intro },
+                    domProps: { value: _vm.main_skill },
                     on: {
                       keyup: _vm.textAreaAdjust,
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.skills_intro = $event.target.value
+                        _vm.main_skill = $event.target.value
                       }
                     }
                   }),
+                  _vm._v(" "),
+                  _vm.errors.main_skill
+                    ? _c("span", { staticClass: "err-msg" }, [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(_vm.errors.main_skill) +
+                            "\n                    "
+                        )
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
                   _c("div", { staticClass: "skill-label" }, [
                     _vm._v(
@@ -44241,7 +46044,7 @@ var render = function() {
                 {
                   staticClass: "mt-0",
                   attrs: { type: "submit", disabled: _vm.disabled },
-                  on: { click: _vm.submitForm }
+                  on: { click: _vm.submit }
                 },
                 [_vm._v("Save Changes")]
               )
@@ -44265,7 +46068,7 @@ var render = function() {
                   [
                     _vm._v(
                       "\n                " +
-                        _vm._s(_vm.skills_intro) +
+                        _vm._s(_vm.main_skill) +
                         "\n            "
                     )
                   ]
@@ -44336,7 +46139,12 @@ var staticRenderFns = [
       "span",
       {
         staticClass: "edit-icon",
-        attrs: { "data-toggle": "modal", "data-target": "#modalIndustrySkill" }
+        attrs: {
+          "data-toggle": "modal",
+          "data-backdrop": "static",
+          "data-keyboard": "false",
+          "data-target": "#modalIndustrySkill"
+        }
       },
       [
         _c("img", {
@@ -44635,17 +46443,22 @@ var staticRenderFns = [
     return _c(
       "span",
       {
-        staticClass: "edit-icon",
-        attrs: { "data-toggle": "modal", "data-target": "#modalAddTicket" }
+        staticClass: "add-icon",
+        attrs: {
+          "data-toggle": "modal",
+          "data-backdrop": "static",
+          "data-keyboard": "false",
+          "data-target": "#modalAddTicket"
+        }
       },
       [
         _c("img", {
           attrs: {
-            src: "/img/icons/editbutton.png",
+            src: "/img/icons/plus.png",
             srcset:
-              "/img/icons/editbutton@2x.png" +
+              "/img/icons/plus@2x.png" +
               " 2x, " +
-              "/img/icons/editbutton@3x.png" +
+              "/img/icons/plus@3x.png" +
               " 3x"
           }
         })
@@ -44796,7 +46609,13 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("span", { staticClass: "bl-label-14 bl-ml15" })
+                _c("span", { staticClass: "bl-label-14 bl-ml15" }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(_vm.getPeriod(_vm.input)) +
+                      "\n                    "
+                  )
+                ])
               ])
             ])
           : _vm._e()

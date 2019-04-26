@@ -159,8 +159,7 @@ class UsersTableSeeder extends Seeder
                 'introduction' => 'My ideal next role would be as a qualified plumber working on high-end residential jobs with an awesome team. ',
                 'when' => 'In 6 months (June 2019)',
                 'max_distance' => '100km',
-                'address' => 'New South Wales',
-                'state' => 'VIC',
+                'state' => 'VIC, NSW, TAS',
                 'nrole_right_to_work_au' => true,
                 'user_id' => $user->id
             ]);

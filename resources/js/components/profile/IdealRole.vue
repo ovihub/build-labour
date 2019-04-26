@@ -11,7 +11,7 @@
                     </template>
 
                     <template slot="custom-modal-content">
-                        <form class="modal-form" method="POST" @submit.prevent="submitForm">
+                        <form class="modal-form" method="POST" @submit.prevent="submit">
                             <div class="skill-label">
                                 What is your ideal next role?
                             </div>
@@ -23,28 +23,58 @@
                             <div class="skill-label">
                                 When could this happen?
                             </div>
+                            <div class="emp-row row-center">
+                                <div class="emp-col-left">
+                                    <input class="form-control" type="text" v-model="input.when" />
+                                </div>
+                                <div class="emp-col-right">
+                                    <label>
+                                        In months
+                                    </label>
+                                </div>
+                            </div>
 
                             <div class="skill-label">
                                 Maximum Distance from home
+                            </div>
+                            <div class="emp-row row-center">
+                                <div class="emp-col-left">
+                                    <div class="slidecontainer">
+                                        <input type="range" min="1" max="500" value="50" class="slider" id="myRange">
+                                    </div>
+                                </div>
+                                <div class="emp-col-right">
+                                    <label>
+                                        500 km
+                                    </label>
+                                </div>
                             </div>
 
                             <div class="skill-label">
                                 Would you work/relocate to another state? If Yes, tick states that apply.
                             </div>
 
+                            <div v-for="(state, index) in states" :key="index">
+                                <input type="checkbox" id="myCheck" />
+                                {{ state }}
+                            </div>
+
+                            <div class="skill-label">
+                                I have the right to work in Australia
+                            </div>
                         </form>
                     </template>
 
                     <template slot="custom-modal-footer">
-                        <button class="mt-0" type="submit" @click="submitForm" :disabled="disabled">Save Changes</button>
+                        <button class="mt-0" type="submit" @click="submit" :disabled="disabled">Save Changes</button>
                     </template>
 
                 </main-modal>
 
-                <span class="edit-icon" data-toggle="modal" data-target="#modalIdealRole">
+                <!-- <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalIdealRole">
                     <img src="/img/icons/editbutton.png"
                         srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
-                </span>
+                </span> -->
 
                 <div class="profile-title">Your Ideal Next Role</div>        
                 <span class="bl-label-14">(Visible only to you)</span>
@@ -63,12 +93,8 @@
                     {{ input.max_distance }}
                 </span>
 
-                <span class="bl-label-15" v-if="input.address">Willing to relocate to</span>
+                <span class="bl-label-15" v-if="input.state">Willing to relocate to</span>
                 <span class="bl-label-14">
-                    {{ input.address }}
-                </span>
-
-                <span class="bl-label-14" v-if="input.state">
                     {{ input.state }}
                 </span>
 
@@ -86,8 +112,11 @@
         data() {
             return {
                 disabled: false,
+                states: [
+                    'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
+                ],
                 input: { 
-                    introduction: null, when: null, max_distance: null, address: null,  state: null, right_to_work: null,
+                    introduction: null, when: null, max_distance: null, state: null, right_to_work: null,
                 }
             }
         },
@@ -108,7 +137,7 @@
                 o.style.height = (o.scrollHeight) + 'px';
             },
 
-            submitForm() {
+            submit() {
 
             },
         }
