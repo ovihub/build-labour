@@ -3029,11 +3029,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       disabled: false,
       input: {
-        gender: null,
-        date_of_birth: null,
-        marital_status: null,
-        english_skill: null,
-        drivers_license: null
+        gender: '',
+        date_of_birth: '',
+        marital_status: '',
+        english_skill: '',
+        drivers_license: ''
       },
       errors: {
         gender: '',
@@ -43417,7 +43417,7 @@ var render = function() {
           [
             _c("template", { slot: "custom-modal-title" }, [
               _c("h4", { staticClass: "modal-title" }, [
-                _vm._v("Edit Education")
+                _vm._v("Add Education")
               ]),
               _vm._v(" "),
               _c(
@@ -44308,7 +44308,7 @@ var render = function() {
           [
             _c("template", { slot: "custom-modal-title" }, [
               _c("h4", { staticClass: "modal-title" }, [
-                _vm._v("Edit Employment History")
+                _vm._v("Add Employment")
               ]),
               _vm._v(" "),
               _c(
@@ -44482,7 +44482,11 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "text" },
+                        attrs: {
+                          type: "text",
+                          placeholder:
+                            "e.g. $1,000.00 | $1,000,000 | $100000 | 10,000.21"
+                        },
                         domProps: { value: _vm.input_add.project_size },
                         on: {
                           input: function($event) {
@@ -44964,7 +44968,11 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "text" },
+                        attrs: {
+                          type: "text",
+                          placeholder:
+                            "e.g. $1,000.00 | $1,000,000 | $100000 | 10,000.21"
+                        },
                         domProps: { value: _vm.input.project_size },
                         on: {
                           input: function($event) {

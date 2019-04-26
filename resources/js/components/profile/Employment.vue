@@ -5,7 +5,7 @@
             <main-modal id="modalAddEmployment">
 		
                 <template slot="custom-modal-title">
-                    <h4 class="modal-title">Edit Employment History</h4>
+                    <h4 class="modal-title">Add Employment</h4>
                     <div class="close" data-dismiss="modal" @click="close">&times;</div>
                 </template>
 
@@ -40,7 +40,7 @@
 
                             <div class="emp-row">
                                 <div class="modal-form-label">Size of the Project</div>
-                                <input class="form-control" type="text" v-model="input_add.project_size"/>
+                                <input class="form-control" type="text" placeholder="e.g. $1,000.00 | $1,000,000 | $100000 | 10,000.21" v-model="input_add.project_size"/>
                                 <span class="err-msg" v-if="errors.project_size">
                                     {{ errors.project_size }}
                                 </span>
@@ -140,7 +140,7 @@
 
                             <div class="emp-row">
                                 <div class="modal-form-label">Size of the Project</div>
-                                <input class="form-control" type="text" v-model="input.project_size"/>
+                                <input class="form-control" type="text" placeholder="e.g. $1,000.00 | $1,000,000 | $100000 | 10,000.21" v-model="input.project_size"/>
                                 <span class="err-msg" v-if="errors.project_size">
                                     {{ errors.project_size }}
                                 </span>

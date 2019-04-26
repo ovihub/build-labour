@@ -5,7 +5,7 @@
             <main-modal id="modalAddEducation">
 		
                 <template slot="custom-modal-title">
-                    <h4 class="modal-title">Edit Education</h4>
+                    <h4 class="modal-title">Add Education</h4>
                     <div class="close" data-dismiss="modal" @click="close">&times;</div>
                 </template>
 
