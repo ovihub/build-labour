@@ -221,7 +221,7 @@ class ApiUserEducationsController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'skill' ), true, 'Successfully updated a Education', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'education' ), true, 'Successfully updated a Education', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
