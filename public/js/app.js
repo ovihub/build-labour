@@ -3074,9 +3074,78 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      disabled: false,
+      months: Utils.getMonths(),
+      years: Utils.getYears(),
       input: {
         course: '',
         school: '',
@@ -3093,14 +3162,23 @@ __webpack_require__.r(__webpack_exports__);
     Bus.$on('educationDetails', function (detailsArray) {
       component.educations = detailsArray;
     });
-    Bus.$on('AddEducation', function (details) {
-      component.educations.push(details);
-    });
   },
   methods: {
     getPeriod: function getPeriod(edu) {
       return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
-    }
+    },
+    addNew: function addNew() {
+      this.input.course = '';
+      this.input.school = '';
+      this.input.start_month = '';
+      this.input.start_year = '';
+      this.input.end_month = '';
+      this.input.end_year = '';
+    },
+    editDetails: function editDetails(index) {
+      this.input = this.educations[index];
+    },
+    submitForm: function submitForm() {}
   }
 });
 
@@ -42488,22 +42566,455 @@ var render = function() {
       "div",
       { staticClass: "profile-content" },
       [
-        _c("record-form", {
-          attrs: {
-            title: "AddEducation",
-            record: _vm.input,
-            "save-endpoint": "/api/v1/user/education"
-          }
-        }),
+        _c(
+          "main-modal",
+          { attrs: { id: "modalEducation" } },
+          [
+            _c("template", { slot: "custom-modal-title" }, [
+              _c("h4", { staticClass: "modal-title" }, [
+                _vm._v("Edit Education")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "close", attrs: { "data-dismiss": "modal" } },
+                [_vm._v("×")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("template", { slot: "custom-modal-content" }, [
+              _c(
+                "form",
+                {
+                  staticClass: "modal-form",
+                  attrs: { method: "POST" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.submitForm($event)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("Degree")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.course,
+                            expression: "input.course"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input.course },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.input, "course", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("University")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.school,
+                            expression: "input.school"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input.school },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.input, "school", $event.target.value)
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c("div", { staticClass: "emp-col-left" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("Start Month")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.start_month,
+                            expression: "input.start_month"
+                          }
+                        ],
+                        attrs: { type: "hidden" },
+                        domProps: { value: _vm.input.start_month },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input,
+                              "start_month",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.start_month,
+                              expression: "input.start_month"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input,
+                                "start_month",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.months, function(month) {
+                          return _c(
+                            "option",
+                            { key: month.id, domProps: { value: month.id } },
+                            [_vm._v(_vm._s(month.name))]
+                          )
+                        }),
+                        0
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-col-right" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("Start Year")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.start_year,
+                            expression: "input.start_year"
+                          }
+                        ],
+                        attrs: { type: "hidden" },
+                        domProps: { value: _vm.input.start_year },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input,
+                              "start_year",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.start_year,
+                              expression: "input.start_year"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input,
+                                "start_year",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.years, function(year, index) {
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: year } },
+                            [_vm._v(_vm._s(year))]
+                          )
+                        }),
+                        0
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c("div", { staticClass: "emp-col-left" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("End Month")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.end_month,
+                            expression: "input.end_month"
+                          }
+                        ],
+                        attrs: { type: "hidden" },
+                        domProps: { value: _vm.input.end_month },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input,
+                              "end_month",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.end_month,
+                              expression: "input.end_month"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input,
+                                "end_month",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.months, function(month) {
+                          return _c(
+                            "option",
+                            { key: month.id, domProps: { value: month.id } },
+                            [_vm._v(_vm._s(month.name))]
+                          )
+                        }),
+                        0
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-col-right" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("End Year")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.end_year,
+                            expression: "input.end_year"
+                          }
+                        ],
+                        attrs: { type: "hidden" },
+                        domProps: { value: _vm.input.end_year },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.input, "end_year", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.end_year,
+                              expression: "input.end_year"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input,
+                                "end_year",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.years, function(year, index) {
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: year } },
+                            [_vm._v(_vm._s(year))]
+                          )
+                        }),
+                        0
+                      )
+                    ])
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("template", { slot: "custom-modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "mt-0",
+                  attrs: { type: "submit", disabled: _vm.disabled },
+                  on: { click: _vm.submitForm }
+                },
+                [_vm._v("Save Changes")]
+              )
+            ])
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass: "edit-icon",
+            attrs: { "data-toggle": "modal", "data-target": "#modalEducation" },
+            on: { click: _vm.addNew }
+          },
+          [
+            _c("img", {
+              attrs: {
+                src: "/img/icons/editbutton.png",
+                srcset:
+                  "/img/icons/editbutton@2x.png" +
+                  " 2x, " +
+                  "/img/icons/editbutton@3x.png" +
+                  " 3x"
+              }
+            })
+          ]
+        ),
         _vm._v(" "),
         _vm._m(0),
         _vm._v(" "),
-        _vm._m(1),
-        _vm._v(" "),
-        _vm._l(_vm.educations, function(education) {
-          return _c("div", { key: education.id }, [
+        _vm._l(_vm.educations, function(education, index) {
+          return _c("div", { key: index }, [
+            _c(
+              "span",
+              {
+                staticClass: "edit-icon",
+                attrs: {
+                  "data-toggle": "modal",
+                  "data-target": "#modalEducation"
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.editDetails(index)
+                  }
+                }
+              },
+              [
+                _c("img", {
+                  attrs: {
+                    src: "/img/icons/editbutton.png",
+                    srcset:
+                      "/img/icons/editbutton@2x.png" +
+                      " 2x, " +
+                      "/img/icons/editbutton@3x.png" +
+                      " 3x"
+                  }
+                })
+              ]
+            ),
+            _vm._v(" "),
             _c("div", { staticClass: "row mt-4" }, [
-              _vm._m(2, true),
+              _vm._m(1, true),
               _vm._v(" "),
               _c("div", { staticClass: "bl-col-2" }, [
                 _c("div", { staticClass: "bl-display" }, [
@@ -42541,30 +43052,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "span",
-      {
-        staticClass: "edit-icon",
-        attrs: { "data-toggle": "modal", "data-target": "#modalAddEducation" }
-      },
-      [
-        _c("img", {
-          attrs: {
-            src: "/img/icons/editbutton.png",
-            srcset:
-              "/img/icons/editbutton@2x.png" +
-              " 2x, " +
-              "/img/icons/editbutton@3x.png" +
-              " 3x"
-          }
-        })
-      ]
-    )
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -42930,7 +43417,7 @@ var render = function() {
                   _c("div", { staticClass: "emp-row" }, [
                     _c("div", { staticClass: "emp-col-left" }, [
                       _c("div", { staticClass: "emp-form-label" }, [
-                        _vm._v("Start Month")
+                        _vm._v("End Month")
                       ]),
                       _vm._v(" "),
                       _c("input", {
@@ -43002,7 +43489,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-col-right" }, [
                       _c("div", { staticClass: "emp-form-label" }, [
-                        _vm._v("Start Year")
+                        _vm._v("End Year")
                       ]),
                       _vm._v(" "),
                       _c("input", {

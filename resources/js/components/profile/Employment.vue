@@ -54,14 +54,14 @@
                         </div>
                          <div class="emp-row">
                             <div class="emp-col-left">
-                                <div class="emp-form-label">Start Month</div>
+                                <div class="emp-form-label">End Month</div>
                                 <input type="hidden" v-model="input.end_month" />
                                 <select v-model="input.end_month">
                                     <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
                                 </select>
                             </div>
                             <div class="emp-col-right">
-                                <div class="emp-form-label">Start Year</div>
+                                <div class="emp-form-label">End Year</div>
                                 <input type="hidden" v-model="input.end_year" />
                                 <select v-model="input.end_year">
                                     <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
