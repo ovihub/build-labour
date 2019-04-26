@@ -11,7 +11,7 @@
                     </template>
 
                     <template slot="custom-modal-content">
-                        <form class="modal-form" method="POST" @submit.prevent="submitForm">
+                        <form class="modal-form" method="POST" @submit.prevent="submit">
                             <div class="skill-label">
                                 What is your ideal next role?
                             </div>
@@ -36,7 +36,7 @@
                     </template>
 
                     <template slot="custom-modal-footer">
-                        <button class="mt-0" type="submit" @click="submitForm" :disabled="disabled">Save Changes</button>
+                        <button class="mt-0" type="submit" @click="submit" :disabled="disabled">Save Changes</button>
                     </template>
 
                 </main-modal>
@@ -108,7 +108,7 @@
                 o.style.height = (o.scrollHeight) + 'px';
             },
 
-            submitForm() {
+            submit() {
 
             },
         }

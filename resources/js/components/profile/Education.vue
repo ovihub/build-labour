@@ -10,7 +10,7 @@
                 </template>
 
                 <template slot="custom-modal-content">
-                    <form class="modal-form" method="POST" @submit.prevent="submitForm">
+                    <form class="modal-form" method="POST" @submit.prevent="submit">
                         <div class="form-group">
                             <div class="emp-row">
                                 <div class="modal-form-label">Degree</div>
@@ -55,12 +55,12 @@
                 </template>
 
                 <template slot="custom-modal-footer">
-                    <button class="mt-0" type="submit" @click="submitForm" :disabled="disabled">Save Changes</button>
+                    <button class="mt-0" type="submit" @click="submit" :disabled="disabled">Save Changes</button>
                 </template>
 
             </main-modal>
 
-            <span class="add-icon" data-toggle="modal" data-target="#modalEducation" @click="addNew">
+            <span class="add-icon" data-toggle="modal" data-target="#modalEducation" @click="add">
                 <img src="/img/icons/plus.png"
                     srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
             </span>
@@ -73,7 +73,7 @@
             </span>
             
             <div v-for="(education, e) in educations" :key="e">
-                <span class="edit-icon" data-toggle="modal" data-target="#modalEducation" @click="editDetails(e)">
+                <span class="edit-icon" data-toggle="modal" data-target="#modalEducation" @click="edit(e)">
                     <img src="/img/icons/editbutton.png"
                         srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
                 </span>
@@ -134,15 +134,15 @@
                        Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
             },
 
-            addNew() {
+            add() {
                 Utils.setObjectValues(this.input, '');
             },
 
-            editDetails(index) {
+            edit(index) {
                 this.input = this.educations[index];
             },
 
-            async submitForm() {
+            async submit() {
                 let saveEndpoint = this.input.id == '' ? this.endpoints.save : this.endpoints.save + this.input.id;
                 let component = this;
 

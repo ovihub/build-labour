@@ -2843,8 +2843,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return word.charAt(0).toUpperCase() + word.slice(1);
       }).join(' ');
     },
-    submitForm: function () {
-      var _submitForm = _asyncToGenerator(
+    submit: function () {
+      var _submit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var component;
@@ -2884,11 +2884,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee, this);
       }));
 
-      function submitForm() {
-        return _submitForm.apply(this, arguments);
+      function submit() {
+        return _submit.apply(this, arguments);
       }
 
-      return submitForm;
+      return submit;
     }()
   }
 });
@@ -3181,14 +3181,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getPeriod: function getPeriod(edu) {
       return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
     },
-    addNew: function addNew() {
+    add: function add() {
       Utils.setObjectValues(this.input, '');
     },
-    editDetails: function editDetails(index) {
+    edit: function edit(index) {
       this.input = this.educations[index];
     },
-    submitForm: function () {
-      var _submitForm = _asyncToGenerator(
+    submit: function () {
+      var _submit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var saveEndpoint, component;
@@ -3227,11 +3227,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee, this);
       }));
 
-      function submitForm() {
-        return _submitForm.apply(this, arguments);
+      function submit() {
+        return _submit.apply(this, arguments);
       }
 
-      return submitForm;
+      return submit;
     }()
   }
 });
@@ -3486,11 +3486,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.collapse(index);
       }
     },
-    addNew: function addNew() {
+    add: function add() {
       Utils.setObjectValues(this.input, '');
       this.input.responsibilities = [];
     },
-    editDetails: function editDetails(index) {
+    edit: function edit(index) {
       this.input = this.employments[index];
     },
     getPeriod: function getPeriod(emp) {
@@ -3500,8 +3500,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
       o.style.height = o.scrollHeight + 'px';
     },
-    submitForm: function () {
-      var _submitForm = _asyncToGenerator(
+    submit: function () {
+      var _submit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var saveEndpoint, component;
@@ -3540,11 +3540,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee, this);
       }));
 
-      function submitForm() {
-        return _submitForm.apply(this, arguments);
+      function submit() {
+        return _submit.apply(this, arguments);
       }
 
-      return submitForm;
+      return submit;
     }()
   }
 });
@@ -3670,7 +3670,7 @@ __webpack_require__.r(__webpack_exports__);
       var o = this.$refs['idealIntro'];
       o.style.height = o.scrollHeight + 'px';
     },
-    submitForm: function submitForm() {}
+    submit: function submit() {}
   }
 });
 
@@ -3685,6 +3685,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -3779,7 +3787,7 @@ __webpack_require__.r(__webpack_exports__);
       firstColumn: [],
       secondColumn: [],
       endpoints: {
-        save: '/api/v1/user/skill'
+        save: '/api/v1/user/skills'
       },
       levels: [{
         id: 1,
@@ -3841,9 +3849,55 @@ __webpack_require__.r(__webpack_exports__);
       var o = this.$refs['skillsIntro'];
       o.style.height = o.scrollHeight + 'px';
     },
-    submitForm: function submitForm() {
-      console.log(this.user_skills);
-    }
+    submit: function () {
+      var _submit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var component, skills;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                component = this;
+                Utils.setObjectValues(component.errors, '');
+                component.disabled = true;
+                skills = {
+                  main_skill: component.skills_intro,
+                  skills: component.user_skills
+                };
+                _context.next = 6;
+                return axios.post(component.endpoints.save, skills, Utils.getBearerAuth()).then(function (response) {
+                  var data = response.data;
+                  $('#modalIndustrySkill').modal('hide');
+                }).catch(function (error) {
+                  if (error.response) {
+                    var data = error.response.data;
+
+                    for (var key in data.errors) {
+                      component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                    }
+                  }
+
+                  Utils.handleError(error);
+                });
+
+              case 6:
+                component.disabled = false;
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function submit() {
+        return _submit.apply(this, arguments);
+      }
+
+      return submit;
+    }()
   }
 });
 
@@ -42355,7 +42409,7 @@ var render = function() {
             on: {
               submit: function($event) {
                 $event.preventDefault()
-                return _vm.submitForm($event)
+                return _vm.submit($event)
               }
             }
           },
@@ -42435,7 +42489,7 @@ var render = function() {
           {
             staticClass: "mt-0",
             attrs: { type: "submit", disabled: _vm.disabled },
-            on: { click: _vm.submitForm }
+            on: { click: _vm.submit }
           },
           [_vm._v("Save Changes")]
         )
@@ -42700,7 +42754,7 @@ var render = function() {
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
-                      return _vm.submitForm($event)
+                      return _vm.submit($event)
                     }
                   }
                 },
@@ -42964,7 +43018,7 @@ var render = function() {
                 {
                   staticClass: "mt-0",
                   attrs: { type: "submit", disabled: _vm.disabled },
-                  on: { click: _vm.submitForm }
+                  on: { click: _vm.submit }
                 },
                 [_vm._v("Save Changes")]
               )
@@ -42978,7 +43032,7 @@ var render = function() {
           {
             staticClass: "add-icon",
             attrs: { "data-toggle": "modal", "data-target": "#modalEducation" },
-            on: { click: _vm.addNew }
+            on: { click: _vm.add }
           },
           [
             _c("img", {
@@ -43008,7 +43062,7 @@ var render = function() {
                 },
                 on: {
                   click: function($event) {
-                    return _vm.editDetails(e)
+                    return _vm.edit(e)
                   }
                 }
               },
@@ -43149,7 +43203,7 @@ var render = function() {
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
-                      return _vm.submitForm($event)
+                      return _vm.submit($event)
                     }
                   }
                 },
@@ -43545,7 +43599,7 @@ var render = function() {
                 {
                   staticClass: "mt-0",
                   attrs: { type: "submit", disabled: _vm.disabled },
-                  on: { click: _vm.submitForm }
+                  on: { click: _vm.submit }
                 },
                 [_vm._v("Save Changes")]
               )
@@ -43562,7 +43616,7 @@ var render = function() {
               "data-toggle": "modal",
               "data-target": "#modalEmployment"
             },
-            on: { click: _vm.addNew }
+            on: { click: _vm.add }
           },
           [
             _c("img", {
@@ -43596,7 +43650,7 @@ var render = function() {
                       },
                       on: {
                         click: function($event) {
-                          return _vm.editDetails(index)
+                          return _vm.edit(index)
                         }
                       }
                     },
@@ -43873,7 +43927,7 @@ var render = function() {
                     on: {
                       submit: function($event) {
                         $event.preventDefault()
-                        return _vm.submitForm($event)
+                        return _vm.submit($event)
                       }
                     }
                   },
@@ -43943,7 +43997,7 @@ var render = function() {
                   {
                     staticClass: "mt-0",
                     attrs: { type: "submit", disabled: _vm.disabled },
-                    on: { click: _vm.submitForm }
+                    on: { click: _vm.submit }
                   },
                   [_vm._v("Save Changes")]
                 )
@@ -44116,7 +44170,7 @@ var render = function() {
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
-                      return _vm.submitForm($event)
+                      return _vm.submit($event)
                     }
                   }
                 },
@@ -44244,7 +44298,7 @@ var render = function() {
                 {
                   staticClass: "mt-0",
                   attrs: { type: "submit", disabled: _vm.disabled },
-                  on: { click: _vm.submitForm }
+                  on: { click: _vm.submit }
                 },
                 [_vm._v("Save Changes")]
               )

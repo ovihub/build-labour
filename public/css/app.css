@@ -12151,7 +12151,7 @@ p.bl-nav-tab-label {
 
 .modal-body {
   padding: 0;
-  max-height: 630px;
+  max-height: 500px;
   overflow: auto;
   padding-bottom: 30px;
 }

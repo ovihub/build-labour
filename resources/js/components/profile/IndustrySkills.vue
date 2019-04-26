@@ -10,7 +10,7 @@
                 </template>
 
                 <template slot="custom-modal-content">
-                    <form class="modal-form" method="POST" @submit.prevent="submitForm">
+                    <form class="modal-form" method="POST" @submit.prevent="submit">
                         <div class="skill-label">
                             What are your main industry work achievements?
                         </div>
@@ -39,7 +39,7 @@
                 </template>
 
                 <template slot="custom-modal-footer">
-                    <button class="mt-0" type="submit" @click="submitForm" :disabled="disabled">Save Changes</button>
+                    <button class="mt-0" type="submit" @click="submit" :disabled="disabled">Save Changes</button>
                 </template>
 
             </main-modal>
@@ -93,7 +93,7 @@
                 firstColumn: [],
                 secondColumn: [],
                 endpoints: {
-                    save: '/api/v1/user/skill',
+                    save: '/api/v1/user/skills',
                 },
                 levels: [
                     { id: 1, name: 'Beginner' },
@@ -149,37 +149,39 @@
                 o.style.height = (o.scrollHeight) + 'px';
             },
 
-            submitForm() {
-                console.log(this.user_skills)
-            },
+            async submit() {
+                let component = this;
 
-            // async submitForm() {
-            //     let component = this;
-
-			// 	Utils.setObjectValues(component.errors, '');
-            //     component.disabled = true;
-
-            //     await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
-                    
-            //         .then(function(response) {
-            //             let data = response.data;
-						
-			// 			$('#modalIndustrySkill').modal('hide');
-            //         })
-            //         .catch(function(error) {
-            //             if (error.response) {
-            //                 let data = error.response.data;
-
-			// 				for (let key in data.errors) {
-			// 					component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-            //                 }
-            //             }
-
-            //             Utils.handleError(error);
-            //         });
+				Utils.setObjectValues(component.errors, '');
                 
-            //     component.disabled = false;
-            // },
+                component.disabled = true;
+
+                let skills = {
+                    main_skill: component.skills_intro,
+                    skills: component.user_skills
+                };
+
+                await axios.post(component.endpoints.save, skills, Utils.getBearerAuth())
+                    
+                    .then(function(response) {
+                        let data = response.data;
+						
+						$('#modalIndustrySkill').modal('hide');
+                    })
+                    .catch(function(error) {
+                        if (error.response) {
+                            let data = error.response.data;
+
+							for (let key in data.errors) {
+								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                            }
+                        }
+
+                        Utils.handleError(error);
+                    });
+                
+                component.disabled = false;
+            },
 
         }
     }
