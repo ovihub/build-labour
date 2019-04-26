@@ -101,6 +101,16 @@ class WorkExperience extends BaseModel
         return $responsibilities;
     }
 
+    public function setProjectSizeAttribute($value) {
+
+        if ( ! empty( $value ) ) {
+
+            $format = preg_replace("/[^0-9.]/","",$value);
+            $format = number_format($format,2);
+            $this->attributes['project_size'] = '$' . $format;
+        }
+    }
+
     public function store(Request $r) {
 
         $data = $r->all();
