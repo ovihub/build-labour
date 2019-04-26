@@ -67,9 +67,10 @@
 
                         <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
                         <div v-for="(res, index) in input.responsibilities" v-bind:key="index">
-                            <textarea rows="1" :ref="'respItem-' + index" class="form-control" style="overflow:hidden"
-                                @focus="textAreaAdjust(index)" @keyup="textAreaAdjust(index)" v-model="res.responsibility"></textarea>
+                            <textarea :ref="'respItem-' + index" class="form-control" style="overflow:hidden"
+                                @focus="textAreaAdjust(index)" @keyup="textAreaAdjust(index)" >{{ res }}</textarea>
                         </div>
+
 
                         <textarea rows="1" ref="respItem--1" class="form-control" style="overflow:hidden"
                                 placeholder="Add Another Responsibility"
@@ -143,7 +144,7 @@
                         <div class="bl-label-15">
                             <ul class="list-items">
                                 <div v-for="(res, idx) in employment.responsibilities" v-bind:key="idx">
-                                    <li>{{ res.responsibility }}</li>
+                                    <li>{{ res }}</li>
                                 </div>
                             </ul>
                         </div>
@@ -260,7 +261,7 @@
                     .then(function(response) {
                         let data = response.data;
 						
-						$('#modalEmployment').modal('hide');
+                        $('#modalEmployment').modal('hide');
                     })
                     .catch(function(error) {
                         if (error.response) {

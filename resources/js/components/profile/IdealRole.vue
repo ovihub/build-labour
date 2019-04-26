@@ -71,10 +71,10 @@
 
                 </main-modal>
 
-                <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalIdealRole">
+                <!-- <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalIdealRole">
                     <img src="/img/icons/editbutton.png"
                         srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
-                </span>
+                </span> -->
 
                 <div class="profile-title">Your Ideal Next Role</div>        
                 <span class="bl-label-14">(Visible only to you)</span>
@@ -93,12 +93,8 @@
                     {{ input.max_distance }}
                 </span>
 
-                <span class="bl-label-15" v-if="input.address">Willing to relocate to</span>
+                <span class="bl-label-15" v-if="input.state">Willing to relocate to</span>
                 <span class="bl-label-14">
-                    {{ input.address }}
-                </span>
-
-                <span class="bl-label-14" v-if="input.state">
                     {{ input.state }}
                 </span>
 
@@ -120,7 +116,7 @@
                     'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
                 ],
                 input: { 
-                    introduction: null, when: null, max_distance: null, address: null,  state: null, right_to_work: null,
+                    introduction: null, when: null, max_distance: null, state: null, right_to_work: null,
                 }
             }
         },

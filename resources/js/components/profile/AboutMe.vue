@@ -3,7 +3,58 @@
         <div class="profile-content">
             <div class="profile-content-p20 pt-3 pb-4">
                 
-                <record-form title="AboutMe" :record="input" save-endpoint="/api/v1/worker/optional"></record-form>
+                <main-modal id="modalAboutMe">
+		
+                    <template slot="custom-modal-title">
+                        <h4 class="modal-title">Edit About Me</h4>
+                        <div class="close" data-dismiss="modal">&times;</div>
+                    </template>
+
+                    <template slot="custom-modal-content">
+                        <form class="modal-form" method="POST" @submit.prevent="submit">
+                            <div class="form-group">
+                                <div class="emp-row">
+                                    <div class="modal-form-label">Gender</div>
+                                    <input class="form-control" type="text" v-model="input.gender"/>
+                                    <!-- <select v-model="input.gender">
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                        <option>Other</option>
+                                    </select> -->
+                                </div>
+
+                                <div class="emp-row">
+                                    <div class="modal-form-label">Date of Birth</div>
+                                    <input class="form-control" type="text" v-model="input.date_of_birth" />
+                                </div>
+
+                                <div class="emp-row">
+                                    <div class="modal-form-label">Marital Status</div>
+                                    <input class="form-control" type="text" v-model="input.marital_status" />
+                                    <!-- <select v-model="input.gender">
+                                        <option>Single</option>
+                                        <option>Married</option>
+                                        <option>Other</option>
+                                    </select> -->
+                                </div>
+
+                                <div class="emp-row">
+                                    <div class="modal-form-label">English Skill</div>
+                                    <input class="form-control" type="text" v-model="input.english_skill"/>
+                                </div>
+                                <div class="emp-row">
+                                    <div class="modal-form-label">Driver's License</div>
+                                    <input class="form-control" type="text" v-model="input.drivers_license"/>
+                                </div>
+                            </div>
+                        </form>
+                    </template>
+
+                    <template slot="custom-modal-footer">
+                        <button class="mt-0" type="submit" @click="submit" :disabled="disabled">Save Changes</button>
+                    </template>
+
+                </main-modal>
                 
                 <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalAboutMe">
                     <img src="/img/icons/editbutton.png"
@@ -45,8 +96,12 @@
     export default {
         data() {
             return {
+                disabled: false,
                 input: {
                     gender: null, date_of_birth: null, marital_status: null, english_skill: null, drivers_license: null
+                },
+                endpoints: {
+                    save: '/api/v1/worker/optional'
                 }
             }
         },
@@ -67,7 +122,35 @@
 
                     return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
                 }
-            }
+            },
+
+            async submit() {
+                let component = this;
+
+				Utils.setObjectValues(component.errors, '');
+                component.disabled = true;
+                
+                await axios.post(this.endpoints.save, component.$data.input, Utils.getBearerAuth())
+                    
+                    .then(function(response) {
+                        let data = response.data;
+						
+                        $('#modalAboutMe').modal('hide');
+                    })
+                    .catch(function(error) {
+                        if (error.response) {
+                            let data = error.response.data;
+
+							for (let key in data.errors) {
+								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                            }
+                        }
+
+                        Utils.handleError(error);
+                    });
+                
+                component.disabled = false;
+            },
         }
     }
 </script>
