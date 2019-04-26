@@ -102,7 +102,7 @@ class ApiWorksController extends ApiBaseController
 
             $workerRepo = new WorkerRepository();
 
-            if (!$workExp = $workerRepo->addExperience($request)) {
+            if (!$work_experience = $workerRepo->addExperience($request)) {
 
                 return $this->apiErrorResponse(
                     false,
@@ -118,7 +118,7 @@ class ApiWorksController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'workExp' ), true, 'Successfully added an experience!', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'work_experience' ), true, 'Successfully added an experience!', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
@@ -220,7 +220,7 @@ class ApiWorksController extends ApiBaseController
 
             $workerRepo = new WorkerRepository();
 
-            if (!$workExp = $workerRepo->updateExperience($request)) {
+            if (!$work_experience = $workerRepo->updateExperience($request)) {
 
                 return $this->apiErrorResponse(
                     false,
@@ -236,7 +236,7 @@ class ApiWorksController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'workExp' ), true, 'Successfully added a work experience', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'work_experience' ), true, 'Successfully added a work experience', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**

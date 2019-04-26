@@ -33,7 +33,7 @@ class WorkExperience extends BaseModel
         return [
             'job_role'      => 'required',
             'company_name'  => 'required',
-            'project_size'  => 'required|regex:/^\d+(\.\d{1,2})?$/', /* monetary validation */
+            'project_size'  => 'nullable|regex:/\b\d{1,3}(?:,?\d{3})*(?:\.\d{2})?\b/', /* monetary validation */
             'location'      => 'required|string',
             'start_month'   => 'required|integer',
             'start_year'    => 'required|integer',
@@ -92,6 +92,7 @@ class WorkExperience extends BaseModel
         
         $pk = $this->primaryKey;
 
+     //   dd(Utils::convertToUSDMoney($r->project_size));
         if ($r->$pk) {
 
             $this->exists = true;
