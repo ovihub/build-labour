@@ -204,7 +204,7 @@
                 educations: [],
                 current: -1,
                 input_add: {
-                    id: '', course: '', school: '', start_month: '', start_year: '', end_month: '', end_year: '',
+                    course: '', school: '', start_month: '', start_year: '', end_month: '', end_year: '',
                 },
                 input: {
                     id: '', course: '', school: '', start_month: '', start_year: '', end_month: '', end_year: '',
@@ -233,7 +233,7 @@
             },
 
             add() {
-                Utils.setObjectValues(this.input, '');
+                Utils.setObjectValues(this.input_add, '');
             },
 
             edit(index) {
@@ -247,7 +247,7 @@
 
             async submit(id) {
                 let saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.input.id;
-                let saveInput = id == 0 ? this.$data.input_add : this.$data.input;
+                let saveInput = id == 0 ? this.input_add : this.input;
                 let component = this;
 
 				Utils.setObjectValues(component.errors, '');

@@ -3381,7 +3381,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       educations: [],
       current: -1,
       input_add: {
-        id: '',
         course: '',
         school: '',
         start_month: '',
@@ -3422,7 +3421,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
     },
     add: function add() {
-      Utils.setObjectValues(this.input, '');
+      Utils.setObjectValues(this.input_add, '');
     },
     edit: function edit(index) {
       this.current = index;
@@ -3441,7 +3440,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.input.id;
-                saveInput = id == 0 ? this.$data.input_add : this.$data.input;
+                saveInput = id == 0 ? this.input_add : this.input;
                 component = this;
                 Utils.setObjectValues(component.errors, '');
                 component.disabled = true;
