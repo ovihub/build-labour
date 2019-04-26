@@ -11390,8 +11390,8 @@ select {
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   background-color: #ffffff;
-  background-image: url(/img/icons/expand.png);
-  background-image: -webkit-image-set(url("/img/icons/expand@2x.png") 2x, url("/img/icons/expand@3x.png") 3x);
+  background-image: url(/img/icons/caret-down.png);
+  background-image: -webkit-image-set(url("/img/icons/caret-down@2x.png") 2x, url("/img/icons/caret-down@3x.png") 3x);
   background-position: 210px;
   background-repeat: no-repeat;
 }

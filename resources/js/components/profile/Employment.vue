@@ -39,14 +39,12 @@
                         <div class="emp-row">
                             <div class="emp-col-left">
                                 <div class="emp-form-label">Start Month</div>
-                                <input type="hidden" v-model="input.start_month" />
                                 <select v-model="input.start_month">
                                     <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
                                 </select>
                             </div>
                             <div class="emp-col-right">
                                 <div class="emp-form-label">Start Year</div>
-                                <input type="hidden" v-model="input.start_year" />
                                 <select v-model="input.start_year">
                                     <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
                                 </select>
@@ -55,14 +53,12 @@
                          <div class="emp-row">
                             <div class="emp-col-left">
                                 <div class="emp-form-label">End Month</div>
-                                <input type="hidden" v-model="input.end_month" />
                                 <select v-model="input.end_month">
                                     <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
                                 </select>
                             </div>
                             <div class="emp-col-right">
                                 <div class="emp-form-label">End Year</div>
-                                <input type="hidden" v-model="input.end_year" />
                                 <select v-model="input.end_year">
                                     <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
                                 </select>
@@ -88,8 +84,8 @@
             </main-modal>
             
             <span class="edit-icon" data-toggle="modal" data-target="#modalEmployment" @click="addNew">
-                <img src="/img/icons/editbutton.png"
-                    srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
+                <img src="/img/icons/plus.png"
+                    srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
             </span>
             
             <div class="profile-title">
@@ -168,11 +164,18 @@
                 months: Utils.getMonths(),
                 years: Utils.getYears(),
                 expanded: [],
+                employments: [],
                 input: {
+                    id: '', job_role: '', company_name: '', location: '', project_size: '',
+                    start_month: '', start_year: '', end_month: '', end_year: '', responsibilities: [],
+                },
+                errors: {
                     job_role: '', company_name: '', location: '', project_size: '',
                     start_month: '', start_year: '', end_month: '', end_year: '', responsibilities: [],
                 },
-                employments: [],
+                endpoints: {
+                    save: '/api/v1/work/experience/',
+                },
                 getBox: 'bl-box-2 hidden',
                 getCls: 'responsibilities hidden',
                 imgSrc: '/img/icons/expand.png',
@@ -222,14 +225,8 @@
             },
 
             addNew() {
-                this.input.job_role = '';
-                this.input.company_name = '';
-                this.input.location = '';
-                this.input.project_size = '';
-                this.input.start_month = '';
-                this.input.start_year = '';
-                this.input.end_month = '';
-                this.input.end_year = '';
+                Utils.setObjectValues(this.input, '');
+
                 this.input.responsibilities = [];
             },
 
@@ -238,10 +235,8 @@
             },
 
             getPeriod(emp) {
-                let start = new Date(emp.start_year, emp.start_month-1, 1),
-                    end = new Date(emp.end_year, emp.end_month-1, 1);
-                
-                return Utils.getPeriod(start, end);
+                return Utils.getPeriod(new Date(emp.start_year, emp.start_month-1, 1),
+                                       new Date(emp.end_year, emp.end_month-1, 1));
             },
 
             textAreaAdjust(index) {
@@ -249,8 +244,33 @@
                 o.style.height = (o.scrollHeight) + 'px';
             },
 
-            submitForm() {
+            async submitForm() {
+                let saveEndpoint = this.input.id == '' ? this.endpoints.save : this.endpoints.save + this.input.id;
+                let component = this;
 
+				Utils.setObjectValues(component.errors, '');
+                component.disabled = true;
+                
+                await axios.post(saveEndpoint, component.$data.input, Utils.getBearerAuth())
+                    
+                    .then(function(response) {
+                        let data = response.data;
+						
+						$('#modalEmployment').modal('hide');
+                    })
+                    .catch(function(error) {
+                        if (error.response) {
+                            let data = error.response.data;
+
+							for (let key in data.errors) {
+								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                            }
+                        }
+
+                        Utils.handleError(error);
+                    });
+                
+                component.disabled = false;
             },
         }
     }
