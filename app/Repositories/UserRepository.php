@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Users\UserSkill;
+use App\Models\Users\WorkerDetail;
 use App\User;
 use JWTAuth;
 use Illuminate\Http\Request;
@@ -20,6 +21,11 @@ class UserRepository extends AbstractRepository
     protected $model = User::class;
 
     public $workerDetail = null;
+
+    public function __construct()
+    {
+        $this->workerDetail = new WorkerDetail();
+    }
 
     public function saveMainSkill(Request $request) {
 
