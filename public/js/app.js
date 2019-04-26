@@ -3060,6 +3060,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
       }
     },
+    close: function close() {
+      Utils.setObjectValues(this.errors, '');
+    },
     submit: function () {
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
@@ -42966,7 +42969,11 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "div",
-                  { staticClass: "close", attrs: { "data-dismiss": "modal" } },
+                  {
+                    staticClass: "close",
+                    attrs: { "data-dismiss": "modal" },
+                    on: { click: _vm.close }
+                  },
                   [_vm._v("×")]
                 )
               ]),

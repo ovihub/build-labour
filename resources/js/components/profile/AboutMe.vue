@@ -7,7 +7,7 @@
 		
                     <template slot="custom-modal-title">
                         <h4 class="modal-title">Edit About Me</h4>
-                        <div class="close" data-dismiss="modal">&times;</div>
+                        <div class="close" data-dismiss="modal" @click="close">&times;</div>
                     </template>
 
                     <template slot="custom-modal-content">
@@ -142,6 +142,10 @@
                 }
             },
 
+            close() {
+                Utils.setObjectValues(this.errors, '');
+            },
+            
             async submit() {
                 let component = this;
 
