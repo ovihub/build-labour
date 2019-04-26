@@ -17,8 +17,12 @@
                         
                         <textarea ref="skillsIntro" class="form-control" style="overflow:hidden"
                             placeholder="Example: Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline."
-                            @keyup="textAreaAdjust" v-model="skills_intro"></textarea>
+                            @keyup="textAreaAdjust" v-model="main_skill"></textarea>
                         
+                        <span class="err-msg" v-if="errors.main_skill">
+                            {{ errors.main_skill }}
+                        </span>
+
                         <div class="skill-label">
                             What are your main industry skills?
                         </div>
@@ -44,7 +48,7 @@
 
             </main-modal>
 
-            <span class="edit-icon" data-toggle="modal" data-target="#modalIndustrySkill">
+            <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalIndustrySkill">
                 <img src="/img/icons/editbutton.png"
                     srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
             </span>
@@ -58,7 +62,7 @@
             
             <div class="row" v-if="! is_empty">
                 <div class="col-md-12 col-sm-12 profile-intro">
-                    {{ skills_intro }}
+                    {{ main_skill }}
                 </div>
                 <div class="col-md-6 col-sm-6" v-for="first in firstColumn" v-bind:key="first.id">
                     <span class="bl-label-15">
@@ -87,11 +91,14 @@
         data() {
             return {
                 disabled: false,
-                skills_intro: '',
+                main_skill: '',
                 is_empty: false,
                 user_skills: [],
                 firstColumn: [],
                 secondColumn: [],
+                errors: {
+                    main_skill: ''
+                },
                 endpoints: {
                     save: '/api/v1/user/skills',
                 },
@@ -114,7 +121,7 @@
             let component = this;
 
             Bus.$on('industrySkillsDetails', function(detailsArray, skillsIntroduction) {
-                component.skills_intro = skillsIntroduction;
+                component.main_skill = skillsIntroduction;
 
                 if (detailsArray.length == 0) {
                     component.is_empty = true;
@@ -157,7 +164,7 @@
                 component.disabled = true;
 
                 let skills = {
-                    main_skill: component.skills_intro,
+                    main_skill: component.main_skill,
                     skills: component.user_skills
                 };
 

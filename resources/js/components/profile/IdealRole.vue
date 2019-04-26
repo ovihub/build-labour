@@ -23,15 +23,45 @@
                             <div class="skill-label">
                                 When could this happen?
                             </div>
+                            <div class="emp-row row-center">
+                                <div class="emp-col-left">
+                                    <input class="form-control" type="text" v-model="input.when" />
+                                </div>
+                                <div class="emp-col-right">
+                                    <label>
+                                        In months
+                                    </label>
+                                </div>
+                            </div>
 
                             <div class="skill-label">
                                 Maximum Distance from home
+                            </div>
+                            <div class="emp-row row-center">
+                                <div class="emp-col-left">
+                                    <div class="slidecontainer">
+                                        <input type="range" min="1" max="500" value="50" class="slider" id="myRange">
+                                    </div>
+                                </div>
+                                <div class="emp-col-right">
+                                    <label>
+                                        500 km
+                                    </label>
+                                </div>
                             </div>
 
                             <div class="skill-label">
                                 Would you work/relocate to another state? If Yes, tick states that apply.
                             </div>
 
+                            <div v-for="(state, index) in states" :key="index">
+                                <input type="checkbox" id="myCheck" />
+                                {{ state }}
+                            </div>
+
+                            <div class="skill-label">
+                                I have the right to work in Australia
+                            </div>
                         </form>
                     </template>
 
@@ -41,7 +71,7 @@
 
                 </main-modal>
 
-                <span class="edit-icon" data-toggle="modal" data-target="#modalIdealRole">
+                <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalIdealRole">
                     <img src="/img/icons/editbutton.png"
                         srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
                 </span>
@@ -86,6 +116,9 @@
         data() {
             return {
                 disabled: false,
+                states: [
+                    'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
+                ],
                 input: { 
                     introduction: null, when: null, max_distance: null, address: null,  state: null, right_to_work: null,
                 }

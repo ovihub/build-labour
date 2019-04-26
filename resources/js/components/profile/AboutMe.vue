@@ -5,7 +5,7 @@
                 
                 <record-form title="AboutMe" :record="input" save-endpoint="/api/v1/worker/optional"></record-form>
                 
-                <span class="edit-icon" data-toggle="modal" data-target="#modalAboutMe">
+                <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalAboutMe">
                     <img src="/img/icons/editbutton.png"
                         srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
                 </span>

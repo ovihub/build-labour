@@ -1,6 +1,6 @@
 <template>
     <div class="profile-item-2">
-        <div class="profile-content" style="padding-bottom:0">
+        <div class="profile-content" :style="addStyle">
 
             <main-modal id="modalEmployment">
 		
@@ -83,7 +83,7 @@
 
             </main-modal>
             
-            <span class="add-icon" data-toggle="modal" data-target="#modalEmployment" @click="add">
+            <span class="add-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalEmployment" @click="add">
                 <img src="/img/icons/plus.png"
                     srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
             </span>
@@ -97,7 +97,7 @@
         
             <ul class="list-main-items" v-if="employments.length > 0">
                 <li class="main-items" v-for="(employment, index) in employments" v-bind:key="index">
-                    <span class="edit-icon" data-toggle="modal" data-target="#modalEmployment" @click="edit(index)">
+                    <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalEmployment" @click="edit(index)">
                         <img src="/img/icons/editbutton.png"
                             srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
                     </span>
@@ -237,6 +237,10 @@
             getPeriod(emp) {
                 return Utils.getPeriod(new Date(emp.start_year, emp.start_month-1, 1),
                                        new Date(emp.end_year, emp.end_month-1, 1));
+            },
+
+            addStyle() {
+                return (this.employments.length != 0) ?  'padding-bottom:0' : '';
             },
 
             textAreaAdjust(index) {
