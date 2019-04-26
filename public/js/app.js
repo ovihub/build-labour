@@ -3900,15 +3900,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         component.user_skills = detailsArray;
       }
 
-      component.display();
+      component.display(component.user_skills);
     });
   },
   methods: {
-    display: function display() {
-      var len = this.user_skills.length;
+    display: function display(skills) {
+      var len = skills.length;
       var half = Math.ceil(len / 2);
-      this.firstColumn = this.user_skills.slice(0, half);
-      this.secondColumn = this.user_skills.slice(half, len);
+      this.firstColumn = skills.slice(0, half);
+      this.secondColumn = skills.slice(half, len);
     },
     textAreaAdjust: function textAreaAdjust() {
       var o = this.$refs['skillsIntro'];
@@ -3934,6 +3934,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.post(component.endpoints.save, skills, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalIndustrySkill').modal('hide');
+                  component.display(data.data.skills);
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;

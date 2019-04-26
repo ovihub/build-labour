@@ -137,18 +137,18 @@
                     component.user_skills = detailsArray;
                 }
 
-                component.display();
+                component.display(component.user_skills);
             });
         },
 
         methods: {
             
-            display() {
-                let len = this.user_skills.length;
+            display(skills) {
+                let len = skills.length;
                 let half = Math.ceil(len / 2);
 
-                this.firstColumn = this.user_skills.slice(0, half);
-                this.secondColumn = this.user_skills.slice(half, len);
+                this.firstColumn = skills.slice(0, half);
+                this.secondColumn = skills.slice(half, len);
             },
 
             textAreaAdjust() {
@@ -173,7 +173,9 @@
                     .then(function(response) {
                         let data = response.data;
 						
-						$('#modalIndustrySkill').modal('hide');
+                        $('#modalIndustrySkill').modal('hide');
+                        
+                        component.display(data.data.skills);
                     })
                     .catch(function(error) {
                         if (error.response) {
