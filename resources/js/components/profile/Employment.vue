@@ -304,7 +304,7 @@
                     start_month: '', start_year: '', end_month: '', end_year: '', responsibilities: [],
                 },
                 endpoints: {
-                    save: '/api/v1/work/experience/',
+                    save: '/api/v1/work/experience',
                 },
                 getBox: 'bl-box-2 hidden',
                 getCls: 'responsibilities hidden',
@@ -378,7 +378,7 @@
             },
 
             async submit(id) {
-                let saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + this.input.id;
+                let saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.input.id;
                 let saveInput = id == 0 ? this.input_add : this.input;
                 let component = this;
 

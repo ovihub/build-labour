@@ -3407,7 +3407,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         end_year: ''
       },
       endpoints: {
-        save: '/api/v1/user/education/'
+        save: '/api/v1/user/education'
       }
     };
   },
@@ -3440,7 +3440,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + this.input.id;
+                saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.input.id;
                 saveInput = id == 0 ? this.$data.input_add : this.$data.input;
                 component = this;
                 Utils.setObjectValues(component.errors, '');
@@ -3829,7 +3829,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         responsibilities: []
       },
       endpoints: {
-        save: '/api/v1/work/experience/'
+        save: '/api/v1/work/experience'
       },
       getBox: 'bl-box-2 hidden',
       getCls: 'responsibilities hidden',
@@ -3896,7 +3896,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + this.input.id;
+                saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.input.id;
                 saveInput = id == 0 ? this.input_add : this.input;
                 component = this;
                 Utils.setObjectValues(component.errors, '');

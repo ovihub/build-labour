@@ -213,7 +213,7 @@
                     course: '', school: '', start_month: '', start_year: '', end_month: '', end_year: '',
                 },
                 endpoints: {
-                    save: '/api/v1/user/education/',
+                    save: '/api/v1/user/education',
                 },
             }
         },
@@ -246,7 +246,7 @@
             },
 
             async submit(id) {
-                let saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + this.input.id;
+                let saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.input.id;
                 let saveInput = id == 0 ? this.$data.input_add : this.$data.input;
                 let component = this;
 
