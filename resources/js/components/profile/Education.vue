@@ -181,8 +181,8 @@
                         $('#modalEducation').modal('hide');
                         
                         component.input.id == '' ?
-                            component.educations.push(data.education) : 
-                            component.educations[component.current] = data.education;
+                            component.educations.push(data.data.education) : 
+                            component.educations[component.current] = data.data.education;
                     })
                     .catch(function(error) {
                         if (error.response) {

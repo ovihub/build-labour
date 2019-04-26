@@ -175,6 +175,7 @@
 						
                         $('#modalIndustrySkill').modal('hide');
                         
+                        component.is_empty = false;
                         component.display(data.data.skills);
                     })
                     .catch(function(error) {

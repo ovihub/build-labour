@@ -3227,7 +3227,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.post(saveEndpoint, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalEducation').modal('hide');
-                  component.input.id == '' ? component.educations.push(data.education) : component.educations[component.current] = data.education;
+                  component.input.id == '' ? component.educations.push(data.data.education) : component.educations[component.current] = data.data.education;
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -3934,6 +3934,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.post(component.endpoints.save, skills, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalIndustrySkill').modal('hide');
+                  component.is_empty = false;
                   component.display(data.data.skills);
                 }).catch(function (error) {
                   if (error.response) {
