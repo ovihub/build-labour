@@ -21,9 +21,9 @@ class ApiUserSkillsController extends ApiBaseController
 
     /**
      * @OA\POST(
-     *      path="/user/skill/{id}",
-     *      tags={"User Skill"},
-     *      summary="Update a user skill",
+     *      path="/user/skills",
+     *      tags={"Worker"},
+     *      summary="Update worker main skill and skills",
      *      security={{"BearerAuth":{}}},
      *      @OA\Parameter(
      *          in="path",
@@ -41,16 +41,10 @@ class ApiUserSkillsController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="skill",
-     *                      description="<b>Required</b> Job Role",
+     *                      property="main_skill",
+     *                      description="<b>Required</b> Main Skill",
      *                      type="string",
-     *                      example="Proficient in Spanish"
-     *                  ),
-     *          @OA\Property(
-     *                      property="description",
-     *                      description="<b>Required</b> Company",
-     *                      type="string",
-     *                      example="Able to handle client with spanish confidently."
+     *                      example="I'm a good worker"
      *                  ),
      *              ),
      *          ),
