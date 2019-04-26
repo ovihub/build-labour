@@ -1,12 +1,112 @@
 <template>
     <div class="profile-item-2">
-        <div class="profile-content" :style="addStyle">
+        <div class="profile-content">
+
+            <main-modal id="modalAddEmployment">
+		
+                <template slot="custom-modal-title">
+                    <h4 class="modal-title">Edit Employment History</h4>
+                    <div class="close" data-dismiss="modal" @click="close">&times;</div>
+                </template>
+
+                <template slot="custom-modal-content">
+                    <form class="modal-form" method="POST" @submit.prevent="submit">
+                        <div class="emp-label">Job Details</div>
+                        
+                        <div class="form-group">
+                            <div class="emp-row">
+                                <div class="modal-form-label">Your Role</div>
+                                <input class="form-control" type="text" v-model="input_add.job_role"/>
+                                <span class="err-msg" v-if="errors.job_role">
+                                    {{ errors.job_role }}
+                                </span>
+                            </div>
+
+                            <div class="emp-row">
+                                <div class="modal-form-label">Company/Project Name</div>
+                                <input class="form-control" type="text" v-model="input_add.company_name" />
+                                <span class="err-msg" v-if="errors.company_name">
+                                    {{ errors.company_name }}
+                                </span>
+                            </div>
+
+                            <div class="emp-row">
+                                <div class="modal-form-label">Location</div>
+                                <input class="form-control" type="text" v-model="input_add.location" />
+                                <span class="err-msg" v-if="errors.location">
+                                    {{ errors.location }}
+                                </span>
+                            </div>
+
+                            <div class="emp-row">
+                                <div class="modal-form-label">Size of the Project</div>
+                                <input class="form-control" type="text" v-model="input_add.project_size"/>
+                                <span class="err-msg" v-if="errors.project_size">
+                                    {{ errors.project_size }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="emp-label">Duration of Employment</div>
+                        <div class="emp-row">
+                            <div class="emp-col-left">
+                                <div class="emp-form-label">Start Month</div>
+                                <select v-model="input_add.start_month">
+                                    <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
+                                </select>
+                                <span class="err-msg" v-if="errors.start_month">
+                                    {{ errors.start_month }}
+                                </span>
+                            </div>
+                            <div class="emp-col-right">
+                                <div class="emp-form-label">Start Year</div>
+                                <select v-model="input_add.start_year">
+                                    <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
+                                </select>
+                                <span class="err-msg" v-if="errors.start_year">
+                                    {{ errors.start_year }}
+                                </span>
+                            </div>
+                        </div>
+                         <div class="emp-row">
+                            <div class="emp-col-left">
+                                <div class="emp-form-label">End Month</div>
+                                <select v-model="input_add.end_month">
+                                    <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
+                                </select>
+                                <span class="err-msg" v-if="errors.end_month">
+                                    {{ errors.end_month }}
+                                </span>
+                            </div>
+                            <div class="emp-col-right">
+                                <div class="emp-form-label">End Year</div>
+                                <select v-model="input_add.end_year">
+                                    <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
+                                </select>
+                                <span class="err-msg" v-if="errors.end_year">
+                                    {{ errors.end_year }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
+                        <textarea rows="1" ref="respItem--1" class="form-control" style="overflow:hidden"
+                                placeholder="Add Another Responsibility"
+                                @keyup="textAreaAdjust(-1)"></textarea>
+                    </form>
+                </template>
+
+                <template slot="custom-modal-footer">
+                    <button class="mt-0" type="submit" @click="submit(0)" :disabled="disabled">Save Changes</button>
+                </template>
+
+            </main-modal>
 
             <main-modal id="modalEmployment">
 		
                 <template slot="custom-modal-title">
                     <h4 class="modal-title">Edit Employment History</h4>
-                    <div class="close" data-dismiss="modal">&times;</div>
+                    <div class="close" data-dismiss="modal" @click="close">&times;</div>
                 </template>
 
                 <template slot="custom-modal-content">
@@ -17,21 +117,33 @@
                             <div class="emp-row">
                                 <div class="modal-form-label">Your Role</div>
                                 <input class="form-control" type="text" v-model="input.job_role"/>
+                                <span class="err-msg" v-if="errors.job_role">
+                                    {{ errors.job_role }}
+                                </span>
                             </div>
 
                             <div class="emp-row">
                                 <div class="modal-form-label">Company/Project Name</div>
                                 <input class="form-control" type="text" v-model="input.company_name" />
+                                <span class="err-msg" v-if="errors.company_name">
+                                    {{ errors.company_name }}
+                                </span>
                             </div>
 
                             <div class="emp-row">
                                 <div class="modal-form-label">Location</div>
                                 <input class="form-control" type="text" v-model="input.location" />
+                                <span class="err-msg" v-if="errors.location">
+                                    {{ errors.location }}
+                                </span>
                             </div>
 
                             <div class="emp-row">
                                 <div class="modal-form-label">Size of the Project</div>
                                 <input class="form-control" type="text" v-model="input.project_size"/>
+                                <span class="err-msg" v-if="errors.project_size">
+                                    {{ errors.project_size }}
+                                </span>
                             </div>
                         </div>
 
@@ -42,12 +154,18 @@
                                 <select v-model="input.start_month">
                                     <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
                                 </select>
+                                <span class="err-msg" v-if="errors.start_month">
+                                    {{ errors.start_month }}
+                                </span>
                             </div>
                             <div class="emp-col-right">
                                 <div class="emp-form-label">Start Year</div>
                                 <select v-model="input.start_year">
                                     <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
                                 </select>
+                                <span class="err-msg" v-if="errors.start_year">
+                                    {{ errors.start_year }}
+                                </span>
                             </div>
                         </div>
                          <div class="emp-row">
@@ -56,12 +174,18 @@
                                 <select v-model="input.end_month">
                                     <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
                                 </select>
+                                <span class="err-msg" v-if="errors.end_month">
+                                    {{ errors.end_month }}
+                                </span>
                             </div>
                             <div class="emp-col-right">
                                 <div class="emp-form-label">End Year</div>
                                 <select v-model="input.end_year">
                                     <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
                                 </select>
+                                <span class="err-msg" v-if="errors.end_year">
+                                    {{ errors.end_year }}
+                                </span>
                             </div>
                         </div>
 
@@ -79,12 +203,12 @@
                 </template>
 
                 <template slot="custom-modal-footer">
-                    <button class="mt-0" type="submit" @click="submit" :disabled="disabled">Save Changes</button>
+                    <button class="mt-0" type="submit" @click="submit(1)" :disabled="disabled">Save Changes</button>
                 </template>
 
             </main-modal>
             
-            <span class="add-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalEmployment" @click="add">
+            <span class="add-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalAddEmployment" @click="add">
                 <img src="/img/icons/plus.png"
                     srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
             </span>
@@ -134,14 +258,14 @@
                         <span class="bl-label-14-style-2 bl-mt13">
                             <img class="text-icon" src="/img/icons/dollarsign.png"
                                 srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
-                            ${{ employment.project_size }}
+                            {{ employment.project_size }}
                         </span>
-                        <span class="bl-label-14-style-2 bl-mt13">
+                        <span class="bl-label-14-style-2 bl-mt13" v-if="employment.responsibilities.length != 0">
                             <img class="text-icon" src="/img/icons/responsibilities.png"
                                 srcset="/img/icons/responsibilities@2x.png 2x, /img/icons/responsibilities@3x.png 3x">
                             Responsibilities:
                         </span>
-                        <div class="bl-label-15">
+                        <div class="bl-label-15" v-if="employment.responsibilities.length != 0">
                             <ul class="list-items">
                                 <div v-for="(res, idx) in employment.responsibilities" v-bind:key="idx">
                                     <li>{{ res }}</li>
@@ -164,8 +288,13 @@
                 is_empty: false,
                 months: Utils.getMonths(),
                 years: Utils.getYears(),
+                current: -1,
                 expanded: [],
                 employments: [],
+                input_add: {
+                    job_role: '', company_name: '', location: '', project_size: '',
+                    start_month: '', start_year: '', end_month: '', end_year: '', responsibilities: [],
+                },
                 input: {
                     id: '', job_role: '', company_name: '', location: '', project_size: '',
                     start_month: '', start_year: '', end_month: '', end_year: '', responsibilities: [],
@@ -225,13 +354,16 @@
                 }
             },
 
-            add() {
-                Utils.setObjectValues(this.input, '');
+            close() {
+                Utils.setObjectValues(this.errors, '');
+            },
 
-                this.input.responsibilities = [];
+            add() {
+                Utils.setObjectValues(this.input_add, '');
             },
 
             edit(index) {
+                this.current = index;
                 this.input = this.employments[index];
             },
 
@@ -240,28 +372,34 @@
                                        new Date(emp.end_year, emp.end_month-1, 1));
             },
 
-            addStyle() {
-                return (this.employments.length != 0) ?  'padding-bottom:0' : '';
-            },
-
             textAreaAdjust(index) {
                 let o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
                 o.style.height = (o.scrollHeight) + 'px';
             },
 
-            async submit() {
-                let saveEndpoint = this.input.id == '' ? this.endpoints.save : this.endpoints.save + this.input.id;
+            async submit(id) {
+                let saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + this.input.id;
+                let saveInput = id == 0 ? this.input_add : this.input;
                 let component = this;
 
 				Utils.setObjectValues(component.errors, '');
                 component.disabled = true;
                 
-                await axios.post(saveEndpoint, component.$data.input, Utils.getBearerAuth())
+                for (let i = 0; i < this.input.responsibilities.length; i++) {
+                    this.input.responsibilities[i] = this.$refs['respItem-' + i][0].value;
+                }
+
+                await axios.post(saveEndpoint, saveInput, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         let data = response.data;
 						
                         $('#modalEmployment').modal('hide');
+                        $('#modalAddEmployment').modal('hide');
+
+                        id == 0 ?
+                            component.employments.push(data.data.work_experience) : 
+                            component.employments[component.current] = data.data.work_experience;
                     })
                     .catch(function(error) {
                         if (error.response) {

@@ -21,11 +21,17 @@
                                         <option>Female</option>
                                         <option>Other</option>
                                     </select> -->
+                                    <span class="err-msg" v-if="errors.gender">
+                                        {{ errors.gender }}
+                                    </span>
                                 </div>
 
                                 <div class="emp-row">
                                     <div class="modal-form-label">Date of Birth</div>
-                                    <input class="form-control" type="text" v-model="input.date_of_birth" />
+                                    <input class="form-control" type="text" placeholder="YYYY-MM-DD" v-model="input.date_of_birth" />
+                                    <span class="err-msg" v-if="errors.date_of_birth">
+                                        {{ errors.date_of_birth }}
+                                    </span>
                                 </div>
 
                                 <div class="emp-row">
@@ -36,15 +42,24 @@
                                         <option>Married</option>
                                         <option>Other</option>
                                     </select> -->
+                                    <span class="err-msg" v-if="errors.marital_status">
+                                        {{ errors.marital_status }}
+                                    </span>
                                 </div>
 
                                 <div class="emp-row">
                                     <div class="modal-form-label">English Skill</div>
                                     <input class="form-control" type="text" v-model="input.english_skill"/>
+                                    <span class="err-msg" v-if="errors.english_skill">
+                                        {{ errors.english_skill }}
+                                    </span>
                                 </div>
                                 <div class="emp-row">
                                     <div class="modal-form-label">Driver's License</div>
                                     <input class="form-control" type="text" v-model="input.drivers_license"/>
+                                    <span class="err-msg" v-if="errors.drivers_license">
+                                        {{ errors.drivers_license }}
+                                    </span>
                                 </div>
                             </div>
                         </form>
@@ -99,6 +114,9 @@
                 disabled: false,
                 input: {
                     gender: null, date_of_birth: null, marital_status: null, english_skill: null, drivers_license: null
+                },
+                errors: {
+                    gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: ''
                 },
                 endpoints: {
                     save: '/api/v1/worker/optional'

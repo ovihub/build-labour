@@ -2843,6 +2843,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return word.charAt(0).toUpperCase() + word.slice(1);
       }).join(' ');
     },
+    close: function close() {
+      Utils.setObjectValues(this.errors, '');
+    },
     submit: function () {
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
@@ -3006,6 +3009,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3016,6 +3034,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         marital_status: null,
         english_skill: null,
         drivers_license: null
+      },
+      errors: {
+        gender: '',
+        date_of_birth: '',
+        marital_status: '',
+        english_skill: '',
+        drivers_license: ''
       },
       endpoints: {
         save: '/api/v1/worker/optional'
@@ -3268,6 +3293,82 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3276,6 +3377,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       years: Utils.getYears(),
       educations: [],
       current: -1,
+      input_add: {
+        id: '',
+        course: '',
+        school: '',
+        start_month: '',
+        start_year: '',
+        end_month: '',
+        end_year: ''
+      },
       input: {
         id: '',
         course: '',
@@ -3321,21 +3431,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     submit: function () {
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var saveEndpoint, component;
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(id) {
+        var saveEndpoint, saveInput, component;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                saveEndpoint = this.input.id == '' ? this.endpoints.save : this.endpoints.save + this.input.id;
+                saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + this.input.id;
+                saveInput = id == 0 ? this.$data.input_add : this.$data.input;
                 component = this;
                 Utils.setObjectValues(component.errors, '');
                 component.disabled = true;
-                _context.next = 6;
-                return axios.post(saveEndpoint, component.$data.input, Utils.getBearerAuth()).then(function (response) {
+                _context.next = 7;
+                return axios.post(saveEndpoint, saveInput, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalEducation').modal('hide');
-                  component.input.id == '' ? component.educations.push(data.data.education) : component.educations[component.current] = data.data.education;
+                  $('#modalAddEducation').modal('hide');
+                  id == 0 ? component.educations.push(data.data.education) : component.educations[component.current] = data.data.education;
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -3348,10 +3460,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Utils.handleError(error);
                 });
 
-              case 6:
+              case 7:
                 component.disabled = false;
 
-              case 7:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -3359,7 +3471,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee, this);
       }));
 
-      function submit() {
+      function submit(_x) {
         return _submit.apply(this, arguments);
       }
 
@@ -3545,6 +3657,130 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3552,8 +3788,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       is_empty: false,
       months: Utils.getMonths(),
       years: Utils.getYears(),
+      current: -1,
       expanded: [],
       employments: [],
+      input_add: {
+        job_role: '',
+        company_name: '',
+        location: '',
+        project_size: '',
+        start_month: '',
+        start_year: '',
+        end_month: '',
+        end_year: '',
+        responsibilities: []
+      },
       input: {
         id: '',
         job_role: '',
@@ -3619,18 +3867,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.collapse(index);
       }
     },
+    close: function close() {
+      Utils.setObjectValues(this.errors, '');
+    },
     add: function add() {
-      Utils.setObjectValues(this.input, '');
-      this.input.responsibilities = [];
+      Utils.setObjectValues(this.input_add, '');
     },
     edit: function edit(index) {
+      this.current = index;
       this.input = this.employments[index];
     },
     getPeriod: function getPeriod(emp) {
       return Utils.getPeriod(new Date(emp.start_year, emp.start_month - 1, 1), new Date(emp.end_year, emp.end_month - 1, 1));
-    },
-    addStyle: function addStyle() {
-      return this.employments.length != 0 ? 'padding-bottom:0' : '';
     },
     textAreaAdjust: function textAreaAdjust(index) {
       var o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
@@ -3639,20 +3887,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     submit: function () {
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var saveEndpoint, component;
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(id) {
+        var saveEndpoint, saveInput, component, i;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                saveEndpoint = this.input.id == '' ? this.endpoints.save : this.endpoints.save + this.input.id;
+                saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + this.input.id;
+                saveInput = id == 0 ? this.input_add : this.input;
                 component = this;
                 Utils.setObjectValues(component.errors, '');
                 component.disabled = true;
-                _context.next = 6;
-                return axios.post(saveEndpoint, component.$data.input, Utils.getBearerAuth()).then(function (response) {
+
+                for (i = 0; i < this.input.responsibilities.length; i++) {
+                  this.input.responsibilities[i] = this.$refs['respItem-' + i][0].value;
+                }
+
+                _context.next = 8;
+                return axios.post(saveEndpoint, saveInput, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalEmployment').modal('hide');
+                  $('#modalAddEmployment').modal('hide');
+                  id == 0 ? component.employments.push(data.data.work_experience) : component.employments[component.current] = data.data.work_experience;
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -3665,10 +3921,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Utils.handleError(error);
                 });
 
-              case 6:
+              case 8:
                 component.disabled = false;
 
-              case 7:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -3676,7 +3932,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee, this);
       }));
 
-      function submit() {
+      function submit(_x) {
         return _submit.apply(this, arguments);
       }
 
@@ -42564,7 +42820,11 @@ var render = function() {
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "close", attrs: { "data-dismiss": "modal" } },
+          {
+            staticClass: "close",
+            attrs: { "data-dismiss": "modal" },
+            on: { click: _vm.close }
+          },
           [_vm._v("×")]
         )
       ]),
@@ -42751,7 +43011,17 @@ var render = function() {
                               _vm.$set(_vm.input, "gender", $event.target.value)
                             }
                           }
-                        })
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.gender
+                          ? _c("span", { staticClass: "err-msg" }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(_vm.errors.gender) +
+                                  "\n                                "
+                              )
+                            ])
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "emp-row" }, [
@@ -42769,7 +43039,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text" },
+                          attrs: { type: "text", placeholder: "YYYY-MM-DD" },
                           domProps: { value: _vm.input.date_of_birth },
                           on: {
                             input: function($event) {
@@ -42783,7 +43053,17 @@ var render = function() {
                               )
                             }
                           }
-                        })
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.date_of_birth
+                          ? _c("span", { staticClass: "err-msg" }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(_vm.errors.date_of_birth) +
+                                  "\n                                "
+                              )
+                            ])
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "emp-row" }, [
@@ -42815,7 +43095,17 @@ var render = function() {
                               )
                             }
                           }
-                        })
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.marital_status
+                          ? _c("span", { staticClass: "err-msg" }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(_vm.errors.marital_status) +
+                                  "\n                                "
+                              )
+                            ])
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "emp-row" }, [
@@ -42847,7 +43137,17 @@ var render = function() {
                               )
                             }
                           }
-                        })
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.english_skill
+                          ? _c("span", { staticClass: "err-msg" }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(_vm.errors.english_skill) +
+                                  "\n                                "
+                              )
+                            ])
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "emp-row" }, [
@@ -42879,7 +43179,17 @@ var render = function() {
                               )
                             }
                           }
-                        })
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.drivers_license
+                          ? _c("span", { staticClass: "err-msg" }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(_vm.errors.drivers_license) +
+                                  "\n                                "
+                              )
+                            ])
+                          : _vm._e()
                       ])
                     ])
                   ]
@@ -43101,6 +43411,380 @@ var render = function() {
       "div",
       { staticClass: "profile-content" },
       [
+        _c(
+          "main-modal",
+          { attrs: { id: "modalAddEducation" } },
+          [
+            _c("template", { slot: "custom-modal-title" }, [
+              _c("h4", { staticClass: "modal-title" }, [
+                _vm._v("Edit Education")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "close",
+                  attrs: { "data-dismiss": "modal" },
+                  on: { click: _vm.close }
+                },
+                [_vm._v("×")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("template", { slot: "custom-modal-content" }, [
+              _c(
+                "form",
+                {
+                  staticClass: "modal-form",
+                  attrs: { method: "POST" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.submit($event)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("Course")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input_add.course,
+                            expression: "input_add.course"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input_add.course },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input_add,
+                              "course",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.course
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.course) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("School")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input_add.school,
+                            expression: "input_add.school"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input_add.school },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input_add,
+                              "school",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.school
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.school) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c("div", { staticClass: "emp-col-left" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("Start Month")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.start_month,
+                              expression: "input_add.start_month"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input_add,
+                                "start_month",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.months, function(month) {
+                          return _c(
+                            "option",
+                            { key: month.id, domProps: { value: month.id } },
+                            [_vm._v(_vm._s(month.name))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.start_month
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.start_month) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-col-right" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("Start Year")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.start_year,
+                              expression: "input_add.start_year"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input_add,
+                                "start_year",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.years, function(year, index) {
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: year } },
+                            [_vm._v(_vm._s(year))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.start_year
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.start_year) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c("div", { staticClass: "emp-col-left" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("End Month")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.end_month,
+                              expression: "input_add.end_month"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input_add,
+                                "end_month",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.months, function(month) {
+                          return _c(
+                            "option",
+                            { key: month.id, domProps: { value: month.id } },
+                            [_vm._v(_vm._s(month.name))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.end_month
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.end_month) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-col-right" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("End Year")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.end_year,
+                              expression: "input_add.end_year"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input_add,
+                                "end_year",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.years, function(year, index) {
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: year } },
+                            [_vm._v(_vm._s(year))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.end_year
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.end_year) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("template", { slot: "custom-modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "mt-0",
+                  attrs: { type: "submit", disabled: _vm.disabled },
+                  on: {
+                    click: function($event) {
+                      return _vm.submit(0)
+                    }
+                  }
+                },
+                [_vm._v("Save Changes")]
+              )
+            ])
+          ],
+          2
+        ),
+        _vm._v(" "),
         _c(
           "main-modal",
           { attrs: { id: "modalEducation" } },
@@ -43471,7 +44155,7 @@ var render = function() {
               "data-toggle": "modal",
               "data-backdrop": "static",
               "data-keyboard": "false",
-              "data-target": "#modalEducation"
+              "data-target": "#modalAddEducation"
             },
             on: { click: _vm.add }
           },
@@ -43616,8 +44300,498 @@ var render = function() {
   return _c("div", { staticClass: "profile-item-2" }, [
     _c(
       "div",
-      { staticClass: "profile-content", style: _vm.addStyle },
+      { staticClass: "profile-content" },
       [
+        _c(
+          "main-modal",
+          { attrs: { id: "modalAddEmployment" } },
+          [
+            _c("template", { slot: "custom-modal-title" }, [
+              _c("h4", { staticClass: "modal-title" }, [
+                _vm._v("Edit Employment History")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "close",
+                  attrs: { "data-dismiss": "modal" },
+                  on: { click: _vm.close }
+                },
+                [_vm._v("×")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("template", { slot: "custom-modal-content" }, [
+              _c(
+                "form",
+                {
+                  staticClass: "modal-form",
+                  attrs: { method: "POST" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.submit($event)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "emp-label" }, [
+                    _vm._v("Job Details")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("Your Role")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input_add.job_role,
+                            expression: "input_add.job_role"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input_add.job_role },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input_add,
+                              "job_role",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.job_role
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.job_role) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("Company/Project Name")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input_add.company_name,
+                            expression: "input_add.company_name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input_add.company_name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input_add,
+                              "company_name",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.company_name
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.company_name) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("Location")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input_add.location,
+                            expression: "input_add.location"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input_add.location },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input_add,
+                              "location",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.location
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.location) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-row" }, [
+                      _c("div", { staticClass: "modal-form-label" }, [
+                        _vm._v("Size of the Project")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input_add.project_size,
+                            expression: "input_add.project_size"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input_add.project_size },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input_add,
+                              "project_size",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.project_size
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.project_size) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-label" }, [
+                    _vm._v("Duration of Employment")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c("div", { staticClass: "emp-col-left" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("Start Month")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.start_month,
+                              expression: "input_add.start_month"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input_add,
+                                "start_month",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.months, function(month) {
+                          return _c(
+                            "option",
+                            { key: month.id, domProps: { value: month.id } },
+                            [_vm._v(_vm._s(month.name))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.start_month
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.start_month) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-col-right" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("Start Year")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.start_year,
+                              expression: "input_add.start_year"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input_add,
+                                "start_year",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.years, function(year, index) {
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: year } },
+                            [_vm._v(_vm._s(year))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.start_year
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.start_year) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c("div", { staticClass: "emp-col-left" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("End Month")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.end_month,
+                              expression: "input_add.end_month"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input_add,
+                                "end_month",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.months, function(month) {
+                          return _c(
+                            "option",
+                            { key: month.id, domProps: { value: month.id } },
+                            [_vm._v(_vm._s(month.name))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.end_month
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.end_month) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-col-right" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("End Year")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.end_year,
+                              expression: "input_add.end_year"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input_add,
+                                "end_year",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.years, function(year, index) {
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: year } },
+                            [_vm._v(_vm._s(year))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.end_year
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.end_year) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "emp-label",
+                      staticStyle: { "margin-bottom": "17px" }
+                    },
+                    [_vm._v("Responsibilities")]
+                  ),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    ref: "respItem--1",
+                    staticClass: "form-control",
+                    staticStyle: { overflow: "hidden" },
+                    attrs: {
+                      rows: "1",
+                      placeholder: "Add Another Responsibility"
+                    },
+                    on: {
+                      keyup: function($event) {
+                        return _vm.textAreaAdjust(-1)
+                      }
+                    }
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("template", { slot: "custom-modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "mt-0",
+                  attrs: { type: "submit", disabled: _vm.disabled },
+                  on: {
+                    click: function($event) {
+                      return _vm.submit(0)
+                    }
+                  }
+                },
+                [_vm._v("Save Changes")]
+              )
+            ])
+          ],
+          2
+        ),
+        _vm._v(" "),
         _c(
           "main-modal",
           { attrs: { id: "modalEmployment" } },
@@ -43629,7 +44803,11 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "close", attrs: { "data-dismiss": "modal" } },
+                {
+                  staticClass: "close",
+                  attrs: { "data-dismiss": "modal" },
+                  on: { click: _vm.close }
+                },
                 [_vm._v("×")]
               )
             ]),
@@ -43678,7 +44856,17 @@ var render = function() {
                             _vm.$set(_vm.input, "job_role", $event.target.value)
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.job_role
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.job_role) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-row" }, [
@@ -43710,7 +44898,17 @@ var render = function() {
                             )
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.company_name
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.company_name) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-row" }, [
@@ -43738,7 +44936,17 @@ var render = function() {
                             _vm.$set(_vm.input, "location", $event.target.value)
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.location
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.location) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-row" }, [
@@ -43770,7 +44978,17 @@ var render = function() {
                             )
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.project_size
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.project_size) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ])
                   ]),
                   _vm._v(" "),
@@ -43823,7 +45041,17 @@ var render = function() {
                           )
                         }),
                         0
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.start_month
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.start_month) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-col-right" }, [
@@ -43870,7 +45098,17 @@ var render = function() {
                           )
                         }),
                         0
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.start_year
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.start_year) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ])
                   ]),
                   _vm._v(" "),
@@ -43919,7 +45157,17 @@ var render = function() {
                           )
                         }),
                         0
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.end_month
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.end_month) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-col-right" }, [
@@ -43966,7 +45214,17 @@ var render = function() {
                           )
                         }),
                         0
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.end_year
+                        ? _c("span", { staticClass: "err-msg" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.errors.end_year) +
+                                "\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ])
                   ]),
                   _vm._v(" "),
@@ -44027,7 +45285,11 @@ var render = function() {
                 {
                   staticClass: "mt-0",
                   attrs: { type: "submit", disabled: _vm.disabled },
-                  on: { click: _vm.submit }
+                  on: {
+                    click: function($event) {
+                      return _vm.submit(1)
+                    }
+                  }
                 },
                 [_vm._v("Save Changes")]
               )
@@ -44044,7 +45306,7 @@ var render = function() {
               "data-toggle": "modal",
               "data-backdrop": "static",
               "data-keyboard": "false",
-              "data-target": "#modalEmployment"
+              "data-target": "#modalAddEmployment"
             },
             on: { click: _vm.add }
           },
@@ -44211,30 +45473,53 @@ var render = function() {
                             }
                           }),
                           _vm._v(
-                            "\n                        $" +
+                            "\n                        " +
                               _vm._s(employment.project_size) +
                               "\n                    "
                           )
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._m(2, true),
+                      employment.responsibilities.length != 0
+                        ? _c(
+                            "span",
+                            { staticClass: "bl-label-14-style-2 bl-mt13" },
+                            [
+                              _c("img", {
+                                staticClass: "text-icon",
+                                attrs: {
+                                  src: "/img/icons/responsibilities.png",
+                                  srcset:
+                                    "/img/icons/responsibilities@2x.png" +
+                                    " 2x, " +
+                                    "/img/icons/responsibilities@3x.png" +
+                                    " 3x"
+                                }
+                              }),
+                              _vm._v(
+                                "\n                        Responsibilities:\n                    "
+                              )
+                            ]
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c("div", { staticClass: "bl-label-15" }, [
-                        _c(
-                          "ul",
-                          { staticClass: "list-items" },
-                          _vm._l(employment.responsibilities, function(
-                            res,
-                            idx
-                          ) {
-                            return _c("div", { key: idx }, [
-                              _c("li", [_vm._v(_vm._s(res))])
-                            ])
-                          }),
-                          0
-                        )
-                      ])
+                      employment.responsibilities.length != 0
+                        ? _c("div", { staticClass: "bl-label-15" }, [
+                            _c(
+                              "ul",
+                              { staticClass: "list-items" },
+                              _vm._l(employment.responsibilities, function(
+                                res,
+                                idx
+                              ) {
+                                return _c("div", { key: idx }, [
+                                  _c("li", [_vm._v(_vm._s(res))])
+                                ])
+                              }),
+                              0
+                            )
+                          ])
+                        : _vm._e()
                     ]
                   ),
                   _vm._v(" "),
@@ -44283,27 +45568,6 @@ var staticRenderFns = [
       }),
       _vm._v(" "),
       _c("div", { staticClass: "bl-box" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "bl-label-14-style-2 bl-mt13" }, [
-      _c("img", {
-        staticClass: "text-icon",
-        attrs: {
-          src: "/img/icons/responsibilities.png",
-          srcset:
-            "/img/icons/responsibilities@2x.png" +
-            " 2x, " +
-            "/img/icons/responsibilities@3x.png" +
-            " 3x"
-        }
-      }),
-      _vm._v(
-        "\n                        Responsibilities:\n                    "
-      )
     ])
   }
 ]

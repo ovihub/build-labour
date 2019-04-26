@@ -2,6 +2,82 @@
     <div class="profile-item-2">
         <div class="profile-content">
 
+            <main-modal id="modalAddEducation">
+		
+                <template slot="custom-modal-title">
+                    <h4 class="modal-title">Edit Education</h4>
+                    <div class="close" data-dismiss="modal" @click="close">&times;</div>
+                </template>
+
+                <template slot="custom-modal-content">
+                    <form class="modal-form" method="POST" @submit.prevent="submit">
+                        <div class="form-group">
+                            <div class="emp-row">
+                                <div class="modal-form-label">Course</div>
+                                <input class="form-control" type="text" v-model="input_add.course" />
+                                <span class="err-msg" v-if="errors.course">
+                                    {{ errors.course }}
+                                </span>
+                            </div>
+
+                            <div class="emp-row">
+                                <div class="modal-form-label">School</div>
+                                <input class="form-control" type="text" v-model="input_add.school" />
+                                <span class="err-msg" v-if="errors.school">
+                                    {{ errors.school }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="emp-row">
+                            <div class="emp-col-left">
+                                <div class="emp-form-label">Start Month</div>
+                                <select v-model="input_add.start_month">
+                                    <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
+                                </select>
+                                <span class="err-msg" v-if="errors.start_month">
+                                    {{ errors.start_month }}
+                                </span>
+                            </div>
+                            <div class="emp-col-right">
+                                <div class="emp-form-label">Start Year</div>
+                                <select v-model="input_add.start_year">
+                                    <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
+                                </select>
+                                <span class="err-msg" v-if="errors.start_year">
+                                    {{ errors.start_year }}
+                                </span>
+                            </div>
+                        </div>
+                         <div class="emp-row">
+                            <div class="emp-col-left">
+                                <div class="emp-form-label">End Month</div>
+                                <select v-model="input_add.end_month">
+                                    <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
+                                </select>
+                                <span class="err-msg" v-if="errors.end_month">
+                                    {{ errors.end_month }}
+                                </span>
+                            </div>
+                            <div class="emp-col-right">
+                                <div class="emp-form-label">End Year</div>
+                                <select v-model="input_add.end_year">
+                                    <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
+                                </select>
+                                <span class="err-msg" v-if="errors.end_year">
+                                    {{ errors.end_year }}
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </template>
+
+                <template slot="custom-modal-footer">
+                    <button class="mt-0" type="submit" @click="submit(0)" :disabled="disabled">Save Changes</button>
+                </template>
+
+            </main-modal>
+
             <main-modal id="modalEducation">
 		
                 <template slot="custom-modal-title">
@@ -78,7 +154,7 @@
 
             </main-modal>
 
-            <span class="add-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalEducation" @click="add">
+            <span class="add-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalAddEducation" @click="add">
                 <img src="/img/icons/plus.png"
                     srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
             </span>
@@ -127,6 +203,9 @@
                 years: Utils.getYears(),
                 educations: [],
                 current: -1,
+                input_add: {
+                    id: '', course: '', school: '', start_month: '', start_year: '', end_month: '', end_year: '',
+                },
                 input: {
                     id: '', course: '', school: '', start_month: '', start_year: '', end_month: '', end_year: '',
                 },
@@ -166,21 +245,23 @@
                 Utils.setObjectValues(this.errors, '');
             },
 
-            async submit() {
-                let saveEndpoint = this.input.id == '' ? this.endpoints.save : this.endpoints.save + this.input.id;
+            async submit(id) {
+                let saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + this.input.id;
+                let saveInput = id == 0 ? this.$data.input_add : this.$data.input;
                 let component = this;
 
 				Utils.setObjectValues(component.errors, '');
                 component.disabled = true;
                 
-                await axios.post(saveEndpoint, component.$data.input, Utils.getBearerAuth())
+                await axios.post(saveEndpoint, saveInput, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         let data = response.data;
                         
                         $('#modalEducation').modal('hide');
+                        $('#modalAddEducation').modal('hide');
                         
-                        component.input.id == '' ?
+                        id == 0 ?
                             component.educations.push(data.data.education) : 
                             component.educations[component.current] = data.data.education;
                     })
