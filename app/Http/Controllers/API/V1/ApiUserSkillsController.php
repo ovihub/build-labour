@@ -86,14 +86,27 @@ class ApiUserSkillsController extends ApiBaseController
 
         try {
 
-            $skills = $this->userRepo->saveSkills($request);
+            if (!$main_skill = $this->userRepo->saveMainSkill($request)) {
+
+                return $this->apiErrorResponse(
+                    false,
+                    $this->userRepo->workerDetail->getErrors( true ),
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    $this->userRepo->workerDetail->getErrorsDetail()
+                );
+            }
+
+            if (!$skills = $this->userRepo->saveSkills($request)) {
+
+            }
 
         } catch(\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'skills' ), true, 'Successfully updated worker skills', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'skills', 'main_skill' ), true, 'Successfully updated worker skills', self::HTTP_STATUS_REQUEST_OK);
     }
 
 }

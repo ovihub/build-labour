@@ -17,15 +17,26 @@ class WorkerDetail extends BaseModel
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
+    public $isMainSkillUpdate = false;
+
     /**
      * @return array
      */
     private function rules()
     {
+
+        if ($this->isMainSkillUpdate) {
+
+            return [
+                'main_skill' => 'required|min:5'
+            ];
+        }
+
         return [
             'introduction'  => 'nullable|min:5',
-            'english_skill' => 'nullable|min:3',
-            'profile_description' => 'nullable|min:10'
+            'english_skill' => 'required|min:3',
+            'profile_description' => 'nullable|min:10',
+            'drivers_license' => 'required'
         ];
     }
 

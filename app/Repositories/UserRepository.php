@@ -19,6 +19,26 @@ class UserRepository extends AbstractRepository
      */
     protected $model = User::class;
 
+    public $workerDetail = null;
+
+    public function saveMainSkill(Request $request) {
+
+        $user = JWTAuth::toUser();
+
+        if ($user->workerDetail) {
+
+            $this->workerDetail = $user->workerDetail;
+            $user->workerDetail->isMainSkillUpdate = true;
+
+            if (!$user->workerDetail->store($request)) {
+
+                return false;
+            }
+        }
+
+        return $request->main_skill;
+    }
+
     public function saveSkills(Request $request) {
 
         $user = JWTAuth::toUser();
