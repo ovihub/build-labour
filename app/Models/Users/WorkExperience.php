@@ -25,6 +25,9 @@ class WorkExperience extends BaseModel
         'start_month', 'start_year', 'end_month', 'end_year', 'isCurrent'
     ];
 
+    protected $appends = ['responsibilities'];
+
+    protected $hidden = ['ResponsibilitiesDetail'];
     /**
      * @return array
      */
@@ -81,9 +84,21 @@ class WorkExperience extends BaseModel
         return $this->belongsTo( Company::class, 'company_id', 'id');
     }
 
-    public function Responsibilities() {
+    public function ResponsibilitiesDetail() {
 
         return $this->hasMany(WorkExperienceResponsibility::class, 'work_experience_id', 'id');
+    }
+
+    public function getResponsibilitiesAttribute() {
+
+        $responsibilities = [];
+
+        foreach ($this->responsibilitiesDetail as $r) {
+
+            $responsibilities[] = $r->responsibility;
+        }
+
+        return $responsibilities;
     }
 
     public function store(Request $r) {
