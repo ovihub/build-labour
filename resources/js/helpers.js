@@ -121,10 +121,10 @@ window.Helper = {
         },
 
         getYears() {
-            let currentYear = new Date().getFullYear(), years = [], startYear = 1980;
+            let startYear = new Date().getFullYear(), years = [], endYear = 1980;
 
-            while ( startYear <= currentYear ) {
-                years.push(startYear++);
+            while ( startYear >= endYear ) {
+                years.push(startYear--);
             }
 
             return years;

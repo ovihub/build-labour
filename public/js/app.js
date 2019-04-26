@@ -60972,12 +60972,12 @@ window.Helper = {
       return months;
     },
     getYears: function getYears() {
-      var currentYear = new Date().getFullYear(),
+      var startYear = new Date().getFullYear(),
           years = [],
-          startYear = 1980;
+          endYear = 1980;
 
-      while (startYear <= currentYear) {
-        years.push(startYear++);
+      while (startYear >= endYear) {
+        years.push(startYear--);
       }
 
       return years;
