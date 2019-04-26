@@ -22,10 +22,8 @@ class WorkExperience extends BaseModel
 
     protected $fillable = [
         'job_role', 'company_name', 'location', 'project_size', 'user_id', 'company_id',
-        'start_month', 'start_year', 'end_month', 'end_year',
+        'start_month', 'start_year', 'end_month', 'end_year', 'isCurrent'
     ];
-
-    protected $appends = ["isCurrent"];
 
     /**
      * @return array
@@ -88,11 +86,6 @@ class WorkExperience extends BaseModel
         return $this->hasMany(WorkExperienceResponsibility::class, 'work_experience_id', 'id');
     }
 
-    public function getIsCurrentAttribute() {
-
-        return !$this->end_year ? true : false;
-    }
-
     public function store(Request $r) {
 
         $data = $r->all();
@@ -117,6 +110,10 @@ class WorkExperience extends BaseModel
             return false;
         }
 
+        if (isset($data['isCurrent']) && $data['isCurrent']) {
+
+            $this->isCurrent = true;
+        }
 
         $this->fill( $data );
 
