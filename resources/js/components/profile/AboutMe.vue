@@ -113,7 +113,7 @@
             return {
                 disabled: false,
                 input: {
-                    gender: null, date_of_birth: null, marital_status: null, english_skill: null, drivers_license: null
+                    gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: ''
                 },
                 errors: {
                     gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: ''
