@@ -159,7 +159,7 @@ class UsersTableSeeder extends Seeder
                 'introduction' => 'My ideal next role would be as a qualified plumber working on high-end residential jobs with an awesome team. ',
                 'when' => 5,
                 'max_distance' => 100,
-                'state' => 'VIC, NSW, TAS',
+                'state' => 'VIC,NSW,TAS',
                 'nrole_right_to_work_au' => true,
                 'user_id' => $user->id
             ]);

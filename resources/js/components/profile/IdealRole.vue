@@ -78,29 +78,39 @@
                 <div class="profile-title">Your Ideal Next Role</div>        
                 <span class="bl-label-14">(Visible only to you)</span>
                 
-                <span class="profile-intro" v-if="input.introduction">
-                    {{ input.introduction }}
-                </span>
+                <div v-if="input.introduction">
+                    <span class="profile-intro">
+                        {{ input.introduction }}
+                    </span>
+                </div>
 
-                <span class="bl-label-15" v-if="input.when">When</span>
-                <span class="bl-label-14">
-                    {{ formatWhen() }} ({{ formatWhenMonth() }})
-                </span>
+                <div v-if="input.when">
+                    <span class="bl-label-15">When</span>
+                    <span class="bl-label-14" v-if="input.when">
+                        {{ formatWhen() }} ({{ formatWhenMonth() }})
+                    </span>
+                </div>
 
-                <span class="bl-label-15" v-if="input.max_distance">Maximum Distance from home</span>
-                <span class="bl-label-14">
-                    {{ input.max_distance }}km
-                </span>
+                <div v-if="input.max_distance">
+                    <span class="bl-label-15">Maximum Distance from home</span>
+                    <span class="bl-label-14">
+                        {{ input.max_distance }}km
+                    </span>
+                </div>
 
-                <span class="bl-label-15" v-if="input.state">Willing to relocate to</span>
-                <span v-for="(state, index) in selected" :key="index" class="bl-label-14">
-                    {{ state }}
-                </span>
+                <div v-if="input.state">
+                    <span class="bl-label-15">Willing to relocate to</span>
+                    <span v-for="(state, index) in selected" :key="index" class="bl-label-14">
+                        {{ state }}
+                    </span>
+                </div>
 
-                <span class="bl-label-15" v-if="input.right_to_work">Right to Work</span>
-                <span class="bl-label-14">
-                    {{ input.right_to_work }}
-                </span>
+                <div v-if="input.right_to_work">
+                    <span class="bl-label-15">Right to Work</span>
+                    <span class="bl-label-14">
+                        {{ input.right_to_work }}
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -130,7 +140,10 @@
             Bus.$on('idealRoleDetails', function(details) {
                 if (details) {
                     component.input = details;
-                    component.selected = details.state.split(',');
+                    
+                    if (details.state) {
+                        component.selected = details.state.split(',');
+                    }
                 }
             });
         },
