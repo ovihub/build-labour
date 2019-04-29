@@ -28,20 +28,18 @@
                                     <input class="form-control" type="text" placeholder="Enter number of Months" v-model="input.when" />
                                 </div>
                                 <div class="emp-col-right">
-                                    <label>{{ formatWhenMonth() }}</label>
+                                    <label style="margin-bottom:0">{{ formatWhenMonth() }}</label>
                                 </div>
                             </div>
 
                             <div class="skill-label">
                                 Maximum Distance from home
                             </div>
-                            <div class="emp-row row-center">
-                                <div class="emp-col-left">
-                                    <div class="slidecontainer">
-                                        <input type="range" min="0" max="500" step="100" class="slider" v-model="input.max_distance">
-                                    </div>
+                            <div class="emp-row-2 row-center">
+                                <div class="emp-col-left-2">
+                                    <input type="range" min="0" max="500" step="50" class="slider" v-model="input.max_distance">
                                 </div>
-                                <div class="emp-col-right">
+                                <div class="emp-col-right-2">
                                     <label>
                                         {{ input.max_distance }} km
                                     </label>
@@ -50,6 +48,9 @@
 
                             <div class="skill-label">
                                 Would you work/relocate to another state? If Yes, tick states that apply.
+                            </div>
+                            <div class="skill-label-2">
+                                Relocation may be at own expense.
                             </div>
 
                             <div class="bl-inline" v-for="(state, index) in states" :key="index">
@@ -60,6 +61,17 @@
 
                             <div class="skill-label">
                                 I have the right to work in Australia
+                            </div>
+                            <div class="skill-label-3">
+                                See legal requirements
+                            </div>
+                            <div class="bl-inline">
+                                <input class="styled-checkbox-round" id="styled-checkbox-yes" type="checkbox"
+                                    v-model="input.nrole_right_to_work_au" />
+                                <label for="styled-checkbox-yes">Yes</label>
+                                <input class="styled-checkbox-round" id="styled-checkbox-no" type="checkbox"
+                                    v-model="selected" />
+                                <label for="styled-checkbox-no">No</label>
                             </div>
                         </form>
                     </template>

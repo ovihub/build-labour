@@ -4104,6 +4104,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -45971,7 +45983,9 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "emp-col-right" }, [
-                        _c("label", [_vm._v(_vm._s(_vm.formatWhenMonth()))])
+                        _c("label", { staticStyle: { "margin-bottom": "0" } }, [
+                          _vm._v(_vm._s(_vm.formatWhenMonth()))
+                        ])
                       ])
                     ]),
                     _vm._v(" "),
@@ -45981,40 +45995,38 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "emp-row row-center" }, [
-                      _c("div", { staticClass: "emp-col-left" }, [
-                        _c("div", { staticClass: "slidecontainer" }, [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.input.max_distance,
-                                expression: "input.max_distance"
-                              }
-                            ],
-                            staticClass: "slider",
-                            attrs: {
-                              type: "range",
-                              min: "0",
-                              max: "500",
-                              step: "100"
-                            },
-                            domProps: { value: _vm.input.max_distance },
-                            on: {
-                              __r: function($event) {
-                                return _vm.$set(
-                                  _vm.input,
-                                  "max_distance",
-                                  $event.target.value
-                                )
-                              }
+                    _c("div", { staticClass: "emp-row-2 row-center" }, [
+                      _c("div", { staticClass: "emp-col-left-2" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.max_distance,
+                              expression: "input.max_distance"
                             }
-                          })
-                        ])
+                          ],
+                          staticClass: "slider",
+                          attrs: {
+                            type: "range",
+                            min: "0",
+                            max: "500",
+                            step: "50"
+                          },
+                          domProps: { value: _vm.input.max_distance },
+                          on: {
+                            __r: function($event) {
+                              return _vm.$set(
+                                _vm.input,
+                                "max_distance",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "emp-col-right" }, [
+                      _c("div", { staticClass: "emp-col-right-2" }, [
                         _c("label", [
                           _vm._v(
                             "\n                                    " +
@@ -46028,6 +46040,12 @@ var render = function() {
                     _c("div", { staticClass: "skill-label" }, [
                       _vm._v(
                         "\n                            Would you work/relocate to another state? If Yes, tick states that apply.\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "skill-label-2" }, [
+                      _vm._v(
+                        "\n                            Relocation may be at own expense.\n                        "
                       )
                     ]),
                     _vm._v(" "),
@@ -46093,6 +46111,110 @@ var render = function() {
                       _vm._v(
                         "\n                            I have the right to work in Australia\n                        "
                       )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "skill-label-3" }, [
+                      _vm._v(
+                        "\n                            See legal requirements\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "bl-inline" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.nrole_right_to_work_au,
+                            expression: "input.nrole_right_to_work_au"
+                          }
+                        ],
+                        staticClass: "styled-checkbox-round",
+                        attrs: { id: "styled-checkbox-yes", type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(
+                            _vm.input.nrole_right_to_work_au
+                          )
+                            ? _vm._i(_vm.input.nrole_right_to_work_au, null) >
+                              -1
+                            : _vm.input.nrole_right_to_work_au
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.input.nrole_right_to_work_au,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(
+                                    _vm.input,
+                                    "nrole_right_to_work_au",
+                                    $$a.concat([$$v])
+                                  )
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    _vm.input,
+                                    "nrole_right_to_work_au",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
+                            } else {
+                              _vm.$set(_vm.input, "nrole_right_to_work_au", $$c)
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "styled-checkbox-yes" } }, [
+                        _vm._v("Yes")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.selected,
+                            expression: "selected"
+                          }
+                        ],
+                        staticClass: "styled-checkbox-round",
+                        attrs: { id: "styled-checkbox-no", type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(_vm.selected)
+                            ? _vm._i(_vm.selected, null) > -1
+                            : _vm.selected
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.selected,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 && (_vm.selected = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.selected = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.selected = $$c
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "styled-checkbox-no" } }, [
+                        _vm._v("No")
+                      ])
                     ])
                   ],
                   2
@@ -46366,7 +46488,8 @@ var render = function() {
                           "label",
                           {
                             staticClass:
-                              "emp-col-left skill-form-label text-md-right"
+                              "emp-col-left skill-form-label text-md-right",
+                            staticStyle: { "margin-bottom": "0" }
                           },
                           [
                             _vm._v(

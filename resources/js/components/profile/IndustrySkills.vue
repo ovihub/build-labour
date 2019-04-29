@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="emp-row row-center" v-for="skill in user_skills" :key="skill.skill_id">
-                            <label class="emp-col-left skill-form-label text-md-right">
+                            <label class="emp-col-left skill-form-label text-md-right" style="margin-bottom:0">
                                 {{ skill.skill_name }}
                             </label>
 
