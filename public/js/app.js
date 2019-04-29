@@ -3783,6 +3783,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3874,10 +3876,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     add: function add() {
       Utils.setObjectValues(this.input_add, '');
+      this.input_add.responsibilities = [];
+      this.input_add.responsibilities.push('');
     },
     edit: function edit(index) {
       this.current = index;
       this.input = this.employments[index];
+      this.input.responsibilities.push('');
     },
     getPeriod: function getPeriod(emp) {
       return Utils.getPeriod(new Date(emp.start_year, emp.start_month - 1, 1), new Date(emp.end_year, emp.end_month - 1, 1));
@@ -3885,6 +3890,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     textAreaAdjust: function textAreaAdjust(index) {
       var o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
       o.style.height = o.scrollHeight + 'px';
+    },
+    onChangeResponsibilities: function onChangeResponsibilities(flag) {
+      if (flag > 0) {
+        // edit
+        if (this.input.responsibilities.length > 0) {
+          var len = this.input.responsibilities.length > 0 ? this.input.responsibilities.length : 0;
+          console.log(len);
+
+          if (len > 0 && this.input.responsibilities[this.input.responsibilities.length - 1].length > 0) {
+            this.input.responsibilities.push('');
+          }
+        }
+      } else {
+        // new
+        if (this.input_add.responsibilities.length > 0) {
+          var _len = this.input_add.responsibilities.length > 0 ? this.input_add.responsibilities.length : 0;
+
+          console.log(_len);
+
+          if (_len > 0 && this.input_add.responsibilities[this.input_add.responsibilities.length - 1].length > 0) {
+            this.input_add.responsibilities.push('');
+          }
+        }
+      }
     },
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -44829,21 +44858,44 @@ var render = function() {
                     [_vm._v("Responsibilities")]
                   ),
                   _vm._v(" "),
-                  _c("textarea", {
-                    ref: "respItem--1",
-                    staticClass: "form-control",
-                    staticStyle: { overflow: "hidden" },
-                    attrs: {
-                      rows: "1",
-                      placeholder: "Add Another Responsibility"
-                    },
-                    on: {
-                      keyup: function($event) {
-                        return _vm.textAreaAdjust(-1)
+                  _vm._l(_vm.input_add.responsibilities, function(res, idx) {
+                    return _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.input_add.responsibilities[idx],
+                          expression: "input_add.responsibilities[idx]"
+                        }
+                      ],
+                      ref: "respItem--1",
+                      refInFor: true,
+                      staticClass: "form-control",
+                      staticStyle: { overflow: "hidden" },
+                      attrs: {
+                        rows: "1",
+                        placeholder: "Add Another Responsibility"
+                      },
+                      domProps: { value: _vm.input_add.responsibilities[idx] },
+                      on: {
+                        keyup: function($event) {
+                          return _vm.onChangeResponsibilities(0)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.input_add.responsibilities,
+                            idx,
+                            $event.target.value
+                          )
+                        }
                       }
-                    }
+                    })
                   })
-                ]
+                ],
+                2
               )
             ]),
             _vm._v(" "),
@@ -45315,45 +45367,54 @@ var render = function() {
                     [_vm._v("Responsibilities")]
                   ),
                   _vm._v(" "),
-                  _vm._l(_vm.input.responsibilities, function(res, index) {
-                    return _c("div", { key: index }, [
-                      _c(
+                  _c(
+                    "div",
+                    _vm._l(_vm.input.responsibilities, function(res, index) {
+                      return _c(
                         "textarea",
                         {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.responsibilities[index],
+                              expression: "input.responsibilities[index]"
+                            }
+                          ],
+                          key: index,
                           ref: "respItem-" + index,
                           refInFor: true,
                           staticClass: "form-control",
                           staticStyle: { overflow: "hidden" },
+                          attrs: { placeholder: "Add Another Responsibility" },
+                          domProps: {
+                            value: _vm.input.responsibilities[index]
+                          },
                           on: {
                             focus: function($event) {
                               return _vm.textAreaAdjust(index)
                             },
                             keyup: function($event) {
-                              return _vm.textAreaAdjust(index)
+                              return _vm.onChangeResponsibilities(1)
+                            },
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.input.responsibilities,
+                                index,
+                                $event.target.value
+                              )
                             }
                           }
                         },
                         [_vm._v(_vm._s(res))]
                       )
-                    ])
-                  }),
-                  _vm._v(" "),
-                  _c("textarea", {
-                    ref: "respItem--1",
-                    staticClass: "form-control",
-                    staticStyle: { overflow: "hidden" },
-                    attrs: {
-                      rows: "1",
-                      placeholder: "Add Another Responsibility"
-                    },
-                    on: {
-                      keyup: function($event) {
-                        return _vm.textAreaAdjust(-1)
-                      }
-                    }
-                  })
-                ],
-                2
+                    }),
+                    0
+                  )
+                ]
               )
             ]),
             _vm._v(" "),
