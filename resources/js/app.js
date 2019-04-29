@@ -61,6 +61,7 @@ Vue.component('ideal-role', require('./components/profile/IdealRole.vue').defaul
 Vue.component('employment', require('./components/profile/Employment.vue').default);
 Vue.component('industry-skills', require('./components/profile/IndustrySkills.vue').default);
 Vue.component('education', require('./components/profile/Education.vue').default);
+Vue.component('education-modal', require('./components/profile/EducationModal.vue').default);
 Vue.component('tickets', require('./components/profile/Tickets.vue').default);
 Vue.component('ads', require('./components/profile/Ads.vue').default);
 Vue.component('job-ads', require('./components/profile/JobAds.vue').default);
