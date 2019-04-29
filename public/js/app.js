@@ -3899,25 +3899,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onChangeResponsibilities: function onChangeResponsibilities(flag) {
       if (flag > 0) {
         // edit
-        if (this.input.responsibilities.length > 0) {
-          var len = this.input.responsibilities.length > 0 ? this.input.responsibilities.length : 0;
-          console.log(len);
-
-          if (len > 0 && this.input.responsibilities[this.input.responsibilities.length - 1].length > 0) {
-            this.input.responsibilities.push('');
-          }
-        }
+        this.input.responsibilities = this.input.responsibilities.filter(function (r) {
+          return r !== '';
+        });
+        this.input.responsibilities.push('');
       } else {
-        // new
-        if (this.input_add.responsibilities.length > 0) {
-          var _len = this.input_add.responsibilities.length > 0 ? this.input_add.responsibilities.length : 0;
-
-          console.log(_len);
-
-          if (_len > 0 && this.input_add.responsibilities[this.input_add.responsibilities.length - 1].length > 0) {
-            this.input_add.responsibilities.push('');
-          }
-        }
+        this.input_add.responsibilities = this.input_add.responsibilities.filter(function (r) {
+          return r !== '';
+        });
+        this.input_add.responsibilities.push(''); // new
       }
     },
     submit: function () {
