@@ -40,7 +40,7 @@
 
                             <div class="emp-row">
                                 <div class="modal-form-label">Size of the Project</div>
-                                <input class="form-control" type="text" placeholder="e.g. $1,000.00 | $1,000,000 | $100000 | 10,000.00" v-model="input_add.project_size"/>
+                                <input class="form-control" type="text" placeholder="e.g. $1,000,000" v-model="input_add.project_size"/>
                                 <span class="err-msg" v-if="errors.project_size">
                                     {{ errors.project_size }}
                                 </span>
@@ -94,8 +94,9 @@
                         <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
                         <textarea rows="1" :ref="'respItem-' + idx"  class="form-control" style="overflow:hidden"
                                 placeholder="Add Another Responsibility"
-                                @keyup="onChangeResponsibilities(0, idx)"
                                 v-for="(res, idx) in input_add.responsibilities"
+                                v-bind:key="idx"
+                                @keyup="onChangeResponsibilities(0, idx)"
                                 v-model="input_add.responsibilities[idx]"
                         ></textarea>
                     </form>
@@ -145,7 +146,7 @@
 
                             <div class="emp-row">
                                 <div class="modal-form-label">Size of the Project</div>
-                                <input class="form-control" type="text" placeholder="e.g. $1,000.00 | $1,000,000 | $100000 | 10,000.21" v-model="input.project_size"/>
+                                <input class="form-control" type="text" placeholder="e.g. $1,000,000" v-model="input.project_size"/>
                                 <span class="err-msg" v-if="errors.project_size">
                                     {{ errors.project_size }}
                                 </span>
@@ -370,11 +371,9 @@
 
                 this.input_add.responsibilities = [];
                 this.input_add.responsibilities.push('');
-
             },
 
             edit(index) {
-
                 this.current = index;
                 this.input = this.employments[index];
 
@@ -392,25 +391,18 @@
             },
 
             onChangeResponsibilities(flag, index) {
-
-                let o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
-                o.style.height = (o.scrollHeight) + 'px';
+                this.textAreaAdjust(index);
 
                 if (flag > 0) {
-
-                    // edit
                     this.input.responsibilities = this.input.responsibilities.filter(r => r!=='');
                     this.input.responsibilities.push('');
 
                 } else {
-
-                    // new
                     this.input_add.responsibilities = this.input_add.responsibilities.filter(r => r!=='');
                     this.input_add.responsibilities.push('');
-
                 }
-
             },
+
             async submit(id) {
 
                 let saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.input.id;

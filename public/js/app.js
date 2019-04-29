@@ -3790,6 +3790,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3896,9 +3897,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
       o.style.height = o.scrollHeight + 'px';
     },
-    onChangeResponsibilities: function onChangeResponsibilities(flag) {
+    onChangeResponsibilities: function onChangeResponsibilities(flag, index) {
+      this.textAreaAdjust(index);
+
       if (flag > 0) {
-        // edit
         this.input.responsibilities = this.input.responsibilities.filter(function (r) {
           return r !== '';
         });
@@ -3907,7 +3909,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.input_add.responsibilities = this.input_add.responsibilities.filter(function (r) {
           return r !== '';
         });
-        this.input_add.responsibilities.push(''); // new
+        this.input_add.responsibilities.push('');
       }
     },
     submit: function () {
@@ -44601,11 +44603,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          placeholder:
-                            "e.g. $1,000.00 | $1,000,000 | $100000 | 10,000.00"
-                        },
+                        attrs: { type: "text", placeholder: "e.g. $1,000,000" },
                         domProps: { value: _vm.input_add.project_size },
                         on: {
                           input: function($event) {
@@ -44947,7 +44945,8 @@ var render = function() {
                           expression: "input_add.responsibilities[idx]"
                         }
                       ],
-                      ref: "respItem--1",
+                      key: idx,
+                      ref: "respItem-" + idx,
                       refInFor: true,
                       staticClass: "form-control",
                       staticStyle: { overflow: "hidden" },
@@ -44958,7 +44957,7 @@ var render = function() {
                       domProps: { value: _vm.input_add.responsibilities[idx] },
                       on: {
                         keyup: function($event) {
-                          return _vm.onChangeResponsibilities(0)
+                          return _vm.onChangeResponsibilities(0, idx)
                         },
                         input: function($event) {
                           if ($event.target.composing) {
@@ -45169,11 +45168,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          placeholder:
-                            "e.g. $1,000.00 | $1,000,000 | $100000 | 10,000.21"
-                        },
+                        attrs: { type: "text", placeholder: "e.g. $1,000,000" },
                         domProps: { value: _vm.input.project_size },
                         on: {
                           input: function($event) {
@@ -45537,7 +45532,7 @@ var render = function() {
                                 return _vm.textAreaAdjust(index)
                               },
                               keyup: function($event) {
-                                return _vm.onChangeResponsibilities(1)
+                                return _vm.onChangeResponsibilities(1, index)
                               },
                               input: function($event) {
                                 if ($event.target.composing) {
