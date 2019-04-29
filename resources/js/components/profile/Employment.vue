@@ -92,9 +92,9 @@
                             <div class="emp-label" style="margin-bottom:17px"><input type="checkbox" v-model="input_add.isCurrent"> Currently in this Role</div>
                         </div>
                         <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
-                        <textarea rows="1" ref="respItem--1" class="form-control" style="overflow:hidden"
+                        <textarea rows="1" :ref="'respItem-' + idx"  class="form-control" style="overflow:hidden"
                                 placeholder="Add Another Responsibility"
-                                @keyup="onChangeResponsibilities(0)"
+                                @keyup="onChangeResponsibilities(0, idx)"
                                 v-for="(res, idx) in input_add.responsibilities"
                                 v-model="input_add.responsibilities[idx]"
                         ></textarea>
@@ -200,7 +200,7 @@
                             <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
 
                             <textarea :ref="'respItem-' + index" class="form-control" style="overflow:hidden"
-                                      @focus="textAreaAdjust(index)" @keyup="onChangeResponsibilities(1)"
+                                      @focus="textAreaAdjust(index)" @keyup="onChangeResponsibilities(1, index  )"
                                       v-for="(res, index) in input.responsibilities" v-bind:key="index"
                                       v-model="input.responsibilities[index]"
                                       placeholder="Add Another Responsibility"
@@ -391,23 +391,23 @@
                 o.style.height = (o.scrollHeight) + 'px';
             },
 
-            onChangeResponsibilities(flag) {
+            onChangeResponsibilities(flag, index) {
 
+                let o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
+                o.style.height = (o.scrollHeight) + 'px';
 
                 if (flag > 0) {
 
                     // edit
-
                     this.input.responsibilities = this.input.responsibilities.filter(r => r!=='');
-
                     this.input.responsibilities.push('');
 
                 } else {
 
-                    this.input_add.responsibilities = this.input_add.responsibilities.filter(r => r!=='');
-
-                    this.input_add.responsibilities.push('');
                     // new
+                    this.input_add.responsibilities = this.input_add.responsibilities.filter(r => r!=='');
+                    this.input_add.responsibilities.push('');
+
                 }
 
             },
