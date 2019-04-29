@@ -67,10 +67,13 @@
                             </div>
                             <div class="bl-inline">
                                 <input class="styled-checkbox-round" id="styled-checkbox-yes" type="checkbox"
-                                    v-model="input.nrole_right_to_work_au" />
+                                    ref="styled-checkbox-1"
+                                    @change="formatRightToWork(1)" />
                                 <label for="styled-checkbox-yes">Yes</label>
+                                
                                 <input class="styled-checkbox-round" id="styled-checkbox-no" type="checkbox"
-                                    v-model="selected" />
+                                    ref="styled-checkbox-0"
+                                    @change="formatRightToWork(0)" />
                                 <label for="styled-checkbox-no">No</label>
                             </div>
                         </form>
@@ -143,7 +146,8 @@
                     'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
                 ],
                 input: { 
-                    introduction: '', when: '', max_distance: '', state: '', right_to_work: '', selected: [],
+                    introduction: '', when: '', max_distance: '', state: '', right_to_work: '', 
+                    nrole_right_to_work_au: '', selected: [],
                 },
                 endpoints: {
                     save: '/api/v1/worker/next-role',
@@ -171,6 +175,9 @@
                 val.state = details.state;
                 val.selected = val.state ? val.state.split(',') : [];
                 val.right_to_work = details.right_to_work;
+                val.nrole_right_to_work_au = details.nrole_right_to_work_au;
+                
+                this.formatRightToWork(details.nrole_right_to_work_au);
             },
 
             formatWhen(m) {
@@ -180,9 +187,24 @@
             formatWhenMonth(m) {
                 if (m && m != '') {
                     let d = new Date();
-                    d.setMonth(d.getMonth() + m);
+                    d.setMonth(d.getMonth() + parseInt(m));
 
                     return Utils.getMonth(d.getMonth()) + ' ' + d.getFullYear();
+                }
+            },
+
+            formatRightToWork(index) {
+                if (index == 1) {
+                    this.$refs['styled-checkbox-1'].checked = true;
+                    this.$refs['styled-checkbox-0'].checked = false;
+                    this.input.nrole_right_to_work_au = 1;
+                    this.input.right_to_work = 'Yes, I have right to work in Australia';
+
+                } else {
+                    this.$refs['styled-checkbox-1'].checked = false;
+                    this.$refs['styled-checkbox-0'].checked = true;
+                    this.input.nrole_right_to_work_au = 0;
+                    this.input.right_to_work = 'No, I don\'t have right to work in Australia';
                 }
             },
 
@@ -193,6 +215,7 @@
                 this.input.state = this.state;
                 this.input.selected = this.state ? this.state.split(',') : [];
                 this.input.right_to_work = this.right_to_work;
+                this.input.nrole_right_to_work_au = this.nrole_right_to_work_au;
             },
             
             textAreaAdjust() {

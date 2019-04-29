@@ -4088,6 +4088,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4105,6 +4108,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         max_distance: '',
         state: '',
         right_to_work: '',
+        nrole_right_to_work_au: '',
         selected: []
       },
       endpoints: {
@@ -4129,6 +4133,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       val.state = details.state;
       val.selected = val.state ? val.state.split(',') : [];
       val.right_to_work = details.right_to_work;
+      val.nrole_right_to_work_au = details.nrole_right_to_work_au;
+      this.formatRightToWork(details.nrole_right_to_work_au);
     },
     formatWhen: function formatWhen(m) {
       return m == 1 ? 'In 1 month' : 'In ' + m + ' months';
@@ -4136,8 +4142,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     formatWhenMonth: function formatWhenMonth(m) {
       if (m && m != '') {
         var d = new Date();
-        d.setMonth(d.getMonth() + m);
+        d.setMonth(d.getMonth() + parseInt(m));
         return Utils.getMonth(d.getMonth()) + ' ' + d.getFullYear();
+      }
+    },
+    formatRightToWork: function formatRightToWork(index) {
+      if (index == 1) {
+        this.$refs['styled-checkbox-1'].checked = true;
+        this.$refs['styled-checkbox-0'].checked = false;
+        this.input.nrole_right_to_work_au = 1;
+        this.input.right_to_work = 'Yes, I have right to work in Australia';
+      } else {
+        this.$refs['styled-checkbox-1'].checked = false;
+        this.$refs['styled-checkbox-0'].checked = true;
+        this.input.nrole_right_to_work_au = 0;
+        this.input.right_to_work = 'No, I don\'t have right to work in Australia';
       }
     },
     close: function close() {
@@ -4147,6 +4166,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.input.state = this.state;
       this.input.selected = this.state ? this.state.split(',') : [];
       this.input.right_to_work = this.right_to_work;
+      this.input.nrole_right_to_work_au = this.nrole_right_to_work_au;
     },
     textAreaAdjust: function textAreaAdjust() {
       var o = this.$refs['idealIntro'];
@@ -45765,50 +45785,12 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "bl-inline" }, [
                       _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.input.nrole_right_to_work_au,
-                            expression: "input.nrole_right_to_work_au"
-                          }
-                        ],
+                        ref: "styled-checkbox-1",
                         staticClass: "styled-checkbox-round",
                         attrs: { id: "styled-checkbox-yes", type: "checkbox" },
-                        domProps: {
-                          checked: Array.isArray(
-                            _vm.input.nrole_right_to_work_au
-                          )
-                            ? _vm._i(_vm.input.nrole_right_to_work_au, null) >
-                              -1
-                            : _vm.input.nrole_right_to_work_au
-                        },
                         on: {
                           change: function($event) {
-                            var $$a = _vm.input.nrole_right_to_work_au,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = null,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 &&
-                                  _vm.$set(
-                                    _vm.input,
-                                    "nrole_right_to_work_au",
-                                    $$a.concat([$$v])
-                                  )
-                              } else {
-                                $$i > -1 &&
-                                  _vm.$set(
-                                    _vm.input,
-                                    "nrole_right_to_work_au",
-                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                  )
-                              }
-                            } else {
-                              _vm.$set(_vm.input, "nrole_right_to_work_au", $$c)
-                            }
+                            return _vm.formatRightToWork(1)
                           }
                         }
                       }),
@@ -45818,40 +45800,12 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.selected,
-                            expression: "selected"
-                          }
-                        ],
+                        ref: "styled-checkbox-0",
                         staticClass: "styled-checkbox-round",
                         attrs: { id: "styled-checkbox-no", type: "checkbox" },
-                        domProps: {
-                          checked: Array.isArray(_vm.selected)
-                            ? _vm._i(_vm.selected, null) > -1
-                            : _vm.selected
-                        },
                         on: {
                           change: function($event) {
-                            var $$a = _vm.selected,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = null,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 && (_vm.selected = $$a.concat([$$v]))
-                              } else {
-                                $$i > -1 &&
-                                  (_vm.selected = $$a
-                                    .slice(0, $$i)
-                                    .concat($$a.slice($$i + 1)))
-                              }
-                            } else {
-                              _vm.selected = $$c
-                            }
+                            return _vm.formatRightToWork(0)
                           }
                         }
                       }),
