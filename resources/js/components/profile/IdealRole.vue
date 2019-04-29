@@ -28,9 +28,7 @@
                                     <input class="form-control" type="text" placeholder="Enter number of Months" v-model="input.when" />
                                 </div>
                                 <div class="emp-col-right">
-                                    <label>
-                                        {{ formatWhenMonth() }}
-                                    </label>
+                                    <label>{{ formatWhenMonth() }}</label>
                                 </div>
                             </div>
 
@@ -40,12 +38,12 @@
                             <div class="emp-row row-center">
                                 <div class="emp-col-left">
                                     <div class="slidecontainer">
-                                        <input type="range" min="1" max="500" value="50" class="slider" id="myRange">
+                                        <input type="range" min="0" max="500" step="100" class="slider" v-model="input.max_distance">
                                     </div>
                                 </div>
                                 <div class="emp-col-right">
                                     <label>
-                                        500 km
+                                        {{ input.max_distance }} km
                                     </label>
                                 </div>
                             </div>
@@ -54,9 +52,10 @@
                                 Would you work/relocate to another state? If Yes, tick states that apply.
                             </div>
 
-                            <div v-for="(state, index) in states" :key="index">
-                                <input type="checkbox" id="myCheck" />
-                                {{ state }}
+                            <div class="bl-inline" v-for="(state, index) in states" :key="index">
+                                <input class="styled-checkbox" :id="'styled-checkbox-'+index" type="checkbox"
+                                    v-bind:value="state" v-model="selected" />
+                                <label :for="'styled-checkbox-'+index">{{ state }}</label>
                             </div>
 
                             <div class="skill-label">
@@ -94,8 +93,8 @@
                 </span>
 
                 <span class="bl-label-15" v-if="input.state">Willing to relocate to</span>
-                <span class="bl-label-14">
-                    {{ input.state }}
+                <span v-for="(state, index) in selected" :key="index" class="bl-label-14">
+                    {{ state }}
                 </span>
 
                 <span class="bl-label-15" v-if="input.right_to_work">Right to Work</span>
@@ -112,12 +111,16 @@
         data() {
             return {
                 disabled: false,
+                selected: [],
                 states: [
                     'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
                 ],
                 input: { 
                     introduction: '', when: '', max_distance: '', state: '', right_to_work: '',
-                }
+                },
+                endpoints: {
+                    save: '/api/v1/worker/next-role',
+                },
             }
         },
 
@@ -127,6 +130,7 @@
             Bus.$on('idealRoleDetails', function(details) {
                 if (details) {
                     component.input = details;
+                    component.selected = details.state.split(',');
                 }
             });
         },
@@ -134,9 +138,7 @@
         methods: {
 
             formatWhen() {
-                let m = this.input.when;
-                
-                return (m == 1) ? 'In 1 month' : 'In ' + m + ' months';
+                return (this.input.when == 1) ? 'In 1 month' : 'In ' + this.input.when + ' months';
             },
 
             formatWhenMonth() {
@@ -157,8 +159,33 @@
                 o.style.height = (o.scrollHeight) + 'px';
             },
 
-            submit() {
+            async submit(id) {
+                let component = this;
 
+                component.disabled = true;
+                component.input.state = component.selected.toString();
+                
+                await axios.post(this.endpoints.save, this.input, Utils.getBearerAuth())
+                    
+                    .then(function(response) {
+                        let data = response.data;
+                        
+                        $('#modalIdealRole').modal('hide');
+                    })
+                    .catch(function(error) {
+                        console.log(error)
+                        // if (error.response) {
+                        //     let data = error.response.data;
+
+						// 	for (let key in data.errors) {
+						// 		component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                        //     }
+                        // }
+
+                        // Utils.handleError(error);
+                    });
+                
+                component.disabled = false;
             },
         }
     }

@@ -3783,6 +3783,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3874,10 +3876,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     add: function add() {
       Utils.setObjectValues(this.input_add, '');
+      this.input_add.responsibilities = [];
+      this.input_add.responsibilities.push('');
     },
     edit: function edit(index) {
       this.current = index;
       this.input = this.employments[index];
+      this.input.responsibilities.push('');
     },
     getPeriod: function getPeriod(emp) {
       return Utils.getPeriod(new Date(emp.start_year, emp.start_month - 1, 1), new Date(emp.end_year, emp.end_month - 1, 1));
@@ -3885,6 +3890,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     textAreaAdjust: function textAreaAdjust(index) {
       var o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
       o.style.height = o.scrollHeight + 'px';
+    },
+    onChangeResponsibilities: function onChangeResponsibilities(flag) {
+      if (flag > 0) {
+        // edit
+        if (this.input.responsibilities.length > 0) {
+          var len = this.input.responsibilities.length > 0 ? this.input.responsibilities.length : 0;
+          console.log(len);
+
+          if (len > 0 && this.input.responsibilities[this.input.responsibilities.length - 1].length > 0) {
+            this.input.responsibilities.push('');
+          }
+        }
+      } else {
+        // new
+        if (this.input_add.responsibilities.length > 0) {
+          var _len = this.input_add.responsibilities.length > 0 ? this.input_add.responsibilities.length : 0;
+
+          console.log(_len);
+
+          if (_len > 0 && this.input_add.responsibilities[this.input_add.responsibilities.length - 1].length > 0) {
+            this.input_add.responsibilities.push('');
+          }
+        }
+      }
     },
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -3954,7 +3983,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -4067,6 +4103,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       disabled: false,
+      selected: [],
       states: ['QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT'],
       input: {
         introduction: '',
@@ -4074,6 +4111,9 @@ __webpack_require__.r(__webpack_exports__);
         max_distance: '',
         state: '',
         right_to_work: ''
+      },
+      endpoints: {
+        save: '/api/v1/worker/next-role'
       }
     };
   },
@@ -4082,13 +4122,13 @@ __webpack_require__.r(__webpack_exports__);
     Bus.$on('idealRoleDetails', function (details) {
       if (details) {
         component.input = details;
+        component.selected = details.state.split(',');
       }
     });
   },
   methods: {
     formatWhen: function formatWhen() {
-      var m = this.input.when;
-      return m == 1 ? 'In 1 month' : 'In ' + m + ' months';
+      return this.input.when == 1 ? 'In 1 month' : 'In ' + this.input.when + ' months';
     },
     formatWhenMonth: function formatWhenMonth() {
       var m = this.input.when;
@@ -4101,7 +4141,49 @@ __webpack_require__.r(__webpack_exports__);
       var o = this.$refs['idealIntro'];
       o.style.height = o.scrollHeight + 'px';
     },
-    submit: function submit() {}
+    submit: function () {
+      var _submit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(id) {
+        var component;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                component = this;
+                component.disabled = true;
+                component.input.state = component.selected.toString();
+                _context.next = 5;
+                return axios.post(this.endpoints.save, this.input, Utils.getBearerAuth()).then(function (response) {
+                  var data = response.data;
+                  $('#modalIdealRole').modal('hide');
+                }).catch(function (error) {
+                  console.log(error); // if (error.response) {
+                  //     let data = error.response.data;
+                  // 	for (let key in data.errors) {
+                  // 		component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                  //     }
+                  // }
+                  // Utils.handleError(error);
+                });
+
+              case 5:
+                component.disabled = false;
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function submit(_x) {
+        return _submit.apply(this, arguments);
+      }
+
+      return submit;
+    }()
   }
 });
 
@@ -44776,21 +44858,44 @@ var render = function() {
                     [_vm._v("Responsibilities")]
                   ),
                   _vm._v(" "),
-                  _c("textarea", {
-                    ref: "respItem--1",
-                    staticClass: "form-control",
-                    staticStyle: { overflow: "hidden" },
-                    attrs: {
-                      rows: "1",
-                      placeholder: "Add Another Responsibility"
-                    },
-                    on: {
-                      keyup: function($event) {
-                        return _vm.textAreaAdjust(-1)
+                  _vm._l(_vm.input_add.responsibilities, function(res, idx) {
+                    return _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.input_add.responsibilities[idx],
+                          expression: "input_add.responsibilities[idx]"
+                        }
+                      ],
+                      ref: "respItem--1",
+                      refInFor: true,
+                      staticClass: "form-control",
+                      staticStyle: { overflow: "hidden" },
+                      attrs: {
+                        rows: "1",
+                        placeholder: "Add Another Responsibility"
+                      },
+                      domProps: { value: _vm.input_add.responsibilities[idx] },
+                      on: {
+                        keyup: function($event) {
+                          return _vm.onChangeResponsibilities(0)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.input_add.responsibilities,
+                            idx,
+                            $event.target.value
+                          )
+                        }
                       }
-                    }
+                    })
                   })
-                ]
+                ],
+                2
               )
             ]),
             _vm._v(" "),
@@ -45262,45 +45367,54 @@ var render = function() {
                     [_vm._v("Responsibilities")]
                   ),
                   _vm._v(" "),
-                  _vm._l(_vm.input.responsibilities, function(res, index) {
-                    return _c("div", { key: index }, [
-                      _c(
+                  _c(
+                    "div",
+                    _vm._l(_vm.input.responsibilities, function(res, index) {
+                      return _c(
                         "textarea",
                         {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.responsibilities[index],
+                              expression: "input.responsibilities[index]"
+                            }
+                          ],
+                          key: index,
                           ref: "respItem-" + index,
                           refInFor: true,
                           staticClass: "form-control",
                           staticStyle: { overflow: "hidden" },
+                          attrs: { placeholder: "Add Another Responsibility" },
+                          domProps: {
+                            value: _vm.input.responsibilities[index]
+                          },
                           on: {
                             focus: function($event) {
                               return _vm.textAreaAdjust(index)
                             },
                             keyup: function($event) {
-                              return _vm.textAreaAdjust(index)
+                              return _vm.onChangeResponsibilities(1)
+                            },
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.input.responsibilities,
+                                index,
+                                $event.target.value
+                              )
                             }
                           }
                         },
                         [_vm._v(_vm._s(res))]
                       )
-                    ])
-                  }),
-                  _vm._v(" "),
-                  _c("textarea", {
-                    ref: "respItem--1",
-                    staticClass: "form-control",
-                    staticStyle: { overflow: "hidden" },
-                    attrs: {
-                      rows: "1",
-                      placeholder: "Add Another Responsibility"
-                    },
-                    on: {
-                      keyup: function($event) {
-                        return _vm.textAreaAdjust(-1)
-                      }
-                    }
-                  })
-                ],
-                2
+                    }),
+                    0
+                  )
+                ]
               )
             ]),
             _vm._v(" "),
@@ -45726,13 +45840,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "emp-col-right" }, [
-                        _c("label", [
-                          _vm._v(
-                            "\n                                    " +
-                              _vm._s(_vm.formatWhenMonth()) +
-                              "\n                                "
-                          )
-                        ])
+                        _c("label", [_vm._v(_vm._s(_vm.formatWhenMonth()))])
                       ])
                     ]),
                     _vm._v(" "),
@@ -45746,13 +45854,30 @@ var render = function() {
                       _c("div", { staticClass: "emp-col-left" }, [
                         _c("div", { staticClass: "slidecontainer" }, [
                           _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.input.max_distance,
+                                expression: "input.max_distance"
+                              }
+                            ],
                             staticClass: "slider",
                             attrs: {
                               type: "range",
-                              min: "1",
+                              min: "0",
                               max: "500",
-                              value: "50",
-                              id: "myRange"
+                              step: "100"
+                            },
+                            domProps: { value: _vm.input.max_distance },
+                            on: {
+                              __r: function($event) {
+                                return _vm.$set(
+                                  _vm.input,
+                                  "max_distance",
+                                  $event.target.value
+                                )
+                              }
                             }
                           })
                         ])
@@ -45761,7 +45886,9 @@ var render = function() {
                       _c("div", { staticClass: "emp-col-right" }, [
                         _c("label", [
                           _vm._v(
-                            "\n                                    500 km\n                                "
+                            "\n                                    " +
+                              _vm._s(_vm.input.max_distance) +
+                              " km\n                                "
                           )
                         ])
                       ])
@@ -45774,16 +45901,61 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _vm._l(_vm.states, function(state, index) {
-                      return _c("div", { key: index }, [
-                        _c("input", {
-                          attrs: { type: "checkbox", id: "myCheck" }
-                        }),
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(state) +
-                            "\n                        "
-                        )
-                      ])
+                      return _c(
+                        "div",
+                        { key: index, staticClass: "bl-inline" },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selected,
+                                expression: "selected"
+                              }
+                            ],
+                            staticClass: "styled-checkbox",
+                            attrs: {
+                              id: "styled-checkbox-" + index,
+                              type: "checkbox"
+                            },
+                            domProps: {
+                              value: state,
+                              checked: Array.isArray(_vm.selected)
+                                ? _vm._i(_vm.selected, state) > -1
+                                : _vm.selected
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$a = _vm.selected,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = state,
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      (_vm.selected = $$a.concat([$$v]))
+                                  } else {
+                                    $$i > -1 &&
+                                      (_vm.selected = $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1)))
+                                  }
+                                } else {
+                                  _vm.selected = $$c
+                                }
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            { attrs: { for: "styled-checkbox-" + index } },
+                            [_vm._v(_vm._s(state))]
+                          )
+                        ]
+                      )
                     }),
                     _vm._v(" "),
                     _c("div", { staticClass: "skill-label" }, [
@@ -45865,11 +46037,11 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _c("span", { staticClass: "bl-label-14" }, [
-            _vm._v(
-              "\n                " + _vm._s(_vm.input.state) + "\n            "
-            )
-          ]),
+          _vm._l(_vm.selected, function(state, index) {
+            return _c("span", { key: index, staticClass: "bl-label-14" }, [
+              _vm._v("\n                " + _vm._s(state) + "\n            ")
+            ])
+          }),
           _vm._v(" "),
           _vm.input.right_to_work
             ? _c("span", { staticClass: "bl-label-15" }, [
@@ -45885,7 +46057,7 @@ var render = function() {
             )
           ])
         ],
-        1
+        2
       )
     ])
   ])
