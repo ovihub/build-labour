@@ -34,7 +34,7 @@
                                 {{ education.school }}
                             </span>
                             <span class="bl-label-14 bl-ml15 mb-0 pb-0" :ref="'eduPeriod-' + idx">
-                                {{ getPeriod(education) }}
+                                {{ formatPeriod(education) }}
                             </span>
                         </div>
                     </div>
@@ -68,14 +68,14 @@
 
                     component.$refs['eduCourse-' + index][0].textContent = details.course;
                     component.$refs['eduSchool-' + index][0].textContent = details.school;
-                    component.$refs['eduPeriod-' + index][0].textContent = component.getPeriod(details);
+                    component.$refs['eduPeriod-' + index][0].textContent = component.formatPeriod(details);
                 }
             });
         },
 
         methods: {
 
-            getPeriod(edu) {
+            formatPeriod(edu) {
                 return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + 
                        Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
             },

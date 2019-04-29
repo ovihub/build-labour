@@ -121,7 +121,7 @@
                 this.end_year = details ? details.end_year : '';
             },
 
-            getPeriod(edu) {
+            formatPeriod(edu) {
                 return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + 
                        Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
             },
@@ -133,6 +133,7 @@
             },
 
             async submit(id) {
+                let component = this;
                 let saveEndpoint = this.id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.id;
 
                 let saveInput = {
@@ -145,11 +146,8 @@
                 };
 
                 Utils.setObjectValues(this.errors, '');
-
                 this.disabled = true;
 
-                let component = this;
-                
                 await axios.post(saveEndpoint, saveInput, Utils.getBearerAuth())
                     
                     .then(function(response) {

@@ -54,7 +54,7 @@
                             {{ input.company_name }}
                         </span>
                         <span class="bl-label-14 bl-ml15">
-                            {{ getPeriod(input) }}
+                            {{ formatPeriod(input) }}
                         </span>
                     </div>
                 </div>
@@ -98,8 +98,8 @@
         },
 
         methods: {
-            getPeriod(emp) {
-                return Utils.getPeriod(new Date(emp.start_year, emp.start_month-1, 1),
+            formatPeriod(emp) {
+                return Utils.formatPeriod(new Date(emp.start_year, emp.start_month-1, 1),
                                        new Date(emp.end_year, emp.end_month-1, 1));
             },
             

@@ -3232,12 +3232,12 @@ __webpack_require__.r(__webpack_exports__);
         component.educations[index] = details;
         component.$refs['eduCourse-' + index][0].textContent = details.course;
         component.$refs['eduSchool-' + index][0].textContent = details.school;
-        component.$refs['eduPeriod-' + index][0].textContent = component.getPeriod(details);
+        component.$refs['eduPeriod-' + index][0].textContent = component.formatPeriod(details);
       }
     });
   },
   methods: {
-    getPeriod: function getPeriod(edu) {
+    formatPeriod: function formatPeriod(edu) {
       return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
     },
     action: function action(index, education) {
@@ -3387,7 +3387,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.end_month = details ? details.end_month : '';
       this.end_year = details ? details.end_year : '';
     },
-    getPeriod: function getPeriod(edu) {
+    formatPeriod: function formatPeriod(edu) {
       return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
     },
     close: function close() {
@@ -3398,11 +3398,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(id) {
-        var saveEndpoint, saveInput, component;
+        var component, saveEndpoint, saveInput;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                component = this;
                 saveEndpoint = this.id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.id;
                 saveInput = {
                   course: this.course,
@@ -3414,7 +3415,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 };
                 Utils.setObjectValues(this.errors, '');
                 this.disabled = true;
-                component = this;
                 _context.next = 7;
                 return axios.post(saveEndpoint, saveInput, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
@@ -3860,8 +3860,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.input = this.employments[index];
       this.input.responsibilities.push('');
     },
-    getPeriod: function getPeriod(emp) {
-      return Utils.getPeriod(new Date(emp.start_year, emp.start_month - 1, 1), new Date(emp.end_year, emp.end_month - 1, 1));
+    formatPeriod: function formatPeriod(emp) {
+      return Utils.formatPeriod(new Date(emp.start_year, emp.start_month - 1, 1), new Date(emp.end_year, emp.end_month - 1, 1));
     },
     textAreaAdjust: function textAreaAdjust(index) {
       var o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
@@ -4115,7 +4115,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   created: function created() {
     var component = this;
     Bus.$on('idealRoleDetails', function (details) {
-      if (details != null) {
+      if (details) {
         component.setValues(component, details);
         component.setValues(component.input, details);
       }
@@ -4134,11 +4134,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return m == 1 ? 'In 1 month' : 'In ' + m + ' months';
     },
     formatWhenMonth: function formatWhenMonth(m) {
-      var d = new Date();
-      d.setMonth(d.getMonth() + m);
-      return Utils.getMonth(d.getMonth()) + ' ' + d.getFullYear();
+      if (m && m != '') {
+        var d = new Date();
+        d.setMonth(d.getMonth() + m);
+        return Utils.getMonth(d.getMonth()) + ' ' + d.getFullYear();
+      }
     },
-    close: function close() {},
+    close: function close() {
+      this.input.introduction = this.introduction;
+      this.input.when = this.when;
+      this.input.max_distance = this.max_distance ? this.max_distance : 0;
+      this.input.state = this.state;
+      this.input.selected = this.state ? this.state.split(',') : [];
+      this.input.right_to_work = this.right_to_work;
+    },
     textAreaAdjust: function textAreaAdjust() {
       var o = this.$refs['idealIntro'];
       o.style.height = o.scrollHeight + 'px';
@@ -4161,13 +4170,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   $('#modalIdealRole').modal('hide');
                   component.setValues(component, data.data.worker_detail);
                 }).catch(function (error) {
-                  console.log(error); // if (error.response) {
-                  //     let data = error.response.data;
-                  // 	for (let key in data.errors) {
-                  // 		component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                  //     }
-                  // }
-                  // Utils.handleError(error);
+                  Utils.handleError(error);
                 });
 
               case 5:
@@ -4861,8 +4864,8 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    getPeriod: function getPeriod(emp) {
-      return Utils.getPeriod(new Date(emp.start_year, emp.start_month - 1, 1), new Date(emp.end_year, emp.end_month - 1, 1));
+    formatPeriod: function formatPeriod(emp) {
+      return Utils.formatPeriod(new Date(emp.start_year, emp.start_month - 1, 1), new Date(emp.end_year, emp.end_month - 1, 1));
     }
   }
 });
@@ -43619,7 +43622,7 @@ var render = function() {
                     [
                       _vm._v(
                         "\n                            " +
-                          _vm._s(_vm.getPeriod(education)) +
+                          _vm._s(_vm.formatPeriod(education)) +
                           "\n                        "
                       )
                     ]
@@ -45327,7 +45330,7 @@ var render = function() {
                             [
                               _vm._v(
                                 "\n                                " +
-                                  _vm._s(_vm.getPeriod(employment)) +
+                                  _vm._s(_vm.formatPeriod(employment)) +
                                   "\n                            "
                               )
                             ]
@@ -45520,7 +45523,11 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "div",
-                  { staticClass: "close", attrs: { "data-dismiss": "modal" } },
+                  {
+                    staticClass: "close",
+                    attrs: { "data-dismiss": "modal" },
+                    on: { click: _vm.close }
+                  },
                   [_vm._v("×")]
                 )
               ]),
@@ -45911,7 +45918,7 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.max_distance
+          _vm.max_distance && _vm.max_distance != 0
             ? _c("div", [
                 _c("span", { staticClass: "bl-label-15" }, [
                   _vm._v("Maximum Distance from home")
@@ -46763,7 +46770,7 @@ var render = function() {
                 _c("span", { staticClass: "bl-label-14 bl-ml15" }, [
                   _vm._v(
                     "\n                        " +
-                      _vm._s(_vm.getPeriod(_vm.input)) +
+                      _vm._s(_vm.formatPeriod(_vm.input)) +
                       "\n                    "
                   )
                 ])
@@ -61142,10 +61149,7 @@ window.Helper = {
         }
       };
     },
-    getMonth: function getMonth(index) {
-      return month[index];
-    },
-    getPeriod: function getPeriod(start, end) {
+    formatPeriod: function formatPeriod(start, end) {
       var diff = end === null ? new Date() - new Date(start) : new Date(end) - new Date(start),
           offset = new Date().getTimezoneOffset() / 60,
           hours = Math.abs(diff / 36e5) + offset,
@@ -61173,6 +61177,9 @@ window.Helper = {
       }
 
       return period;
+    },
+    getMonth: function getMonth(index) {
+      return month[index];
     },
     getMonths: function getMonths() {
       return months;

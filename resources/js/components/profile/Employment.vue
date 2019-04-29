@@ -251,7 +251,7 @@
                                     {{ employment.company_name }}
                                 </span>
                                 <span class="bl-label-14 bl-ml15 mt-0 pt-0">
-                                    {{ getPeriod(employment) }}
+                                    {{ formatPeriod(employment) }}
                                 </span>
                             </div>
                         </div>
@@ -380,8 +380,8 @@
                 this.input.responsibilities.push('');
             },
 
-            getPeriod(emp) {
-                return Utils.getPeriod(new Date(emp.start_year, emp.start_month-1, 1),
+            formatPeriod(emp) {
+                return Utils.formatPeriod(new Date(emp.start_year, emp.start_month-1, 1),
                                        new Date(emp.end_year, emp.end_month-1, 1));
             },
 

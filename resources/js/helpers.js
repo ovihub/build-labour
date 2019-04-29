@@ -81,11 +81,7 @@ window.Helper = {
             }
         },
 
-        getMonth(index) {
-            return month[index];
-        },
-
-        getPeriod(start, end) {
+        formatPeriod(start, end) {
             let diff = (end === null) ? new Date() - new Date(start) : new Date(end) - new Date(start),
                 offset = new Date().getTimezoneOffset()/60,
                 hours = Math.abs(diff / 36e5) + offset,
@@ -116,6 +112,10 @@ window.Helper = {
             return period;
         },
 
+        getMonth(index) {
+            return month[index];
+        },
+        
         getMonths() {
             return months;
         },

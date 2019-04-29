@@ -7,7 +7,7 @@
             
                     <template slot="custom-modal-title">
                         <h4 class="modal-title">Edit Ideal Next Role</h4>
-                        <div class="close" data-dismiss="modal">&times;</div>
+                        <div class="close" data-dismiss="modal" @click="close">&times;</div>
                     </template>
 
                     <template slot="custom-modal-content">
@@ -103,7 +103,7 @@
                     </span>
                 </div>
 
-                <div v-if="max_distance">
+                <div v-if="max_distance && max_distance != 0">
                     <span class="bl-label-15">Maximum Distance from home</span>
                     <span class="bl-label-14">
                         {{ max_distance }}km
@@ -155,7 +155,7 @@
             let component = this;
             
             Bus.$on('idealRoleDetails', function(details) {
-                if (details != null) {
+                if (details) {
                     component.setValues(component, details);
                     component.setValues(component.input, details);
                 }
@@ -178,15 +178,21 @@
             },
 
             formatWhenMonth(m) {
-                let d = new Date();
+                if (m && m != '') {
+                    let d = new Date();
+                    d.setMonth(d.getMonth() + m);
 
-                d.setMonth(d.getMonth() + m);
-
-                return Utils.getMonth(d.getMonth()) + ' ' + d.getFullYear();
+                    return Utils.getMonth(d.getMonth()) + ' ' + d.getFullYear();
+                }
             },
 
             close() {
-                
+                this.input.introduction = this.introduction;
+                this.input.when = this.when;
+                this.input.max_distance = this.max_distance ? this.max_distance : 0;
+                this.input.state = this.state;
+                this.input.selected = this.state ? this.state.split(',') : [];
+                this.input.right_to_work = this.right_to_work;
             },
             
             textAreaAdjust() {
@@ -210,16 +216,8 @@
                         component.setValues(component, data.data.worker_detail);
                     })
                     .catch(function(error) {
-                        console.log(error)
-                        // if (error.response) {
-                        //     let data = error.response.data;
 
-						// 	for (let key in data.errors) {
-						// 		component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                        //     }
-                        // }
-
-                        // Utils.handleError(error);
+                        Utils.handleError(error);
                     });
                 
                 component.disabled = false;
