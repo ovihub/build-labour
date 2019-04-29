@@ -131,7 +131,7 @@ class WorkExperience extends BaseModel
         $data['user_id'] = $this->userId;
 
         if (isset($data['isCurrent']) && $data['isCurrent']) {
-            
+
             $data['end_month'] = null;
             $data['end_year'] = null;
         }
