@@ -36,7 +36,9 @@ class WorkerDetail extends BaseModel
             'introduction'  => 'nullable|min:5',
             'english_skill' => 'nullable|min:3',
             'profile_description' => 'nullable|min:10',
-            'drivers_license' => 'nullable'
+            'drivers_license' => 'nullable',
+            'when' => 'nullable|integer',
+            'max_distance' => 'nullable|integer'
         ];
     }
 
