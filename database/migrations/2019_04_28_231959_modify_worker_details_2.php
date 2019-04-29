@@ -14,8 +14,8 @@ class ModifyWorkerDetails2 extends Migration
     public function up()
     {
         Schema::table('worker_details', function (Blueprint $table) {
-            $table->integer('when')->default(1)->after('introduction');
-            $table->integer('max_distance')->default(100)->after('when');
+            $table->integer('when')->nullable()->after('introduction');
+            $table->integer('max_distance')->nullable()->after('when');
         });
     }
 
