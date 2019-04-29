@@ -4122,6 +4122,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       disabled: false,
+      introduction: null,
+      when: null,
+      max_distance: null,
+      state: null,
+      right_to_work: null,
       selected: [],
       states: ['QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT'],
       input: {
@@ -4129,7 +4134,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         when: '',
         max_distance: '',
         state: '',
-        right_to_work: ''
+        right_to_work: '',
+        selected: []
       },
       endpoints: {
         save: '/api/v1/worker/next-role'
@@ -4139,21 +4145,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   created: function created() {
     var component = this;
     Bus.$on('idealRoleDetails', function (details) {
-      if (details) {
-        component.input = details;
-
-        if (details.state) {
-          component.selected = details.state.split(',');
-        }
+      if (details != null) {
+        component.setValues(component, details);
+        component.setValues(component.input, details);
       }
     });
   },
   methods: {
-    formatWhen: function formatWhen() {
-      return this.input.when == 1 ? 'In 1 month' : 'In ' + this.input.when + ' months';
+    setValues: function setValues(val, details) {
+      val.introduction = details.introduction;
+      val.when = details.when;
+      val.max_distance = details.max_distance && details.max_distance != '' ? details.max_distance : 0;
+      val.state = details.state;
+      val.selected = val.state ? val.state.split(',') : [];
+      val.right_to_work = details.right_to_work;
     },
-    formatWhenMonth: function formatWhenMonth() {
-      var m = this.input.when;
+    formatWhen: function formatWhen(m) {
+      return m == 1 ? 'In 1 month' : 'In ' + m + ' months';
+    },
+    formatWhenMonth: function formatWhenMonth(m) {
       var d = new Date();
       d.setMonth(d.getMonth() + m);
       return Utils.getMonth(d.getMonth()) + ' ' + d.getFullYear();
@@ -4174,11 +4184,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 component = this;
                 component.disabled = true;
-                component.input.state = component.selected.toString();
+                component.input.state = component.input.selected.toString();
                 _context.next = 5;
-                return axios.post(this.endpoints.save, this.input, Utils.getBearerAuth()).then(function (response) {
+                return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalIdealRole').modal('hide');
+                  component.setValues(component, data.data.worker_detail);
                 }).catch(function (error) {
                   console.log(error); // if (error.response) {
                   //     let data = error.response.data;
@@ -4325,6 +4336,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       user_skills: [],
       firstColumn: [],
       secondColumn: [],
+      input: {
+        main_skill: '',
+        skills: []
+      },
       errors: {
         main_skill: ''
       },
@@ -4367,25 +4382,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (detailsArray.length == 0) {
         component.is_empty = true;
         component.skills.map(function (skill) {
-          component.user_skills.push({
+          component.input.skills.push({
             skill_id: skill.id,
             skill_name: skill.name,
             level_id: 1
           });
         });
       } else {
+        component.input.main_skill = component.main_skill;
+        component.input.skills = detailsArray;
         component.user_skills = detailsArray;
       }
 
-      component.display(component.user_skills);
+      component.display();
     });
   },
   methods: {
-    display: function display(skills) {
-      var len = skills.length;
+    display: function display() {
+      var len = this.user_skills.length;
       var half = Math.ceil(len / 2);
-      this.firstColumn = skills.slice(0, half);
-      this.secondColumn = skills.slice(half, len);
+      this.firstColumn = this.user_skills.slice(0, half);
+      this.secondColumn = this.user_skills.slice(half, len);
     },
     textAreaAdjust: function textAreaAdjust() {
       var o = this.$refs['skillsIntro'];
@@ -4395,7 +4412,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var component, skills;
+        var component;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -4403,16 +4420,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 component = this;
                 Utils.setObjectValues(component.errors, '');
                 component.disabled = true;
-                skills = {
-                  main_skill: component.main_skill,
-                  skills: component.user_skills
-                };
-                _context.next = 6;
-                return axios.post(component.endpoints.save, skills, Utils.getBearerAuth()).then(function (response) {
+                _context.next = 5;
+                return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalIndustrySkill').modal('hide');
                   component.is_empty = false;
-                  component.display(data.data.skills);
+                  component.main_skill = data.data.main_skill;
+                  component.user_skills = data.data.skills;
+                  component.display();
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -4425,10 +4440,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Utils.handleError(error);
                 });
 
-              case 6:
+              case 5:
                 component.disabled = false;
 
-              case 7:
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -4618,8 +4633,7 @@ __webpack_require__.r(__webpack_exports__);
         component.profile.address = user.address;
         component.profile.country = user.country;
         component.profile.course = user.educations[0] ? user.educations[0].course : '';
-        component.profile.school = user.educations[0] ? user.educations[0].school : ''; // component.profile.role = user.role.name;
-
+        component.profile.school = user.educations[0] ? user.educations[0].school : '';
         component.profile.job_role = user.experiences[0] ? user.experiences[0].job_role : '';
         component.profile.company_name = user.experiences[0] ? user.experiences[0].company_name : '';
         component.profile.start_month = user.experiences[0] ? user.experiences[0].start_month : '';
@@ -4632,17 +4646,7 @@ __webpack_require__.r(__webpack_exports__);
         component.about_me.marital_status = user.marital_status;
         component.about_me.english_skill = user.worker_detail ? user.worker_detail.english_skill : '';
         component.about_me.drivers_license = user.worker_detail ? user.worker_detail.drivers_license : '';
-
-        if (user.worker_detail) {
-          component.ideal_role.introduction = user.worker_detail.introduction;
-          component.ideal_role.when = user.worker_detail.when;
-          component.ideal_role.max_distance = user.worker_detail.max_distance;
-          component.ideal_role.state = user.worker_detail.state;
-          component.ideal_role.right_to_work = user.worker_detail.right_to_work;
-        } else {
-          Utils.setObjectValues(component.ideal_role, '');
-        }
-
+        component.ideal_role = user.worker_detail;
         component.employments = user.experiences;
         component.educations = user.educations;
         component.tickets = user.tickets;
@@ -45979,7 +45983,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "emp-col-right" }, [
                         _c("label", { staticStyle: { "margin-bottom": "0" } }, [
-                          _vm._v(_vm._s(_vm.formatWhenMonth()))
+                          _vm._v(_vm._s(_vm.formatWhenMonth(_vm.input.when)))
                         ])
                       ])
                     ]),
@@ -46054,8 +46058,8 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.selected,
-                                expression: "selected"
+                                value: _vm.input.selected,
+                                expression: "input.selected"
                               }
                             ],
                             staticClass: "styled-checkbox",
@@ -46065,13 +46069,13 @@ var render = function() {
                             },
                             domProps: {
                               value: state,
-                              checked: Array.isArray(_vm.selected)
-                                ? _vm._i(_vm.selected, state) > -1
-                                : _vm.selected
+                              checked: Array.isArray(_vm.input.selected)
+                                ? _vm._i(_vm.input.selected, state) > -1
+                                : _vm.input.selected
                             },
                             on: {
                               change: function($event) {
-                                var $$a = _vm.selected,
+                                var $$a = _vm.input.selected,
                                   $$el = $event.target,
                                   $$c = $$el.checked ? true : false
                                 if (Array.isArray($$a)) {
@@ -46079,15 +46083,23 @@ var render = function() {
                                     $$i = _vm._i($$a, $$v)
                                   if ($$el.checked) {
                                     $$i < 0 &&
-                                      (_vm.selected = $$a.concat([$$v]))
+                                      _vm.$set(
+                                        _vm.input,
+                                        "selected",
+                                        $$a.concat([$$v])
+                                      )
                                   } else {
                                     $$i > -1 &&
-                                      (_vm.selected = $$a
-                                        .slice(0, $$i)
-                                        .concat($$a.slice($$i + 1)))
+                                      _vm.$set(
+                                        _vm.input,
+                                        "selected",
+                                        $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1))
+                                      )
                                   }
                                 } else {
-                                  _vm.selected = $$c
+                                  _vm.$set(_vm.input, "selected", $$c)
                                 }
                               }
                             }
@@ -46241,37 +46253,35 @@ var render = function() {
             _vm._v("(Visible only to you)")
           ]),
           _vm._v(" "),
-          _vm.input.introduction
+          _vm.introduction
             ? _c("div", [
                 _c("span", { staticClass: "profile-intro" }, [
                   _vm._v(
                     "\n                    " +
-                      _vm._s(_vm.input.introduction) +
+                      _vm._s(_vm.introduction) +
                       "\n                "
                   )
                 ])
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.input.when
+          _vm.when
             ? _c("div", [
                 _c("span", { staticClass: "bl-label-15" }, [_vm._v("When")]),
                 _vm._v(" "),
-                _vm.input.when
-                  ? _c("span", { staticClass: "bl-label-14" }, [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(_vm.formatWhen()) +
-                          " (" +
-                          _vm._s(_vm.formatWhenMonth()) +
-                          ")\n                "
-                      )
-                    ])
-                  : _vm._e()
+                _c("span", { staticClass: "bl-label-14" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.formatWhen(_vm.when)) +
+                      " (" +
+                      _vm._s(_vm.formatWhenMonth(_vm.when)) +
+                      ")\n                "
+                  )
+                ])
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.input.max_distance
+          _vm.max_distance
             ? _c("div", [
                 _c("span", { staticClass: "bl-label-15" }, [
                   _vm._v("Maximum Distance from home")
@@ -46280,14 +46290,14 @@ var render = function() {
                 _c("span", { staticClass: "bl-label-14" }, [
                   _vm._v(
                     "\n                    " +
-                      _vm._s(_vm.input.max_distance) +
+                      _vm._s(_vm.max_distance) +
                       "km\n                "
                   )
                 ])
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.input.state
+          _vm.state
             ? _c(
                 "div",
                 [
@@ -46295,14 +46305,14 @@ var render = function() {
                     _vm._v("Willing to relocate to")
                   ]),
                   _vm._v(" "),
-                  _vm._l(_vm.selected, function(state, index) {
+                  _vm._l(_vm.selected, function(s, index) {
                     return _c(
                       "span",
                       { key: index, staticClass: "bl-label-14" },
                       [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(state) +
+                            _vm._s(s) +
                             "\n                "
                         )
                       ]
@@ -46313,7 +46323,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.input.right_to_work
+          _vm.right_to_work
             ? _c("div", [
                 _c("span", { staticClass: "bl-label-15" }, [
                   _vm._v("Right to Work")
@@ -46322,7 +46332,7 @@ var render = function() {
                 _c("span", { staticClass: "bl-label-14" }, [
                   _vm._v(
                     "\n                    " +
-                      _vm._s(_vm.input.right_to_work) +
+                      _vm._s(_vm.right_to_work) +
                       "\n                "
                   )
                 ])
@@ -46432,8 +46442,8 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.main_skill,
-                        expression: "main_skill"
+                        value: _vm.input.main_skill,
+                        expression: "input.main_skill"
                       }
                     ],
                     ref: "skillsIntro",
@@ -46443,14 +46453,14 @@ var render = function() {
                       placeholder:
                         "Example: Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline."
                     },
-                    domProps: { value: _vm.main_skill },
+                    domProps: { value: _vm.input.main_skill },
                     on: {
                       keyup: _vm.textAreaAdjust,
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.main_skill = $event.target.value
+                        _vm.$set(_vm.input, "main_skill", $event.target.value)
                       }
                     }
                   }),
@@ -46471,7 +46481,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._l(_vm.user_skills, function(skill) {
+                  _vm._l(_vm.input.skills, function(skill) {
                     return _c(
                       "div",
                       {

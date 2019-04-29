@@ -28,7 +28,7 @@
                                     <input class="form-control" type="text" placeholder="Enter number of Months" v-model="input.when" />
                                 </div>
                                 <div class="emp-col-right">
-                                    <label style="margin-bottom:0">{{ formatWhenMonth() }}</label>
+                                    <label style="margin-bottom:0">{{ formatWhenMonth(input.when) }}</label>
                                 </div>
                             </div>
 
@@ -55,7 +55,7 @@
 
                             <div class="bl-inline" v-for="(state, index) in states" :key="index">
                                 <input class="styled-checkbox" :id="'styled-checkbox-'+index" type="checkbox"
-                                    v-bind:value="state" v-model="selected" />
+                                    v-bind:value="state" v-model="input.selected" />
                                 <label :for="'styled-checkbox-'+index">{{ state }}</label>
                             </div>
 
@@ -90,37 +90,37 @@
                 <div class="profile-title">Your Ideal Next Role</div>        
                 <span class="bl-label-14">(Visible only to you)</span>
                 
-                <div v-if="input.introduction">
+                <div v-if="introduction">
                     <span class="profile-intro">
-                        {{ input.introduction }}
+                        {{ introduction }}
                     </span>
                 </div>
 
-                <div v-if="input.when">
+                <div v-if="when">
                     <span class="bl-label-15">When</span>
-                    <span class="bl-label-14" v-if="input.when">
-                        {{ formatWhen() }} ({{ formatWhenMonth() }})
+                    <span class="bl-label-14">
+                        {{ formatWhen(when) }} ({{ formatWhenMonth(when) }})
                     </span>
                 </div>
 
-                <div v-if="input.max_distance">
+                <div v-if="max_distance">
                     <span class="bl-label-15">Maximum Distance from home</span>
                     <span class="bl-label-14">
-                        {{ input.max_distance }}km
+                        {{ max_distance }}km
                     </span>
                 </div>
 
-                <div v-if="input.state">
+                <div v-if="state">
                     <span class="bl-label-15">Willing to relocate to</span>
-                    <span v-for="(state, index) in selected" :key="index" class="bl-label-14">
-                        {{ state }}
+                    <span v-for="(s, index) in selected" :key="index" class="bl-label-14">
+                        {{ s }}
                     </span>
                 </div>
 
-                <div v-if="input.right_to_work">
+                <div v-if="right_to_work">
                     <span class="bl-label-15">Right to Work</span>
                     <span class="bl-label-14">
-                        {{ input.right_to_work }}
+                        {{ right_to_work }}
                     </span>
                 </div>
             </div>
@@ -133,12 +133,17 @@
         data() {
             return {
                 disabled: false,
+                introduction: null,
+                when: null,
+                max_distance: null,
+                state: null,
+                right_to_work: null,
                 selected: [],
                 states: [
                     'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
                 ],
                 input: { 
-                    introduction: '', when: '', max_distance: '', state: '', right_to_work: '',
+                    introduction: '', when: '', max_distance: '', state: '', right_to_work: '', selected: [],
                 },
                 endpoints: {
                     save: '/api/v1/worker/next-role',
@@ -148,26 +153,31 @@
 
         created() {
             let component = this;
-
+            
             Bus.$on('idealRoleDetails', function(details) {
-                if (details) {
-                    component.input = details;
-                    
-                    if (details.state) {
-                        component.selected = details.state.split(',');
-                    }
+                if (details != null) {
+                    component.setValues(component, details);
+                    component.setValues(component.input, details);
                 }
             });
         },
 
         methods: {
 
-            formatWhen() {
-                return (this.input.when == 1) ? 'In 1 month' : 'In ' + this.input.when + ' months';
+            setValues(val, details) {
+                val.introduction = details.introduction;
+                val.when = details.when;
+                val.max_distance = details.max_distance && details.max_distance != '' ? details.max_distance : 0;
+                val.state = details.state;
+                val.selected = val.state ? val.state.split(',') : [];
+                val.right_to_work = details.right_to_work;
             },
 
-            formatWhenMonth() {
-                let m = this.input.when;
+            formatWhen(m) {
+                return (m == 1) ? 'In 1 month' : 'In ' + m + ' months';
+            },
+
+            formatWhenMonth(m) {
                 let d = new Date();
 
                 d.setMonth(d.getMonth() + m);
@@ -188,14 +198,16 @@
                 let component = this;
 
                 component.disabled = true;
-                component.input.state = component.selected.toString();
+                component.input.state = component.input.selected.toString();
                 
-                await axios.post(this.endpoints.save, this.input, Utils.getBearerAuth())
+                await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         let data = response.data;
                         
                         $('#modalIdealRole').modal('hide');
+                        
+                        component.setValues(component, data.data.worker_detail);
                     })
                     .catch(function(error) {
                         console.log(error)

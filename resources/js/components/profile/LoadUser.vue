@@ -63,7 +63,6 @@
                         component.profile.course = user.educations[0] ? user.educations[0].course : '';
                         component.profile.school = user.educations[0] ? user.educations[0].school : '';
                         
-                        // component.profile.role = user.role.name;
                         component.profile.job_role = user.experiences[0] ? user.experiences[0].job_role : '';
                         component.profile.company_name = user.experiences[0] ? user.experiences[0].company_name : '';
                         component.profile.start_month = user.experiences[0] ? user.experiences[0].start_month : '';
@@ -78,17 +77,7 @@
                         component.about_me.english_skill = user.worker_detail ? user.worker_detail.english_skill : '';
                         component.about_me.drivers_license = user.worker_detail ? user.worker_detail.drivers_license : '';
 
-                        if (user.worker_detail) {
-                            component.ideal_role.introduction = user.worker_detail.introduction;
-                            component.ideal_role.when = user.worker_detail.when;
-                            component.ideal_role.max_distance = user.worker_detail.max_distance;
-                            component.ideal_role.state = user.worker_detail.state;
-                            component.ideal_role.right_to_work = user.worker_detail.right_to_work;
-
-                        } else {
-                            Utils.setObjectValues(component.ideal_role,  '');
-                        }
-
+                        component.ideal_role = user.worker_detail;
                         component.employments = user.experiences;
                         component.educations = user.educations;
                         component.tickets = user.tickets;

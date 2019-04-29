@@ -17,7 +17,7 @@
                         
                         <textarea ref="skillsIntro" class="form-control" style="overflow:hidden"
                             placeholder="Example: Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline."
-                            @keyup="textAreaAdjust" v-model="main_skill"></textarea>
+                            @keyup="textAreaAdjust" v-model="input.main_skill"></textarea>
                         
                         <span class="err-msg" v-if="errors.main_skill">
                             {{ errors.main_skill }}
@@ -27,7 +27,7 @@
                             What are your main industry skills?
                         </div>
 
-                        <div class="emp-row row-center" v-for="skill in user_skills" :key="skill.skill_id">
+                        <div class="emp-row row-center" v-for="skill in input.skills" :key="skill.skill_id">
                             <label class="emp-col-left skill-form-label text-md-right" style="margin-bottom:0">
                                 {{ skill.skill_name }}
                             </label>
@@ -96,6 +96,9 @@
                 user_skills: [],
                 firstColumn: [],
                 secondColumn: [],
+                input: {
+                    main_skill: '', skills: [],
+                },
                 errors: {
                     main_skill: ''
                 },
@@ -126,7 +129,7 @@
                 if (detailsArray.length == 0) {
                     component.is_empty = true;
                     component.skills.map(function(skill) {
-                        component.user_skills.push({
+                        component.input.skills.push({
                             skill_id: skill.id,
                             skill_name: skill.name,
                             level_id: 1
@@ -134,21 +137,23 @@
                     });
 
                 } else {
+                    component.input.main_skill = component.main_skill;
+                    component.input.skills = detailsArray;
                     component.user_skills = detailsArray;
                 }
 
-                component.display(component.user_skills);
+                component.display();
             });
         },
 
         methods: {
             
-            display(skills) {
-                let len = skills.length;
+            display() {
+                let len = this.user_skills.length;
                 let half = Math.ceil(len / 2);
 
-                this.firstColumn = skills.slice(0, half);
-                this.secondColumn = skills.slice(half, len);
+                this.firstColumn = this.user_skills.slice(0, half);
+                this.secondColumn = this.user_skills.slice(half, len);
             },
 
             textAreaAdjust() {
@@ -163,12 +168,7 @@
                 
                 component.disabled = true;
 
-                let skills = {
-                    main_skill: component.main_skill,
-                    skills: component.user_skills
-                };
-
-                await axios.post(component.endpoints.save, skills, Utils.getBearerAuth())
+                await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         let data = response.data;
@@ -176,7 +176,11 @@
                         $('#modalIndustrySkill').modal('hide');
                         
                         component.is_empty = false;
-                        component.display(data.data.skills);
+                        
+                        component.main_skill = data.data.main_skill;
+                        component.user_skills = data.data.skills;
+
+                        component.display();
                     })
                     .catch(function(error) {
                         if (error.response) {
