@@ -25,11 +25,11 @@
                             </div>
                             <div class="emp-row row-center">
                                 <div class="emp-col-left">
-                                    <input class="form-control" type="text" v-model="input.when" />
+                                    <input class="form-control" type="text" placeholder="Enter number of Months" v-model="input.when" />
                                 </div>
                                 <div class="emp-col-right">
                                     <label>
-                                        In months
+                                        {{ formatWhenMonth() }}
                                     </label>
                                 </div>
                             </div>
@@ -71,10 +71,10 @@
 
                 </main-modal>
 
-                <!-- <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalIdealRole">
+                <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalIdealRole">
                     <img src="/img/icons/editbutton.png"
                         srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
-                </span> -->
+                </span>
 
                 <div class="profile-title">Your Ideal Next Role</div>        
                 <span class="bl-label-14">(Visible only to you)</span>
@@ -85,12 +85,12 @@
 
                 <span class="bl-label-15" v-if="input.when">When</span>
                 <span class="bl-label-14">
-                    {{ input.when }}
+                    {{ formatWhen() }} ({{ formatWhenMonth() }})
                 </span>
 
                 <span class="bl-label-15" v-if="input.max_distance">Maximum Distance from home</span>
                 <span class="bl-label-14">
-                    {{ input.max_distance }}
+                    {{ input.max_distance }}km
                 </span>
 
                 <span class="bl-label-15" v-if="input.state">Willing to relocate to</span>
@@ -116,7 +116,7 @@
                     'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
                 ],
                 input: { 
-                    introduction: null, when: null, max_distance: null, state: null, right_to_work: null,
+                    introduction: '', when: '', max_distance: '', state: '', right_to_work: '',
                 }
             }
         },
@@ -132,6 +132,26 @@
         },
 
         methods: {
+
+            formatWhen() {
+                let m = this.input.when;
+                
+                return (m == 1) ? 'In 1 month' : 'In ' + m + ' months';
+            },
+
+            formatWhenMonth() {
+                let m = this.input.when;
+                let d = new Date();
+
+                d.setMonth(d.getMonth() + m);
+
+                return Utils.getMonth(d.getMonth()) + ' ' + d.getFullYear();
+            },
+
+            close() {
+                
+            },
+            
             textAreaAdjust() {
                 let o = this.$refs['idealIntro'];
                 o.style.height = (o.scrollHeight) + 'px';

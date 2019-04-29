@@ -4069,11 +4069,11 @@ __webpack_require__.r(__webpack_exports__);
       disabled: false,
       states: ['QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT'],
       input: {
-        introduction: null,
-        when: null,
-        max_distance: null,
-        state: null,
-        right_to_work: null
+        introduction: '',
+        when: '',
+        max_distance: '',
+        state: '',
+        right_to_work: ''
       }
     };
   },
@@ -4086,6 +4086,17 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    formatWhen: function formatWhen() {
+      var m = this.input.when;
+      return m == 1 ? 'In 1 month' : 'In ' + m + ' months';
+    },
+    formatWhenMonth: function formatWhenMonth() {
+      var m = this.input.when;
+      var d = new Date();
+      d.setMonth(d.getMonth() + m);
+      return Utils.getMonth(d.getMonth()) + ' ' + d.getFullYear();
+    },
+    close: function close() {},
     textAreaAdjust: function textAreaAdjust() {
       var o = this.$refs['idealIntro'];
       o.style.height = o.scrollHeight + 'px';
@@ -44491,7 +44502,7 @@ var render = function() {
                         attrs: {
                           type: "text",
                           placeholder:
-                            "e.g. $1,000.00 | $1,000,000 | $100000 | 10,000.21"
+                            "e.g. $1,000.00 | $1,000,000 | $100000 | 10,000.00"
                         },
                         domProps: { value: _vm.input_add.project_size },
                         on: {
@@ -45698,7 +45709,10 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text" },
+                          attrs: {
+                            type: "text",
+                            placeholder: "Enter number of Months"
+                          },
                           domProps: { value: _vm.input.when },
                           on: {
                             input: function($event) {
@@ -45714,7 +45728,9 @@ var render = function() {
                       _c("div", { staticClass: "emp-col-right" }, [
                         _c("label", [
                           _vm._v(
-                            "\n                                    In months\n                                "
+                            "\n                                    " +
+                              _vm._s(_vm.formatWhenMonth()) +
+                              "\n                                "
                           )
                         ])
                       ])
@@ -45795,6 +45811,8 @@ var render = function() {
             2
           ),
           _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
           _c("div", { staticClass: "profile-title" }, [
             _vm._v("Your Ideal Next Role")
           ]),
@@ -45819,7 +45837,11 @@ var render = function() {
           _vm._v(" "),
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
-              "\n                " + _vm._s(_vm.input.when) + "\n            "
+              "\n                " +
+                _vm._s(_vm.formatWhen()) +
+                " (" +
+                _vm._s(_vm.formatWhenMonth()) +
+                ")\n            "
             )
           ]),
           _vm._v(" "),
@@ -45833,7 +45855,7 @@ var render = function() {
             _vm._v(
               "\n                " +
                 _vm._s(_vm.input.max_distance) +
-                "\n            "
+                "km\n            "
             )
           ]),
           _vm._v(" "),
@@ -45868,7 +45890,37 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "span",
+      {
+        staticClass: "edit-icon",
+        attrs: {
+          "data-toggle": "modal",
+          "data-backdrop": "static",
+          "data-keyboard": "false",
+          "data-target": "#modalIdealRole"
+        }
+      },
+      [
+        _c("img", {
+          attrs: {
+            src: "/img/icons/editbutton.png",
+            srcset:
+              "/img/icons/editbutton@2x.png" +
+              " 2x, " +
+              "/img/icons/editbutton@3x.png" +
+              " 3x"
+          }
+        })
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 
