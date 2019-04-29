@@ -3785,6 +3785,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3894,25 +3899,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onChangeResponsibilities: function onChangeResponsibilities(flag) {
       if (flag > 0) {
         // edit
-        if (this.input.responsibilities.length > 0) {
-          var len = this.input.responsibilities.length > 0 ? this.input.responsibilities.length : 0;
-          console.log(len);
-
-          if (len > 0 && this.input.responsibilities[this.input.responsibilities.length - 1].length > 0) {
-            this.input.responsibilities.push('');
-          }
-        }
+        this.input.responsibilities = this.input.responsibilities.filter(function (r) {
+          return r !== '';
+        });
+        this.input.responsibilities.push('');
       } else {
-        // new
-        if (this.input_add.responsibilities.length > 0) {
-          var _len = this.input_add.responsibilities.length > 0 ? this.input_add.responsibilities.length : 0;
-
-          console.log(_len);
-
-          if (_len > 0 && this.input_add.responsibilities[this.input_add.responsibilities.length - 1].length > 0) {
-            this.input_add.responsibilities.push('');
-          }
-        }
+        this.input_add.responsibilities = this.input_add.responsibilities.filter(function (r) {
+          return r !== '';
+        });
+        this.input_add.responsibilities.push(''); // new
       }
     },
     submit: function () {
@@ -4099,6 +4094,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4122,7 +4127,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     Bus.$on('idealRoleDetails', function (details) {
       if (details) {
         component.input = details;
-        component.selected = details.state.split(',');
+
+        if (details.state) {
+          component.selected = details.state.split(',');
+        }
       }
     });
   },
@@ -44849,6 +44857,65 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "emp-label",
+                        staticStyle: { "margin-bottom": "17px" }
+                      },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input_add.isCurrent,
+                              expression: "input_add.isCurrent"
+                            }
+                          ],
+                          attrs: { type: "checkbox" },
+                          domProps: {
+                            checked: Array.isArray(_vm.input_add.isCurrent)
+                              ? _vm._i(_vm.input_add.isCurrent, null) > -1
+                              : _vm.input_add.isCurrent
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$a = _vm.input_add.isCurrent,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 &&
+                                    _vm.$set(
+                                      _vm.input_add,
+                                      "isCurrent",
+                                      $$a.concat([$$v])
+                                    )
+                                } else {
+                                  $$i > -1 &&
+                                    _vm.$set(
+                                      _vm.input_add,
+                                      "isCurrent",
+                                      $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1))
+                                    )
+                                }
+                              } else {
+                                _vm.$set(_vm.input_add, "isCurrent", $$c)
+                              }
+                            }
+                          }
+                        }),
+                        _vm._v(" Currently in this Role")
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
                   _c(
                     "div",
                     {
@@ -45358,61 +45425,125 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "emp-label",
-                      staticStyle: { "margin-bottom": "17px" }
-                    },
-                    [_vm._v("Responsibilities")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    _vm._l(_vm.input.responsibilities, function(res, index) {
-                      return _c(
-                        "textarea",
-                        {
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "emp-label",
+                        staticStyle: { "margin-bottom": "17px" }
+                      },
+                      [
+                        _c("input", {
                           directives: [
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.input.responsibilities[index],
-                              expression: "input.responsibilities[index]"
+                              value: _vm.input.isCurrent,
+                              expression: "input.isCurrent"
                             }
                           ],
-                          key: index,
-                          ref: "respItem-" + index,
-                          refInFor: true,
-                          staticClass: "form-control",
-                          staticStyle: { overflow: "hidden" },
-                          attrs: { placeholder: "Add Another Responsibility" },
+                          attrs: { type: "checkbox" },
                           domProps: {
-                            value: _vm.input.responsibilities[index]
+                            checked: Array.isArray(_vm.input.isCurrent)
+                              ? _vm._i(_vm.input.isCurrent, null) > -1
+                              : _vm.input.isCurrent
                           },
                           on: {
-                            focus: function($event) {
-                              return _vm.textAreaAdjust(index)
-                            },
-                            keyup: function($event) {
-                              return _vm.onChangeResponsibilities(1)
-                            },
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                            change: function($event) {
+                              var $$a = _vm.input.isCurrent,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 &&
+                                    _vm.$set(
+                                      _vm.input,
+                                      "isCurrent",
+                                      $$a.concat([$$v])
+                                    )
+                                } else {
+                                  $$i > -1 &&
+                                    _vm.$set(
+                                      _vm.input,
+                                      "isCurrent",
+                                      $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1))
+                                    )
+                                }
+                              } else {
+                                _vm.$set(_vm.input, "isCurrent", $$c)
                               }
-                              _vm.$set(
-                                _vm.input.responsibilities,
-                                index,
-                                $event.target.value
-                              )
                             }
                           }
+                        }),
+                        _vm._v(" Currently in this Role")
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "emp-row" },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "emp-label",
+                          staticStyle: { "margin-bottom": "17px" }
                         },
-                        [_vm._v(_vm._s(res))]
-                      )
-                    }),
-                    0
+                        [_vm._v("Responsibilities")]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(_vm.input.responsibilities, function(res, index) {
+                        return _c(
+                          "textarea",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.input.responsibilities[index],
+                                expression: "input.responsibilities[index]"
+                              }
+                            ],
+                            key: index,
+                            ref: "respItem-" + index,
+                            refInFor: true,
+                            staticClass: "form-control",
+                            staticStyle: { overflow: "hidden" },
+                            attrs: {
+                              placeholder: "Add Another Responsibility"
+                            },
+                            domProps: {
+                              value: _vm.input.responsibilities[index]
+                            },
+                            on: {
+                              focus: function($event) {
+                                return _vm.textAreaAdjust(index)
+                              },
+                              keyup: function($event) {
+                                return _vm.onChangeResponsibilities(1)
+                              },
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.input.responsibilities,
+                                  index,
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          },
+                          [_vm._v(_vm._s(res))]
+                        )
+                      })
+                    ],
+                    2
                   )
                 ]
               )
@@ -45994,70 +46125,94 @@ var render = function() {
           ]),
           _vm._v(" "),
           _vm.input.introduction
-            ? _c("span", { staticClass: "profile-intro" }, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.input.introduction) +
-                    "\n            "
-                )
+            ? _c("div", [
+                _c("span", { staticClass: "profile-intro" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.input.introduction) +
+                      "\n                "
+                  )
+                ])
               ])
             : _vm._e(),
           _vm._v(" "),
           _vm.input.when
-            ? _c("span", { staticClass: "bl-label-15" }, [_vm._v("When")])
+            ? _c("div", [
+                _c("span", { staticClass: "bl-label-15" }, [_vm._v("When")]),
+                _vm._v(" "),
+                _vm.input.when
+                  ? _c("span", { staticClass: "bl-label-14" }, [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(_vm.formatWhen()) +
+                          " (" +
+                          _vm._s(_vm.formatWhenMonth()) +
+                          ")\n                "
+                      )
+                    ])
+                  : _vm._e()
+              ])
             : _vm._e(),
-          _vm._v(" "),
-          _c("span", { staticClass: "bl-label-14" }, [
-            _vm._v(
-              "\n                " +
-                _vm._s(_vm.formatWhen()) +
-                " (" +
-                _vm._s(_vm.formatWhenMonth()) +
-                ")\n            "
-            )
-          ]),
           _vm._v(" "),
           _vm.input.max_distance
-            ? _c("span", { staticClass: "bl-label-15" }, [
-                _vm._v("Maximum Distance from home")
+            ? _c("div", [
+                _c("span", { staticClass: "bl-label-15" }, [
+                  _vm._v("Maximum Distance from home")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "bl-label-14" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.input.max_distance) +
+                      "km\n                "
+                  )
+                ])
               ])
             : _vm._e(),
-          _vm._v(" "),
-          _c("span", { staticClass: "bl-label-14" }, [
-            _vm._v(
-              "\n                " +
-                _vm._s(_vm.input.max_distance) +
-                "km\n            "
-            )
-          ]),
           _vm._v(" "),
           _vm.input.state
-            ? _c("span", { staticClass: "bl-label-15" }, [
-                _vm._v("Willing to relocate to")
-              ])
+            ? _c(
+                "div",
+                [
+                  _c("span", { staticClass: "bl-label-15" }, [
+                    _vm._v("Willing to relocate to")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.selected, function(state, index) {
+                    return _c(
+                      "span",
+                      { key: index, staticClass: "bl-label-14" },
+                      [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(state) +
+                            "\n                "
+                        )
+                      ]
+                    )
+                  })
+                ],
+                2
+              )
             : _vm._e(),
-          _vm._v(" "),
-          _vm._l(_vm.selected, function(state, index) {
-            return _c("span", { key: index, staticClass: "bl-label-14" }, [
-              _vm._v("\n                " + _vm._s(state) + "\n            ")
-            ])
-          }),
           _vm._v(" "),
           _vm.input.right_to_work
-            ? _c("span", { staticClass: "bl-label-15" }, [
-                _vm._v("Right to Work")
+            ? _c("div", [
+                _c("span", { staticClass: "bl-label-15" }, [
+                  _vm._v("Right to Work")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "bl-label-14" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.input.right_to_work) +
+                      "\n                "
+                  )
+                ])
               ])
-            : _vm._e(),
-          _vm._v(" "),
-          _c("span", { staticClass: "bl-label-14" }, [
-            _vm._v(
-              "\n                " +
-                _vm._s(_vm.input.right_to_work) +
-                "\n            "
-            )
-          ])
+            : _vm._e()
         ],
-        2
+        1
       )
     ])
   ])
