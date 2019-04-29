@@ -92,7 +92,10 @@
                         <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
                         <textarea rows="1" ref="respItem--1" class="form-control" style="overflow:hidden"
                                 placeholder="Add Another Responsibility"
-                                @keyup="textAreaAdjust(-1)"></textarea>
+                                @keyup="onChangeResponsibilities(0)"
+                                v-for="(res, idx) in input_add.responsibilities"
+                                v-model="input_add.responsibilities[idx]"
+                        ></textarea>
                     </form>
                 </template>
 
@@ -190,15 +193,14 @@
                         </div>
 
                         <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
-                        <div v-for="(res, index) in input.responsibilities" v-bind:key="index">
+                        <div>
                             <textarea :ref="'respItem-' + index" class="form-control" style="overflow:hidden"
-                                @focus="textAreaAdjust(index)" @keyup="textAreaAdjust(index)" >{{ res }}</textarea>
-                        </div>
-
-
-                        <textarea rows="1" ref="respItem--1" class="form-control" style="overflow:hidden"
+                                @focus="textAreaAdjust(index)" @keyup="onChangeResponsibilities(1)"
+                                v-for="(res, index) in input.responsibilities" v-bind:key="index"
+                                v-model="input.responsibilities[index]"
                                 placeholder="Add Another Responsibility"
-                                @keyup="textAreaAdjust(-1)"></textarea>
+                            >{{ res }}</textarea>
+                        </div>
                     </form>
                 </template>
 
@@ -360,11 +362,18 @@
 
             add() {
                 Utils.setObjectValues(this.input_add, '');
+
+                this.input_add.responsibilities = [];
+                this.input_add.responsibilities.push('');
+
             },
 
             edit(index) {
+
                 this.current = index;
                 this.input = this.employments[index];
+
+                this.input.responsibilities.push('');
             },
 
             getPeriod(emp) {
@@ -377,28 +386,62 @@
                 o.style.height = (o.scrollHeight) + 'px';
             },
 
+            onChangeResponsibilities(flag) {
+
+                if (flag > 0) {
+
+                    // edit
+
+                    if (this.input.responsibilities.length > 0) {
+
+                        let len = this.input.responsibilities.length > 0 ? this.input.responsibilities.length : 0;
+
+                        console.log(len);
+                        if (len > 0 && this.input.responsibilities[this.input.responsibilities.length - 1].length > 0) {
+
+                            this.input.responsibilities.push('');
+                        }
+                    }
+
+                } else {
+
+                    // new
+                    if (this.input_add.responsibilities.length > 0) {
+
+                        let len = this.input_add.responsibilities.length > 0 ? this.input_add.responsibilities.length : 0;
+
+                        console.log(len);
+                        if (len > 0 && this.input_add.responsibilities[this.input_add.responsibilities.length - 1].length > 0) {
+
+                            this.input_add.responsibilities.push('');
+                        }
+                    }
+                }
+
+            },
             async submit(id) {
+
                 let saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.input.id;
                 let saveInput = id == 0 ? this.input_add : this.input;
                 let component = this;
 
-				Utils.setObjectValues(component.errors, '');
+                Utils.setObjectValues(component.errors, '');
                 component.disabled = true;
-                
+
                 for (let i = 0; i < this.input.responsibilities.length; i++) {
                     this.input.responsibilities[i] = this.$refs['respItem-' + i][0].value;
                 }
 
                 await axios.post(saveEndpoint, saveInput, Utils.getBearerAuth())
-                    
+
                     .then(function(response) {
                         let data = response.data;
-						
+
                         $('#modalEmployment').modal('hide');
                         $('#modalAddEmployment').modal('hide');
 
                         id == 0 ?
-                            component.employments.push(data.data.work_experience) : 
+                            component.employments.push(data.data.work_experience) :
                             component.employments[component.current] = data.data.work_experience;
                     })
                     .catch(function(error) {
@@ -412,7 +455,7 @@
 
                         Utils.handleError(error);
                     });
-                
+
                 component.disabled = false;
             },
         }
