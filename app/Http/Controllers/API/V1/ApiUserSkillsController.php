@@ -79,7 +79,7 @@ class ApiUserSkillsController extends ApiBaseController
     public function update(Request $request)
     {
         $user = JWTAuth::toUser();
-        
+
         try {
 
             if (!$main_skill = $this->userRepo->saveMainSkill($request)) {

@@ -393,34 +393,21 @@
 
             onChangeResponsibilities(flag) {
 
+
                 if (flag > 0) {
 
                     // edit
 
-                    if (this.input.responsibilities.length > 0) {
+                    this.input.responsibilities = this.input.responsibilities.filter(r => r!=='');
 
-                        let len = this.input.responsibilities.length > 0 ? this.input.responsibilities.length : 0;
-
-                        console.log(len);
-                        if (len > 0 && this.input.responsibilities[this.input.responsibilities.length - 1].length > 0) {
-
-                            this.input.responsibilities.push('');
-                        }
-                    }
+                    this.input.responsibilities.push('');
 
                 } else {
 
+                    this.input_add.responsibilities = this.input_add.responsibilities.filter(r => r!=='');
+
+                    this.input_add.responsibilities.push('');
                     // new
-                    if (this.input_add.responsibilities.length > 0) {
-
-                        let len = this.input_add.responsibilities.length > 0 ? this.input_add.responsibilities.length : 0;
-
-                        console.log(len);
-                        if (len > 0 && this.input_add.responsibilities[this.input_add.responsibilities.length - 1].length > 0) {
-
-                            this.input_add.responsibilities.push('');
-                        }
-                    }
                 }
 
             },
