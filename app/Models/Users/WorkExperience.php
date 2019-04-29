@@ -40,8 +40,8 @@ class WorkExperience extends BaseModel
             'location'      => 'required|string',
             'start_month'   => 'required|integer',
             'start_year'    => 'required|integer',
-            'end_month'     => 'required|integer',
-            'end_year'      => 'required|integer',
+            'end_month'     => 'nullable|integer',
+            'end_year'      => 'nullable|integer',
             'user_id'       => 'required|integer',
             'company_id'    => 'nullable|integer'
         ];
@@ -117,7 +117,6 @@ class WorkExperience extends BaseModel
         
         $pk = $this->primaryKey;
 
-     //   dd(Utils::convertToUSDMoney($r->project_size));
         if ($r->$pk) {
 
             $this->exists = true;
@@ -130,6 +129,12 @@ class WorkExperience extends BaseModel
         }
 
         $data['user_id'] = $this->userId;
+
+        if ($data['isCurrent']) {
+
+            unset($data['end_month']);
+            unset($data['end_year']);
+        }
 
         if (!$this->validate($data)) {
 

@@ -34,6 +34,8 @@ class WorkerRepository extends AbstractRepository
             return false;
         }
 
+        $responsibilities = [];
+
         if ($request->responsibilities) {
 
             foreach ($request->responsibilities as $r) {
@@ -74,6 +76,8 @@ class WorkerRepository extends AbstractRepository
 
             return false;
         }
+
+        $responsibilities = [];
 
         if ($request->responsibilities) {
 

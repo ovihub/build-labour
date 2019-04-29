@@ -88,7 +88,9 @@
                                 </span>
                             </div>
                         </div>
-
+                        <div class="emp-row">
+                            <div class="emp-label" style="margin-bottom:17px"><input type="checkbox" v-model="input_add.isCurrent"> Currently in this Role</div>
+                        </div>
                         <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
                         <textarea rows="1" ref="respItem--1" class="form-control" style="overflow:hidden"
                                 placeholder="Add Another Responsibility"
@@ -171,7 +173,7 @@
                                 </span>
                             </div>
                         </div>
-                         <div class="emp-row">
+                        <div class="emp-row">
                             <div class="emp-col-left">
                                 <div class="emp-form-label">End Month</div>
                                 <select v-model="input.end_month">
@@ -191,14 +193,17 @@
                                 </span>
                             </div>
                         </div>
+                        <div class="emp-row">
+                            <div class="emp-label" style="margin-bottom:17px"><input type="checkbox" v-model="input.isCurrent"> Currently in this Role</div>
+                        </div>
+                        <div class="emp-row">
+                            <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
 
-                        <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
-                        <div>
                             <textarea :ref="'respItem-' + index" class="form-control" style="overflow:hidden"
-                                @focus="textAreaAdjust(index)" @keyup="onChangeResponsibilities(1)"
-                                v-for="(res, index) in input.responsibilities" v-bind:key="index"
-                                v-model="input.responsibilities[index]"
-                                placeholder="Add Another Responsibility"
+                                      @focus="textAreaAdjust(index)" @keyup="onChangeResponsibilities(1)"
+                                      v-for="(res, index) in input.responsibilities" v-bind:key="index"
+                                      v-model="input.responsibilities[index]"
+                                      placeholder="Add Another Responsibility"
                             >{{ res }}</textarea>
                         </div>
                     </form>
