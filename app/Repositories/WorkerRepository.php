@@ -36,12 +36,13 @@ class WorkerRepository extends AbstractRepository
 
         if ($request->responsibilities) {
 
-            $responsibilities = $request->responsibilities;
+            foreach ($request->responsibilities as $r) {
 
-            $responsibilities = array_map(function($r) {
+                if (!empty($r)) {
 
-                return array('work_experience_id' => $this->workExp->id, 'responsibility' => $r);
-            }, $responsibilities);
+                    $responsibilities[] = array('work_experience_id' => $this->workExp->id, 'responsibility' => $r);
+                }
+            }
 
             WorkExperienceResponsibility::insert($responsibilities);
         }
@@ -78,12 +79,13 @@ class WorkerRepository extends AbstractRepository
 
             WorkExperienceResponsibility::where('work_experience_id', $this->workExp->id)->delete();
 
-            $responsibilities = $request->responsibilities;
+            foreach ($request->responsibilities as $r) {
 
-            $responsibilities = array_map(function($r) {
+                if (!empty($r)) {
 
-                return array('work_experience_id' => $this->workExp->id, 'responsibility' => $r);
-            }, $responsibilities);
+                    $responsibilities[] = array('work_experience_id' => $this->workExp->id, 'responsibility' => $r);
+                }
+            }
 
             WorkExperienceResponsibility::insert($responsibilities);
         }
