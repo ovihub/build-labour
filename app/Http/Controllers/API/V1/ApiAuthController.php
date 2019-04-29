@@ -262,20 +262,7 @@ class ApiAuthController extends ApiBaseController
 
             if (!$user->workerDetail) {
 
-                WorkerDetail::create([
-                    'profile_description' => '',
-                    'english_skill' => '',
-                    'drivers_license' => '',
-                    'right_to_work' => '',
-                    'main_skill' => '',
-                    'introduction' => '',
-                    'when' => '',
-                    'max_distance' => '',
-                    'address' => '',
-                    'state' => '',
-                    'nrole_right_to_work_au' => true,
-                    'user_id' => $user->id
-                ]);
+                WorkerDetail::create(['user_id' => $user->id]);
             }
 
         } catch (\Exception $e) {
