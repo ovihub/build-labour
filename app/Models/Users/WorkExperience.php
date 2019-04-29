@@ -130,7 +130,7 @@ class WorkExperience extends BaseModel
 
         $data['user_id'] = $this->userId;
 
-        if ($data['isCurrent']) {
+        if (isset($data['isCurrent']) && $data['isCurrent']) {
 
             unset($data['end_month']);
             unset($data['end_year']);
