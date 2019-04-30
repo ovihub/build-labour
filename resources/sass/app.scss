@@ -101,16 +101,16 @@ select {
 }
 button[disabled] {
   background-image: none;
-  border: 1px solid #999999;
-  background-color: #999999;
-  color: #000000;
+  border: 1px solid #cccccc;
+  background-color: #cccccc;
+  color: #999999;
   cursor: none;
 
   &:hover {
     background-image: none;
-    border: 1px solid #999999;
-    background-color: #999999;
-    color: #000000;
+    border: 1px solid #cccccc;
+    background-color: #cccccc;
+    color: #999999;
     transition: background-color 0.33s ease-in-out, background-image 0.33s ease-in-out;
   }
 }
