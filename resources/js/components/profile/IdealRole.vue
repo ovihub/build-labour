@@ -20,10 +20,10 @@
                                 placeholder="Example: My ideal next role would be as a qualified plumber working on high-end residential jobs with an awesome team."
                                 @keyup="textAreaAdjust" v-model="input.introduction"></textarea>
                             
-                            <div class="skill-label">
+                            <div class="skill-label" style="margin-bottom:0">
                                 When could this happen?
                             </div>
-                            <div class="emp-row row-center">
+                            <div class="emp-row row-center" style="margin-top:17px">
                                 <div class="emp-col-left">
                                     <input class="form-control" type="text" placeholder="Enter number of Months" v-model="input.when" />
                                 </div>

@@ -49432,46 +49432,66 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _c("div", { staticClass: "skill-label" }, [
-                      _vm._v(
-                        "\n                            When could this happen?\n                        "
-                      )
-                    ]),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "skill-label",
+                        staticStyle: { "margin-bottom": "0" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            When could this happen?\n                        "
+                        )
+                      ]
+                    ),
                     _vm._v(" "),
-                    _c("div", { staticClass: "emp-row row-center" }, [
-                      _c("div", { staticClass: "emp-col-left" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.input.when,
-                              expression: "input.when"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "text",
-                            placeholder: "Enter number of Months"
-                          },
-                          domProps: { value: _vm.input.when },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                    _c(
+                      "div",
+                      {
+                        staticClass: "emp-row row-center",
+                        staticStyle: { "margin-top": "17px" }
+                      },
+                      [
+                        _c("div", { staticClass: "emp-col-left" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.input.when,
+                                expression: "input.when"
                               }
-                              _vm.$set(_vm.input, "when", $event.target.value)
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              placeholder: "Enter number of Months"
+                            },
+                            domProps: { value: _vm.input.when },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(_vm.input, "when", $event.target.value)
+                              }
                             }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "emp-col-right" }, [
-                        _c("label", { staticStyle: { "margin-bottom": "0" } }, [
-                          _vm._v(_vm._s(_vm.formatWhenMonth(_vm.input.when)))
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "emp-col-right" }, [
+                          _c(
+                            "label",
+                            { staticStyle: { "margin-bottom": "0" } },
+                            [
+                              _vm._v(
+                                _vm._s(_vm.formatWhenMonth(_vm.input.when))
+                              )
+                            ]
+                          )
                         ])
-                      ])
-                    ]),
+                      ]
+                    ),
                     _vm._v(" "),
                     _c("div", { staticClass: "skill-label" }, [
                       _vm._v(
