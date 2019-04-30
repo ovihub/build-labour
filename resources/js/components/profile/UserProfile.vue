@@ -6,8 +6,8 @@
 
             <input type="file" id="upload" value="Choose a file" accept="image/*" style="display:none" @change="onFileChange" />
             
-            <div class="profile-header"  @click="onClickUploadImage">
-                <img v-if="input.profile_photo_url" class="profile-picture" v-bind:src="input.profile_photo_url" alt="">
+            <div class="profile-header"  @click="onClickProfilePhoto">
+                <img v-if="input.profile_photo_url" class="profile-picture" :src="input.profile_photo_url" alt="">
                 <div v-else>
                     <avatar cls="profile-picture" size="110" border="7"></avatar>
                 </div>
@@ -104,6 +104,10 @@
             Bus.$on('croppedPhoto', function(photo_url) {
                 component.input.profile_photo_url = photo_url;
             });
+
+            Bus.$on('closePhotoModal', function() {
+                $('#upload').val('');
+            });
         },
 
         methods: {
@@ -112,21 +116,21 @@
                                        new Date(emp.end_year, emp.end_month-1, 1));
             },
             
-            onClickUploadImage() {
+            onClickProfilePhoto() {
                 upload.click();
             },
 
             onFileChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
-
-                if (!files.length)
+                
+                if (! files.length) {
                     return;
+                }
 
-                let app = this,
-                    file = files[0],
+                let file = files[0],
                     reader  = new FileReader();
 
-                reader.addEventListener('load', function () {
+                reader.addEventListener('load', function() {
                     Bus.$emit('imageToCrop', reader.result);
                 }, false);
 

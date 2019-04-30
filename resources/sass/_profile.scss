@@ -175,6 +175,13 @@
   flex-wrap: wrap;
   margin-left: auto;
   margin-right: auto;
+
+  &:hover {
+    cursor: pointer;
+    background: rgb(0, 0, 0, 0.8);
+    opacity: 0.8;
+    transition: .3s ease-in-out;
+  }
 }
 .bl-box {
   position: absolute;
