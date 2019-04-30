@@ -10,7 +10,7 @@ class WorkerDetail extends BaseModel
 {
     protected $table = 'worker_details';
 
-    protected $fillable = ['profile_description', 'english_skill', 'drivers_license', 'right_to_work', 'main_skill', 'introduction', 'when', 'max_distance', 'address', 'state', 'nrole_right_to_work_au', 'user_id'];
+    protected $fillable = ['profile_description', 'english_skill', 'drivers_license', 'right_to_work', 'main_skill', 'introduction', 'when', 'max_distance', 'address', 'state', 'nrole_right_to_work_au', 'user_id', 'has_registered_vehicle'];
 
     private $userId = null;
 
@@ -33,10 +33,12 @@ class WorkerDetail extends BaseModel
         }
 
         return [
+            'english_skill' => 'nullable|boolean',
+            'drivers_license' => 'nullable|boolean',
+            'right_to_work' => 'nullable|boolean',
+            'has_registered_vehicle' => 'nulable|boolean',
             'introduction'  => 'nullable|min:5',
-            'english_skill' => 'nullable|min:3',
             'profile_description' => 'nullable|min:10',
-            'drivers_license' => 'nullable',
             'when' => 'nullable|integer',
             'max_distance' => 'nullable|integer'
         ];
