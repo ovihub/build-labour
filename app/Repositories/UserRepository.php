@@ -55,7 +55,6 @@ class UserRepository extends AbstractRepository
 
             $existingSkills = UserSkill::where('user_id', $user->id)->exists();
 
-
             if (!$existingSkills) {
 
                 UserSkill::create([
@@ -103,4 +102,24 @@ class UserRepository extends AbstractRepository
 
         return $user->skills;
     }
+
+
+    public function deleteMainSkills(Request $request) {
+
+        // delete user skills
+        // empty worker_details.main_skill field
+
+        $user = JWTAuth::toUser();
+
+        if ($user->workerDetail) {
+
+            $user->workerDetail->main_skill = null;
+            $user->workerDetail->save();
+            UserSkill::where('user_id', $user->id)->delete();
+        }
+
+        return true;
+    }
+
+
 }

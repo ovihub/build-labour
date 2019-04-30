@@ -35,6 +35,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 
             Route::prefix('skills')->group(function() {
                 Route::post('/', 'ApiUserSkillsController@update');
+                Route::delete('', 'ApiUserSkillsController@deleteMainSkills');
             });
 
             Route::prefix('education')->group(function() {
