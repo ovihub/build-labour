@@ -6,7 +6,7 @@
 		
                 <template slot="custom-modal-title">
                     <h4 class="modal-title">Edit Industry Skills & Achievements</h4>
-                    <div class="close" data-dismiss="modal">&times;</div>
+                    <div class="close" data-dismiss="modal" @click="close">&times;</div>
                 </template>
 
                 <template slot="custom-modal-content">
@@ -159,6 +159,10 @@
             textAreaAdjust() {
                 let o = this.$refs['skillsIntro'];
                 o.style.height = (o.scrollHeight) + 'px';
+            },
+
+            close() {
+                Utils.setObjectValues(this.errors, '');
             },
 
             async submit() {

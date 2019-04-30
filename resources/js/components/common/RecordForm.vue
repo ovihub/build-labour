@@ -37,7 +37,9 @@
 			return {
 				disabled: false,
 				inputted: {},
-				errors: {},
+				errors: {
+					ticket: '', description: '',
+				},
                 textArea: [
 					'introduction'
 				],

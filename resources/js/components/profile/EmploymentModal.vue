@@ -2,7 +2,7 @@
     <main-modal id="modalEmployment">
 
         <template slot="custom-modal-title">
-            <h4 class="modal-title">Edit Employment History</h4>
+            <h4 class="modal-title">{{ current == -1 ? 'Add' : 'Edit' }} Employment History</h4>
             <div class="close" data-dismiss="modal" @click="close">&times;</div>
         </template>
 
@@ -13,7 +13,7 @@
                 <div class="form-group">
                     <div class="emp-row">
                         <div class="modal-form-label">Your Role</div>
-                        <input class="form-control" type="text" v-model="job_role"/>
+                        <input class="form-control" type="text" v-model="job_role" />
                         <span class="err-msg" v-if="errors.job_role">
                             {{ errors.job_role }}
                         </span>

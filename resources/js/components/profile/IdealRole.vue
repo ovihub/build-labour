@@ -174,7 +174,7 @@
                 val.state = details.state;
                 val.selected = val.state ? val.state.split(',') : [];
 
-                if (details.right_to_work) {
+                if (! Utils.isNullOrEmpty(details.right_to_work)) {
                     val.right_to_work = details.right_to_work == 1 ? 
                         'Yes, I have right to work in Australia' : 'No, I don\'t have right to work in Australia';
                     

@@ -2963,7 +2963,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       disabled: false,
       inputted: {},
-      errors: {},
+      errors: {
+        ticket: '',
+        description: ''
+      },
       textArea: ['introduction'],
       format: 'd MMMM yyyy'
     };
@@ -4508,7 +4511,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       val.state = details.state;
       val.selected = val.state ? val.state.split(',') : [];
 
-      if (details.right_to_work) {
+      if (!Utils.isNullOrEmpty(details.right_to_work)) {
         val.right_to_work = details.right_to_work == 1 ? 'Yes, I have right to work in Australia' : 'No, I don\'t have right to work in Australia';
         this.formatRightToWork(details.right_to_work);
       }
@@ -4774,6 +4777,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     textAreaAdjust: function textAreaAdjust() {
       var o = this.$refs['skillsIntro'];
       o.style.height = o.scrollHeight + 'px';
+    },
+    close: function close() {
+      Utils.setObjectValues(this.errors, '');
     },
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -48014,7 +48020,9 @@ var render = function() {
     { attrs: { id: "modalEducation" } },
     [
       _c("template", { slot: "custom-modal-title" }, [
-        _c("h4", { staticClass: "modal-title" }, [_vm._v("Edit Education")]),
+        _c("h4", { staticClass: "modal-title" }, [
+          _vm._v(_vm._s(_vm.current == -1 ? "Add" : "Edit") + " Education")
+        ]),
         _vm._v(" "),
         _c(
           "div",
@@ -48717,7 +48725,9 @@ var render = function() {
     [
       _c("template", { slot: "custom-modal-title" }, [
         _c("h4", { staticClass: "modal-title" }, [
-          _vm._v("Edit Employment History")
+          _vm._v(
+            _vm._s(_vm.current == -1 ? "Add" : "Edit") + " Employment History"
+          )
         ]),
         _vm._v(" "),
         _c(
@@ -49851,7 +49861,11 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "close", attrs: { "data-dismiss": "modal" } },
+                {
+                  staticClass: "close",
+                  attrs: { "data-dismiss": "modal" },
+                  on: { click: _vm.close }
+                },
                 [_vm._v("×")]
               )
             ]),

@@ -2,7 +2,7 @@
     <main-modal id="modalEducation">
 
         <template slot="custom-modal-title">
-            <h4 class="modal-title">Edit Education</h4>
+            <h4 class="modal-title">{{ current == -1 ? 'Add' : 'Edit' }} Education</h4>
             <div class="close" data-dismiss="modal" @click="close">&times;</div>
         </template>
 
