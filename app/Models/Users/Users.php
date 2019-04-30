@@ -252,7 +252,7 @@ class Users extends BaseModel implements
             $this->attributes['mobile_number'] = '+61' . $mobile;
         }
     }
-
+    
     public function getJwtToken()
     {
         // the JWTSubject class is App/User and not $this
