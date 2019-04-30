@@ -37,7 +37,9 @@
                             </div>
                             <div class="emp-row-2 row-center">
                                 <div class="emp-col-left-2">
-                                    <input type="range" min="0" max="500" step="50" class="slider" v-model="input.max_distance">
+                                    <div class="bl-slider">
+                                        <input type="range" min="0" max="500" step="50" class="slider" :style="maxDistance" v-model="input.max_distance">
+                                    </div>
                                 </div>
                                 <div class="emp-col-right-2">
                                     <label>
@@ -163,6 +165,14 @@
                     component.setValues(component.input, details);
                 }
             });
+        },
+
+        computed: {
+            maxDistance() {
+                return {
+                    background: `linear-gradient(to right, #ff7705 ${(this.input.max_distance / 500) * 100}%, #ff7705 ${(this.input.max_distance / 500) * 100}%, #fff 00%, #fff 100%)`
+                }
+            },
         },
 
         methods: {

@@ -4470,6 +4470,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4502,6 +4504,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         component.setValues(component.input, details);
       }
     });
+  },
+  computed: {
+    maxDistance: function maxDistance() {
+      return {
+        background: "linear-gradient(to right, #ff7705 ".concat(this.input.max_distance / 500 * 100, "%, #ff7705 ").concat(this.input.max_distance / 500 * 100, "%, #fff 00%, #fff 100%)")
+      };
+    }
   },
   methods: {
     setValues: function setValues(val, details) {
@@ -49511,33 +49520,36 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-row-2 row-center" }, [
                       _c("div", { staticClass: "emp-col-left-2" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.input.max_distance,
-                              expression: "input.max_distance"
+                        _c("div", { staticClass: "bl-slider" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.input.max_distance,
+                                expression: "input.max_distance"
+                              }
+                            ],
+                            staticClass: "slider",
+                            style: _vm.maxDistance,
+                            attrs: {
+                              type: "range",
+                              min: "0",
+                              max: "500",
+                              step: "50"
+                            },
+                            domProps: { value: _vm.input.max_distance },
+                            on: {
+                              __r: function($event) {
+                                return _vm.$set(
+                                  _vm.input,
+                                  "max_distance",
+                                  $event.target.value
+                                )
+                              }
                             }
-                          ],
-                          staticClass: "slider",
-                          attrs: {
-                            type: "range",
-                            min: "0",
-                            max: "500",
-                            step: "50"
-                          },
-                          domProps: { value: _vm.input.max_distance },
-                          on: {
-                            __r: function($event) {
-                              return _vm.$set(
-                                _vm.input,
-                                "max_distance",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
+                          })
+                        ])
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "emp-col-right-2" }, [
