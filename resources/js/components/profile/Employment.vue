@@ -148,6 +148,10 @@
                     }
                 }
             });
+
+            Bus.$on('removeEmployment', function(index) {
+                component.employments.splice(index, 1);
+            });
         },
 
         methods: {

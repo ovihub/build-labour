@@ -44,6 +44,7 @@ Vue.component('alert', require('./components/common/Alert.vue').default);
 Vue.component('avatar', require('./components/common/Avatar.vue').default);
 Vue.component('main-modal', require('./components/common/MainModal.vue').default);
 Vue.component('photo-modal', require('./components/common/PhotoModal.vue').default);
+Vue.component('delete-modal', require('./components/common/DeleteModal.vue').default);
 Vue.component('navigation', require('./components/common/Navigation.vue').default);
 Vue.component('password-eye', require('./components/common/PasswordEye.vue').default);
 Vue.component('record-form', require('./components/common/RecordForm.vue').default);

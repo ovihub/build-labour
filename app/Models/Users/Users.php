@@ -55,9 +55,9 @@ class Users extends BaseModel implements
         if ($this->isOptionalTransaction) {
 
             return [
-                'gender' => 'required|in:Male,male,Female,female,Other,other',
-                'date_of_birth' => 'required|date',
-                'marital_status' => 'required|min:2',
+                'gender' => 'nullable|in:Male,male,Female,female,Other,other',
+                'date_of_birth' => 'nullable|date',
+                'marital_status' => 'nullable|min:2',
                 'first_name'    => 'required|min:2',
                 'last_name'     => 'required|min:2',
             ];

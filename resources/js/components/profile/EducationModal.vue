@@ -70,7 +70,13 @@
         </template>
 
         <template slot="custom-modal-footer">
-            <button class="mt-0" type="submit" @click="submit" :disabled="disabled">Save Changes</button>
+            <div class="btn btn-link btn-delete" data-dismiss="modal" v-if="current != -1" @click="deleteRecord">
+                Delete
+            </div>
+
+            <button class="pull-right" type="submit" @click="submit" :disabled="disabled">
+                Save Changes
+            </button>
         </template>
 
     </main-modal>
@@ -99,6 +105,7 @@
                 },
                 endpoints: {
                     save: '/api/v1/user/education',
+                    delete: '/api/v1/user/education/',
                 },
             }
         },
@@ -133,6 +140,12 @@
                 this.current = -1;
 
                 Utils.setObjectValues(this.errors, '');
+            },
+
+            deleteRecord() {
+                $('#deleteRecordModal').modal('show');
+                
+                Bus.$emit('deleteEducation', this.current, this.endpoints.delete + this.id);
             },
 
             async submit() {

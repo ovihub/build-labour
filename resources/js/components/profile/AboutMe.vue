@@ -113,7 +113,13 @@
                     </template>
 
                     <template slot="custom-modal-footer">
-                        <button class="mt-0" type="submit" @click="submit" :disabled="disabled">Save Changes</button>
+                        <div class="btn btn-link btn-delete" data-dismiss="modal" @click="deleteRecord">
+                            Delete
+                        </div>
+
+                        <button class="pull-right" type="submit" @click="submit" :disabled="disabled">
+                            Save Changes
+                        </button>
                     </template>
 
                 </main-modal>
@@ -209,19 +215,31 @@
                         'Proficient in written and spoken' : 'Not proficient in written and spoken';
                     
                     this.formatEnglishSkill(details.english_skill);
+                
+                } else {
+                    val.english_skill = null;
                 }
+
                 if (! Utils.isNullOrEmpty(details.drivers_license)) {
                     val.drivers_license = details.drivers_license == 1 ?
                         'Owns valid license' : 'Does not own valid license';
                     
                     this.formatDriversLicense(details.drivers_license);
+                
+                } else {
+                    val.drivers_license = null;
                 }
+
                 if (! Utils.isNullOrEmpty(details.has_registered_vehicle)) {
                     val.has_registered_vehicle = details.has_registered_vehicle == 1 ?
                         'Owns/has access to personal registered vehicle' : 'Does not own/have access to personal registered vehicle';
                     
                     this.formaHasVehicle(details.has_registered_vehicle);
+                
+                } else {
+                    val.has_registered_vehicle = null;
                 }
+
                 if (! Utils.isNullOrEmpty(details.date_of_birth)) {
                     let d = new Date(details.date_of_birth);
 
@@ -298,10 +316,19 @@
                 Utils.setObjectValues(this.errors, '');
             },
             
-            async submit() {
+            deleteRecord() {
+                // Bus.$emit('deleteAboutMe');
+                Utils.setObjectValues(this.input, '');
+
+                this.submit('clear');
+            },
+
+            async submit(action = 0) {
                 let component = this;
 
-                this.input.date_of_birth = this.birthYear + '-' + this.birthMonth + '-' + this.birthDay;
+                if (action !== 'clear') {
+                    this.input.date_of_birth = this.birthYear + '-' + this.birthMonth + '-' + this.birthDay;
+                }
 
                 Utils.setObjectValues(this.errors, '');
                 this.disabled = true;

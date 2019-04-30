@@ -2,6 +2,8 @@
     <div class="profile-item-2">
         <div class="profile-content">
 
+            <delete-modal></delete-modal>
+
             <main-modal id="modalIndustrySkill">
 		
                 <template slot="custom-modal-title">
@@ -43,7 +45,13 @@
                 </template>
 
                 <template slot="custom-modal-footer">
-                    <button class="mt-0" type="submit" @click="submit" :disabled="disabled">Save Changes</button>
+                    <div class="btn btn-link btn-delete" data-dismiss="modal" @click="deleteRecord">
+                        Delete
+                    </div>
+
+                    <button class="pull-right" type="submit" @click="submit" :disabled="disabled">
+                        Save Changes
+                    </button>
                 </template>
 
             </main-modal>
@@ -104,6 +112,7 @@
                 },
                 endpoints: {
                     save: '/api/v1/user/skills',
+                    delete: '/api/v1/user/skills',
                 },
                 levels: [
                     { id: 1, name: 'Beginner' },
@@ -144,6 +153,12 @@
 
                 component.display();
             });
+
+            Bus.$on('removeIndustrySkill', function() {
+                component.main_skill = '';
+                component.user_skills = [];
+                component.display();
+            });
         },
 
         methods: {
@@ -163,6 +178,12 @@
 
             close() {
                 Utils.setObjectValues(this.errors, '');
+            },
+
+            deleteRecord() {
+                $('#deleteRecordModal').modal('show');
+
+                Bus.$emit('deleteIndustrySkill', this.endpoints.delete);
             },
 
             async submit() {

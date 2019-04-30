@@ -134,7 +134,13 @@
         </template>
 
         <template slot="custom-modal-footer">
-            <button class="mt-0" type="submit" @click="submit" :disabled="disabled">Save Changes</button>
+            <div class="btn btn-link btn-delete" data-dismiss="modal" v-if="current != -1" @click="deleteRecord">
+                Delete
+            </div>
+
+            <button class="pull-right" type="submit" @click="submit" :disabled="disabled">
+                Save Changes
+            </button>
         </template>
 
     </main-modal>
@@ -171,6 +177,7 @@
                 },
                 endpoints: {
                     save: '/api/v1/work/experience',
+                    delete: '/api/v1/work/experience/',
                     locations: '/api/v1/locations',
                     companies: '/api/v1/company/search'
                 },
@@ -296,6 +303,12 @@
                 this.companies = [];
             },
 
+            deleteRecord() {
+                $('#deleteRecordModal').modal('show');
+
+                Bus.$emit('deleteEmployment', this.current, this.endpoints.delete + this.id);
+            },
+            
             async submit() {
                 let component = this;
                 let saveEndpoint = this.id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.id;

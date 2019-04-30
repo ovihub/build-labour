@@ -71,6 +71,10 @@
                     component.$refs['eduPeriod-' + index][0].textContent = component.formatPeriod(details);
                 }
             });
+
+            Bus.$on('removeEducation', function(index) {
+                component.educations.splice(index, 1);
+            });
         },
 
         methods: {

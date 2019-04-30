@@ -793,6 +793,18 @@ p.bl-nav-tab-label {
 .modal-header {
   padding: 22px 32px;
 }
+.modal-footer {
+  display: block;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid #dee2e6;
+  border-bottom-right-radius: 0.3rem;
+  border-bottom-left-radius: 0.3rem;
+  width: 100%;
+  padding-left: 32px;
+  padding-right: 16px;
+  padding-top: 5px;
+}
 .text-error {
   font-size: 200px;
   line-height: 1.7;
@@ -841,7 +853,19 @@ p.bl-nav-tab-label {
   padding-left: 5px;
   padding-right: 5px;
 }
+.btn-delete {
+  font-size: 15px;
+  font-weight: 500;
+  color: #ffc658;
+  padding-top: 20px;
+  padding-left: 0px;
+  cursor: pointer;
 
+  &:hover {
+    color: $brand-orange;
+    text-decoration: none;
+  }
+}
 
 .emp-row {
   position: relative;

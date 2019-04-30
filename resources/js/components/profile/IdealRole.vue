@@ -82,7 +82,13 @@
                     </template>
 
                     <template slot="custom-modal-footer">
-                        <button class="mt-0" type="submit" @click="submit" :disabled="disabled">Save Changes</button>
+                        <div class="btn btn-link btn-delete" @click="deleteRecord">
+                            Delete
+                        </div>
+
+                        <button class="pull-right" type="submit" @click="submit" :disabled="disabled">
+                            Save Changes
+                        </button>
                     </template>
 
                 </main-modal>
@@ -189,6 +195,9 @@
                         'Yes, I have right to work in Australia' : 'No, I don\'t have right to work in Australia';
                     
                     this.formatRightToWork(details.right_to_work);
+                
+                } else {
+                    val.right_to_work = null;
                 }
             },
 
@@ -232,12 +241,22 @@
                 o.style.height = (o.scrollHeight) + 'px';
             },
 
-            async submit(id) {
+            deleteRecord() {
+                // Bus.$emit('deleteIdealRole');
+                Utils.setObjectValues(this.input, '');
+
+                this.submit('clear');
+            },
+
+            async submit(action = 0) {
                 let component = this;
 
-                component.disabled = true;
-                component.input.state = component.input.selected.toString();
+                if (action !== 'clear') {
+                    component.input.state = component.input.selected.toString();
+                }
                 
+                this.disabled = true;
+
                 await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
                     
                     .then(function(response) {
@@ -252,7 +271,7 @@
                         Utils.handleError(error);
                     });
                 
-                component.disabled = false;
+                this.disabled = false;
             },
         }
     }
