@@ -2877,8 +2877,8 @@ var cropper = null;
                   var data = response.data;
 
                   if (data.success) {
-                    component.close();
-                    Bus.$emit('alertSuccess', data.message); // Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
+                    component.close(); // Bus.$emit('alertSuccess', data.message);
+                    // Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
 
                     window.location.href = '/login';
                   }

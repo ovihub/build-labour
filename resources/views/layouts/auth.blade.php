@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="/buildlabourfavicon.ico" type="image/x-icon">
     <link rel="icon" href="/buildlabourfavicon.ico" type="image/x-icon">
 </head>
-<body>
+<body style="overflow:hidden">
     <div id="app">
         
         <alert></alert>
