@@ -1145,3 +1145,64 @@ input[type="range"]::-webkit-slider-thumb:active {
     transform: rotate(45deg);
   }
 }
+
+.styled-checkbox-2 {
+  position: absolute;
+  opacity: 0;
+  margin-top: 24px;
+
+  & + label {
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    margin-right: 34px;
+    width: 362px;
+    font-size: 15px;
+    line-height: 1.33;
+    font-weight: normal;
+    color: #383d3f;
+  }
+
+  & + label:before {
+    content: '';
+    margin-right: 16px;
+    display: inline-block;
+    vertical-align: text-top;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border: 1px solid #000;
+  }
+
+  &:checked + label:before {
+    background: white;
+  }
+
+  &:checked + label:after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 9px;
+    background: $brand-orange;
+    width: 3px;
+    height: 3px;
+    box-shadow: 
+      2px 0 0 $brand-orange,
+      4px 0 0 $brand-orange,
+      4px -2px 0 $brand-orange,
+      4px -4px 0 $brand-orange,
+      4px -6px 0 $brand-orange,
+      4px -8px 0 $brand-orange;
+    transform: rotate(45deg);
+  }
+
+  &:disabled + label {
+    color: #b8b8b8;
+    cursor: auto;
+  }
+
+  &:disabled + label:before {
+    box-shadow: none;
+    background: #ddd;
+  }
+}

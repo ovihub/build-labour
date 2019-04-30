@@ -40,7 +40,9 @@
 
                             <div class="emp-row" v-if="locations.length > 0">
                                 <ul class="list-group">
-                                    <li class="list-group-item" v-for="place in locations" v-on:click="onSelectLocation(place.place_name, 0)">{{ place.place_name }}</li>
+                                    <li class="list-group-item" v-for="place in locations" v-on:click="onSelectLocation(place.place_name, 0)">
+                                        {{ place.place_name }}
+                                    </li>
                                 </ul>
                             </div>
 
@@ -95,7 +97,10 @@
                             </div>
                         </div>
                         <div class="emp-row">
-                            <div class="emp-label" style="margin-bottom:17px"><input type="checkbox" v-model="input_add.isCurrent"> Currently in this Role</div>
+                            <div class="emp-label" style="margin-top:0">
+                                <input class="styled-checkbox-2" id="styled-checkbox-current" type="checkbox" v-model="input_add.isCurrent" />
+                                <label for="styled-checkbox-current">Currently in this Role</label>
+                            </div>
                         </div>
                         <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
                         <textarea rows="1" :ref="'respItem-' + idx"  class="form-control" style="overflow:hidden"
@@ -152,7 +157,9 @@
 
                             <div class="emp-row" v-if="locations.length > 0">
                                 <ul class="list-group">
-                                    <li class="list-group-item" v-for="place in locations" v-on:click="onSelectLocation(place.place_name, 1)">{{ place.place_name }}</li>
+                                    <li class="list-group-item" v-for="place in locations" @click="onSelectLocation(place.place_name, 1)">
+                                        {{ place.place_name }}
+                                    </li>
                                 </ul>
                             </div>
 
@@ -186,7 +193,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="emp-row" v-if="!input_add.isCurrent">
+                        <div class="emp-row" v-if="! input.isCurrent">
                             <div class="emp-col-left">
                                 <div class="emp-form-label">End Month</div>
                                 <select v-model="input.end_month">
@@ -207,18 +214,19 @@
                             </div>
                         </div>
                         <div class="emp-row">
-                            <div class="emp-label" style="margin-bottom:17px"><input type="checkbox" v-model="input.isCurrent"> Currently in this Role</div>
+                            <div class="emp-label" style="margin-top:0">
+                                <input class="styled-checkbox-2" id="styled-checkbox-current-2" type="checkbox" v-model="input.isCurrent" />
+                                <label for="styled-checkbox-current-2">Currently in this Role</label>
+                            </div>
                         </div>
-                        <div class="emp-row">
-                            <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
+                        <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
 
-                            <textarea :ref="'respItem-' + index" class="form-control" style="overflow:hidden"
-                                      @focus="textAreaAdjust(index)" @keyup="onChangeResponsibilities(1, index  )"
-                                      v-for="(res, index) in input.responsibilities" v-bind:key="index"
-                                      v-model="input.responsibilities[index]"
-                                      placeholder="Add Another Responsibility"
-                            >{{ res }}</textarea>
-                        </div>
+                        <textarea :ref="'respItem-' + index" class="form-control" style="overflow:hidden"
+                                    @focus="textAreaAdjust(index)" @keyup="onChangeResponsibilities(1, index  )"
+                                    v-for="(res, index) in input.responsibilities" v-bind:key="index"
+                                    v-model="input.responsibilities[index]"
+                                    placeholder="Add Another Responsibility"
+                        >{{ res }}</textarea>
                     </form>
                 </template>
 
@@ -396,8 +404,10 @@
             },
 
             formatPeriod(emp) {
-                return Utils.formatPeriod(new Date(emp.start_year, emp.start_month-1, 1),
-                                       new Date(emp.end_year, emp.end_month-1, 1));
+                let endDate = (emp.end_month && emp.end_year) ?
+                              new Date(emp.end_year, emp.end_month-1, 1) : new Date();
+
+                return Utils.formatPeriod(new Date(emp.start_year, emp.start_month-1, 1), endDate);
             },
 
             textAreaAdjust(index) {
@@ -419,16 +429,13 @@
             },
 
             onChangeLocation(location) {
-
                 let component = this;
 
                 if (location.length <= 0) {
-
                     component.locations = [];
                 }
 
-                if(this.time_out) {
-
+                if (this.time_out) {
                     clearTimeout(this.time_out);
                 }
 
@@ -437,31 +444,19 @@
                     axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth())
 
                         .then(function(response) {
-
-                            console.log(response);
+                            
                             component.locations = response.data.data.locations.features;
-                            console.log(component.locations);
                         })
                         .catch(function(error) {
 
                             Utils.handleError(error);
                         });
+
                 }.bind(this), 300);
             },
 
             onSelectLocation(location, mode) {
-
-                if (mode > 0) {
-
-                    // edit
-                    console.log('edit');
-                    this.input.location = location;
-                } else {
-
-                    // new
-
-                    this.input_add.location = location;
-                }
+                mode > 0 ? this.input.location = location : this.input_add.location = location;
             },
 
             async submit(id) {
