@@ -36,7 +36,7 @@ class WorkerDetail extends BaseModel
             'english_skill' => 'nullable|boolean',
             'drivers_license' => 'nullable|boolean',
             'right_to_work' => 'nullable|boolean',
-            'has_registered_vehicle' => 'nulable|boolean',
+            'has_registered_vehicle' => 'nullable|boolean',
             'introduction'  => 'nullable|min:5',
             'profile_description' => 'nullable|min:10',
             'when' => 'nullable|integer',

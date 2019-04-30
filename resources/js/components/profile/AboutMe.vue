@@ -12,88 +12,99 @@
 
                     <template slot="custom-modal-content">
                         <form class="modal-form" method="POST" @submit.prevent="submit">
-                            <div class="form-group">
-                                <div class="me-label">Gender</div>
-                                <div class="me-row">
-                                    <div class="emp-col-left">
-                                        <select v-model="input.gender">
-                                            <option key="1" value="Male">Male</option>
-                                            <option key="2" value="Female">Female</option>
-                                            <option key="3" value="Other">Other</option>
-                                        </select>
-                                        <span class="err-msg" v-if="errors.gender">
-                                            {{ errors.gender }}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="me-row">
-                                    <div class="me-label">Date of Birth</div>
-                                    <input class="form-control" type="text" placeholder="YYYY-MM-DD" v-model="input.date_of_birth" />
-                                    <span class="err-msg" v-if="errors.date_of_birth">
-                                        {{ errors.date_of_birth }}
+                            <div class="me-label">Gender</div>
+                            <div class="me-row">
+                                <div class="emp-col-left">
+                                    <select v-model="input.gender">
+                                        <option key="1" value="Male">Male</option>
+                                        <option key="2" value="Female">Female</option>
+                                        <option key="3" value="Other">Other</option>
+                                    </select>
+                                    <span class="err-msg" v-if="errors.gender">
+                                        {{ errors.gender }}
                                     </span>
                                 </div>
+                            </div>
+
+                            <div class="me-label">Date of Birth</div>
+                            <div class="me-row">
+                                <div class="me-col-left">
+                                    <select v-model="birthDay">
+                                        <option v-for="(day, index) in days" :key="index" v-bind:value="day">{{ day }}</option>
+                                    </select>
+                                </div>
+                                <div class="me-col-mid">
+                                    <select v-model="birthMonth" @change="onChangeBirthMonthYear">
+                                        <option v-for="(month, index) in months" :key="index" v-bind:value="month.id">{{ month.name }}</option>
+                                    </select>
+                                </div>
+                                <div class="me-col-right">
+                                    <select v-model="birthYear" @change="onChangeBirthMonthYear">
+                                        <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <span class="err-msg" v-if="errors.date_of_birth">
+                                {{ errors.date_of_birth }}
+                            </span>
+
+                            <div class="me-label">Marital Status</div>
+                            <div class="me-row">
+                                <div class="emp-col-left">
+                                    <select v-model="input.marital_status">
+                                        <option key="1" value="Single">Single</option>
+                                        <option key="2" value="Married">Married</option>
+                                        <option key="3" value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <span class="err-msg" v-if="errors.marital_status">
+                                {{ errors.marital_status }}
+                            </span>
+
+                            <div class="me-label">
+                                I am proficient in WRITTEN and SPOKEN English
+                            </div>
+                            <div class="bl-inline">
+                                <input class="styled-checkbox-round" id="es-checkbox-yes" type="checkbox"
+                                    ref="es-checkbox-1"
+                                    @change="formatEnglishSkill(1)" />
+                                <label for="es-checkbox-yes">Yes</label>
                                 
-                                <div class="me-label">Marital Status</div>
-                                <div class="me-row">
-                                    <div class="emp-col-left">
-                                        <select v-model="input.marital_status">
-                                            <option key="1" value="Single">Single</option>
-                                            <option key="2" value="Married">Married</option>
-                                            <option key="3" value="Other">Other</option>
-                                        </select>
-                                    </div>
-                                    <span class="err-msg" v-if="errors.marital_status">
-                                        {{ errors.marital_status }}
-                                    </span>
-                                </div>
+                                <input class="styled-checkbox-round" id="es-checkbox-no" type="checkbox"
+                                    ref="es-checkbox-0"
+                                    @change="formatEnglishSkill(0)" />
+                                <label for="es-checkbox-no">No</label>
+                            </div>
 
-                                <div class="me-label">
-                                    I am proficient in WRITTEN and SPOKEN English
-                                </div>
-                                <div class="bl-inline">
-                                    <input class="styled-checkbox-round" id="es-checkbox-yes" type="checkbox"
-                                        ref="es-checkbox-1"
-                                        @change="formatEnglishSkill(1)" />
-                                    <label for="es-checkbox-yes">Yes</label>
-                                    
-                                    <input class="styled-checkbox-round" id="es-checkbox-no" type="checkbox"
-                                        ref="es-checkbox-0"
-                                        @change="formatEnglishSkill(0)" />
-                                    <label for="es-checkbox-no">No</label>
-                                </div>
-
-                                <div class="me-label">
-                                    I have a valid driver's license
-                                </div>
-                                <div class="bl-inline">
-                                    <input class="styled-checkbox-round" id="dl-checkbox-yes" type="checkbox"
-                                        ref="dl-checkbox-1"
-                                        @change="formatDriversLicense(1)" />
-                                    <label for="dl-checkbox-yes">Yes</label>
-                                    
-                                    <input class="styled-checkbox-round" id="dl-checkbox-no" type="checkbox"
-                                        ref="dl-checkbox-0"
-                                        @change="formatDriversLicense(0)" />
-                                    <label for="dl-checkbox-no">No</label>
-                                </div>
-
-                                <div class="me-label">
-                                    I own/have access to a registered vehicle on a permanent basis
-                                </div>
-                                <div class="bl-inline">
-                                    <input class="styled-checkbox-round" id="hv-checkbox-yes" type="checkbox"
-                                        ref="hv-checkbox-1"
-                                        @change="formaHasVehicle(1)" />
-                                    <label for="hv-checkbox-yes">Yes</label>
-                                    
-                                    <input class="styled-checkbox-round" id="hv-checkbox-no" type="checkbox"
-                                        ref="hv-checkbox-0"
-                                        @change="formaHasVehicle(0)" />
-                                    <label for="hv-checkbox-no">No</label>
-                                </div>
+                            <div class="me-label">
+                                I have a valid driver's license
+                            </div>
+                            <div class="bl-inline">
+                                <input class="styled-checkbox-round" id="dl-checkbox-yes" type="checkbox"
+                                    ref="dl-checkbox-1"
+                                    @change="formatDriversLicense(1)" />
+                                <label for="dl-checkbox-yes">Yes</label>
                                 
+                                <input class="styled-checkbox-round" id="dl-checkbox-no" type="checkbox"
+                                    ref="dl-checkbox-0"
+                                    @change="formatDriversLicense(0)" />
+                                <label for="dl-checkbox-no">No</label>
+                            </div>
+
+                            <div class="me-label">
+                                I own/have access to a registered vehicle on a permanent basis
+                            </div>
+                            <div class="bl-inline">
+                                <input class="styled-checkbox-round" id="hv-checkbox-yes" type="checkbox"
+                                    ref="hv-checkbox-1"
+                                    @change="formaHasVehicle(1)" />
+                                <label for="hv-checkbox-yes">Yes</label>
+                                
+                                <input class="styled-checkbox-round" id="hv-checkbox-no" type="checkbox"
+                                    ref="hv-checkbox-0"
+                                    @change="formaHasVehicle(0)" />
+                                <label for="hv-checkbox-no">No</label>
                             </div>
                         </form>
                     </template>
@@ -135,6 +146,9 @@
                 <span class="bl-label-14">
                     {{ drivers_license }}
                 </span>
+                <span class="bl-label-14">
+                    {{ has_registered_vehicle }}
+                </span>
             </div>
         </div>
     </div>
@@ -145,17 +159,23 @@
         data() {
             return {
                 disabled: false,
+                days: [],
+                months: Utils.getMonths(),
+                years: Utils.getYears(),
+                birthDay: '',
+                birthMonth: '',
+                birthYear: '',
                 gender: '',
                 date_of_birth: '',
                 marital_status: '',
                 english_skill: '',
                 drivers_license: '',
-                has_vehicle: '',
+                has_registered_vehicle: '',
                 input: {
-                    gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: '', has_vehicle: '',
+                    gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: '', has_registered_vehicle: '',
                 },
                 errors: {
-                    gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: '', has_vehicle: '',
+                    gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: '', has_registered_vehicle: '',
                 },
                 endpoints: {
                     save: '/api/v1/worker/optional'
@@ -167,12 +187,57 @@
             let component = this;
 
             Bus.$on('aboutMeDetails', function(details) {
-                component.input = details;
+                if (details) {
+                    component.setValues(component, details);
+                    component.setValues(component.input, details);
+                }
             });
         },
 
         methods: {
             
+            setValues(val, details) {
+                val.gender = details.gender;
+                val.date_of_birth = details.date_of_birth;
+                val.marital_status = details.marital_status;
+
+                if (! Utils.isNullOrEmpty(details.english_skill)) {
+                    val.english_skill = details.english_skill == 1 ? 
+                        'Proficient in written and spoken' : 'Not proficient in written and spoken';
+                    
+                    this.formatEnglishSkill(details.english_skill);
+                }
+                if (! Utils.isNullOrEmpty(details.drivers_license)) {
+                    val.drivers_license = details.drivers_license == 1 ?
+                        'Owns valid license' : 'Does not own valid license';
+                    
+                    this.formatDriversLicense(details.drivers_license);
+                }
+                if (! Utils.isNullOrEmpty(details.has_registered_vehicle)) {
+                    val.has_registered_vehicle = details.has_registered_vehicle == 1 ?
+                        'Owns/has access to personal registered vehicle' : 'Does not own/have access to personal registered vehicle';
+                    
+                    this.formaHasVehicle(details.has_registered_vehicle);
+                }
+                if (! Utils.isNullOrEmpty(details.date_of_birth)) {
+                    let d = new Date(details.date_of_birth);
+
+                    this.birthDay = d.getDate();
+                    this.birthMonth = d.getMonth() + 1;
+                    this.birthYear = d.getFullYear();
+
+                    this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
+                } else {
+                    let d = new Date();
+
+                    this.birthDay = 1;
+                    this.birthMonth = 1;
+                    this.birthYear = d.getFullYear() - 18;
+
+                    this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
+                }
+            },
+
             formatDate(d) {
                 if (d) {
                     let date = new Date(d);
@@ -180,7 +245,7 @@
                     return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
                 }
             },
-
+                    
             formatEnglishSkill(index) {
                 if (index == 1) {
                     this.$refs['es-checkbox-1'].checked = true;
@@ -211,31 +276,41 @@
                 if (index == 1) {
                     this.$refs['hv-checkbox-1'].checked = true;
                     this.$refs['hv-checkbox-0'].checked = false;
-                    this.input.has_vehicle = 1;
+                    this.input.has_registered_vehicle = 1;
 
                 } else {
                     this.$refs['hv-checkbox-1'].checked = false;
                     this.$refs['hv-checkbox-0'].checked = true;
-                    this.input.has_vehicle = 0;
+                    this.input.has_registered_vehicle = 0;
                 }
             },
 
+            onChangeBirthMonthYear() {
+                this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
+            },
+
             close() {
+                this.setValues(this.input, this)
+
                 Utils.setObjectValues(this.errors, '');
             },
             
             async submit() {
                 let component = this;
 
-				Utils.setObjectValues(component.errors, '');
-                component.disabled = true;
+                this.input.date_of_birth = this.birthYear + '-' + this.birthMonth + '-' + this.birthDay;
+
+                Utils.setObjectValues(this.errors, '');
+                this.disabled = true;
                 
-                await axios.post(this.endpoints.save, component.$data.input, Utils.getBearerAuth())
+                await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         let data = response.data;
 						
                         $('#modalAboutMe').modal('hide');
+
+                        component.setValues(component, data.data.optional);
                     })
                     .catch(function(error) {
                         if (error.response) {
@@ -249,7 +324,7 @@
                         Utils.handleError(error);
                     });
                 
-                component.disabled = false;
+                this.disabled = false;
             },
         }
     }

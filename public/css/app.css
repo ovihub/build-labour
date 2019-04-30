@@ -12668,6 +12668,35 @@ p.bl-nav-tab-label {
   flex-wrap: wrap;
 }
 
+.me-col-left {
+  flex: 0 0 27.5%;
+  max-width: 27.5%;
+  margin-right: 18px;
+}
+
+.me-col-left select {
+  background-position: 105px;
+}
+
+.me-col-mid {
+  flex: 0 0 37.5%;
+  max-width: 37.5%;
+  margin-right: 18px;
+}
+
+.me-col-mid select {
+  background-position: 160px;
+}
+
+.me-col-right {
+  flex: 0 0 27.5%;
+  max-width: 27.5%;
+}
+
+.me-col-right select {
+  background-position: 105px;
+}
+
 input[type=range] {
   display: block;
   -webkit-appearance: none;

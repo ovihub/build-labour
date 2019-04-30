@@ -947,6 +947,32 @@ p.bl-nav-tab-label {
   display: flex;
   flex-wrap: wrap;
 }
+.me-col-left {
+  flex: 0 0 27.5%;
+  max-width: 27.5%;
+  margin-right: 18px;
+
+  select {
+    background-position: 105px;
+  }
+}
+.me-col-mid {
+  flex: 0 0 37.5%;
+  max-width: 37.5%;
+  margin-right: 18px;
+
+  select {
+    background-position: 160px;
+  }
+}
+.me-col-right {
+  flex: 0 0 27.5%;
+  max-width: 27.5%;
+  
+  select {
+    background-position: 105px;
+  }
+}
 
 // input[type="range"]{
 //   -webkit-appearance: none;
