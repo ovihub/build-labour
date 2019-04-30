@@ -84,6 +84,9 @@
                 months: Utils.getMonths(),
                 years: Utils.getYears(),
                 current: -1,
+                /**
+                 * Save Input
+                 */
                 id: '',
                 course: '',
                 school: '',
@@ -132,7 +135,7 @@
                 Utils.setObjectValues(this.errors, '');
             },
 
-            async submit(id) {
+            async submit() {
                 let component = this;
                 let saveEndpoint = this.id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.id;
 
