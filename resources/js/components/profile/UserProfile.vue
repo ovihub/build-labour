@@ -101,9 +101,9 @@
                 }
             });
 
-            Bus.$on('croppedPhoto', function(photo_url) {
-                component.input.profile_photo_url = photo_url;
-            });
+            // Bus.$on('croppedPhoto', function(photo_url) {
+            //     component.input.profile_photo_url = photo_url;
+            // });
 
             Bus.$on('closePhotoModal', function() {
                 $('#upload').val('');

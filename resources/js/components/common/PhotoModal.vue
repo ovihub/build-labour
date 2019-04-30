@@ -108,7 +108,8 @@
 							component.close();
 
 							Bus.$emit('alertSuccess', data.message);
-							Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
+							// Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
+							window.location.href = '/login';
 						}
 					})
 					.catch(function(error) {

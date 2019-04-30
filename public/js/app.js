@@ -1969,10 +1969,9 @@ __webpack_require__.r(__webpack_exports__);
     var component = this;
     Bus.$on('avatarDetails', function (details) {
       component.input = details;
-    });
-    Bus.$on('croppedPhoto', function (photo_url) {
-      component.input.profile_photo_url = photo_url;
-    });
+    }); // Bus.$on('croppedPhoto', function(photo_url) {
+    //     component.input.profile_photo_url = photo_url;
+    // });
   },
   methods: {
     showProfile: function showProfile() {
@@ -2879,8 +2878,9 @@ var cropper = null;
 
                   if (data.success) {
                     component.close();
-                    Bus.$emit('alertSuccess', data.message);
-                    Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
+                    Bus.$emit('alertSuccess', data.message); // Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
+
+                    window.location.href = '/login';
                   }
                 }).catch(function (error) {
                   Utils.handleError(error);
@@ -5277,10 +5277,10 @@ __webpack_require__.r(__webpack_exports__);
       if (!component.input.is_verified) {
         Bus.$emit('alertVerify', component.input.email);
       }
-    });
-    Bus.$on('croppedPhoto', function (photo_url) {
-      component.input.profile_photo_url = photo_url;
-    });
+    }); // Bus.$on('croppedPhoto', function(photo_url) {
+    //     component.input.profile_photo_url = photo_url;
+    // });
+
     Bus.$on('closePhotoModal', function () {
       $('#upload').val('');
     });
