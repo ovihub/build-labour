@@ -4082,14 +4082,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       this.time_out = setTimeout(function () {
         axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth()).then(function (response) {
-          component.locations = response.data.data.locations.features;
+          component.locations = location != '' ? response.data.data.locations.features : [];
         }).catch(function (error) {
           Utils.handleError(error);
         });
       }.bind(this), 300);
     },
     onSearchCompany: function onSearchCompany(keyword) {
-      console.log(keyword);
       var component = this;
 
       if (keyword.length <= 0) {
@@ -4102,8 +4101,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       this.time_out = setTimeout(function () {
         axios.get(this.endpoints.companies + "?keyword=" + keyword, Utils.getBearerAuth()).then(function (response) {
-          console.log(response);
-          component.companies = response.data.data.companies;
+          component.companies = keyword != '' ? response.data.data.companies : [];
         }).catch(function (error) {
           Utils.handleError(error);
         });
@@ -4115,15 +4113,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onSelectCompany: function onSelectCompany(company, mode) {
       if (mode > 0) {
-        // edit
         this.input.company_id = company.id;
         this.input.company_name = company.name;
-        console.log(this.input_add);
       } else {
-        // new
         this.input_add.company_id = company.id;
         this.input_add.company_name = company.name;
-        console.log(this.input_add);
       }
 
       this.companies = [];
@@ -48171,27 +48165,34 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _vm.companies.length > 0
-                      ? _c("div", { staticClass: "emp-row" }, [
-                          _c(
-                            "ul",
-                            { staticClass: "list-group" },
-                            _vm._l(_vm.companies, function(company) {
-                              return _c(
-                                "li",
-                                {
-                                  staticClass: "list-group-item",
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.onSelectCompany(company, 0)
+                      ? _c(
+                          "div",
+                          {
+                            staticClass: "emp-row",
+                            staticStyle: { "margin-top": "0" }
+                          },
+                          [
+                            _c(
+                              "ul",
+                              { staticClass: "list-group" },
+                              _vm._l(_vm.companies, function(company) {
+                                return _c(
+                                  "li",
+                                  {
+                                    staticClass: "list-group-item",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.onSelectCompany(company, 0)
+                                      }
                                     }
-                                  }
-                                },
-                                [_vm._v(_vm._s(company.name))]
-                              )
-                            }),
-                            0
-                          )
-                        ])
+                                  },
+                                  [_vm._v(_vm._s(company.name))]
+                                )
+                              }),
+                              0
+                            )
+                          ]
+                        )
                       : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-row" }, [
@@ -48243,36 +48244,43 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _vm.locations.length > 0
-                      ? _c("div", { staticClass: "emp-row" }, [
-                          _c(
-                            "ul",
-                            { staticClass: "list-group" },
-                            _vm._l(_vm.locations, function(place) {
-                              return _c(
-                                "li",
-                                {
-                                  staticClass: "list-group-item",
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.onSelectLocation(
-                                        place.place_name,
-                                        0
-                                      )
+                      ? _c(
+                          "div",
+                          {
+                            staticClass: "emp-row",
+                            staticStyle: { "margin-top": "0" }
+                          },
+                          [
+                            _c(
+                              "ul",
+                              { staticClass: "list-group" },
+                              _vm._l(_vm.locations, function(place) {
+                                return _c(
+                                  "li",
+                                  {
+                                    staticClass: "list-group-item",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.onSelectLocation(
+                                          place.place_name,
+                                          0
+                                        )
+                                      }
                                     }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                    " +
-                                      _vm._s(place.place_name) +
-                                      "\n                                "
-                                  )
-                                ]
-                              )
-                            }),
-                            0
-                          )
-                        ])
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(place.place_name) +
+                                        "\n                                "
+                                    )
+                                  ]
+                                )
+                              }),
+                              0
+                            )
+                          ]
+                        )
                       : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-row" }, [
@@ -48825,27 +48833,34 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _vm.companies.length > 0
-                      ? _c("div", { staticClass: "emp-row" }, [
-                          _c(
-                            "ul",
-                            { staticClass: "list-group" },
-                            _vm._l(_vm.companies, function(company) {
-                              return _c(
-                                "li",
-                                {
-                                  staticClass: "list-group-item",
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.onSelectCompany(company, 1)
+                      ? _c(
+                          "div",
+                          {
+                            staticClass: "emp-row",
+                            staticStyle: { "margin-top": "0" }
+                          },
+                          [
+                            _c(
+                              "ul",
+                              { staticClass: "list-group" },
+                              _vm._l(_vm.companies, function(company) {
+                                return _c(
+                                  "li",
+                                  {
+                                    staticClass: "list-group-item",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.onSelectCompany(company, 1)
+                                      }
                                     }
-                                  }
-                                },
-                                [_vm._v(_vm._s(company.name))]
-                              )
-                            }),
-                            0
-                          )
-                        ])
+                                  },
+                                  [_vm._v(_vm._s(company.name))]
+                                )
+                              }),
+                              0
+                            )
+                          ]
+                        )
                       : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-row" }, [
@@ -48890,36 +48905,43 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _vm.locations.length > 0
-                      ? _c("div", { staticClass: "emp-row" }, [
-                          _c(
-                            "ul",
-                            { staticClass: "list-group" },
-                            _vm._l(_vm.locations, function(place) {
-                              return _c(
-                                "li",
-                                {
-                                  staticClass: "list-group-item",
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.onSelectLocation(
-                                        place.place_name,
-                                        1
-                                      )
+                      ? _c(
+                          "div",
+                          {
+                            staticClass: "emp-row",
+                            staticStyle: { "margin-top": "0" }
+                          },
+                          [
+                            _c(
+                              "ul",
+                              { staticClass: "list-group" },
+                              _vm._l(_vm.locations, function(place) {
+                                return _c(
+                                  "li",
+                                  {
+                                    staticClass: "list-group-item",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.onSelectLocation(
+                                          place.place_name,
+                                          1
+                                        )
+                                      }
                                     }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                    " +
-                                      _vm._s(place.place_name) +
-                                      "\n                                "
-                                  )
-                                ]
-                              )
-                            }),
-                            0
-                          )
-                        ])
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(place.place_name) +
+                                        "\n                                "
+                                    )
+                                  ]
+                                )
+                              }),
+                              0
+                            )
+                          ]
+                        )
                       : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-row" }, [

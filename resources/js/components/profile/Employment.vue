@@ -29,7 +29,7 @@
                                     {{ errors.company_name }}
                                 </span>
                             </div>
-                            <div class="emp-row" v-if="companies.length > 0">
+                            <div class="emp-row" style="margin-top:0" v-if="companies.length > 0">
                                 <ul class="list-group">
                                     <li class="list-group-item" v-for="company in companies" v-on:click="onSelectCompany(company, 0)">{{ company.name }}</li>
                                 </ul>
@@ -43,7 +43,7 @@
                                 </span>
                             </div>
 
-                            <div class="emp-row" v-if="locations.length > 0">
+                            <div class="emp-row" style="margin-top:0" v-if="locations.length > 0">
                                 <ul class="list-group">
                                     <li class="list-group-item" v-for="place in locations" v-on:click="onSelectLocation(place.place_name, 0)">
                                         {{ place.place_name }}
@@ -152,7 +152,7 @@
                                 </span>
                             </div>
 
-                            <div class="emp-row" v-if="companies.length > 0">
+                            <div class="emp-row" style="margin-top:0" v-if="companies.length > 0">
                                 <ul class="list-group">
                                     <li class="list-group-item" v-for="company in companies" v-on:click="onSelectCompany(company, 1)">{{ company.name }}</li>
                                 </ul>
@@ -166,7 +166,7 @@
                                 </span>
                             </div>
 
-                            <div class="emp-row" v-if="locations.length > 0">
+                            <div class="emp-row" style="margin-top:0" v-if="locations.length > 0">
                                 <ul class="list-group">
                                     <li class="list-group-item" v-for="place in locations" @click="onSelectLocation(place.place_name, 1)">
                                         {{ place.place_name }}
@@ -458,8 +458,8 @@
                     axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth())
 
                         .then(function(response) {
-                            
-                            component.locations = response.data.data.locations.features;
+
+                            component.locations = (location != '') ? response.data.data.locations.features : [];
                         })
                         .catch(function(error) {
 
@@ -470,17 +470,13 @@
             },
 
             onSearchCompany(keyword) {
-
-                console.log(keyword);
                 let component = this;
 
                 if (keyword.length <= 0) {
-
                     component.companies = [];
                 }
 
                 if(this.time_out) {
-
                     clearTimeout(this.time_out);
                 }
 
@@ -490,8 +486,7 @@
 
                         .then(function(response) {
 
-                            console.log(response);
-                            component.companies = response.data.data.companies;
+                            component.companies = (keyword != '') ? response.data.data.companies : []
                         })
                         .catch(function(error) {
 
@@ -509,23 +504,17 @@
             onSelectCompany(company, mode) {
 
                 if (mode > 0) {
-
-                    // edit
-
                     this.input.company_id = company.id;
                     this.input.company_name = company.name;
-                    console.log(this.input_add);
+                
                 } else {
-
-                    // new
-
                     this.input_add.company_id = company.id;
                     this.input_add.company_name = company.name;
-                    console.log(this.input_add);
                 }
 
                 this.companies = [];
             },
+
             async submit(id) {
 
                 let saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.input.id;
