@@ -4,7 +4,13 @@
             
             <employment-modal></employment-modal>
 
-            <span class="add-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalEmployment" @click="action(-1, null)">
+            <span class="add-icon"
+                data-toggle="modal"
+                data-backdrop="static"
+                data-keyboard="false"
+                data-target="#modalEmployment"
+                @click="action(-1, null)">
+
                 <img src="/img/icons/plus.png"
                     srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
             </span>
@@ -17,8 +23,17 @@
             </div>
         
             <ul class="list-main-items" v-if="employments.length > 0">
-                <li class="main-items" v-for="(employment, index) in employments" v-bind:key="index">
-                    <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalEmployment" @click="action(index, employment)">
+                <li class="main-items"
+                    v-for="(employment, index) in employments"
+                    v-bind:key="index">
+
+                    <span class="edit-icon"
+                        data-toggle="modal"
+                        data-backdrop="static"
+                        data-keyboard="false"
+                        data-target="#modalEmployment"
+                        @click="action(index, employment)">
+
                         <img src="/img/icons/editbutton.png"
                             srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
                     </span>
@@ -35,9 +50,11 @@
                                 <span class="bl-label-16 bl-ml15" :ref="'empJobRole-' + index">
                                     {{ employment.job_role }}
                                 </span>
+
                                 <span class="bl-label-15 bl-ml15 mt-0 pt-0" :ref="'empCompanyName-' + index">
                                     {{ employment.company_name }}
                                 </span>
+                                
                                 <span class="bl-label-14 bl-ml15 mt-0 pt-0" :ref="'empPeriod-' + index">
                                     {{ formatPeriod(employment) }}
                                 </span>
@@ -46,21 +63,25 @@
                     </div>
 
                     <div :class="getCls" :ref="'toggleCls-' + index">
+
                         <span class="bl-label-14-style-2 bl-mt13" :ref="'empLocation-' + index">
                             <img class="text-icon" src="/img/icons/pinlocation.png"
                                 srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
                             {{ employment.location }}
                         </span>
+
                         <span class="bl-label-14-style-2 bl-mt13" :ref="'empProjectSize-' + index">
                             <img class="text-icon" src="/img/icons/dollarsign.png"
                                 srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
                             {{ employment.project_size }}
                         </span>
+
                         <span class="bl-label-14-style-2 bl-mt13" v-if="employment.responsibilities.length != 0">
                             <img class="text-icon" src="/img/icons/responsibilities.png"
                                 srcset="/img/icons/responsibilities@2x.png 2x, /img/icons/responsibilities@3x.png 3x">
                             Responsibilities:
                         </span>
+
                         <div class="bl-label-15" v-if="employment.responsibilities.length != 0">
                             <ul class="list-items">
                                 <div v-for="(res, idx) in employment.responsibilities" v-bind:key="idx">
@@ -68,7 +89,9 @@
                                 </div>
                             </ul>
                         </div>
+
                     </div>
+
                     <div :class="getBox" :ref="'boxCls-' + index"></div>
                 </li>
             </ul>
@@ -82,6 +105,9 @@
             return {
                 expanded: [],
                 employments: [],
+                isCurrent: -1,
+                endMonth: null,
+                endYear: null,
                 getBox: 'bl-box-2 hidden',
                 getCls: 'responsibilities hidden',
                 imgSrc: '/img/icons/expand.png',
@@ -106,6 +132,10 @@
                 
                 } else {
                     component.employments[index] = details;
+                    
+                    component.isCurrent = details.isCurrent ? 1 : 0;
+                    component.endMonth = details.end_month ? details.end_month : null;
+                    component.endYear = details.end_year ? details.end_year : null;
 
                     component.$refs['empJobRole-' + index][0].textContent = details.job_role;
                     component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
@@ -121,6 +151,7 @@
         },
 
         methods: {
+
             toggle(index) {
                 this.expanded[index] === true ? this.collapse(index) : this.expand(index);
             },
@@ -157,6 +188,12 @@
             },
 
             action(index, employment) {
+                if (this.isCurrent != -1) {
+                    employment.isCurrent = this.isCurrent;
+                }
+                employment.end_month = this.endMonth;
+                employment.end_year = this.endYear;
+                
                 Bus.$emit('showEmployment', index, employment);
             },
 

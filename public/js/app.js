@@ -3500,6 +3500,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       months: Utils.getMonths(),
       years: Utils.getYears(),
       current: -1,
+
+      /**
+       * Save Input
+       */
       id: '',
       course: '',
       school: '',
@@ -3547,7 +3551,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     submit: function () {
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(id) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var component, saveEndpoint, saveInput;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -3593,7 +3597,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee, this);
       }));
 
-      function submit(_x) {
+      function submit() {
         return _submit.apply(this, arguments);
       }
 
@@ -3691,11 +3695,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       expanded: [],
       employments: [],
+      isCurrent: -1,
+      endMonth: null,
+      endYear: null,
       getBox: 'bl-box-2 hidden',
       getCls: 'responsibilities hidden',
       imgSrc: '/img/icons/expand.png',
@@ -3716,6 +3746,9 @@ __webpack_require__.r(__webpack_exports__);
         component.employments.push(details);
       } else {
         component.employments[index] = details;
+        component.isCurrent = details.isCurrent ? 1 : 0;
+        component.endMonth = details.end_month ? details.end_month : null;
+        component.endYear = details.end_year ? details.end_year : null;
         component.$refs['empJobRole-' + index][0].textContent = details.job_role;
         component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
         component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
@@ -3756,6 +3789,12 @@ __webpack_require__.r(__webpack_exports__);
       return Utils.formatPeriod(new Date(emp.start_year, emp.start_month - 1, 1), endDate);
     },
     action: function action(index, employment) {
+      if (this.isCurrent != -1) {
+        employment.isCurrent = this.isCurrent;
+      }
+
+      employment.end_month = this.endMonth;
+      employment.end_year = this.endYear;
       Bus.$emit('showEmployment', index, employment);
     }
   }
@@ -3909,6 +3948,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3919,6 +3972,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       locations: [],
       companies: [],
       time_out: false,
+
+      /**
+       * Save Input
+       */
       id: '',
       job_role: '',
       company_name: '',
@@ -3935,6 +3992,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         company_name: '',
         location: '',
         project_size: '',
+        isCurrent: '',
         start_month: '',
         start_year: '',
         end_month: '',
@@ -3968,6 +4026,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.end_month = details ? details.end_month : '';
       this.end_year = details ? details.end_year : '';
       this.responsibilities = details ? details.responsibilities : [];
+      this.responsibilities = this.responsibilities.filter(function (r) {
+        return r !== '';
+      });
       this.responsibilities.push('');
     },
     close: function close() {
@@ -3977,6 +4038,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     textAreaAdjust: function textAreaAdjust(index) {
       var o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
       o.style.height = o.scrollHeight + 'px';
+    },
+    onChangeCurrentRole: function onChangeCurrentRole() {
+      if (this.isCurrent == 1) {
+        this.end_year = null;
+        this.end_month = null;
+      }
     },
     onChangeResponsibilities: function onChangeResponsibilities(index) {
       this.textAreaAdjust(index);
@@ -3989,7 +4056,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var component = this;
 
       if (location.length <= 0) {
-        component.locations = [];
+        this.locations = [];
       }
 
       if (this.time_out) {
@@ -4008,7 +4075,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var component = this;
 
       if (keyword.length <= 0) {
-        component.companies = [];
+        this.companies = [];
       }
 
       if (this.time_out) {
@@ -4048,11 +4115,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   this.responsibilities[i] = this.$refs['respItem-' + i][0].value;
                 }
 
+                if (!this.end_year && !this.end_month) {
+                  this.isCurrent = 1;
+                }
+
                 saveInput = {
                   job_role: this.job_role,
                   company_name: this.company_name,
                   location: this.location,
                   project_size: this.project_size,
+                  isCurrent: this.isCurrent,
                   start_month: this.start_month,
                   start_year: this.start_year,
                   end_month: this.end_month,
@@ -4061,7 +4133,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 };
                 Utils.setObjectValues(this.errors, '');
                 this.disabled = true;
-                _context.next = 8;
+                _context.next = 9;
                 return axios.post(saveEndpoint, saveInput, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalEmployment').modal('hide');
@@ -4078,10 +4150,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Utils.handleError(error);
                 });
 
-              case 8:
+              case 9:
                 this.disabled = false;
 
-              case 9:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -5055,7 +5127,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     formatPeriod: function formatPeriod(emp) {
-      return Utils.formatPeriod(new Date(emp.start_year, emp.start_month - 1, 1), new Date(emp.end_year, emp.end_month - 1, 1));
+      var endDate = emp.end_month && emp.end_year ? new Date(emp.end_year, emp.end_month - 1, 1) : new Date();
+      return Utils.formatPeriod(new Date(emp.start_year, emp.start_month - 1, 1), endDate);
     },
     onClickProfilePhoto: function onClickProfilePhoto() {
       upload.click();
@@ -48796,6 +48869,7 @@ var render = function() {
                         expression: "isCurrent"
                       }
                     ],
+                    ref: "styled-checkbox-2",
                     staticClass: "styled-checkbox-2",
                     attrs: {
                       id: "styled-checkbox-current-2",
@@ -48807,25 +48881,28 @@ var render = function() {
                         : _vm.isCurrent
                     },
                     on: {
-                      change: function($event) {
-                        var $$a = _vm.isCurrent,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = null,
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 && (_vm.isCurrent = $$a.concat([$$v]))
+                      change: [
+                        function($event) {
+                          var $$a = _vm.isCurrent,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 && (_vm.isCurrent = $$a.concat([$$v]))
+                            } else {
+                              $$i > -1 &&
+                                (_vm.isCurrent = $$a
+                                  .slice(0, $$i)
+                                  .concat($$a.slice($$i + 1)))
+                            }
                           } else {
-                            $$i > -1 &&
-                              (_vm.isCurrent = $$a
-                                .slice(0, $$i)
-                                .concat($$a.slice($$i + 1)))
+                            _vm.isCurrent = $$c
                           }
-                        } else {
-                          _vm.isCurrent = $$c
-                        }
-                      }
+                        },
+                        _vm.onChangeCurrentRole
+                      ]
                     }
                   }),
                   _vm._v(" "),
@@ -48860,7 +48937,7 @@ var render = function() {
                 refInFor: true,
                 staticClass: "form-control",
                 staticStyle: { overflow: "hidden" },
-                attrs: { placeholder: "Add Another Responsibility" },
+                attrs: { rows: "1", placeholder: "Add Another Responsibility" },
                 domProps: { value: _vm.responsibilities[index] },
                 on: {
                   focus: function($event) {

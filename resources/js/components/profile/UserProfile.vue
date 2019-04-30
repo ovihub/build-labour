@@ -112,8 +112,10 @@
 
         methods: {
             formatPeriod(emp) {
-                return Utils.formatPeriod(new Date(emp.start_year, emp.start_month-1, 1),
-                                       new Date(emp.end_year, emp.end_month-1, 1));
+                let endDate = (emp.end_month && emp.end_year) ?
+                              new Date(emp.end_year, emp.end_month-1, 1) : new Date();
+
+                return Utils.formatPeriod(new Date(emp.start_year, emp.start_month-1, 1), endDate);
             },
             
             onClickProfilePhoto() {
