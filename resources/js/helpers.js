@@ -56,6 +56,10 @@ window.Helper = {
             }
         },
 
+        isNullOrEmpty(value) {
+            return (value === null || value === undefined || value === '' || value.length === 0);
+        },
+
         handleError(error) {
             if (error.response) {
                 let data = error.response.data;
@@ -110,6 +114,10 @@ window.Helper = {
             }
 
             return period;
+        },
+        
+        getDaysInMonth(month, year) {
+           return new Date(year, month, 0).getDate();
         },
 
         getMonth(index) {

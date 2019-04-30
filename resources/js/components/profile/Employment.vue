@@ -106,8 +106,8 @@
                 expanded: [],
                 employments: [],
                 isCurrent: -1,
-                endMonth: null,
-                endYear: null,
+                endMonth: '',
+                endYear: '',
                 getBox: 'bl-box-2 hidden',
                 getCls: 'responsibilities hidden',
                 imgSrc: '/img/icons/expand.png',
@@ -188,11 +188,16 @@
             },
 
             action(index, employment) {
-                if (this.isCurrent != -1) {
-                    employment.isCurrent = this.isCurrent;
+                if (employment) {
+                    if (this.isCurrent != -1) {
+                        employment.isCurrent = this.isCurrent;
+                    }
+
+                    if (this.endMonth !== '' && this.endYear !== '') {
+                        employment.end_month = this.endMonth;
+                        employment.end_year = this.endYear;
+                    }
                 }
-                employment.end_month = this.endMonth;
-                employment.end_year = this.endYear;
                 
                 Bus.$emit('showEmployment', index, employment);
             },
