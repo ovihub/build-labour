@@ -1970,6 +1970,9 @@ __webpack_require__.r(__webpack_exports__);
     Bus.$on('avatarDetails', function (details) {
       component.input = details;
     });
+    Bus.$on('croppedPhoto', function (photo_url) {
+      component.input.profile_photo_url = photo_url;
+    });
   },
   methods: {
     showProfile: function showProfile() {
@@ -2856,25 +2859,26 @@ var cropper = null;
 
       $('#crop_photo').attr('src', '');
       $('#photoModal').modal('hide');
+      Bus.$emit('closePhotoModal');
     },
     uploadPhoto: function () {
       var _uploadPhoto = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var app;
+        var component;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                app = this;
+                component = this;
                 this.input.photo = cropper.getCroppedCanvas().toDataURL();
                 this.disabled = true;
                 _context.next = 5;
-                return axios.post(app.endpoints.upload, app.$data.input, Utils.getBearerAuth()).then(function (response) {
+                return axios.post(component.endpoints.upload, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
 
                   if (data.success) {
-                    app.close();
+                    component.close();
                     Bus.$emit('alertSuccess', data.message);
                     Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
                   }
@@ -5036,19 +5040,25 @@ __webpack_require__.r(__webpack_exports__);
     Bus.$on('croppedPhoto', function (photo_url) {
       component.input.profile_photo_url = photo_url;
     });
+    Bus.$on('closePhotoModal', function () {
+      $('#upload').val('');
+    });
   },
   methods: {
     formatPeriod: function formatPeriod(emp) {
       return Utils.formatPeriod(new Date(emp.start_year, emp.start_month - 1, 1), new Date(emp.end_year, emp.end_month - 1, 1));
     },
-    onClickUploadImage: function onClickUploadImage() {
+    onClickProfilePhoto: function onClickProfilePhoto() {
       upload.click();
     },
     onFileChange: function onFileChange(e) {
       var files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
-      var app = this,
-          file = files[0],
+
+      if (!files.length) {
+        return;
+      }
+
+      var file = files[0],
           reader = new FileReader();
       reader.addEventListener('load', function () {
         Bus.$emit('imageToCrop', reader.result);
@@ -46705,7 +46715,13 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "main-modal",
-    { attrs: { id: "photoModal" } },
+    {
+      attrs: {
+        id: "photoModal",
+        "data-backdrop": "static",
+        "data-keyboard": "false"
+      }
+    },
     [
       _c("template", { slot: "custom-modal-title" }, [
         _c("h4", { staticClass: "modal-title" }, [_vm._v("Crop Photo")]),
@@ -46728,7 +46744,7 @@ var render = function() {
           [
             _c(
               "div",
-              { staticStyle: { flex: "0 0 80%", "max-width": "80%" } },
+              { staticStyle: { flex: "0 0 79%", "max-width": "79%" } },
               [_c("img", { attrs: { src: "", id: "crop_photo" } })]
             )
           ]
@@ -50488,7 +50504,7 @@ var render = function() {
           "div",
           {
             staticClass: "profile-header",
-            on: { click: _vm.onClickUploadImage }
+            on: { click: _vm.onClickProfilePhoto }
           },
           [
             _vm.input.profile_photo_url
