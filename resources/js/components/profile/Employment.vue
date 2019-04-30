@@ -1,253 +1,10 @@
 <template>
     <div class="profile-item-2">
         <div class="profile-content">
-
-            <main-modal id="modalAddEmployment">
-		
-                <template slot="custom-modal-title">
-                    <h4 class="modal-title">Add Employment</h4>
-                    <div class="close" data-dismiss="modal" @click="close">&times;</div>
-                </template>
-
-                <template slot="custom-modal-content">
-                    <form class="modal-form" method="POST" @submit.prevent="submit">
-                        <div class="emp-label">Job Details</div>
-                        
-                        <div class="form-group">
-                            <div class="emp-row">
-                                <div class="modal-form-label">Your Role</div>
-                                <input class="form-control" type="text" v-model="input_add.job_role"/>
-                                <span class="err-msg" v-if="errors.job_role">
-                                    {{ errors.job_role }}
-                                </span>
-                            </div>
-
-                            <div class="emp-row">
-                                <div class="modal-form-label">Company/Project Name</div>
-                                <input class="form-control" type="text" v-model="input_add.company_name" @keyup="onSearchCompany(input_add.company_name, 0)"/>
-                                <span class="err-msg" v-if="errors.company_name">
-                                    {{ errors.company_name }}
-                                </span>
-                            </div>
-                            <div class="emp-row" style="margin-top:0" v-if="companies.length > 0">
-                                <ul class="list-group">
-                                    <li class="list-group-item" v-for="company in companies" v-on:click="onSelectCompany(company, 0)">{{ company.name }}</li>
-                                </ul>
-                            </div>
-
-                            <div class="emp-row">
-                                <div class="modal-form-label">Location</div>
-                                <input class="form-control" type="text" v-model="input_add.location" @keyup="onChangeLocation(input_add.location, 0)" />
-                                <span class="err-msg" v-if="errors.location">
-                                    {{ errors.location }}
-                                </span>
-                            </div>
-
-                            <div class="emp-row" style="margin-top:0" v-if="locations.length > 0">
-                                <ul class="list-group">
-                                    <li class="list-group-item" v-for="place in locations" v-on:click="onSelectLocation(place.place_name, 0)">
-                                        {{ place.place_name }}
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="emp-row">
-                                <div class="modal-form-label">Size of the Project</div>
-                                <input class="form-control" type="text" placeholder="e.g. $1,000,000" v-model="input_add.project_size"/>
-                                <span class="err-msg" v-if="errors.project_size">
-                                    {{ errors.project_size }}
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="emp-label">Duration of Employment</div>
-                        <div class="emp-row">
-                            <div class="emp-col-left">
-                                <div class="emp-form-label">Start Month</div>
-                                <select v-model="input_add.start_month">
-                                    <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
-                                </select>
-                                <span class="err-msg" v-if="errors.start_month">
-                                    {{ errors.start_month }}
-                                </span>
-                            </div>
-                            <div class="emp-col-right">
-                                <div class="emp-form-label">Start Year</div>
-                                <select v-model="input_add.start_year">
-                                    <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
-                                </select>
-                                <span class="err-msg" v-if="errors.start_year">
-                                    {{ errors.start_year }}
-                                </span>
-                            </div>
-                        </div>
-                         <div class="emp-row" v-if="!input_add.isCurrent">
-                            <div class="emp-col-left">
-                                <div class="emp-form-label">End Month</div>
-                                <select v-model="input_add.end_month">
-                                    <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
-                                </select>
-                                <span class="err-msg" v-if="errors.end_month">
-                                    {{ errors.end_month }}
-                                </span>
-                            </div>
-                            <div class="emp-col-right">
-                                <div class="emp-form-label">End Year</div>
-                                <select v-model="input_add.end_year">
-                                    <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
-                                </select>
-                                <span class="err-msg" v-if="errors.end_year">
-                                    {{ errors.end_year }}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="emp-row">
-                            <div class="emp-label" style="margin-top:0">
-                                <input class="styled-checkbox-2" id="styled-checkbox-current" type="checkbox" v-model="input_add.isCurrent" />
-                                <label for="styled-checkbox-current">Currently in this Role</label>
-                            </div>
-                        </div>
-                        <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
-                        <textarea rows="1" :ref="'respItem-' + idx"  class="form-control" style="overflow:hidden"
-                                placeholder="Add Another Responsibility"
-                                v-for="(res, idx) in input_add.responsibilities"
-                                v-bind:key="idx"
-                                @keyup="onChangeResponsibilities(0, idx)"
-                                v-model="input_add.responsibilities[idx]"
-                        ></textarea>
-                    </form>
-                </template>
-
-                <template slot="custom-modal-footer">
-                    <button class="mt-0" type="submit" @click="submit(0)" :disabled="disabled">Save Changes</button>
-                </template>
-
-            </main-modal>
-
-            <main-modal id="modalEmployment">
-		
-                <template slot="custom-modal-title">
-                    <h4 class="modal-title">Edit Employment History</h4>
-                    <div class="close" data-dismiss="modal" @click="close">&times;</div>
-                </template>
-
-                <template slot="custom-modal-content">
-                    <form class="modal-form" method="POST" @submit.prevent="submit">
-                        <div class="emp-label">Job Details</div>
-                        
-                        <div class="form-group">
-                            <div class="emp-row">
-                                <div class="modal-form-label">Your Role</div>
-                                <input class="form-control" type="text" v-model="input.job_role"/>
-                                <span class="err-msg" v-if="errors.job_role">
-                                    {{ errors.job_role }}
-                                </span>
-                            </div>
-
-                            <div class="emp-row">
-                                <div class="modal-form-label">Company/Project Name</div>
-                                <input class="form-control" type="text" v-model="input.company_name" @keyup="onSearchCompany(input.company_name, 1)"/>
-                                <span class="err-msg" v-if="errors.company_name">
-                                    {{ errors.company_name }}
-                                </span>
-                            </div>
-
-                            <div class="emp-row" style="margin-top:0" v-if="companies.length > 0">
-                                <ul class="list-group">
-                                    <li class="list-group-item" v-for="company in companies" v-on:click="onSelectCompany(company, 1)">{{ company.name }}</li>
-                                </ul>
-                            </div>
-
-                            <div class="emp-row">
-                                <div class="modal-form-label">Location</div>
-                                <input class="form-control" type="text" v-model="input.location" @keyup="onChangeLocation(input.location)" />
-                                <span class="err-msg" v-if="errors.location">
-                                    {{ errors.location }}
-                                </span>
-                            </div>
-
-                            <div class="emp-row" style="margin-top:0" v-if="locations.length > 0">
-                                <ul class="list-group">
-                                    <li class="list-group-item" v-for="place in locations" @click="onSelectLocation(place.place_name, 1)">
-                                        {{ place.place_name }}
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="emp-row">
-                                <div class="modal-form-label">Size of the Project</div>
-                                <input class="form-control" type="text" placeholder="e.g. $1,000,000" v-model="input.project_size"/>
-                                <span class="err-msg" v-if="errors.project_size">
-                                    {{ errors.project_size }}
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="emp-label">Duration of Employment</div>
-                        <div class="emp-row">
-                            <div class="emp-col-left">
-                                <div class="emp-form-label">Start Month</div>
-                                <select v-model="input.start_month">
-                                    <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
-                                </select>
-                                <span class="err-msg" v-if="errors.start_month">
-                                    {{ errors.start_month }}
-                                </span>
-                            </div>
-                            <div class="emp-col-right">
-                                <div class="emp-form-label">Start Year</div>
-                                <select v-model="input.start_year">
-                                    <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
-                                </select>
-                                <span class="err-msg" v-if="errors.start_year">
-                                    {{ errors.start_year }}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="emp-row" v-if="! input.isCurrent">
-                            <div class="emp-col-left">
-                                <div class="emp-form-label">End Month</div>
-                                <select v-model="input.end_month">
-                                    <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
-                                </select>
-                                <span class="err-msg" v-if="errors.end_month">
-                                    {{ errors.end_month }}
-                                </span>
-                            </div>
-                            <div class="emp-col-right">
-                                <div class="emp-form-label">End Year</div>
-                                <select v-model="input.end_year">
-                                    <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
-                                </select>
-                                <span class="err-msg" v-if="errors.end_year">
-                                    {{ errors.end_year }}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="emp-row">
-                            <div class="emp-label" style="margin-top:0">
-                                <input class="styled-checkbox-2" id="styled-checkbox-current-2" type="checkbox" v-model="input.isCurrent" />
-                                <label for="styled-checkbox-current-2">Currently in this Role</label>
-                            </div>
-                        </div>
-                        <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
-
-                        <textarea :ref="'respItem-' + index" class="form-control" style="overflow:hidden"
-                                    @focus="textAreaAdjust(index)" @keyup="onChangeResponsibilities(1, index  )"
-                                    v-for="(res, index) in input.responsibilities" v-bind:key="index"
-                                    v-model="input.responsibilities[index]"
-                                    placeholder="Add Another Responsibility"
-                        >{{ res }}</textarea>
-                    </form>
-                </template>
-
-                <template slot="custom-modal-footer">
-                    <button class="mt-0" type="submit" @click="submit(1)" :disabled="disabled">Save Changes</button>
-                </template>
-
-            </main-modal>
             
-            <span class="add-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalAddEmployment" @click="add">
+            <employment-modal></employment-modal>
+
+            <span class="add-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalEmployment" @click="action(-1, null)">
                 <img src="/img/icons/plus.png"
                     srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
             </span>
@@ -261,7 +18,7 @@
         
             <ul class="list-main-items" v-if="employments.length > 0">
                 <li class="main-items" v-for="(employment, index) in employments" v-bind:key="index">
-                    <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalEmployment" @click="edit(index)">
+                    <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalEmployment" @click="action(index, employment)">
                         <img src="/img/icons/editbutton.png"
                             srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
                     </span>
@@ -275,13 +32,13 @@
                         </div>
                         <div class="bl-col-2 ml-2">
                             <div class="bl-display">
-                                <span class="bl-label-16 bl-ml15">
+                                <span class="bl-label-16 bl-ml15" :ref="'empJobRole-' + index">
                                     {{ employment.job_role }}
                                 </span>
-                                <span class="bl-label-15 bl-ml15 mt-0 pt-0">
+                                <span class="bl-label-15 bl-ml15 mt-0 pt-0" :ref="'empCompanyName-' + index">
                                     {{ employment.company_name }}
                                 </span>
-                                <span class="bl-label-14 bl-ml15 mt-0 pt-0">
+                                <span class="bl-label-14 bl-ml15 mt-0 pt-0" :ref="'empPeriod-' + index">
                                     {{ formatPeriod(employment) }}
                                 </span>
                             </div>
@@ -289,12 +46,12 @@
                     </div>
 
                     <div :class="getCls" :ref="'toggleCls-' + index">
-                        <span class="bl-label-14-style-2 bl-mt13">
+                        <span class="bl-label-14-style-2 bl-mt13" :ref="'empLocation-' + index">
                             <img class="text-icon" src="/img/icons/pinlocation.png"
                                 srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
                             {{ employment.location }}
                         </span>
-                        <span class="bl-label-14-style-2 bl-mt13">
+                        <span class="bl-label-14-style-2 bl-mt13" :ref="'empProjectSize-' + index">
                             <img class="text-icon" src="/img/icons/dollarsign.png"
                                 srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
                             {{ employment.project_size }}
@@ -307,7 +64,7 @@
                         <div class="bl-label-15" v-if="employment.responsibilities.length != 0">
                             <ul class="list-items">
                                 <div v-for="(res, idx) in employment.responsibilities" v-bind:key="idx">
-                                    <li>{{ res }}</li>
+                                    <li :ref="'empRespItem-' + idx">{{ res }}</li>
                                 </div>
                             </ul>
                         </div>
@@ -323,33 +80,8 @@
     export default {
         data() {
             return {
-                disabled: false,
-                is_empty: false,
-                months: Utils.getMonths(),
-                years: Utils.getYears(),
-                current: -1,
                 expanded: [],
                 employments: [],
-                locations: [],
-                companies: [],
-                time_out: false,
-                input_add: {
-                    job_role: '', company_name: '', location: '', project_size: '',
-                    start_month: '', start_year: '', end_month: '', end_year: '', responsibilities: [],
-                },
-                input: {
-                    id: '', job_role: '', company_name: '', location: '', project_size: '',
-                    start_month: '', start_year: '', end_month: '', end_year: '', responsibilities: [],
-                },
-                errors: {
-                    job_role: '', company_name: '', location: '', project_size: '',
-                    start_month: '', start_year: '', end_month: '', end_year: '', responsibilities: [],
-                },
-                endpoints: {
-                    save: '/api/v1/work/experience',
-                    locations: '/api/v1/locations',
-                    companies: '/api/v1/company/search'
-                },
                 getBox: 'bl-box-2 hidden',
                 getCls: 'responsibilities hidden',
                 imgSrc: '/img/icons/expand.png',
@@ -365,6 +97,25 @@
                 
                 for (let i = 0; i < component.employments.length; i++) {
                     component.expanded[i] = false;
+                }
+            });
+
+            Bus.$on('updateEmployment', function(index, details) {
+                if (index == -1) {
+                    component.employments.push(details);
+                
+                } else {
+                    component.employments[index] = details;
+
+                    component.$refs['empJobRole-' + index][0].textContent = details.job_role;
+                    component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
+                    component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
+                    component.$refs['empLocation-' + index][0].textContent = details.location;
+                    component.$refs['empProjectSize-' + index][0].textContent = details.project_size;
+
+                    for (let i = 0; i < details.responsibilities.length; i++) {
+                        component.$refs['empRespItem-' + i][0].textContent = details.responsibilities[i];
+                    }
                 }
             });
         },
@@ -398,24 +149,6 @@
                 }
             },
 
-            close() {
-                Utils.setObjectValues(this.errors, '');
-            },
-
-            add() {
-                Utils.setObjectValues(this.input_add, '');
-
-                this.input_add.responsibilities = [];
-                this.input_add.responsibilities.push('');
-            },
-
-            edit(index) {
-                this.current = index;
-                this.input = this.employments[index];
-
-                this.input.responsibilities.push('');
-            },
-
             formatPeriod(emp) {
                 let endDate = (emp.end_month && emp.end_year) ?
                               new Date(emp.end_year, emp.end_month-1, 1) : new Date();
@@ -423,137 +156,10 @@
                 return Utils.formatPeriod(new Date(emp.start_year, emp.start_month-1, 1), endDate);
             },
 
-            textAreaAdjust(index) {
-                let o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
-                o.style.height = (o.scrollHeight) + 'px';
+            action(index, employment) {
+                Bus.$emit('showEmployment', index, employment);
             },
 
-            onChangeResponsibilities(flag, index) {
-
-                this.textAreaAdjust(index);
-
-                if (flag > 0) {
-                    this.input.responsibilities = this.input.responsibilities.filter(r => r!=='');
-                    this.input.responsibilities.push('');
-
-                } else {
-                    this.input_add.responsibilities = this.input_add.responsibilities.filter(r => r!=='');
-                    this.input_add.responsibilities.push('');
-                }
-            },
-
-            onChangeLocation(location) {
-                let component = this;
-
-                if (location.length <= 0) {
-                    component.locations = [];
-                }
-
-                if (this.time_out) {
-                    clearTimeout(this.time_out);
-                }
-
-                this.time_out = setTimeout(function() {
-
-                    axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth())
-
-                        .then(function(response) {
-
-                            component.locations = (location != '') ? response.data.data.locations.features : [];
-                        })
-                        .catch(function(error) {
-
-                            Utils.handleError(error);
-                        });
-
-                }.bind(this), 300);
-            },
-
-            onSearchCompany(keyword) {
-                let component = this;
-
-                if (keyword.length <= 0) {
-                    component.companies = [];
-                }
-
-                if(this.time_out) {
-                    clearTimeout(this.time_out);
-                }
-
-                this.time_out = setTimeout(function() {
-
-                    axios.get(this.endpoints.companies + "?keyword=" + keyword, Utils.getBearerAuth())
-
-                        .then(function(response) {
-
-                            component.companies = (keyword != '') ? response.data.data.companies : []
-                        })
-                        .catch(function(error) {
-
-                            Utils.handleError(error);
-                        });
-                }.bind(this), 300);
-            },
-
-            onSelectLocation(location, mode) {
-                mode > 0 ? this.input.location = location : this.input_add.location = location;
-                
-                this.locations = [];
-            },
-
-            onSelectCompany(company, mode) {
-
-                if (mode > 0) {
-                    this.input.company_id = company.id;
-                    this.input.company_name = company.name;
-                
-                } else {
-                    this.input_add.company_id = company.id;
-                    this.input_add.company_name = company.name;
-                }
-
-                this.companies = [];
-            },
-
-            async submit(id) {
-
-                let saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.input.id;
-                let saveInput = id == 0 ? this.input_add : this.input;
-                let component = this;
-
-                Utils.setObjectValues(component.errors, '');
-                component.disabled = true;
-
-                for (let i = 0; i < this.input.responsibilities.length; i++) {
-                    this.input.responsibilities[i] = this.$refs['respItem-' + i][0].value;
-                }
-
-                await axios.post(saveEndpoint, saveInput, Utils.getBearerAuth())
-
-                    .then(function(response) {
-                        let data = response.data;
-
-                        $('#modalEmployment').modal('hide');
-                        $('#modalAddEmployment').modal('hide');
-
-                        id == 0 ?
-                            component.employments.push(data.data.work_experience) :
-                            component.employments[component.current] = data.data.work_experience;
-                    })
-                    .catch(function(error) {
-                        if (error.response) {
-                            let data = error.response.data;
-
-							for (let key in data.errors) {
-								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                            }
-                        }
-
-                        Utils.handleError(error);
-                    });
-
-                component.disabled = false;
-            },
         }
     }
 </script>
