@@ -838,8 +838,8 @@ p.bl-nav-tab-label {
   background-color: #ffffff;
   margin-bottom: -10px;
   z-index: 1;
-  width: 240px;
   padding-left: 5px;
+  padding-right: 5px;
 }
 
 
@@ -893,11 +893,11 @@ p.bl-nav-tab-label {
   color: #000000;
   margin-left: 12px;
   background-color: #ffffff;
-  margin-bottom: -10px;
+  margin-top: -10px;
   z-index: 2;
-  width: 90px;
   padding-left: 5px;
-  position: relative;
+  padding-right: 5px;
+  position: absolute;
 }
 
 

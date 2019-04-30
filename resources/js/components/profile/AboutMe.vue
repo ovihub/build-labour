@@ -26,19 +26,22 @@
                                 </div>
                             </div>
 
-                            <div class="me-label">Date of Birth</div>
+                            <div class="me-label" style="margin-bottom:17px">Date of Birth</div>
                             <div class="me-row">
                                 <div class="me-col-left">
+                                    <div class="emp-form-label">Day</div>
                                     <select v-model="birthDay">
                                         <option v-for="(day, index) in days" :key="index" v-bind:value="day">{{ day }}</option>
                                     </select>
                                 </div>
                                 <div class="me-col-mid">
+                                    <div class="emp-form-label">Month</div>
                                     <select v-model="birthMonth" @change="onChangeBirthMonthYear">
                                         <option v-for="(month, index) in months" :key="index" v-bind:value="month.id">{{ month.name }}</option>
                                     </select>
                                 </div>
                                 <div class="me-col-right">
+                                    <div class="emp-form-label">Year</div>
                                     <select v-model="birthYear" @change="onChangeBirthMonthYear">
                                         <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
                                     </select>

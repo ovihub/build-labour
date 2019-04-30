@@ -58,7 +58,7 @@
 
                     <div class="emp-row">
                         <div class="modal-form-label">Size of the Project</div>
-                        <input class="form-control" type="text" placeholder="e.g. $1,000,000" v-model="project_size"/>
+                        <input class="form-control" type="text" v-model="project_size"/>
                         <span class="err-msg" v-if="errors.project_size">
                             {{ errors.project_size }}
                         </span>
@@ -66,8 +66,7 @@
                 </div>
 
                 <div class="emp-label">Duration of Employment</div>
-
-                <div class="emp-row">
+                <div class="emp-row" style="margin-top:36px">
                     <div class="emp-col-left">
                         <div class="emp-form-label">Start Month</div>
                         <select v-model="start_month">
