@@ -21,7 +21,10 @@
 
                     <div class="emp-row">
                         <div class="modal-form-label">Company/Project Name</div>
-                        <input class="form-control" type="text" v-model="company_name" @keyup="onSearchCompany(company_name, 1)"/>
+
+                        <input class="form-control" type="text" v-model="company_name"
+                            @keyup="onSearchCompany(company_name, 1)"/>
+
                         <span class="err-msg" v-if="errors.company_name">
                             {{ errors.company_name }}
                         </span>
@@ -63,6 +66,7 @@
                 </div>
 
                 <div class="emp-label">Duration of Employment</div>
+
                 <div class="emp-row">
                     <div class="emp-col-left">
                         <div class="emp-form-label">Start Month</div>
@@ -83,6 +87,7 @@
                         </span>
                     </div>
                 </div>
+
                 <div class="emp-row" v-if="! isCurrent">
                     <div class="emp-col-left">
                         <div class="emp-form-label">End Month</div>
@@ -93,6 +98,7 @@
                             {{ errors.end_month }}
                         </span>
                     </div>
+
                     <div class="emp-col-right">
                         <div class="emp-form-label">End Year</div>
                         <select v-model="end_year">
@@ -103,19 +109,27 @@
                         </span>
                     </div>
                 </div>
+
                 <div class="emp-row">
                     <div class="emp-label" style="margin-top:0">
-                        <input class="styled-checkbox-2" id="styled-checkbox-current-2" type="checkbox" v-model="isCurrent" />
+                        <input class="styled-checkbox-2" id="styled-checkbox-current-2" type="checkbox"
+                            ref="styled-checkbox-2"
+                            v-model="isCurrent"
+                            @change="onChangeCurrentRole" />
                         <label for="styled-checkbox-current-2">Currently in this Role</label>
                     </div>
                 </div>
+
                 <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
 
-                <textarea :ref="'respItem-' + index" class="form-control" style="overflow:hidden"
-                            @focus="textAreaAdjust(index)" @keyup="onChangeResponsibilities(index)"
-                            v-for="(res, index) in responsibilities" v-bind:key="index"
-                            v-model="responsibilities[index]"
-                            placeholder="Add Another Responsibility">
+                <textarea class="form-control" rows="1" style="overflow:hidden"
+                    :ref="'respItem-' + index" 
+                    @focus="textAreaAdjust(index)"
+                    @keyup="onChangeResponsibilities(index)"
+                    v-for="(res, index) in responsibilities"
+                    :key="index"
+                    v-model="responsibilities[index]"
+                    placeholder="Add Another Responsibility">
                 </textarea>
             </form>
         </template>
@@ -138,6 +152,9 @@
                 locations: [],
                 companies: [],
                 time_out: false,
+                /**
+                 * Save Input
+                 */
                 id: '',
                 job_role: '',
                 company_name: '',
@@ -150,7 +167,7 @@
                 end_year: '',
                 responsibilities: [],
                 errors: {
-                    job_role: '', company_name: '', location: '', project_size: '',
+                    job_role: '', company_name: '', location: '', project_size: '', isCurrent: '',
                     start_month: '', start_year: '', end_month: '', end_year: '', responsibilities: [],
                 },
                 endpoints: {
@@ -185,6 +202,7 @@
                 this.end_year = details ? details.end_year : '';
                 this.responsibilities = details ? details.responsibilities : [];
                 
+                this.responsibilities = this.responsibilities.filter(r => r!=='');
                 this.responsibilities.push('');
             },
 
@@ -199,6 +217,13 @@
                 o.style.height = (o.scrollHeight) + 'px';
             },
 
+            onChangeCurrentRole() {
+                if (this.isCurrent == 1) {
+                    this.end_year = null;
+                    this.end_month = null;
+                }
+            },
+
             onChangeResponsibilities(index) {
                 this.textAreaAdjust(index);
 
@@ -210,7 +235,7 @@
                 let component = this;
 
                 if (location.length <= 0) {
-                    component.locations = [];
+                    this.locations = [];
                 }
 
                 if (this.time_out) {
@@ -237,10 +262,10 @@
                 let component = this;
 
                 if (keyword.length <= 0) {
-                    component.companies = [];
+                    this.companies = [];
                 }
 
-                if(this.time_out) {
+                if (this.time_out) {
                     clearTimeout(this.time_out);
                 }
 
@@ -280,11 +305,16 @@
                     this.responsibilities[i] = this.$refs['respItem-' + i][0].value;
                 }
 
+                if (! this.end_year && ! this.end_month) {
+                    this.isCurrent = 1;
+                }
+
                 let saveInput = {
                     job_role: this.job_role,
                     company_name: this.company_name,
                     location: this.location,
                     project_size: this.project_size,
+                    isCurrent: this.isCurrent,
                     start_month: this.start_month,
                     start_year: this.start_year,
                     end_month: this.end_month,
@@ -301,7 +331,7 @@
                         let data = response.data;
 
                         $('#modalEmployment').modal('hide');
-
+                        
                         Bus.$emit('updateEmployment', component.current, data.data.work_experience);
                     })
                     .catch(function(error) {
