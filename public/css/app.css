@@ -12653,6 +12653,21 @@ p.bl-nav-tab-label {
   color: #252829;
 }
 
+.me-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #383d3f;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.me-row {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 input[type=range] {
   display: block;
   -webkit-appearance: none;

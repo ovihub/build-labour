@@ -3174,23 +3174,64 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       disabled: false,
+      gender: '',
+      date_of_birth: '',
+      marital_status: '',
+      english_skill: '',
+      drivers_license: '',
+      has_vehicle: '',
       input: {
         gender: '',
         date_of_birth: '',
         marital_status: '',
         english_skill: '',
-        drivers_license: ''
+        drivers_license: '',
+        has_vehicle: ''
       },
       errors: {
         gender: '',
         date_of_birth: '',
         marital_status: '',
         english_skill: '',
-        drivers_license: ''
+        drivers_license: '',
+        has_vehicle: ''
       },
       endpoints: {
         save: '/api/v1/worker/optional'
@@ -3205,9 +3246,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     formatDate: function formatDate(d) {
-      if (d != null) {
+      if (d) {
         var date = new Date(d);
         return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
+      }
+    },
+    formatEnglishSkill: function formatEnglishSkill(index) {
+      if (index == 1) {
+        this.$refs['es-checkbox-1'].checked = true;
+        this.$refs['es-checkbox-0'].checked = false;
+        this.input.english_skill = 1;
+      } else {
+        this.$refs['es-checkbox-1'].checked = false;
+        this.$refs['es-checkbox-0'].checked = true;
+        this.input.english_skill = 0;
+      }
+    },
+    formatDriversLicense: function formatDriversLicense(index) {
+      if (index == 1) {
+        this.$refs['dl-checkbox-1'].checked = true;
+        this.$refs['dl-checkbox-0'].checked = false;
+        this.input.drivers_license = 1;
+      } else {
+        this.$refs['dl-checkbox-1'].checked = false;
+        this.$refs['dl-checkbox-0'].checked = true;
+        this.input.drivers_license = 0;
+      }
+    },
+    formaHasVehicle: function formaHasVehicle(index) {
+      if (index == 1) {
+        this.$refs['hv-checkbox-1'].checked = true;
+        this.$refs['hv-checkbox-0'].checked = false;
+        this.input.has_vehicle = 1;
+      } else {
+        this.$refs['hv-checkbox-1'].checked = false;
+        this.$refs['hv-checkbox-0'].checked = true;
+        this.input.has_vehicle = 0;
       }
     },
     close: function close() {
@@ -47056,46 +47130,79 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "form-group" }, [
-                      _c("div", { staticClass: "emp-row" }, [
-                        _c("div", { staticClass: "modal-form-label" }, [
-                          _vm._v("Gender")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.input.gender,
-                              expression: "input.gender"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { type: "text" },
-                          domProps: { value: _vm.input.gender },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(_vm.input, "gender", $event.target.value)
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _vm.errors.gender
-                          ? _c("span", { staticClass: "err-msg" }, [
-                              _vm._v(
-                                "\n                                    " +
-                                  _vm._s(_vm.errors.gender) +
-                                  "\n                                "
-                              )
-                            ])
-                          : _vm._e()
+                      _c("div", { staticClass: "me-label" }, [
+                        _vm._v("Gender")
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "emp-row" }, [
-                        _c("div", { staticClass: "modal-form-label" }, [
+                      _c("div", { staticClass: "me-row" }, [
+                        _c("div", { staticClass: "emp-col-left" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.input.gender,
+                                  expression: "input.gender"
+                                }
+                              ],
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.input,
+                                    "gender",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "option",
+                                { key: "1", attrs: { value: "Male" } },
+                                [_vm._v("Male")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "option",
+                                { key: "2", attrs: { value: "Female" } },
+                                [_vm._v("Female")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "option",
+                                { key: "3", attrs: { value: "Other" } },
+                                [_vm._v("Other")]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _vm.errors.gender
+                            ? _c("span", { staticClass: "err-msg" }, [
+                                _vm._v(
+                                  "\n                                        " +
+                                    _vm._s(_vm.errors.gender) +
+                                    "\n                                    "
+                                )
+                              ])
+                            : _vm._e()
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "me-row" }, [
+                        _c("div", { staticClass: "me-label" }, [
                           _vm._v("Date of Birth")
                         ]),
                         _vm._v(" "),
@@ -47136,36 +47243,65 @@ var render = function() {
                           : _vm._e()
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "emp-row" }, [
-                        _c("div", { staticClass: "modal-form-label" }, [
-                          _vm._v("Marital Status")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
+                      _c("div", { staticClass: "me-label" }, [
+                        _vm._v("Marital Status")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "me-row" }, [
+                        _c("div", { staticClass: "emp-col-left" }, [
+                          _c(
+                            "select",
                             {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.input.marital_status,
-                              expression: "input.marital_status"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { type: "text" },
-                          domProps: { value: _vm.input.marital_status },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.input.marital_status,
+                                  expression: "input.marital_status"
+                                }
+                              ],
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.input,
+                                    "marital_status",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
                               }
-                              _vm.$set(
-                                _vm.input,
-                                "marital_status",
-                                $event.target.value
+                            },
+                            [
+                              _c(
+                                "option",
+                                { key: "1", attrs: { value: "Single" } },
+                                [_vm._v("Single")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "option",
+                                { key: "2", attrs: { value: "Married" } },
+                                [_vm._v("Married")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "option",
+                                { key: "3", attrs: { value: "Other" } },
+                                [_vm._v("Other")]
                               )
-                            }
-                          }
-                        }),
+                            ]
+                          )
+                        ]),
                         _vm._v(" "),
                         _vm.errors.marital_status
                           ? _c("span", { staticClass: "err-msg" }, [
@@ -47178,88 +47314,118 @@ var render = function() {
                           : _vm._e()
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "emp-row" }, [
-                        _c("div", { staticClass: "modal-form-label" }, [
-                          _vm._v("English Skill")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.input.english_skill,
-                              expression: "input.english_skill"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { type: "text" },
-                          domProps: { value: _vm.input.english_skill },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.input,
-                                "english_skill",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _vm.errors.english_skill
-                          ? _c("span", { staticClass: "err-msg" }, [
-                              _vm._v(
-                                "\n                                    " +
-                                  _vm._s(_vm.errors.english_skill) +
-                                  "\n                                "
-                              )
-                            ])
-                          : _vm._e()
+                      _c("div", { staticClass: "me-label" }, [
+                        _vm._v(
+                          "\n                                I am proficient in WRITTEN and SPOKEN English\n                            "
+                        )
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "emp-row" }, [
-                        _c("div", { staticClass: "modal-form-label" }, [
-                          _vm._v("Driver's License")
-                        ]),
-                        _vm._v(" "),
+                      _c("div", { staticClass: "bl-inline" }, [
                         _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.input.drivers_license,
-                              expression: "input.drivers_license"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { type: "text" },
-                          domProps: { value: _vm.input.drivers_license },
+                          ref: "es-checkbox-1",
+                          staticClass: "styled-checkbox-round",
+                          attrs: { id: "es-checkbox-yes", type: "checkbox" },
                           on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.input,
-                                "drivers_license",
-                                $event.target.value
-                              )
+                            change: function($event) {
+                              return _vm.formatEnglishSkill(1)
                             }
                           }
                         }),
                         _vm._v(" "),
-                        _vm.errors.drivers_license
-                          ? _c("span", { staticClass: "err-msg" }, [
-                              _vm._v(
-                                "\n                                    " +
-                                  _vm._s(_vm.errors.drivers_license) +
-                                  "\n                                "
-                              )
-                            ])
-                          : _vm._e()
+                        _c("label", { attrs: { for: "es-checkbox-yes" } }, [
+                          _vm._v("Yes")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          ref: "es-checkbox-0",
+                          staticClass: "styled-checkbox-round",
+                          attrs: { id: "es-checkbox-no", type: "checkbox" },
+                          on: {
+                            change: function($event) {
+                              return _vm.formatEnglishSkill(0)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "es-checkbox-no" } }, [
+                          _vm._v("No")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "me-label" }, [
+                        _vm._v(
+                          "\n                                I have a valid driver's license\n                            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "bl-inline" }, [
+                        _c("input", {
+                          ref: "dl-checkbox-1",
+                          staticClass: "styled-checkbox-round",
+                          attrs: { id: "dl-checkbox-yes", type: "checkbox" },
+                          on: {
+                            change: function($event) {
+                              return _vm.formatDriversLicense(1)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "dl-checkbox-yes" } }, [
+                          _vm._v("Yes")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          ref: "dl-checkbox-0",
+                          staticClass: "styled-checkbox-round",
+                          attrs: { id: "dl-checkbox-no", type: "checkbox" },
+                          on: {
+                            change: function($event) {
+                              return _vm.formatDriversLicense(0)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "dl-checkbox-no" } }, [
+                          _vm._v("No")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "me-label" }, [
+                        _vm._v(
+                          "\n                                I own/have access to a registered vehicle on a permanent basis\n                            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "bl-inline" }, [
+                        _c("input", {
+                          ref: "hv-checkbox-1",
+                          staticClass: "styled-checkbox-round",
+                          attrs: { id: "hv-checkbox-yes", type: "checkbox" },
+                          on: {
+                            change: function($event) {
+                              return _vm.formaHasVehicle(1)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "hv-checkbox-yes" } }, [
+                          _vm._v("Yes")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          ref: "hv-checkbox-0",
+                          staticClass: "styled-checkbox-round",
+                          attrs: { id: "hv-checkbox-no", type: "checkbox" },
+                          on: {
+                            change: function($event) {
+                              return _vm.formaHasVehicle(0)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "hv-checkbox-no" } }, [
+                          _vm._v("No")
+                        ])
                       ])
                     ])
                   ]
@@ -47285,19 +47451,17 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "profile-title" }, [_vm._v("About Me")]),
           _vm._v(" "),
-          _vm.input.gender
+          _vm.gender
             ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
                 _vm._v("Gender")
               ])
             : _vm._e(),
           _vm._v(" "),
           _c("span", { staticClass: "bl-label-14" }, [
-            _vm._v(
-              "\n                " + _vm._s(_vm.input.gender) + "\n            "
-            )
+            _vm._v("\n                " + _vm._s(_vm.gender) + "\n            ")
           ]),
           _vm._v(" "),
-          _vm.input.date_of_birth
+          _vm.date_of_birth
             ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
                 _vm._v("Date of Birth")
               ])
@@ -47306,12 +47470,12 @@ var render = function() {
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
               "\n                " +
-                _vm._s(_vm.formatDate(_vm.input.date_of_birth)) +
+                _vm._s(_vm.formatDate(_vm.date_of_birth)) +
                 "\n            "
             )
           ]),
           _vm._v(" "),
-          _vm.input.marital_status
+          _vm.marital_status
             ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
                 _vm._v("Marital Status")
               ])
@@ -47320,12 +47484,12 @@ var render = function() {
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
               "\n                " +
-                _vm._s(_vm.input.marital_status) +
+                _vm._s(_vm.marital_status) +
                 "\n            "
             )
           ]),
           _vm._v(" "),
-          _vm.input.english_skill
+          _vm.english_skill
             ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
                 _vm._v("English Skill")
               ])
@@ -47334,12 +47498,12 @@ var render = function() {
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
               "\n                " +
-                _vm._s(_vm.input.english_skill) +
+                _vm._s(_vm.english_skill) +
                 "\n            "
             )
           ]),
           _vm._v(" "),
-          _vm.input.drivers_license
+          _vm.drivers_license
             ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
                 _vm._v("Driver's License")
               ])
@@ -47348,7 +47512,7 @@ var render = function() {
           _c("span", { staticClass: "bl-label-14" }, [
             _vm._v(
               "\n                " +
-                _vm._s(_vm.input.drivers_license) +
+                _vm._s(_vm.drivers_license) +
                 "\n            "
             )
           ])
