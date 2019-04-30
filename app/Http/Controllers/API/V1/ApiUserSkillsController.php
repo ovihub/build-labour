@@ -105,4 +105,20 @@ class ApiUserSkillsController extends ApiBaseController
         return $this->apiSuccessResponse( compact( 'skills', 'main_skill' ), true, 'Successfully updated worker skills', self::HTTP_STATUS_REQUEST_OK);
     }
 
+
+    public function deleteMainSkills( Request $request )
+    {
+
+        try {
+
+            $this->userRepo->deleteMainSkills($request);
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( compact( 'skills', 'main_skill' ), true, 'Successfully deleted worker skills', self::HTTP_STATUS_REQUEST_OK);
+    }
+
 }

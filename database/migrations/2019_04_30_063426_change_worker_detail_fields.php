@@ -17,7 +17,7 @@ class ChangeWorkerDetailFields extends Migration
             $table->boolean('english_skill')->default(0)->change();
             $table->boolean('drivers_license')->default(0)->change();
             $table->boolean('right_to_work')->default(0)->change();
-            $table->boolean('has_registered_vehicle')->default(0);
+            $table->boolean('has_registered_vehicle')->nullable();
         });
     }
 
