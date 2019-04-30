@@ -3931,6 +3931,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3942,6 +3953,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       expanded: [],
       employments: [],
       locations: [],
+      companies: [],
       time_out: false,
       input_add: {
         job_role: '',
@@ -3979,7 +3991,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       endpoints: {
         save: '/api/v1/work/experience',
-        locations: '/api/v1/locations'
+        locations: '/api/v1/locations',
+        companies: '/api/v1/company/search'
       },
       getBox: 'bl-box-2 hidden',
       getCls: 'responsibilities hidden',
@@ -4075,8 +4088,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
       }.bind(this), 300);
     },
+    onSearchCompany: function onSearchCompany(keyword) {
+      console.log(keyword);
+      var component = this;
+
+      if (keyword.length <= 0) {
+        component.companies = [];
+      }
+
+      if (this.time_out) {
+        clearTimeout(this.time_out);
+      }
+
+      this.time_out = setTimeout(function () {
+        axios.get(this.endpoints.companies + "?keyword=" + keyword, Utils.getBearerAuth()).then(function (response) {
+          console.log(response);
+          component.companies = response.data.data.companies;
+        }).catch(function (error) {
+          Utils.handleError(error);
+        });
+      }.bind(this), 300);
+    },
     onSelectLocation: function onSelectLocation(location, mode) {
       mode > 0 ? this.input.location = location : this.input_add.location = location;
+      this.locations = [];
+    },
+    onSelectCompany: function onSelectCompany(company, mode) {
+      if (mode > 0) {
+        // edit
+        this.input.company_id = company.id;
+        this.input.company_name = company.name;
+        console.log(this.input_add);
+      } else {
+        // new
+        this.input_add.company_id = company.id;
+        this.input_add.company_name = company.name;
+        console.log(this.input_add);
+      }
+
+      this.companies = [];
     },
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -48090,6 +48140,12 @@ var render = function() {
                         attrs: { type: "text" },
                         domProps: { value: _vm.input_add.company_name },
                         on: {
+                          keyup: function($event) {
+                            return _vm.onSearchCompany(
+                              _vm.input_add.company_name,
+                              0
+                            )
+                          },
                           input: function($event) {
                             if ($event.target.composing) {
                               return
@@ -48113,6 +48169,30 @@ var render = function() {
                           ])
                         : _vm._e()
                     ]),
+                    _vm._v(" "),
+                    _vm.companies.length > 0
+                      ? _c("div", { staticClass: "emp-row" }, [
+                          _c(
+                            "ul",
+                            { staticClass: "list-group" },
+                            _vm._l(_vm.companies, function(company) {
+                              return _c(
+                                "li",
+                                {
+                                  staticClass: "list-group-item",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.onSelectCompany(company, 0)
+                                    }
+                                  }
+                                },
+                                [_vm._v(_vm._s(company.name))]
+                              )
+                            }),
+                            0
+                          )
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-row" }, [
                       _c("div", { staticClass: "modal-form-label" }, [
@@ -48714,6 +48794,12 @@ var render = function() {
                         attrs: { type: "text" },
                         domProps: { value: _vm.input.company_name },
                         on: {
+                          keyup: function($event) {
+                            return _vm.onSearchCompany(
+                              _vm.input.company_name,
+                              1
+                            )
+                          },
                           input: function($event) {
                             if ($event.target.composing) {
                               return
@@ -48737,6 +48823,30 @@ var render = function() {
                           ])
                         : _vm._e()
                     ]),
+                    _vm._v(" "),
+                    _vm.companies.length > 0
+                      ? _c("div", { staticClass: "emp-row" }, [
+                          _c(
+                            "ul",
+                            { staticClass: "list-group" },
+                            _vm._l(_vm.companies, function(company) {
+                              return _c(
+                                "li",
+                                {
+                                  staticClass: "list-group-item",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.onSelectCompany(company, 1)
+                                    }
+                                  }
+                                },
+                                [_vm._v(_vm._s(company.name))]
+                              )
+                            }),
+                            0
+                          )
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "emp-row" }, [
                       _c("div", { staticClass: "modal-form-label" }, [
