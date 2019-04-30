@@ -24,10 +24,15 @@
 
                             <div class="emp-row">
                                 <div class="modal-form-label">Company/Project Name</div>
-                                <input class="form-control" type="text" v-model="input_add.company_name" />
+                                <input class="form-control" type="text" v-model="input_add.company_name" @keyup="onSearchCompany(input_add.company_name, 0)"/>
                                 <span class="err-msg" v-if="errors.company_name">
                                     {{ errors.company_name }}
                                 </span>
+                            </div>
+                            <div class="emp-row" v-if="companies.length > 0">
+                                <ul class="list-group">
+                                    <li class="list-group-item" v-for="company in companies" v-on:click="onSelectCompany(company, 0)">{{ company.name }}</li>
+                                </ul>
                             </div>
 
                             <div class="emp-row">
@@ -136,10 +141,16 @@
 
                             <div class="emp-row">
                                 <div class="modal-form-label">Company/Project Name</div>
-                                <input class="form-control" type="text" v-model="input.company_name" />
+                                <input class="form-control" type="text" v-model="input.company_name" @keyup="onSearchCompany(input.company_name, 1)"/>
                                 <span class="err-msg" v-if="errors.company_name">
                                     {{ errors.company_name }}
                                 </span>
+                            </div>
+
+                            <div class="emp-row" v-if="companies.length > 0">
+                                <ul class="list-group">
+                                    <li class="list-group-item" v-for="company in companies" v-on:click="onSelectCompany(company, 1)">{{ company.name }}</li>
+                                </ul>
                             </div>
 
                             <div class="emp-row">
@@ -186,7 +197,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="emp-row" v-if="!input_add.isCurrent">
+                        <div class="emp-row" v-if="!input.isCurrent">
                             <div class="emp-col-left">
                                 <div class="emp-form-label">End Month</div>
                                 <select v-model="input.end_month">
@@ -312,6 +323,7 @@
                 expanded: [],
                 employments: [],
                 locations: [],
+                companies: [],
                 time_out: false,
                 input_add: {
                     job_role: '', company_name: '', location: '', project_size: '',
@@ -327,7 +339,8 @@
                 },
                 endpoints: {
                     save: '/api/v1/work/experience',
-                    locations: '/api/v1/locations'
+                    locations: '/api/v1/locations',
+                    companies: '/api/v1/company/search'
                 },
                 getBox: 'bl-box-2 hidden',
                 getCls: 'responsibilities hidden',
@@ -406,6 +419,7 @@
             },
 
             onChangeResponsibilities(flag, index) {
+
                 this.textAreaAdjust(index);
 
                 if (flag > 0) {
@@ -449,12 +463,43 @@
                 }.bind(this), 300);
             },
 
+            onSearchCompany(keyword) {
+
+                console.log(keyword);
+                let component = this;
+
+                if (keyword.length <= 0) {
+
+                    component.companies = [];
+                }
+
+                if(this.time_out) {
+
+                    clearTimeout(this.time_out);
+                }
+
+                this.time_out = setTimeout(function() {
+
+                    axios.get(this.endpoints.companies + "?keyword=" + keyword, Utils.getBearerAuth())
+
+                        .then(function(response) {
+
+                            console.log(response);
+                            component.companies = response.data.data.companies;
+                        })
+                        .catch(function(error) {
+
+                            Utils.handleError(error);
+                        });
+                }.bind(this), 300);
+            },
+
             onSelectLocation(location, mode) {
 
                 if (mode > 0) {
 
                     // edit
-                    console.log('edit');
+
                     this.input.location = location;
                 } else {
 
@@ -462,8 +507,30 @@
 
                     this.input_add.location = location;
                 }
+
+                this.locations = [];
             },
 
+            onSelectCompany(company, mode) {
+
+                if (mode > 0) {
+
+                    // edit
+
+                    this.input.company_id = company.id;
+                    this.input.company_name = company.name;
+                    console.log(this.input_add);
+                } else {
+
+                    // new
+
+                    this.input_add.company_id = company.id;
+                    this.input_add.company_name = company.name;
+                    console.log(this.input_add);
+                }
+
+                this.companies = [];
+            },
             async submit(id) {
 
                 let saveEndpoint = id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.input.id;
