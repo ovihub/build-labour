@@ -217,7 +217,7 @@ class ApiUsersController extends ApiBaseController
      *      )
      * )
      */
-    public function uploadProfilePhoto( Request $request)
+    public function uploadProfilePhoto( Request $request )
     {
         $user = JWTAuth::toUser();
 
@@ -229,5 +229,29 @@ class ApiUsersController extends ApiBaseController
     }
 
 
+    public function searchLocation( Request $request ) {
 
+   //     dd($request->keyword);
+
+        // sample https://api.mapbox.com/geocoding/v5/mapbox.places/2150%20Australia.json?bbox=109.863281,-45.089036,160.839844,-9.968851&access_token=pk.eyJ1IjoicmVtemZlcm5hbmRleiIsImEiOiJjanYyMXZqc2EyMGNzNDRwcHNxc2wxdXQzIn0.cQrnAKwhL0yQvsYAKWuODA
+
+        $keyword = trim($request->keyword);
+        $curl_handle=curl_init();
+        curl_setopt($curl_handle,CURLOPT_URL,"https://api.mapbox.com/geocoding/v5/mapbox.places/{$keyword}%20Australia.json?bbox=109.863281,-45.089036,160.839844,-9.968851&access_token=pk.eyJ1IjoicmVtemZlcm5hbmRleiIsImEiOiJjanYyMXZqc2EyMGNzNDRwcHNxc2wxdXQzIn0.cQrnAKwhL0yQvsYAKWuODA");
+        curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+        curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
+        $buffer = curl_exec($curl_handle);
+        curl_close($curl_handle);
+        if (empty($buffer)){
+          //  print "Nothing returned from url.<p>";
+        }
+        else{
+           // print $buffer;
+        }
+
+        $buffer = json_decode($buffer);
+
+     //   return json_encode($buffer);
+        return $this->apiSuccessResponse([ 'locations' => $buffer ], true, 'Profile Photo Uploaded Successfully ', self::HTTP_STATUS_REQUEST_OK);
+    }
 }

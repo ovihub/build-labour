@@ -32,10 +32,16 @@
 
                             <div class="emp-row">
                                 <div class="modal-form-label">Location</div>
-                                <input class="form-control" type="text" v-model="input_add.location" />
+                                <input class="form-control" type="text" v-model="input_add.location" @keyup="onChangeLocation(input_add.location, 0)" />
                                 <span class="err-msg" v-if="errors.location">
                                     {{ errors.location }}
                                 </span>
+                            </div>
+
+                            <div class="emp-row" v-if="locations.length > 0">
+                                <ul class="list-group">
+                                    <li class="list-group-item" v-for="place in locations" v-on:click="onSelectLocation(place.place_name, 0)">{{ place.place_name }}</li>
+                                </ul>
                             </div>
 
                             <div class="emp-row">
@@ -68,7 +74,7 @@
                                 </span>
                             </div>
                         </div>
-                         <div class="emp-row">
+                         <div class="emp-row" v-if="!input_add.isCurrent">
                             <div class="emp-col-left">
                                 <div class="emp-form-label">End Month</div>
                                 <select v-model="input_add.end_month">
@@ -138,10 +144,16 @@
 
                             <div class="emp-row">
                                 <div class="modal-form-label">Location</div>
-                                <input class="form-control" type="text" v-model="input.location" />
+                                <input class="form-control" type="text" v-model="input.location" @keyup="onChangeLocation(input.location)" />
                                 <span class="err-msg" v-if="errors.location">
                                     {{ errors.location }}
                                 </span>
+                            </div>
+
+                            <div class="emp-row" v-if="locations.length > 0">
+                                <ul class="list-group">
+                                    <li class="list-group-item" v-for="place in locations" v-on:click="onSelectLocation(place.place_name, 1)">{{ place.place_name }}</li>
+                                </ul>
                             </div>
 
                             <div class="emp-row">
@@ -174,7 +186,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="emp-row">
+                        <div class="emp-row" v-if="!input_add.isCurrent">
                             <div class="emp-col-left">
                                 <div class="emp-form-label">End Month</div>
                                 <select v-model="input.end_month">
@@ -299,6 +311,8 @@
                 current: -1,
                 expanded: [],
                 employments: [],
+                locations: [],
+                time_out: false,
                 input_add: {
                     job_role: '', company_name: '', location: '', project_size: '',
                     start_month: '', start_year: '', end_month: '', end_year: '', responsibilities: [],
@@ -313,6 +327,7 @@
                 },
                 endpoints: {
                     save: '/api/v1/work/experience',
+                    locations: '/api/v1/locations'
                 },
                 getBox: 'bl-box-2 hidden',
                 getCls: 'responsibilities hidden',
@@ -400,6 +415,52 @@
                 } else {
                     this.input_add.responsibilities = this.input_add.responsibilities.filter(r => r!=='');
                     this.input_add.responsibilities.push('');
+                }
+            },
+
+            onChangeLocation(location) {
+
+                let component = this;
+
+                if (location.length <= 0) {
+
+                    component.locations = [];
+                }
+
+                if(this.time_out) {
+
+                    clearTimeout(this.time_out);
+                }
+
+                this.time_out = setTimeout(function() {
+
+                    axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth())
+
+                        .then(function(response) {
+
+                            console.log(response);
+                            component.locations = response.data.data.locations.features;
+                            console.log(component.locations);
+                        })
+                        .catch(function(error) {
+
+                            Utils.handleError(error);
+                        });
+                }.bind(this), 300);
+            },
+
+            onSelectLocation(location, mode) {
+
+                if (mode > 0) {
+
+                    // edit
+                    console.log('edit');
+                    this.input.location = location;
+                } else {
+
+                    // new
+
+                    this.input_add.location = location;
                 }
             },
 

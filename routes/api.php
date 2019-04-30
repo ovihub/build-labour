@@ -82,6 +82,8 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
         });
     });
 
+    Route::get('locations', 'ApiUsersController@searchLocation');
+
     Route::get('roles', 'ApiRolesController@index');
 
 
