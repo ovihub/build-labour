@@ -129,34 +129,29 @@
                 }
             });
 
-            // Bus.$on('updateEmployment', function(index, details) {
-            //     if (index == -1) {
-            //         component.employments.push(details);
+            Bus.$on('updateEmployment', function(index, details) {
+                if (index == -1) {
+                    component.employments.push(details);
                 
-            //     } else {
-            //         component.employments[index] = details;
+                } else {
+                    component.employments[index] = details;
                     
-            //         component.isCurrent = details.isCurrent ? 1 : 0;
-            //         component.endMonth = details.end_month ? details.end_month : null;
-            //         component.endYear = details.end_year ? details.end_year : null;
+                    component.$refs['empJobRole-' + index][0].textContent = details.job_role;
+                    component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
+                    component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
+                    component.$refs['empLocation-' + index][0].textContent = details.location;
+                    component.$refs['empProjectSize-' + index][0].textContent = details.project_size;
 
-            //         component.$refs['empJobRole-' + index][0].textContent = details.job_role;
-            //         component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
-            //         component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
-            //         component.$refs['empLocation-' + index][0].textContent = details.location;
-            //         component.$refs['empProjectSize-' + index][0].textContent = details.project_size;
-
-
-            //         if (component.employments[index].responsibilities.length == details.responsibilities.length) {
-            //             for (let i = 0; i < details.responsibilities.length; i++) {
-            //                 component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
-            //             }
-
-            //         } else {
-            //             window.location.href = '/user/profile';
-            //         }
-            //     }
-            // });
+                    for (let i = 0; i < details.responsibilities.length; i++) {
+                        if (component.$refs['empRespItem-' + index + '-' + i] !== undefined) {
+                            component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
+                        
+                        } else {
+                            window.location.href = '/user/profile';
+                        }
+                    }
+                }
+            });
         },
 
         methods: {

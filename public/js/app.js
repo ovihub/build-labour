@@ -3904,28 +3904,27 @@ __webpack_require__.r(__webpack_exports__);
       for (var i = 0; i < component.employments.length; i++) {
         component.expanded[i] = false;
       }
-    }); // Bus.$on('updateEmployment', function(index, details) {
-    //     if (index == -1) {
-    //         component.employments.push(details);
-    //     } else {
-    //         component.employments[index] = details;
-    //         component.isCurrent = details.isCurrent ? 1 : 0;
-    //         component.endMonth = details.end_month ? details.end_month : null;
-    //         component.endYear = details.end_year ? details.end_year : null;
-    //         component.$refs['empJobRole-' + index][0].textContent = details.job_role;
-    //         component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
-    //         component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
-    //         component.$refs['empLocation-' + index][0].textContent = details.location;
-    //         component.$refs['empProjectSize-' + index][0].textContent = details.project_size;
-    //         if (component.employments[index].responsibilities.length == details.responsibilities.length) {
-    //             for (let i = 0; i < details.responsibilities.length; i++) {
-    //                 component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
-    //             }
-    //         } else {
-    //             window.location.href = '/user/profile';
-    //         }
-    //     }
-    // });
+    });
+    Bus.$on('updateEmployment', function (index, details) {
+      if (index == -1) {
+        component.employments.push(details);
+      } else {
+        component.employments[index] = details;
+        component.$refs['empJobRole-' + index][0].textContent = details.job_role;
+        component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
+        component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
+        component.$refs['empLocation-' + index][0].textContent = details.location;
+        component.$refs['empProjectSize-' + index][0].textContent = details.project_size;
+
+        for (var i = 0; i < details.responsibilities.length; i++) {
+          if (component.$refs['empRespItem-' + index + '-' + i] !== undefined) {
+            component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
+          } else {
+            window.location.href = '/user/profile';
+          }
+        }
+      }
+    });
   },
   methods: {
     toggle: function toggle(index) {
@@ -4225,7 +4224,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.time_out = setTimeout(function () {
         axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth()).then(function (response) {
           var data = response.data;
-          component.locations = location != '' ? data.data.locations.features : [];
+          component.locations = location != '' && data.data.locations ? data.data.locations.features : [];
         }).catch(function (error) {
           Utils.handleError(error);
         });
@@ -4296,9 +4295,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 9;
                 return axios.post(saveEndpoint, saveInput, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
-                  $('#modalEmployment').modal('hide'); // Bus.$emit('updateEmployment', component.current, data.data.work_experience);
-
-                  window.location.href = '/user/profile';
+                  $('#modalEmployment').modal('hide');
+                  Bus.$emit('updateEmployment', component.current, data.data.work_experience);
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
