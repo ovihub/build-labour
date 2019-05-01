@@ -9,7 +9,7 @@
                 data-backdrop="static"
                 data-keyboard="false"
                 data-target="#modalEmployment"
-                @click="action(-1, null)">
+                @click="action(-1)">
 
                 <img src="/img/icons/plus.png"
                     srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
@@ -32,7 +32,7 @@
                         data-backdrop="static"
                         data-keyboard="false"
                         data-target="#modalEmployment"
-                        @click="action(index, employment)">
+                        @click="action(index)">
 
                         <img src="/img/icons/editbutton.png"
                             srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
@@ -40,7 +40,7 @@
                     <span class="text-icon-2">
                         <img :src="imgSrc" :srcset="imgSrcSet" :ref="'toggleImg-' + index" @click="toggle(index)">
                     </span>
-                    <div class="row mt-3" @click="toggle(index)">
+                    <div class="jobads-row mt-3" @click="toggle(index)">
                         <div class="bl-col-1">
                             <img class="bl-image-56" src="/img/logo/1.jpg">
                             <div class="bl-box"></div>
@@ -64,24 +64,24 @@
 
                     <div :class="getCls" :ref="'toggleCls-' + index">
 
-                        <div class="bl-mt12">
-                            <img style="display:inline" class="text-icon" src="/img/icons/pinlocation.png"
+                        <div class="empinfo-row">
+                            <img style="margin-top:5px" class="text-icon bl-mt12" src="/img/icons/pinlocation.png"
                                 srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
                             <span style="display:inline" class="bl-label-14-style-2" :ref="'empLocation-' + index">
                                 {{ employment.location }}
                             </span>
                         </div>
 
-                        <div class="bl-mt12">
-                            <img style="display:inline" class="text-icon" src="/img/icons/dollarsign.png"
+                        <div class="empinfo-row">
+                            <img class="text-icon" src="/img/icons/dollarsign.png"
                                 srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
                             <span style="display:inline" class="bl-label-14-style-2" :ref="'empProjectSize-' + index">
                                 {{ employment.project_size }}
                             </span>
                         </div>
                         
-                        <div class="bl-mt12" v-if="employment.responsibilities.length != 0">
-                            <img style="display:inline" class="text-icon" src="/img/icons/responsibilities.png"
+                        <div class="empinfo-row" v-if="employment.responsibilities.length != 0">
+                            <img class="text-icon" src="/img/icons/responsibilities.png"
                                     srcset="/img/icons/responsibilities@2x.png 2x, /img/icons/responsibilities@3x.png 3x">
                             <span style="display:inline" class="bl-label-14-style-2">
                                 Responsibilities:
@@ -111,9 +111,6 @@
             return {
                 expanded: [],
                 employments: [],
-                isCurrent: -1,
-                endMonth: '',
-                endYear: '',
                 getBox: 'bl-box-2 hidden',
                 getCls: 'responsibilities hidden',
                 imgSrc: '/img/icons/expand.png',
@@ -199,19 +196,8 @@
                 return Utils.formatPeriod(new Date(emp.start_year, emp.start_month-1, 1), endDate);
             },
 
-            action(index, employment) {
-                if (employment) {
-                    if (this.isCurrent != -1) {
-                        employment.isCurrent = this.isCurrent;
-                    }
-
-                    if (this.endMonth !== '' && this.endYear !== '') {
-                        employment.end_month = this.endMonth;
-                        employment.end_year = this.endYear;
-                    }
-                }
-                
-                Bus.$emit('showEmployment', index, employment);
+            action(index) {
+                Bus.$emit('showEmployment', index, index != -1 ?  this.employments[index] : null);
             },
 
         }
