@@ -725,10 +725,12 @@ p.bl-nav-tab-label {
   top: 10px;
 }
 .text-icon {
-  margin-right: 10px;
+  margin-right: 14px;
   width: 10px;
   height: 15px;
   object-fit: contain;
+  display:inline;
+  margin-top:4px;
 }
 .text-icon-2 {
   float: right;
@@ -1235,4 +1237,14 @@ p.bl-nav-tab-label {
     box-shadow: none;
     background: #ddd;
   }
+}
+
+.jobads-row {
+  display: flex;
+  margin-left: -15px;
+}
+
+.empinfo-row {
+  display: flex;
+  margin-top: 12px;
 }

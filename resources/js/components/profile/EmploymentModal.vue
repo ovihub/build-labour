@@ -248,7 +248,7 @@
                         .then(function(response) {
                             let data = response.data;
 
-                            component.locations = (location != '') ? data.data.locations.features : [];
+                            component.locations = (location != '' && data.data.locations) ? data.data.locations.features : [];
                         })
                         .catch(function(error) {
 
@@ -332,8 +332,7 @@
 
                         $('#modalEmployment').modal('hide');
                         
-                        // Bus.$emit('updateEmployment', component.current, data.data.work_experience);
-                        window.location.href = '/user/profile';
+                        Bus.$emit('updateEmployment', component.current, data.data.work_experience);
                     })
                     .catch(function(error) {
                         if (error.response) {

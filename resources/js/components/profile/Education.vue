@@ -4,7 +4,7 @@
 
             <education-modal></education-modal>
 
-            <span class="add-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalEducation" @click="action(-1, null)">
+            <span class="add-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalEducation" @click="action(-1)">
                 <img src="/img/icons/plus.png"
                     srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
             </span>
@@ -17,15 +17,21 @@
             </span>
             
             <div v-for="(education, idx) in educations" :key="idx">
-                <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalEducation" @click="action(idx, education)">
+                <span class="edit-icon"
+                    data-toggle="modal"
+                    data-backdrop="static"
+                    data-keyboard="false"
+                    data-target="#modalEducation"
+                    @click="action(idx)">
+
                     <img src="/img/icons/editbutton.png"
                         srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
                 </span>
-                <div class="row mt-4">
+                <div class="jobads-row mt-4">
                     <div class="bl-col-1">
                         <img class="bl-image-56" src="/img/logo/1.jpg">
                     </div>
-                    <div class="bl-col-2">
+                    <div class="bl-col-2" style="margin-top:-4px">
                         <div class="bl-display">
                             <span class="bl-label-16 bl-ml15" :ref="'eduCourse-' + idx">
                                 {{ education.course }}
@@ -80,8 +86,8 @@
                        Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
             },
 
-            action(index, education) {
-                Bus.$emit('showEducation', index, education);
+            action(index) {
+                Bus.$emit('showEducation', index, index != -1 ?  this.educations[index] : null);
             },
         }
     }

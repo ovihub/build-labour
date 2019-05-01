@@ -88,7 +88,7 @@
 
         ul.list-items {
           list-style-type: none;
-          padding: 0 0 0 24px;
+          padding: 0 0 0 22px;
           // padding: 0 0 0 40px;
       
           // li::before {
@@ -202,10 +202,11 @@
 .bl-box-3 {
   position: absolute;
   float: left;
-  background: #fff;
+  background: #ffffff;
   width: 62px;
   height: 15px;
-  margin-top: 15px;
+  margin-top: 5px;
+  margin-left: -63px;
 }
 .bl-display {
   display: inline-block;

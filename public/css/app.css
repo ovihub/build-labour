@@ -10841,7 +10841,7 @@ a.text-dark:focus {
 
 .profile-item-2 .profile-content ul.list-main-items li.main-items .bl-label-15 ul.list-items {
   list-style-type: none;
-  padding: 0 0 0 24px;
+  padding: 0 0 0 22px;
 }
 
 .profile-item-2 .profile-content ul.list-main-items li.main-items .bl-label-15 ul.list-items li {
@@ -10953,10 +10953,11 @@ a.text-dark:focus {
 .bl-box-3 {
   position: absolute;
   float: left;
-  background: #fff;
+  background: #ffffff;
   width: 62px;
   height: 15px;
-  margin-top: 15px;
+  margin-top: 5px;
+  margin-left: -63px;
 }
 
 .bl-display {
@@ -12414,11 +12415,13 @@ p.bl-nav-tab-label {
 }
 
 .text-icon {
-  margin-right: 10px;
+  margin-right: 14px;
   width: 10px;
   height: 15px;
   -o-object-fit: contain;
      object-fit: contain;
+  display: inline;
+  margin-top: 4px;
 }
 
 .text-icon-2 {
@@ -12906,5 +12909,15 @@ p.bl-nav-tab-label {
 .styled-checkbox-2:disabled + label:before {
   box-shadow: none;
   background: #ddd;
+}
+
+.jobads-row {
+  display: flex;
+  margin-left: -15px;
+}
+
+.empinfo-row {
+  display: flex;
+  margin-top: 12px;
 }
 

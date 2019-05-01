@@ -3519,6 +3519,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3545,8 +3551,8 @@ __webpack_require__.r(__webpack_exports__);
     formatPeriod: function formatPeriod(edu) {
       return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
     },
-    action: function action(index, education) {
-      Bus.$emit('showEducation', index, education);
+    action: function action(index) {
+      Bus.$emit('showEducation', index, index != -1 ? this.educations[index] : null);
     }
   }
 });
@@ -3884,9 +3890,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       expanded: [],
       employments: [],
-      isCurrent: -1,
-      endMonth: '',
-      endYear: '',
       getBox: 'bl-box-2 hidden',
       getCls: 'responsibilities hidden',
       imgSrc: '/img/icons/expand.png',
@@ -3901,28 +3904,27 @@ __webpack_require__.r(__webpack_exports__);
       for (var i = 0; i < component.employments.length; i++) {
         component.expanded[i] = false;
       }
-    }); // Bus.$on('updateEmployment', function(index, details) {
-    //     if (index == -1) {
-    //         component.employments.push(details);
-    //     } else {
-    //         component.employments[index] = details;
-    //         component.isCurrent = details.isCurrent ? 1 : 0;
-    //         component.endMonth = details.end_month ? details.end_month : null;
-    //         component.endYear = details.end_year ? details.end_year : null;
-    //         component.$refs['empJobRole-' + index][0].textContent = details.job_role;
-    //         component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
-    //         component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
-    //         component.$refs['empLocation-' + index][0].textContent = details.location;
-    //         component.$refs['empProjectSize-' + index][0].textContent = details.project_size;
-    //         if (component.employments[index].responsibilities.length == details.responsibilities.length) {
-    //             for (let i = 0; i < details.responsibilities.length; i++) {
-    //                 component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
-    //             }
-    //         } else {
-    //             window.location.href = '/user/profile';
-    //         }
-    //     }
-    // });
+    });
+    Bus.$on('updateEmployment', function (index, details) {
+      if (index == -1) {
+        component.employments.push(details);
+      } else {
+        component.employments[index] = details;
+        component.$refs['empJobRole-' + index][0].textContent = details.job_role;
+        component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
+        component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
+        component.$refs['empLocation-' + index][0].textContent = details.location;
+        component.$refs['empProjectSize-' + index][0].textContent = details.project_size;
+
+        for (var i = 0; i < details.responsibilities.length; i++) {
+          if (component.$refs['empRespItem-' + index + '-' + i] !== undefined) {
+            component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
+          } else {
+            window.location.href = '/user/profile';
+          }
+        }
+      }
+    });
   },
   methods: {
     toggle: function toggle(index) {
@@ -3951,19 +3953,8 @@ __webpack_require__.r(__webpack_exports__);
       var endDate = emp.end_month && emp.end_year ? new Date(emp.end_year, emp.end_month - 1, 1) : new Date();
       return Utils.formatPeriod(new Date(emp.start_year, emp.start_month - 1, 1), endDate);
     },
-    action: function action(index, employment) {
-      if (employment) {
-        if (this.isCurrent != -1) {
-          employment.isCurrent = this.isCurrent;
-        }
-
-        if (this.endMonth !== '' && this.endYear !== '') {
-          employment.end_month = this.endMonth;
-          employment.end_year = this.endYear;
-        }
-      }
-
-      Bus.$emit('showEmployment', index, employment);
+    action: function action(index) {
+      Bus.$emit('showEmployment', index, index != -1 ? this.employments[index] : null);
     }
   }
 });
@@ -4233,7 +4224,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.time_out = setTimeout(function () {
         axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth()).then(function (response) {
           var data = response.data;
-          component.locations = location != '' ? data.data.locations.features : [];
+          component.locations = location != '' && data.data.locations ? data.data.locations.features : [];
         }).catch(function (error) {
           Utils.handleError(error);
         });
@@ -4304,9 +4295,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 9;
                 return axios.post(saveEndpoint, saveInput, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
-                  $('#modalEmployment').modal('hide'); // Bus.$emit('updateEmployment', component.current, data.data.work_experience);
-
-                  window.location.href = '/user/profile';
+                  $('#modalEmployment').modal('hide');
+                  Bus.$emit('updateEmployment', component.current, data.data.work_experience);
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -4871,18 +4861,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -47974,7 +47952,7 @@ var render = function() {
             },
             on: {
               click: function($event) {
-                return _vm.action(-1, null)
+                return _vm.action(-1)
               }
             }
           },
@@ -48008,7 +47986,7 @@ var render = function() {
                 },
                 on: {
                   click: function($event) {
-                    return _vm.action(idx, education)
+                    return _vm.action(idx)
                   }
                 }
               },
@@ -48026,60 +48004,67 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "row mt-4" }, [
+            _c("div", { staticClass: "jobads-row mt-4" }, [
               _vm._m(1, true),
               _vm._v(" "),
-              _c("div", { staticClass: "bl-col-2" }, [
-                _c("div", { staticClass: "bl-display" }, [
-                  _c(
-                    "span",
-                    {
-                      ref: "eduCourse-" + idx,
-                      refInFor: true,
-                      staticClass: "bl-label-16 bl-ml15"
-                    },
-                    [
-                      _vm._v(
-                        "\n                            " +
-                          _vm._s(education.course) +
-                          "\n                        "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    {
-                      ref: "eduSchool-" + idx,
-                      refInFor: true,
-                      staticClass: "bl-label-15 bl-ml15 mt-0 pt-0"
-                    },
-                    [
-                      _vm._v(
-                        "\n                            " +
-                          _vm._s(education.school) +
-                          "\n                        "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    {
-                      ref: "eduPeriod-" + idx,
-                      refInFor: true,
-                      staticClass: "bl-label-14 bl-ml15 mb-0 pb-0"
-                    },
-                    [
-                      _vm._v(
-                        "\n                            " +
-                          _vm._s(_vm.formatPeriod(education)) +
-                          "\n                        "
-                      )
-                    ]
-                  )
-                ])
-              ])
+              _c(
+                "div",
+                {
+                  staticClass: "bl-col-2",
+                  staticStyle: { "margin-top": "-4px" }
+                },
+                [
+                  _c("div", { staticClass: "bl-display" }, [
+                    _c(
+                      "span",
+                      {
+                        ref: "eduCourse-" + idx,
+                        refInFor: true,
+                        staticClass: "bl-label-16 bl-ml15"
+                      },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(education.course) +
+                            "\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        ref: "eduSchool-" + idx,
+                        refInFor: true,
+                        staticClass: "bl-label-15 bl-ml15 mt-0 pt-0"
+                      },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(education.school) +
+                            "\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        ref: "eduPeriod-" + idx,
+                        refInFor: true,
+                        staticClass: "bl-label-14 bl-ml15 mb-0 pb-0"
+                      },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(_vm.formatPeriod(education)) +
+                            "\n                        "
+                        )
+                      ]
+                    )
+                  ])
+                ]
+              )
             ])
           ])
         })
@@ -48527,7 +48512,7 @@ var render = function() {
             },
             on: {
               click: function($event) {
-                return _vm.action(-1, null)
+                return _vm.action(-1)
               }
             }
           },
@@ -48565,7 +48550,7 @@ var render = function() {
                       },
                       on: {
                         click: function($event) {
-                          return _vm.action(index, employment)
+                          return _vm.action(index)
                         }
                       }
                     },
@@ -48599,7 +48584,7 @@ var render = function() {
                   _c(
                     "div",
                     {
-                      staticClass: "row mt-3",
+                      staticClass: "jobads-row mt-3",
                       on: {
                         click: function($event) {
                           return _vm.toggle(index)
@@ -48671,10 +48656,10 @@ var render = function() {
                       class: _vm.getCls
                     },
                     [
-                      _c("div", { staticClass: "bl-mt12" }, [
+                      _c("div", { staticClass: "empinfo-row" }, [
                         _c("img", {
-                          staticClass: "text-icon",
-                          staticStyle: { display: "inline" },
+                          staticClass: "text-icon bl-mt12",
+                          staticStyle: { "margin-top": "5px" },
                           attrs: {
                             src: "/img/icons/pinlocation.png",
                             srcset:
@@ -48703,10 +48688,9 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "bl-mt12" }, [
+                      _c("div", { staticClass: "empinfo-row" }, [
                         _c("img", {
                           staticClass: "text-icon",
-                          staticStyle: { display: "inline" },
                           attrs: {
                             src: "/img/icons/dollarsign.png",
                             srcset:
@@ -48736,10 +48720,9 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       employment.responsibilities.length != 0
-                        ? _c("div", { staticClass: "bl-mt12" }, [
+                        ? _c("div", { staticClass: "empinfo-row" }, [
                             _c("img", {
                               staticClass: "text-icon",
-                              staticStyle: { display: "inline" },
                               attrs: {
                                 src: "/img/icons/responsibilities.png",
                                 srcset:
@@ -50338,90 +50321,91 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("ul", { staticClass: "list-items" }, [
           _c("li", [
-            _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "jobads-row" }, [
               _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
-                _vm._v(" "),
-                _c("div", { staticClass: "bl-box-3" })
+                _c("img", { attrs: { src: "/img/logo/1.jpg" } })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "bl-col-2" }, [
-                _c("div", { staticClass: "bl-display" }, [
-                  _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                    _vm._v("Project Manager")
+              _c(
+                "div",
+                {
+                  staticClass: "bl-col-2",
+                  staticStyle: { "margin-top": "-2px" }
+                },
+                [
+                  _c("div", { staticClass: "bl-display" }, [
+                    _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
+                      _vm._v("Contracts Administrator (Commercial)")
+                    ]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "job-text" }, [
+                      _vm._v(
+                        "\n                                ABC Constructions Group • Cremorne VIC\n                            "
+                      )
+                    ])
                   ]),
                   _vm._v(" "),
-                  _c("span", { staticClass: "job-text" }, [
-                    _vm._v("Probuild . Melbourne VIC")
-                  ])
-                ])
-              ])
+                  _c("div", { staticClass: "bl-box-3" })
+                ]
+              )
             ])
           ]),
           _vm._v(" "),
           _c("li", [
-            _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "jobads-row" }, [
               _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
-                _vm._v(" "),
-                _c("div", { staticClass: "bl-box-3" })
+                _c("img", { attrs: { src: "/img/logo/1.jpg" } })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "bl-col-2" }, [
-                _c("div", { staticClass: "bl-display" }, [
-                  _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                    _vm._v("Project Manager")
+              _c(
+                "div",
+                {
+                  staticClass: "bl-col-2",
+                  staticStyle: { "margin-top": "-2px" }
+                },
+                [
+                  _c("div", { staticClass: "bl-display" }, [
+                    _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
+                      _vm._v("Contracts Manager (Commercial)")
+                    ]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "job-text" }, [
+                      _vm._v("XYZ Constructions • South Yarra VIC")
+                    ])
                   ]),
                   _vm._v(" "),
-                  _c("span", { staticClass: "job-text" }, [
-                    _vm._v("Probuild . Melbourne VIC")
-                  ])
-                ])
-              ])
+                  _c("div", { staticClass: "bl-box-3" })
+                ]
+              )
             ])
           ]),
           _vm._v(" "),
           _c("li", [
-            _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "jobads-row" }, [
               _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
-                _vm._v(" "),
-                _c("div", { staticClass: "bl-box-3" })
+                _c("img", { attrs: { src: "/img/logo/1.jpg" } })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "bl-col-2" }, [
-                _c("div", { staticClass: "bl-display" }, [
-                  _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                    _vm._v("Project Manager")
+              _c(
+                "div",
+                {
+                  staticClass: "bl-col-2",
+                  staticStyle: { "margin-top": "-2px" }
+                },
+                [
+                  _c("div", { staticClass: "bl-display" }, [
+                    _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
+                      _vm._v("Junior Project Manager (Commercial)")
+                    ]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "job-text" }, [
+                      _vm._v("ABC Constructions Group • Cremorne VIC")
+                    ])
                   ]),
                   _vm._v(" "),
-                  _c("span", { staticClass: "job-text" }, [
-                    _vm._v("Probuild . Melbourne VIC")
-                  ])
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", { attrs: { src: "/img/logo/1.jpg" } }),
-                _vm._v(" "),
-                _c("div", { staticClass: "bl-box-3" })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "bl-col-2" }, [
-                _c("div", { staticClass: "bl-display" }, [
-                  _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                    _vm._v("Project Manager")
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "job-text" }, [
-                    _vm._v("Probuild . Melbourne VIC")
-                  ])
-                ])
-              ])
+                  _c("div", { staticClass: "bl-box-3" })
+                ]
+              )
             ])
           ])
         ]),
