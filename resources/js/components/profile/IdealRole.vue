@@ -16,7 +16,7 @@
                                 What is your ideal next role?
                             </div>
                             
-                            <textarea ref="idealIntro" class="form-control" style="overflow:hidden"
+                            <textarea rows="3" ref="idealIntro" class="form-control" style="overflow:hidden"
                                 placeholder="Example: My ideal next role would be as a qualified plumber working on high-end residential jobs with an awesome team."
                                 @keyup="textAreaAdjust" v-model="input.introduction"></textarea>
                             
@@ -227,7 +227,8 @@
             
             textAreaAdjust() {
                 let o = this.$refs['idealIntro'];
-                o.style.height = (o.scrollHeight) + 'px';
+                o.style.height = '1px';
+                o.style.height = (2 + o.scrollHeight) + 'px';
             },
 
             async submit(id) {

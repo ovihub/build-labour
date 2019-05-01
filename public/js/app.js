@@ -4121,6 +4121,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4196,7 +4197,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     textAreaAdjust: function textAreaAdjust(index) {
       var o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
-      o.style.height = o.scrollHeight + 'px';
+      o.style.height = '1px';
+      o.style.height = 2 + o.scrollHeight + 'px';
     },
     onChangeCurrentRole: function onChangeCurrentRole() {
       if (this.isCurrent == 1) {
@@ -4565,7 +4567,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     textAreaAdjust: function textAreaAdjust() {
       var o = this.$refs['idealIntro'];
-      o.style.height = o.scrollHeight + 'px';
+      o.style.height = '1px';
+      o.style.height = 2 + o.scrollHeight + 'px';
     },
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -4794,7 +4797,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     textAreaAdjust: function textAreaAdjust() {
       var o = this.$refs['skillsIntro'];
-      o.style.height = o.scrollHeight + 'px';
+      o.style.height = '1px';
+      o.style.height = 2 + o.scrollHeight + 'px';
     },
     close: function close() {
       this.input.main_skill = this.main_skill;
@@ -5422,7 +5426,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     textAreaAdjust: function textAreaAdjust() {
       var o = this.$refs['userIntro'];
-      o.style.height = o.scrollHeight + 'px';
+      o.style.height = '1px';
+      o.style.height = 2 + o.scrollHeight + 'px';
     },
     open: function open() {
       this.loadEducations();
@@ -49537,7 +49542,10 @@ var render = function() {
                 refInFor: true,
                 staticClass: "form-control",
                 staticStyle: { overflow: "hidden" },
-                attrs: { rows: "1", placeholder: "Add Another Responsibility" },
+                attrs: {
+                  rows: _vm.responsibilities[index].length < 68 ? 1 : 2,
+                  placeholder: "Add Another Responsibility"
+                },
                 domProps: { value: _vm.responsibilities[index] },
                 on: {
                   focus: function($event) {
@@ -49656,6 +49664,7 @@ var render = function() {
                       staticClass: "form-control",
                       staticStyle: { overflow: "hidden" },
                       attrs: {
+                        rows: "3",
                         placeholder:
                           "Example: My ideal next role would be as a qualified plumber working on high-end residential jobs with an awesome team."
                       },
@@ -50139,6 +50148,7 @@ var render = function() {
                     staticClass: "form-control",
                     staticStyle: { overflow: "hidden" },
                     attrs: {
+                      rows: "3",
                       placeholder:
                         "Example: Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline."
                     },

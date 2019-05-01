@@ -271,7 +271,8 @@
 
             textAreaAdjust() {
                 let o = this.$refs['userIntro'];
-                o.style.height = (o.scrollHeight) + 'px';
+                o.style.height = '1px';
+                o.style.height = (2 + o.scrollHeight) + 'px';
             },
 
             open() {
