@@ -12,8 +12,8 @@
                         </div>
                         <div class="bl-col-2">
                             <div class="bl-display">
-                                <span class="bl-label-15 mt-0 pt-0">Project Manager</span>
-                                <span class="job-text">Probuild . Melbourne VIC</span>
+                                <span class="bl-label-15 mt-0 pt-0">Contracts Administrator (Commercial)</span>
+                                <span class="job-text">ABC Constructions Group . Cremorne, VIC</span>
                             </div>
                         </div>
                     </div>
@@ -26,8 +26,8 @@
                         </div>
                         <div class="bl-col-2">
                             <div class="bl-display">
-                                <span class="bl-label-15 mt-0 pt-0">Project Manager</span>
-                                <span class="job-text">Probuild . Melbourne VIC</span>
+                                <span class="bl-label-15 mt-0 pt-0">Contracts Manager (Commercial)</span>
+                                <span class="job-text">XYZ Constructions . South Yarra, VIC</span>
                             </div>
                         </div>
                     </div>
@@ -40,8 +40,8 @@
                         </div>
                         <div class="bl-col-2">
                             <div class="bl-display">
-                                <span class="bl-label-15 mt-0 pt-0">Project Manager</span>
-                                <span class="job-text">Probuild . Melbourne VIC</span>
+                                <span class="bl-label-15 mt-0 pt-0">Jnr Project Manager (Commercial)</span>
+                                <span class="job-text">ABC Constructions Group . Cremorne, VIC</span>
                             </div>
                         </div>
                     </div>

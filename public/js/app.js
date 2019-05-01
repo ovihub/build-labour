@@ -50348,11 +50348,11 @@ var staticRenderFns = [
               _c("div", { staticClass: "bl-col-2" }, [
                 _c("div", { staticClass: "bl-display" }, [
                   _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                    _vm._v("Project Manager")
+                    _vm._v("Contracts Administrator (Commercial)")
                   ]),
                   _vm._v(" "),
                   _c("span", { staticClass: "job-text" }, [
-                    _vm._v("Probuild . Melbourne VIC")
+                    _vm._v("ABC Constructions Group . Cremorne, VIC")
                   ])
                 ])
               ])
@@ -50370,11 +50370,11 @@ var staticRenderFns = [
               _c("div", { staticClass: "bl-col-2" }, [
                 _c("div", { staticClass: "bl-display" }, [
                   _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                    _vm._v("Project Manager")
+                    _vm._v("Contracts Manager (Commercial)")
                   ]),
                   _vm._v(" "),
                   _c("span", { staticClass: "job-text" }, [
-                    _vm._v("Probuild . Melbourne VIC")
+                    _vm._v("XYZ Constructions . South Yarra, VIC")
                   ])
                 ])
               ])
@@ -50392,11 +50392,11 @@ var staticRenderFns = [
               _c("div", { staticClass: "bl-col-2" }, [
                 _c("div", { staticClass: "bl-display" }, [
                   _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                    _vm._v("Project Manager")
+                    _vm._v("Jnr Project Manager (Commercial)")
                   ]),
                   _vm._v(" "),
                   _c("span", { staticClass: "job-text" }, [
-                    _vm._v("Probuild . Melbourne VIC")
+                    _vm._v("ABC Constructions Group . Cremorne, VIC")
                   ])
                 ])
               ])
