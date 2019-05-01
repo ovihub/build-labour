@@ -272,6 +272,11 @@ class ApiAuthController extends ApiBaseController
                 WorkerDetail::create(['user_id' => $user->id]);
             }
 
+            if ($user->workerDetail) {
+
+                $user->workerDetail->education;
+            }
+
         } catch (\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
