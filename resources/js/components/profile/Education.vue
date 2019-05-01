@@ -17,7 +17,7 @@
             </span>
             
             <div v-for="(education, idx) in educations" :key="idx">
-                <span class="edit-icon"
+                <span class="edit-icon edit-icon-3"
                     data-toggle="modal"
                     data-backdrop="static"
                     data-keyboard="false"

@@ -27,7 +27,7 @@
                     v-for="(employment, index) in employments"
                     v-bind:key="index">
 
-                    <span class="edit-icon"
+                    <span class="edit-icon edit-icon-3"
                         data-toggle="modal"
                         data-backdrop="static"
                         data-keyboard="false"
@@ -67,6 +67,7 @@
                         <div class="empinfo-row">
                             <img style="margin-top:5px" class="text-icon bl-mt12" src="/img/icons/pinlocation.png"
                                 srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
+                                
                             <span style="display:inline" class="bl-label-14-style-2" :ref="'empLocation-' + index">
                                 {{ employment.location }}
                             </span>

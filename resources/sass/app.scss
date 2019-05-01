@@ -707,7 +707,7 @@ p.bl-nav-tab-label {
 }
 .edit-icon {
   float: right;
-
+  
   img {
     width: 16px;
     height: 16px;
@@ -724,6 +724,11 @@ p.bl-nav-tab-label {
   right: 16px;
   top: 10px;
 }
+.edit-icon-3 {
+  z-index: 1;
+  position: absolute;
+  right: 22px;
+}
 .text-icon {
   margin-right: 14px;
   width: 10px;
@@ -734,8 +739,10 @@ p.bl-nav-tab-label {
 }
 .text-icon-2 {
   float: right;
-  margin-right: -6px;
-  margin-top: 30px;
+  z-index: 1;
+  position: absolute;
+  right: 32px;
+  margin-top: 36px;
   width: 10px;
   height: 15px;
   object-fit: contain;
