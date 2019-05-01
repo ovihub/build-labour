@@ -10,7 +10,7 @@ class WorkerDetail extends BaseModel
 {
     protected $table = 'worker_details';
 
-    protected $fillable = ['profile_description', 'english_skill', 'drivers_license', 'right_to_work', 'main_skill', 'introduction', 'when', 'max_distance', 'address', 'state', 'nrole_right_to_work_au', 'user_id', 'has_registered_vehicle'];
+    protected $fillable = ['profile_description', 'english_skill', 'drivers_license', 'right_to_work', 'main_skill', 'introduction', 'when', 'max_distance', 'address', 'state', 'nrole_right_to_work_au', 'user_id', 'has_registered_vehicle', 'education_id'];
 
     private $userId = null;
 
@@ -18,6 +18,7 @@ class WorkerDetail extends BaseModel
     const CREATED_AT = null;
 
     public $isMainSkillUpdate = false;
+    public $isIntroductionUpdate = false;
 
     /**
      * @return array
@@ -29,6 +30,13 @@ class WorkerDetail extends BaseModel
 
             return [
                 'main_skill' => 'required|min:5'
+            ];
+        }
+
+        if ($this->isIntroductionUpdate) {
+
+            return [
+                'education_id' => 'required|integer'
             ];
         }
 
@@ -69,6 +77,11 @@ class WorkerDetail extends BaseModel
     public function User() {
 
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function Education() {
+
+        return $this->belongsTo(Education::class, 'education_id', 'id');
     }
 
     public function setUserId($userId) {
