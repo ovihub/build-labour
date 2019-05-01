@@ -80,10 +80,10 @@
                             </span>
                         </div>
                         
-                        <div class="bl-mt12">
+                        <div class="bl-mt12" v-if="employment.responsibilities.length != 0">
                             <img style="display:inline" class="text-icon" src="/img/icons/responsibilities.png"
                                     srcset="/img/icons/responsibilities@2x.png 2x, /img/icons/responsibilities@3x.png 3x">
-                            <span style="display:inline" class="bl-label-14-style-2" v-if="employment.responsibilities.length != 0">
+                            <span style="display:inline" class="bl-label-14-style-2">
                                 Responsibilities:
                             </span>
                         </div>
