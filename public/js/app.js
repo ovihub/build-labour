@@ -1979,8 +1979,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     logoutUser: function logoutUser() {
       var component = this;
-      axios.get(component.endpoints.logout, Utils.getBearerAuth()).then(function (response) {}).catch(function (error) {
+      axios.get(component.endpoints.logout, Utils.getBearerAuth()).then(function (response) {
+        _api__WEBPACK_IMPORTED_MODULE_0__["default"].deleteToken();
+      }).catch(function (error) {
         Utils.handleError(error);
+        _api__WEBPACK_IMPORTED_MODULE_0__["default"].deleteToken();
       }).finally(function () {
         _api__WEBPACK_IMPORTED_MODULE_0__["default"].deleteToken();
       });
@@ -62987,8 +62990,6 @@ function () {
   }, {
     key: "setToken",
     value: function setToken(token) {
-      console.log('xxxxxxxxx');
-      console.log(this.tokenName);
       vue_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.set(this.tokenName, JSON.stringify(token));
 
       this._invalidateToken();
@@ -65239,8 +65240,8 @@ window.Helper = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\appetiser\build-labour-backend\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\appetiser\build-labour-backend\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
