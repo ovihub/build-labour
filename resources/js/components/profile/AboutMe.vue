@@ -248,6 +248,7 @@
                     this.birthYear = d.getFullYear();
 
                     this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
+                
                 } else {
                     let d = new Date();
 
@@ -311,7 +312,7 @@
             },
 
             close() {
-                this.setValues(this.input, this)
+                this.setValues(this.input, this);
 
                 Utils.setObjectValues(this.errors, '');
             },

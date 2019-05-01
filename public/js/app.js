@@ -1979,8 +1979,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     logoutUser: function logoutUser() {
       var component = this;
-      axios.get(component.endpoints.logout, Utils.getBearerAuth()).then(function (response) {}).catch(function (error) {
+      axios.get(component.endpoints.logout, Utils.getBearerAuth()).then(function (response) {
+        _api__WEBPACK_IMPORTED_MODULE_0__["default"].deleteToken();
+      }).catch(function (error) {
         Utils.handleError(error);
+        _api__WEBPACK_IMPORTED_MODULE_0__["default"].deleteToken();
       }).finally(function () {
         _api__WEBPACK_IMPORTED_MODULE_0__["default"].deleteToken();
       });
@@ -3011,8 +3014,8 @@ var cropper = null;
                   var data = response.data;
 
                   if (data.success) {
-                    component.close();
-                    Bus.$emit('alertSuccess', data.message); // Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
+                    component.close(); // Bus.$emit('alertSuccess', data.message);
+                    // Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
 
                     window.location.href = '/login';
                   }
@@ -4401,7 +4404,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       this.time_out = setTimeout(function () {
         axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth()).then(function (response) {
-          component.locations = location != '' ? response.data.data.locations.features : [];
+          var data = response.data;
+          component.locations = location != '' ? data.data.locations.features : [];
         }).catch(function (error) {
           Utils.handleError(error);
         });
@@ -4674,11 +4678,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       disabled: false,
-      introduction: null,
-      when: null,
-      max_distance: null,
-      state: null,
-      right_to_work: null,
+      introduction: '',
+      when: '',
+      max_distance: '',
+      state: '',
+      right_to_work: '',
       selected: [],
       states: ['QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT'],
       input: {
@@ -4747,12 +4751,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     close: function close() {
-      this.input.introduction = this.introduction;
-      this.input.when = this.when;
-      this.input.max_distance = this.max_distance ? this.max_distance : 0;
-      this.input.state = this.state;
-      this.input.selected = this.state ? this.state.split(',') : [];
-      this.input.right_to_work = this.right_to_work;
+      this.setValues(this.input, this);
     },
     textAreaAdjust: function textAreaAdjust() {
       var o = this.$refs['idealIntro'];
@@ -65701,7 +65700,7 @@ window.Helper = {
       }
     },
     isNullOrEmpty: function isNullOrEmpty(value) {
-      return value === null || value === undefined || value === '' || value.length === 0;
+      return value === false || value === null || value === undefined || value === '' || value.length === 0;
     },
     handleError: function handleError(error) {
       if (error.response) {

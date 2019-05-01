@@ -144,11 +144,11 @@
         data() {
             return {
                 disabled: false,
-                introduction: null,
-                when: null,
-                max_distance: null,
-                state: null,
-                right_to_work: null,
+                introduction: '',
+                when: '',
+                max_distance: '',
+                state: '',
+                right_to_work: '',
                 selected: [],
                 states: [
                     'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
@@ -228,12 +228,7 @@
             },
 
             close() {
-                this.input.introduction = this.introduction;
-                this.input.when = this.when;
-                this.input.max_distance = this.max_distance ? this.max_distance : 0;
-                this.input.state = this.state;
-                this.input.selected = this.state ? this.state.split(',') : [];
-                this.input.right_to_work = this.right_to_work;
+                this.setValues(this.input, this);
             },
             
             textAreaAdjust() {

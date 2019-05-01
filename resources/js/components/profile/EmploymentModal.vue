@@ -253,8 +253,9 @@
                     axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth())
 
                         .then(function(response) {
+                            let data = response.data;
 
-                            component.locations = (location != '') ? response.data.data.locations.features : [];
+                            component.locations = (location != '') ? data.data.locations.features : [];
                         })
                         .catch(function(error) {
 

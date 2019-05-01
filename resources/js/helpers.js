@@ -57,7 +57,7 @@ window.Helper = {
         },
 
         isNullOrEmpty(value) {
-            return (value === null || value === undefined || value === '' || value.length === 0);
+            return (value === false || value === null || value === undefined || value === '' || value.length === 0);
         },
 
         handleError(error) {

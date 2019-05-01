@@ -58,10 +58,13 @@
                 
                     .then(function(response) {
 
+                        Api.deleteToken();
                     })
                     .catch(function(error) {
 
                         Utils.handleError(error);
+
+                        Api.deleteToken();
                     })
                     .finally(function() {
                         Api.deleteToken();

@@ -111,6 +111,18 @@ class WorkExperience extends BaseModel
         }
     }
 
+    public function setIsCurrentAttribute($value) {
+
+        if ( !empty($value) ) {
+
+            $this->attributes['isCurrent'] = $value;
+
+        } else {
+
+            $this->attributes['isCurrent'] = 0;
+        }
+    }
+
     public function store(Request $r) {
 
         $data = $r->all();
