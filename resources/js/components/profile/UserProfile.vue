@@ -120,7 +120,7 @@
                 
                 <span class="profile-role-header" v-if="job_role">Current Role</span>
 
-                <div class="row" v-if="job_role">
+                <div class="empinfo-row" v-if="job_role">
                     <img class="bl-image-56" src="/img/logo/1.jpg">
                     <div class="bl-display">
                         <span class="bl-label-16 bl-ml15">
