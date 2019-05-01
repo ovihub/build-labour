@@ -51137,7 +51137,7 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _vm.job_role
-            ? _c("div", { staticClass: "empinfo-row" }, [
+            ? _c("div", { staticClass: "jobads-row" }, [
                 _c("img", {
                   staticClass: "bl-image-56",
                   attrs: { src: "/img/logo/1.jpg" }
