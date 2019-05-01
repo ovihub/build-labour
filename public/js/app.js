@@ -2883,7 +2883,7 @@ var cropper = null;
                     component.close(); // Bus.$emit('alertSuccess', data.message);
                     // Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
 
-                    window.location.href = '/login';
+                    window.location.href = '/user/profile';
                   }
                 }).catch(function (error) {
                   Utils.handleError(error);
@@ -5038,6 +5038,7 @@ __webpack_require__.r(__webpack_exports__);
         component.about_me.drivers_license = user.date_of_birth ? user.worker_detail.drivers_license : null;
         component.about_me.has_registered_vehicle = user.date_of_birth ? user.worker_detail.has_registered_vehicle : null;
         component.ideal_role = user.worker_detail;
+        component.ideal_role.right_to_work = user.date_of_birth ? user.worker_detail.right_to_work : null;
         component.employments = user.experiences;
         component.educations = user.educations;
         component.tickets = user.tickets;

@@ -11724,7 +11724,6 @@ button[disabled] {
   border: 1px solid #cccccc;
   background-color: #cccccc;
   color: #999999;
-  cursor: none;
 }
 
 button[disabled]:hover {
