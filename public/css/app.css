@@ -10841,7 +10841,7 @@ a.text-dark:focus {
 
 .profile-item-2 .profile-content ul.list-main-items li.main-items .bl-label-15 ul.list-items {
   list-style-type: none;
-  padding: 0 0 0 22px;
+  padding: 0 0 0 24px;
 }
 
 .profile-item-2 .profile-content ul.list-main-items li.main-items .bl-label-15 ul.list-items li {
@@ -10980,8 +10980,8 @@ a.text-dark:focus {
   margin-right: 15px;
 }
 
-.bl-mt13 {
-  margin-top: 13px;
+.bl-mt12 {
+  margin-top: 12px;
 }
 
 .bl-ml15 {
@@ -11724,7 +11724,6 @@ button[disabled] {
   border: 1px solid #cccccc;
   background-color: #cccccc;
   color: #999999;
-  cursor: none;
 }
 
 button[disabled]:hover {
