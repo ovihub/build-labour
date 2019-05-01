@@ -13,8 +13,8 @@
                     initials: '', profile_photo_url: '',
                 },
                 profile: {
-                    profile_photo_url: '', first_name: '', last_name: '', email: '', course: '', school: '', country: '', address: '',
-                    role: '', company_name: '', job_role: '', start_month: '', start_year: '', end_month: '', end_year: '',
+                    profile_description: '', profile_photo_url: '', first_name: '', last_name: '', email: '', is_verified: '', address: '',
+                    education_id: '', company_name: '', job_role: '', start_month: '', start_year: '', end_month: '', end_year: '',
                 },
                 about_me: {
                     gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: '', has_registered_vehicle: '',
@@ -58,11 +58,8 @@
                         component.profile.email = user.email;
                         component.profile.is_verified = user.is_verified;
                         component.profile.address = user.address;
-                        component.profile.country = user.country;
-
-                        component.profile.course = user.educations[0] ? user.educations[0].course : '';
-                        component.profile.school = user.educations[0] ? user.educations[0].school : '';
-                        
+                        component.profile.education_id = user.worker_detail.education_id;
+                        component.profile.education = user.worker_detail.education;
                         component.profile.job_role = user.experiences[0] ? user.experiences[0].job_role : '';
                         component.profile.company_name = user.experiences[0] ? user.experiences[0].company_name : '';
                         component.profile.start_month = user.experiences[0] ? user.experiences[0].start_month : '';

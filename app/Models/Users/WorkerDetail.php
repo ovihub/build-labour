@@ -36,7 +36,7 @@ class WorkerDetail extends BaseModel
         if ($this->isIntroductionUpdate) {
 
             return [
-                'education_id' => 'required|integer'
+                'education_id' => 'nullable|integer'
             ];
         }
 

@@ -12693,6 +12693,14 @@ p.bl-nav-tab-label {
   flex-wrap: wrap;
 }
 
+.me-row .emp-col-left select {
+  background-position: 205px;
+}
+
+.me-row select {
+  background-position: 470px;
+}
+
 .me-col-left {
   flex: 0 0 27.5%;
   max-width: 27.5%;

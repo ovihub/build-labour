@@ -382,7 +382,7 @@ class ApiWorkerController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        $introduction = $request->all();
+        $introduction = $request->all() + ['education' => $user->WorkerDetail->Education ];
 
         return $this->apiSuccessResponse( compact('introduction'), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
     }

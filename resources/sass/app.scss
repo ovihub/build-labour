@@ -966,6 +966,16 @@ p.bl-nav-tab-label {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+
+  .emp-col-left {
+    select {
+      background-position: 205px;
+    }
+  }
+
+  select {
+    background-position: 470px;
+  }
 }
 .me-col-left {
   flex: 0 0 27.5%;

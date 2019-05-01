@@ -162,6 +162,8 @@
             },
 
             close() {
+                this.input.main_skill = this.main_skill;
+                
                 Utils.setObjectValues(this.errors, '');
             },
 
