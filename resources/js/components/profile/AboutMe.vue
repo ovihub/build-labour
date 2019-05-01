@@ -209,19 +209,31 @@
                         'Proficient in written and spoken' : 'Not proficient in written and spoken';
                     
                     this.formatEnglishSkill(details.english_skill);
+                
+                } else {
+                    val.english_skill = null;
                 }
+
                 if (! Utils.isNullOrEmpty(details.drivers_license)) {
                     val.drivers_license = details.drivers_license == 1 ?
                         'Owns valid license' : 'Does not own valid license';
                     
                     this.formatDriversLicense(details.drivers_license);
+                
+                } else {
+                    val.drivers_license = null;
                 }
+
                 if (! Utils.isNullOrEmpty(details.has_registered_vehicle)) {
                     val.has_registered_vehicle = details.has_registered_vehicle == 1 ?
                         'Owns/has access to personal registered vehicle' : 'Does not own/have access to personal registered vehicle';
                     
                     this.formaHasVehicle(details.has_registered_vehicle);
+                
+                } else {
+                    val.has_registered_vehicle = null;
                 }
+
                 if (! Utils.isNullOrEmpty(details.date_of_birth)) {
                     let d = new Date(details.date_of_birth);
 
@@ -230,6 +242,7 @@
                     this.birthYear = d.getFullYear();
 
                     this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
+                
                 } else {
                     let d = new Date();
 
@@ -293,7 +306,7 @@
             },
 
             close() {
-                this.setValues(this.input, this)
+                this.setValues(this.input, this);
 
                 Utils.setObjectValues(this.errors, '');
             },
