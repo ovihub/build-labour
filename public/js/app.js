@@ -2581,6 +2581,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5238,10 +5240,74 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      disabled_input: false,
+      disabled: false,
+      time_out: false,
+      locations: [],
       input: {
         profile_photo_url: '',
         profile_description: '',
@@ -5281,7 +5347,8 @@ __webpack_require__.r(__webpack_exports__);
         end_year: ''
       },
       endpoints: {
-        save: '/api/v1/user/update'
+        save: '/api/v1/user/update',
+        locations: '/api/v1/locations'
       },
       format: 'd MMMM yyyy'
     };
@@ -5326,7 +5393,37 @@ __webpack_require__.r(__webpack_exports__);
       if (file) {
         reader.readAsDataURL(file);
       }
-    }
+    },
+    textAreaAdjust: function textAreaAdjust() {
+      var o = this.$refs['userIntro'];
+      o.style.height = o.scrollHeight + 'px';
+    },
+    close: function close() {},
+    onChangeLocation: function onChangeLocation(location) {
+      var component = this;
+
+      if (location.length <= 0) {
+        this.locations = [];
+      }
+
+      if (this.time_out) {
+        clearTimeout(this.time_out);
+      }
+
+      this.time_out = setTimeout(function () {
+        axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth()).then(function (response) {
+          var data = response.data;
+          component.locations = location != '' ? data.data.locations.features : [];
+        }).catch(function (error) {
+          Utils.handleError(error);
+        });
+      }.bind(this), 300);
+    },
+    onSelectLocation: function onSelectLocation(location) {
+      this.location = location;
+      this.locations = [];
+    },
+    submit: function submit() {}
   }
 });
 
@@ -46667,20 +46764,22 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("svg", { class: _vm.cls, style: _vm.svgStyle }, [
-    _c(
-      "text",
-      {
-        style: _vm.textStyle,
-        attrs: {
-          x: "50%",
-          y: "50%",
-          "text-anchor": "middle",
-          "dominant-baseline": "central"
-        }
-      },
-      [_vm._v("\n\t\t\t" + _vm._s(_vm.input.initials) + "\n\t\t")]
-    )
+  return _c("center", [
+    _c("svg", { class: _vm.cls, style: _vm.svgStyle }, [
+      _c(
+        "text",
+        {
+          style: _vm.textStyle,
+          attrs: {
+            x: "50%",
+            y: "50%",
+            "text-anchor": "middle",
+            "dominant-baseline": "central"
+          }
+        },
+        [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.input.initials) + "\n\t\t\t\t")]
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -48636,22 +48735,22 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "bl-mt12" }, [
-                        _c("img", {
-                          staticClass: "text-icon",
-                          staticStyle: { display: "inline" },
-                          attrs: {
-                            src: "/img/icons/responsibilities.png",
-                            srcset:
-                              "/img/icons/responsibilities@2x.png" +
-                              " 2x, " +
-                              "/img/icons/responsibilities@3x.png" +
-                              " 3x"
-                          }
-                        }),
-                        _vm._v(" "),
-                        employment.responsibilities.length != 0
-                          ? _c(
+                      employment.responsibilities.length != 0
+                        ? _c("div", { staticClass: "bl-mt12" }, [
+                            _c("img", {
+                              staticClass: "text-icon",
+                              staticStyle: { display: "inline" },
+                              attrs: {
+                                src: "/img/icons/responsibilities.png",
+                                srcset:
+                                  "/img/icons/responsibilities@2x.png" +
+                                  " 2x, " +
+                                  "/img/icons/responsibilities@3x.png" +
+                                  " 3x"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
                               "span",
                               {
                                 staticClass: "bl-label-14-style-2",
@@ -48663,8 +48762,8 @@ var render = function() {
                                 )
                               ]
                             )
-                          : _vm._e()
-                      ]),
+                          ])
+                        : _vm._e(),
                       _vm._v(" "),
                       employment.responsibilities.length != 0
                         ? _c("div", { staticClass: "bl-label-15" }, [
@@ -50532,6 +50631,252 @@ var render = function() {
       [
         _c("photo-modal"),
         _vm._v(" "),
+        _c(
+          "main-modal",
+          { attrs: { id: "modalUserHeadline" } },
+          [
+            _c("template", { slot: "custom-modal-title" }, [
+              _c("h4", { staticClass: "modal-title" }, [
+                _vm._v("Edit Introduction")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "close",
+                  attrs: { "data-dismiss": "modal" },
+                  on: { click: _vm.close }
+                },
+                [_vm._v("×")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("template", { slot: "custom-modal-content" }, [
+              _c(
+                "form",
+                {
+                  staticClass: "modal-form",
+                  attrs: { method: "POST" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.submit($event)
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "me-label",
+                      staticStyle: { "margin-bottom": "17px" }
+                    },
+                    [_vm._v("User Details")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "me-row" }, [
+                    _c("div", { staticClass: "emp-col-left" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("First Name")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.first_name,
+                            expression: "input.first_name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input.first_name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input,
+                              "first_name",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "emp-col-right" }, [
+                      _c("div", { staticClass: "emp-form-label" }, [
+                        _vm._v("Last Name")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.last_name,
+                            expression: "input.last_name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.input.last_name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input,
+                              "last_name",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c("div", { staticClass: "modal-form-label" }, [
+                      _vm._v("Location")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.input.address,
+                          expression: "input.address"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text" },
+                      domProps: { value: _vm.input.address },
+                      on: {
+                        keyup: function($event) {
+                          return _vm.onChangeLocation(_vm.input.address)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.input, "address", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm.locations.length > 0
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "emp-row",
+                          staticStyle: { "margin-top": "0" }
+                        },
+                        [
+                          _c(
+                            "ul",
+                            { staticClass: "list-group" },
+                            _vm._l(_vm.locations, function(place, idx) {
+                              return _c(
+                                "li",
+                                {
+                                  key: idx,
+                                  staticClass: "list-group-item",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.onSelectLocation(
+                                        place.place_name
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(place.place_name) +
+                                      "\n                            "
+                                  )
+                                ]
+                              )
+                            }),
+                            0
+                          )
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "skill-label" }, [
+                    _vm._v("Summary of career")
+                  ]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.input.profile_description,
+                        expression: "input.profile_description"
+                      }
+                    ],
+                    ref: "userIntro",
+                    staticClass: "form-control",
+                    staticStyle: { overflow: "hidden" },
+                    attrs: {
+                      rows: "3",
+                      placeholder:
+                        "Example: Experienced Senior Project Manager; demonstrated history of working on a wide range of construction projects for leading companies."
+                    },
+                    domProps: { value: _vm.input.profile_description },
+                    on: {
+                      keyup: _vm.textAreaAdjust,
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.input,
+                          "profile_description",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "skill-label" }, [
+                    _vm._v("Education")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "me-row" }, [
+                    _c("input", {
+                      staticClass: "form-control",
+                      attrs: { type: "text" }
+                    })
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("template", { slot: "custom-modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "mt-0",
+                  attrs: { type: "submit", disabled: _vm.disabled },
+                  on: { click: _vm.submit }
+                },
+                [_vm._v("Save Changes")]
+              )
+            ])
+          ],
+          2
+        ),
+        _vm._v(" "),
         _c("input", {
           staticStyle: { display: "none" },
           attrs: {
@@ -50543,33 +50888,24 @@ var render = function() {
           on: { change: _vm.onFileChange }
         }),
         _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "profile-header",
-            on: { click: _vm.onClickProfilePhoto }
-          },
-          [
-            _vm.input.profile_photo_url
-              ? _c("img", {
-                  staticClass: "profile-picture",
-                  attrs: { src: _vm.input.profile_photo_url, alt: "" }
-                })
-              : _c(
-                  "div",
-                  [
-                    _c("avatar", {
-                      attrs: {
-                        cls: "profile-picture",
-                        size: "110",
-                        border: "7"
-                      }
-                    })
-                  ],
-                  1
-                )
-          ]
-        ),
+        _c("div", { staticClass: "profile-header" }, [
+          _vm.input.profile_photo_url
+            ? _c("img", {
+                staticClass: "profile-picture",
+                attrs: { src: _vm.input.profile_photo_url, alt: "" },
+                on: { click: _vm.onClickProfilePhoto }
+              })
+            : _c(
+                "div",
+                { on: { click: _vm.onClickProfilePhoto } },
+                [
+                  _c("avatar", {
+                    attrs: { cls: "profile-picture", size: "110", border: "7" }
+                  })
+                ],
+                1
+              )
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "profile-content-p20 pb-4" }, [
           _c("div", { staticClass: "bl-label-22 m0" }, [
@@ -50599,8 +50935,12 @@ var render = function() {
                         "\n                    "
                     )
                   ])
-                ]),
-                _vm._v(" "),
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.input.course
+            ? _c("div", { staticClass: "bl-display" }, [
                 _c("div", { staticClass: "row bl-label-15 bl-mb24" }, [
                   _vm._m(1),
                   _vm._v(" "),
