@@ -3282,16 +3282,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (!Utils.isNullOrEmpty(details.english_skill)) {
         val.english_skill = details.english_skill == 1 ? 'Proficient in written and spoken' : 'Not proficient in written and spoken';
         this.formatEnglishSkill(details.english_skill);
+      } else {
+        val.english_skill = null;
       }
 
       if (!Utils.isNullOrEmpty(details.drivers_license)) {
         val.drivers_license = details.drivers_license == 1 ? 'Owns valid license' : 'Does not own valid license';
         this.formatDriversLicense(details.drivers_license);
+      } else {
+        val.drivers_license = null;
       }
 
       if (!Utils.isNullOrEmpty(details.has_registered_vehicle)) {
         val.has_registered_vehicle = details.has_registered_vehicle == 1 ? 'Owns/has access to personal registered vehicle' : 'Does not own/have access to personal registered vehicle';
         this.formaHasVehicle(details.has_registered_vehicle);
+      } else {
+        val.has_registered_vehicle = null;
       }
 
       if (!Utils.isNullOrEmpty(details.date_of_birth)) {
@@ -4213,7 +4219,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       this.time_out = setTimeout(function () {
         axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth()).then(function (response) {
-          component.locations = location != '' ? response.data.data.locations.features : [];
+          var data = response.data;
+          component.locations = location != '' ? data.data.locations.features : [];
         }).catch(function (error) {
           Utils.handleError(error);
         });
@@ -4476,11 +4483,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       disabled: false,
-      introduction: null,
-      when: null,
-      max_distance: null,
-      state: null,
-      right_to_work: null,
+      introduction: '',
+      when: '',
+      max_distance: '',
+      state: '',
+      right_to_work: '',
       selected: [],
       states: ['QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT'],
       input: {
@@ -4523,6 +4530,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (!Utils.isNullOrEmpty(details.right_to_work)) {
         val.right_to_work = details.right_to_work == 1 ? 'Yes, I have right to work in Australia' : 'No, I don\'t have right to work in Australia';
         this.formatRightToWork(details.right_to_work);
+      } else {
+        val.right_to_work = null;
       }
     },
     formatWhen: function formatWhen(m) {
@@ -4547,12 +4556,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     close: function close() {
-      this.input.introduction = this.introduction;
-      this.input.when = this.when;
-      this.input.max_distance = this.max_distance ? this.max_distance : 0;
-      this.input.state = this.state;
-      this.input.selected = this.state ? this.state.split(',') : [];
-      this.input.right_to_work = this.right_to_work;
+      this.setValues(this.input, this);
     },
     textAreaAdjust: function textAreaAdjust() {
       var o = this.$refs['idealIntro'];
@@ -65144,7 +65148,7 @@ window.Helper = {
       }
     },
     isNullOrEmpty: function isNullOrEmpty(value) {
-      return value === null || value === undefined || value === '' || value.length === 0;
+      return value === false || value === null || value === undefined || value === '' || value.length === 0;
     },
     handleError: function handleError(error) {
       if (error.response) {
