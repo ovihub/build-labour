@@ -64,28 +64,34 @@
 
                     <div :class="getCls" :ref="'toggleCls-' + index">
 
-                        <span class="bl-label-14-style-2 bl-mt13" :ref="'empLocation-' + index">
-                            <img class="text-icon" src="/img/icons/pinlocation.png"
+                        <div class="bl-mt12">
+                            <img style="display:inline" class="text-icon" src="/img/icons/pinlocation.png"
                                 srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
-                            {{ employment.location }}
-                        </span>
+                            <span style="display:inline" class="bl-label-14-style-2" :ref="'empLocation-' + index">
+                                {{ employment.location }}
+                            </span>
+                        </div>
 
-                        <span class="bl-label-14-style-2 bl-mt13" :ref="'empProjectSize-' + index">
-                            <img class="text-icon" src="/img/icons/dollarsign.png"
+                        <div class="bl-mt12">
+                            <img style="display:inline" class="text-icon" src="/img/icons/dollarsign.png"
                                 srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
-                            {{ employment.project_size }}
-                        </span>
-
-                        <span class="bl-label-14-style-2 bl-mt13" v-if="employment.responsibilities.length != 0">
-                            <img class="text-icon" src="/img/icons/responsibilities.png"
-                                srcset="/img/icons/responsibilities@2x.png 2x, /img/icons/responsibilities@3x.png 3x">
-                            Responsibilities:
-                        </span>
+                            <span style="display:inline" class="bl-label-14-style-2" :ref="'empProjectSize-' + index">
+                                {{ employment.project_size }}
+                            </span>
+                        </div>
+                        
+                        <div class="bl-mt12">
+                            <img style="display:inline" class="text-icon" src="/img/icons/responsibilities.png"
+                                    srcset="/img/icons/responsibilities@2x.png 2x, /img/icons/responsibilities@3x.png 3x">
+                            <span style="display:inline" class="bl-label-14-style-2" v-if="employment.responsibilities.length != 0">
+                                Responsibilities:
+                            </span>
+                        </div>
 
                         <div class="bl-label-15" v-if="employment.responsibilities.length != 0">
                             <ul class="list-items">
                                 <div v-for="(res, idx) in employment.responsibilities" v-bind:key="idx">
-                                    <li :ref="'empRespItem-' + idx">{{ res }}</li>
+                                    <li :ref="'empRespItem-' + index + '-' + idx">{{ res }}</li>
                                 </div>
                             </ul>
                         </div>
@@ -126,28 +132,34 @@
                 }
             });
 
-            Bus.$on('updateEmployment', function(index, details) {
-                if (index == -1) {
-                    component.employments.push(details);
+            // Bus.$on('updateEmployment', function(index, details) {
+            //     if (index == -1) {
+            //         component.employments.push(details);
                 
-                } else {
-                    component.employments[index] = details;
+            //     } else {
+            //         component.employments[index] = details;
                     
-                    component.isCurrent = details.isCurrent ? 1 : 0;
-                    component.endMonth = details.end_month ? details.end_month : null;
-                    component.endYear = details.end_year ? details.end_year : null;
+            //         component.isCurrent = details.isCurrent ? 1 : 0;
+            //         component.endMonth = details.end_month ? details.end_month : null;
+            //         component.endYear = details.end_year ? details.end_year : null;
 
-                    component.$refs['empJobRole-' + index][0].textContent = details.job_role;
-                    component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
-                    component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
-                    component.$refs['empLocation-' + index][0].textContent = details.location;
-                    component.$refs['empProjectSize-' + index][0].textContent = details.project_size;
+            //         component.$refs['empJobRole-' + index][0].textContent = details.job_role;
+            //         component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
+            //         component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
+            //         component.$refs['empLocation-' + index][0].textContent = details.location;
+            //         component.$refs['empProjectSize-' + index][0].textContent = details.project_size;
 
-                    for (let i = 0; i < details.responsibilities.length; i++) {
-                        component.$refs['empRespItem-' + i][0].textContent = details.responsibilities[i];
-                    }
-                }
-            });
+
+            //         if (component.employments[index].responsibilities.length == details.responsibilities.length) {
+            //             for (let i = 0; i < details.responsibilities.length; i++) {
+            //                 component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
+            //             }
+
+            //         } else {
+            //             window.location.href = '/user/profile';
+            //         }
+            //     }
+            // });
         },
 
         methods: {

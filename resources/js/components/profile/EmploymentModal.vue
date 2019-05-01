@@ -332,7 +332,8 @@
 
                         $('#modalEmployment').modal('hide');
                         
-                        Bus.$emit('updateEmployment', component.current, data.data.work_experience);
+                        // Bus.$emit('updateEmployment', component.current, data.data.work_experience);
+                        window.location.href = '/user/profile';
                     })
                     .catch(function(error) {
                         if (error.response) {
