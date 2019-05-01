@@ -339,6 +339,52 @@ class ApiWorkerController extends ApiBaseController
         return $this->apiSuccessResponse( compact('optional'), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
     }
 
+    public function updateIntroduction( Request $request )
+    {
+
+        $user = JWTAuth::toUser();
+
+        if (!$user->workerDetail) {
+
+            return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
+        }
+
+        try {
+
+            if( !$user->workerDetail->store($request)){
+
+                return $this->apiErrorResponse(
+                    false,
+                    $user->workerDetail->getErrors( true ),
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    $user->workerDetail->getErrorsDetail()
+                );
+            }
+
+            $user->isForIntroduction = true;
+
+            if( !$user->store($request)){
+
+                return $this->apiErrorResponse(
+                    false,
+                    $user->getErrors( true ),
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    $user->getErrorsDetail()
+                );
+            }
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        $introduction = $request->all();
+
+        return $this->apiSuccessResponse( compact('introduction'), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
+    }
+
     /**
      * @OA\Get(
      *      path="/worker/experiences",

@@ -46,6 +46,8 @@ class Users extends BaseModel implements
     /* Optional information to be updated */
     public $isOptionalTransaction = false;
 
+    public $isForIntroduction = false;
+
     /**
      * @return array
      */
@@ -58,11 +60,16 @@ class Users extends BaseModel implements
                 'gender' => 'required|in:Male,male,Female,female,Other,other',
                 'date_of_birth' => 'required|date',
                 'marital_status' => 'required|min:2',
+            ];
+        }
+
+        if ($this->isForIntroduction) {
+
+            return [
                 'first_name'    => 'required|min:2',
                 'last_name'     => 'required|min:2',
             ];
         }
-
 
         if( $this->id ) {
 
@@ -103,16 +110,6 @@ class Users extends BaseModel implements
         if( $this->id ){
 
             $rules = $this->rules();
-
-            if (!$request->first_name) {
-
-                unset($rules['first_name']);
-            }
-
-            if (!$request->last_name) {
-
-                unset($rules['last_name']);
-            }
 
             $validator = \Validator::make( $request->all() , $rules, $this->validationMessages() );
 
