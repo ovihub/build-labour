@@ -3238,7 +3238,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       disabled: false,
       days: [],
       months: Utils.getMonths(),
-      years: Utils.getYears(),
+      years: Utils.getYears(new Date().getFullYear() - 18),
       birthDay: '',
       birthMonth: '',
       birthYear: '',
@@ -3314,8 +3314,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         var _d = new Date();
 
-        this.birthDay = 1;
-        this.birthMonth = 1;
+        this.birthDay = _d.getDate();
+        this.birthMonth = _d.getMonth() + 1;
         this.birthYear = _d.getFullYear() - 18;
         this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
       }
@@ -5160,6 +5160,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
 //
 //
 //
@@ -49769,7 +49770,7 @@ var render = function() {
                               type: "range",
                               min: "0",
                               max: "500",
-                              step: "50"
+                              step: "5"
                             },
                             domProps: { value: _vm.input.max_distance },
                             on: {
@@ -50986,20 +50987,32 @@ var render = function() {
                           }
                         }
                       },
-                      _vm._l(_vm.educations, function(education, index) {
-                        return _c(
-                          "option",
-                          { key: index, domProps: { value: education.id } },
-                          [
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(education.course) +
-                                "\n                            "
+                      [
+                        _vm.educations.length == 0
+                          ? _c(
+                              "option",
+                              {
+                                attrs: { value: "", disabled: "", selected: "" }
+                              },
+                              [_vm._v("No education added yet")]
                             )
-                          ]
-                        )
-                      }),
-                      0
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm._l(_vm.educations, function(education, index) {
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: education.id } },
+                            [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(education.course) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
+                        })
+                      ],
+                      2
                     )
                   ])
                 ]
@@ -65767,9 +65780,9 @@ window.Helper = {
       return months;
     },
     getYears: function getYears() {
-      var startYear = new Date().getFullYear(),
-          years = [],
-          endYear = 1980;
+      var startYear = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date().getFullYear();
+      var years = [],
+          endYear = 1950;
 
       while (startYear >= endYear) {
         years.push(startYear--);

@@ -48,6 +48,7 @@
                         <div class="skill-label">Education</div>
                         <div class="me-row">
                             <select v-model="input.education_id">
+                                <option value="" disabled selected v-if="educations.length == 0">No education added yet</option>
                                 <option v-for="(education, index) in educations" :key="index" v-bind:value="education.id">
                                     {{ education.course }}
                                 </option>

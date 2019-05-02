@@ -164,7 +164,7 @@
                 disabled: false,
                 days: [],
                 months: Utils.getMonths(),
-                years: Utils.getYears(),
+                years: Utils.getYears(new Date().getFullYear() - 18),
                 birthDay: '',
                 birthMonth: '',
                 birthYear: '',
@@ -246,8 +246,8 @@
                 } else {
                     let d = new Date();
 
-                    this.birthDay = 1;
-                    this.birthMonth = 1;
+                    this.birthDay = d.getDate();
+                    this.birthMonth = d.getMonth() + 1;
                     this.birthYear = d.getFullYear() - 18;
 
                     this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
