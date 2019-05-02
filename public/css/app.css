@@ -10953,10 +10953,11 @@ a.text-dark:focus {
 .bl-box-3 {
   position: absolute;
   float: left;
-  background: #fff;
+  background: #ffffff;
   width: 62px;
   height: 15px;
-  margin-top: 15px;
+  margin-top: 5px;
+  margin-left: -63px;
 }
 
 .bl-display {
@@ -10980,8 +10981,8 @@ a.text-dark:focus {
   margin-right: 15px;
 }
 
-.bl-mt13 {
-  margin-top: 13px;
+.bl-mt12 {
+  margin-top: 12px;
 }
 
 .bl-ml15 {
@@ -11724,7 +11725,6 @@ button[disabled] {
   border: 1px solid #cccccc;
   background-color: #cccccc;
   color: #999999;
-  cursor: none;
 }
 
 button[disabled]:hover {
@@ -12407,18 +12407,35 @@ p.bl-nav-tab-label {
   cursor: pointer;
 }
 
+.edit-icon-2 {
+  z-index: 1;
+  position: absolute;
+  right: 16px;
+  top: 10px;
+}
+
+.edit-icon-3 {
+  z-index: 1;
+  position: absolute;
+  right: 22px;
+}
+
 .text-icon {
-  margin-right: 10px;
+  margin-right: 14px;
   width: 10px;
   height: 15px;
   -o-object-fit: contain;
      object-fit: contain;
+  display: inline;
+  margin-top: 4px;
 }
 
 .text-icon-2 {
   float: right;
-  margin-right: -6px;
-  margin-top: 30px;
+  z-index: 1;
+  position: absolute;
+  right: 32px;
+  margin-top: 36px;
   width: 10px;
   height: 15px;
   -o-object-fit: contain;
@@ -12711,6 +12728,14 @@ p.bl-nav-tab-label {
   flex-wrap: wrap;
 }
 
+.me-row .emp-col-left select {
+  background-position: 205px;
+}
+
+.me-row select {
+  background-position: 470px;
+}
+
 .me-col-left {
   flex: 0 0 27.5%;
   max-width: 27.5%;
@@ -12927,5 +12952,15 @@ p.bl-nav-tab-label {
 .styled-checkbox-2:disabled + label:before {
   box-shadow: none;
   background: #ddd;
+}
+
+.jobads-row {
+  display: flex;
+  margin-left: -15px;
+}
+
+.empinfo-row {
+  display: flex;
+  margin-top: 12px;
 }
 

@@ -17,7 +17,7 @@
                             What are your main industry work achievements?
                         </div>
                         
-                        <textarea ref="skillsIntro" class="form-control" style="overflow:hidden"
+                        <textarea rows="3" ref="skillsIntro" class="form-control" style="overflow:hidden"
                             placeholder="Example: Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline."
                             @keyup="textAreaAdjust" v-model="input.main_skill"></textarea>
                         
@@ -173,10 +173,13 @@
 
             textAreaAdjust() {
                 let o = this.$refs['skillsIntro'];
-                o.style.height = (o.scrollHeight) + 'px';
+                o.style.height = '1px';
+                o.style.height = (2 + o.scrollHeight) + 'px';
             },
 
             close() {
+                this.input.main_skill = this.main_skill;
+                
                 Utils.setObjectValues(this.errors, '');
             },
 

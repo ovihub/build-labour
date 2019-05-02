@@ -121,7 +121,8 @@
 
                 <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
 
-                <textarea class="form-control" rows="1" style="overflow:hidden"
+                <textarea class="form-control" style="overflow:hidden"
+                    :rows="responsibilities[index].length < 68 ? 1 : 2"
                     :ref="'respItem-' + index" 
                     @focus="textAreaAdjust(index)"
                     @keyup="onChangeResponsibilities(index)"
@@ -220,7 +221,8 @@
 
             textAreaAdjust(index) {
                 let o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
-                o.style.height = (o.scrollHeight) + 'px';
+                o.style.height = '1px';
+                o.style.height = (2 + o.scrollHeight) + 'px';
             },
 
             onChangeCurrentRole() {
@@ -255,7 +257,7 @@
                         .then(function(response) {
                             let data = response.data;
 
-                            component.locations = (location != '') ? data.data.locations.features : [];
+                            component.locations = (location != '' && data.data.locations) ? data.data.locations.features : [];
                         })
                         .catch(function(error) {
 

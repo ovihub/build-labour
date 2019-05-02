@@ -50,6 +50,12 @@ window.Helper = {
             return params;
         },
 
+        setObjectWithSameKeys(obj, o) {
+            for (let key in obj) {
+                obj[key] = o[key];
+            }
+        },
+
         setObjectValues(obj, val) {
             for (let key in obj) {
                 obj[key] = val;

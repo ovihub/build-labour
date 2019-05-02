@@ -1,9 +1,11 @@
 <template>
-    <svg :class="cls" :style="svgStyle">
-		<text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" :style="textStyle">
-			{{ input.initials }}
-		</text>
-    </svg>
+    <center>
+			<svg :class="cls" :style="svgStyle">
+				<text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" :style="textStyle">
+					{{ input.initials }}
+				</text>
+    	</svg>
+		</center>
 </template>
 
 <script>

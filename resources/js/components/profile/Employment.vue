@@ -9,7 +9,7 @@
                 data-backdrop="static"
                 data-keyboard="false"
                 data-target="#modalEmployment"
-                @click="action(-1, null)">
+                @click="action(-1)">
 
                 <img src="/img/icons/plus.png"
                     srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
@@ -27,12 +27,12 @@
                     v-for="(employment, index) in employments"
                     v-bind:key="index">
 
-                    <span class="edit-icon"
+                    <span class="edit-icon edit-icon-3"
                         data-toggle="modal"
                         data-backdrop="static"
                         data-keyboard="false"
                         data-target="#modalEmployment"
-                        @click="action(index, employment)">
+                        @click="action(index)">
 
                         <img src="/img/icons/editbutton.png"
                             srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
@@ -40,7 +40,7 @@
                     <span class="text-icon-2">
                         <img :src="imgSrc" :srcset="imgSrcSet" :ref="'toggleImg-' + index" @click="toggle(index)">
                     </span>
-                    <div class="row mt-3" @click="toggle(index)">
+                    <div class="jobads-row mt-3" @click="toggle(index)">
                         <div class="bl-col-1">
                             <img class="bl-image-56" src="/img/logo/1.jpg">
                             <div class="bl-box"></div>
@@ -64,28 +64,35 @@
 
                     <div :class="getCls" :ref="'toggleCls-' + index">
 
-                        <span class="bl-label-14-style-2 bl-mt13" :ref="'empLocation-' + index">
-                            <img class="text-icon" src="/img/icons/pinlocation.png"
+                        <div class="empinfo-row">
+                            <img style="margin-top:5px" class="text-icon bl-mt12" src="/img/icons/pinlocation.png"
                                 srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
-                            {{ employment.location }}
-                        </span>
+                                
+                            <span style="display:inline" class="bl-label-14-style-2" :ref="'empLocation-' + index">
+                                {{ employment.location }}
+                            </span>
+                        </div>
 
-                        <span class="bl-label-14-style-2 bl-mt13" :ref="'empProjectSize-' + index">
+                        <div class="empinfo-row">
                             <img class="text-icon" src="/img/icons/dollarsign.png"
                                 srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
-                            {{ employment.project_size }}
-                        </span>
-
-                        <span class="bl-label-14-style-2 bl-mt13" v-if="employment.responsibilities.length != 0">
+                            <span style="display:inline" class="bl-label-14-style-2" :ref="'empProjectSize-' + index">
+                                {{ employment.project_size }}
+                            </span>
+                        </div>
+                        
+                        <div class="empinfo-row" v-if="employment.responsibilities.length != 0">
                             <img class="text-icon" src="/img/icons/responsibilities.png"
-                                srcset="/img/icons/responsibilities@2x.png 2x, /img/icons/responsibilities@3x.png 3x">
-                            Responsibilities:
-                        </span>
+                                    srcset="/img/icons/responsibilities@2x.png 2x, /img/icons/responsibilities@3x.png 3x">
+                            <span style="display:inline" class="bl-label-14-style-2">
+                                Responsibilities:
+                            </span>
+                        </div>
 
                         <div class="bl-label-15" v-if="employment.responsibilities.length != 0">
                             <ul class="list-items">
                                 <div v-for="(res, idx) in employment.responsibilities" v-bind:key="idx">
-                                    <li :ref="'empRespItem-' + idx">{{ res }}</li>
+                                    <li :ref="'empRespItem-' + index + '-' + idx">{{ res }}</li>
                                 </div>
                             </ul>
                         </div>
@@ -105,9 +112,6 @@
             return {
                 expanded: [],
                 employments: [],
-                isCurrent: -1,
-                endMonth: '',
-                endYear: '',
                 getBox: 'bl-box-2 hidden',
                 getCls: 'responsibilities hidden',
                 imgSrc: '/img/icons/expand.png',
@@ -133,10 +137,6 @@
                 } else {
                     component.employments[index] = details;
                     
-                    component.isCurrent = details.isCurrent ? 1 : 0;
-                    component.endMonth = details.end_month ? details.end_month : null;
-                    component.endYear = details.end_year ? details.end_year : null;
-
                     component.$refs['empJobRole-' + index][0].textContent = details.job_role;
                     component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
                     component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
@@ -144,7 +144,12 @@
                     component.$refs['empProjectSize-' + index][0].textContent = details.project_size;
 
                     for (let i = 0; i < details.responsibilities.length; i++) {
-                        component.$refs['empRespItem-' + i][0].textContent = details.responsibilities[i];
+                        if (component.$refs['empRespItem-' + index + '-' + i] !== undefined) {
+                            component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
+                        
+                        } else {
+                            window.location.href = '/user/profile';
+                        }
                     }
                 }
             });
@@ -191,19 +196,8 @@
                 return Utils.formatPeriod(new Date(emp.start_year, emp.start_month-1, 1), endDate);
             },
 
-            action(index, employment) {
-                if (employment) {
-                    if (this.isCurrent != -1) {
-                        employment.isCurrent = this.isCurrent;
-                    }
-
-                    if (this.endMonth !== '' && this.endYear !== '') {
-                        employment.end_month = this.endMonth;
-                        employment.end_year = this.endYear;
-                    }
-                }
-                
-                Bus.$emit('showEmployment', index, employment);
+            action(index) {
+                Bus.$emit('showEmployment', index, index != -1 ?  this.employments[index] : null);
             },
 
         }

@@ -167,15 +167,22 @@ class ApiAuthController extends ApiBaseController
         $user = new Users;
 
         try {
+
             if( ! $user->store( $request ) ){
                 return $this->apiErrorResponse( false, $user->getErrors( true ), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput', $user->getErrorsDetail());
             }
+
         } catch(\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
         $token = $user->getJwtToken();
+
+        if (!$user->WorkerDetail) {
+
+            WorkerDetail::create(['user_id' => $user->id]);
+        }
 
         return $this->apiSuccessResponse( compact( 'user' , 'token' ), true, 'User has been registered successfully!', self::HTTP_STATUS_REQUEST_OK);
     }
@@ -263,6 +270,11 @@ class ApiAuthController extends ApiBaseController
             if (!$user->workerDetail) {
 
                 WorkerDetail::create(['user_id' => $user->id]);
+            }
+
+            if ($user->workerDetail) {
+
+                $user->workerDetail->education;
             }
 
         } catch (\Exception $e) {
