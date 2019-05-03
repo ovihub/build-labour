@@ -119,6 +119,39 @@ class ApiWorkerController extends ApiBaseController
         return $this->apiSuccessResponse( [ 'worker_detail' => $user->workerDetail ], true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
     }
 
+    public function deleteNextRole( Request $request )
+    {
+
+        $user = JWTAuth::toUser();
+
+        if (!$user->workerDetail) {
+
+            return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
+        }
+
+        try {
+
+            $user->workerDetail->isForDelete = true;
+
+            if( !$user->workerDetail->store($request) ){
+
+                return $this->apiErrorResponse(
+                    false,
+                    $user->workerDetail->getErrors( true ),
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    $user->workerDetail->getErrorsDetail()
+                );
+            }
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( [ 'worker_detail' => $user->workerDetail ], true, 'Successfully deleted worker ideal role', self::HTTP_STATUS_REQUEST_OK);
+    }
+
     /**
      * @OA\Post(
      *      path="/worker/about-me",

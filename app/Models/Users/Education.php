@@ -54,6 +54,23 @@ class Education extends BaseModel
             return false;
         }
 
+
+        if (isset($data['end_year']) && isset($data['end_month'])) {
+
+            $start = date("Y-m",strtotime($data['start_year'] . "-" . $data['start_month']));
+            $end = date("Y-m",strtotime($data['end_year'] . "-" . $data['end_month']));
+
+            if ($start > $end) { // invalid employment
+
+                $validator->errors()->add( 'end_year', 'Start date should be earlier than end date' );
+
+                $this->errors = $validator->errors()->all();
+                $this->errorsDetail = $validator->errors()->toArray();
+
+                return false;
+            }
+        }
+
         return true;
     }
 

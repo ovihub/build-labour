@@ -19,6 +19,7 @@ class WorkerDetail extends BaseModel
 
     public $isMainSkillUpdate = false;
     public $isIntroductionUpdate = false;
+    public $isForDelete = false;
 
     /**
      * @return array
@@ -38,6 +39,11 @@ class WorkerDetail extends BaseModel
             return [
                 'education_id' => 'nullable|integer'
             ];
+        }
+
+        if ($this->isForDelete) {
+
+            return [];
         }
 
         return [
