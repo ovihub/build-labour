@@ -58,8 +58,8 @@ class Users extends BaseModel implements
 
             return [
                 'gender' => 'required|in:Male,male,Female,female,Other,other',
-                'date_of_birth' => 'required|date',
                 'marital_status' => 'required|min:2',
+                'date_of_birth' => 'required|date|before:-18 years',
             ];
         }
 
@@ -95,6 +95,7 @@ class Users extends BaseModel implements
     {
         return [
             'gender.in'  => 'Gender must be Male, Female or Other',
+            'date_of_birth.before' => 'You must be at least 18 years old.'
         ];
     }
 
