@@ -61,7 +61,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             Route::delete('next-role', 'ApiWorkerController@deleteNextRole');
 
             Route::post('about-me', 'ApiWorkerController@updateNextRole');
-            //Route::delete('about-me', 'ApiWorkerController@skillOptions');
+            Route::delete('about-me', 'ApiWorkerController@deleteAboutMe');
 
             Route::post('optional', 'ApiWorkerController@updateOptional');
             Route::post('introduction', 'ApiWorkerController@updateIntroduction');

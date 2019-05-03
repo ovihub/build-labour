@@ -97,4 +97,43 @@ class WorkerRepository extends AbstractRepository
         $this->workExp->responsibilities;
         return $this->workExp;
     }
+
+    public function deleteAboutMe() {
+
+        $user = JWTAuth::toUser();
+
+        if ($user->workerDetail) {
+
+            $user->date_of_birth = null;
+            $user->gender = null;
+            $user->marital_status = null;
+            $user->save();
+
+            $user->workerDetail->english_skill = null;
+            $user->workerDetail->drivers_license = null;
+            $user->workerDetail->save();
+
+        }
+
+        return true;
+    }
+
+    public function deleteIdealRole() {
+
+        $user = JWTAuth::toUser();
+
+        if ($user->workerDetail) {
+
+            $user->workerDetail->introduction = null;
+            $user->workerDetail->when = null;
+            $user->workerDetail->max_distance = null;
+            $user->workerDetail->state = null;
+            $user->workerDetail->right_to_work = 0;
+            $user->workerDetail->save();
+
+        }
+
+        return true;
+    }
+
 }

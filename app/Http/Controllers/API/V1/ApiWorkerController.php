@@ -5,11 +5,21 @@ namespace App\Http\Controllers\API\V1;
 use App\Models\Skills\Level;
 use App\Models\Users\WorkExperience;
 use App\Repositories\SkillRepository;
+use App\Repositories\WorkerRepository;
 use Illuminate\Http\Request;
 use JWTAuth;
 
 class ApiWorkerController extends ApiBaseController
 {
+    /**
+     * @var WorkerRepository
+     */
+    protected $workerRepo;
+
+    public function __construct(WorkerRepository $repository) {
+
+        $this->workerRepo = $repository;
+    }
 
     /**
      * @OA\Post(
@@ -122,34 +132,17 @@ class ApiWorkerController extends ApiBaseController
     public function deleteNextRole( Request $request )
     {
 
-        $user = JWTAuth::toUser();
-
-        if (!$user->workerDetail) {
-
-            return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
-        }
-
         try {
 
-            $user->workerDetail->isForDelete = true;
-
-            if( !$user->workerDetail->store($request) ){
-
-                return $this->apiErrorResponse(
-                    false,
-                    $user->workerDetail->getErrors( true ),
-                    self::HTTP_STATUS_INVALID_INPUT,
-                    'invalidInput',
-                    $user->workerDetail->getErrorsDetail()
-                );
-            }
+            $this->workerRepo->deleteIdealRole();
 
         } catch(\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( [ 'worker_detail' => $user->workerDetail ], true, 'Successfully deleted worker ideal role', self::HTTP_STATUS_REQUEST_OK);
+
+        return $this->apiSuccessResponse( [], true, 'Successfully deleted ideal role', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
@@ -229,6 +222,22 @@ class ApiWorkerController extends ApiBaseController
 
 
         return $this->apiSuccessResponse( [ 'worker_detail' => $user->workerDetail ], true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    public function deleteAboutMe( Request $request )
+    {
+
+        try {
+
+            $this->workerRepo->deleteAboutMe();
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+
+        return $this->apiSuccessResponse( [], true, 'Successfully deleted about me information', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
