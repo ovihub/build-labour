@@ -73,7 +73,12 @@
 
             </main-modal>
 
-            <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalIndustrySkill">
+            <span class="edit-icon"
+                data-toggle="modal"
+                data-backdrop="static"
+                data-keyboard="false"
+                data-target="#modalIndustrySkill">
+
                 <img src="/img/icons/editbutton.png"
                     srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
             </span>
@@ -136,7 +141,6 @@
                     { id: 2, name: 'Competent' },
                     { id: 3, name: 'Expert' },
                 ],
-                skills: [],
             }
         },
 
@@ -188,7 +192,8 @@
 
             close() {
                 this.input.main_skill = this.main_skill;
-                
+                this.input.skills = this.firstColumn.concat(this.secondColumn);
+
                 Utils.setObjectValues(this.errors, '');
             },
 
@@ -229,6 +234,7 @@
                         component.is_empty = false;
                         
                         component.main_skill = data.data.main_skill;
+                        component.input.skills = data.data.skills;
                         component.user_skills = data.data.skills;
 
                         component.display();

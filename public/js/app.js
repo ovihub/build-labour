@@ -4976,6 +4976,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5005,8 +5010,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, {
         id: 3,
         name: 'Expert'
-      }],
-      skills: []
+      }]
     };
   },
   created: function created() {
@@ -5049,6 +5053,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     close: function close() {
       this.input.main_skill = this.main_skill;
+      this.input.skills = this.firstColumn.concat(this.secondColumn);
       Utils.setObjectValues(this.errors, '');
     },
     deleteRecord: function deleteRecord() {
@@ -5085,6 +5090,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   $('#modalIndustrySkill').modal('hide');
                   component.is_empty = false;
                   component.main_skill = data.data.main_skill;
+                  component.input.skills = data.data.skills;
                   component.user_skills = data.data.skills;
                   component.display();
                 }).catch(function (error) {
