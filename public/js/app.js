@@ -2680,9 +2680,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2700,18 +2697,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   methods: {
     initForm: function initForm() {
       var component = this;
+      Bus.$on('deleteAboutMe', function () {
+        component.action = 'AboutMe';
+        component.endpoints.delete = '';
+      });
+      Bus.$on('deleteIdealRole', function () {
+        component.action = 'IdealRole';
+        component.endpoints.delete = '';
+      });
       Bus.$on('deleteEmployment', function (index, endpoint) {
-        component.action = 'deleteEmployment';
+        component.action = 'Employment';
         component.index = index;
         component.endpoints.delete = endpoint;
       });
       Bus.$on('deleteEducation', function (index, endpoint) {
-        component.action = 'deleteEducation';
+        component.action = 'Education';
         component.index = index;
         component.endpoints.delete = endpoint;
       });
       Bus.$on('deleteIndustrySkill', function (endpoint) {
-        component.action = 'deleteIndustrySkill';
+        component.action = 'IndustrySkill';
         component.endpoints.delete = endpoint;
       });
     },
@@ -2726,30 +2731,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 component = this;
                 this.disabled = true;
-                _context.next = 4;
+
+                if (!(this.action == 'Employment' || this.action == 'Education' || this.action == 'IndustrySkill')) {
+                  _context.next = 7;
+                  break;
+                }
+
+                _context.next = 5;
                 return axios.delete(component.endpoints.delete, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
 
                   if (data.success) {
                     $('#deleteRecordModal').modal('hide');
-                    console.log(component.index);
-
-                    if (component.action == 'deleteEmployment') {
-                      Bus.$emit('removeEmployment', component.index);
-                    } else if (component.action == 'deleteEducation') {
-                      Bus.$emit('removeEducation', component.index);
-                    } else if (component.action == 'deleteIndustrySkill') {
-                      Bus.$emit('removeIndustrySkill');
-                    }
+                    Bus.$emit('remove' + component.action, component.index);
                   }
                 }).catch(function (error) {
                   Utils.handleError(error);
                 });
 
-              case 4:
+              case 5:
+                _context.next = 9;
+                break;
+
+              case 7:
+                $('#deleteRecordModal').modal('hide');
+                Bus.$emit('remove' + component.action);
+
+              case 9:
                 this.disabled = false;
 
-              case 5:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -2762,7 +2773,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return deleteRecord;
-    }()
+    }(),
+    cancel: function cancel() {
+      $('#deleteRecordModal').modal('hide');
+      $('#modal' + this.action).modal('show');
+    }
   }
 });
 
@@ -3423,6 +3438,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         component.setValues(component.input, details);
       }
     });
+    Bus.$on('removeAboutMe', function () {
+      Utils.setObjectValues(component.input, '');
+      component.submit('clear');
+    });
   },
   methods: {
     setValues: function setValues(val, details) {
@@ -3513,9 +3532,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       Utils.setObjectValues(this.errors, '');
     },
     deleteRecord: function deleteRecord() {
-      // Bus.$emit('deleteAboutMe');
-      Utils.setObjectValues(this.input, '');
-      this.submit('clear');
+      $('#deleteRecordModal').modal('show');
+      Bus.$emit('deleteAboutMe');
     },
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -47178,36 +47196,43 @@ var render = function() {
         _c("div", { staticClass: "modal-content modal-ku" }, [
           _vm._m(0),
           _vm._v(" "),
-          _c("div", { staticClass: "modal-body" }, [
-            _c(
-              "form",
-              {
-                attrs: { method: "POST" },
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.deleteRecord($event)
+          _c(
+            "div",
+            {
+              staticClass: "modal-body",
+              staticStyle: { "margin-bottom": "10px" }
+            },
+            [
+              _c(
+                "form",
+                {
+                  attrs: { method: "POST" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.deleteRecord($event)
+                    }
                   }
-                }
-              },
-              [
-                _c("input", {
-                  attrs: { type: "hidden", name: "_method", value: "delete" }
-                }),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "emp-label" },
-                  [
-                    _c("center", [
-                      _vm._v("Are you sure you want to remove this record?")
-                    ])
-                  ],
-                  1
-                )
-              ]
-            )
-          ]),
+                },
+                [
+                  _c("input", {
+                    attrs: { type: "hidden", name: "_method", value: "delete" }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "emp-label" },
+                    [
+                      _c("center", [
+                        _vm._v("Are you sure you want to delete this record?")
+                      ])
+                    ],
+                    1
+                  )
+                ]
+              )
+            ]
+          ),
           _vm._v(" "),
           _c(
             "div",
@@ -47216,24 +47241,18 @@ var render = function() {
               staticStyle: { "border-top": "none" }
             },
             [
-              _c(
-                "div",
-                {
-                  staticClass: "btn btn-link btn-delete",
-                  attrs: { "data-dismiss": "modal" }
-                },
-                [_vm._v("\n\t\t\t\t\t\tCancel\n\t\t\t\t\t")]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "pull-right",
-                  attrs: { type: "submit", disabled: _vm.disabled },
-                  on: { click: _vm.deleteRecord }
-                },
-                [_vm._v("\n\t\t\t\t\t\tProceed\n\t\t\t\t\t")]
-              )
+              _c("div", { staticClass: "pull-right" }, [
+                _c(
+                  "button",
+                  {
+                    attrs: { type: "submit", disabled: _vm.disabled },
+                    on: { click: _vm.deleteRecord }
+                  },
+                  [_vm._v("Yes")]
+                ),
+                _vm._v(" "),
+                _c("button", { on: { click: _vm.cancel } }, [_vm._v("No")])
+              ])
             ]
           )
         ])

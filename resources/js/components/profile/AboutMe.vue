@@ -201,6 +201,12 @@
                     component.setValues(component.input, details);
                 }
             });
+
+            Bus.$on('removeAboutMe', function() {
+                Utils.setObjectValues(component.input, '');
+
+                component.submit('clear');
+            });
         },
 
         methods: {
@@ -318,10 +324,9 @@
             },
             
             deleteRecord() {
-                // Bus.$emit('deleteAboutMe');
-                Utils.setObjectValues(this.input, '');
+                $('#deleteRecordModal').modal('show');
 
-                this.submit('clear');
+                Bus.$emit('deleteAboutMe');
             },
 
             async submit(action = 0) {
@@ -332,6 +337,7 @@
                 }
 
                 Utils.setObjectValues(this.errors, '');
+
                 this.disabled = true;
                 
                 await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
