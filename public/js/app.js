@@ -4740,6 +4740,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         component.setValues(component.input, details);
       }
     });
+    Bus.$on('removeIdealRole', function () {
+      Utils.setObjectValues(component.input, '');
+      component.submit('clear');
+    });
   },
   computed: {
     maxDistance: function maxDistance() {
@@ -4793,9 +4797,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       o.style.height = 2 + o.scrollHeight + 'px';
     },
     deleteRecord: function deleteRecord() {
-      // Bus.$emit('deleteIdealRole');
-      Utils.setObjectValues(this.input, '');
-      this.submit('clear');
+      $('#deleteRecordModal').modal('show');
+      Bus.$emit('deleteIdealRole');
     },
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -47236,7 +47239,7 @@ var render = function() {
                     { staticClass: "emp-label" },
                     [
                       _c("center", [
-                        _vm._v("Are you sure you want to delete this record?")
+                        _vm._v("Are you sure you want to delete this?")
                       ])
                     ],
                     1
@@ -50151,6 +50154,7 @@ var render = function() {
                   "div",
                   {
                     staticClass: "btn btn-link btn-delete",
+                    attrs: { "data-dismiss": "modal" },
                     on: { click: _vm.deleteRecord }
                   },
                   [

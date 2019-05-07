@@ -82,7 +82,7 @@
                     </template>
 
                     <template slot="custom-modal-footer">
-                        <div class="btn btn-link btn-delete" @click="deleteRecord">
+                        <div class="btn btn-link btn-delete" data-dismiss="modal" @click="deleteRecord">
                             Delete
                         </div>
 
@@ -171,6 +171,12 @@
                     component.setValues(component.input, details);
                 }
             });
+
+            Bus.$on('removeIdealRole', function() {
+                Utils.setObjectValues(component.input, '');
+
+                component.submit('clear');
+            });
         },
 
         computed: {
@@ -238,10 +244,9 @@
             },
 
             deleteRecord() {
-                // Bus.$emit('deleteIdealRole');
-                Utils.setObjectValues(this.input, '');
+                $('#deleteRecordModal').modal('show');
 
-                this.submit('clear');
+                Bus.$emit('deleteIdealRole');
             },
 
             async submit(action = 0) {

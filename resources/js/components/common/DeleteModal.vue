@@ -11,7 +11,7 @@
 					<form method="POST" @submit.prevent="deleteRecord">
 						<input type="hidden" name="_method" value="delete" />
 						<div class="emp-label">
-							<center>Are you sure you want to delete this record?</center>
+							<center>Are you sure you want to delete this?</center>
 						</div>
 					</form>
 				</div>
