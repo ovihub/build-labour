@@ -26,44 +26,48 @@
                                 </div>
                             </div>
 
-                            <div class="me-label" style="margin-bottom:17px">Date of Birth</div>
-                            <div class="me-row">
-                                <div class="me-col-left">
-                                    <div class="emp-form-label">Day</div>
-                                    <select v-model="birthDay">
-                                        <option v-for="(day, index) in days" :key="index" v-bind:value="day">{{ day }}</option>
-                                    </select>
+                            <div v-if="false">
+                                <div class="me-label" style="margin-bottom:17px">Date of Birth</div>
+                                <div class="me-row">
+                                    <div class="me-col-left">
+                                        <div class="emp-form-label">Day</div>
+                                        <select v-model="birthDay">
+                                            <option v-for="(day, index) in days" :key="index" v-bind:value="day">{{ day }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="me-col-mid">
+                                        <div class="emp-form-label">Month</div>
+                                        <select v-model="birthMonth" @change="onChangeBirthMonthYear">
+                                            <option v-for="(month, index) in months" :key="index" v-bind:value="month.id">{{ month.name }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="me-col-right">
+                                        <div class="emp-form-label">Year</div>
+                                        <select v-model="birthYear" @change="onChangeBirthMonthYear">
+                                            <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="me-col-mid">
-                                    <div class="emp-form-label">Month</div>
-                                    <select v-model="birthMonth" @change="onChangeBirthMonthYear">
-                                        <option v-for="(month, index) in months" :key="index" v-bind:value="month.id">{{ month.name }}</option>
-                                    </select>
-                                </div>
-                                <div class="me-col-right">
-                                    <div class="emp-form-label">Year</div>
-                                    <select v-model="birthYear" @change="onChangeBirthMonthYear">
-                                        <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
-                                    </select>
-                                </div>
+                                <span class="err-msg" v-if="errors.date_of_birth">
+                                    {{ errors.date_of_birth }}
+                                </span>
                             </div>
-                            <span class="err-msg" v-if="errors.date_of_birth">
-                                {{ errors.date_of_birth }}
-                            </span>
 
-                            <div class="me-label">Marital Status</div>
-                            <div class="me-row">
-                                <div class="emp-col-left">
-                                    <select v-model="input.marital_status">
-                                        <option key="1" value="Single">Single</option>
-                                        <option key="2" value="Married">Married</option>
-                                        <option key="3" value="Other">Other</option>
-                                    </select>
+                            <div v-if="false">
+                                <div class="me-label">Marital Status</div>
+                                <div class="me-row">
+                                    <div class="emp-col-left">
+                                        <select v-model="input.marital_status">
+                                            <option key="1" value="Single">Single</option>
+                                            <option key="2" value="Married">Married</option>
+                                            <option key="3" value="Other">Other</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <span class="err-msg" v-if="errors.marital_status">
+                                <span class="err-msg" v-if="errors.marital_status">
                                 {{ errors.marital_status }}
-                            </span>
+                                </span>
+                            </div>
 
                             <div class="me-label">
                                 I am proficient in WRITTEN and SPOKEN English
@@ -130,15 +134,19 @@
                     {{ gender }}
                 </span>
 
-                <span class="bl-label-15 mt-2 pt-1" v-if="date_of_birth">Date of Birth</span>
-                <span class="bl-label-14">
-                    {{ formatDate(date_of_birth) }}
-                </span>
+                <div v-if="false">
+                    <span class="bl-label-15 mt-2 pt-1" v-if="date_of_birth">Date of Birth</span>
+                    <span class="bl-label-14">
+                        {{ formatDate(date_of_birth) }}
+                    </span>
+                </div>
 
-                <span class="bl-label-15 mt-2 pt-1" v-if="marital_status">Marital Status</span>
-                <span class="bl-label-14">
-                    {{ marital_status }}
-                </span>
+                <div v-if="false">
+                    <span class="bl-label-15 mt-2 pt-1" v-if="marital_status">Marital Status</span>
+                    <span class="bl-label-14">
+                        {{ marital_status }}
+                    </span>
+                </div>
 
                 <span class="bl-label-15 mt-2 pt-1" v-if="english_skill">English Skill</span>
                 <span class="bl-label-14">

@@ -186,6 +186,12 @@
             },
 
             formatPeriod(emp) {
+
+                if (!emp.end_month && !emp.end_year && !emp.start_year && !emp.start_month) {
+
+                    return '';
+                }
+
                 let endDate = (emp.end_month && emp.end_year) ?
                               new Date(emp.end_year, emp.end_month-1, 1) : new Date();
 

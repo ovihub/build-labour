@@ -34,12 +34,12 @@ class WorkExperience extends BaseModel
     private function rules()
     {
         return [
-            'job_role'      => 'required',
-            'company_name'  => 'required',
-            'project_size'  => 'required|regex:/\b\d{1,3}(?:,?\d{3})*(?:\.\d{2})?\b/', /* monetary validation */
-            'location'      => 'required|string',
-            'start_month'   => 'required|integer',
-            'start_year'    => 'required|integer',
+            'job_role'      => 'nullable|min:5',
+            'company_name'  => 'nullable',
+            'project_size'  => 'nullable|regex:/\b\d{1,3}(?:,?\d{3})*(?:\.\d{2})?\b/', /* monetary validation */
+            'location'      => 'nullable|string',
+            'start_month'   => 'nullable|integer',
+            'start_year'    => 'nullable|integer',
             'end_month'     => 'nullable|integer',
             'end_year'      => 'nullable|integer',
             'user_id'       => 'required|integer',

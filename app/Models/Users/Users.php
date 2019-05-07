@@ -58,8 +58,8 @@ class Users extends BaseModel implements
 
             return [
                 'gender' => 'required|in:Male,male,Female,female,Other,other',
-                'marital_status' => 'required|min:2',
-                'date_of_birth' => 'required|date|before:-18 years',
+                'marital_status' => 'nullable|min:2',
+                'date_of_birth' => 'nullable|date|before:-18 years',
             ];
         }
 
