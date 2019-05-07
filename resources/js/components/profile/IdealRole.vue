@@ -173,7 +173,7 @@
             });
 
             Bus.$on('removeIdealRole', function() {
-                Utils.setObjectValues(component.input, '');
+                Utils.setObjectValues(component.input, null);
 
                 component.submit('clear');
             });
@@ -199,12 +199,11 @@
                 if (! Utils.isNullOrEmpty(details.right_to_work)) {
                     val.right_to_work = details.right_to_work == 1 ? 
                         'Yes, I have right to work in Australia' : 'No, I don\'t have right to work in Australia';
-                    
-                    this.formatRightToWork(details.right_to_work);
-                
                 } else {
                     val.right_to_work = null;
                 }
+
+                this.formatRightToWork(details.right_to_work);
             },
 
             formatWhen(m) {
@@ -226,10 +225,14 @@
                     this.$refs['styled-checkbox-0'].checked = false;
                     this.input.right_to_work = 1;
 
-                } else {
+                } else if (index == 0) {
                     this.$refs['styled-checkbox-1'].checked = false;
                     this.$refs['styled-checkbox-0'].checked = true;
                     this.input.right_to_work = 0;
+                } else {
+                    this.$refs['styled-checkbox-1'].checked = false;
+                    this.$refs['styled-checkbox-0'].checked = false;
+                    this.input.right_to_work = null;
                 }
             },
 
@@ -266,6 +269,10 @@
                         $('#modalIdealRole').modal('hide');
                         
                         component.setValues(component, data.data.worker_detail);
+
+                        if (action === 'clear') {
+                            component.setValues(component.input, data.data.worker_detail);
+                        }
                     })
                     .catch(function(error) {
 

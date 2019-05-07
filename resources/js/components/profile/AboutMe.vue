@@ -73,45 +73,45 @@
                                 I am proficient in WRITTEN and SPOKEN English
                             </div>
                             <div class="bl-inline">
-                                <input class="styled-checkbox-round" id="es-checkbox-yes" type="checkbox"
-                                    ref="es-checkbox-1"
-                                    @change="formatEnglishSkill(1)" />
-                                <label for="es-checkbox-yes">Yes</label>
+                                <input class="styled-checkbox-round" id="english_skill-checkbox-yes" type="checkbox"
+                                    ref="english_skill-checkbox-1"
+                                    @change="formatCheckbox('english_skill', 1)" />
+                                <label for="english_skill-checkbox-yes">Yes</label>
                                 
-                                <input class="styled-checkbox-round" id="es-checkbox-no" type="checkbox"
-                                    ref="es-checkbox-0"
-                                    @change="formatEnglishSkill(0)" />
-                                <label for="es-checkbox-no">No</label>
+                                <input class="styled-checkbox-round" id="english_skill-checkbox-no" type="checkbox"
+                                    ref="english_skill-checkbox-0"
+                                    @change="formatCheckbox('english_skill', 0)" />
+                                <label for="english_skill-checkbox-no">No</label>
                             </div>
 
                             <div class="me-label">
                                 I have a valid driver's license
                             </div>
                             <div class="bl-inline">
-                                <input class="styled-checkbox-round" id="dl-checkbox-yes" type="checkbox"
-                                    ref="dl-checkbox-1"
-                                    @change="formatDriversLicense(1)" />
-                                <label for="dl-checkbox-yes">Yes</label>
+                                <input class="styled-checkbox-round" id="drivers_license-checkbox-yes" type="checkbox"
+                                    ref="drivers_license-checkbox-1"
+                                    @change="formatCheckbox('drivers_license', 1)" />
+                                <label for="drivers_license-checkbox-yes">Yes</label>
                                 
-                                <input class="styled-checkbox-round" id="dl-checkbox-no" type="checkbox"
-                                    ref="dl-checkbox-0"
-                                    @change="formatDriversLicense(0)" />
-                                <label for="dl-checkbox-no">No</label>
+                                <input class="styled-checkbox-round" id="drivers_license-checkbox-no" type="checkbox"
+                                    ref="drivers_license-checkbox-0"
+                                    @change="formatCheckbox('drivers_license', 0)" />
+                                <label for="drivers_license-checkbox-no">No</label>
                             </div>
 
                             <div class="me-label">
                                 I own/have access to a registered vehicle on a permanent basis
                             </div>
                             <div class="bl-inline">
-                                <input class="styled-checkbox-round" id="hv-checkbox-yes" type="checkbox"
-                                    ref="hv-checkbox-1"
-                                    @change="formaHasVehicle(1)" />
-                                <label for="hv-checkbox-yes">Yes</label>
+                                <input class="styled-checkbox-round" id="has_registered_vehicle-checkbox-yes" type="checkbox"
+                                    ref="has_registered_vehicle-checkbox-1"
+                                    @change="formatCheckbox('has_registered_vehicle', 1)" />
+                                <label for="has_registered_vehicle-checkbox-yes">Yes</label>
                                 
-                                <input class="styled-checkbox-round" id="hv-checkbox-no" type="checkbox"
-                                    ref="hv-checkbox-0"
-                                    @change="formaHasVehicle(0)" />
-                                <label for="hv-checkbox-no">No</label>
+                                <input class="styled-checkbox-round" id="has_registered_vehicle-checkbox-no" type="checkbox"
+                                    ref="has_registered_vehicle-checkbox-0"
+                                    @change="formatCheckbox('has_registered_vehicle', 0)" />
+                                <label for="has_registered_vehicle-checkbox-no">No</label>
                             </div>
                         </form>
                     </template>
@@ -211,7 +211,7 @@
             });
 
             Bus.$on('removeAboutMe', function() {
-                Utils.setObjectValues(component.input, '');
+                Utils.setObjectValues(component.input, null);
 
                 component.submit('clear');
             });
@@ -223,13 +223,10 @@
                 val.gender = details.gender;
                 val.date_of_birth = details.date_of_birth;
                 val.marital_status = details.marital_status;
-
+                
                 if (! Utils.isNullOrEmpty(details.english_skill)) {
                     val.english_skill = details.english_skill == 1 ? 
                         'Proficient in written and spoken' : 'Not proficient in written and spoken';
-                    
-                    this.formatEnglishSkill(details.english_skill);
-                
                 } else {
                     val.english_skill = null;
                 }
@@ -237,22 +234,20 @@
                 if (! Utils.isNullOrEmpty(details.drivers_license)) {
                     val.drivers_license = details.drivers_license == 1 ?
                         'Owns valid license' : 'Does not own valid license';
-                    
-                    this.formatDriversLicense(details.drivers_license);
-                
                 } else {
                     val.drivers_license = null;
                 }
-
+                
                 if (! Utils.isNullOrEmpty(details.has_registered_vehicle)) {
                     val.has_registered_vehicle = details.has_registered_vehicle == 1 ?
                         'Owns/has access to personal registered vehicle' : 'Does not own/have access to personal registered vehicle';
-                    
-                    this.formaHasVehicle(details.has_registered_vehicle);
-                
                 } else {
                     val.has_registered_vehicle = null;
                 }
+
+                this.formatCheckbox('english_skill', details.english_skill);
+                this.formatCheckbox('drivers_license', details.drivers_license);
+                this.formatCheckbox('has_registered_vehicle', details.has_registered_vehicle);
 
                 if (! Utils.isNullOrEmpty(details.date_of_birth)) {
                     let d = new Date(details.date_of_birth);
@@ -282,42 +277,20 @@
                 }
             },
                     
-            formatEnglishSkill(index) {
+            formatCheckbox(fld, index) {
                 if (index == 1) {
-                    this.$refs['es-checkbox-1'].checked = true;
-                    this.$refs['es-checkbox-0'].checked = false;
-                    this.input.english_skill = 1;
+                    this.$refs[fld + '-checkbox-1'].checked = true;
+                    this.$refs[fld + '-checkbox-0'].checked = false;
+                    this.input[fld] = 1;
 
+                } else if (index == 0) {
+                    this.$refs[fld + '-checkbox-1'].checked = false;
+                    this.$refs[fld + '-checkbox-0'].checked = true;
+                    this.input[fld] = 0;
                 } else {
-                    this.$refs['es-checkbox-1'].checked = false;
-                    this.$refs['es-checkbox-0'].checked = true;
-                    this.input.english_skill = 0;
-                }
-            },
-
-            formatDriversLicense(index) {
-                if (index == 1) {
-                    this.$refs['dl-checkbox-1'].checked = true;
-                    this.$refs['dl-checkbox-0'].checked = false;
-                    this.input.drivers_license = 1;
-
-                } else {
-                    this.$refs['dl-checkbox-1'].checked = false;
-                    this.$refs['dl-checkbox-0'].checked = true;
-                    this.input.drivers_license = 0;
-                }
-            },
-
-            formaHasVehicle(index) {
-                if (index == 1) {
-                    this.$refs['hv-checkbox-1'].checked = true;
-                    this.$refs['hv-checkbox-0'].checked = false;
-                    this.input.has_registered_vehicle = 1;
-
-                } else {
-                    this.$refs['hv-checkbox-1'].checked = false;
-                    this.$refs['hv-checkbox-0'].checked = true;
-                    this.input.has_registered_vehicle = 0;
+                    this.$refs[fld + '-checkbox-1'].checked = false;
+                    this.$refs[fld + '-checkbox-0'].checked = false;
+                    this.input[fld] = null;
                 }
             },
 
@@ -356,6 +329,10 @@
                         $('#modalAboutMe').modal('hide');
 
                         component.setValues(component, data.data.optional);
+
+                        if (action === 'clear') {
+                            component.setValues(component.input, data.data.optional);
+                        }
                     })
                     .catch(function(error) {
                         if (error.response) {

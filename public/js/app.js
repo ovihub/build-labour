@@ -3447,7 +3447,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     });
     Bus.$on('removeAboutMe', function () {
-      Utils.setObjectValues(component.input, '');
+      Utils.setObjectValues(component.input, null);
       component.submit('clear');
     });
   },
@@ -3459,24 +3459,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (!Utils.isNullOrEmpty(details.english_skill)) {
         val.english_skill = details.english_skill == 1 ? 'Proficient in written and spoken' : 'Not proficient in written and spoken';
-        this.formatEnglishSkill(details.english_skill);
       } else {
         val.english_skill = null;
       }
 
       if (!Utils.isNullOrEmpty(details.drivers_license)) {
         val.drivers_license = details.drivers_license == 1 ? 'Owns valid license' : 'Does not own valid license';
-        this.formatDriversLicense(details.drivers_license);
       } else {
         val.drivers_license = null;
       }
 
       if (!Utils.isNullOrEmpty(details.has_registered_vehicle)) {
         val.has_registered_vehicle = details.has_registered_vehicle == 1 ? 'Owns/has access to personal registered vehicle' : 'Does not own/have access to personal registered vehicle';
-        this.formaHasVehicle(details.has_registered_vehicle);
       } else {
         val.has_registered_vehicle = null;
       }
+
+      this.formatCheckbox('english_skill', details.english_skill);
+      this.formatCheckbox('drivers_license', details.drivers_license);
+      this.formatCheckbox('has_registered_vehicle', details.has_registered_vehicle);
 
       if (!Utils.isNullOrEmpty(details.date_of_birth)) {
         var d = new Date(details.date_of_birth);
@@ -3499,37 +3500,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
       }
     },
-    formatEnglishSkill: function formatEnglishSkill(index) {
+    formatCheckbox: function formatCheckbox(fld, index) {
       if (index == 1) {
-        this.$refs['es-checkbox-1'].checked = true;
-        this.$refs['es-checkbox-0'].checked = false;
-        this.input.english_skill = 1;
+        this.$refs[fld + '-checkbox-1'].checked = true;
+        this.$refs[fld + '-checkbox-0'].checked = false;
+        this.input[fld] = 1;
+      } else if (index == 0) {
+        this.$refs[fld + '-checkbox-1'].checked = false;
+        this.$refs[fld + '-checkbox-0'].checked = true;
+        this.input[fld] = 0;
       } else {
-        this.$refs['es-checkbox-1'].checked = false;
-        this.$refs['es-checkbox-0'].checked = true;
-        this.input.english_skill = 0;
-      }
-    },
-    formatDriversLicense: function formatDriversLicense(index) {
-      if (index == 1) {
-        this.$refs['dl-checkbox-1'].checked = true;
-        this.$refs['dl-checkbox-0'].checked = false;
-        this.input.drivers_license = 1;
-      } else {
-        this.$refs['dl-checkbox-1'].checked = false;
-        this.$refs['dl-checkbox-0'].checked = true;
-        this.input.drivers_license = 0;
-      }
-    },
-    formaHasVehicle: function formaHasVehicle(index) {
-      if (index == 1) {
-        this.$refs['hv-checkbox-1'].checked = true;
-        this.$refs['hv-checkbox-0'].checked = false;
-        this.input.has_registered_vehicle = 1;
-      } else {
-        this.$refs['hv-checkbox-1'].checked = false;
-        this.$refs['hv-checkbox-0'].checked = true;
-        this.input.has_registered_vehicle = 0;
+        this.$refs[fld + '-checkbox-1'].checked = false;
+        this.$refs[fld + '-checkbox-0'].checked = false;
+        this.input[fld] = null;
       }
     },
     onChangeBirthMonthYear: function onChangeBirthMonthYear() {
@@ -3568,6 +3551,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   var data = response.data;
                   $('#modalAboutMe').modal('hide');
                   component.setValues(component, data.data.optional);
+
+                  if (action === 'clear') {
+                    component.setValues(component.input, data.data.optional);
+                  }
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -4741,7 +4728,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     });
     Bus.$on('removeIdealRole', function () {
-      Utils.setObjectValues(component.input, '');
+      Utils.setObjectValues(component.input, null);
       component.submit('clear');
     });
   },
@@ -4762,10 +4749,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (!Utils.isNullOrEmpty(details.right_to_work)) {
         val.right_to_work = details.right_to_work == 1 ? 'Yes, I have right to work in Australia' : 'No, I don\'t have right to work in Australia';
-        this.formatRightToWork(details.right_to_work);
       } else {
         val.right_to_work = null;
       }
+
+      this.formatRightToWork(details.right_to_work);
     },
     formatWhen: function formatWhen(m) {
       return m == 1 ? 'In 1 month' : 'In ' + m + ' months';
@@ -4782,10 +4770,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.$refs['styled-checkbox-1'].checked = true;
         this.$refs['styled-checkbox-0'].checked = false;
         this.input.right_to_work = 1;
-      } else {
+      } else if (index == 0) {
         this.$refs['styled-checkbox-1'].checked = false;
         this.$refs['styled-checkbox-0'].checked = true;
         this.input.right_to_work = 0;
+      } else {
+        this.$refs['styled-checkbox-1'].checked = false;
+        this.$refs['styled-checkbox-0'].checked = false;
+        this.input.right_to_work = null;
       }
     },
     close: function close() {
@@ -4824,6 +4816,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   var data = response.data;
                   $('#modalIdealRole').modal('hide');
                   component.setValues(component, data.data.worker_detail);
+
+                  if (action === 'clear') {
+                    component.setValues(component.input, data.data.worker_detail);
+                  }
                 }).catch(function (error) {
                   Utils.handleError(error);
                 });
@@ -47926,34 +47922,44 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "bl-inline" }, [
                       _c("input", {
-                        ref: "es-checkbox-1",
+                        ref: "english_skill-checkbox-1",
                         staticClass: "styled-checkbox-round",
-                        attrs: { id: "es-checkbox-yes", type: "checkbox" },
+                        attrs: {
+                          id: "english_skill-checkbox-yes",
+                          type: "checkbox"
+                        },
                         on: {
                           change: function($event) {
-                            return _vm.formatEnglishSkill(1)
+                            return _vm.formatCheckbox("english_skill", 1)
                           }
                         }
                       }),
                       _vm._v(" "),
-                      _c("label", { attrs: { for: "es-checkbox-yes" } }, [
-                        _vm._v("Yes")
-                      ]),
+                      _c(
+                        "label",
+                        { attrs: { for: "english_skill-checkbox-yes" } },
+                        [_vm._v("Yes")]
+                      ),
                       _vm._v(" "),
                       _c("input", {
-                        ref: "es-checkbox-0",
+                        ref: "english_skill-checkbox-0",
                         staticClass: "styled-checkbox-round",
-                        attrs: { id: "es-checkbox-no", type: "checkbox" },
+                        attrs: {
+                          id: "english_skill-checkbox-no",
+                          type: "checkbox"
+                        },
                         on: {
                           change: function($event) {
-                            return _vm.formatEnglishSkill(0)
+                            return _vm.formatCheckbox("english_skill", 0)
                           }
                         }
                       }),
                       _vm._v(" "),
-                      _c("label", { attrs: { for: "es-checkbox-no" } }, [
-                        _vm._v("No")
-                      ])
+                      _c(
+                        "label",
+                        { attrs: { for: "english_skill-checkbox-no" } },
+                        [_vm._v("No")]
+                      )
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "me-label" }, [
@@ -47964,34 +47970,44 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "bl-inline" }, [
                       _c("input", {
-                        ref: "dl-checkbox-1",
+                        ref: "drivers_license-checkbox-1",
                         staticClass: "styled-checkbox-round",
-                        attrs: { id: "dl-checkbox-yes", type: "checkbox" },
+                        attrs: {
+                          id: "drivers_license-checkbox-yes",
+                          type: "checkbox"
+                        },
                         on: {
                           change: function($event) {
-                            return _vm.formatDriversLicense(1)
+                            return _vm.formatCheckbox("drivers_license", 1)
                           }
                         }
                       }),
                       _vm._v(" "),
-                      _c("label", { attrs: { for: "dl-checkbox-yes" } }, [
-                        _vm._v("Yes")
-                      ]),
+                      _c(
+                        "label",
+                        { attrs: { for: "drivers_license-checkbox-yes" } },
+                        [_vm._v("Yes")]
+                      ),
                       _vm._v(" "),
                       _c("input", {
-                        ref: "dl-checkbox-0",
+                        ref: "drivers_license-checkbox-0",
                         staticClass: "styled-checkbox-round",
-                        attrs: { id: "dl-checkbox-no", type: "checkbox" },
+                        attrs: {
+                          id: "drivers_license-checkbox-no",
+                          type: "checkbox"
+                        },
                         on: {
                           change: function($event) {
-                            return _vm.formatDriversLicense(0)
+                            return _vm.formatCheckbox("drivers_license", 0)
                           }
                         }
                       }),
                       _vm._v(" "),
-                      _c("label", { attrs: { for: "dl-checkbox-no" } }, [
-                        _vm._v("No")
-                      ])
+                      _c(
+                        "label",
+                        { attrs: { for: "drivers_license-checkbox-no" } },
+                        [_vm._v("No")]
+                      )
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "me-label" }, [
@@ -48002,34 +48018,54 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "bl-inline" }, [
                       _c("input", {
-                        ref: "hv-checkbox-1",
+                        ref: "has_registered_vehicle-checkbox-1",
                         staticClass: "styled-checkbox-round",
-                        attrs: { id: "hv-checkbox-yes", type: "checkbox" },
+                        attrs: {
+                          id: "has_registered_vehicle-checkbox-yes",
+                          type: "checkbox"
+                        },
                         on: {
                           change: function($event) {
-                            return _vm.formaHasVehicle(1)
+                            return _vm.formatCheckbox(
+                              "has_registered_vehicle",
+                              1
+                            )
                           }
                         }
                       }),
                       _vm._v(" "),
-                      _c("label", { attrs: { for: "hv-checkbox-yes" } }, [
-                        _vm._v("Yes")
-                      ]),
+                      _c(
+                        "label",
+                        {
+                          attrs: { for: "has_registered_vehicle-checkbox-yes" }
+                        },
+                        [_vm._v("Yes")]
+                      ),
                       _vm._v(" "),
                       _c("input", {
-                        ref: "hv-checkbox-0",
+                        ref: "has_registered_vehicle-checkbox-0",
                         staticClass: "styled-checkbox-round",
-                        attrs: { id: "hv-checkbox-no", type: "checkbox" },
+                        attrs: {
+                          id: "has_registered_vehicle-checkbox-no",
+                          type: "checkbox"
+                        },
                         on: {
                           change: function($event) {
-                            return _vm.formaHasVehicle(0)
+                            return _vm.formatCheckbox(
+                              "has_registered_vehicle",
+                              0
+                            )
                           }
                         }
                       }),
                       _vm._v(" "),
-                      _c("label", { attrs: { for: "hv-checkbox-no" } }, [
-                        _vm._v("No")
-                      ])
+                      _c(
+                        "label",
+                        {
+                          attrs: { for: "has_registered_vehicle-checkbox-no" }
+                        },
+                        [_vm._v("No")]
+                      )
                     ])
                   ]
                 )
