@@ -3393,6 +3393,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4144,6 +4152,10 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     formatPeriod: function formatPeriod(emp) {
+      if (!emp.end_month && !emp.end_year && !emp.start_year && !emp.start_month) {
+        return '';
+      }
+
       var endDate = emp.end_month && emp.end_year ? new Date(emp.end_year, emp.end_month - 1, 1) : new Date();
       return Utils.formatPeriod(new Date(emp.start_year, emp.start_month - 1, 1), endDate);
     },
@@ -47895,232 +47907,12 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "me-label",
-                        staticStyle: { "margin-bottom": "17px" }
-                      },
-                      [_vm._v("Date of Birth")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "me-row" }, [
-                      _c("div", { staticClass: "me-col-left" }, [
-                        _c("div", { staticClass: "emp-form-label" }, [
-                          _vm._v("Day")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.birthDay,
-                                expression: "birthDay"
-                              }
-                            ],
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.birthDay = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              }
-                            }
-                          },
-                          _vm._l(_vm.days, function(day, index) {
-                            return _c(
-                              "option",
-                              { key: index, domProps: { value: day } },
-                              [_vm._v(_vm._s(day))]
-                            )
-                          }),
-                          0
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "me-col-mid" }, [
-                        _c("div", { staticClass: "emp-form-label" }, [
-                          _vm._v("Month")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.birthMonth,
-                                expression: "birthMonth"
-                              }
-                            ],
-                            on: {
-                              change: [
-                                function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.birthMonth = $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                },
-                                _vm.onChangeBirthMonthYear
-                              ]
-                            }
-                          },
-                          _vm._l(_vm.months, function(month, index) {
-                            return _c(
-                              "option",
-                              { key: index, domProps: { value: month.id } },
-                              [_vm._v(_vm._s(month.name))]
-                            )
-                          }),
-                          0
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "me-col-right" }, [
-                        _c("div", { staticClass: "emp-form-label" }, [
-                          _vm._v("Year")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.birthYear,
-                                expression: "birthYear"
-                              }
-                            ],
-                            on: {
-                              change: [
-                                function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.birthYear = $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                },
-                                _vm.onChangeBirthMonthYear
-                              ]
-                            }
-                          },
-                          _vm._l(_vm.years, function(year, index) {
-                            return _c(
-                              "option",
-                              { key: index, domProps: { value: year } },
-                              [_vm._v(_vm._s(year))]
-                            )
-                          }),
-                          0
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _vm.errors.date_of_birth
-                      ? _c("span", { staticClass: "err-msg" }, [
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(_vm.errors.date_of_birth) +
-                              "\n                        "
-                          )
-                        ])
+                    false
+                      ? undefined
                       : _vm._e(),
                     _vm._v(" "),
-                    _c("div", { staticClass: "me-label" }, [
-                      _vm._v("Marital Status")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "me-row" }, [
-                      _c("div", { staticClass: "emp-col-left" }, [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.input.marital_status,
-                                expression: "input.marital_status"
-                              }
-                            ],
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.input,
-                                  "marital_status",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
-                          [
-                            _c(
-                              "option",
-                              { key: "1", attrs: { value: "Single" } },
-                              [_vm._v("Single")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "option",
-                              { key: "2", attrs: { value: "Married" } },
-                              [_vm._v("Married")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "option",
-                              { key: "3", attrs: { value: "Other" } },
-                              [_vm._v("Other")]
-                            )
-                          ]
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _vm.errors.marital_status
-                      ? _c("span", { staticClass: "err-msg" }, [
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(_vm.errors.marital_status) +
-                              "\n                        "
-                          )
-                        ])
+                    false
+                      ? undefined
                       : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "me-label" }, [
@@ -48287,33 +48079,13 @@ var render = function() {
             _vm._v("\n                " + _vm._s(_vm.gender) + "\n            ")
           ]),
           _vm._v(" "),
-          _vm.date_of_birth
-            ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
-                _vm._v("Date of Birth")
-              ])
+          false
+            ? undefined
             : _vm._e(),
           _vm._v(" "),
-          _c("span", { staticClass: "bl-label-14" }, [
-            _vm._v(
-              "\n                " +
-                _vm._s(_vm.formatDate(_vm.date_of_birth)) +
-                "\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _vm.marital_status
-            ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
-                _vm._v("Marital Status")
-              ])
+          false
+            ? undefined
             : _vm._e(),
-          _vm._v(" "),
-          _c("span", { staticClass: "bl-label-14" }, [
-            _vm._v(
-              "\n                " +
-                _vm._s(_vm.marital_status) +
-                "\n            "
-            )
-          ]),
           _vm._v(" "),
           _vm.english_skill
             ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
