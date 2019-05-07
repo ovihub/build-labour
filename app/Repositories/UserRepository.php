@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Skills\Skill;
 use App\Models\Users\UserSkill;
 use App\Models\Users\WorkerDetail;
 use App\User;
@@ -49,53 +50,26 @@ class UserRepository extends AbstractRepository
 
         $user = JWTAuth::toUser();
 
+        UserSkill::where('user_id', '=', $user->id)->delete();
+
         if ($request->skills) {
 
             $skills = $request->skills;
 
-            $existingSkills = UserSkill::where('user_id', $user->id)->exists();
-
-            if (!$existingSkills) {
-
-                UserSkill::create([
-                    'user_id' => $user->id,
-                    'skill_id' => 1,
-                    'level_id' => 1
-                ]);
-
-                UserSkill::create([
-                    'user_id' => $user->id,
-                    'skill_id' => 2,
-                    'level_id' => 1
-                ]);
-
-                UserSkill::create([
-                    'user_id' => $user->id,
-                    'skill_id' => 3,
-                    'level_id' => 1
-                ]);
-
-                UserSkill::create([
-                    'user_id' => $user->id,
-                    'skill_id' => 4,
-                    'level_id' => 1
-                ]);
-
-                UserSkill::create([
-                    'user_id' => $user->id,
-                    'skill_id' => 5,
-                    'level_id' => 1
-                ]);
-            }
-
             foreach ($skills as $skill) {
+                
+                if ($skill['skill_name'] != '') {
 
-                $existingSkill = UserSkill::where('user_id', $user->id)->where('skill_id', $skill['skill_id'])->first();
-
-                if ($existingSkill) {
-
-                    $existingSkill->level_id = $skill['level_id'];
-                    $existingSkill->save();
+                    $newSkill = Skill::firstOrCreate([
+                        'name' => $skill['skill_name']
+                    ]);
+                    
+                    UserSkill::updateOrCreate([
+                        'user_id' => $user->id,
+                        'skill_id' => $newSkill->id,
+                    ], [
+                        'level_id' => $skill['level_id']
+                    ]);
                 }
             }
         }

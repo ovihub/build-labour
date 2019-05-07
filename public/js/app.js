@@ -4959,6 +4959,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4989,22 +5006,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         id: 3,
         name: 'Expert'
       }],
-      skills: [{
-        id: 1,
-        name: 'Quality Control'
-      }, {
-        id: 2,
-        name: 'Time Management'
-      }, {
-        id: 3,
-        name: 'Teamwork'
-      }, {
-        id: 4,
-        name: 'Communication Skills'
-      }, {
-        id: 5,
-        name: 'Can Accept Criticism'
-      }]
+      skills: []
     };
   },
   created: function created() {
@@ -5014,12 +5016,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (detailsArray.length == 0) {
         component.is_empty = true;
-        component.skills.map(function (skill) {
-          component.input.skills.push({
-            skill_id: skill.id,
-            skill_name: skill.name,
-            level_id: 1
-          });
+        component.input.skills.push({
+          skill_id: 0,
+          skill_name: '',
+          level_id: 1
         });
       } else {
         component.input.main_skill = component.main_skill;
@@ -5054,6 +5054,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     deleteRecord: function deleteRecord() {
       $('#deleteRecordModal').modal('show');
       Bus.$emit('deleteIndustrySkill', this.endpoints.delete);
+    },
+    addNewSkill: function addNewSkill() {
+      if (this.input.skills.length == 0 || this.input.skills.slice(-1)[0].skill_name !== '') {
+        this.input.skills.push({
+          skill_id: 0,
+          skill_name: '',
+          level_id: 1
+        });
+      }
+    },
+    removeSkill: function removeSkill(index) {
+      this.input.skills.splice(index, 1);
     },
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -50463,31 +50475,48 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._l(_vm.input.skills, function(skill) {
+                  _vm._l(_vm.input.skills, function(skill, index) {
                     return _c(
                       "div",
                       {
-                        key: skill.skill_id,
+                        key: index,
+                        ref: "skillItem-" + index,
+                        refInFor: true,
                         staticClass: "emp-row row-center"
                       },
                       [
-                        _c(
-                          "label",
-                          {
-                            staticClass:
-                              "emp-col-left skill-form-label text-md-right",
-                            staticStyle: { "margin-bottom": "0" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(skill.skill_name) +
-                                "\n                        "
-                            )
-                          ]
-                        ),
+                        _c("div", { staticClass: "emp-col-left" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: skill.skill_name,
+                                expression: "skill.skill_name"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              placeholder: "Enter your Industry Skill"
+                            },
+                            domProps: { value: skill.skill_name },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  skill,
+                                  "skill_name",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "emp-col-right" }, [
+                        _c("div", { staticClass: "emp-col-mid" }, [
                           _c(
                             "select",
                             {
@@ -50532,10 +50561,51 @@ var render = function() {
                             }),
                             0
                           )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "emp-col-right" }, [
+                          _c(
+                            "span",
+                            {
+                              staticClass: "edit-icon",
+                              on: {
+                                click: function($event) {
+                                  return _vm.removeSkill(index)
+                                }
+                              }
+                            },
+                            [
+                              _c("img", {
+                                attrs: {
+                                  src: "/img/icons/plus.png",
+                                  srcset:
+                                    "/img/icons/plus@2x.png" +
+                                    " 2x, " +
+                                    "/img/icons/plus@3x.png" +
+                                    " 3x"
+                                }
+                              })
+                            ]
+                          )
                         ])
                       ]
                     )
-                  })
+                  }),
+                  _vm._v(" "),
+                  _c("center", [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "btn btn-link btn-delete",
+                        on: { click: _vm.addNewSkill }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            Add Another\n                        "
+                        )
+                      ]
+                    )
+                  ])
                 ],
                 2
               )

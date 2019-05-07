@@ -29,17 +29,34 @@
                             What are your main industry skills?
                         </div>
 
-                        <div class="emp-row row-center" v-for="skill in input.skills" :key="skill.skill_id">
-                            <label class="emp-col-left skill-form-label text-md-right" style="margin-bottom:0">
-                                {{ skill.skill_name }}
-                            </label>
+                        <div class="emp-row row-center"
+                            :ref="'skillItem-' + index" 
+                            v-for="(skill, index) in input.skills"
+                            :key="index">
+                            
+                            <div class="emp-col-left">
+                                <input class="form-control" type="text" placeholder="Enter your Industry Skill" v-model="skill.skill_name" />
+                            </div>
 
-                            <div class="emp-col-right">
+                            <div class="emp-col-mid">
                                 <select v-model="skill.level_id">
                                     <option v-for="level in levels" :key="level.id" v-bind:value="level.id">{{ level.name }}</option>
                                 </select>  
                             </div>
+
+                            <div class="emp-col-right">
+                                <span class="edit-icon" @click="removeSkill(index)">
+                                    <img src="/img/icons/plus.png"
+                                        srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
+                                </span>
+                            </div>
                         </div>
+
+                        <center>
+                            <div class="btn btn-link btn-delete" @click="addNewSkill">
+                                Add Another
+                            </div>
+                        </center>
 
                     </form>
                 </template>
@@ -119,13 +136,7 @@
                     { id: 2, name: 'Competent' },
                     { id: 3, name: 'Expert' },
                 ],
-                skills: [
-                    { id: 1, name: 'Quality Control' },
-                    { id: 2, name: 'Time Management' },
-                    { id: 3, name: 'Teamwork' },
-                    { id: 4, name: 'Communication Skills' },
-                    { id: 5, name: 'Can Accept Criticism' },
-                ],
+                skills: [],
             }
         },
 
@@ -137,12 +148,10 @@
 
                 if (detailsArray.length == 0) {
                     component.is_empty = true;
-                    component.skills.map(function(skill) {
-                        component.input.skills.push({
-                            skill_id: skill.id,
-                            skill_name: skill.name,
-                            level_id: 1
-                        })
+                    component.input.skills.push({
+                        skill_id: 0,
+                        skill_name: '',
+                        level_id: 1
                     });
 
                 } else {
@@ -187,6 +196,20 @@
                 $('#deleteRecordModal').modal('show');
 
                 Bus.$emit('deleteIndustrySkill', this.endpoints.delete);
+            },
+
+            addNewSkill() {
+                if (this.input.skills.length == 0 || this.input.skills.slice(-1)[0].skill_name !== '') {
+                    this.input.skills.push({
+                        skill_id: 0,
+                        skill_name: '',
+                        level_id: 1
+                    });
+                }
+            },
+
+            removeSkill(index) {
+                this.input.skills.splice(index, 1);
             },
 
             async submit() {

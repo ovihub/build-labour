@@ -921,15 +921,24 @@ p.bl-nav-tab-label {
   max-width: 58.5%;
   margin-right: 26px;
 }
-.emp-col-right {
-  flex: 0 0 47.5%;
-  max-width: 47.5%;
-  margin-left: 12px;
-}
+
 .emp-col-left {
-  flex: 0 0 47.5%;
-  max-width: 47.5%;
+  flex: 0 0 44.5%;
+  max-width: 44.5%;
   margin-right: 12px;
+}
+.emp-col-mid {
+  flex: 0 0 44.5%;
+  max-width: 44.5%;
+  margin-left: 12px;
+
+  select {
+    background-position: 195px; 
+  }
+}
+.emp-col-right {
+  flex: 0 0 6%;
+  max-width: 6%;
 }
 .emp-label {
   font-size: 16px;
