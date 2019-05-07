@@ -46192,7 +46192,7 @@ var render = function() {
               attrs: {
                 cls: "bl-nav-profile-pic",
                 size: "32",
-                border: "2",
+                border: "0",
                 "is-logout": true
               }
             })
@@ -50855,7 +50855,7 @@ var render = function() {
                 { on: { click: _vm.onClickProfilePhoto } },
                 [
                   _c("avatar", {
-                    attrs: { cls: "profile-picture", size: "110", border: "7" }
+                    attrs: { cls: "profile-picture", size: "110", border: "0" }
                   })
                 ],
                 1
