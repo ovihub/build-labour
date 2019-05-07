@@ -38,7 +38,7 @@
                             <div class="emp-row-2 row-center">
                                 <div class="emp-col-left-2">
                                     <div class="bl-slider">
-                                        <input type="range" min="0" max="500" step="50" class="slider" :style="maxDistance" v-model="input.max_distance">
+                                        <input type="range" min="0" max="500" step="5" class="slider" :style="maxDistance" v-model="input.max_distance">
                                     </div>
                                 </div>
                                 <div class="emp-col-right-2">

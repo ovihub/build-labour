@@ -58,7 +58,11 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
         Route::middleware([ 'jwt' ])->group(function () {
 
             Route::post('next-role', 'ApiWorkerController@updateNextRole');
+            Route::delete('next-role', 'ApiWorkerController@deleteNextRole');
+
             Route::post('about-me', 'ApiWorkerController@updateNextRole');
+            Route::delete('about-me', 'ApiWorkerController@deleteAboutMe');
+
             Route::post('optional', 'ApiWorkerController@updateOptional');
             Route::post('introduction', 'ApiWorkerController@updateIntroduction');
             Route::get('experiences', 'ApiWorkerController@experiences');

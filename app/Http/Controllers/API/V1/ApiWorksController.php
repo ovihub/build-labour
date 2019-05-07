@@ -301,5 +301,4 @@ class ApiWorksController extends ApiBaseController
 
         return $this->apiSuccessResponse( compact( 'workExp' ), true, 'Successfully deleted work experience', self::HTTP_STATUS_REQUEST_OK);
     }
-
 }

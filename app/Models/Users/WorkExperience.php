@@ -58,12 +58,29 @@ class WorkExperience extends BaseModel
 
         $validator = \Validator::make($data, $this->rules());
 
+
         if ( $validator->fails() ) {
 
             $this->errors = $validator->errors()->all();
             $this->errorsDetail = $validator->errors()->toArray();
 
             return false;
+        }
+
+        if (isset($data['end_year']) && isset($data['end_month'])) {
+
+            $start = date("Y-m",strtotime($data['start_year'] . "-" . $data['start_month']));
+            $end = date("Y-m",strtotime($data['end_year'] . "-" . $data['end_month']));
+
+            if ($start > $end) { // invalid employment
+
+                $validator->errors()->add( 'end_year', 'End of employment should not be earlier from the start' );
+
+                $this->errors = $validator->errors()->all();
+                $this->errorsDetail = $validator->errors()->toArray();
+
+                return false;
+            }
         }
 
         return true;

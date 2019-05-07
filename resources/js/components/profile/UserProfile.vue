@@ -48,6 +48,7 @@
                         <div class="skill-label">Education</div>
                         <div class="me-row">
                             <select v-model="input.education_id">
+                                <option value="" disabled selected v-if="educations.length == 0">No education added yet</option>
                                 <option v-for="(education, index) in educations" :key="index" v-bind:value="education.id">
                                     {{ education.course }}
                                 </option>
@@ -78,7 +79,7 @@
             <div class="profile-header" >
                 <img v-if="profile_photo_url" class="profile-picture" :src="profile_photo_url" alt="" @click="onClickProfilePhoto">
                 <div v-else @click="onClickProfilePhoto">
-                    <avatar cls="profile-picture" size="110" border="7"></avatar>
+                    <avatar cls="profile-picture" size="110" border="0"></avatar>
                 </div>
             </div>
             <div class="profile-content-p20 pb-4">

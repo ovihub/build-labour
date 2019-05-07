@@ -134,8 +134,8 @@ window.Helper = {
             return months;
         },
 
-        getYears() {
-            let startYear = new Date().getFullYear(), years = [], endYear = 1980;
+        getYears(startYear = new Date().getFullYear()) {
+            let years = [], endYear = 1950;
 
             while ( startYear >= endYear ) {
                 years.push(startYear--);

@@ -121,5 +121,4 @@ class UserRepository extends AbstractRepository
         return true;
     }
 
-
 }
