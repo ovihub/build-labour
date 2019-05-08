@@ -142,11 +142,12 @@ class WorkerRepository extends AbstractRepository
 
         $education = Education::find($request->id);
         $user = JWTAuth::toUser();
-        event(new DeleteEducation($user));
 
         if ($education) {
 
             $education->delete();
+
+            event(new DeleteEducation($user));
             return $education;
         }
 
