@@ -266,3 +266,41 @@
 .responsibilities {
   margin-left: 78px;
 }
+
+span.ticket-delete:hover {
+  cursor: pointer;
+}
+
+.ticket-delete {
+  position: absolute;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: #a2b2b7;
+  color: #fff;
+  border-radius: 100%;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.edit-tickets-search {
+
+  .ticket-search {
+    width: 80%;
+    padding-right: 20px;
+  }
+
+  .btn-wrapper {
+    width: 20%;
+    position: relative;
+
+    button {
+      right: 0;
+      position: absolute;
+      height: 100%;
+      margin: 0;
+      width: 100%;
+    }
+  }
+}
