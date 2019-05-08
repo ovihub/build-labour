@@ -12410,6 +12410,12 @@ p.bl-nav-tab-label {
   cursor: pointer;
 }
 
+.close-icon {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+}
+
 .edit-icon {
   float: right;
 }
@@ -12659,6 +12665,18 @@ p.bl-nav-tab-label {
   flex: 0 0 58.5%;
   max-width: 58.5%;
   margin-right: 26px;
+}
+
+.role-col-left {
+  flex: 0 0 47.5%;
+  max-width: 47.5%;
+  margin-right: 12px;
+}
+
+.role-col-right {
+  flex: 0 0 47.5%;
+  max-width: 47.5%;
+  margin-left: 12px;
 }
 
 .emp-col-left {

@@ -24,10 +24,10 @@
                                 When could this happen?
                             </div>
                             <div class="emp-row row-center" style="margin-top:17px">
-                                <div class="emp-col-left">
+                                <div class="role-col-left">
                                     <input class="form-control" type="text" placeholder="Enter number of Months" v-model="input.when" />
                                 </div>
-                                <div class="emp-col-right">
+                                <div class="role-col-right">
                                     <label style="margin-bottom:0">{{ formatWhenMonth(input.when) }}</label>
                                 </div>
                             </div>

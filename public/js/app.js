@@ -4981,6 +4981,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -50192,7 +50193,7 @@ var render = function() {
                         staticStyle: { "margin-top": "17px" }
                       },
                       [
-                        _c("div", { staticClass: "emp-col-left" }, [
+                        _c("div", { staticClass: "role-col-left" }, [
                           _c("input", {
                             directives: [
                               {
@@ -50219,7 +50220,7 @@ var render = function() {
                           })
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "emp-col-right" }, [
+                        _c("div", { staticClass: "role-col-right" }, [
                           _c(
                             "label",
                             { staticStyle: { "margin-bottom": "0" } },
@@ -50780,7 +50781,7 @@ var render = function() {
                           _c(
                             "span",
                             {
-                              staticClass: "edit-icon",
+                              staticClass: "close-icon",
                               on: {
                                 click: function($event) {
                                   return _vm.removeSkill(index)
@@ -50788,16 +50789,9 @@ var render = function() {
                               }
                             },
                             [
-                              _c("img", {
-                                attrs: {
-                                  src: "/img/icons/plus.png",
-                                  srcset:
-                                    "/img/icons/plus@2x.png" +
-                                    " 2x, " +
-                                    "/img/icons/plus@3x.png" +
-                                    " 3x"
-                                }
-                              })
+                              _vm._v(
+                                "\n                                ×\n                                "
+                              )
                             ]
                           )
                         ])
@@ -66741,8 +66735,8 @@ window.Helper = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\appetiser\build-labour-backend\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\appetiser\build-labour-backend\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
