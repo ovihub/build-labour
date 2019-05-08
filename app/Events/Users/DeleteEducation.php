@@ -27,9 +27,14 @@ class DeleteEducation
         if ($user->workerDetail) {
 
             // check the current user education
-            $user->workerDetail->education_id = null;
-            $user->workerDetail->save();
 
+            $education = Education::find($user->workerDetail->education_id);
+
+            if (!$education) {
+
+                $user->workerDetail->education_id = null;
+                $user->workerDetail->save();
+            }
         }
     }
 
