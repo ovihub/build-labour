@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Models\Users;
+namespace App\Models\Tickets;
 
 use App\Models\BaseModel;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class Ticket extends BaseModel
@@ -14,10 +13,7 @@ class Ticket extends BaseModel
     protected $table = 'tickets';
     protected $primaryKey = 'id';
 
-    protected $fillable = [ 'ticket', 'description', 'user_id' ];
-
-    const UPDATED_AT = null;
-    const CREATED_AT = null;
+    protected $fillable = [ 'ticket', 'description', 'created_by' ];
 
     /**
      * @return array
@@ -27,7 +23,7 @@ class Ticket extends BaseModel
         return [
             'ticket'         => 'required|min:5',
             'description'    => 'required|min:5',
-            'user_id'        => 'required|integer'
+            'created_by'     => 'required|integer'
         ];
     }
 
@@ -58,21 +54,19 @@ class Ticket extends BaseModel
         $this->userId = $userId;
     }
 
-    public function User() {
+    public function CreatedBy() {
 
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
     public function store(Request $r) {
 
         $data = $r->all();
-        $data['user_id'] = $this->userId;
 
         if( ! $this->validate( $data )) {
 
             return false;
         }
-
 
         $this->fill( $data );
 
@@ -81,12 +75,6 @@ class Ticket extends BaseModel
         if ($r->$pk) {
 
             $this->exists = true;
-            $data['updated_at'] = Carbon::now();
-
-        } else {
-
-            $data['created_at'] = Carbon::now();
-            $data['updated_at'] = Carbon::now();
         }
 
         try{

@@ -3,11 +3,22 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Models\Users\Education;
+use App\Repositories\WorkerRepository;
 use Illuminate\Http\Request;
 use JWTAuth;
 
 class ApiUserEducationsController extends ApiBaseController
 {
+    /**
+     * @var WorkerRepository
+     */
+    protected $workerRepo;
+
+    public function __construct(WorkerRepository $repository) {
+
+        $this->workerRepo = $repository;
+    }
+
     /**
      * @OA\Post(
      *      path="/user/education",
@@ -33,14 +44,14 @@ class ApiUserEducationsController extends ApiBaseController
      *                      example="University of Melbourne"
      *                  ),
      *                  @OA\Property(
-     *                      property="start_month",
-     *                      description="<b>Required</b> Start Month",
+     *                      property="start_year",
+     *                      description="<b>Required</b> Start Year",
      *                      type="integer",
      *                      example="11"
      *                  ),
      *                  @OA\Property(
-     *                      property="end_month",
-     *                      description="<b>Required</b> End Month",
+     *                      property="end_year",
+     *                      description="<b>Required</b> End Year",
      *                      type="integer",
      *                      example="12"
      *                  ),
@@ -143,22 +154,16 @@ class ApiUserEducationsController extends ApiBaseController
      *                      example="University of Victoria"
      *                  ),
      *                  @OA\Property(
-     *                      property="start_month",
-     *                      description="<b>Required</b> Start Month",
+     *                      property="start_year",
+     *                      description="<b>Required</b> Start Year",
      *                      type="integer",
      *                      example="11"
      *                  ),
      *                  @OA\Property(
-     *                      property="end_month",
-     *                      description="<b>Required</b> End Month",
+     *                      property="end_year",
+     *                      description="<b>Required</b> End Year",
      *                      type="integer",
      *                      example="12"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="description",
-     *                      description="<b>Required</b> Company",
-     *                      type="string",
-     *                      example="Where I study 5 years on this course."
      *                  ),
      *              ),
      *          ),
@@ -269,22 +274,20 @@ class ApiUserEducationsController extends ApiBaseController
     public function delete(Request $request)
     {
 
-        $education = Education::find($request->id);
-
-        if (!$education) {
-
-            return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
-        }
-
         try {
 
-            $education->delete();
+            $result = $this->workerRepo->deleteEducation($request);
+
+            if (!$result) {
+
+                return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
+            }
 
         } catch(\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'education' ), true, 'Successfully deleted a Skill', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'education' ), true, 'Successfully deleted an education', self::HTTP_STATUS_REQUEST_OK);
     }
 }

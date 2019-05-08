@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Events\Users\DeleteEducation;
+use App\Models\Users\Education;
 use App\Models\Users\WorkerDetail;
 use App\Models\Users\WorkExperience;
 use App\Models\Users\WorkExperienceResponsibility;
@@ -136,4 +138,20 @@ class WorkerRepository extends AbstractRepository
         return true;
     }
 
+    public function deleteEducation(Request $request) {
+
+        $education = Education::find($request->id);
+        $user = JWTAuth::toUser();
+
+        if ($education) {
+
+            $education->delete();
+
+            event(new DeleteEducation($user));
+            return $education;
+        }
+
+
+        return false;
+    }
 }

@@ -63,6 +63,9 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             Route::post('about-me', 'ApiWorkerController@updateNextRole');
             Route::delete('about-me', 'ApiWorkerController@deleteAboutMe');
 
+            Route::get('tickets', 'ApiUserTicketsController@tickets');
+            Route::post('tickets', 'ApiUserTicketsController@updateTickets');
+
             Route::post('optional', 'ApiWorkerController@updateOptional');
             Route::post('introduction', 'ApiWorkerController@updateIntroduction');
             Route::get('experiences', 'ApiWorkerController@experiences');
@@ -91,6 +94,13 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 
     Route::get('roles', 'ApiRolesController@index');
 
+    Route::prefix('tickets')->group(function() {
+
+        Route::middleware([ 'jwt' ])->group(function () {
+
+            Route::get('search', 'ApiTicketsController@search');
+        });
+    });
 
 //    Route::prefix('device')->middleware([ 'jwt' ])->group(function () {
 //        Route::post( 'register', 'ApiDevicesController@registerDevice' );

@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\Critical\DatabaseRerun::class
+        Commands\Critical\DatabaseRerun::class,
+        Commands\Critical\LoadWorkerDetails::class
     ];
 
     /**

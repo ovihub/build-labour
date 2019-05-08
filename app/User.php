@@ -7,11 +7,12 @@
 namespace App;
 
 use App\Models\Companies\Company;
+use App\Models\Tickets\Ticket;
 use App\Models\Users\Education;
 use App\Models\Users\FirebaseUsers;
-use App\Models\Users\Ticket;
 use App\Models\Users\Users;
 use App\Models\Users\UserSkill;
+use App\Models\Users\UserTicket;
 use App\Models\Users\WorkerDetail;
 use App\Models\Users\WorkExperience;
 use Illuminate\Notifications\Notifiable;
@@ -92,7 +93,7 @@ class User extends Users implements JWTSubject
      */
     public function Tickets() {
 
-        return $this->hasMany( Ticket::class, 'user_id', 'id');
+        return $this->belongsToMany(Ticket::class, 'user_tickets', 'user_id', 'ticket_id');
     }
 
     /**

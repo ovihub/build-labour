@@ -1,8 +1,9 @@
 <?php
 
 use App\Models\Users\Education;
-use App\Models\Users\Ticket;
+use App\Models\Tickets\Ticket;
 use App\Models\Users\UserSkill;
+use App\Models\Users\UserTicket;
 use App\Models\Users\WorkerDetail;
 use App\Models\Users\WorkExperience;
 use App\Models\Users\WorkExperienceResponsibility;
@@ -167,43 +168,82 @@ class UsersTableSeeder extends Seeder
             Ticket::create([
                 'ticket' => 'TLILIC2001',
                 'description' => 'Licence to operate a Forklift Truck',
-                'user_id' => $user->id
+                'created_by' => $user->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ]);
 
             Ticket::create([
                 'ticket' => 'RIIHAN301D',
                 'description' => 'Elevating Work Platform Under 11m',
-                'user_id' => $user->id
+                'created_by' => $user->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ]);
 
-            Ticket::create([
+            $t1 = Ticket::create([
                 'ticket' => 'RIIWHS205D',
                 'description' => 'Control Traffic with Stop - Slow Bat',
-                'user_id' => $user->id
+                'created_by' => $user->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ]);
 
-            Ticket::create([
+            $t2 = Ticket::create([
                 'ticket' => 'TLILIC2001',
                 'description' => 'Licence to operate a Forklift Truck',
-                'user_id' => $user->id
+                'created_by' => $user->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ]);
 
-            Ticket::create([
+            $t3 = Ticket::create([
                 'ticket' => 'RIIHAN301D',
                 'description' => 'Control Traffic with Stop - Slow Bat',
-                'user_id' => $user->id
+                'created_by' => $user->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ]);
 
-            Ticket::create([
+            $t4 = Ticket::create([
                 'ticket' => 'RIIWHS205D',
                 'description' => 'Licence to operate a Forklift Truck',
-                'user_id' => $user->id
+                'created_by' => $user->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ]);
 
-            Ticket::create([
+            $t5 = Ticket::create([
                 'ticket' => 'TLILIC2001',
                 'description' => 'Licence to operate a Forklift Truck',
-                'user_id' => $user->id
+                'created_by' => $user->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
+
+            UserTicket::create([
+                'user_id' => $user->id,
+                'ticket_id' => $t1->id
+            ]);
+
+            UserTicket::create([
+                'user_id' => $user->id,
+                'ticket_id' => $t2->id
+            ]);
+
+            UserTicket::create([
+                'user_id' => $user->id,
+                'ticket_id' => $t3->id
+            ]);
+
+            UserTicket::create([
+                'user_id' => $user->id,
+                'ticket_id' => $t4->id
+            ]);
+
+            UserTicket::create([
+                'user_id' => $user->id,
+                'ticket_id' => $t5->id
             ]);
 
             UserSkill::create([
