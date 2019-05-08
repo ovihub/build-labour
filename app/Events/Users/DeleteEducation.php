@@ -29,7 +29,7 @@ class DeleteEducation
             // check the current user education
             $user->workerDetail->education_id = null;
             $user->workerDetail->save();
-            
+
         }
     }
 
