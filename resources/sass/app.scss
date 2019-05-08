@@ -692,6 +692,24 @@ p.bl-nav-tab-label {
     cursor: pointer;
   }
 }
+.add-button {
+  height: 100%;
+  width: 100%;
+  margin-top: 0;
+}
+.delete-icon {
+  position: absolute;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: #a2b2b7;
+  color: #fff;
+  border-radius: 100%;
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
 .add-icon {
   float: right;
 
@@ -706,9 +724,7 @@ p.bl-nav-tab-label {
   }
 }
 .close-icon {
-  float: right;
-  font-size: 24px;
-  cursor: pointer;
+  margin-top: -10px;
 }
 .edit-icon {
   float: right;
@@ -926,6 +942,15 @@ p.bl-nav-tab-label {
   max-width: 58.5%;
   margin-right: 26px;
 }
+.ticket-col-left {
+  flex: 0 0 77.5%;
+  max-width: 77.5%;
+  margin-right: 12px;
+}
+.ticket-col-right {
+  flex: 0 0 20%;
+  max-width: 20%;
+}
 .role-col-left {
   flex: 0 0 47.5%;
   max-width: 47.5%;
@@ -937,13 +962,13 @@ p.bl-nav-tab-label {
   margin-left: 12px;
 }
 .emp-col-left {
-  flex: 0 0 44.5%;
-  max-width: 44.5%;
+  flex: 0 0 43.5%;
+  max-width: 43.5%;
   margin-right: 12px;
 }
 .emp-col-mid {
-  flex: 0 0 44.5%;
-  max-width: 44.5%;
+  flex: 0 0 43.5%;
+  max-width: 43.5%;
   margin-left: 12px;
 
   select {
@@ -951,8 +976,8 @@ p.bl-nav-tab-label {
   }
 }
 .emp-col-right {
-  flex: 0 0 6%;
-  max-width: 6%;
+  flex: 0 0 7%;
+  max-width: 7%;
 }
 .emp-label {
   font-size: 16px;

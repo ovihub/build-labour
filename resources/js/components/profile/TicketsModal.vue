@@ -8,33 +8,31 @@
 
         <template slot="custom-modal-content">
             <form class="modal-form" method="POST" @submit.prevent="submit">
-
-                <div class="form-group">
-                    <div class="emp-row">
-                        <input class="form-control" type="text" v-model="keyword" v-on:input="onSearch" placeholder="search"/>
-                        <button class="pull-right" type="button" @click="onAdd()">
-                            Add
-                        </button>
-                        <span class="err-msg" v-if="errors.ticket.length > 0">
-                            {{ errors.ticket }}
-                        </span>
+                <div class="emp-row">
+                    <div class="ticket-col-left">
+                        <input class="form-control" type="text" v-model="keyword" v-on:input="onSearch" placeholder="Search tickets"/>
                     </div>
-
-                    <div class="emp-row" style="margin-top:0" v-if="searchedTickets.length > 0">
-                        <ul class="list-group">
-                            <li class="list-group-item" v-for="(ticket, idx) in searchedTickets" :key="idx"
-                                @click="onSelect(ticket)">
-                                {{ ticket.ticket }} - {{ ticket.description }}
-                            </li>
-                        </ul>
+                    <div class="ticket-col-right">
+                        <button class="add-button" type="button" @click="onAdd()">Add</button>
                     </div>
+                    <span class="err-msg" v-if="errors.ticket.length > 0">
+                        {{ errors.ticket }}
+                    </span>
+                </div>
 
-                    <div class="emp-row" v-if="tickets.length > 0" v-for="(ticket, idx) in tickets">
-                        <span>{{ ticket.ticket }} - {{ ticket.description }}</span>
+                <div class="emp-row" style="margin-top:0" v-if="searchedTickets.length > 0">
+                    <ul class="list-group">
+                        <li class="list-group-item" v-for="(ticket, idx) in searchedTickets" :key="idx"
+                            @click="onSelect(ticket)">
+                            {{ ticket.ticket }} - {{ ticket.description }}
+                        </li>
+                    </ul>
+                </div>
 
-                        <span class="ticket-delete" @click="onDelete(idx)">X</span>
-                    </div>
+                <div class="emp-row" v-for="(ticket, idx) in tickets" :key="idx">
+                    <span>{{ ticket.ticket }} - {{ ticket.description }}</span>
 
+                    <span class="delete-icon" @click="onDelete(idx)">X</span>
                 </div>
             </form>
         </template>

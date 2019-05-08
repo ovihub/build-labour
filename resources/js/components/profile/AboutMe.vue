@@ -14,8 +14,8 @@
                         <form class="modal-form" method="POST" @submit.prevent="submit">
                             <div class="me-label">Gender</div>
                             <div class="me-row">
-                                <div class="emp-col-left">
-                                    <select v-model="input.gender">
+                                <div class="role-col-left">
+                                    <select v-model="input.gender" style="background-position:210px">
                                         <option key="1" value="Male">Male</option>
                                         <option key="2" value="Female">Female</option>
                                         <option key="3" value="Other">Other</option>

@@ -67,7 +67,7 @@
 
                 <div class="emp-label">Duration of Employment</div>
                 <div class="emp-row" style="margin-top:36px">
-                    <div class="emp-col-left">
+                    <div class="role-col-left">
                         <div class="emp-form-label">Start Month</div>
                         <select v-model="start_month">
                             <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
@@ -76,7 +76,7 @@
                             {{ errors.start_month }}
                         </span>
                     </div>
-                    <div class="emp-col-right">
+                    <div class="role-col-right">
                         <div class="emp-form-label">Start Year</div>
                         <select v-model="start_year">
                             <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
@@ -88,7 +88,7 @@
                 </div>
 
                 <div class="emp-row" v-if="! isCurrent">
-                    <div class="emp-col-left">
+                    <div class="role-col-left">
                         <div class="emp-form-label">End Month</div>
                         <select v-model="end_month">
                             <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
@@ -98,7 +98,7 @@
                         </span>
                     </div>
 
-                    <div class="emp-col-right">
+                    <div class="role-col-right">
                         <div class="emp-form-label">End Year</div>
                         <select v-model="end_year">
                             <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>

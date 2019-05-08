@@ -15,11 +15,11 @@
                     <form class="modal-form" method="POST" @submit.prevent="submit">
                         <div class="me-label" style="margin-bottom:17px">User Details</div>
                         <div class="me-row">
-                            <div class="emp-col-left">
+                            <div class="role-col-left">
                                 <div class="emp-form-label">First Name</div>
                                 <input class="form-control" type="text" v-model="input.first_name" />
                             </div>
-                            <div class="emp-col-right">
+                            <div class="role-col-right">
                                 <div class="emp-form-label">Last Name</div>
                                 <input class="form-control" type="text" v-model="input.last_name" />
                             </div>

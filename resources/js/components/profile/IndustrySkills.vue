@@ -45,11 +45,12 @@
                             </div>
 
                             <div class="emp-col-right">
-                                <span class="close-icon" @click="removeSkill(index)">
+                                <span class="delete-icon close-icon" @click="removeSkill(index)">X</span>
+                                <!-- <span class="close-icon" @click="removeSkill(index)">
                                     &times;
-                                    <!-- <img src="/img/icons/plus.png"
-                                        srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x"> -->
-                                </span>
+                                    <img src="/img/icons/plus.png"
+                                        srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
+                                </span> -->
                             </div>
                         </div>
 

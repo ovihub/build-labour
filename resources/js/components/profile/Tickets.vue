@@ -4,14 +4,14 @@
 
             <tickets-modal></tickets-modal>
 
-            <span class="add-icon"
+            <span class="edit-icon"
                   data-toggle="modal"
                   data-backdrop="static"
                   data-keyboard="false"
                   data-target="#modalTickets">
 
-                <img src="/img/icons/plus.png"
-                    srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
+                <img src="/img/icons/editbutton.png"
+                    srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
             </span>
             
             <div class="profile-title">

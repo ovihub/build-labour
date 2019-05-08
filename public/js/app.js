@@ -4982,6 +4982,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5441,8 +5442,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
 //
 //
 //
@@ -48067,7 +48066,7 @@ var render = function() {
                     _c("div", { staticClass: "me-label" }, [_vm._v("Gender")]),
                     _vm._v(" "),
                     _c("div", { staticClass: "me-row" }, [
-                      _c("div", { staticClass: "emp-col-left" }, [
+                      _c("div", { staticClass: "role-col-left" }, [
                         _c(
                           "select",
                           {
@@ -48079,6 +48078,7 @@ var render = function() {
                                 expression: "input.gender"
                               }
                             ],
+                            staticStyle: { "background-position": "210px" },
                             on: {
                               change: function($event) {
                                 var $$selectedVal = Array.prototype.filter
@@ -48816,7 +48816,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "emp-row" }, [
-              _c("div", { staticClass: "emp-col-left" }, [
+              _c("div", { staticClass: "role-col-left" }, [
                 _c("div", { staticClass: "emp-form-label" }, [
                   _vm._v("Start Month")
                 ]),
@@ -48869,7 +48869,7 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "emp-col-right" }, [
+              _c("div", { staticClass: "role-col-right" }, [
                 _c("div", { staticClass: "emp-form-label" }, [
                   _vm._v("Start Year")
                 ]),
@@ -48924,7 +48924,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "emp-row" }, [
-              _c("div", { staticClass: "emp-col-left" }, [
+              _c("div", { staticClass: "role-col-left" }, [
                 _c("div", { staticClass: "emp-form-label" }, [
                   _vm._v("End Month")
                 ]),
@@ -48977,7 +48977,7 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "emp-col-right" }, [
+              _c("div", { staticClass: "role-col-right" }, [
                 _c("div", { staticClass: "emp-form-label" }, [
                   _vm._v("End Year")
                 ]),
@@ -49716,7 +49716,7 @@ var render = function() {
               "div",
               { staticClass: "emp-row", staticStyle: { "margin-top": "36px" } },
               [
-                _c("div", { staticClass: "emp-col-left" }, [
+                _c("div", { staticClass: "role-col-left" }, [
                   _c("div", { staticClass: "emp-form-label" }, [
                     _vm._v("Start Month")
                   ]),
@@ -49769,7 +49769,7 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "emp-col-right" }, [
+                _c("div", { staticClass: "role-col-right" }, [
                   _c("div", { staticClass: "emp-form-label" }, [
                     _vm._v("Start Year")
                   ]),
@@ -49826,7 +49826,7 @@ var render = function() {
             _vm._v(" "),
             !_vm.isCurrent
               ? _c("div", { staticClass: "emp-row" }, [
-                  _c("div", { staticClass: "emp-col-left" }, [
+                  _c("div", { staticClass: "role-col-left" }, [
                     _c("div", { staticClass: "emp-form-label" }, [
                       _vm._v("End Month")
                     ]),
@@ -49879,7 +49879,7 @@ var render = function() {
                       : _vm._e()
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "emp-col-right" }, [
+                  _c("div", { staticClass: "role-col-right" }, [
                     _c("div", { staticClass: "emp-form-label" }, [
                       _vm._v("End Year")
                     ]),
@@ -50781,18 +50781,14 @@ var render = function() {
                           _c(
                             "span",
                             {
-                              staticClass: "close-icon",
+                              staticClass: "delete-icon close-icon",
                               on: {
                                 click: function($event) {
                                   return _vm.removeSkill(index)
                                 }
                               }
                             },
-                            [
-                              _vm._v(
-                                "\n                                ×\n                                "
-                              )
-                            ]
+                            [_vm._v("X")]
                           )
                         ])
                       ]
@@ -51228,7 +51224,7 @@ var staticRenderFns = [
     return _c(
       "span",
       {
-        staticClass: "add-icon",
+        staticClass: "edit-icon",
         attrs: {
           "data-toggle": "modal",
           "data-backdrop": "static",
@@ -51239,11 +51235,11 @@ var staticRenderFns = [
       [
         _c("img", {
           attrs: {
-            src: "/img/icons/plus.png",
+            src: "/img/icons/editbutton.png",
             srcset:
-              "/img/icons/plus@2x.png" +
+              "/img/icons/editbutton@2x.png" +
               " 2x, " +
-              "/img/icons/plus@3x.png" +
+              "/img/icons/editbutton@3x.png" +
               " 3x"
           }
         })
@@ -51322,135 +51318,125 @@ var render = function() {
             }
           },
           [
-            _c(
-              "div",
-              { staticClass: "form-group" },
-              [
-                _c("div", { staticClass: "emp-row" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.keyword,
-                        expression: "keyword"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", placeholder: "search" },
-                    domProps: { value: _vm.keyword },
-                    on: {
-                      input: [
-                        function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.keyword = $event.target.value
-                        },
-                        _vm.onSearch
-                      ]
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "button",
+            _c("div", { staticClass: "emp-row" }, [
+              _c("div", { staticClass: "ticket-col-left" }, [
+                _c("input", {
+                  directives: [
                     {
-                      staticClass: "pull-right",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.onAdd()
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.keyword,
+                      expression: "keyword"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Search tickets" },
+                  domProps: { value: _vm.keyword },
+                  on: {
+                    input: [
+                      function($event) {
+                        if ($event.target.composing) {
+                          return
                         }
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                        Add\n                    "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _vm.errors.ticket.length > 0
-                    ? _c("span", { staticClass: "err-msg" }, [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(_vm.errors.ticket) +
-                            "\n                    "
-                        )
-                      ])
-                    : _vm._e()
-                ]),
-                _vm._v(" "),
-                _vm.searchedTickets.length > 0
-                  ? _c(
-                      "div",
-                      {
-                        staticClass: "emp-row",
-                        staticStyle: { "margin-top": "0" }
+                        _vm.keyword = $event.target.value
                       },
-                      [
-                        _c(
-                          "ul",
-                          { staticClass: "list-group" },
-                          _vm._l(_vm.searchedTickets, function(ticket, idx) {
-                            return _c(
-                              "li",
-                              {
-                                key: idx,
-                                staticClass: "list-group-item",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.onSelect(ticket)
-                                  }
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(ticket.ticket) +
-                                    " - " +
-                                    _vm._s(ticket.description) +
-                                    "\n                        "
-                                )
-                              ]
-                            )
-                          }),
-                          0
-                        )
-                      ]
+                      _vm.onSearch
+                    ]
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "ticket-col-right" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "add-button",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.onAdd()
+                      }
+                    }
+                  },
+                  [_vm._v("Add")]
+                )
+              ]),
+              _vm._v(" "),
+              _vm.errors.ticket.length > 0
+                ? _c("span", { staticClass: "err-msg" }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.errors.ticket) +
+                        "\n                "
                     )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm._l(_vm.tickets, function(ticket, idx) {
-                  return _vm.tickets.length > 0
-                    ? _c("div", { staticClass: "emp-row" }, [
-                        _c("span", [
-                          _vm._v(
-                            _vm._s(ticket.ticket) +
-                              " - " +
-                              _vm._s(ticket.description)
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "span",
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _vm.searchedTickets.length > 0
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "emp-row",
+                    staticStyle: { "margin-top": "0" }
+                  },
+                  [
+                    _c(
+                      "ul",
+                      { staticClass: "list-group" },
+                      _vm._l(_vm.searchedTickets, function(ticket, idx) {
+                        return _c(
+                          "li",
                           {
-                            staticClass: "ticket-delete",
+                            key: idx,
+                            staticClass: "list-group-item",
                             on: {
                               click: function($event) {
-                                return _vm.onDelete(idx)
+                                return _vm.onSelect(ticket)
                               }
                             }
                           },
-                          [_vm._v("X")]
+                          [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(ticket.ticket) +
+                                " - " +
+                                _vm._s(ticket.description) +
+                                "\n                    "
+                            )
+                          ]
                         )
-                      ])
-                    : _vm._e()
-                })
-              ],
-              2
-            )
-          ]
+                      }),
+                      0
+                    )
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._l(_vm.tickets, function(ticket, idx) {
+              return _c("div", { key: idx, staticClass: "emp-row" }, [
+                _c("span", [
+                  _vm._v(
+                    _vm._s(ticket.ticket) + " - " + _vm._s(ticket.description)
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "span",
+                  {
+                    staticClass: "delete-icon",
+                    on: {
+                      click: function($event) {
+                        return _vm.onDelete(idx)
+                      }
+                    }
+                  },
+                  [_vm._v("X")]
+                )
+              ])
+            })
+          ],
+          2
         )
       ]),
       _vm._v(" "),
@@ -51542,7 +51528,7 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "me-row" }, [
-                    _c("div", { staticClass: "emp-col-left" }, [
+                    _c("div", { staticClass: "role-col-left" }, [
                       _c("div", { staticClass: "emp-form-label" }, [
                         _vm._v("First Name")
                       ]),
@@ -51574,7 +51560,7 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "emp-col-right" }, [
+                    _c("div", { staticClass: "role-col-right" }, [
                       _c("div", { staticClass: "emp-form-label" }, [
                         _vm._v("Last Name")
                       ]),
