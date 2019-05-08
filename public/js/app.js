@@ -4071,6 +4071,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4096,11 +4102,31 @@ __webpack_require__.r(__webpack_exports__);
         component.employments.push(details);
       } else {
         component.employments[index] = details;
-        component.$refs['empJobRole-' + index][0].textContent = details.job_role;
-        component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
-        component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
-        component.$refs['empLocation-' + index][0].textContent = details.location;
-        component.$refs['empProjectSize-' + index][0].textContent = details.project_size;
+        var refJobRole = component.$refs['empJobRole-' + index],
+            refCompanyName = component.$refs['empCompanyName-' + index],
+            refPeriod = component.$refs['empPeriod-' + index],
+            refLocation = component.$refs['empLocation-' + index],
+            refProjectSize = component.$refs['empProjectSize-' + index];
+
+        if (refJobRole !== undefined) {
+          refJobRole[0].textContent = details.job_role;
+        }
+
+        if (refCompanyName !== undefined) {
+          refCompanyName[0].textContent = details.company_name;
+        }
+
+        if (refPeriod !== undefined) {
+          refPeriod[0].textContent = component.formatPeriod(details);
+        }
+
+        if (refLocation !== undefined) {
+          refLocation[0].textContent = details.location;
+        }
+
+        if (refProjectSize !== undefined) {
+          refProjectSize[0].textContent = details.project_size;
+        }
 
         for (var i = 0; i < details.responsibilities.length; i++) {
           if (component.$refs['empRespItem-' + index + '-' + i] !== undefined) {
@@ -4982,7 +5008,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4992,6 +5017,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       user_skills: [],
       firstColumn: [],
       secondColumn: [],
+      levels: [{
+        id: 1,
+        name: 'Beginner'
+      }, {
+        id: 2,
+        name: 'Competent'
+      }, {
+        id: 3,
+        name: 'Expert'
+      }],
       input: {
         main_skill: '',
         skills: []
@@ -5002,23 +5037,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       endpoints: {
         save: '/api/v1/user/skills',
         delete: '/api/v1/user/skills'
-      },
-      levels: [{
-        id: 1,
-        name: 'Beginner'
-      }, {
-        id: 2,
-        name: 'Competent'
-      }, {
-        id: 3,
-        name: 'Expert'
-      }]
+      }
     };
   },
   created: function created() {
     var component = this;
-    Bus.$on('industrySkillsDetails', function (detailsArray, skillsIntroduction) {
-      component.main_skill = skillsIntroduction;
+    Bus.$on('industrySkillsDetails', function (detailsArray, skillsIntro) {
+      component.main_skill = skillsIntro;
+      component.user_skills = detailsArray;
 
       if (detailsArray.length == 0) {
         component.is_empty = true;
@@ -5029,8 +5055,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
       } else {
         component.input.main_skill = component.main_skill;
-        component.input.skills = detailsArray;
-        component.user_skills = detailsArray;
+        component.input.skills = component.user_skills;
       }
 
       component.display();
@@ -5092,7 +5117,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   $('#modalIndustrySkill').modal('hide');
                   component.is_empty = false;
                   component.main_skill = data.data.main_skill;
-                  component.input.skills = data.data.skills;
                   component.user_skills = data.data.skills;
                   component.display();
                 }).catch(function (error) {
@@ -5407,8 +5431,6 @@ __webpack_require__.r(__webpack_exports__);
       component.display();
     });
     Bus.$on('passTickets', function (tickets) {
-      console.log('passTickets');
-      console.log(tickets);
       component.tickets = tickets;
       component.display();
     });
@@ -5495,6 +5517,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       keyword: '',
       disabled: false,
+      initTickets: [],
       tickets: [],
       searchedTickets: [],
       selectedTicket: false,
@@ -5510,15 +5533,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   created: function created() {
-    var component = this;
-    axios.get(this.endpoints.tickets, Utils.getBearerAuth()).then(function (res) {
-      console.log(res);
-      component.tickets = res.data.data.tickets;
-    });
+    this.getTickets();
   },
   methods: {
+    getTickets: function getTickets() {
+      var component = this;
+      axios.get(component.endpoints.tickets, Utils.getBearerAuth()).then(function (res) {
+        component.initTickets = res.data.data.tickets;
+        component.tickets = res.data.data.tickets;
+      });
+    },
     close: function close() {
       this.keyword = '';
+      this.tickets = this.initTickets;
     },
     onSearch: function onSearch() {
       var component = this;
@@ -5589,18 +5616,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 saveInput = {
                   tickets: tickets
                 };
-                _context.next = 5;
+                this.disabled = true;
+                _context.next = 6;
                 return axios.post(component.endpoints.save, saveInput, Utils.getBearerAuth()).then(function (response) {
                   var tickets = response.data.data.tickets;
-                  console.log(tickets);
                   $('#modalTickets').modal('hide');
                   Bus.$emit('passTickets', tickets);
-                }).catch(function (error) {});
-
-              case 5:
-                this.disabled = false;
+                }).catch(function (error) {
+                  Utils.handleError(error);
+                });
 
               case 6:
+                this.disabled = false;
+
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -47846,7 +47875,7 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "mt-0",
+            staticClass: "pull-right",
             attrs: { type: "submit", disabled: _vm.disabled },
             on: { click: _vm.uploadPhoto }
           },
@@ -49186,53 +49215,59 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "bl-col-2 ml-2" }, [
                         _c("div", { staticClass: "bl-display" }, [
-                          _c(
-                            "span",
-                            {
-                              ref: "empJobRole-" + index,
-                              refInFor: true,
-                              staticClass: "bl-label-16 bl-ml15"
-                            },
-                            [
-                              _vm._v(
-                                "\n                                " +
-                                  _vm._s(employment.job_role) +
-                                  "\n                            "
+                          employment.job_role
+                            ? _c(
+                                "span",
+                                {
+                                  ref: "empJobRole-" + index,
+                                  refInFor: true,
+                                  staticClass: "bl-label-16 bl-ml15"
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                \n                                " +
+                                      _vm._s(employment.job_role) +
+                                      "\n                            "
+                                  )
+                                ]
                               )
-                            ]
-                          ),
+                            : _vm._e(),
                           _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              ref: "empCompanyName-" + index,
-                              refInFor: true,
-                              staticClass: "bl-label-15 bl-ml15 mt-0 pt-0"
-                            },
-                            [
-                              _vm._v(
-                                "\n                                " +
-                                  _vm._s(employment.company_name) +
-                                  "\n                            "
+                          employment.company_name
+                            ? _c(
+                                "span",
+                                {
+                                  ref: "empCompanyName-" + index,
+                                  refInFor: true,
+                                  staticClass: "bl-label-15 bl-ml15 mt-0 pt-0"
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                \n                                " +
+                                      _vm._s(employment.company_name) +
+                                      "\n                            "
+                                  )
+                                ]
                               )
-                            ]
-                          ),
+                            : _vm._e(),
                           _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              ref: "empPeriod-" + index,
-                              refInFor: true,
-                              staticClass: "bl-label-14 bl-ml15 mt-0 pt-0"
-                            },
-                            [
-                              _vm._v(
-                                "\n                                " +
-                                  _vm._s(_vm.formatPeriod(employment)) +
-                                  "\n                            "
+                          employment.start_month && employment.start_year
+                            ? _c(
+                                "span",
+                                {
+                                  ref: "empPeriod-" + index,
+                                  refInFor: true,
+                                  staticClass: "bl-label-14 bl-ml15 mt-0 pt-0"
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                \n                                " +
+                                      _vm._s(_vm.formatPeriod(employment)) +
+                                      "\n                            "
+                                  )
+                                ]
                               )
-                            ]
-                          )
+                            : _vm._e()
                         ])
                       ])
                     ]
@@ -49246,68 +49281,72 @@ var render = function() {
                       class: _vm.getCls
                     },
                     [
-                      _c("div", { staticClass: "empinfo-row" }, [
-                        _c("img", {
-                          staticClass: "text-icon bl-mt12",
-                          staticStyle: { "margin-top": "5px" },
-                          attrs: {
-                            src: "/img/icons/pinlocation.png",
-                            srcset:
-                              "/img/icons/pinlocation@2x.png" +
-                              " 2x, " +
-                              "/img/icons/pinlocation@3x.png" +
-                              " 3x"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "span",
-                          {
-                            ref: "empLocation-" + index,
-                            refInFor: true,
-                            staticClass: "bl-label-14-style-2",
-                            staticStyle: { display: "inline" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(employment.location) +
-                                "\n                        "
+                      employment.location
+                        ? _c("div", { staticClass: "empinfo-row" }, [
+                            _c("img", {
+                              staticClass: "text-icon bl-mt12",
+                              staticStyle: { "margin-top": "5px" },
+                              attrs: {
+                                src: "/img/icons/pinlocation.png",
+                                srcset:
+                                  "/img/icons/pinlocation@2x.png" +
+                                  " 2x, " +
+                                  "/img/icons/pinlocation@3x.png" +
+                                  " 3x"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                ref: "empLocation-" + index,
+                                refInFor: true,
+                                staticClass: "bl-label-14-style-2",
+                                staticStyle: { display: "inline" }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(employment.location) +
+                                    "\n                        "
+                                )
+                              ]
                             )
-                          ]
-                        )
-                      ]),
+                          ])
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c("div", { staticClass: "empinfo-row" }, [
-                        _c("img", {
-                          staticClass: "text-icon",
-                          attrs: {
-                            src: "/img/icons/dollarsign.png",
-                            srcset:
-                              "/img/icons/dollarsign@2x.png" +
-                              " 2x, " +
-                              "/img/icons/dollarsign@3x.png" +
-                              " 3x"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "span",
-                          {
-                            ref: "empProjectSize-" + index,
-                            refInFor: true,
-                            staticClass: "bl-label-14-style-2",
-                            staticStyle: { display: "inline" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(employment.project_size) +
-                                "\n                        "
+                      employment.project_size
+                        ? _c("div", { staticClass: "empinfo-row" }, [
+                            _c("img", {
+                              staticClass: "text-icon",
+                              attrs: {
+                                src: "/img/icons/dollarsign.png",
+                                srcset:
+                                  "/img/icons/dollarsign@2x.png" +
+                                  " 2x, " +
+                                  "/img/icons/dollarsign@3x.png" +
+                                  " 3x"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                ref: "empProjectSize-" + index,
+                                refInFor: true,
+                                staticClass: "bl-label-14-style-2",
+                                staticStyle: { display: "inline" }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(employment.project_size) +
+                                    "\n                        "
+                                )
+                              ]
                             )
-                          ]
-                        )
-                      ]),
+                          ])
+                        : _vm._e(),
                       _vm._v(" "),
                       employment.responsibilities.length != 0
                         ? _c("div", { staticClass: "empinfo-row" }, [
@@ -51445,7 +51484,7 @@ var render = function() {
           "button",
           {
             staticClass: "pull-right",
-            attrs: { type: "submit" },
+            attrs: { type: "submit", disabled: _vm.disabled },
             on: { click: _vm.submit }
           },
           [_vm._v("\n            Save Changes\n        ")]
@@ -51773,7 +51812,7 @@ var render = function() {
               _c(
                 "button",
                 {
-                  staticClass: "mt-0",
+                  staticClass: "pull-right",
                   attrs: { type: "submit", disabled: _vm.disabled },
                   on: { click: _vm.submit }
                 },
@@ -51845,7 +51884,7 @@ var render = function() {
             _vm._v(_vm._s(_vm.first_name) + " " + _vm._s(_vm.last_name))
           ]),
           _vm._v(" "),
-          _vm.input.job_role
+          _vm.job_role
             ? _c("div", { staticClass: "bl-label-17 pb-3" }, [
                 _vm._v("\n                " + _vm._s(_vm.job_role) + " "),
                 _c("div", { staticClass: "text-style-1" }, [

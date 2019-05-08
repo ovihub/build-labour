@@ -38,7 +38,7 @@
         </template>
 
         <template slot="custom-modal-footer">
-            <button class="pull-right" type="submit" @click="submit">
+            <button class="pull-right" type="submit" @click="submit" :disabled="disabled">
                 Save Changes
             </button>
         </template>
@@ -52,11 +52,14 @@
             return {
                 keyword: '',
                 disabled: false,
+                initTickets: [],
                 tickets: [],
                 searchedTickets: [],
                 selectedTicket: false,
                 timeOut: false,
-                errors: { ticket: '' },
+                errors: { 
+                    ticket: ''
+                },
                 endpoints: {
                     save: '/api/v1/worker/tickets',
                     tickets: '/api/v1/worker/tickets',
@@ -66,25 +69,29 @@
         },
 
         created() {
-
-            let component = this;
-
-            axios.get(this.endpoints.tickets, Utils.getBearerAuth())
-                .then( res => {
-                   console.log(res);
-                    component.tickets = res.data.data.tickets;
-                });
+            this.getTickets();
         },
 
         methods: {
 
-            close() {
+            getTickets() {
+                let component = this;
 
+                axios.get(component.endpoints.tickets, Utils.getBearerAuth())
+                    
+                    .then( res => {
+                        component.initTickets = res.data.data.tickets;
+                        component.tickets = res.data.data.tickets;
+                    });
+            },
+
+            close() {
                 this.keyword = '';
+
+                this.tickets = this.initTickets;
             },
 
             onSearch() {
-
                 let component = this;
 
                 if (component.keyword.length <= 0) {
@@ -92,7 +99,6 @@
                 }
 
                 if (component.time_out) {
-
                     clearTimeout(component.time_out);
                 }
 
@@ -108,64 +114,57 @@
 
                             Utils.handleError(error);
                         });
+
                 }.bind(this), 300);
             },
 
             onSelect(ticket) {
-
                 this.selectedTicket = ticket;
                 this.keyword = ticket.ticket + "-" + ticket.description;
                 this.searchedTickets = [];
-
             },
 
             onDelete(index) {
-
                 this.tickets.splice(index, 1);
             },
 
             onAdd() {
-
                 if (!this.selectedTicket) {
-
                     return false;
                 }
 
                 let isFound = false;
 
                 for (let i in this.tickets) {
-
                     let ticket = this.tickets[i];
 
                     if (ticket.id == this.selectedTicket.id) {
-
                         isFound = true;
                     }
                 }
 
                 if (!isFound) {
-
                     this.tickets.push(this.selectedTicket);
                     this.keyword = '';
                     this.selectedTicket = false;
                     this.errors.ticket = '';
 
                 } else {
-
                     this.errors.ticket = 'Ticket already exists on selected list';
                 }
 
             },
             
             async submit() {
-
                 let component = this;
 
                 let tickets = component.tickets.map(function (ticket) {
-                    return {ticket_id: ticket.id};
+                    return { ticket_id: ticket.id };
                 });
 
-                let saveInput = {tickets: tickets};
+                let saveInput = { tickets: tickets };
+
+                this.disabled = true;
 
                 await axios.post(component.endpoints.save, saveInput, Utils.getBearerAuth())
 
@@ -173,16 +172,14 @@
 
                         let tickets = response.data.data.tickets;
 
-                        console.log(tickets);
-
                         $('#modalTickets').modal('hide');
-                        Bus.$emit('passTickets', tickets);
 
+                        Bus.$emit('passTickets', tickets);
                     })
                     .catch(function(error) {
-
+                        
+                        Utils.handleError(error);
                     });
-
 
                 this.disabled = false;
             },

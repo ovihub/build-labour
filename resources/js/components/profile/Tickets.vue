@@ -54,7 +54,6 @@
                 tickets: [],
                 firstColumn: [],
                 secondColumn: [],
-
             }
         },
 
@@ -73,12 +72,9 @@
                 component.display();
             });
 
-            Bus.$on('passTickets', tickets => {
-
-                console.log('passTickets');
-                console.log(tickets);
-
+            Bus.$on('passTickets', function(tickets) {
                 component.tickets = tickets;
+                
                 component.display();
             });
         },

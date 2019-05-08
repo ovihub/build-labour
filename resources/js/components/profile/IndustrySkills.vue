@@ -47,7 +47,6 @@
                             <div class="emp-col-right">
                                 <span class="delete-icon close-icon" @click="removeSkill(index)">X</span>
                                 <!-- <span class="close-icon" @click="removeSkill(index)">
-                                    &times;
                                     <img src="/img/icons/plus.png"
                                         srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
                                 </span> -->
@@ -128,6 +127,11 @@
                 user_skills: [],
                 firstColumn: [],
                 secondColumn: [],
+                levels: [
+                    { id: 1, name: 'Beginner' },
+                    { id: 2, name: 'Competent' },
+                    { id: 3, name: 'Expert' },
+                ],
                 input: {
                     main_skill: '', skills: [],
                 },
@@ -138,19 +142,15 @@
                     save: '/api/v1/user/skills',
                     delete: '/api/v1/user/skills',
                 },
-                levels: [
-                    { id: 1, name: 'Beginner' },
-                    { id: 2, name: 'Competent' },
-                    { id: 3, name: 'Expert' },
-                ],
             }
         },
 
         created() {
             let component = this;
 
-            Bus.$on('industrySkillsDetails', function(detailsArray, skillsIntroduction) {
-                component.main_skill = skillsIntroduction;
+            Bus.$on('industrySkillsDetails', function(detailsArray, skillsIntro) {
+                component.main_skill = skillsIntro;
+                component.user_skills = detailsArray;
 
                 if (detailsArray.length == 0) {
                     component.is_empty = true;
@@ -162,8 +162,7 @@
 
                 } else {
                     component.input.main_skill = component.main_skill;
-                    component.input.skills = detailsArray;
-                    component.user_skills = detailsArray;
+                    component.input.skills = component.user_skills;
                 }
 
                 component.display();
@@ -236,7 +235,6 @@
                         component.is_empty = false;
                         
                         component.main_skill = data.data.main_skill;
-                        component.input.skills = data.data.skills;
                         component.user_skills = data.data.skills;
 
                         component.display();

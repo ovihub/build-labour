@@ -15,7 +15,7 @@
 		</template>
 
 		<template slot="custom-modal-footer">
-            <button class="mt-0" type="submit" @click="uploadPhoto" :disabled="disabled">Save Photo</button>
+            <button class="pull-right" type="submit" @click="uploadPhoto" :disabled="disabled">Save Photo</button>
         </template>
 
 	</main-modal>

@@ -58,7 +58,7 @@
                 </template>
 
                 <template slot="custom-modal-footer">
-                    <button class="mt-0" type="submit" @click="submit" :disabled="disabled">Save Changes</button>
+                    <button class="pull-right" type="submit" @click="submit" :disabled="disabled">Save Changes</button>
                 </template>
 
             </main-modal>
@@ -85,7 +85,7 @@
             <div class="profile-content-p20 pb-4">
                 <div class="bl-label-22 m0">{{ first_name }} {{ last_name }}</div>
             
-                <div class="bl-label-17 pb-3" v-if="input.job_role">
+                <div class="bl-label-17 pb-3" v-if="job_role">
                     {{ job_role }} <div class="text-style-1">- {{ company_name }}</div>
                 </div>
                 

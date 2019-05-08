@@ -47,15 +47,21 @@
                         </div>
                         <div class="bl-col-2 ml-2">
                             <div class="bl-display">
-                                <span class="bl-label-16 bl-ml15" :ref="'empJobRole-' + index">
+                                <span class="bl-label-16 bl-ml15" :ref="'empJobRole-' + index"
+                                    v-if="employment.job_role">
+                                    
                                     {{ employment.job_role }}
                                 </span>
 
-                                <span class="bl-label-15 bl-ml15 mt-0 pt-0" :ref="'empCompanyName-' + index">
+                                <span class="bl-label-15 bl-ml15 mt-0 pt-0" :ref="'empCompanyName-' + index"
+                                    v-if="employment.company_name">
+                                    
                                     {{ employment.company_name }}
                                 </span>
                                 
-                                <span class="bl-label-14 bl-ml15 mt-0 pt-0" :ref="'empPeriod-' + index">
+                                <span class="bl-label-14 bl-ml15 mt-0 pt-0" :ref="'empPeriod-' + index"
+                                    v-if="employment.start_month && employment.start_year">
+                                    
                                     {{ formatPeriod(employment) }}
                                 </span>
                             </div>
@@ -64,7 +70,7 @@
 
                     <div :class="getCls" :ref="'toggleCls-' + index">
 
-                        <div class="empinfo-row">
+                        <div class="empinfo-row" v-if="employment.location">
                             <img style="margin-top:5px" class="text-icon bl-mt12" src="/img/icons/pinlocation.png"
                                 srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
                                 
@@ -73,7 +79,7 @@
                             </span>
                         </div>
 
-                        <div class="empinfo-row">
+                        <div class="empinfo-row" v-if="employment.project_size">
                             <img class="text-icon" src="/img/icons/dollarsign.png"
                                 srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
                             <span style="display:inline" class="bl-label-14-style-2" :ref="'empProjectSize-' + index">
@@ -137,12 +143,28 @@
                 } else {
                     component.employments[index] = details;
                     
-                    component.$refs['empJobRole-' + index][0].textContent = details.job_role;
-                    component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
-                    component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
-                    component.$refs['empLocation-' + index][0].textContent = details.location;
-                    component.$refs['empProjectSize-' + index][0].textContent = details.project_size;
+                    let refJobRole = component.$refs['empJobRole-' + index],
+                        refCompanyName = component.$refs['empCompanyName-' + index],
+                        refPeriod = component.$refs['empPeriod-' + index],
+                        refLocation = component.$refs['empLocation-' + index],
+                        refProjectSize = component.$refs['empProjectSize-' + index];
 
+                    if (refJobRole !== undefined) {
+                        refJobRole[0].textContent = details.job_role;
+                    }
+                    if (refCompanyName !== undefined) {
+                        refCompanyName[0].textContent = details.company_name;
+                    }
+                    if (refPeriod !== undefined) {
+                        refPeriod[0].textContent = component.formatPeriod(details);
+                    }
+                    if (refLocation !== undefined) {
+                        refLocation[0].textContent = details.location;
+                    }
+                    if (refProjectSize !== undefined) {
+                        refProjectSize[0].textContent = details.project_size;
+                    }
+                    
                     for (let i = 0; i < details.responsibilities.length; i++) {
                         if (component.$refs['empRespItem-' + index + '-' + i] !== undefined) {
                             component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
@@ -203,7 +225,7 @@
             },
 
             action(index) {
-                Bus.$emit('showEmployment', index, index != -1 ?  this.employments[index] : null);
+                Bus.$emit('showEmployment', index, index != -1 ? this.employments[index] : null);
             },
 
         }
