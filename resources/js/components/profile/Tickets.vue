@@ -2,9 +2,14 @@
     <div class="profile-item-2">
         <div class="profile-content">
 
-            <record-form title="AddTicket" :record="input" save-endpoint="/api/v1/user/ticket"></record-form>
+            <tickets-modal></tickets-modal>
 
-            <span class="add-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalAddTicket">
+            <span class="add-icon"
+                  data-toggle="modal"
+                  data-backdrop="static"
+                  data-keyboard="false"
+                  data-target="#modalTickets">
+
                 <img src="/img/icons/plus.png"
                     srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
             </span>
@@ -49,6 +54,7 @@
                 tickets: [],
                 firstColumn: [],
                 secondColumn: [],
+
             }
         },
 
@@ -66,6 +72,15 @@
 
                 component.display();
             });
+
+            Bus.$on('passTickets', tickets => {
+
+                console.log('passTickets');
+                console.log(tickets);
+
+                component.tickets = tickets;
+                component.display();
+            });
         },
 
         methods: {
@@ -77,7 +92,6 @@
                 this.firstColumn = this.tickets.slice(0, half);
                 this.secondColumn = this.tickets.slice(half, len);
             },
-
         }
     }
 </script>

@@ -11029,6 +11029,23 @@ a.text-dark:focus {
   margin-left: 78px;
 }
 
+span.ticket-delete:hover {
+  cursor: pointer;
+}
+
+.ticket-delete {
+  position: absolute;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: #a2b2b7;
+  color: #fff;
+  border-radius: 100%;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
 /*!
  * Cropper.js v1.0.0-rc.3
  * https://github.com/fengyuanchen/cropperjs
