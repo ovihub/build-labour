@@ -11046,6 +11046,24 @@ span.ticket-delete:hover {
   font-weight: 700;
 }
 
+.edit-tickets-search .ticket-search {
+  width: 80%;
+  padding-right: 20px;
+}
+
+.edit-tickets-search .btn-wrapper {
+  width: 20%;
+  position: relative;
+}
+
+.edit-tickets-search .btn-wrapper button {
+  right: 0;
+  position: absolute;
+  height: 100%;
+  margin: 0;
+  width: 100%;
+}
+
 /*!
  * Cropper.js v1.0.0-rc.3
  * https://github.com/fengyuanchen/cropperjs

@@ -10,14 +10,18 @@
             <form class="modal-form" method="POST" @submit.prevent="submit">
 
                 <div class="form-group">
-                    <div class="emp-row">
-                        <input class="form-control" type="text" v-model="keyword" v-on:input="onSearch" placeholder="search"/>
-                        <button class="pull-right" type="button" @click="onAdd()">
-                            Add
-                        </button>
+                    <div class="emp-row edit-tickets-search">
+                        <div class="ticket-search">
+                            <input class="form-control" type="text" v-model="keyword" v-on:input="onSearch" placeholder="search"/>
+                        </div>
+                        <div class="btn-wrapper">
+                            <button class="pull-right" type="button" @click="onAdd()">
+                                Add
+                            </button>
+                        </div>
                         <span class="err-msg" v-if="errors.ticket.length > 0">
-                            {{ errors.ticket }}
-                        </span>
+                                {{ errors.ticket }}
+                            </span>
                     </div>
 
                     <div class="emp-row" style="margin-top:0" v-if="searchedTickets.length > 0">
@@ -32,7 +36,7 @@
                     <div class="emp-row" v-if="tickets.length > 0" v-for="(ticket, idx) in tickets">
                         <span>{{ ticket.ticket }} - {{ ticket.description }}</span>
 
-                        <span class="ticket-delete" @click="onDelete(idx)">X</span>
+                        <span class="ticket-delete" @click="onDelete(idx)">x</span>
                     </div>
 
                 </div>

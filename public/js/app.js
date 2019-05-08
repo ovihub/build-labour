@@ -5472,6 +5472,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -51256,56 +51260,60 @@ var render = function() {
               "div",
               { staticClass: "form-group" },
               [
-                _c("div", { staticClass: "emp-row" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.keyword,
-                        expression: "keyword"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", placeholder: "search" },
-                    domProps: { value: _vm.keyword },
-                    on: {
-                      input: [
-                        function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.keyword = $event.target.value
-                        },
-                        _vm.onSearch
-                      ]
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "pull-right",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.onAdd()
+                _c("div", { staticClass: "emp-row edit-tickets-search" }, [
+                  _c("div", { staticClass: "ticket-search" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.keyword,
+                          expression: "keyword"
                         }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", placeholder: "search" },
+                      domProps: { value: _vm.keyword },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.keyword = $event.target.value
+                          },
+                          _vm.onSearch
+                        ]
                       }
-                    },
-                    [
-                      _vm._v(
-                        "\n                        Add\n                    "
-                      )
-                    ]
-                  ),
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "btn-wrapper" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "pull-right",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.onAdd()
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            Add\n                        "
+                        )
+                      ]
+                    )
+                  ]),
                   _vm._v(" "),
                   _vm.errors.ticket.length > 0
                     ? _c("span", { staticClass: "err-msg" }, [
                         _vm._v(
-                          "\n                        " +
+                          "\n                            " +
                             _vm._s(_vm.errors.ticket) +
-                            "\n                    "
+                            "\n                        "
                         )
                       ])
                     : _vm._e()
@@ -51372,7 +51380,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("X")]
+                          [_vm._v("x")]
                         )
                       ])
                     : _vm._e()
