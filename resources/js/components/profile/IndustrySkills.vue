@@ -95,20 +95,20 @@
                 <div class="col-md-12 col-sm-12 profile-intro">
                     {{ main_skill }}
                 </div>
-                <div class="col-md-6 col-sm-6" v-for="first in firstColumn" v-bind:key="first.id">
+                <div class="col-md-6 col-sm-6" v-for="first in firstColumn" v-bind:key="first.sid">
                     <span class="bl-label-15">
-                        {{ first.skill_name }}
+                        {{ first.sname }}
                     </span>
                     <span class="bl-label-14">
-                        {{ first.level_name }}
+                        {{ first.lname }}
                     </span>
                 </div>
-                <div class="col-md-6 col-sm-6" v-for="second in secondColumn" v-bind:key="second.id">
+                <div class="col-md-6 col-sm-6" v-for="second in secondColumn" v-bind:key="second.sid">
                     <span class="bl-label-15">
-                        {{ second.skill_name }}
+                        {{ second.sname }}
                     </span>
                     <span class="bl-label-14">
-                        {{ second.level_name }}
+                        {{ second.lname }}
                     </span>
                 </div>
             </div>
@@ -122,8 +122,8 @@
         data() {
             return {
                 disabled: false,
-                main_skill: '',
                 is_empty: false,
+                main_skill: '',
                 user_skills: [],
                 firstColumn: [],
                 secondColumn: [],
@@ -150,19 +150,21 @@
 
             Bus.$on('industrySkillsDetails', function(detailsArray, skillsIntro) {
                 component.main_skill = skillsIntro;
-                component.user_skills = detailsArray;
+                component.user_skills = detailsArray.map(function(skill) {
+                    return { 
+                        sid: skill.skill_id,
+                        sname: skill.skill_name,
+                        lid: skill.level_id,
+                        lname: skill.level_name
+                    };
+                });
 
                 if (detailsArray.length == 0) {
                     component.is_empty = true;
-                    component.input.skills.push({
-                        skill_id: 0,
-                        skill_name: '',
-                        level_id: 1
-                    });
 
                 } else {
                     component.input.main_skill = component.main_skill;
-                    component.input.skills = component.user_skills;
+                    component.input.skills = detailsArray;
                 }
 
                 component.display();
@@ -193,7 +195,14 @@
 
             close() {
                 this.input.main_skill = this.main_skill;
-                this.input.skills = this.firstColumn.concat(this.secondColumn);
+                this.input.skills = this.user_skills.map(function(skill) {
+                    return { 
+                        skill_id: skill.sid,
+                        skill_name: skill.sname,
+                        level_id: skill.lid,
+                        level_name: skill.lname
+                    };
+                });
 
                 Utils.setObjectValues(this.errors, '');
             },
@@ -235,7 +244,14 @@
                         component.is_empty = false;
                         
                         component.main_skill = data.data.main_skill;
-                        component.user_skills = data.data.skills;
+                        component.user_skills = data.data.skills.map(function(skill) {
+                            return { 
+                                sid: skill.skill_id,
+                                sname: skill.skill_name,
+                                lid: skill.level_id,
+                                lname: skill.level_name
+                            };
+                        });
 
                         component.display();
                     })

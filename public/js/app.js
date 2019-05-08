@@ -5012,8 +5012,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       disabled: false,
-      main_skill: '',
       is_empty: false,
+      main_skill: '',
       user_skills: [],
       firstColumn: [],
       secondColumn: [],
@@ -5044,18 +5044,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var component = this;
     Bus.$on('industrySkillsDetails', function (detailsArray, skillsIntro) {
       component.main_skill = skillsIntro;
-      component.user_skills = detailsArray;
+      component.user_skills = detailsArray.map(function (skill) {
+        return {
+          sid: skill.skill_id,
+          sname: skill.skill_name,
+          lid: skill.level_id,
+          lname: skill.level_name
+        };
+      });
 
       if (detailsArray.length == 0) {
         component.is_empty = true;
-        component.input.skills.push({
-          skill_id: 0,
-          skill_name: '',
-          level_id: 1
-        });
       } else {
         component.input.main_skill = component.main_skill;
-        component.input.skills = component.user_skills;
+        component.input.skills = detailsArray;
       }
 
       component.display();
@@ -5080,7 +5082,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     close: function close() {
       this.input.main_skill = this.main_skill;
-      this.input.skills = this.firstColumn.concat(this.secondColumn);
+      this.input.skills = this.user_skills.map(function (skill) {
+        return {
+          skill_id: skill.sid,
+          skill_name: skill.sname,
+          level_id: skill.lid,
+          level_name: skill.lname
+        };
+      });
       Utils.setObjectValues(this.errors, '');
     },
     deleteRecord: function deleteRecord() {
@@ -5117,7 +5126,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   $('#modalIndustrySkill').modal('hide');
                   component.is_empty = false;
                   component.main_skill = data.data.main_skill;
-                  component.user_skills = data.data.skills;
+                  component.user_skills = data.data.skills.map(function (skill) {
+                    return {
+                      sid: skill.skill_id,
+                      sname: skill.skill_name,
+                      lid: skill.level_id,
+                      lname: skill.level_name
+                    };
+                  });
                   component.display();
                 }).catch(function (error) {
                   if (error.response) {
@@ -50902,12 +50918,12 @@ var render = function() {
                 _vm._l(_vm.firstColumn, function(first) {
                   return _c(
                     "div",
-                    { key: first.id, staticClass: "col-md-6 col-sm-6" },
+                    { key: first.sid, staticClass: "col-md-6 col-sm-6" },
                     [
                       _c("span", { staticClass: "bl-label-15" }, [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(first.skill_name) +
+                            _vm._s(first.sname) +
                             "\n                "
                         )
                       ]),
@@ -50915,7 +50931,7 @@ var render = function() {
                       _c("span", { staticClass: "bl-label-14" }, [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(first.level_name) +
+                            _vm._s(first.lname) +
                             "\n                "
                         )
                       ])
@@ -50926,12 +50942,12 @@ var render = function() {
                 _vm._l(_vm.secondColumn, function(second) {
                   return _c(
                     "div",
-                    { key: second.id, staticClass: "col-md-6 col-sm-6" },
+                    { key: second.sid, staticClass: "col-md-6 col-sm-6" },
                     [
                       _c("span", { staticClass: "bl-label-15" }, [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(second.skill_name) +
+                            _vm._s(second.sname) +
                             "\n                "
                         )
                       ]),
@@ -50939,7 +50955,7 @@ var render = function() {
                       _c("span", { staticClass: "bl-label-14" }, [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(second.level_name) +
+                            _vm._s(second.lname) +
                             "\n                "
                         )
                       ])
