@@ -63,7 +63,8 @@
                 </template>
 
                 <template slot="custom-modal-footer">
-                    <div class="btn btn-link btn-delete" data-dismiss="modal" @click="deleteRecord">
+                    <div class="btn btn-link btn-delete" data-dismiss="modal" @click="deleteRecord"
+                        v-if="main_skill || user_skills.length != 0">
                         Delete
                     </div>
 

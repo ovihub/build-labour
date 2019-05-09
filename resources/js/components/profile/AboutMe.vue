@@ -117,7 +117,9 @@
                     </template>
 
                     <template slot="custom-modal-footer">
-                        <div class="btn btn-link btn-delete" data-dismiss="modal" @click="deleteRecord">
+                        <div class="btn btn-link btn-delete" data-dismiss="modal" @click="deleteRecord"
+                            v-if="gender || date_of_birth || marital_status || 
+                                    english_skill || drivers_license || has_registered_vehicle">
                             Delete
                         </div>
 

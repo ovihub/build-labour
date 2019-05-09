@@ -3401,6 +3401,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4721,6 +4723,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4889,6 +4892,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
 //
 //
 //
@@ -48343,19 +48347,26 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("template", { slot: "custom-modal-footer" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass: "btn btn-link btn-delete",
-                    attrs: { "data-dismiss": "modal" },
-                    on: { click: _vm.deleteRecord }
-                  },
-                  [
-                    _vm._v(
-                      "\n                        Delete\n                    "
+                _vm.gender ||
+                _vm.date_of_birth ||
+                _vm.marital_status ||
+                _vm.english_skill ||
+                _vm.drivers_license ||
+                _vm.has_registered_vehicle
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "btn btn-link btn-delete",
+                        attrs: { "data-dismiss": "modal" },
+                        on: { click: _vm.deleteRecord }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        Delete\n                    "
+                        )
+                      ]
                     )
-                  ]
-                ),
+                  : _vm._e(),
                 _vm._v(" "),
                 _c(
                   "button",
@@ -50467,19 +50478,26 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("template", { slot: "custom-modal-footer" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass: "btn btn-link btn-delete",
-                    attrs: { "data-dismiss": "modal" },
-                    on: { click: _vm.deleteRecord }
-                  },
-                  [
-                    _vm._v(
-                      "\n                        Delete\n                    "
+                _vm.introduction ||
+                _vm.when ||
+                _vm.max_distance ||
+                _vm.state ||
+                _vm.right_to_work ||
+                _vm.selected.length != 0
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "btn btn-link btn-delete",
+                        attrs: { "data-dismiss": "modal" },
+                        on: { click: _vm.deleteRecord }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        Delete\n                    "
+                        )
+                      ]
                     )
-                  ]
-                ),
+                  : _vm._e(),
                 _vm._v(" "),
                 _c(
                   "button",
@@ -50870,15 +50888,17 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("template", { slot: "custom-modal-footer" }, [
-              _c(
-                "div",
-                {
-                  staticClass: "btn btn-link btn-delete",
-                  attrs: { "data-dismiss": "modal" },
-                  on: { click: _vm.deleteRecord }
-                },
-                [_vm._v("\n                    Delete\n                ")]
-              ),
+              _vm.main_skill || _vm.user_skills.length != 0
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "btn btn-link btn-delete",
+                      attrs: { "data-dismiss": "modal" },
+                      on: { click: _vm.deleteRecord }
+                    },
+                    [_vm._v("\n                    Delete\n                ")]
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c(
                 "button",
@@ -66776,8 +66796,8 @@ window.Helper = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! F:\appetiser\build-labour-backend\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! F:\appetiser\build-labour-backend\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
