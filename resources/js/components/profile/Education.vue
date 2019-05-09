@@ -78,7 +78,7 @@
                 }
             });
 
-            Bus.$on('removeEducation', function(index) {
+            Bus.$on('removeEducation', function(index, id) {
                 component.educations.splice(index, 1);
             });
         },

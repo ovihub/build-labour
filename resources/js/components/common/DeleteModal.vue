@@ -11,7 +11,7 @@
 					<form method="POST" @submit.prevent="deleteRecord">
 						<input type="hidden" name="_method" value="delete" />
 						<div class="emp-label">
-							<center>Are you sure you want to delete this?</center>
+							<center>Are you sure you want to delete this record?</center>
 						</div>
 					</form>
 				</div>
@@ -92,7 +92,11 @@
 							if (data.success) {
 								$('#deleteRecordModal').modal('hide');
 								
-								Bus.$emit('remove' + component.action, component.index);
+								if (component.action == 'Education') {
+									Bus.$emit('remove' + component.action, component.index, component.endpoints.delete.split('/').pop());
+								} else {
+									Bus.$emit('remove' + component.action, component.index);
+								}
 							}
 						}).catch(function(error) {
 							

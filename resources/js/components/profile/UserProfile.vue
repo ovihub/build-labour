@@ -191,7 +191,7 @@
             });
 
             Bus.$on('updateEmployment', function(index, details) {
-                if (index == 0) {
+                if (index == 0 || (!component.company_name && index == -1)) {
                     component.company_name = details.company_name;
                     component.job_role = details.job_role;
                     component.start_month = details.start_month;
@@ -200,7 +200,26 @@
                     component.end_year = details.end_year;
                 }
             });
-            
+
+            Bus.$on('removeEducation', function(index, id) {
+                if (component.education_id == id) {
+                    component.course = '';
+                    component.school = '';
+                    component.education_id = '';
+                }
+            });
+
+            Bus.$on('removeEmployment', function(index) {
+                if (index == 0) {
+                    component.company_name = '';
+                    component.job_role = '';
+                    component.start_month = '';
+                    component.start_year = '';
+                    component.end_month = '';
+                    component.end_year = '';
+                }
+            });
+
             // Bus.$on('croppedPhoto', function(photo_url) {
             //     component.profile_photo_url = photo_url;
             // });

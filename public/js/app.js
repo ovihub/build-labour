@@ -2743,7 +2743,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                   if (data.success) {
                     $('#deleteRecordModal').modal('hide');
-                    Bus.$emit('remove' + component.action, component.index);
+
+                    if (component.action == 'Education') {
+                      Bus.$emit('remove' + component.action, component.index, component.endpoints.delete.split('/').pop());
+                    } else {
+                      Bus.$emit('remove' + component.action, component.index);
+                    }
                   }
                 }).catch(function (error) {
                   Utils.handleError(error);
@@ -3719,7 +3724,7 @@ __webpack_require__.r(__webpack_exports__);
         component.$refs['eduPeriod-' + index][0].textContent = component.formatPeriod(details);
       }
     });
-    Bus.$on('removeEducation', function (index) {
+    Bus.$on('removeEducation', function (index, id) {
       component.educations.splice(index, 1);
     });
   },
@@ -4074,11 +4079,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4087,7 +4087,10 @@ __webpack_require__.r(__webpack_exports__);
       getBox: 'bl-box-2 hidden',
       getCls: 'responsibilities hidden',
       imgSrc: '/img/icons/expand.png',
-      imgSrcSet: '/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x'
+      imgSrcSet: '/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x',
+      endpoints: {
+        profile: '/user/profile'
+      }
     };
   },
   created: function created() {
@@ -4102,25 +4105,21 @@ __webpack_require__.r(__webpack_exports__);
     Bus.$on('updateEmployment', function (index, details) {
       if (index == -1) {
         component.employments.push(details);
+
+        if (component.employments.length > 1 && details.isCurrent == 1) {
+          window.location.href = component.endpoints.profile;
+        }
       } else {
+        if (index != 0 && component.employments.length > 1 && details.isCurrent == 1 || details.responsibilities.length > component.employments[index].responsibilities.length) {
+          window.location.href = component.endpoints.profile;
+        }
+
         component.employments[index] = details;
-        var refJobRole = component.$refs['empJobRole-' + index],
-            refCompanyName = component.$refs['empCompanyName-' + index],
-            refPeriod = component.$refs['empPeriod-' + index],
-            refLocation = component.$refs['empLocation-' + index],
+        var refLocation = component.$refs['empLocation-' + index],
             refProjectSize = component.$refs['empProjectSize-' + index];
-
-        if (refJobRole !== undefined) {
-          refJobRole[0].textContent = details.job_role;
-        }
-
-        if (refCompanyName !== undefined) {
-          refCompanyName[0].textContent = details.company_name;
-        }
-
-        if (refPeriod !== undefined) {
-          refPeriod[0].textContent = component.formatPeriod(details);
-        }
+        component.$refs['empJobRole-' + index][0].textContent = details.job_role;
+        component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
+        component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
 
         if (refLocation !== undefined) {
           refLocation[0].textContent = details.location;
@@ -4131,11 +4130,7 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         for (var i = 0; i < details.responsibilities.length; i++) {
-          if (component.$refs['empRespItem-' + index + '-' + i] !== undefined) {
-            component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
-          } else {
-            window.location.href = '/user/profile';
-          }
+          component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
         }
       }
     });
@@ -4167,10 +4162,6 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     formatPeriod: function formatPeriod(emp) {
-      if (!emp.end_month && !emp.end_year && !emp.start_year && !emp.start_month) {
-        return '';
-      }
-
       var endDate = emp.end_month && emp.end_year ? new Date(emp.end_year, emp.end_month - 1, 1) : new Date();
       return Utils.formatPeriod(new Date(emp.start_year, emp.start_month - 1, 1), endDate);
     },
@@ -5882,13 +5873,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     });
     Bus.$on('updateEmployment', function (index, details) {
-      if (index == 0) {
+      if (index == 0 || !component.company_name && index == -1) {
         component.company_name = details.company_name;
         component.job_role = details.job_role;
         component.start_month = details.start_month;
         component.start_year = details.start_year;
         component.end_month = details.end_month;
         component.end_year = details.end_year;
+      }
+    });
+    Bus.$on('removeEducation', function (index, id) {
+      if (component.education_id == id) {
+        component.course = '';
+        component.school = '';
+        component.education_id = '';
+      }
+    });
+    Bus.$on('removeEmployment', function (index) {
+      if (index == 0) {
+        component.company_name = '';
+        component.job_role = '';
+        component.start_month = '';
+        component.start_year = '';
+        component.end_month = '';
+        component.end_year = '';
       }
     }); // Bus.$on('croppedPhoto', function(photo_url) {
     //     component.profile_photo_url = photo_url;
@@ -47509,7 +47517,7 @@ var render = function() {
                     { staticClass: "emp-label" },
                     [
                       _c("center", [
-                        _vm._v("Are you sure you want to delete this?")
+                        _vm._v("Are you sure you want to delete this record?")
                       ])
                     ],
                     1
@@ -49242,59 +49250,53 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "bl-col-2 ml-2" }, [
                         _c("div", { staticClass: "bl-display" }, [
-                          employment.job_role
-                            ? _c(
-                                "span",
-                                {
-                                  ref: "empJobRole-" + index,
-                                  refInFor: true,
-                                  staticClass: "bl-label-16 bl-ml15"
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                \n                                " +
-                                      _vm._s(employment.job_role) +
-                                      "\n                            "
-                                  )
-                                ]
+                          _c(
+                            "span",
+                            {
+                              ref: "empJobRole-" + index,
+                              refInFor: true,
+                              staticClass: "bl-label-16 bl-ml15"
+                            },
+                            [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(employment.job_role) +
+                                  "\n                            "
                               )
-                            : _vm._e(),
+                            ]
+                          ),
                           _vm._v(" "),
-                          employment.company_name
-                            ? _c(
-                                "span",
-                                {
-                                  ref: "empCompanyName-" + index,
-                                  refInFor: true,
-                                  staticClass: "bl-label-15 bl-ml15 mt-0 pt-0"
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                \n                                " +
-                                      _vm._s(employment.company_name) +
-                                      "\n                            "
-                                  )
-                                ]
+                          _c(
+                            "span",
+                            {
+                              ref: "empCompanyName-" + index,
+                              refInFor: true,
+                              staticClass: "bl-label-15 bl-ml15 mt-0 pt-0"
+                            },
+                            [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(employment.company_name) +
+                                  "\n                            "
                               )
-                            : _vm._e(),
+                            ]
+                          ),
                           _vm._v(" "),
-                          employment.start_month && employment.start_year
-                            ? _c(
-                                "span",
-                                {
-                                  ref: "empPeriod-" + index,
-                                  refInFor: true,
-                                  staticClass: "bl-label-14 bl-ml15 mt-0 pt-0"
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                \n                                " +
-                                      _vm._s(_vm.formatPeriod(employment)) +
-                                      "\n                            "
-                                  )
-                                ]
+                          _c(
+                            "span",
+                            {
+                              ref: "empPeriod-" + index,
+                              refInFor: true,
+                              staticClass: "bl-label-14 bl-ml15 mt-0 pt-0"
+                            },
+                            [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(_vm.formatPeriod(employment)) +
+                                  "\n                            "
                               )
-                            : _vm._e()
+                            ]
+                          )
                         ])
                       ])
                     ]
@@ -49308,72 +49310,96 @@ var render = function() {
                       class: _vm.getCls
                     },
                     [
-                      employment.location
-                        ? _c("div", { staticClass: "empinfo-row" }, [
-                            _c("img", {
-                              staticClass: "text-icon bl-mt12",
-                              staticStyle: { "margin-top": "5px" },
-                              attrs: {
-                                src: "/img/icons/pinlocation.png",
-                                srcset:
-                                  "/img/icons/pinlocation@2x.png" +
-                                  " 2x, " +
-                                  "/img/icons/pinlocation@3x.png" +
-                                  " 3x"
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              {
-                                ref: "empLocation-" + index,
-                                refInFor: true,
-                                staticClass: "bl-label-14-style-2",
-                                staticStyle: { display: "inline" }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(employment.location) +
-                                    "\n                        "
-                                )
-                              ]
-                            )
-                          ])
-                        : _vm._e(),
+                      _c(
+                        "div",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: employment.location,
+                              expression: "employment.location"
+                            }
+                          ],
+                          staticClass: "empinfo-row"
+                        },
+                        [
+                          _c("img", {
+                            staticClass: "text-icon bl-mt12",
+                            staticStyle: { "margin-top": "5px" },
+                            attrs: {
+                              src: "/img/icons/pinlocation.png",
+                              srcset:
+                                "/img/icons/pinlocation@2x.png" +
+                                " 2x, " +
+                                "/img/icons/pinlocation@3x.png" +
+                                " 3x"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              ref: "empLocation-" + index,
+                              refInFor: true,
+                              staticClass: "bl-label-14-style-2",
+                              staticStyle: { display: "inline" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(employment.location) +
+                                  "\n                        "
+                              )
+                            ]
+                          )
+                        ]
+                      ),
                       _vm._v(" "),
-                      employment.project_size
-                        ? _c("div", { staticClass: "empinfo-row" }, [
-                            _c("img", {
-                              staticClass: "text-icon",
-                              attrs: {
-                                src: "/img/icons/dollarsign.png",
-                                srcset:
-                                  "/img/icons/dollarsign@2x.png" +
-                                  " 2x, " +
-                                  "/img/icons/dollarsign@3x.png" +
-                                  " 3x"
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              {
-                                ref: "empProjectSize-" + index,
-                                refInFor: true,
-                                staticClass: "bl-label-14-style-2",
-                                staticStyle: { display: "inline" }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(employment.project_size) +
-                                    "\n                        "
-                                )
-                              ]
-                            )
-                          ])
-                        : _vm._e(),
+                      _c(
+                        "div",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: employment.project_size,
+                              expression: "employment.project_size"
+                            }
+                          ],
+                          staticClass: "empinfo-row"
+                        },
+                        [
+                          _c("img", {
+                            staticClass: "text-icon",
+                            attrs: {
+                              src: "/img/icons/dollarsign.png",
+                              srcset:
+                                "/img/icons/dollarsign@2x.png" +
+                                " 2x, " +
+                                "/img/icons/dollarsign@3x.png" +
+                                " 3x"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              ref: "empProjectSize-" + index,
+                              refInFor: true,
+                              staticClass: "bl-label-14-style-2",
+                              staticStyle: { display: "inline" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(employment.project_size) +
+                                  "\n                        "
+                              )
+                            ]
+                          )
+                        ]
+                      ),
                       _vm._v(" "),
                       employment.responsibilities.length != 0
                         ? _c("div", { staticClass: "empinfo-row" }, [
