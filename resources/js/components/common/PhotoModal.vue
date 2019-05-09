@@ -96,7 +96,7 @@
 			async uploadPhoto() {
 				let component = this;
 
-				this.input.photo = cropper.getCroppedCanvas().toDataURL();
+				this.input.photo = cropper.getCroppedCanvas().toDataURL('image/jpeg', (20 / 100));
 				this.disabled = true;
 
 				await axios.post(component.endpoints.upload, component.$data.input, Utils.getBearerAuth())

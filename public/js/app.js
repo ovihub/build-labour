@@ -3024,7 +3024,7 @@ var cropper = null;
             switch (_context.prev = _context.next) {
               case 0:
                 component = this;
-                this.input.photo = cropper.getCroppedCanvas().toDataURL();
+                this.input.photo = cropper.getCroppedCanvas().toDataURL('image/jpeg', 20 / 100);
                 this.disabled = true;
                 _context.next = 5;
                 return axios.post(component.endpoints.upload, component.$data.input, Utils.getBearerAuth()).then(function (response) {
@@ -66776,8 +66776,8 @@ window.Helper = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! F:\appetiser\build-labour-backend\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! F:\appetiser\build-labour-backend\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
