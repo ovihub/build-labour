@@ -242,7 +242,7 @@
             onChangeLocation(location) {
                 let component = this;
 
-                if (location.length <= 0) {
+                if (location && location.length <= 0) {
                     this.locations = [];
                 }
 

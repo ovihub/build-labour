@@ -4102,30 +4102,38 @@ __webpack_require__.r(__webpack_exports__);
       }
     });
     Bus.$on('updateEmployment', function (index, details) {
+      var emps = component.employments;
+
+      if (emps.length > 1 && details.isCurrent == 1 && component.formatPeriod(details) != component.formatPeriod(emps[index]) || details.responsibilities.length > emps[index].responsibilities.length) {
+        window.location.href = component.endpoints.profile;
+      }
+
       if (index == -1) {
-        component.employments.push(details);
-
-        if (component.employments.length > 1 && details.isCurrent == 1) {
-          window.location.href = component.endpoints.profile;
-        }
+        emps.push(details);
       } else {
-        if (index != 0 && component.employments.length > 1 && details.isCurrent == 1 || details.responsibilities.length > component.employments[index].responsibilities.length) {
-          window.location.href = component.endpoints.profile;
-        }
-
-        component.employments[index] = details;
+        emps[index] = details;
         var refLocation = component.$refs['empLocation-' + index],
-            refProjectSize = component.$refs['empProjectSize-' + index];
+            refProjectSize = component.$refs['empProjectSize-' + index],
+            refLocationIcon = component.$refs['empLocationIcon-' + index],
+            refProjectSizeIcon = component.$refs['empProjectSizeIcon-' + index];
         component.$refs['empJobRole-' + index][0].textContent = details.job_role;
         component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
         component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
 
-        if (refLocation !== undefined) {
+        if (details.location) {
           refLocation[0].textContent = details.location;
+          refLocationIcon[0].hidden = false;
+        } else {
+          refLocation[0].textContent = '';
+          refLocationIcon[0].hidden = true;
         }
 
-        if (refProjectSize !== undefined) {
+        if (details.project_size) {
           refProjectSize[0].textContent = details.project_size;
+          refProjectSizeIcon[0].hidden = false;
+        } else {
+          refProjectSize[0].textContent = '';
+          refProjectSizeIcon[0].hidden = true;
         }
 
         for (var i = 0; i < details.responsibilities.length; i++) {
@@ -4149,6 +4157,14 @@ __webpack_require__.r(__webpack_exports__);
       this.expanded[index] = false;
     },
     expand: function expand(index) {
+      if (!this.employments[index].location) {
+        this.$refs['empLocationIcon-' + index][0].hidden = true;
+      }
+
+      if (!this.employments[index].project_size) {
+        this.$refs['empProjectSizeIcon-' + index][0].hidden = true;
+      }
+
       this.$refs['boxCls-' + index][0].className = 'bl-box-2';
       this.$refs['toggleCls-' + index][0].className = 'responsibilities';
       this.$refs['toggleImg-' + index][0].src = '/img/icons/collapse.png';
@@ -4433,7 +4449,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onChangeLocation: function onChangeLocation(location) {
       var component = this;
 
-      if (location.length <= 0) {
+      if (location && location.length <= 0) {
         this.locations = [];
       }
 
@@ -49311,14 +49327,8 @@ var render = function() {
                       _c(
                         "div",
                         {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: employment.location,
-                              expression: "employment.location"
-                            }
-                          ],
+                          ref: "empLocationIcon-" + index,
+                          refInFor: true,
                           staticClass: "empinfo-row"
                         },
                         [
@@ -49357,14 +49367,8 @@ var render = function() {
                       _c(
                         "div",
                         {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: employment.project_size,
-                              expression: "employment.project_size"
-                            }
-                          ],
+                          ref: "empProjectSizeIcon-" + index,
+                          refInFor: true,
                           staticClass: "empinfo-row"
                         },
                         [

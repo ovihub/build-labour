@@ -125,6 +125,9 @@ class WorkExperience extends BaseModel
             $format = preg_replace("/[^0-9.]/","",$value);
             $format = number_format($format,0);
             $this->attributes['project_size'] = $format;
+        
+        } else {
+            $this->attributes['project_size'] = null;
         }
     }
 

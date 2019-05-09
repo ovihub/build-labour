@@ -64,7 +64,7 @@
 
                     <div :class="getCls" :ref="'toggleCls-' + index">
 
-                        <div class="empinfo-row" v-show="employment.location">
+                        <div class="empinfo-row" :ref="'empLocationIcon-' + index">
                             <img style="margin-top:5px" class="text-icon bl-mt12" src="/img/icons/pinlocation.png"
                                 srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
                                 
@@ -73,7 +73,7 @@
                             </span>
                         </div>
 
-                        <div class="empinfo-row" v-show="employment.project_size">
+                        <div class="empinfo-row" :ref="'empProjectSizeIcon-' + index">
                             <img class="text-icon" src="/img/icons/dollarsign.png"
                                 srcset="/img/icons/dollarsign@2x.png 2x, /img/icons/dollarsign@3x.png 3x">
 
@@ -135,34 +135,47 @@
             });
 
             Bus.$on('updateEmployment', function(index, details) {
-                if (index == -1) {
-                    component.employments.push(details);
+                let emps = component.employments;
 
-                    if ((component.employments.length > 1 && details.isCurrent == 1)) {
-                        window.location.href = component.endpoints.profile;
-                    }
+                if ((emps.length > 1 && details.isCurrent == 1 &&
+                    component.formatPeriod(details) != component.formatPeriod(emps[index])) || 
+                    (details.responsibilities.length > emps[index].responsibilities.length)) {
+                    
+                    window.location.href = component.endpoints.profile;
+                }
+
+                if (index == -1) {
+                    emps.push(details);
                 
                 } else {
-                    if ((index != 0 && component.employments.length > 1 && details.isCurrent == 1) || 
-                        (details.responsibilities.length > component.employments[index].responsibilities.length)) {
-                        
-                        window.location.href = component.endpoints.profile;
-                    }
-
-                    component.employments[index] = details;
+                    
+                    emps[index] = details;
                     
                     let refLocation = component.$refs['empLocation-' + index],
-                        refProjectSize = component.$refs['empProjectSize-' + index];
+                        refProjectSize = component.$refs['empProjectSize-' + index],
+                        refLocationIcon = component.$refs['empLocationIcon-' + index],
+                        refProjectSizeIcon = component.$refs['empProjectSizeIcon-' + index];
 
                     component.$refs['empJobRole-' + index][0].textContent = details.job_role;
                     component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
                     component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
 
-                    if (refLocation !== undefined) {
+                    if (details.location) {
                         refLocation[0].textContent = details.location;
+                        refLocationIcon[0].hidden = false;
+                    
+                    } else {
+                        refLocation[0].textContent = '';
+                        refLocationIcon[0].hidden = true;
                     }
-                    if (refProjectSize !== undefined) {
+
+                    if (details.project_size) {
                         refProjectSize[0].textContent = details.project_size;
+                        refProjectSizeIcon[0].hidden = false;
+                    
+                    } else {
+                        refProjectSize[0].textContent = '';
+                        refProjectSizeIcon[0].hidden = true;
                     }
                     
                     for (let i = 0; i < details.responsibilities.length; i++) {
@@ -192,6 +205,14 @@
             },
 
             expand(index) {
+                if (! this.employments[index].location) {
+                    this.$refs['empLocationIcon-' + index][0].hidden = true;
+                }
+
+                if (! this.employments[index].project_size) {
+                    this.$refs['empProjectSizeIcon-' + index][0].hidden = true;
+                }
+                
                 this.$refs['boxCls-' + index][0].className = 'bl-box-2';
                 this.$refs['toggleCls-' + index][0].className = 'responsibilities';
                 this.$refs['toggleImg-' + index][0].src = '/img/icons/collapse.png';
