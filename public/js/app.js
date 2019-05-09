@@ -3407,7 +3407,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5555,6 +5554,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     close: function close() {
+      this.errors.ticket = '';
       this.keyword = '';
       this.tickets = this.initTickets;
     },
@@ -48356,8 +48356,6 @@ var render = function() {
               _vm._v(" "),
               _c("template", { slot: "custom-modal-footer" }, [
                 _vm.gender ||
-                _vm.date_of_birth ||
-                _vm.marital_status ||
                 _vm.english_skill ||
                 _vm.drivers_license ||
                 _vm.has_registered_vehicle

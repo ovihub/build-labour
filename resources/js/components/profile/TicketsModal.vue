@@ -86,8 +86,8 @@
             },
 
             close() {
+                this.errors.ticket = '';
                 this.keyword = '';
-
                 this.tickets = this.initTickets;
             },
 
