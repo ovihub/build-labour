@@ -77,7 +77,6 @@ class UserRepository extends AbstractRepository
         return $user->skills;
     }
 
-
     public function deleteMainSkills(Request $request) {
 
         // delete user skills
@@ -95,4 +94,21 @@ class UserRepository extends AbstractRepository
         return true;
     }
 
+    public function company() {
+
+        $user = JWTAuth::toUser();
+
+        if ($user) {
+
+            if (!$user->company) {
+
+                return false;
+            }
+
+
+            return $user->company;
+        }
+
+        return false;
+    }
 }

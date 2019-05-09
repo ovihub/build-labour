@@ -24,5 +24,4 @@ class CompanyRepository extends AbstractRepository
             'name',
         ],
     ];
-
 }

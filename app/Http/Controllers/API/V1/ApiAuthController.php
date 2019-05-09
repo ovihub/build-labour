@@ -14,7 +14,8 @@ class ApiAuthController extends ApiBaseController
 {
     protected $userRepo;
 
-    public function __construct( UserRepository $userRepo ){
+    public function __construct( UserRepository $userRepo ) {
+
         $this->userRepo = $userRepo;
     }
 
@@ -340,6 +341,54 @@ class ApiAuthController extends ApiBaseController
 
     }
 
+    /**
+     * @OA\Get(
+     *      path="/auth/company",
+     *      tags={"Auth"},
+     *      summary="User is a company",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Logout Success"
+     *      )
+     * )
+     */
+
+    public function company( Request $request ) {
+
+        try {
+
+            $company = $this->userRepo->company();
+
+            if (!$company) {
+
+                return $this->apiErrorResponse( false, 'no company', self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
+
+            }
+
+        } catch (\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse(compact('company'), true, 'Authenticated Company User', 200 );
+    }
 
     /**
      * @OA\Post(

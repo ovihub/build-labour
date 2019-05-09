@@ -16,6 +16,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
         Route::middleware(['jwt'])->group(function(){
             Route::get('user', 'ApiAuthController@getAuthUser');
             Route::get('logout', 'ApiAuthController@logout');
+            Route::get('company', 'ApiAuthController@company');
         });
     });
 
@@ -85,6 +86,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 
     Route::prefix('company')->group(function () {
         Route::middleware([ 'jwt' ])->group(function () {
+         //   Route::get('profile', 'ApiCompaniesController@profile');
             Route::get('search', 'ApiCompaniesController@search');
             Route::put('', 'ApiCompaniesController@update');
         });

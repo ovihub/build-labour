@@ -42,6 +42,7 @@ class DatabaseRerun extends Command
     {
 
         $tables = DB::select('SHOW TABLES');
+        $tableName = 'Tables_in_' . env('DB_DATABASE');
 
         if (Schema::hasTable('user_skills')) {
 
@@ -49,12 +50,13 @@ class DatabaseRerun extends Command
 
         }
 
+        print_r($tables);
         foreach($tables as $table){
 
-            if (Schema::hasTable($table->Tables_in_buildlabour)) {
+            if (Schema::hasTable($table->{$tableName})) {
 
-                Schema::drop($table->Tables_in_buildlabour);
-                echo 'Table '.$table->Tables_in_buildlabour.' Droped. <br>';
+                Schema::drop($table->{$tableName});
+                echo 'Table '.$table->{$tableName}.' Droped. <br>';
             }
 
         }
