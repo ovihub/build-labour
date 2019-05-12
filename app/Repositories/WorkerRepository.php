@@ -31,6 +31,7 @@ class WorkerRepository extends AbstractRepository
         $this->workExp = new WorkExperience();
         $this->workExp->setUserId($user->id);
 
+
         if (!$this->workExp->store($request)) {
 
             return false;
@@ -52,6 +53,7 @@ class WorkerRepository extends AbstractRepository
         }
 
         $this->workExp->responsibilities;
+
         return $this->workExp;
     }
 
