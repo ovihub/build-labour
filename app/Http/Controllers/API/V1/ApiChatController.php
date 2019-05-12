@@ -3,13 +3,14 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App;
 use App\Interfaces\ChatServices\ChatServiceInterface;
+use App\Interfaces\ChatServices\Drivers\FirebaseChatService;
 use App\Models\Communication\ChatChannelMembers;
 use App\Models\Communication\ChatChannels;
 use App\Models\Communication\ChatHistory;
 use App\Models\Connections\Connections;
 use App\Models\Users\Users;
-use Helpers\ChatServices\Drivers\FirebaseChatService;
 use Helpers\Utils;
 use Illuminate\Http\Request;
 
@@ -20,9 +21,25 @@ class ApiChatController extends ApiBaseController{
      */
     private  $chat_service;
 
-    public function __construct( ChatServiceInterface $chat_service ){
-        //$this->chat_service = \App::make('ChatServiceInterface');
-        $this->chat_service = $chat_service;
+    public function __construct(){
+//        //$this->chat_service = \App::make('ChatServiceInterface');
+//        $this->chat_service = $chat_service;
+
+        App::bind( 'ChatServiceInterface', function( $app )
+        {
+            switch( env( 'CHAT_SERVICE' ) ){
+                case 'Socket.io':
+                    break;
+                case 'Pusher':
+                    break;
+                case 'Firebase':
+                default:
+                    return new FirebaseChatService();
+                    break;
+            }
+        });
+
+        $this->chat_service = App::make('ChatServiceInterface');
     }
 
     /**
