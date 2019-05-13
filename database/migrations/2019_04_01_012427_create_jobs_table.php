@@ -18,10 +18,11 @@ class CreateJobsTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('exp_level')->nullable();
-            $table->string('type'); // employment type
+            $table->string('type')->nullable(); // employment type
             $table->string('salary')->nullable();
             $table->integer('company_id')->unsigned();
             $table->integer('created_by')->unsigned();
+            $table->boolean('isAvailable')->default(true);
             $table->timestamps();
         });
     }
