@@ -136,3 +136,17 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
     });
 
 });
+
+// Admin
+Route::namespace('Api\V1\Admin')
+    ->middleware(['jwt', 'admin'])
+    ->prefix('v1/admin')
+    ->group(function() {
+        Route::prefix('user')
+            ->group(function () {
+                Route::get('get', 'ApiUsersController@get');
+                Route::post('upload', 'ApiUsersController@upload');
+                Route::delete('photo/delete', 'ApiUsersController@deletePhoto');
+                Route::delete('delete', 'ApiUsersController@delete');
+            });
+    });

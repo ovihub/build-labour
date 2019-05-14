@@ -4,8 +4,8 @@
 			<div class="table-title">
 				<span :class="dataTitle" @click="onClickTitle">{{ title }}</span>
 				<span v-if="dataTable === 'hidden'">
-					<span class="data-title-active ml-1 mr-1"> ▸ </span>
-					{{ subTitle }}
+					<span class="fa fa-angle-right data-title ml-1 mr-1"></span>
+					<span class="data-title-active">{{ subTitle }}</span>
 				</span>
 			</div>
 			<img class="table-search" src="/img/icons/search.png"
@@ -16,7 +16,7 @@
 				@keyup="fetchData">
     	</div>
 		
-		<!-- <view-user v-if="modalName == 'User'" :class="dataRecord"></view-user> -->
+		<view-user v-if="modalName == 'User'" :class="dataRecord"></view-user>
 		
 		<div :class="dataTable">
 			<table class="table table-hover">
@@ -222,7 +222,7 @@
 
 				this.subTitle = this.getProfileName(data.full_name);
 				this.dataSearch = 'hidden';
-				this.dataTitle = 'data-title-active';
+				this.dataTitle = 'data-title';
 				this.dataTable = 'hidden';
 				this.dataRecord = 'data-record';
 
