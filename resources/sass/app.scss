@@ -10,7 +10,8 @@
 // Other Styles
 @import 'variables';
 @import 'labels';
-@import 'profile';
+@import 'profile'; 
+@import 'job'; 
 @import 'cropper';
 @import 'responsive';
 
@@ -830,6 +831,9 @@ p.bl-nav-tab-label {
 }
 .dropdown-item {
   font-size: 14px;
+}
+.modal-dialog {
+  max-width: 588px;
 }
 .modal-body {
   padding: 0;

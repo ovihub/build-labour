@@ -48,6 +48,8 @@ Vue.component('delete-modal', require('./components/common/DeleteModal.vue').def
 Vue.component('navigation', require('./components/common/Navigation.vue').default);
 Vue.component('password-eye', require('./components/common/PasswordEye.vue').default);
 Vue.component('record-form', require('./components/common/RecordForm.vue').default);
+Vue.component('ads', require('./components/common/Ads.vue').default);
+Vue.component('job-ads', require('./components/common/JobAds.vue').default);
 
 // Auth components
 Vue.component('login', require('./components/auth/Login.vue').default);
@@ -67,8 +69,12 @@ Vue.component('education', require('./components/profile/Education.vue').default
 Vue.component('education-modal', require('./components/profile/EducationModal.vue').default);
 Vue.component('tickets', require('./components/profile/Tickets.vue').default);
 Vue.component('tickets-modal', require('./components/profile/TicketsModal.vue').default);
-Vue.component('ads', require('./components/profile/Ads.vue').default);
-Vue.component('job-ads', require('./components/profile/JobAds.vue').default);
+
+// Job components
+Vue.component('company-profile', require('./components/job/CompanyProfile.vue').default);
+Vue.component('job-details', require('./components/job/JobDetails.vue').default);
+Vue.component('job-requirements', require('./components/job/JobRequirements.vue').default);
+Vue.component('job-responsibilities', require('./components/job/JobResponsibilities.vue').default);
 
 // Record components
 Vue.component('show-form', require('./components/record/ShowForm.vue').default);

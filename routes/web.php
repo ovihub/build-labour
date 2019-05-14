@@ -30,3 +30,10 @@ Route::prefix('user')
         });
         Route::get('verify', 'UsersController@showVerifyForm')->name('verify');
     });
+
+Route::prefix('job')
+    ->group(function() {
+        Route::middleware(['checktoken'])->group(function(){
+            Route::get('view', 'JobsController@showJob');
+        });
+    });

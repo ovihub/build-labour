@@ -124,6 +124,6 @@
 
 <style scoped>
     .modal-ku {
-        width: 588px;
+        width: 100%;
     }
 </style>
