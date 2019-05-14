@@ -18,27 +18,16 @@ class CheckToken
         $page = \Route::current()->getName();
         $token = isset($_COOKIE['bl_token']) ? $_COOKIE['bl_token'] : null;
 
-        if (!$token) {
-
+        if (! $token) {
             if ($page == 'login' || $page == 'register' || $page == 'password_request' || $page == 'password_reset') {
-
                 return $next($request);
             }
-        }
-
-        // other page
-        if (!$token) {
 
             return redirect('login');
         }
 
-        if ($page == 'login' || $page == 'register') {
 
-            return redirect('/user/profile');
-        }
-
-        if ($page == 'password_request' || $page == 'password_reset') {
-
+        if ($page == 'login' || $page == 'register' || $page == 'password_request' || $page == 'password_reset') {
             return redirect('/user/profile');
         }
 

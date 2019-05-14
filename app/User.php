@@ -18,6 +18,7 @@ use App\Models\Users\WorkExperience;
 use Illuminate\Notifications\Notifiable;
 //use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use DB;
 
 class User extends Users implements JWTSubject
 {
@@ -113,5 +114,15 @@ class User extends Users implements JWTSubject
     public function Firebase() {
 
         return $this->belongsTo(FirebaseUsers::class, 'id', 'user_id');
+    }
+
+    /**
+     * Check if user is admin
+     *
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        return DB::table('administrators')->where('user_id', '=', $this->id)->first() !== null;
     }
 }

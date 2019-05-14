@@ -30,3 +30,15 @@ Route::prefix('user')
         });
         Route::get('verify', 'UsersController@showVerifyForm')->name('verify');
     });
+
+Route::namespace('Admin')
+    ->middleware(['checktoken', 'admin'])
+    ->prefix('all')
+    ->group(function() {
+        Route::get('users', 'DatatableController@showUsers')->name('users');
+
+        Route::prefix('datatable')
+            ->group(function () {
+                Route::get('users', 'DatatableController@getUsersDatatable')->name('users.table');
+            });
+    });

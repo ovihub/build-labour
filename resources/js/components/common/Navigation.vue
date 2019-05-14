@@ -46,7 +46,7 @@
         </ul>
 
         <div class="bl-nav-notification">
-            <logout></logout>
+            <logout text-only="false"></logout>
 
             <div class="bl-nav-tab-style-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 16 20">

@@ -1,6 +1,6 @@
 <template>
-    <div class="" id="navbarSupportedContent">
-        <div id="navbarDropdown" data-toggle="dropdown">
+    <div class="" id="navbarSupportedContent" v-if="textOnly != 'true'">
+        <div id="navbarDropdown" data-toggle="dropdown" >
             <img v-if="input.profile_photo_url" class="bl-nav-profile-pic" :src="input.profile_photo_url" />
             <avatar cls="bl-nav-profile-pic" size="32" border="0" :is-logout=true v-else></avatar>
         </div>
@@ -14,6 +14,9 @@
             </li>
         </ul>
     </div>
+    <a class="nav-link nav-link-custom" href="#" @click="logoutUser" v-else>
+        Logout
+    </a>
 </template>
 
 <script>
@@ -30,6 +33,12 @@
                 endpoints: {
                     logout: '/api/v1/auth/logout',
                 }
+            }
+        },
+
+        props: {
+            textOnly: {
+                type: String,
             }
         },
 
@@ -67,6 +76,7 @@
                         Api.deleteToken();
                     })
                     .finally(function() {
+
                         Api.deleteToken();
                     })
             }

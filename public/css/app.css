@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@import url(https://fonts.googleapis.com/css?family=Krona+One);@import url(https://rsms.me/inter/inter.css);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Nunito);@import url(https://fonts.googleapis.com/css?family=Krona+One);@import url(https://rsms.me/inter/inter.css);@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);@charset "UTF-8";
 
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
@@ -11062,6 +11062,381 @@ span.ticket-delete:hover {
   height: 100%;
   margin: 0;
   width: 100%;
+}
+
+body.admin {
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+/* ==========================================================================
+    Bootstrap Override Styling
+  ========================================================================== */
+
+.btn-primary {
+  color: #fff;
+  background-color: #ff7705;
+  border-color: #ff7705;
+}
+
+.btn-primary:hover {
+  background-color: #ff7705;
+  border-color: #ff7705;
+}
+
+.col-xl-10,
+.col-lg-10,
+.col-md-10,
+.col-sm-10,
+.col-10 {
+  padding: 32px 50px;
+}
+
+.col-xl-2,
+.col-lg-2,
+.col-md-2,
+.col-sm-2,
+.col-2 {
+  padding: 0;
+}
+
+/* ==========================================================================
+    Navbar Styling
+  ========================================================================== */
+
+.navbar-laravel {
+  background-color: #ff7705;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  color: #fff;
+  padding-left: 32px;
+}
+
+.nav-profile-pic {
+  width: 32px;
+  height: 32px;
+  border: solid 2px #ffffff;
+  background-color: #d8d8d8;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 2px;
+  margin-right: -15px;
+}
+
+.nav-item {
+  font-size: 14px;
+  font-weight: bold;
+  color: #000000;
+  margin-left: 17px;
+}
+
+.nav-link-custom {
+  color: #000;
+  padding: 15px;
+}
+
+.nav-link-custom:hover,
+.nav-link-custom:focus {
+  color: #ff7705;
+}
+
+/* ==========================================================================
+    Sidebar Styling
+  ========================================================================== */
+
+.sidebar-container {
+  background-color: none;
+  min-height: 94vh;
+}
+
+.sidebar-header {
+  width: 100%;
+  height: 244px;
+  padding-top: 29px;
+  padding-bottom: 9px;
+  background: #ffffff;
+  background: linear-gradient(to right, #ffffff, #ffffff, #f9fafa);
+}
+
+.sidebar-logo {
+  width: 112px;
+  height: 112px;
+  margin: auto;
+  margin-bottom: 15px;
+  border-radius: 8%;
+  box-shadow: 1px 1px 5px #888;
+}
+
+.sidebar-logo-image {
+  width: 80px;
+  margin: 40px 15px;
+}
+
+.sidebar-title {
+  font-family: "Inter", sans-serif;
+  font-size: 23px;
+  font-weight: 500;
+  text-align: center;
+  color: #000000;
+  margin: auto;
+}
+
+.sidebar-project {
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  text-align: center;
+  color: #000000;
+  margin: auto;
+}
+
+.sidebar-nav-title {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  color: #a3a9ac;
+  margin: auto;
+  padding: 15px 0;
+}
+
+/* ==========================================================================
+    Datatable Styling
+  ========================================================================== */
+
+.hidden {
+  display: none;
+}
+
+.data-table {
+  min-height: 80vh;
+  display: block;
+}
+
+.data-title:hover {
+  color: #ff7705;
+  cursor: pointer;
+}
+
+.data-title-active {
+  color: #ff7705;
+}
+
+.data-title-active:hover {
+  color: #ff7705;
+  cursor: pointer;
+}
+
+.data-search {
+  display: block;
+  width: 40%;
+  height: calc(1.6em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 1px solid rgba(37, 40, 41, 0.08);
+  font-size: 14px;
+  font-weight: bold;
+  color: #7a8083;
+  min-width: 140px;
+}
+
+.table th,
+.table td {
+  padding: 10px 10px;
+  vertical-align: middle;
+  border: none;
+  font-size: 16px;
+}
+
+.table-hover tbody tr {
+  color: #7a8083;
+}
+
+.table-hover tbody tr:hover {
+  color: #ff7705;
+  background: none;
+  cursor: pointer;
+}
+
+.table-title {
+  font-size: 16px;
+  color: #000000;
+}
+
+.table-search {
+  width: 17px;
+  height: 17px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  right: 60px;
+  position: absolute;
+}
+
+.table-search:hover {
+  cursor: pointer;
+}
+
+.table-profile-pic {
+  width: 36px;
+  height: 36px;
+  margin-right: 16px;
+  background-color: #d8d8d8;
+  border-radius: 50%;
+}
+
+/* ==========================================================================
+    Record Styling
+  ========================================================================== */
+
+.record-title {
+  font-size: 44px;
+  color: #000000;
+}
+
+.record-links {
+  font-size: 12px;
+  margin-bottom: 42px;
+  display: inline-flex;
+  -webkit-padding-start: 0px;
+          padding-inline-start: 0px;
+}
+
+.record-links li:first-child {
+  list-style-type: none;
+}
+
+.record-links .active {
+  font-weight: 600;
+  color: #4ab7ee;
+  margin-right: 25px;
+}
+
+.record-links .inactive {
+  font-weight: normal;
+  color: #a3a9ac;
+  margin-right: 25px;
+}
+
+.record-photo {
+  display: flex;
+}
+
+.record-profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  background-color: #f1f3f4;
+  overflow: hidden;
+}
+
+.record-photo-actions {
+  margin-top: 24px;
+  font-size: 16px;
+  color: #4ab7ee;
+}
+
+.record-photo-actions .action-item:hover {
+  cursor: pointer;
+  color: #ff7705;
+}
+
+.record-label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #7a8083;
+  padding-top: 24px;
+  padding-left: 20px;
+}
+
+.record-input {
+  width: 380px;
+  height: 42px;
+  border-radius: 21px;
+  background-color: #f1f3f4;
+  font-size: 16px;
+  color: #7a8083;
+  padding: 8px 20px;
+}
+
+/* ==========================================================================
+    Pagination Styling
+  ========================================================================== */
+
+.page-item-2.active .page-link-2 {
+  z-index: 1;
+  color: #fff;
+  background-color: #ff7705;
+  border-color: #ff7705;
+}
+
+.page-link-2 {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: #ff7705;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+}
+
+.page-link-2:hover {
+  color: #000;
+}
+
+/* ==========================================================================
+    Common Styling
+  ========================================================================== */
+
+.bl-content {
+  background-color: #ffffff;
+}
+
+.bl-label-sm {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  text-align: center;
+  color: #ff9934;
+  margin: 20px 0 40px 0;
+}
+
+.bl-label-md {
+  font-size: 50px;
+  font-weight: 500;
+  color: #252829;
+  text-align: center;
+}
+
+.bl-label-bg {
+  font-size: 100px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  text-align: center;
+  color: #000000;
+}
+
+.bl-mb-32 {
+  margin-bottom: 32px;
+}
+
+.bl-ml-35 {
+  margin-left: 35px;
+}
+
+.bl-mr-15 {
+  margin-right: 15px;
 }
 
 /*!
