@@ -20,7 +20,7 @@ class AdministratorsTableSeeder extends Seeder
             'last_name' => 'Admin',
             'mobile_number' => '+61412345678',
             'email' => env('APP_EMAIL_SUPPORT'),
-            'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+            'password' => '$2y$10$d7PelXy6..vwRPCtp35PXe1xzMG92oKG6EwoFHPsTqw.xmqp4Gy0S', // secret
             'created_at' => $date,
             'updated_at' => $date
         ]);
