@@ -2,9 +2,10 @@
 
 namespace App\Models\Companies;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
+use App\User;
 
-class Job extends Model
+class Job extends BaseModel
 {
     protected $table = 'jobs';
 
@@ -13,12 +14,14 @@ class Job extends Model
     protected $fillable = [
         'title',
         'description',
+        'about',
         'exp_level',
-        'type',
+        'contract_type',
         'salary',
+        'reports_to',
+        'location',
         'company_id',
         'created_by',
-        'isAvailable'
     ];
 
     /**
@@ -30,8 +33,10 @@ class Job extends Model
             'title'         => 'required|min:5',
             'description'   => 'nullable|min:5',
             'exp_level'     => 'nullable|min:5',
-            'type'          => 'nullable|min:5',
-            'salary'        => 'nullable|min:5',
+            'contract_type' => 'nullable|min:5',
+            'salary'        => 'nullable|min:2',
+            'reports_to'    => 'nullable|min:5',
+            'location'      => 'nullable|min:5'
         ];
     }
 
@@ -67,9 +72,18 @@ class Job extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function store(Request $r) {
+    public function Requirements() {
 
-        $data = $r->all();
+        return $this->hasMany( JobRequirement::class, 'job_id', 'id');
+    }
+
+    public function Responsibilities() {
+
+        return $this->hasMany( JobResponsibility::class, 'job_id', 'id');
+    }
+
+    public function store($data) {
+
 
         if( ! $this->validate( $data )) {
 
@@ -80,7 +94,7 @@ class Job extends Model
 
         $pk = $this->primaryKey;
 
-        if ($r->$pk) {
+        if (isset($data[$pk])) {
 
             $this->exists = true;
         }

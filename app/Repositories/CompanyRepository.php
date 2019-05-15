@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Models\Companies\Company;
 use App\Models\Companies\Job;
+use App\Models\Companies\JobRequirement;
+use App\Models\Companies\JobResponsibility;
 use Illuminate\Http\Request;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 use JWTAuth;
@@ -18,6 +20,9 @@ class CompanyRepository extends AbstractRepository
     protected $model = Company::class;
 
     public $company = null;
+    public $job = null;
+    public $jobRequirement = null;
+    public $jobResponsibility = null;
 
     /**
      * Valid searchable columns
@@ -64,13 +69,6 @@ class CompanyRepository extends AbstractRepository
         return false;
     }
 
-    public function getJobs($id) {
-
-        $jobs = Job::where('company_id', $id)->get();
-
-        return $jobs;
-    }
-
     public function getWorkers($id) {
 
         $company = Company::find($id);
@@ -81,5 +79,126 @@ class CompanyRepository extends AbstractRepository
         }
 
         return [];
+    }
+
+    public function createJob( Request $request ) {
+
+        $user = JWTAuth::toUser();
+        $this->job = new Job();
+
+        if ($user->company){
+
+            $data = $request->all();
+            $data['company_id'] = $request->id;
+            $data['created_by'] = $user->id;
+
+            if ($this->job->store($data)) {
+
+                return $this->job;
+            }
+
+        }
+
+        return false;
+    }
+
+    public function getJobs($id) {
+
+        $jobs = Job::where('company_id', $id)->get();
+
+        return $jobs;
+    }
+
+    public function getJob($id) {
+
+        $job = Job::find($id);
+
+        if ($job) {
+
+            $job->requirements;
+            $job->responsibilities;
+            
+            return $job;
+        }
+
+        return false;
+    }
+
+    public function saveRequirements( Request $request) {
+
+        $this->jobRequirement = new JobRequirement();
+
+        if (!$request->requirements) {
+
+            $this->jobRequirement->addError('requirements is required');
+        }
+
+        $job = Job::find($request->jid);
+
+        if ($job && $request->requirements) {
+
+            foreach ($request->requirements as $r) {
+
+                $r['items_json'] = $r['items'];
+                $r['job_id'] = $job->id;
+
+                if (isset($r['id'])) {
+
+                    // update
+                    $jobReq = JobRequirement::find($r['id']);
+
+                } else {
+
+                    // new
+                    $jobReq = new JobRequirement();
+                }
+
+
+                $jobReq->store($r);
+            }
+
+            return $job->requirements;
+        }
+
+        return false;
+    }
+
+    public function saveResponsibilities( Request $request) {
+
+        $this->jobResponsibility = new JobResponsibility();
+
+        if (!$request->responsibilities) {
+
+            $this->jobResponsibility->addError('responsibilities is required');
+        }
+
+        $job = Job::find($request->jid);
+
+        if ($job && $request->responsibilities) {
+
+            foreach ($request->responsibilities as $r) {
+
+                $r['items_json'] = $r['items'];
+                $r['job_id'] = $job->id;
+
+                if (isset($r['id'])) {
+
+                    // update
+                    $jobRes = JobResponsibility::find($r['id']);
+
+                } else {
+
+                    // new
+                    $jobRes = new JobResponsibility();
+                }
+
+
+                $jobRes->store($r);
+            }
+
+            return $job->responsibilities;
+        }
+
+        return false;
     }
 }
