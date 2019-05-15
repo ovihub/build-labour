@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Companies\Company;
+use App\Models\Companies\CompanyPost;
+use App\Models\Companies\CompanySpecialized;
 use App\Models\Companies\Job;
 use App\User;
 use Carbon\Carbon;
@@ -36,14 +38,25 @@ class CompanyTableSeeder extends Seeder
         for ($i=0; $i<5; $i++) {
 
             $c = new Company();
-            $c->name = $faker->company;
+
+            if ($i == 0) {
+
+                $c->name = 'Richmond Surveying';
+
+            } else {
+
+                $c->name = $faker->company;
+            }
+
             $c->address = $faker->address;
             $c->contact_name = $faker->name;
             $c->contact_email = $faker->email;
             $c->phone = $faker->phoneNumber;
-            $c->locations_json = json_encode(['5433 Zola Spring Suite, Australia', '2933 Hills Greens, South Nicola, AK 03297']);
-            $c->sector = 'manufacturing';
-            $c->tier = 'local';
+            $c->locations_json = json_encode(['2933 Hills Greens, South Nicola, AK 03297']);
+            $c->sector = 'automotive';
+            $c->tier = 'manufacturing';
+            $c->introduction = 'We are a modern, professional and sophisticated surveying firm specialising in land development, construction and engineering surveying. We provide quality, cost-effective and efficient surveying service.';
+            $c->website = $faker->domainName;
 
             if ($i == 0) {
 
@@ -54,6 +67,42 @@ class CompanyTableSeeder extends Seeder
 
             if ($i == 0) {
 
+                // company posts
+
+                CompanyPost::create([
+                    'content' => 'Mass hiring please apply :)',
+                    'company_id' => $c->id,
+                    'posted_by' => $user->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
+                ]);
+
+                CompanyPost::create([
+                    'content' => 'Feel free to contact us everyone',
+                    'company_id' => $c->id,
+                    'posted_by' => $user->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
+                ]);
+
+                // company specialization
+
+                CompanySpecialized::create([
+                    'name' => 'Land Development',
+                    'company_id' => $c->id
+                ]);
+
+                CompanySpecialized::create([
+                    'name' => 'Construction',
+                    'company_id' => $c->id
+                ]);
+
+                CompanySpecialized::create([
+                    'name' => 'Engineering Surveying',
+                    'company_id' => $c->id
+                ]);
+
+                // jobs
                 Job::create([
                     'title' => 'Master Carpenter',
                     'description' => 'A 20 years experience carpenter with a big salary',

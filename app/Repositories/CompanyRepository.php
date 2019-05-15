@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Companies\Company;
+use App\Models\Companies\CompanyPost;
+use App\Models\Companies\CompanySpecialized;
 use App\Models\Companies\Job;
 use App\Models\Companies\JobRequirement;
 use App\Models\Companies\JobResponsibility;
@@ -49,6 +51,41 @@ class CompanyRepository extends AbstractRepository
         $this->company = $user->company;
 
         if ($user->company->store($request)) {
+
+            // save specialization
+            if (!$request->specialization) {
+
+                $this->company->addError('requirements is required');
+            }
+
+            $excludeIds = [];
+
+            foreach ($request->specialization as $r) {
+
+                $r['company_id'] = $user->company->id;
+
+                if (isset($r['id'])) {
+
+                    // update
+                    $spec = CompanySpecialized::find($r['id']);
+
+                    $excludeIds[] = $r['id'];
+
+                } else {
+
+                    // new
+                    $spec = new CompanySpecialized();
+                }
+
+                if ($spec->store($r)) {
+
+                    $excludeIds[] = $spec->id;
+                }
+            }
+
+            CompanySpecialized::whereNotIn('id', $excludeIds)->where('company_id', $user->company->id)->delete();
+
+            $user->company->specialization;
 
             return $user->company;
         }
@@ -117,11 +154,18 @@ class CompanyRepository extends AbstractRepository
 
             $job->requirements;
             $job->responsibilities;
-            
+
             return $job;
         }
 
         return false;
+    }
+
+    public function getPosts($id) {
+
+        $posts = CompanyPost::where('company_id', $id)->get();
+
+        return $posts;
     }
 
     public function saveRequirements( Request $request) {
@@ -137,6 +181,8 @@ class CompanyRepository extends AbstractRepository
 
         if ($job && $request->requirements) {
 
+            $excludeIds = [];
+
             foreach ($request->requirements as $r) {
 
                 $r['items_json'] = $r['items'];
@@ -147,6 +193,8 @@ class CompanyRepository extends AbstractRepository
                     // update
                     $jobReq = JobRequirement::find($r['id']);
 
+                    $excludeIds[] = $r['id'];
+
                 } else {
 
                     // new
@@ -154,8 +202,13 @@ class CompanyRepository extends AbstractRepository
                 }
 
 
-                $jobReq->store($r);
+                if ($jobReq->store($r)) {
+
+                    $excludeIds[] = $jobReq->id;
+                }
             }
+
+            JobRequirement::whereNotIn('id', $excludeIds)->where('job_id', $job->id)->delete();
 
             return $job->requirements;
         }
@@ -176,6 +229,7 @@ class CompanyRepository extends AbstractRepository
 
         if ($job && $request->responsibilities) {
 
+            $excludeIds = [];
             foreach ($request->responsibilities as $r) {
 
                 $r['items_json'] = $r['items'];
@@ -186,15 +240,23 @@ class CompanyRepository extends AbstractRepository
                     // update
                     $jobRes = JobResponsibility::find($r['id']);
 
+                    $excludeIds[] = $r['id'];
+
                 } else {
 
                     // new
                     $jobRes = new JobResponsibility();
+
+                    $excludeIds[] = $r['id'];
                 }
 
+                if ($jobRes->store($r)) {
 
-                $jobRes->store($r);
+                    $excludeIds[] = $jobRes->id;
+                }
             }
+
+            JobResponsibility::whereNotIn('id', $excludeIds)->where('job_id', $job->id)->delete();
 
             return $job->responsibilities;
         }
