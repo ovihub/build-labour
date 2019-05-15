@@ -3761,6 +3761,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -49494,52 +49495,71 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "profile-item-1" }, [
-      _c("div", { staticClass: "company-image" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "profile-content" }, [
-        _c(
-          "span",
-          {
-            staticClass: "edit-icon",
-            attrs: {
-              "data-toggle": "modal",
-              "data-backdrop": "static",
-              "data-keyboard": "false",
-              "data-target": "#modalCompanyProfile"
-            }
-          },
-          [
-            _c("img", {
-              attrs: {
-                src: "/img/icons/editbutton.png",
-                srcset:
-                  "/img/icons/editbutton@2x.png" +
-                  " 2x, " +
-                  "/img/icons/editbutton@3x.png" +
-                  " 3x"
-              }
-            })
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "profile-content-p20 pb-4" }, [
-          _c("div", { staticClass: "company-title" }, [_vm._v("ProBuild")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "company-address" }, [
-            _vm._v("\n                Melbourne, Australia\n            ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "company-body" }, [
-            _vm._v(
-              "\n                At Probuild, we understand that from every strong foundation through to the tip of every tower,\n                our built environment demands the utmost quality. So for 30 years and counting, we’ve created\n                major projects for clients nationwide.\n\n                Creators that work hard to realise our clients’ visions everyday. If you can imagine it, we can do it.\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "company-view" }, [
-            _vm._v("\n                View Business\n            ")
-          ])
-        ])
+      _c("div", { staticClass: "company-image" }, [
+        _c("img", {
+          staticClass: "sidebar-logo-image",
+          attrs: {
+            src: "/img/build-labour-logo-orange.png",
+            srcset:
+              "/img/build-labour-logo-orange@2x.png" +
+              " 2x, " +
+              "/img/build-labour-logo-orange@3x.png" +
+              " 3x"
+          }
+        })
       ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "profile-content",
+          staticStyle: { "margin-top": "-56px" }
+        },
+        [
+          _c(
+            "span",
+            {
+              staticClass: "edit-icon edit-icon-4",
+              attrs: {
+                "data-toggle": "modal",
+                "data-backdrop": "static",
+                "data-keyboard": "false",
+                "data-target": "#modalCompanyProfile"
+              }
+            },
+            [
+              _c("img", {
+                attrs: {
+                  src: "/img/icons/editbutton.png",
+                  srcset:
+                    "/img/icons/editbutton@2x.png" +
+                    " 2x, " +
+                    "/img/icons/editbutton@3x.png" +
+                    " 3x"
+                }
+              })
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "profile-content-p20 pb-4" }, [
+            _c("div", { staticClass: "company-title" }, [_vm._v("ProBuild")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "company-address" }, [
+              _vm._v("\n                Melbourne, Australia\n            ")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "company-body" }, [
+              _vm._v(
+                "\n                At Probuild, we understand that from every strong foundation through to the tip of every tower,\n                our built environment demands the utmost quality. So for 30 years and counting, we’ve created\n                major projects for clients nationwide.\n\n                Creators that work hard to realise our clients’ visions everyday. If you can imagine it, we can do it.\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "company-view" }, [
+              _vm._v("\n                View Business\n            ")
+            ])
+          ])
+        ]
+      ),
       _vm._v(" "),
       _c("button", { staticStyle: { width: "100%" } }, [
         _vm._v("\n        Apply\n    ")
@@ -49863,11 +49883,11 @@ var staticRenderFns = [
         _c("div", { staticClass: "profile-title" }, [
           _c("img", {
             attrs: {
-              src: "/img/icons/employmenthistory.png",
+              src: "/img/icons/responsibilities-orange.png",
               srcset:
-                "/img/icons/employmenthistory@2x.png" +
+                "/img/icons/responsibilities-orange@2x.png" +
                 " 2x, " +
-                "/img/icons/employmenthistory@3x.png" +
+                "/img/icons/responsibilities-orange@3x.png" +
                 " 3x"
             }
           }),

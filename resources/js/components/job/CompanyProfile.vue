@@ -1,11 +1,12 @@
 <template>
     <div class="profile-item-1">
         <div class="company-image">
-
+            <img class="sidebar-logo-image" src="/img/build-labour-logo-orange.png" 
+                srcset="/img/build-labour-logo-orange@2x.png 2x, /img/build-labour-logo-orange@3x.png 3x">
         </div>
 
-        <div class="profile-content">
-            <span class="edit-icon"
+        <div class="profile-content" style="margin-top:-56px">
+            <span class="edit-icon edit-icon-4"
                 data-toggle="modal"
                 data-backdrop="static"
                 data-keyboard="false"
