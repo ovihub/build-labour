@@ -31,6 +31,13 @@ Route::prefix('user')
         Route::get('verify', 'UsersController@showVerifyForm')->name('verify');
     });
 
+Route::prefix('company')
+    ->group(function() {
+        Route::middleware(['checktoken'])->group(function(){
+            Route::get('profile', 'CompaniesController@showCompany');
+        });
+    });
+
 Route::prefix('job')
     ->group(function() {
         Route::middleware(['checktoken'])->group(function(){
