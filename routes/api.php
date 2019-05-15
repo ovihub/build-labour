@@ -91,8 +91,13 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             Route::post('update', 'ApiCompaniesController@update');
             Route::post('photo', 'ApiCompaniesController@uploadPhoto');
             Route::get('{id}', 'ApiCompaniesController@view');
-            Route::get('{id}/jobs', 'ApiCompaniesController@jobs');
             Route::get('{id}/workers', 'ApiCompaniesController@workers');
+
+            Route::post('{id}/jobs', 'ApiCompaniesController@createJob');
+            Route::get('{id}/jobs', 'ApiCompaniesController@jobs');
+            Route::get('{id}/jobs/{jid}', 'ApiCompaniesController@viewJob');
+            Route::post('{id}/jobs/{jid}/requirements', 'ApiCompaniesController@postJobRequirements');
+            Route::post('{id}/jobs/{jid}/responsibilities', 'ApiCompaniesController@postJobResponsibilities');
 
         });
     });
