@@ -20,6 +20,11 @@ class CreateCompaniesTable extends Migration
             $table->string('contact_email')->nullable();
             $table->string('contact_name')->nullable();
             $table->string('phone')->nullable();
+            $table->text('locations_json')->nullable();
+            $table->string('sector')->nullable();
+            $table->string('tier')->nullable();
+            $table->string('photo_url')->nullable();
+            $table->text('introduction')->nullable();
             $table->integer('created_by')->unsigned()->nullable();
             $table->timestamps();
         });

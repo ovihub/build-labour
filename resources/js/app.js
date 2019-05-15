@@ -39,6 +39,10 @@ Utils = Helper.methods;
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
+// Admin components
+Vue.component('datatable', require('./components/admin/Datatable.vue').default);
+Vue.component('view-user', require('./components/admin/ViewUser.vue').default);
+
 // Common components
 Vue.component('alert', require('./components/common/Alert.vue').default);
 Vue.component('avatar', require('./components/common/Avatar.vue').default);

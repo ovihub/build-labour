@@ -12,8 +12,12 @@
 @import 'labels';
 @import 'profile'; 
 @import 'job'; 
+@import 'admin';
 @import 'cropper';
 @import 'responsive';
+
+// Font Awesome Icons
+@import '~font-awesome/scss/font-awesome';
 
 html { 
   font-family: 'Inter', sans-serif;

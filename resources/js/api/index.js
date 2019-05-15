@@ -46,17 +46,12 @@ class BuildLabourApi {
     }
 
     setToken(token) {
-
-        console.log('xxxxxxxxx');
-        console.log(this.tokenName);
         VueCookie.set(this.tokenName, JSON.stringify(token));
         this._invalidateToken()
     }
 
     deleteToken() {
-
         VueCookie.delete(this.tokenName);
-
         window.location.href = '/login';
     }
 

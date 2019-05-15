@@ -37,3 +37,15 @@ Route::prefix('job')
             Route::get('view', 'JobsController@showJob');
         });
     });
+    
+Route::namespace('Admin')
+    ->middleware(['checktoken', 'admin'])
+    ->prefix('all')
+    ->group(function() {
+        Route::get('users', 'DatatableController@showUsers')->name('users');
+
+        Route::prefix('datatable')
+            ->group(function () {
+                Route::get('users', 'DatatableController@getUsersDatatable')->name('users.table');
+            });
+    });

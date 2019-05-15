@@ -86,9 +86,14 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 
     Route::prefix('company')->group(function () {
         Route::middleware([ 'jwt' ])->group(function () {
-         //   Route::get('profile', 'ApiCompaniesController@profile');
+
             Route::get('search', 'ApiCompaniesController@search');
-            Route::put('', 'ApiCompaniesController@update');
+            Route::post('update', 'ApiCompaniesController@update');
+            Route::post('photo', 'ApiCompaniesController@uploadPhoto');
+            Route::get('{id}', 'ApiCompaniesController@view');
+            Route::get('{id}/jobs', 'ApiCompaniesController@jobs');
+            Route::get('{id}/workers', 'ApiCompaniesController@workers');
+
         });
     });
 
@@ -104,30 +109,44 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
         });
     });
 
-//    Route::prefix('device')->middleware([ 'jwt' ])->group(function () {
-//        Route::post( 'register', 'ApiDevicesController@registerDevice' );
-//        Route::post( 'unregister', 'ApiDevicesController@unregisterDevice' );
-//    });
-//
-//    Route::prefix('notification')->middleware([ 'jwt' ])->group(function () {
-//        Route::post( 'test', 'ApiPushNotificationsController@test');
-//    });
-//
-//    // chat
-//    Route::prefix('chat')->middleware([ 'jwt' , 'chat' ])->group(function () {
-//        Route::post( 'send', 'ApiChatController@send' );
-//        Route::get( 'channels', 'ApiChatController@channels' );
-//        Route::get( 'history', 'ApiChatController@historyByChannel' );
-//        Route::get( 'unread', 'ApiChatController@unread' );
-//        Route::post( 'reset_unread', 'ApiChatController@resetUnread' );
-//    });
-//
-//
-//    Route::prefix( 'connections' )->middleware([ 'jwt' , 'chat' ])->group(function () {
-//        Route::post( 'connect', 'ApiConnectionsController@connect' );
-//        Route::post( 'status/change', 'ApiConnectionsController@changeStatus' );
-//        Route::get( 'active', 'ApiConnectionsController@activeConnections' );
-//        Route::get( 'pending', 'ApiConnectionsController@pendingConnections' );
-//    });
+    Route::prefix('device')->middleware([ 'jwt' ])->group(function () {
+        Route::post( 'register', 'ApiDevicesController@registerDevice' );
+        Route::post( 'unregister', 'ApiDevicesController@unregisterDevice' );
+    });
+
+    Route::prefix('notification')->middleware([ 'jwt' ])->group(function () {
+        Route::post( 'test', 'ApiPushNotificationsController@test');
+    });
+
+    // chat
+    Route::prefix('chat')->middleware([ 'jwt' , 'chat' ])->group(function () {
+        Route::post( 'send', 'ApiChatController@send' );
+        Route::get( 'channels', 'ApiChatController@channels' );
+        Route::get( 'history', 'ApiChatController@historyByChannel' );
+        Route::get( 'unread', 'ApiChatController@unread' );
+        Route::post( 'reset_unread', 'ApiChatController@resetUnread' );
+    });
+
+
+    Route::prefix( 'connections' )->middleware([ 'jwt' , 'chat' ])->group(function () {
+        Route::post( 'connect', 'ApiConnectionsController@connect' );
+        Route::post( 'status/change', 'ApiConnectionsController@changeStatus' );
+        Route::get( 'active', 'ApiConnectionsController@activeConnections' );
+        Route::get( 'pending', 'ApiConnectionsController@pendingConnections' );
+    });
 
 });
+
+// Admin
+Route::namespace('Api\V1\Admin')
+    ->middleware(['jwt', 'admin'])
+    ->prefix('v1/admin')
+    ->group(function() {
+        Route::prefix('user')
+            ->group(function () {
+                Route::get('get', 'ApiUsersController@get');
+                Route::post('upload', 'ApiUsersController@upload');
+                Route::delete('photo/delete', 'ApiUsersController@deletePhoto');
+                Route::delete('delete', 'ApiUsersController@delete');
+            });
+    });
