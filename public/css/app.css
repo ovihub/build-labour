@@ -10829,28 +10829,20 @@ a.text-dark:focus {
   position: relative;
 }
 
-.profile-item-2 .profile-content {
-  padding: 20px;
-  overflow: hidden;
-}
-
-.profile-item-2 .profile-content ul.list-job-items {
+ul.list-job-items {
   padding: 0;
   margin: 0;
 }
 
-.profile-item-2 .profile-content ul.list-job-items li.job-items {
+ul.list-job-items li.job-items {
   list-style-type: none;
   padding-bottom: 0;
+  margin-bottom: 20px;
 }
 
-.profile-item-2 .profile-content ul.list-post-items {
-  padding: 0 0 0 0;
-}
-
-.profile-item-2 .profile-content ul.list-post-items li.post-items {
-  list-style-type: none;
-  padding-bottom: 0;
+.profile-item-2 .profile-content {
+  padding: 20px;
+  overflow: hidden;
 }
 
 .profile-item-2 .profile-content ul.list-main-items {
@@ -11139,7 +11131,7 @@ span.ticket-delete:hover {
 }
 
 .company-header:hover {
-  color: #f5a623;
+  color: #ff7705;
 }
 
 .job-summary {
@@ -11174,6 +11166,14 @@ span.ticket-delete:hover {
 
 .star polygon {
   fill: #d8d8d8;
+}
+
+.header-active {
+  color: #f5a623;
+}
+
+.header-inactive {
+  color: #777777;
 }
 
 .job-header {

@@ -53,28 +53,21 @@
   margin-bottom: 20px;
   position: relative;
 }
+
+ul.list-job-items {
+  padding: 0;
+  margin: 0;
+
+  li.job-items {
+    list-style-type: none;
+    padding-bottom: 0;
+    margin-bottom: 20px;
+  }
+}
+
 .profile-item-2 .profile-content {
   padding: 20px;
   overflow: hidden;
-
-  ul.list-job-items {
-    padding: 0;
-    margin: 0;
-
-    li.job-items {
-      list-style-type: none;
-      padding-bottom: 0;
-    }
-  }
-
-  ul.list-post-items {
-    padding: 0 0 0 0;
-
-    li.post-items {
-      list-style-type: none;
-      padding-bottom: 0;
-    }
-  }
 
   ul.list-main-items {
     padding: 16px 0 0 0;

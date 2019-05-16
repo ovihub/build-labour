@@ -1,8 +1,8 @@
 <template>
-    <div class="profile-item-2">
-        <div class="profile-content">
-            <ul class="list-job-items">
-                <li class="job-items">
+    <div class="profile-item-2" v-if="show">
+        <ul class="list-job-items" v-for="n in 5" :key="n">
+            <li class="job-items">
+                <div class="profile-content">
                     <div class="jobads-row">
                         <div class="bl-col-1">
                             <img class="bl-image-40" src="/img/logo/1.jpg">
@@ -31,9 +31,9 @@
                     <div class="post-action">
                         Like
                     </div>
-                </li>
-            </ul>
-        </div>
+                </div>
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -41,15 +41,22 @@
     export default {
         data() {
             return {
-
+                show: false,
             }
         },
 
         created() {
             let component = this;
 
-            Bus.$on('ticketsDetails', function(detailsArray) {
-                component.tickets = detailsArray;
+            Bus.$on('showCompanyPosts', function(flag) {
+                component.show = flag;
+                
+                Bus.$emit('hideCompanyPeople');
+                Bus.$emit('hideCompanyJobs');
+            });
+
+            Bus.$on('hideCompanyPosts', function() {
+                component.show = false;
             });
         },
 

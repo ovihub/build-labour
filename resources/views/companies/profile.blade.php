@@ -9,6 +9,7 @@
         <div class="col-md-6">
             <company-browse></company-browse>
             <company-posts></company-posts>
+            <company-people></company-people>
             <company-jobs></company-jobs>
         </div>
         <div class="col-md-3">

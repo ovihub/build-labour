@@ -1,13 +1,13 @@
 <template>
     <div class="profile-item-2">
         <div class="profile-content">
-            <div class="company-header">
+            <div :class="postsCls" @click="show('Posts')">
                 Posts
             </div>
-            <div class="company-header">
+            <div :class="peopleCls" @click="show('People')">
                 People
             </div>
-            <div class="company-header">
+            <div :class="jobsCls" @click="show('Jobs')">
                 Jobs
             </div>
         </div>
@@ -18,20 +18,37 @@
     export default {
         data() {
             return {
-
+                postsCls: 'company-header',
+                peopleCls: 'company-header',
+                jobsCls: 'company-header'
             }
         },
 
-        created() {
-            let component = this;
-
-            Bus.$on('ticketsDetails', function(detailsArray) {
-                component.tickets = detailsArray;
-            });
-        },
-
         methods: {
-         
+
+            show(type) {
+                Bus.$emit('showCompany' + type, true);
+
+                if (type == 'Posts') {
+                    this.postsCls = 'company-header header-active';
+                    
+                    this.peopleCls = 'company-header header-inactive';
+                    this.jobsCls = 'company-header header-inactive';
+
+                } else if (type == 'People') {
+                    this.peopleCls = 'company-header header-active';
+                    
+                    this.postsCls = 'company-header header-inactive';
+                    this.jobsCls = 'company-header header-inactive';
+
+                } else if (type == 'Jobs') {
+                    this.jobsCls = 'company-header header-active';
+                    
+                    this.postsCls = 'company-header header-inactive';
+                    this.peopleCls = 'company-header header-inactive';
+                }
+            },
+
         }
     }
 </script>

@@ -5,7 +5,7 @@
     cursor: pointer;
 
     &:hover {
-        color: $brand;
+        color: $brand-orange;
     }
 }
 .job-summary {
@@ -41,4 +41,10 @@
     polygon {
         fill: #d8d8d8;
     }
+}
+.header-active {
+    color: $brand;
+}
+.header-inactive {
+    color: #777777;
 }

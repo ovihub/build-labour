@@ -3734,15 +3734,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      postsCls: 'company-header',
+      peopleCls: 'company-header',
+      jobsCls: 'company-header'
+    };
   },
-  created: function created() {
-    var component = this;
-    Bus.$on('ticketsDetails', function (detailsArray) {
-      component.tickets = detailsArray;
-    });
-  },
-  methods: {}
+  methods: {
+    show: function show(type) {
+      Bus.$emit('showCompany' + type, true);
+
+      if (type == 'Posts') {
+        this.postsCls = 'company-header header-active';
+        this.peopleCls = 'company-header header-inactive';
+        this.jobsCls = 'company-header header-inactive';
+      } else if (type == 'People') {
+        this.peopleCls = 'company-header header-active';
+        this.postsCls = 'company-header header-inactive';
+        this.jobsCls = 'company-header header-inactive';
+      } else if (type == 'Jobs') {
+        this.jobsCls = 'company-header header-active';
+        this.postsCls = 'company-header header-inactive';
+        this.peopleCls = 'company-header header-inactive';
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -3811,38 +3827,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      input: {
-        ticket: '',
-        description: ''
-      },
-      tickets: [],
-      firstColumn: [],
-      secondColumn: []
+      show: false
     };
   },
   created: function created() {
     var component = this;
-    Bus.$on('ticketsDetails', function (detailsArray) {
-      component.tickets = detailsArray;
-      component.display();
+    Bus.$on('showCompanyJobs', function (flag) {
+      component.show = flag;
+      Bus.$emit('hideCompanyPeople');
+      Bus.$emit('hideCompanyPosts');
     });
-    Bus.$on('AddTicket', function (details) {
-      component.tickets.push(details);
-      component.display();
-    });
-    Bus.$on('passTickets', function (tickets) {
-      component.tickets = tickets;
-      component.display();
+    Bus.$on('hideCompanyJobs', function () {
+      component.show = false;
     });
   },
-  methods: {
-    display: function display() {
-      var len = this.tickets.length;
-      var half = Math.ceil(len / 2);
-      this.firstColumn = this.tickets.slice(0, half);
-      this.secondColumn = this.tickets.slice(half, len);
-    }
-  }
+  methods: {}
 });
 
 /***/ }),
@@ -3868,73 +3867,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      input: {
-        ticket: '',
-        description: ''
-      },
-      tickets: [],
-      firstColumn: [],
-      secondColumn: []
+      show: false
     };
   },
   created: function created() {
     var component = this;
-    Bus.$on('ticketsDetails', function (detailsArray) {
-      component.tickets = detailsArray;
-      component.display();
+    Bus.$on('showCompanyPeople', function (flag) {
+      component.show = flag;
+      Bus.$emit('hideCompanyJobs');
+      Bus.$emit('hideCompanyPosts');
     });
-    Bus.$on('AddTicket', function (details) {
-      component.tickets.push(details);
-      component.display();
-    });
-    Bus.$on('passTickets', function (tickets) {
-      component.tickets = tickets;
-      component.display();
+    Bus.$on('hideCompanyPeople', function () {
+      component.show = false;
     });
   },
-  methods: {
-    display: function display() {
-      var len = this.tickets.length;
-      var half = Math.ceil(len / 2);
-      this.firstColumn = this.tickets.slice(0, half);
-      this.secondColumn = this.tickets.slice(half, len);
-    }
-  }
+  methods: {}
 });
 
 /***/ }),
@@ -3989,12 +3939,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      show: false
+    };
   },
   created: function created() {
     var component = this;
-    Bus.$on('ticketsDetails', function (detailsArray) {
-      component.tickets = detailsArray;
+    Bus.$on('showCompanyPosts', function (flag) {
+      component.show = flag;
+      Bus.$emit('hideCompanyPeople');
+      Bus.$emit('hideCompanyJobs');
+    });
+    Bus.$on('hideCompanyPosts', function () {
+      component.show = false;
     });
   },
   methods: {}
@@ -50138,30 +50095,50 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-item-2" }, [
-      _c("div", { staticClass: "profile-content" }, [
-        _c("div", { staticClass: "company-header" }, [
-          _vm._v("\n            Posts\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "company-header" }, [
-          _vm._v("\n            People\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "company-header" }, [
-          _vm._v("\n            Jobs\n        ")
-        ])
-      ])
+  return _c("div", { staticClass: "profile-item-2" }, [
+    _c("div", { staticClass: "profile-content" }, [
+      _c(
+        "div",
+        {
+          class: _vm.postsCls,
+          on: {
+            click: function($event) {
+              return _vm.show("Posts")
+            }
+          }
+        },
+        [_vm._v("\n            Posts\n        ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          class: _vm.peopleCls,
+          on: {
+            click: function($event) {
+              return _vm.show("People")
+            }
+          }
+        },
+        [_vm._v("\n            People\n        ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          class: _vm.jobsCls,
+          on: {
+            click: function($event) {
+              return _vm.show("Jobs")
+            }
+          }
+        },
+        [_vm._v("\n            Jobs\n        ")]
+      )
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -50183,14 +50160,25 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _vm.show
+    ? _c(
+        "div",
+        { staticClass: "profile-item-2" },
+        _vm._l(5, function(n) {
+          return _c("ul", { key: n, staticClass: "list-job-items" }, [
+            _vm._m(0, true)
+          ])
+        }),
+        0
+      )
+    : _vm._e()
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-item-2" }, [
+    return _c("li", { staticClass: "job-items" }, [
       _c("div", { staticClass: "profile-content" }, [
         _c("div", { staticClass: "save-icon" }, [
           _c("img", {
@@ -50210,64 +50198,60 @@ var staticRenderFns = [
           }),
           _vm._v(" "),
           _c("div", { staticClass: "bl-label-14-style-2" }, [
-            _vm._v("\n                Save\n            ")
+            _vm._v("\n                        Save\n                    ")
           ])
         ]),
         _vm._v(" "),
-        _c("ul", { staticClass: "list-job-items" }, [
-          _c("li", { staticClass: "job-items" }, [
-            _c("div", { staticClass: "jobads-row" }, [
-              _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", {
-                  staticClass: "bl-image-40",
-                  attrs: { src: "/img/logo/1.jpg" }
-                })
+        _c("div", { staticClass: "jobads-row" }, [
+          _c("div", { staticClass: "bl-col-1" }, [
+            _c("img", {
+              staticClass: "bl-image-40",
+              attrs: { src: "/img/logo/1.jpg" }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "bl-col-2" }, [
+            _c("div", { staticClass: "bl-display" }, [
+              _c("span", { staticClass: "bl-label-19 bl-ml14" }, [
+                _vm._v(
+                  "\n                                Probuild\n                            "
+                )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "bl-col-2" }, [
-                _c("div", { staticClass: "bl-display" }, [
-                  _c("span", { staticClass: "bl-label-19 bl-ml14" }, [
-                    _vm._v(
-                      "\n                                Probuild\n                            "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    {
-                      staticClass: "bl-label-14 bl-ml14",
-                      staticStyle: { "margin-top": "-5px" }
-                    },
-                    [
-                      _vm._v(
-                        "\n                                Posted 2 days ago\n                            "
-                      )
-                    ]
+              _c(
+                "span",
+                {
+                  staticClass: "bl-label-14 bl-ml14",
+                  staticStyle: { "margin-top": "-5px" }
+                },
+                [
+                  _vm._v(
+                    "\n                                Posted 2 days ago\n                            "
                   )
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "job-summary" }, [
-              _c("div", { staticClass: "bl-label-21" }, [
-                _vm._v(
-                  "\n                        Project Manager\n                    "
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "bl-label-14-style-3" }, [
-                _vm._v("\n                        Melbourne CBD"),
-                _c("span", { staticClass: "text-style-1" }, [
-                  _vm._v("Posted 3 days ago")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "bl-label-15 bl-mt16" }, [
-                _vm._v(
-                  "\n                        An opportunity is available for a Construction Manager to work in and with the Melbourne\n                        Asphalt team to take responsibility for delivery of a portfolio of projects whilst optimising performance.\n                    "
-                )
-              ])
+                ]
+              )
             ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "job-summary" }, [
+          _c("div", { staticClass: "bl-label-21" }, [
+            _vm._v(
+              "\n                        Project Manager\n                    "
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "bl-label-14-style-3" }, [
+            _vm._v("\n                        Melbourne CBD"),
+            _c("span", { staticClass: "text-style-1" }, [
+              _vm._v("Posted 3 days ago")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "bl-label-15 bl-mt16" }, [
+            _vm._v(
+              "\n                        An opportunity is available for a Construction Manager to work in and with the Melbourne\n                        Asphalt team to take responsibility for delivery of a portfolio of projects whilst optimising performance.\n                    "
+            )
           ])
         ]),
         _vm._v(" "),
@@ -50302,115 +50286,26 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "profile-item-2" }, [
-    _c("div", { staticClass: "profile-content" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _vm._m(1),
-      _vm._v(" "),
-      _c(
+  return _vm.show
+    ? _c(
         "div",
-        { staticClass: "row" },
-        [
-          _vm._l(_vm.firstColumn, function(first) {
-            return _c(
-              "div",
-              { key: first.id, staticClass: "col-md-6 col-sm-6" },
-              [
-                _c("span", { staticClass: "bl-label-15" }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(first.ticket) +
-                      "\n                "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "bl-label-14" }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(first.description) +
-                      "\n                "
-                  )
-                ])
-              ]
-            )
-          }),
-          _vm._v(" "),
-          _vm._l(_vm.secondColumn, function(second) {
-            return _c(
-              "div",
-              { key: second.id, staticClass: "col-md-6 col-sm-6" },
-              [
-                _c("span", { staticClass: "bl-label-15" }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(second.ticket) +
-                      "\n                "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "bl-label-14" }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(second.description) +
-                      "\n                "
-                  )
-                ])
-              ]
-            )
-          })
-        ],
-        2
+        { staticClass: "profile-item-2" },
+        _vm._l(5, function(n) {
+          return _c("ul", { key: n, staticClass: "list-job-items" }, [
+            _vm._m(0, true)
+          ])
+        }),
+        0
       )
-    ])
-  ])
+    : _vm._e()
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "span",
-      {
-        staticClass: "edit-icon",
-        attrs: {
-          "data-toggle": "modal",
-          "data-backdrop": "static",
-          "data-keyboard": "false",
-          "data-target": "#modalTickets"
-        }
-      },
-      [
-        _c("img", {
-          attrs: {
-            src: "/img/icons/editbutton.png",
-            srcset:
-              "/img/icons/editbutton@2x.png" +
-              " 2x, " +
-              "/img/icons/editbutton@3x.png" +
-              " 3x"
-          }
-        })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-title" }, [
-      _c("img", {
-        attrs: {
-          src: "/img/icons/ticket.png",
-          srcset:
-            "/img/icons/ticket@2x.png" +
-            " 2x, " +
-            "/img/icons/ticket@3x.png" +
-            " 3x"
-        }
-      }),
-      _vm._v("\n\n            Tickets\n        ")
+    return _c("li", { staticClass: "job-items" }, [
+      _c("div", { staticClass: "profile-content" })
     ])
   }
 ]
@@ -50435,67 +50330,74 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _vm.show
+    ? _c(
+        "div",
+        { staticClass: "profile-item-2" },
+        _vm._l(5, function(n) {
+          return _c("ul", { key: n, staticClass: "list-job-items" }, [
+            _vm._m(0, true)
+          ])
+        }),
+        0
+      )
+    : _vm._e()
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-item-2" }, [
+    return _c("li", { staticClass: "job-items" }, [
       _c("div", { staticClass: "profile-content" }, [
-        _c("ul", { staticClass: "list-job-items" }, [
-          _c("li", { staticClass: "job-items" }, [
-            _c("div", { staticClass: "jobads-row" }, [
-              _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", {
-                  staticClass: "bl-image-40",
-                  attrs: { src: "/img/logo/1.jpg" }
-                })
+        _c("div", { staticClass: "jobads-row" }, [
+          _c("div", { staticClass: "bl-col-1" }, [
+            _c("img", {
+              staticClass: "bl-image-40",
+              attrs: { src: "/img/logo/1.jpg" }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "bl-col-2" }, [
+            _c("div", { staticClass: "bl-display" }, [
+              _c("span", { staticClass: "bl-label-19 bl-ml14" }, [
+                _vm._v(
+                  "\n                                Richmond Surveying\n                            "
+                )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "bl-col-2" }, [
-                _c("div", { staticClass: "bl-display" }, [
-                  _c("span", { staticClass: "bl-label-19 bl-ml14" }, [
-                    _vm._v(
-                      "\n                                Richmond Surveying\n                            "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    {
-                      staticClass: "bl-label-14 bl-ml14",
-                      staticStyle: { "margin-top": "-5px" }
-                    },
-                    [
-                      _vm._v(
-                        "\n                                3hrs ago\n                            "
-                      )
-                    ]
+              _c(
+                "span",
+                {
+                  staticClass: "bl-label-14 bl-ml14",
+                  staticStyle: { "margin-top": "-5px" }
+                },
+                [
+                  _vm._v(
+                    "\n                                3hrs ago\n                            "
                   )
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "bl-label-15 bl-mt16 bl-mb16" }, [
-              _vm._v(
-                "\n                    Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Donec rutrum con vallis sem at mattis.\n                "
+                ]
               )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "post-action" }, [
-              _vm._v("\n                    Share\n                ")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "post-action" }, [
-              _vm._v("\n                    Comments\n                ")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "post-action" }, [
-              _vm._v("\n                    Like\n                ")
             ])
           ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bl-label-15 bl-mt16 bl-mb16" }, [
+          _vm._v(
+            "\n                    Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Donec rutrum con vallis sem at mattis.\n                "
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "post-action" }, [
+          _vm._v("\n                    Share\n                ")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "post-action" }, [
+          _vm._v("\n                    Comments\n                ")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "post-action" }, [
+          _vm._v("\n                    Like\n                ")
         ])
       ])
     ])
