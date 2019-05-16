@@ -1,7 +1,8 @@
 .company-header {
     display: inline;
-    margin-left: 94px;
     font-weight: 500;
+    margin-left: 50px;
+    margin-right: 50px;
     cursor: pointer;
 
     &:hover {
@@ -17,7 +18,7 @@
 .post-action {
     display: inline;
     font-size: 14px;
-    margin-left: 94px;
+    margin-right: 36px;
     font-weight: 500;
     cursor: pointer;
 

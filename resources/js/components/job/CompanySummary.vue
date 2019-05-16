@@ -17,7 +17,9 @@
             </span>
 
             <div class="profile-content-p20 pb-4">
-                <div class="company-title">ProBuild</div>
+                <div class="company-title">
+                    ProBuild
+                </div>
             
                 <div class="company-address">
                     Melbourne, Australia

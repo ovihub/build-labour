@@ -23,12 +23,21 @@
                         Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Donec rutrum con vallis sem at mattis.
                     </div>
                     <div class="post-action">
+                        <img class="mr-1" src="/img/icons/share.png"
+                            srcset="/img/icons/share@2x.png 2x, /img/icons/share@3x.png 3x">
+
                         Share
                     </div>
                     <div class="post-action">
+                        <img class="mr-1" src="/img/icons/comments.png"
+                            srcset="/img/icons/comments@2x.png 2x, /img/icons/comments@3x.png 3x">
+
                         Comments
                     </div>
                     <div class="post-action">
+                        <img class="mr-1" src="/img/icons/like.png"
+                            srcset="/img/icons/like@2x.png 2x, /img/icons/like@3x.png 3x">
+
                         Like
                     </div>
                 </div>
@@ -41,7 +50,7 @@
     export default {
         data() {
             return {
-                show: false,
+                show: true,
             }
         },
 

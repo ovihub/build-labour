@@ -89,27 +89,23 @@
                     {{ job_role }} <div class="text-style-1">- {{ company_name }}</div>
                 </div>
                 
-                <div class="bl-display" v-if="address">
-                    <div class="row bl-label-15">
-                        <div class="bl-col-3">
-                            <img class="text-icon-3" src="/img/icons/pinlocation.png"
-                                srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
-                        </div>
-                        <div class="bl-col-4">
-                            {{ address }}
-                        </div>
+                <div class="row bl-label-15" v-if="address">
+                    <div class="bl-col-3">
+                        <img class="text-icon-3" src="/img/icons/pinlocation.png"
+                            srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
+                    </div>
+                    <div class="bl-col-4 bl-display">
+                        {{ address }}
                     </div>
                 </div>
 
-                <div class="bl-display" v-if="education_id">
-                    <div class="row bl-label-15">
-                        <div class="bl-col-3">
-                            <img class="text-icon-4" src="/img/icons/smalleducation.png"
-                                srcset="/img/icons/smalleducation@2x.png 2x, /img/icons/smalleducation@3x.png 3x">
-                        </div>
-                        <div class="bl-col-4">
-                            Studied <b>{{ course }}</b> <div class="text-style-1">- {{ school }}</div>
-                        </div>
+                <div class="row bl-label-15" v-if="education_id">
+                    <div class="bl-col-3">
+                        <img class="text-icon-4" src="/img/icons/smalleducation.png"
+                            srcset="/img/icons/smalleducation@2x.png 2x, /img/icons/smalleducation@3x.png 3x">
+                    </div>
+                    <div class="bl-col-4 bl-display">
+                        Studied <b>{{ course }}</b> <div class="text-style-1">- {{ school }}</div>
                     </div>
                 </div>
                 

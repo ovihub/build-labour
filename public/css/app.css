@@ -11125,8 +11125,9 @@ span.ticket-delete:hover {
 
 .company-header {
   display: inline;
-  margin-left: 94px;
   font-weight: 500;
+  margin-left: 50px;
+  margin-right: 50px;
   cursor: pointer;
 }
 
@@ -11144,7 +11145,7 @@ span.ticket-delete:hover {
 .post-action {
   display: inline;
   font-size: 14px;
-  margin-left: 94px;
+  margin-right: 36px;
   font-weight: 500;
   cursor: pointer;
 }
@@ -11223,7 +11224,7 @@ ul.job-list-items li {
   box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.19), 0 2px 12px 0 rgba(57, 86, 101, 0.12);
   background-color: #fcfeff;
   position: relative;
-  margin-left: 83px;
+  margin: 0 auto;
 }
 
 .company-title {

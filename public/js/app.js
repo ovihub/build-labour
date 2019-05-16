@@ -3735,7 +3735,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      postsCls: 'company-header',
+      postsCls: 'company-header header-active',
       peopleCls: 'company-header',
       jobsCls: 'company-header'
     };
@@ -3937,10 +3937,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      show: false
+      show: true
     };
   },
   created: function created() {
@@ -3976,10 +3985,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
 //
 //
 //
@@ -4318,6 +4323,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -7008,10 +7015,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
 //
 //
 //
@@ -50095,7 +50098,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "profile-item-2" }, [
+  return _c("div", { staticClass: "profile-item-2 ta-center" }, [
     _c("div", { staticClass: "profile-content" }, [
       _c(
         "div",
@@ -50389,15 +50392,48 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "post-action" }, [
-          _vm._v("\n                    Share\n                ")
+          _c("img", {
+            staticClass: "mr-1",
+            attrs: {
+              src: "/img/icons/share.png",
+              srcset:
+                "/img/icons/share@2x.png" +
+                " 2x, " +
+                "/img/icons/share@3x.png" +
+                " 3x"
+            }
+          }),
+          _vm._v("\n\n                    Share\n                ")
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "post-action" }, [
-          _vm._v("\n                    Comments\n                ")
+          _c("img", {
+            staticClass: "mr-1",
+            attrs: {
+              src: "/img/icons/comments.png",
+              srcset:
+                "/img/icons/comments@2x.png" +
+                " 2x, " +
+                "/img/icons/comments@3x.png" +
+                " 3x"
+            }
+          }),
+          _vm._v("\n\n                    Comments\n                ")
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "post-action" }, [
-          _vm._v("\n                    Like\n                ")
+          _c("img", {
+            staticClass: "mr-1",
+            attrs: {
+              src: "/img/icons/like.png",
+              srcset:
+                "/img/icons/like@2x.png" +
+                " 2x, " +
+                "/img/icons/like@3x.png" +
+                " 3x"
+            }
+          }),
+          _vm._v("\n\n                    Like\n                ")
         ])
       ])
     ])
@@ -50510,75 +50546,67 @@ var staticRenderFns = [
         _vm._v("\n                Surveyors\n            ")
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "bl-display" }, [
-        _c("div", { staticClass: "row bl-label-15" }, [
-          _c("div", { staticClass: "bl-col-3" }, [
-            _c("img", {
-              staticClass: "text-icon-3",
-              attrs: {
-                src: "/img/icons/pinlocation.png",
-                srcset:
-                  "/img/icons/pinlocation@2x.png" +
-                  " 2x, " +
-                  "/img/icons/pinlocation@3x.png" +
-                  " 3x"
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "bl-col-4" }, [
-            _vm._v(
-              "\n                        Richmond, Victoria, Australia\n                    "
-            )
-          ])
+      _c("div", { staticClass: "row bl-label-15" }, [
+        _c("div", { staticClass: "bl-col-3" }, [
+          _c("img", {
+            staticClass: "text-icon-3",
+            attrs: {
+              src: "/img/icons/pinlocation.png",
+              srcset:
+                "/img/icons/pinlocation@2x.png" +
+                " 2x, " +
+                "/img/icons/pinlocation@3x.png" +
+                " 3x"
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bl-col-4 bl-display" }, [
+          _vm._v(
+            "\n                    Richmond, Victoria, Australia\n                "
+          )
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "bl-display" }, [
-        _c("div", { staticClass: "row bl-label-15" }, [
-          _c("div", { staticClass: "bl-col-3" }, [
-            _c("img", {
-              staticClass: "text-icon-4",
-              attrs: {
-                src: "/img/icons/smalleducation.png",
-                srcset:
-                  "/img/icons/smalleducation@2x.png" +
-                  " 2x, " +
-                  "/img/icons/smalleducation@3x.png" +
-                  " 3x"
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "bl-col-4" }, [
-            _vm._v(
-              "\n                        www.richmondsurveying.com.au\n                    "
-            )
-          ])
+      _c("div", { staticClass: "row bl-label-15" }, [
+        _c("div", { staticClass: "bl-col-3" }, [
+          _c("img", {
+            staticClass: "text-icon-3",
+            attrs: {
+              src: "/img/icons/pinlocation.png",
+              srcset:
+                "/img/icons/pinlocation@2x.png" +
+                " 2x, " +
+                "/img/icons/pinlocation@3x.png" +
+                " 3x"
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bl-col-4 bl-display" }, [
+          _vm._v(
+            "\n                    www.richmondsurveying.com.au\n                "
+          )
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "bl-display" }, [
-        _c("div", { staticClass: "row bl-label-15" }, [
-          _c("div", { staticClass: "bl-col-3" }, [
-            _c("img", {
-              staticClass: "text-icon-4",
-              attrs: {
-                src: "/img/icons/smalleducation.png",
-                srcset:
-                  "/img/icons/smalleducation@2x.png" +
-                  " 2x, " +
-                  "/img/icons/smalleducation@3x.png" +
-                  " 3x"
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "bl-col-4" }, [
-            _vm._v(
-              "\n                        (03) 3934 3829\n                    "
-            )
-          ])
+      _c("div", { staticClass: "row bl-label-15" }, [
+        _c("div", { staticClass: "bl-col-3" }, [
+          _c("img", {
+            staticClass: "text-icon-3",
+            attrs: {
+              src: "/img/icons/pinlocation.png",
+              srcset:
+                "/img/icons/pinlocation@2x.png" +
+                " 2x, " +
+                "/img/icons/pinlocation@3x.png" +
+                " 3x"
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bl-col-4 bl-display" }, [
+          _vm._v("\n                    (03) 3934 3829\n                ")
         ])
       ]),
       _vm._v(" "),
@@ -50596,7 +50624,11 @@ var staticRenderFns = [
           ]
         )
       ]),
-      _vm._v("\n            We specialise in\n            "),
+      _vm._v(" "),
+      _c("div", { staticClass: "bl-label-16" }, [
+        _vm._v("\n                We specialise in\n            ")
+      ]),
+      _vm._v(" "),
       _c("div", { staticClass: "job-body" }, [
         _c("ul", { staticClass: "job-list-items" }, [
           _c("li", [
@@ -50697,7 +50729,9 @@ var staticRenderFns = [
           ),
           _vm._v(" "),
           _c("div", { staticClass: "profile-content-p20 pb-4" }, [
-            _c("div", { staticClass: "company-title" }, [_vm._v("ProBuild")]),
+            _c("div", { staticClass: "company-title" }, [
+              _vm._v("\n                ProBuild\n            ")
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "company-address" }, [
               _vm._v("\n                Melbourne, Australia\n            ")
@@ -54785,33 +54819,29 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _vm.address
-            ? _c("div", { staticClass: "bl-display" }, [
-                _c("div", { staticClass: "row bl-label-15" }, [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "bl-col-4" }, [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(_vm.address) +
-                        "\n                    "
-                    )
-                  ])
+            ? _c("div", { staticClass: "row bl-label-15" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "bl-col-4 bl-display" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.address) +
+                      "\n                "
+                  )
                 ])
               ])
             : _vm._e(),
           _vm._v(" "),
           _vm.education_id
-            ? _c("div", { staticClass: "bl-display" }, [
-                _c("div", { staticClass: "row bl-label-15" }, [
-                  _vm._m(1),
+            ? _c("div", { staticClass: "row bl-label-15" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("div", { staticClass: "bl-col-4 bl-display" }, [
+                  _vm._v("\n                    Studied "),
+                  _c("b", [_vm._v(_vm._s(_vm.course))]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "bl-col-4" }, [
-                    _vm._v("\n                        Studied "),
-                    _c("b", [_vm._v(_vm._s(_vm.course))]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "text-style-1" }, [
-                      _vm._v("- " + _vm._s(_vm.school))
-                    ])
+                  _c("div", { staticClass: "text-style-1" }, [
+                    _vm._v("- " + _vm._s(_vm.school))
                   ])
                 ])
               ])
