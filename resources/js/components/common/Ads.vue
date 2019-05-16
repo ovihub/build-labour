@@ -17,7 +17,7 @@
                             Come and chat with one of our experts on how you can build for your retirement.
                         </span>
                         <div class="profile-more">
-                            <a href="#">Learn More ></a>
+                            <a href="#">Learn More<i class="fa fa-angle-right ml-2"></i></a>
                         </div>
                     </div>
                 </div>

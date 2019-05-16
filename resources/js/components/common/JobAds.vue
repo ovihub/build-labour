@@ -50,7 +50,7 @@
                 </li>
             </ul>
             <div class="profile-more">
-                <a href="#">View More ></a>
+                <a href="#">View More<i class="fa fa-angle-right ml-2"></i></a>
             </div>
         </div>
     </div>

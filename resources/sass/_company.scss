@@ -1,0 +1,51 @@
+.company-header {
+    display: inline;
+    font-weight: 500;
+    margin-left: 50px;
+    margin-right: 50px;
+    cursor: pointer;
+
+    &:hover {
+        color: $brand-orange;
+    }
+}
+.job-summary {
+    background-color: rgb(249, 249, 249);
+    padding: 16px;
+    border-radius: 8px;
+    margin-top: 14px;
+}
+.post-action {
+    display: inline;
+    font-size: 14px;
+    margin-right: 36px;
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+        color: $brand;
+    }
+}
+.save-icon {
+    position: absolute;
+    right: 20px;
+    margin-top: -5px;
+    cursor: pointer;
+  
+	&:hover {
+        .star polygon {
+            fill: #ffd055;
+        }
+    }
+}
+.star {
+    polygon {
+        fill: #d8d8d8;
+    }
+}
+.header-active {
+    color: $brand;
+}
+.header-inactive {
+    color: #777777;
+}

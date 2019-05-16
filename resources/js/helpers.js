@@ -122,6 +122,41 @@ window.Helper = {
             return period;
         },
         
+        formatTimeDiffNow(created) {
+            let diff = new Date(created) - new Date(),
+                offset = new Date().getTimezoneOffset() / 60,
+                hours = Math.abs(diff / 36e5) + offset,
+                years, months, days, minutes, seconds;
+
+            if (hours < 1) {
+                minutes = Math.floor(hours*60);
+                if (minutes < 1) {
+                    seconds = Math.floor(hours*60*60);
+                    return 'Just now';
+                }
+                return (minutes == 1) ? 'Posted 1min ago' : 'Posted ' + minutes + 'mins ago';
+            }
+
+            hours = Math.floor(hours);
+            if (hours > 23) {
+                days = Math.floor(hours/24);
+
+                if (days > 29) {
+                months = Math.floor(days/30);
+
+                if (months > 11) {
+                    years = Math.floor(months/12);
+                    return (years == 1) ? 'Posted a year ago' : 'Posted ' + years + ' years ago'
+                }
+                return (months == 1) ? 'Posted a month ago' : 'Posted ' + months + ' months ago';
+                }
+
+                return (days == 1) ? 'Posted 1day ago' : 'Posted ' + days + 'days ago';
+            }
+
+            return (hours == 1) ? 'Posted 1hr ago' : 'Posted ' + hours + 'hrs ago';
+        },
+
         getDaysInMonth(month, year) {
            return new Date(year, month, 0).getDate();
         },

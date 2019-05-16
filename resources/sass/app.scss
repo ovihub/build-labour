@@ -10,7 +10,8 @@
 // Other Styles
 @import 'variables';
 @import 'labels';
-@import 'profile'; 
+@import 'profile';
+@import 'company'; 
 @import 'job'; 
 @import 'admin';
 @import 'cropper';
@@ -346,7 +347,7 @@ a {
   transition: all 200ms ease-in;
 }
 a:hover {
-  color: #e84c3d;
+  color: $brand-orange;
 }
 
 h1, h2, h3, h4, h5, h6 {
