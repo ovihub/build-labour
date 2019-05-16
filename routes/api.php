@@ -103,6 +103,14 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
         });
     });
 
+    Route::prefix('job')->group(function () {
+        Route::middleware([ 'jwt' ])->group(function () {
+
+            Route::post('search', 'ApiJobsController@search');
+            Route::get('{id}', 'ApiJobsController@view');
+        });
+    });
+
     Route::get('locations', 'ApiUsersController@searchLocation');
 
     Route::get('roles', 'ApiRolesController@index');
