@@ -1,6 +1,6 @@
 <template>
     <div class="profile-item-2" v-if="show">
-        <ul class="list-job-items" v-for="n in 5" :key="n">
+        <ul class="list-job-items" v-for="(post, index) in posts" :key="index">
             <li class="job-items">
                 <div class="profile-content">
                     <div class="jobads-row">
@@ -14,13 +14,15 @@
                                 </span>
 
                                 <span class="bl-label-14 bl-ml14" style="margin-top:-5px">
-                                    3hrs ago
+                                    <!-- 3hrs ago -->
+                                    {{ getTimeDiffNow(post.created_at) }}
                                 </span>
                             </div>
                         </div>
                     </div>
                     <div class="bl-label-15 bl-mt16 bl-mb16">
-                        Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Donec rutrum con vallis sem at mattis.
+                        <!-- Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Donec rutrum con vallis sem at mattis. -->
+                        {{ post.content }}
                     </div>
                     <div class="post-action">
                         <img class="mr-1" src="/img/icons/share.png"
@@ -51,6 +53,10 @@
         data() {
             return {
                 show: true,
+                posts: [],
+                endpoints: {
+                    get_posts: '/api/v1/company/1/posts',
+                },
             }
         },
 
@@ -67,10 +73,30 @@
             Bus.$on('hideCompanyPosts', function() {
                 component.show = false;
             });
+
+            this.getPosts();
         },
 
         methods: {
 
+            getPosts() {
+                let component = this;
+
+                axios.get(component.endpoints.get_posts, Utils.getBearerAuth())
+                    
+                    .then(function(response) {
+                        
+                        component.posts = response.data.data.posts;
+                    })
+                    .catch(function(error) {
+
+                        Utils.handleError(error);
+                    });
+            },
+
+            getTimeDiffNow(created_at) {
+                return Utils.formatTimeDiffNow(created_at);
+            }
         }
     }
 </script>

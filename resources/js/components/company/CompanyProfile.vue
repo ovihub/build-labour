@@ -97,24 +97,9 @@
             return {
                 disabled: false,
                 time_out: false,
-                educations: [],
                 locations: [],
                 profile_photo_url: '',
                 profile_description: '',
-                first_name: '',
-                last_name: '',
-                email: '',
-                is_verified: '',
-                address: '',
-                education_id: '',
-                course: '',
-                school: '',
-                company_name: '',
-                job_role: '',
-                start_month: '',
-                start_year: '',
-                end_month: '',
-                end_year: '',
                 input: {
                     profile_description: '', first_name: '', last_name: '', address: '', education_id: '',
                 },
@@ -123,8 +108,6 @@
                 },
                 endpoints: {
                     save: '/api/v1/worker/introduction',
-                    locations: '/api/v1/locations',
-                    educations: '/api/v1/worker/educations',
                 },
             }
         },
@@ -133,208 +116,12 @@
             let component = this;
 
             Bus.$on('userProfileDetails', function(details) {
-                component.setValues(details);
-                component.setDisplayValues(component.input, details);
-                
-                if (! component.is_verified) {
-                    Bus.$emit('alertVerify', component.email);
-                }
-            });
 
-            Bus.$on('updateEmployment', function(index, details) {
-                if (index == 0 || (!component.company_name && index == -1)) {
-                    component.company_name = details.company_name;
-                    component.job_role = details.job_role;
-                    component.start_month = details.start_month;
-                    component.start_year = details.start_year;
-                    component.end_month = details.end_month;
-                    component.end_year = details.end_year;
-                }
-            });
-
-            Bus.$on('removeEducation', function(index, id) {
-                if (component.education_id == id) {
-                    component.course = '';
-                    component.school = '';
-                    component.education_id = '';
-                }
-            });
-
-            Bus.$on('removeEmployment', function(index) {
-                if (index == 0) {
-                    component.company_name = '';
-                    component.job_role = '';
-                    component.start_month = '';
-                    component.start_year = '';
-                    component.end_month = '';
-                    component.end_year = '';
-                }
-            });
-
-            // Bus.$on('croppedPhoto', function(photo_url) {
-            //     component.profile_photo_url = photo_url;
-            // });
-
-            Bus.$on('closePhotoModal', function() {
-                $('#upload').val('');
             });
         },
 
         methods: {
 
-            setValues(details) {
-                this.profile_description = details.profile_description;
-                this.profile_photo_url = details.profile_photo_url;
-                this.first_name = details.first_name;
-                this.last_name = details.last_name;
-                this.email = details.email;
-                this.is_verified = details.is_verified;
-                this.address = details.address;
-                this.education_id = details.education_id;
-                this.course = details.education ? details.education.course : '';
-                this.school = details.education ? details.education.school : '';
-                this.company_name = details.company_name;
-                this.job_role = details.job_role;
-                this.start_month = details.start_month;
-                this.start_year = details.start_year;
-                this.end_month = details.end_month;
-                this.end_year = details.end_year;
-            },
-
-            setDisplayValues(val, details) {
-                val.profile_description = details.profile_description;
-                val.first_name = details.first_name;
-                val.last_name = details.last_name;
-                val.address = details.address;
-                val.education_id = details.education_id;
-                val.course = details.education ? details.education.course : '';
-                val.school = details.education ? details.education.school : '';
-            },
-
-            formatPeriod(sm, sy, em, ey) {
-                let endDate = (em && ey) ? new Date(ey, em-1, 1) : new Date();
-
-                return Utils.formatPeriod(new Date(sy, sm-1, 1), endDate);
-            },
-            
-            onClickProfilePhoto() {
-                upload.click();
-            },
-
-            onFileChange(e) {
-                let files = e.target.files || e.dataTransfer.files;
-                
-                if (! files.length) {
-                    return;
-                }
-
-                let file = files[0],
-                    reader  = new FileReader();
-
-                reader.addEventListener('load', function() {
-                    Bus.$emit('imageToCrop', reader.result);
-                }, false);
-
-                if (file) {
-                    reader.readAsDataURL(file);
-                }
-            },
-
-            textAreaAdjust() {
-                let o = this.$refs['userIntro'];
-                o.style.height = '1px';
-                o.style.height = (2 + o.scrollHeight) + 'px';
-            },
-
-            open() {
-                this.loadEducations();
-            },
-
-            close() {
-                this.setDisplayValues(this.input, this);
-            },
-
-            loadEducations() {
-                let component = this;
-
-                this.educations = [];
-
-                axios.get(component.endpoints.educations, Utils.getBearerAuth())
-
-                    .then(function(response) {
-                        let data = response.data;
-
-                        component.educations = data.data.educations;
-                    })
-                    .catch(function(error) {
-
-                        Utils.handleError(error);
-                    });
-            },
-
-            onChangeLocation(location) {
-                let component = this;
-
-                if (location.length <= 0) {
-                    this.locations = [];
-                }
-
-                if (this.time_out) {
-                    clearTimeout(this.time_out);
-                }
-
-                this.time_out = setTimeout(function() {
-
-                    axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth())
-
-                        .then(function(response) {
-                            let data = response.data;
-
-                            component.locations = (location != '' && data.data.locations) ? data.data.locations.features : [];
-                        })
-                        .catch(function(error) {
-
-                            Utils.handleError(error);
-                        });
-
-                }.bind(this), 300);
-            },
-
-            onSelectLocation(location) {
-                this.input.address = location;
-                
-                this.locations = [];
-            },
-
-            async submit() {
-                let component = this;
-
-                Utils.setObjectValues(this.errors, '');
-                this.disabled = true;
-                
-                await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
-                    
-                    .then(function(response) {
-                        let data = response.data;
-						
-                        $('#modalUserProfile').modal('hide');
-
-                        component.setDisplayValues(component, data.data.introduction);
-                    })
-                    .catch(function(error) {
-                        if (error.response) {
-                            let data = error.response.data;
-
-							for (let key in data.errors) {
-								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                            }
-                        }
-
-                        Utils.handleError(error);
-                    });
-                
-                this.disabled = false;
-            },
         }
     }
 </script>

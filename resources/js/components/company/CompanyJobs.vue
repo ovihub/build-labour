@@ -1,6 +1,6 @@
 <template>
     <div class="profile-item-2" v-if="show">
-        <ul class="list-job-items" v-for="n in 5" :key="n">
+        <ul class="list-job-items" v-for="(job, index) in jobs" :key="index">
             <li class="job-items">
                 <div class="profile-content">
                     <div class="save-icon">
@@ -22,7 +22,8 @@
                                 </span>
 
                                 <span class="bl-label-14 bl-ml14" style="margin-top:-5px">
-                                    Posted 2 days ago
+                                    <!-- Posted 2 days ago -->
+                                    {{ getTimeDiffNow(job.created_at) }}
                                 </span>
                             </div>
                         </div>
@@ -55,6 +56,10 @@
         data() {
             return {
                 show: false,
+                jobs: [],
+                endpoints: {
+                    get_jobs: '/api/v1/company/1/jobs',
+                },
             }
         },
 
@@ -71,10 +76,31 @@
             Bus.$on('hideCompanyJobs', function() {
                 component.show = false;
             });
+
+            this.getJobs();
         },
 
         methods: {
-         
+
+            getJobs() {
+                let component = this;
+
+                axios.get(component.endpoints.get_jobs, Utils.getBearerAuth())
+                    
+                    .then(function(response) {
+                        
+                        component.jobs = response.data.data.jobs;
+                    })
+                    .catch(function(error) {
+
+                        Utils.handleError(error);
+                    });
+            },
+
+            getTimeDiffNow(created_at) {
+                return Utils.formatTimeDiffNow(created_at);
+            },
+
         }
     }
 </script>

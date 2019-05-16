@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row justify-content-center">
-        <load-user></load-user>
+        <!-- <load-company></load-company> -->
         <div class="col-md-3">
             <company-profile></company-profile>
         </div>
