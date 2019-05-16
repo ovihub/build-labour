@@ -25,8 +25,10 @@ class Company extends BaseModel
         'phone',
         'locations_json',
         'sector',
+        'tier',
         'photo_url',
         'introduction',
+        'website',
         'created_by'
     ];
 
@@ -43,6 +45,10 @@ class Company extends BaseModel
             'contact_email' => 'nullable|min:5',
             'contact_name'  => 'nullable|min:5',
             'phone'         => 'nullable|min:5',
+            'sector'        => 'nullable|min:4',
+            'tier'          => 'nullable|min:4',
+            'introduction'  => 'nullable|min:5',
+            'website'       => 'nullable|min:5',
         ];
     }
 
@@ -68,14 +74,29 @@ class Company extends BaseModel
         return true;
     }
 
-    public function User() {
+    public function CreatedBy() {
 
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
     public function Workers() {
 
         return $this->belongsToMany(User::class, 'work_experience', 'id', 'user_id');
+    }
+
+    public function Jobs() {
+
+        return $this->hasMany( Job::class, 'company_id', 'id');
+    }
+
+    public function Specialization() {
+
+        return $this->hasMany( CompanySpecialized::class, 'company_id', 'id');
+    }
+
+    public function Posts() {
+
+        return $this->hasMany(CompanyPost::class, 'company_id', 'id');
     }
 
     public function setUserId($userId) {
@@ -202,7 +223,12 @@ class Company extends BaseModel
 
     public function getLocationsAttribute() {
 
-        return json_decode($this->locations_json);
+        if (Utils::isJson($this->locations_json)) {
+
+            return json_decode($this->locations_json);
+        }
+
+        return [];
     }
 
     public function getNoOfWorkersAttribute() {

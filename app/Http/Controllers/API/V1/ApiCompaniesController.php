@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Models\Companies\Company;
 use App\Repositories\CompanyRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use JWTAuth;
 
 class ApiCompaniesController extends ApiBaseController
@@ -210,7 +211,7 @@ class ApiCompaniesController extends ApiBaseController
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
-     *              mediaType="application/x-www-form-urlencoded",
+     *              mediaType="application/json",
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
@@ -248,6 +249,36 @@ class ApiCompaniesController extends ApiBaseController
      *                      description="Sector",
      *                      type="string",
      *                      example="61 2 9876 5432"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="tier",
+     *                      description="Tier",
+     *                      type="string",
+     *                      example="manufacturing"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="introduction",
+     *                      description="Introduction Company",
+     *                      type="string",
+     *                      example="A good company"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="specialization",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          @OA\Property(
+     *                              property="name",
+     *                              description="Specialize",
+     *                              type="string",
+     *                              example="Bachelor Degree in Construction or a related field"
+     *                          ),
+     *                      ),
+     *                  ),
+     *                  @OA\Property(
+     *                      property="website",
+     *                      description="Website Company",
+     *                      type="string",
+     *                      example="www.companymanu.com"
      *                  ),
      *              ),
      *          ),
@@ -368,7 +399,7 @@ class ApiCompaniesController extends ApiBaseController
      *      @OA\Parameter(
      *          in="path",
      *          name="id",
-     *          description="id",
+     *          description="company id",
      *          required=true,
      *          @OA\Schema(
      *              type="integer",
@@ -786,5 +817,60 @@ class ApiCompaniesController extends ApiBaseController
     public function deleteJob( Request $request )
     {
 
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/company/{id}/posts",
+     *      tags={"Company"},
+     *      summary="Get company posts",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Parameter(
+     *          in="path",
+     *          name="id",
+     *          description="company id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function posts( Request $request )
+    {
+        try {
+
+            $posts = $this->repository->getPosts($request->id);
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( compact( 'posts' ), true, '', self::HTTP_STATUS_REQUEST_OK);
     }
 }

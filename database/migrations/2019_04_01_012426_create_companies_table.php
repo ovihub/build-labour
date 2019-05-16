@@ -25,6 +25,7 @@ class CreateCompaniesTable extends Migration
             $table->string('tier')->nullable();
             $table->string('photo_url')->nullable();
             $table->text('introduction')->nullable();
+            $table->string('website')->nullable();
             $table->integer('created_by')->unsigned()->nullable();
             $table->timestamps();
         });

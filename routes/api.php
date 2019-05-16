@@ -93,12 +93,21 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             Route::get('{id}', 'ApiCompaniesController@view');
             Route::get('{id}/workers', 'ApiCompaniesController@workers');
 
+            Route::get('{id}/posts', 'ApiCompaniesController@posts');
             Route::post('{id}/jobs', 'ApiCompaniesController@createJob');
             Route::get('{id}/jobs', 'ApiCompaniesController@jobs');
             Route::get('{id}/jobs/{jid}', 'ApiCompaniesController@viewJob');
             Route::post('{id}/jobs/{jid}/requirements', 'ApiCompaniesController@postJobRequirements');
             Route::post('{id}/jobs/{jid}/responsibilities', 'ApiCompaniesController@postJobResponsibilities');
 
+        });
+    });
+
+    Route::prefix('job')->group(function () {
+        Route::middleware([ 'jwt' ])->group(function () {
+
+            Route::post('search', 'ApiJobsController@search');
+            Route::get('{id}', 'ApiJobsController@view');
         });
     });
 
