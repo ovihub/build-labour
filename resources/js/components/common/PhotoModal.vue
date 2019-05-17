@@ -30,12 +30,14 @@
 		data() {
 			return {
 				disabled: false,
+				isAdmin: false,
 				imgCrop: '',
 				input: {
+					id: 0,
 					photo: '',
 				},
 				endpoints: {
-					upload: '/api/v1/user/photo'
+					upload: '',
 				},
 			}
 		},
@@ -49,7 +51,16 @@
 				component.close();
 			});
 
-			Bus.$on('imageToCrop', function (binary) {
+			Bus.$on('imageToCrop', function (binary, id) {
+				if (id) {
+					component.isAdmin = true;
+					component.input.id = id;
+					component.endpoints.upload = '/api/v1/admin/user/upload';
+				
+				} else {
+					component.endpoints.upload = '/api/v1/user/photo';
+				}
+
 				component.imgCrop = binary;
 				component.enableCropper();
 				
@@ -97,6 +108,7 @@
 				let component = this;
 
 				this.input.photo = cropper.getCroppedCanvas().toDataURL('image/jpeg', (20 / 100));
+				
 				this.disabled = true;
 
 				await axios.post(component.endpoints.upload, component.$data.input, Utils.getBearerAuth())
@@ -107,9 +119,13 @@
 						if (data.success) {
 							component.close();
 
-							// Bus.$emit('alertSuccess', data.message);
-							// Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
-							window.location.href = '/user/profile';
+							if (! component.isAdmin) {
+								window.location.href = '/user/profile';
+							
+							} else {
+								Bus.$emit('alertSuccess', data.message);
+								Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
+							}
 						}
 					})
 					.catch(function(error) {

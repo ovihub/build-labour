@@ -11,6 +11,7 @@
         <div class="record-photo">
             <div class="record-profile-pic">
                 <img v-if="record.profile_photo_url" :src="record.profile_photo_url" height="120px" />
+                <img v-else src="/img/defaults/user.png" height="120px" />
             </div>
             
             <input type="file" id="upload" value="Choose a file" accept="image/*" style="display:none" @change="onFileChange" />
@@ -65,36 +66,38 @@
 		},
 		
 		created() {
-			this.initForm();
+			let component = this;
+
+            Bus.$on('datatableViewUser', function(id){
+                component.record_id = id;
+                component.endpoints.get = '/api/v1/admin/user/get?id=' + id;
+                component.viewRecord();
+            });
+            
+            Bus.$on('croppedPhoto', function (profile_photo_url) {
+                component.record.profile_photo_url = profile_photo_url;
+            });
+
+            Bus.$on('closePhotoModal', function() {
+                $('#upload').val('');
+            });
 		},
 		
 		methods: {
 			
-			initForm() {
-				let app = this;
-
-				Bus.$on('datatableViewUser', function(id){
-                    app.record_id = id;
-                    app.endpoints.get = '/api/v1/admin/user/get?id=' + id;
-					app.viewRecord();
-                });
-                
-                Bus.$on('croppedPhoto', function (profile_photo_url) {
-                    app.record.profile_photo_url = profile_photo_url;
-                });
-		  	},
-
 		  	viewRecord() {
-				let app = this;
+				let component = this;
 
-				axios.get(app.endpoints.get, Utils.getBearerAuth())
+				axios.get(component.endpoints.get, Utils.getBearerAuth())
 
                     .then(function(response) {
-                            app.record = response.data.data.record;
-                        })
+                        
+                        component.record = response.data.data.record;
+                    })
                     .catch(function(error) {
-                            console.log('Error', error);
-                        });
+                        
+                        Utils.handleError(error);
+                    });
             },
               
             formatDate(d) {
@@ -119,12 +122,14 @@
                 if (!files.length)
                     return;
 
-                let app = this,
+                let component = this,
                     file = files[0],
                     reader  = new FileReader();
 
                 reader.addEventListener('load', function () {
-                    Bus.$emit('imageToCrop', reader.result, app.record_id);
+
+                    Bus.$emit('imageToCrop', reader.result, component.record_id);
+
                 }, false);
 
                 if (file) {

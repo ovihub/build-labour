@@ -53,14 +53,14 @@ class CheckIfAdmin
 
                 setcookie('bl_token', null, time() + (86400 * 30), '/');
 
-                return redirect(route('admin.login'));
+                return redirect(route('login'));
             }
         
         } catch(\Exception $e) {
 
             setcookie('bl_token', null, time() + (86400 * 30), '/');
             
-            return redirect(route('admin.login'));
+            return redirect(route('login'));
         }
 
         if ($token && $page == 'admin.login') {

@@ -83,12 +83,17 @@ window.Helper = {
             }
         },
 
-        getBearerAuth() {
-            return {
+        getBearerAuth(record = null) {
+            return record ? {
+                headers: {
+                    "Authorization" : "Bearer " + Api._getBearerToken()
+                },
+                data: record
+            } : {
                 headers: {
                     "Authorization" : "Bearer " + Api._getBearerToken()
                 }
-            }
+            };
         },
 
         formatPeriod(start, end) {

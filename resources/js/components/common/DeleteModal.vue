@@ -34,49 +34,54 @@
 				disabled: false,
 				index: '',
 				action: '',
+				record: {
+					id: 0,
+				},
 				endpoints: {
-					delete: ''
+					delete: '',
 				}
 			}
 		},
 
 		created() {
-			this.initForm();
+			let component = this;
+
+			Bus.$on('deleteAboutMe', function() {
+				component.action = 'AboutMe';
+				component.endpoints.delete = '';
+			});
+
+			Bus.$on('deleteIdealRole', function() {
+				component.action = 'IdealRole';
+				component.endpoints.delete = '';
+			});
+
+			Bus.$on('deleteEmployment', function(index, endpoint) {
+				component.action = 'Employment';
+				component.index = index;
+				component.endpoints.delete = endpoint;
+			});
+
+			Bus.$on('deleteEducation', function(index, endpoint) {
+				component.action = 'Education';
+				component.index = index;
+				component.endpoints.delete = endpoint;
+			});
+
+			Bus.$on('deleteIndustrySkill', function(endpoint) {
+				component.action = 'IndustrySkill';
+				component.endpoints.delete = endpoint;
+			});
+
+			Bus.$on('deletePhoto', function(id) {
+				component.action = 'Photo';
+				component.endpoints.delete = '/api/v1/admin/user/photo/delete';
+				component.record.id = id;
+			});
 		},
 
 		methods: {
 			
-			initForm() {
-				let component = this;
-
-				Bus.$on('deleteAboutMe', function() {
-					component.action = 'AboutMe';
-					component.endpoints.delete = '';
-				});
-
-				Bus.$on('deleteIdealRole', function() {
-					component.action = 'IdealRole';
-					component.endpoints.delete = '';
-				});
-
-				Bus.$on('deleteEmployment', function(index, endpoint) {
-					component.action = 'Employment';
-					component.index = index;
-					component.endpoints.delete = endpoint;
-				});
-
-				Bus.$on('deleteEducation', function(index, endpoint) {
-					component.action = 'Education';
-					component.index = index;
-					component.endpoints.delete = endpoint;
-				});
-
-				Bus.$on('deleteIndustrySkill', function(endpoint) {
-					component.action = 'IndustrySkill';
-					component.endpoints.delete = endpoint;
-				});
-			},
-
 			async deleteRecord() {
 				let component = this;
 
@@ -94,9 +99,27 @@
 								
 								if (component.action == 'Education') {
 									Bus.$emit('remove' + component.action, component.index, component.endpoints.delete.split('/').pop());
+								
 								} else {
 									Bus.$emit('remove' + component.action, component.index);
 								}
+							}
+						}).catch(function(error) {
+							
+							Utils.handleError(error);
+						});
+				
+				} else if (this.action == 'Photo') {
+
+					await axios.delete(component.endpoints.delete, Utils.getBearerAuth(component.$data.record))
+
+						.then(function(response) {
+							let data = response.data;
+								
+							if (data.success) {
+								$('#deleteRecordModal').modal('hide');
+
+								Bus.$emit('croppedPhoto', '');
 							}
 						}).catch(function(error) {
 							

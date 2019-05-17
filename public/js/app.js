@@ -2215,6 +2215,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2226,26 +2227,26 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    this.initForm();
+    var component = this;
+    Bus.$on('datatableViewUser', function (id) {
+      component.record_id = id;
+      component.endpoints.get = '/api/v1/admin/user/get?id=' + id;
+      component.viewRecord();
+    });
+    Bus.$on('croppedPhoto', function (profile_photo_url) {
+      component.record.profile_photo_url = profile_photo_url;
+    });
+    Bus.$on('closePhotoModal', function () {
+      $('#upload').val('');
+    });
   },
   methods: {
-    initForm: function initForm() {
-      var app = this;
-      Bus.$on('datatableViewUser', function (id) {
-        app.record_id = id;
-        app.endpoints.get = '/api/v1/admin/user/get?id=' + id;
-        app.viewRecord();
-      });
-      Bus.$on('croppedPhoto', function (profile_photo_url) {
-        app.record.profile_photo_url = profile_photo_url;
-      });
-    },
     viewRecord: function viewRecord() {
-      var app = this;
-      axios.get(app.endpoints.get, Utils.getBearerAuth()).then(function (response) {
-        app.record = response.data.data.record;
+      var component = this;
+      axios.get(component.endpoints.get, Utils.getBearerAuth()).then(function (response) {
+        component.record = response.data.data.record;
       }).catch(function (error) {
-        console.log('Error', error);
+        Utils.handleError(error);
       });
     },
     formatDate: function formatDate(d) {
@@ -2263,11 +2264,11 @@ __webpack_require__.r(__webpack_exports__);
     onFileChange: function onFileChange(e) {
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
-      var app = this,
+      var component = this,
           file = files[0],
           reader = new FileReader();
       reader.addEventListener('load', function () {
-        Bus.$emit('imageToCrop', reader.result, app.record_id);
+        Bus.$emit('imageToCrop', reader.result, component.record_id);
       }, false);
 
       if (file) {
@@ -3223,40 +3224,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       disabled: false,
       index: '',
       action: '',
+      record: {
+        id: 0
+      },
       endpoints: {
         delete: ''
       }
     };
   },
   created: function created() {
-    this.initForm();
+    var component = this;
+    Bus.$on('deleteAboutMe', function () {
+      component.action = 'AboutMe';
+      component.endpoints.delete = '';
+    });
+    Bus.$on('deleteIdealRole', function () {
+      component.action = 'IdealRole';
+      component.endpoints.delete = '';
+    });
+    Bus.$on('deleteEmployment', function (index, endpoint) {
+      component.action = 'Employment';
+      component.index = index;
+      component.endpoints.delete = endpoint;
+    });
+    Bus.$on('deleteEducation', function (index, endpoint) {
+      component.action = 'Education';
+      component.index = index;
+      component.endpoints.delete = endpoint;
+    });
+    Bus.$on('deleteIndustrySkill', function (endpoint) {
+      component.action = 'IndustrySkill';
+      component.endpoints.delete = endpoint;
+    });
+    Bus.$on('deletePhoto', function (id) {
+      component.action = 'Photo';
+      component.endpoints.delete = '/api/v1/admin/user/photo/delete';
+      component.record.id = id;
+    });
   },
   methods: {
-    initForm: function initForm() {
-      var component = this;
-      Bus.$on('deleteAboutMe', function () {
-        component.action = 'AboutMe';
-        component.endpoints.delete = '';
-      });
-      Bus.$on('deleteIdealRole', function () {
-        component.action = 'IdealRole';
-        component.endpoints.delete = '';
-      });
-      Bus.$on('deleteEmployment', function (index, endpoint) {
-        component.action = 'Employment';
-        component.index = index;
-        component.endpoints.delete = endpoint;
-      });
-      Bus.$on('deleteEducation', function (index, endpoint) {
-        component.action = 'Education';
-        component.index = index;
-        component.endpoints.delete = endpoint;
-      });
-      Bus.$on('deleteIndustrySkill', function (endpoint) {
-        component.action = 'IndustrySkill';
-        component.endpoints.delete = endpoint;
-      });
-    },
     deleteRecord: function () {
       var _deleteRecord = _asyncToGenerator(
       /*#__PURE__*/
@@ -3292,17 +3298,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 5:
-                _context.next = 9;
+                _context.next = 14;
                 break;
 
               case 7:
+                if (!(this.action == 'Photo')) {
+                  _context.next = 12;
+                  break;
+                }
+
+                _context.next = 10;
+                return axios.delete(component.endpoints.delete, Utils.getBearerAuth(component.$data.record)).then(function (response) {
+                  var data = response.data;
+
+                  if (data.success) {
+                    $('#deleteRecordModal').modal('hide');
+                    Bus.$emit('croppedPhoto', '');
+                  }
+                }).catch(function (error) {
+                  Utils.handleError(error);
+                });
+
+              case 10:
+                _context.next = 14;
+                break;
+
+              case 12:
                 $('#deleteRecordModal').modal('hide');
                 Bus.$emit('remove' + component.action);
 
-              case 9:
+              case 14:
                 this.disabled = false;
 
-              case 10:
+              case 15:
               case "end":
                 return _context.stop();
             }
@@ -3580,12 +3608,14 @@ var cropper = null;
   data: function data() {
     return {
       disabled: false,
+      isAdmin: false,
       imgCrop: '',
       input: {
+        id: 0,
         photo: ''
       },
       endpoints: {
-        upload: '/api/v1/user/photo'
+        upload: ''
       }
     };
   },
@@ -3595,7 +3625,15 @@ var cropper = null;
       $('#upload').val('');
       component.close();
     });
-    Bus.$on('imageToCrop', function (binary) {
+    Bus.$on('imageToCrop', function (binary, id) {
+      if (id) {
+        component.isAdmin = true;
+        component.input.id = id;
+        component.endpoints.upload = '/api/v1/admin/user/upload';
+      } else {
+        component.endpoints.upload = '/api/v1/user/photo';
+      }
+
       component.imgCrop = binary;
       component.enableCropper();
       $('#photoModal').modal('show');
@@ -3649,10 +3687,14 @@ var cropper = null;
                   var data = response.data;
 
                   if (data.success) {
-                    component.close(); // Bus.$emit('alertSuccess', data.message);
-                    // Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
+                    component.close();
 
-                    window.location.href = '/user/profile';
+                    if (!component.isAdmin) {
+                      window.location.href = '/user/profile';
+                    } else {
+                      Bus.$emit('alertSuccess', data.message);
+                      Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
+                    }
                   }
                 }).catch(function (error) {
                   Utils.handleError(error);
@@ -48415,7 +48457,9 @@ var render = function() {
                       height: "120px"
                     }
                   })
-                : _vm._e()
+                : _c("img", {
+                    attrs: { src: "/img/defaults/user.png", height: "120px" }
+                  })
             ]),
             _vm._v(" "),
             _c("input", {
@@ -70720,7 +70764,13 @@ window.Helper = {
       }
     },
     getBearerAuth: function getBearerAuth() {
-      return {
+      var record = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      return record ? {
+        headers: {
+          "Authorization": "Bearer " + _api__WEBPACK_IMPORTED_MODULE_0__["default"]._getBearerToken()
+        },
+        data: record
+      } : {
         headers: {
           "Authorization": "Bearer " + _api__WEBPACK_IMPORTED_MODULE_0__["default"]._getBearerToken()
         }
