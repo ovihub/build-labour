@@ -1,5 +1,5 @@
 @extends('layouts.admin')
 
 @section('content')
-    index
+    WELCOME TO ADMIN PORTAL
 @endsection
