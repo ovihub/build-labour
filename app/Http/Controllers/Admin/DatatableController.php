@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Models\Tickets\Ticket;
 use Illuminate\Http\Request;
 use App\Http\Resources\UsersResource;
+use App\Http\Resources\TicketsResource;
 
 class DatatableController extends Controller
 {
@@ -13,14 +15,20 @@ class DatatableController extends Controller
      * Create a new controller instance.
      *
      * @param User $user
+     * @param Ticket $ticket
      */
-    public function __construct(User $user)
+    public function __construct(User $user, Ticket $ticket)
     {        
         $this->user = $user;
+        $this->ticket = $ticket;
     }
     
     public function showUsers() {
         return view('admin.users');
+    }
+
+    public function showTickets() {
+        return view('admin.tickets');
     }
 
     /**
@@ -52,6 +60,24 @@ class DatatableController extends Controller
         $data = $query->paginate($per_page);
 
         return UsersResource::collection($data);
+    }
+
+    public function getTicketsDatatable(Request $request)
+    {
+        $column = $request->get('column') ? $request->get('column') : 'id';
+        $order = $request->get('order') ? $request->get('order') : 'asc';
+        $per_page = $request->get('per_page') ? $request->get('per_page') : 10;
+        $search_text = $request->get('search_text') ? $request->get('search_text') : '';
+
+        $query = $this->ticket
+                    ->where('ticket', 'LIKE', '%'.$search_text.'%')
+                    ->orWhere('description', 'LIKE', '%'.$search_text.'%')
+                    ->orWhere('id', 'LIKE', '%'.$search_text.'%')
+                    ->orderBy($column, $order);
+
+        $data = $query->paginate($per_page);
+
+        return TicketsResource::collection($data);
     }
 
 }
