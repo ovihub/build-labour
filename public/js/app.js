@@ -1877,6 +1877,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -47955,7 +47957,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "data-table" },
     [
       _c(
         "div",
@@ -48027,93 +48028,95 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("div", { class: _vm.dataTable }, [
-        _c("table", { staticClass: "table table-hover" }, [
-          _c("thead", [
-            _c(
-              "tr",
-              _vm._l(_vm.columns, function(column) {
-                return _c(
-                  "th",
-                  {
-                    key: column,
-                    on: {
-                      click: function($event) {
-                        return _vm.sortByColumn(column)
-                      }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n\t\t\t\t\t\t\t" +
-                        _vm._s(_vm._f("columnHead")(column)) +
-                        "\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t"
-                    ),
-                    column === _vm.sortedColumn
-                      ? _c("span", [
-                          _vm.order === "asc"
-                            ? _c("i", { staticClass: "fa fa-arrow-up" })
-                            : _c("i", { staticClass: "fa fa-arrow-down" })
-                        ])
-                      : _vm._e()
-                  ]
-                )
-              }),
-              0
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "tbody",
-            [
-              _vm.tableData.length === 0
-                ? _c("tr", {}, [
-                    _c(
-                      "td",
-                      {
-                        staticClass: "lead text-center",
-                        attrs: { colspan: _vm.columns.length + 1 }
-                      },
-                      [_vm._v("No data found.")]
-                    )
-                  ])
-                : _vm._l(_vm.tableData, function(data, key1) {
-                    return _c(
-                      "tr",
-                      {
-                        key: key1,
-                        staticClass: "m-datatable__row",
-                        on: {
-                          click: function($event) {
-                            return _vm.onClickViewRow(data)
-                          }
+        _c("div", { staticStyle: { overflow: "scroll" } }, [
+          _c("table", { staticClass: "table table-hover" }, [
+            _c("thead", [
+              _c(
+                "tr",
+                _vm._l(_vm.columns, function(column) {
+                  return _c(
+                    "th",
+                    {
+                      key: column,
+                      on: {
+                        click: function($event) {
+                          return _vm.sortByColumn(column)
                         }
-                      },
-                      _vm._l(data, function(value, key) {
-                        return _c("td", { key: key.id }, [
-                          key !== "full_name"
-                            ? _c("span", [_vm._v(_vm._s(value))])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          key === "full_name"
-                            ? _c("span", [
-                                _c("img", {
-                                  staticClass: "table-profile-pic",
-                                  attrs: { src: _vm.getProfilePic(value) }
-                                }),
-                                _vm._v(
-                                  _vm._s(_vm.getProfileName(value)) +
-                                    "\n\t\t\t\t\t\t\t"
-                                )
-                              ])
-                            : _vm._e()
-                        ])
-                      }),
-                      0
-                    )
-                  })
-            ],
-            2
-          )
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n\t\t\t\t\t\t\t\t" +
+                          _vm._s(_vm._f("columnHead")(column)) +
+                          "\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t"
+                      ),
+                      column === _vm.sortedColumn
+                        ? _c("span", [
+                            _vm.order === "asc"
+                              ? _c("i", { staticClass: "fa fa-arrow-up" })
+                              : _c("i", { staticClass: "fa fa-arrow-down" })
+                          ])
+                        : _vm._e()
+                    ]
+                  )
+                }),
+                0
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              [
+                _vm.tableData.length === 0
+                  ? _c("tr", {}, [
+                      _c(
+                        "td",
+                        {
+                          staticClass: "lead text-center",
+                          attrs: { colspan: _vm.columns.length + 1 }
+                        },
+                        [_vm._v("No data found.")]
+                      )
+                    ])
+                  : _vm._l(_vm.tableData, function(data, key1) {
+                      return _c(
+                        "tr",
+                        {
+                          key: key1,
+                          staticClass: "m-datatable__row",
+                          on: {
+                            click: function($event) {
+                              return _vm.onClickViewRow(data)
+                            }
+                          }
+                        },
+                        _vm._l(data, function(value, key) {
+                          return _c("td", { key: key.id }, [
+                            key !== "full_name"
+                              ? _c("span", [_vm._v(_vm._s(value))])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            key === "full_name"
+                              ? _c("span", [
+                                  _c("img", {
+                                    staticClass: "table-profile-pic",
+                                    attrs: { src: _vm.getProfilePic(value) }
+                                  }),
+                                  _vm._v(
+                                    _vm._s(_vm.getProfileName(value)) +
+                                      "\n\t\t\t\t\t\t\t\t"
+                                  )
+                                ])
+                              : _vm._e()
+                          ])
+                        }),
+                        0
+                      )
+                    })
+              ],
+              2
+            )
+          ])
         ]),
         _vm._v(" "),
         _vm.pagination && _vm.tableData.length > 0
