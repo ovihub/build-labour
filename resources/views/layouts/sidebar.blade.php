@@ -22,6 +22,11 @@
             </a>
          </li>
          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="{{ '/all/tickets/?token=' . request()->input('token') }}">
+               Tickets
+            </a>
+         </li>
+         <li class="nav-item">
             <logout text-only="true"></logout>
          </li>
       </ul>
