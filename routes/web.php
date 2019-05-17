@@ -50,11 +50,13 @@ Route::namespace('Admin')
     ->prefix('all')
     ->group(function() {
         Route::get('users', 'DatatableController@showUsers')->name('users');
+        Route::get('jobs', 'DatatableController@showJobs')->name('jobs');
         Route::get('tickets', 'DatatableController@showTickets')->name('tickets');
 
         Route::prefix('datatable')
             ->group(function () {
                 Route::get('users', 'DatatableController@getUsersDatatable')->name('users.table');
+                Route::get('jobs', 'DatatableController@getJobsDatatable')->name('jobs.table');
                 Route::get('tickets', 'DatatableController@getTicketsDatatable')->name('tickets.table');
             });
     });

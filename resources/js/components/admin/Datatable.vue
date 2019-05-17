@@ -1,5 +1,5 @@
 <template>
-	<div class="data-table">
+	<div>
 		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center bl-mb-32">
 			<div class="table-title">
 				<span :class="dataTitle" @click="onClickTitle">{{ title }}</span>
@@ -19,34 +19,36 @@
 		<view-user v-if="modalName == 'User'" :class="dataRecord"></view-user>
 		
 		<div :class="dataTable">
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th v-for="column in columns" :key="column" @click="sortByColumn(column)" class="">
-							{{ column | columnHead }}
-							
-							<span v-if="column === sortedColumn">
-								<i v-if="order === 'asc'" class="fa fa-arrow-up"></i>
-								<i v-else class="fa fa-arrow-down"></i>
-							</span>
-						</th>
-					</tr>
-				</thead>
-			
-				<tbody>
-					<tr class="" v-if="tableData.length === 0">
-						<td class="lead text-center" :colspan="columns.length + 1">No data found.</td>
-					</tr>
-					<tr v-for="(data, key1) in tableData" :key="key1" class="m-datatable__row" @click="onClickViewRow(data)" v-else>
-						<td v-for="(value, key) in data" :key="key.id">
-							<span v-if="key !== 'full_name'">{{ value }}</span>
-							<span v-if="key === 'full_name'">
-								<img class="table-profile-pic" :src="getProfilePic(value)"/>{{ getProfileName(value) }}
-							</span>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<div style="overflow:scroll">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th v-for="column in columns" :key="column" @click="sortByColumn(column)" class="">
+								{{ column | columnHead }}
+								
+								<span v-if="column === sortedColumn">
+									<i v-if="order === 'asc'" class="fa fa-arrow-up"></i>
+									<i v-else class="fa fa-arrow-down"></i>
+								</span>
+							</th>
+						</tr>
+					</thead>
+				
+					<tbody>
+						<tr class="" v-if="tableData.length === 0">
+							<td class="lead text-center" :colspan="columns.length + 1">No data found.</td>
+						</tr>
+						<tr v-for="(data, key1) in tableData" :key="key1" class="m-datatable__row" @click="onClickViewRow(data)" v-else>
+							<td v-for="(value, key) in data" :key="key.id">
+								<span v-if="key !== 'full_name'">{{ value }}</span>
+								<span v-if="key === 'full_name'">
+									<img class="table-profile-pic" :src="getProfilePic(value)"/>{{ getProfileName(value) }}
+								</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 
 			<nav v-if="pagination && tableData.length > 0">
 				<ul class="pagination">
