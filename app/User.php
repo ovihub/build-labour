@@ -111,6 +111,7 @@ class User extends Users implements JWTSubject
         return $this->belongsTo(Company::class, 'id', 'created_by');
     }
 
+
     public function Firebase() {
 
         return $this->belongsTo(FirebaseUsers::class, 'id', 'user_id');

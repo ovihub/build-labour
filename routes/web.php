@@ -58,3 +58,12 @@ Route::namespace('Admin')
                 Route::get('tickets', 'DatatableController@getTicketsDatatable')->name('tickets.table');
             });
     });
+
+Route::namespace('Admin')->group(function() {
+
+    Route::prefix('admin')->group(function() {
+
+        Route::get('',  'AuthController@showAdmin')->middleware(['admin'])->name('admin.index');
+        Route::get('login', 'AuthController@showLoginForm')->middleware(['admin'])->name('admin.login');
+    });
+});

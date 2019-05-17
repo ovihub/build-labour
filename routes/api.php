@@ -164,3 +164,12 @@ Route::namespace('Api\V1\Admin')
                 Route::delete('delete', 'ApiUsersController@delete');
             });
     });
+
+Route::namespace('Api\V1\Admin')
+    ->prefix('v1/admin')
+    ->group(function() {
+        Route::prefix('auth')
+            ->group(function () {
+                Route::post('login', 'ApiAuthController@login');
+            });
+    });
