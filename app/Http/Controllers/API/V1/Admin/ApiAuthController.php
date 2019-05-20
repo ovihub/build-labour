@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\API\V1\Admin;
 
 use App\Http\Controllers\API\V1\ApiBaseController;
-use App\Models\Users\Users;
-use App\Models\Users\WorkerDetail;
-use App\Repositories\UserRepository;
-use App\User;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use JWTAuth;
