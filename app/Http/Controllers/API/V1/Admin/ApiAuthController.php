@@ -1,8 +1,8 @@
 <?php
 
-namespace \App\Http\Controllers\API\V1\Admin;
+namespace App\Http\Controllers\API\V1\Admin;
 
-use \App\Http\Controllers\API\V1\ApiBaseController;
+use App\Http\Controllers\API\V1\ApiBaseController;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use JWTAuth;
