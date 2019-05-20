@@ -152,7 +152,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 });
 
 // Admin
-Route::namespace('Api\V1\Admin')
+Route::namespace('API\V1\Admin')
     ->middleware(['jwt', 'admin'])
     ->prefix('v1/admin')
     ->group(function() {
@@ -165,7 +165,7 @@ Route::namespace('Api\V1\Admin')
             });
     });
 
-Route::namespace('Api\V1\Admin')
+Route::namespace('API\V1\Admin')
     ->prefix('v1/admin')
     ->group(function() {
         Route::prefix('auth')
