@@ -58,6 +58,7 @@ Route::namespace('Admin')
                 Route::get('users', 'DatatableController@getUsersDatatable')->name('users.table');
                 Route::get('jobs', 'DatatableController@getJobsDatatable')->name('jobs.table');
                 Route::get('tickets', 'DatatableController@getTicketsDatatable')->name('tickets.table');
+                Route::get('companies', 'CompanyController@getCompaniesDatatable')->name('companies.table');
             });
     });
 
@@ -67,5 +68,6 @@ Route::namespace('Admin')->group(function() {
 
         Route::get('',  'AuthController@showAdmin')->middleware(['admin'])->name('admin.index');
         Route::get('login', 'AuthController@showLoginForm')->middleware(['admin'])->name('admin.login');
+        Route::get('companies', 'CompanyController@index')->middleware(['admin'])->name('admin.companies');
     });
 });

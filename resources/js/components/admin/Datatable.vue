@@ -172,7 +172,7 @@
 
 			fetchData() {
 				let dataFetchUrl = `${this.url}?page=${this.currentPage}&column=${this.sortedColumn}&order=${this.order}&per_page=${this.perPage}&search_text=${this.searchText}`
-				
+
 				axios.get(dataFetchUrl, Utils.getBearerAuth())
 
 					.then(({ data }) => {

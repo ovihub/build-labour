@@ -233,6 +233,6 @@ class Company extends BaseModel
 
     public function getNoOfWorkersAttribute() {
 
-        return 20;
+        return $this->Workers->count();
     }
 }

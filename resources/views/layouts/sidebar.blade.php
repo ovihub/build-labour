@@ -32,6 +32,11 @@
             </a>
          </li>
          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="{{ '/admin/companies' }}">
+               Companies
+            </a>
+         </li>
+         <li class="nav-item">
             <logout text-only="true"></logout>
          </li>
       </ul>
