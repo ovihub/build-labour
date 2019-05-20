@@ -25,7 +25,7 @@ class ApiChatController extends ApiBaseController{
 //        //$this->chat_service = \App::make('ChatServiceInterface');
 //        $this->chat_service = $chat_service;
         $s = 'Firebase';
-        App::bind( 'ChatServiceInterface', function( $app )
+        App::bind( 'ChatServiceInterface', function( $app ) use($s)
         {
             switch( $s ){
                 case 'Socket.io':
