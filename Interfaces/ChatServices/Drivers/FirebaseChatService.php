@@ -23,7 +23,7 @@ class FirebaseChatService implements ChatServiceInterface
 	{
 
 		$this->icon = 'test';
-		$this->serviceAccount  = ServiceAccount::fromJsonFile( base_path().'/'. env('FIREBASE_JSON_FILE') );
+		$this->serviceAccount  = ServiceAccount::fromJsonFile( base_path().'/'. 'buildlabour-32ae0f22b743.json' );
 
 		$this->setClient();
 	}
