@@ -18,6 +18,7 @@ class CompaniesResource extends JsonResource
         return [
             'id'    => $this->id,
             'name'  => $this->name,
+            'photo_url' => $this->photo_url,
             'no_of_workers' => $this->no_of_workers
         ];
     }

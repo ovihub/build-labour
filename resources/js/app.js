@@ -42,6 +42,8 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 // Admin components
 Vue.component('datatable', require('./components/admin/Datatable.vue').default);
 Vue.component('view-user', require('./components/admin/ViewUser.vue').default);
+Vue.component('admin-view-company', require('./components/admin/ViewCompany.vue').default);
+Vue.component('admin-company-datatable', require('./components/admin/CompanyDatatable.vue').default);
 Vue.component('admin-login', require('./components/admin/Login.vue').default);
 
 // Common components

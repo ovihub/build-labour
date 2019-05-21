@@ -2,9 +2,9 @@
 
 @section('content')
 
-    <datatable  title="Companies"
+    <admin-company-datatable title="Companies"
                 fetch-url="{{ route('companies.table') }}"
                 :columns="['id', 'name', 'no_of_workers']"
                 modal-name="Company">
-    </datatable>
+    </admin-company-datatable>
 @endsection
