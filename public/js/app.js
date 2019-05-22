@@ -1891,6 +1891,12 @@ __webpack_require__.r(__webpack_exports__);
         meta: {
           to: 1,
           from: 1
+        },
+        links: {
+          first: '',
+          last: '',
+          next: '',
+          prev: ''
         }
       },
       offset: 4,
@@ -1980,7 +1986,16 @@ __webpack_require__.r(__webpack_exports__);
     serialNumber: function serialNumber(key) {
       return (this.currentPage - 1) * this.perPage + 1 + key;
     },
-    changePage: function changePage(pageNumber) {
+    changePage: function changePage(pageNumber, mode) {
+      if (mode == 'next' && !this.pagination.links.next) {
+        return false;
+      }
+
+      if (mode == 'prev' && !this.pagination.links.prev) {
+        this.currentPage = 1;
+        return false;
+      }
+
       this.currentPage = pageNumber;
       this.fetchData();
     },
@@ -48363,6 +48378,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "admin-companies" },
     [
       _c(
         "div",
@@ -48540,11 +48556,15 @@ var render = function() {
                         "a",
                         {
                           staticClass: "page-link-2",
+                          class: {
+                            "btn-pagination-disabled": !_vm.pagination.links
+                              .prev
+                          },
                           attrs: { href: "#" },
                           on: {
                             click: function($event) {
                               $event.preventDefault()
-                              return _vm.changePage(_vm.currentPage - 1)
+                              return _vm.changePage(_vm.currentPage - 1, "prev")
                             }
                           }
                         },
@@ -48596,11 +48616,15 @@ var render = function() {
                         "a",
                         {
                           staticClass: "page-link-2",
+                          class: {
+                            "btn-pagination-disabled": !_vm.pagination.links
+                              .next
+                          },
                           attrs: { href: "#" },
                           on: {
                             click: function($event) {
                               $event.preventDefault()
-                              return _vm.changePage(_vm.currentPage + 1)
+                              return _vm.changePage(_vm.currentPage + 1, "next")
                             }
                           }
                         },

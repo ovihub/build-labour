@@ -11494,6 +11494,15 @@ body.admin {
   border-radius: 50%;
 }
 
+.btn-pagination-disabled {
+  background: #ddd;
+  color: #a9a9a9 !important;
+}
+
+.btn-pagination-disabled:hover {
+  cursor: no-drop;
+}
+
 /* ==========================================================================
     Record Styling
   ========================================================================== */
@@ -11636,6 +11645,18 @@ body.admin {
 
 .bl-mr-15 {
   margin-right: 15px;
+}
+
+/* ==========================================================================
+    Companies
+  ========================================================================== */
+
+.admin-companies .data-table table > thead > tr > th:nth-child(3) {
+  text-align: center;
+}
+
+.admin-companies .data-table table > tbody > tr > td:nth-child(3) {
+  text-align: center;
 }
 
 /*!

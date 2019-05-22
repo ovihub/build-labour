@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="admin-companies">
 		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center bl-mb-32">
 			<div class="table-title">
 				<span :class="dataTitle" @click="onClickTitle">{{ title }}</span>
@@ -51,13 +51,13 @@
 				<ul class="pagination">
 					<a class="page-link-2 mr-3" href="#" @click="fetchData"><span class="fa fa-sync"></span> Refresh</a>
 					<li class="page-item-2" :class="{'disabled' : currentPage === 1}">
-						<a class="page-link-2" href="#" @click.prevent="changePage(currentPage - 1)">Previous</a>
+						<a class="page-link-2" href="#" v-bind:class="{ 'btn-pagination-disabled': !pagination.links.prev }" @click.prevent="changePage(currentPage - 1, 'prev')">Previous</a>
 					</li>
 					<li v-for="page in pagesNumber" :key="page.id" class="page-item-2" :class="{'active': page == pagination.meta.current_page}">
 						<a href="javascript:void(0)" @click.prevent="changePage(page)" class="page-link-2">{{ page }}</a>
 					</li>
 					<li class="page-item-2" :class="{'disabled': currentPage === pagination.meta.last_page }">
-						<a class="page-link-2" href="#" @click.prevent="changePage(currentPage + 1)">Next</a>
+						<a class="page-link-2" v-bind:class="{ 'btn-pagination-disabled': !pagination.links.next }" href="#" @click.prevent="changePage(currentPage + 1, 'next')">Next</a>
 					</li>
 					<span class="ml-3" style="margin-top: 8px;">Displaying {{ pagination.meta.from }} - {{ pagination.meta.to }} of {{ pagination.meta.total }} entries.</span>
 				</ul>
@@ -82,6 +82,12 @@
 					meta: { 
 						to: 1,
 						from: 1
+					},
+					links : {
+					    first: '',
+						last: '',
+						next: '',
+						prev: ''
 					}
 				},
 				offset: 4,
@@ -186,7 +192,19 @@
 				return (this.currentPage - 1) * this.perPage + 1 + key;
 			},
 			
-			changePage(pageNumber) {
+			changePage(pageNumber, mode) {
+				
+			    if (mode == 'next' && !this.pagination.links.next) {
+
+			        return false;
+				}
+
+                if (mode == 'prev' && !this.pagination.links.prev) {
+
+			        this.currentPage = 1;
+                    return false;
+                }
+
 				this.currentPage = pageNumber;
 
 				this.fetchData();
