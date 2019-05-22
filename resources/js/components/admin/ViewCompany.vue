@@ -1,0 +1,156 @@
+<template>
+
+    <div class="form-group" v-if="record">
+        <div class="record-title">
+            {{ record.full_name }}
+        </div>
+        <div class="record-photo">
+            <div class="record-profile-pic">
+                <img v-if="record.photo_url" :src="record.photo_url" height="120px" />
+                <img v-else src="/img/logo/1.jpg" height="120px" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="record-label">
+                    Workers
+                </label>
+                <ul>
+                    <li v-for="(value, key) in record.workers">
+                        <span>
+                            <img v-if="value.profile_photo_url" :src="value.profile_photo_url" height="40px" />
+                            <img v-else src="/img/defaults/user.png" height="40px" />
+                            {{ getProfileName(value) }}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" v-for="(value, key) in record" :key="key.id">
+            <div class="col-md-12" v-if="key != 'photo_url' && key != 'workers'">
+                <label class="record-label">
+                    {{ key.split('_').join(' ').toUpperCase() }}
+                </label>
+            </div>
+
+            <div class="col-md-12" v-if="key != 'profile_photo_url' && key != 'workers'">
+                <span v-if="key == 'created_at' || key == 'updated_at' || key == 'deleted_at'"
+                    class="form-control record-input">{{ formatDate(value) }}</span>
+                
+                <span v-else-if="key != 'message'" class="form-control record-input">{{ value }}</span>
+
+                <textarea v-else-if="key == 'message'" class="form-control record-input" :value="value" readonly></textarea>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+		data() {
+			return {
+                record_id: 0,
+				record: null,
+				endpoints: {
+					get: ''
+				}
+			}
+		},
+		
+		created() {
+			let component = this;
+
+            Bus.$on('datatableViewCompany', function(id){
+                console.log('xxxx');
+                component.record_id = id;
+                component.endpoints.get = '/api/v1/admin/company/get?id=' + id;
+                component.viewRecord();
+            });
+            
+            Bus.$on('croppedPhoto', function (profile_photo_url) {
+                component.record.profile_photo_url = profile_photo_url;
+            });
+
+            Bus.$on('closePhotoModal', function() {
+                $('#upload').val('');
+            });
+		},
+		
+		methods: {
+			
+		  	viewRecord() {
+				let component = this;
+
+				axios.get(component.endpoints.get, Utils.getBearerAuth())
+
+                    .then(function(response) {
+                        
+                        component.record = response.data.data.record;
+                    })
+                    .catch(function(error) {
+                        
+                        Utils.handleError(error);
+                    });
+            },
+              
+            formatDate(d) {
+                if (d != null) {
+                    let date = new Date(d);
+
+                    return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
+                }
+			},
+
+            getProfilePic(value) {
+
+		  	    console.log('mmmm');
+		  	    console.log(value);
+		  	    if (!value) {
+
+
+                }
+
+                return '';
+               // return value.split(' ')[0];
+            },
+
+            getProfileName(value) {
+                return value.first_name + ' ' + value.last_name;
+            },
+
+            onClickDeleteAccount() {
+				Bus.$emit('datatableDeleteUser', this.record_id);
+            },
+            
+            onClickUploadImage() {
+                upload.click();
+            },
+
+            onFileChange(e) {
+                let files = e.target.files || e.dataTransfer.files;
+
+                if (!files.length)
+                    return;
+
+                let component = this,
+                    file = files[0],
+                    reader  = new FileReader();
+
+                reader.addEventListener('load', function () {
+
+                    Bus.$emit('imageToCrop', reader.result, component.record_id);
+
+                }, false);
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            },
+
+            onClickDeleteImage() {
+                Bus.$emit('deletePhoto', this.record_id);
+            }
+        }
+	}
+</script>

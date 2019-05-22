@@ -163,6 +163,11 @@ Route::namespace('API\V1\Admin')
                 Route::delete('photo/delete', 'ApiUsersController@deletePhoto');
                 Route::delete('delete', 'ApiUsersController@delete');
             });
+
+        Route::prefix('company')
+            ->group(function () {
+                Route::get('get', 'ApiCompaniesController@get');
+            });
     });
 
 Route::namespace('API\V1\Admin')
