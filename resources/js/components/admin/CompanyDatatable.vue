@@ -193,7 +193,7 @@
 			},
 			
 			changePage(pageNumber, mode) {
-				
+
 			    if (mode == 'next' && !this.pagination.links.next) {
 
 			        return false;

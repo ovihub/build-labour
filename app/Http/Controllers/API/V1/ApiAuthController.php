@@ -179,12 +179,7 @@ class ApiAuthController extends ApiBaseController
         }
 
         $token = $user->getJwtToken();
-
-        if (!$user->WorkerDetail) {
-
-            WorkerDetail::create(['user_id' => $user->id, 'english_skill' => null, 'drivers_license' => null, 'right_to_work' => null]);
-        }
-
+        
         return $this->apiSuccessResponse( compact( 'user' , 'token' ), true, 'User has been registered successfully!', self::HTTP_STATUS_REQUEST_OK);
     }
 
