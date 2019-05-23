@@ -36,7 +36,7 @@ class Users extends BaseModel implements
 
     protected $hidden =[ 'password' , 'remember_token','updated_at' , 'created_at', 'verification_code', 'firebase' ];
 
-    protected $appends = [ 'full_name', 'dob_formatted', 'device_token' ];
+    protected $appends = [ 'identifier', 'full_name', 'dob_formatted', 'device_token' ];
 
     public $sql;
     public $bindings;
@@ -156,7 +156,6 @@ class Users extends BaseModel implements
     public function store( Request $r )
     {
 
-
         if( ! $this->validate( $r )){
 
             return false;
@@ -178,32 +177,6 @@ class Users extends BaseModel implements
         }
 
         try {
-
-            if (!$this->exists) {
-
-                \Mail::to( $this->email )->send( new ResendVerificationCodeEmail( $this ) );
-            }
-
-            // deal with roles
-            if ($this->exists) {
-
-                $user = JWTAuth::toUser();
-
-                // create worker detail record if the user type is WORKER
-
-                if ($user) {
-
-                    if ($this->role_id == self::USER_TYPE_WORKER && !$user->WorkerDetail) {
-
-                        WorkerDetail::create(['user_id' => $this->id]);
-
-                    } else if ($this->role_id == self::USER_TYPE_COMPANY && !$user->Company) {
-
-                        Company::create(['created_by' => $this->id]);
-                    }
-                }
-
-            }
 
             $this->save();
 
@@ -291,6 +264,11 @@ class Users extends BaseModel implements
     public function getDeviceTokenAttribute() {
 
         return $this->firebase ? $this->firebase->device_token : '';
+    }
+
+    public function getIdentifierAttribute() {
+
+        return (string) $this->id;
     }
 
     public function resendVerificationCode()
