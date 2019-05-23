@@ -192,7 +192,7 @@ class CompanyRepository extends AbstractRepository
 
     public function getPosts($id) {
 
-        $posts = CompanyPost::where('company_id', $id)->get();
+        $posts = CompanyPost::with('job')->where('company_id', $id)->get();
 
         return $posts;
     }

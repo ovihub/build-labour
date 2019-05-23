@@ -23,7 +23,7 @@ class CreateJobsTable extends Migration
             $table->string('salary')->nullable();
             $table->text('reports_to')->nullable();
             $table->string('location')->nullable();
-            $table->integer('company_id')->unsigned();
+            $table->integer('company_id')->unsigned()->nullable();
             $table->integer('created_by')->unsigned();
             $table->timestamps();
         });
