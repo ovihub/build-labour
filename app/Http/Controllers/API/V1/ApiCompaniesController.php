@@ -383,8 +383,14 @@ class ApiCompaniesController extends ApiBaseController
     public function uploadPhoto( Request $request )
     {
 
-        if( !$photoUrl = $this->repository->uploadPhoto( $request ) ){
-            return $this->apiErrorResponse(false, $this->repository->company->getErrors( true ), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput');
+        if( !$photoUrl = $this->repository->uploadPhoto( $request ) ) {
+            return $this->apiErrorResponse(
+                false,
+                $this->repository->company->getErrors( true ),
+                self::HTTP_STATUS_INVALID_INPUT,
+                'invalidInput',
+                $this->repository->company->getErrorsDetail()
+            );
         }
 
         return $this->apiSuccessResponse([ 'photo_url' => $photoUrl ], true, 'Profile Photo Uploaded Successfully ', self::HTTP_STATUS_REQUEST_OK);

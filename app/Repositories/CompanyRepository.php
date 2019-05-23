@@ -96,12 +96,17 @@ class CompanyRepository extends AbstractRepository
     public function uploadPhoto( Request $request ) {
 
         $user = JWTAuth::toUser();
+        $errMessage = 'Cannot upload a photo';
+        $this->company = new Company();
 
         if( $user->company && $user->company->uploadProfilePhoto($request) ){
 
             $this->company = $user->company;
             return $this->company;
         }
+
+        $this->company->addError($errMessage);
+        $this->company->errorsDetail = ['photo' => $errMessage];
 
         return false;
     }
