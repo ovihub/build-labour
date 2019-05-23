@@ -3,6 +3,7 @@
 namespace App\Models\Companies;
 
 use App\Models\BaseModel;
+use Carbon\Carbon;
 
 class CompanyPost extends BaseModel
 {
@@ -13,8 +14,11 @@ class CompanyPost extends BaseModel
     protected $fillable = [
         'content',
         'company_id',
-        'posted_by'
+        'posted_by',
+        'job_id'
     ];
+
+    protected $appends = ['posted_at'];
 
     const CREATED_AT = null;
     const UPDATED_AT = null;
@@ -44,4 +48,15 @@ class CompanyPost extends BaseModel
         return $this;
     }
 
+    public function Job() {
+
+        return $this->belongsTo(Job::class, 'job_id', 'id');
+    }
+
+    public function getPostedAtAttribute() {
+
+        $createdAt = Carbon::parse($this->created_at);
+        $now = Carbon::now();
+        return $now->diffForHumans($createdAt);
+    }
 }

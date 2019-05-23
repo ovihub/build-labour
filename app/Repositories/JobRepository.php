@@ -64,7 +64,7 @@ class JobRepository extends AbstractRepository
         $jobs = Job::with('company');
 
         $jobs = $jobs->where('title', 'like', "%{$params->role}%");
-        $jobs = $jobs->whereHas('company',
+        $jobs = $jobs->orWhereHas('company',
 
             function ($query) use ($params) {
 

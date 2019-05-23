@@ -15,8 +15,9 @@ class CreateCompanyPostsTable extends Migration
     {
         Schema::create('company_posts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('content');
+            $table->string('content')->nullable();
             $table->integer('company_id')->unsigned();
+            $table->integer('job_id')->unsigned()->nullable();
             $table->integer('posted_by')->unsigned();
 
             $table->timestamps();
