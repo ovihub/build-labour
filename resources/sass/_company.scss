@@ -18,12 +18,18 @@
 .post-action {
     display: inline;
     font-size: 14px;
-    margin-right: 36px;
+    margin-right: 20px;
+    padding: 10px 15px;
     font-weight: 500;
     cursor: pointer;
 
+    .like {
+        margin-top: -2px;
+        margin-right: 4px;
+    }
+    
     &:hover {
-        color: $brand;
+        background-color: #F9F9F9;
     }
 }
 .save-icon {

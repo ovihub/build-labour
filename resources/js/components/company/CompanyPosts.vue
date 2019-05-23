@@ -37,8 +37,12 @@
                         Comments
                     </div>
                     <div class="post-action">
-                        <img class="mr-1" src="/img/icons/like.png"
-                            srcset="/img/icons/like@2x.png 2x, /img/icons/like@3x.png 3x">
+                        <svg class="like" xmlns="http://www.w3.org/2000/svg" width="12" height="11" viewBox="0 0 12 11">
+                            <g fill="none" fill-rule="evenodd">
+                                <path d="M0 0h12v12H0z"/>
+                                <path fill="#A2B2B7" fill-rule="nonzero" d="M.5 10.5h2v-6h-2v6zm11-5.5c0-.55-.45-1-1-1H7.345l.475-2.285.015-.16a.753.753 0 0 0-.22-.53L7.085.5l-3.29 3.295A.978.978 0 0 0 3.5 4.5v5c0 .55.45 1 1 1H9c.415 0 .77-.25.92-.61l1.51-3.525A.988.988 0 0 0 11.5 6V5z"/>
+                            </g>
+                        </svg>
 
                         Like
                     </div>

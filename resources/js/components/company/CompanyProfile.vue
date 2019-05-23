@@ -47,8 +47,8 @@
 
                 <div class="row bl-label-15">
                     <div class="bl-col-3">
-                        <img class="text-icon-3" src="/img/icons/pinlocation.png"
-                            srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
+                        <img class="text-icon-5" src="/img/icons/globe.png"
+                            srcset="/img/icons/globe@2x.png 2x, /img/icons/globe@3x.png 3x">
                     </div>
                     <div class="bl-col-4 bl-display">
                         {{ contact_email }}
@@ -57,8 +57,8 @@
 
                 <div class="row bl-label-15">
                     <div class="bl-col-3">
-                        <img class="text-icon-3" src="/img/icons/pinlocation.png"
-                            srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
+                        <img class="text-icon-5" src="/img/icons/phone.png"
+                            srcset="/img/icons/phone@2x.png 2x, /img/icons/phone@3x.png 3x">
                     </div>
                     <div class="bl-col-4 bl-display">
                         {{ phone }}
