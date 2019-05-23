@@ -35,6 +35,7 @@
                         component.company.contact_email = company.contact_email;
                         component.company.phone = company.phone;
                         component.company.introduction = company.introduction;
+                        component.company.specialization = company.specialization;
 
                         Bus.$emit('companyProfileDetails', component.company);
                     })

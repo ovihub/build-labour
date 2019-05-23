@@ -4676,14 +4676,6 @@ __webpack_require__.r(__webpack_exports__);
         introduction: '',
         specialization: []
       },
-      errors: {
-        name: '',
-        address: '',
-        contact_email: '',
-        phone: '',
-        introduction: '',
-        specialization: ''
-      },
       endpoints: {
         save: ''
       }
@@ -4784,6 +4776,7 @@ __webpack_require__.r(__webpack_exports__);
         component.company.contact_email = company.contact_email;
         component.company.phone = company.phone;
         component.company.introduction = company.introduction;
+        component.company.specialization = company.specialization;
         Bus.$emit('companyProfileDetails', component.company);
       }).catch(function (error) {
         Utils.handleError(error);
@@ -7354,6 +7347,10 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -51758,7 +51755,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm.specializations
+          _vm.specialization
             ? _c("div", { staticClass: "bl-label-16" }, [
                 _vm._v("\n                We specialise in\n            ")
               ])
@@ -51767,12 +51764,12 @@ var render = function() {
           _c(
             "div",
             { staticClass: "job-body" },
-            _vm._l(_vm.specializations, function(spec, index) {
+            _vm._l(_vm.specialization, function(spec, index) {
               return _c("ul", { key: index, staticClass: "job-list-items" }, [
                 _c("li", [
                   _vm._v(
                     "\n                        " +
-                      _vm._s(spec) +
+                      _vm._s(spec.name) +
                       "\n                    "
                   )
                 ])
@@ -52027,11 +52024,11 @@ var staticRenderFns = [
         _c("div", { staticClass: "profile-title" }, [
           _c("img", {
             attrs: {
-              src: "/img/icons/employmenthistory.png",
+              src: "/img/icons/jobdetails.png",
               srcset:
-                "/img/icons/employmenthistory@2x.png" +
+                "/img/icons/jobdetails@2x.png" +
                 " 2x, " +
-                "/img/icons/employmenthistory@3x.png" +
+                "/img/icons/jobdetails@3x.png" +
                 " 3x"
             }
           }),
@@ -52165,11 +52162,11 @@ var staticRenderFns = [
         _c("div", { staticClass: "profile-title" }, [
           _c("img", {
             attrs: {
-              src: "/img/icons/employmenthistory.png",
+              src: "/img/icons/requirements.png",
               srcset:
-                "/img/icons/employmenthistory@2x.png" +
+                "/img/icons/requirements@2x.png" +
                 " 2x, " +
-                "/img/icons/employmenthistory@3x.png" +
+                "/img/icons/requirements@3x.png" +
                 " 3x"
             }
           }),
@@ -55116,14 +55113,25 @@ var render = function() {
                           _c(
                             "span",
                             {
-                              staticClass: "delete-icon close-icon",
+                              staticClass: "remove-skill-icon",
                               on: {
                                 click: function($event) {
                                   return _vm.removeSkill(index)
                                 }
                               }
                             },
-                            [_vm._v("X")]
+                            [
+                              _c("img", {
+                                attrs: {
+                                  src: "/img/icons/remove.png",
+                                  srcset:
+                                    "/img/icons/remove@2x.png" +
+                                    " 2x, " +
+                                    "/img/icons/remove@3x.png" +
+                                    " 3x"
+                                }
+                              })
+                            ]
                           )
                         ])
                       ]
@@ -55625,14 +55633,25 @@ var render = function() {
                 _c(
                   "span",
                   {
-                    staticClass: "delete-icon",
+                    staticClass: "remove-ticket-icon",
                     on: {
                       click: function($event) {
                         return _vm.onDelete(idx)
                       }
                     }
                   },
-                  [_vm._v("X")]
+                  [
+                    _c("img", {
+                      attrs: {
+                        src: "/img/icons/remove.png",
+                        srcset:
+                          "/img/icons/remove@2x.png" +
+                          " 2x, " +
+                          "/img/icons/remove@3x.png" +
+                          " 3x"
+                      }
+                    })
+                  ]
                 )
               ])
             })

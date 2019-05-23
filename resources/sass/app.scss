@@ -729,8 +729,16 @@ p.bl-nav-tab-label {
     }
   }
 }
-.close-icon {
-  margin-top: -10px;
+.remove-ticket-icon {
+  margin-top: -2px;
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+}
+.remove-skill-icon {
+  margin-top: -5px;
+  margin-left: 20px;
+  cursor: pointer;
 }
 .edit-icon {
   float: right;

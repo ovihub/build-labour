@@ -68,13 +68,13 @@
                         {{ introduction }}
                     </div>
                 </div>
-                <div class="bl-label-16" v-if="specializations">
+                <div class="bl-label-16" v-if="specialization">
                     We specialise in
                 </div>
                 <div class="job-body">
-                    <ul class="job-list-items" v-for="(spec, index) in specializations" :key="index">
+                    <ul class="job-list-items" v-for="(spec, index) in specialization" :key="index">
                         <li>
-                            {{ spec }}
+                            {{ spec.name }}
                         </li>
                     </ul>
                 </div>
@@ -98,9 +98,6 @@
                 specialization: [],
                 input: {
                     name: '', address: '', contact_email: '', phone: '', introduction: '', specialization: []
-                },
-                errors: {
-                    name: '', address: '', contact_email: '', phone: '', introduction: '', specialization: ''
                 },
                 endpoints: {
                     save: '',
