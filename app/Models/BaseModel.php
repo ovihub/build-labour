@@ -11,7 +11,7 @@ class BaseModel extends Model
 {
 
     protected $errors    = [];
-    protected $errorsDetail = [];
+    public $errorsDetail = [];
 
     // optional model properties
     // you will need the properties below if you want to create
