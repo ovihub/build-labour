@@ -23,9 +23,7 @@
                     <avatar cls="profile-picture" size="110" border="0"></avatar>
                 </div> -->
                 <div class="company-image">
-                    <img class="sidebar-logo-image" src="/img/build-labour-logo-orange.png" 
-                        srcset="/img/build-labour-logo-orange@2x.png 2x, /img/build-labour-logo-orange@3x.png 3x"
-                        @click="onClickProfilePhoto">
+                    <img :src="photo_url" @click="onClickProfilePhoto">
                 </div>
             </div>
             <div class="profile-content-p20 pb-4">
@@ -47,8 +45,8 @@
 
                 <div class="row bl-label-15">
                     <div class="bl-col-3">
-                        <img class="text-icon-3" src="/img/icons/pinlocation.png"
-                            srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
+                        <img class="text-icon-5" src="/img/icons/globe.png"
+                            srcset="/img/icons/globe@2x.png 2x, /img/icons/globe@3x.png 3x">
                     </div>
                     <div class="bl-col-4 bl-display">
                         {{ contact_email }}
@@ -57,8 +55,8 @@
 
                 <div class="row bl-label-15">
                     <div class="bl-col-3">
-                        <img class="text-icon-3" src="/img/icons/pinlocation.png"
-                            srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
+                        <img class="text-icon-5" src="/img/icons/phone.png"
+                            srcset="/img/icons/phone@2x.png 2x, /img/icons/phone@3x.png 3x">
                     </div>
                     <div class="bl-col-4 bl-display">
                         {{ phone }}
@@ -70,19 +68,13 @@
                         {{ introduction }}
                     </div>
                 </div>
-                <div class="bl-label-16">
+                <div class="bl-label-16" v-if="specialization">
                     We specialise in
                 </div>
                 <div class="job-body">
-                    <ul class="job-list-items">
+                    <ul class="job-list-items" v-for="(spec, index) in specialization" :key="index">
                         <li>
-                            Land Development
-                        </li>
-                        <li>
-                            Construction
-                        </li>
-                        <li>
-                            Engineering Surveying
+                            {{ spec.name }}
                         </li>
                     </ul>
                 </div>
@@ -97,6 +89,7 @@
             return {
                 disabled: false,
                 time_out: false,
+                photo_url: '',
                 name: '',
                 address: '',
                 contact_email: '',
@@ -105,9 +98,6 @@
                 specialization: [],
                 input: {
                     name: '', address: '', contact_email: '', phone: '', introduction: '', specialization: []
-                },
-                errors: {
-                    name: '', address: '', contact_email: '', phone: '', introduction: '', specialization: ''
                 },
                 endpoints: {
                     save: '',
@@ -127,6 +117,7 @@
         methods: {
 
             setValues(details) {
+                this.photo_url = details.photo_url;
                 this.name = details.name;
                 this.address = details.address;
                 this.contact_email = details.contact_email;

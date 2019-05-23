@@ -13,8 +13,8 @@
             </span>
             
             <div class="profile-title">
-                <img src="/img/icons/employmenthistory.png"
-                    srcset="/img/icons/employmenthistory@2x.png 2x, /img/icons/employmenthistory@3x.png 3x">
+                <img src="/img/icons/jobdetails.png"
+                    srcset="/img/icons/jobdetails@2x.png 2x, /img/icons/jobdetails@3x.png 3x">
                 
                 Job Details
             </div>

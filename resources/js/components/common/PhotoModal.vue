@@ -30,7 +30,7 @@
 		data() {
 			return {
 				disabled: false,
-				isAdmin: false,
+				type: 'User',
 				imgCrop: '',
 				input: {
 					id: 0,
@@ -52,8 +52,9 @@
 			});
 
 			Bus.$on('imageToCrop', function (binary, id, type) {
+				component.type = type;
+				
 				if (type == 'Admin') {
-					component.isAdmin = true;
 					component.input.id = id;
 					component.endpoints.upload = '/api/v1/admin/user/upload';
 				
@@ -122,8 +123,11 @@
 						if (data.success) {
 							component.close();
 
-							if (! component.isAdmin) {
+							if (component.type == 'User') {
 								window.location.href = '/user/profile';
+							
+							} else if (component.type == 'Company') {
+								window.location.href = '/company/profile';
 							
 							} else {
 								Bus.$emit('alertSuccess', data.message);

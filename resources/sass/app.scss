@@ -729,8 +729,16 @@ p.bl-nav-tab-label {
     }
   }
 }
-.close-icon {
-  margin-top: -10px;
+.remove-ticket-icon {
+  margin-top: -2px;
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+}
+.remove-skill-icon {
+  margin-top: -5px;
+  margin-left: 20px;
+  cursor: pointer;
 }
 .edit-icon {
   float: right;
@@ -794,6 +802,12 @@ p.bl-nav-tab-label {
   margin: 0 15px 0 15px;
   width: 18px;
   height: 18px;
+  object-fit: contain;
+}
+.text-icon-5 {
+  margin: -3px 16px 0 20px;
+  width: 12.5px;
+  height: 12.5px;
   object-fit: contain;
 }
 

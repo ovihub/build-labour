@@ -1,5 +1,13 @@
 <template>
     <div class="profile-item-2" v-if="show">
+        <div class="job-action">
+            <div class="job-filter">
+                Filter
+            </div>
+            <div class="job-sort">
+                Sort by: <span  class="job-recent">Most Recent</span>
+            </div>
+        </div>
         <ul class="list-job-items" v-for="(job, index) in jobs" :key="index">
             <li class="job-items">
                 <div class="profile-content">
@@ -68,6 +76,7 @@
 
             Bus.$on('showCompanyJobs', function(flag) {
                 component.show = flag;
+                component.getJobs();
                 
                 Bus.$emit('hideCompanyPeople');
                 Bus.$emit('hideCompanyPosts');
@@ -76,8 +85,6 @@
             Bus.$on('hideCompanyJobs', function() {
                 component.show = false;
             });
-
-            this.getJobs();
         },
 
         methods: {
