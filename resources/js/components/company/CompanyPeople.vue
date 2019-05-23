@@ -2,9 +2,9 @@
     <div class="profile-item-2" v-if="show">
         <ul class="list-job-items" v-for="n in 5" :key="n">
             <li class="job-items">
-                <div class="profile-content">
+                <!-- <div class="profile-content">
                     
-                </div>
+                </div> -->
             </li>
         </ul>
     </div>

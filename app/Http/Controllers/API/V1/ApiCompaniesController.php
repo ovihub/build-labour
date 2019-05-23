@@ -935,4 +935,18 @@ class ApiCompaniesController extends ApiBaseController
         return $this->apiSuccessResponse( compact( 'posts' ), true, '', self::HTTP_STATUS_REQUEST_OK);
     }
 
+    public function jobPosts( Request $request )
+    {
+        try {
+
+            $posts = $this->repository->getJobPosts($request->id);
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( compact( 'posts' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+    }
+
 }

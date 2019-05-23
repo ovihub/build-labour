@@ -4387,7 +4387,7 @@ __webpack_require__.r(__webpack_exports__);
       show: false,
       jobs: [],
       endpoints: {
-        get_jobs: '/api/v1/company/1/jobs'
+        get_jobs: '/api/v1/company/1/posts/jobs'
       }
     };
   },
@@ -4407,7 +4407,7 @@ __webpack_require__.r(__webpack_exports__);
     getJobs: function getJobs() {
       var component = this;
       axios.get(component.endpoints.get_jobs, Utils.getBearerAuth()).then(function (response) {
-        component.jobs = response.data.data.jobs;
+        component.jobs = response.data.data.posts;
       }).catch(function (error) {
         Utils.handleError(error);
       });
@@ -4472,8 +4472,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
 //
 //
 //
@@ -4843,17 +4841,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      id: '',
+      company_id: '',
+      photo_url: '',
+      name: '',
+      address: '',
+      introduction: ''
+    };
   },
   created: function created() {
     var component = this;
+    Bus.$on('companySummaryDetails', function (details) {
+      component.company_id = details.company_id;
+      component.photo_url = details.photo_url;
+      component.name = details.name;
+      component.address = details.address;
+      component.introduction = details.introduction;
+    });
   },
   methods: {}
 });
@@ -4933,37 +4940,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      title: '',
+      description: '',
+      about: '',
+      exp_level: '',
+      contract_type: '',
+      salary: '',
+      reports_to: '',
+      location: ''
+    };
   },
   created: function created() {
     var component = this;
-    Bus.$on('jobDetails', function (detailsArray) {});
+    Bus.$on('jobDetails', function (details) {
+      component.title = details.title;
+      component.description = details.description;
+      component.about = details.about;
+      component.exp_level = details.exp_level;
+      component.contract_type = details.contract_type;
+      component.salary = details.salary;
+      component.reports_to = details.reports_to;
+      component.location = details.location;
+    });
   },
   methods: {}
 });
@@ -5154,8 +5155,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      summary: {},
+      summary: {
+        photo_url: '',
+        name: '',
+        address: '',
+        introduction: ''
+      },
       job_details: {
+        title: '',
         description: '',
         about: '',
         exp_level: '',
@@ -5167,11 +5174,13 @@ __webpack_require__.r(__webpack_exports__);
       requirements: {},
       responsibilities: {},
       endpoints: {
-        get: '/api/v1/company/1/jobs/1'
+        get: ''
       }
     };
   },
   created: function created() {
+    var component = this;
+    this.endpoints.get = '/api/v1/company/' + Utils.getUrlParams().cid + '/jobs/' + Utils.getUrlParams().jid;
     this.getJob();
   },
   methods: {
@@ -5179,6 +5188,11 @@ __webpack_require__.r(__webpack_exports__);
       var component = this;
       axios.get(component.endpoints.get, Utils.getBearerAuth()).then(function (response) {
         var job = response.data.data.job;
+        component.summary.photo_url = job.company.photo_url;
+        component.summary.name = job.company.name;
+        component.summary.location = job.company.location;
+        component.summary.introduction = job.company.introduction;
+        component.job_details.title = job.title;
         component.job_details.description = job.description;
         component.job_details.about = job.about;
         component.job_details.exp_level = job.exp_level;
@@ -51293,7 +51307,7 @@ var render = function() {
                       _c("div", { staticClass: "bl-display" }, [
                         _c("span", { staticClass: "bl-label-19 bl-ml14" }, [
                           _vm._v(
-                            "\n                                Probuild\n                            "
+                            "\n                                Richmond Surveying\n                            "
                           )
                         ]),
                         _vm._v(" "),
@@ -51315,9 +51329,51 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(3, true),
+                  _c("div", { staticClass: "job-summary" }, [
+                    _c("div", { staticClass: "bl-label-21" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(job.job.title) +
+                          "\n                    "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "bl-label-14-style-3" }, [
+                      _vm._v(
+                        "\n                        " + _vm._s(job.job.location)
+                      ),
+                      _c("span", { staticClass: "text-style-1" }, [
+                        _vm._v(_vm._s(_vm.getTimeDiffNow(job.job.created_at)))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "bl-label-15 bl-mt16" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(job.job.description) +
+                          "\n                    "
+                      )
+                    ])
+                  ]),
                   _vm._v(" "),
-                  _vm._m(4, true)
+                  _c("div", { staticClass: "profile-more mt-2" }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href:
+                            "/job/view/?cid=" +
+                            job.job.company_id +
+                            "&jid=" +
+                            job.job.id
+                        }
+                      },
+                      [
+                        _vm._v("\n                        View Details"),
+                        _c("i", { staticClass: "fa fa-angle-right ml-2" })
+                      ]
+                    )
+                  ])
                 ])
               ])
             ])
@@ -51370,42 +51426,6 @@ var staticRenderFns = [
         attrs: { src: "/img/logo/1.jpg" }
       })
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "job-summary" }, [
-      _c("div", { staticClass: "bl-label-21" }, [
-        _vm._v(
-          "\n                        Project Manager\n                    "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "bl-label-14-style-3" }, [
-        _vm._v("\n                        Melbourne CBD"),
-        _c("span", { staticClass: "text-style-1" }, [
-          _vm._v("Posted 3 days ago")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "bl-label-15 bl-mt16" }, [
-        _vm._v(
-          "\n                        An opportunity is available for a Construction Manager to work in and with the Melbourne\n                        Asphalt team to take responsibility for delivery of a portfolio of projects whilst optimising performance.\n                    "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-more mt-2" }, [
-      _c("a", { attrs: { href: "#" } }, [
-        _vm._v("View Details"),
-        _c("i", { staticClass: "fa fa-angle-right ml-2" })
-      ])
-    ])
   }
 ]
 render._withStripped = true
@@ -51435,23 +51455,14 @@ var render = function() {
         { staticClass: "profile-item-2" },
         _vm._l(5, function(n) {
           return _c("ul", { key: n, staticClass: "list-job-items" }, [
-            _vm._m(0, true)
+            _c("li", { staticClass: "job-items" })
           ])
         }),
         0
       )
     : _vm._e()
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "job-items" }, [
-      _c("div", { staticClass: "profile-content" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -51879,86 +51890,78 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "profile-item-1" }, [
+    _c("div", { staticClass: "company-image" }, [
+      _c("img", { attrs: { src: _vm.photo_url } })
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "profile-content",
+        staticStyle: { "margin-top": "-56px" }
+      },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "profile-content-p20 pb-4" }, [
+          _c("div", { staticClass: "company-title" }, [
+            _vm._v("\n                " + _vm._s(_vm.name) + "\n            ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "company-address" }, [
+            _vm._v(
+              "\n                " + _vm._s(_vm.address) + "\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "company-body" }, [
+            _vm._v(
+              "\n                " + _vm._s(_vm.introduction) + "\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "company-view" }, [
+            _vm._v("\n                View Business\n            ")
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c("button", { staticStyle: { width: "100%" } }, [
+      _vm._v("\n        Apply\n    ")
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-item-1" }, [
-      _c("div", { staticClass: "company-image" }, [
+    return _c(
+      "span",
+      {
+        staticClass: "edit-icon edit-icon-4",
+        attrs: {
+          "data-toggle": "modal",
+          "data-backdrop": "static",
+          "data-keyboard": "false",
+          "data-target": "#modalCompanyProfile"
+        }
+      },
+      [
         _c("img", {
-          staticClass: "sidebar-logo-image",
           attrs: {
-            src: "/img/build-labour-logo-orange.png",
+            src: "/img/icons/editbutton.png",
             srcset:
-              "/img/build-labour-logo-orange@2x.png" +
+              "/img/icons/editbutton@2x.png" +
               " 2x, " +
-              "/img/build-labour-logo-orange@3x.png" +
+              "/img/icons/editbutton@3x.png" +
               " 3x"
           }
         })
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "profile-content",
-          staticStyle: { "margin-top": "-56px" }
-        },
-        [
-          _c(
-            "span",
-            {
-              staticClass: "edit-icon edit-icon-4",
-              attrs: {
-                "data-toggle": "modal",
-                "data-backdrop": "static",
-                "data-keyboard": "false",
-                "data-target": "#modalCompanyProfile"
-              }
-            },
-            [
-              _c("img", {
-                attrs: {
-                  src: "/img/icons/editbutton.png",
-                  srcset:
-                    "/img/icons/editbutton@2x.png" +
-                    " 2x, " +
-                    "/img/icons/editbutton@3x.png" +
-                    " 3x"
-                }
-              })
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "profile-content-p20 pb-4" }, [
-            _c("div", { staticClass: "company-title" }, [
-              _vm._v("\n                ProBuild\n            ")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "company-address" }, [
-              _vm._v("\n                Melbourne, Australia\n            ")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "company-body" }, [
-              _vm._v(
-                "\n                At Probuild, we understand that from every strong foundation through to the tip of every tower,\n                our built environment demands the utmost quality. So for 30 years and counting, we’ve created\n                major projects for clients nationwide.\n\n                Creators that work hard to realise our clients’ visions everyday. If you can imagine it, we can do it.\n            "
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "company-view" }, [
-              _vm._v("\n                View Business\n            ")
-            ])
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c("button", { staticStyle: { width: "100%" } }, [
-        _vm._v("\n        Apply\n    ")
-      ])
-    ])
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -51982,120 +51985,108 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "profile-item-2" }, [
+    _c("div", { staticClass: "profile-content" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-header" }, [
+        _vm._v("\n            " + _vm._s(_vm.title) + "\n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-title" }, [_vm._v("Job Description")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-body" }, [
+        _vm._v("\n            " + _vm._s(_vm.description) + "\n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-title" }, [_vm._v("About the Project")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-body" }, [
+        _vm._v("\n            " + _vm._s(_vm.about) + "\n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-title" }, [_vm._v("Experience Level")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-body" }, [
+        _vm._v("\n            " + _vm._s(_vm.exp_level) + " \n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-title" }, [_vm._v("Contract type")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-body" }, [
+        _vm._v("\n            " + _vm._s(_vm.contract_type) + "\n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-title" }, [_vm._v("Salary")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-body" }, [
+        _vm._v("\n            $ - - - , - - - \n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-title" }, [_vm._v("Reports to")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-body" }, [
+        _vm._v(
+          "\n            Construction Manager\n            Construction Director\n        "
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-title" }, [_vm._v("Location")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-body" }, [
+        _vm._v("\n            " + _vm._s(_vm.location) + "\n        ")
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-item-2" }, [
-      _c("div", { staticClass: "profile-content" }, [
-        _c(
-          "span",
-          {
-            staticClass: "edit-icon",
-            attrs: {
-              "data-toggle": "modal",
-              "data-backdrop": "static",
-              "data-keyboard": "false",
-              "data-target": "#modalJobDetails"
-            }
-          },
-          [
-            _c("img", {
-              attrs: {
-                src: "/img/icons/editbutton.png",
-                srcset:
-                  "/img/icons/editbutton@2x.png" +
-                  " 2x, " +
-                  "/img/icons/editbutton@3x.png" +
-                  " 3x"
-              }
-            })
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "profile-title" }, [
-          _c("img", {
-            attrs: {
-              src: "/img/icons/jobdetails.png",
-              srcset:
-                "/img/icons/jobdetails@2x.png" +
-                " 2x, " +
-                "/img/icons/jobdetails@3x.png" +
-                " 3x"
-            }
-          }),
-          _vm._v("\n            \n            Job Details\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-header" }, [
-          _vm._v("\n            Project Manager\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-title" }, [
-          _vm._v("\n            Job Description\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-body" }, [
-          _vm._v(
-            "\n            The Project Manager is accountable for the leadership and management of their nominated project\n            including the achievement of safety, quality, commercial and programme objectives and the\n            effective day to day management of the project team.\n        "
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-title" }, [
-          _vm._v("\n            About the Project\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-body" }, [
-          _vm._v(
-            "\n            $730 million Residential Skycraper comprising of 941 residential apartments and 208 serviced\n            apartments across 88 storeys. \n        "
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-title" }, [
-          _vm._v("\n            Experience Level\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-body" }, [
-          _vm._v("\n            Senior \n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-title" }, [
-          _vm._v("\n            Contract type\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-body" }, [
-          _vm._v("\n            Full-time permanent\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-title" }, [
-          _vm._v("\n            Salary \n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-body" }, [
-          _vm._v("\n            $ - - - , - - - \n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-title" }, [
-          _vm._v("\n            Reports to\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-body" }, [
-          _vm._v(
-            "\n            Construction Manager\n            Construction Director\n        "
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-title" }, [
-          _vm._v("\n            Location\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-body" }, [
-          _vm._v("\n            South Yarra, Melbourne, Victoria\n        ")
-        ])
-      ])
+    return _c(
+      "span",
+      {
+        staticClass: "edit-icon",
+        attrs: {
+          "data-toggle": "modal",
+          "data-backdrop": "static",
+          "data-keyboard": "false",
+          "data-target": "#modalJobDetails"
+        }
+      },
+      [
+        _c("img", {
+          attrs: {
+            src: "/img/icons/editbutton.png",
+            srcset:
+              "/img/icons/editbutton@2x.png" +
+              " 2x, " +
+              "/img/icons/editbutton@3x.png" +
+              " 3x"
+          }
+        })
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "profile-title" }, [
+      _c("img", {
+        attrs: {
+          src: "/img/icons/jobdetails.png",
+          srcset:
+            "/img/icons/jobdetails@2x.png" +
+            " 2x, " +
+            "/img/icons/jobdetails@3x.png" +
+            " 3x"
+        }
+      }),
+      _vm._v("\n            \n            Job Details\n        ")
     ])
   }
 ]

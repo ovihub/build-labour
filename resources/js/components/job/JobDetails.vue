@@ -20,67 +20,43 @@
             </div>
 
             <div class="job-header">
-                Project Manager
+                {{ title }}
             </div>
 
-            <div class="job-title">
-                Job Description
-            </div>
-
+            <div class="job-title">Job Description</div>
             <div class="job-body">
-                The Project Manager is accountable for the leadership and management of their nominated project
-                including the achievement of safety, quality, commercial and programme objectives and the
-                effective day to day management of the project team.
+                {{ description }}
             </div>
 
-            <div class="job-title">
-                About the Project
-            </div>
-
+            <div class="job-title">About the Project</div>
             <div class="job-body">
-                $730 million Residential Skycraper comprising of 941 residential apartments and 208 serviced
-                apartments across 88 storeys. 
+                {{ about }}
             </div>
 
-            <div class="job-title">
-                Experience Level
-            </div>
-
+            <div class="job-title">Experience Level</div>
             <div class="job-body">
-                Senior 
+                {{ exp_level }} 
             </div>
 
-            <div class="job-title">
-                Contract type
-            </div>
-
+            <div class="job-title">Contract type</div>
             <div class="job-body">
-                Full-time permanent
+                {{ contract_type }}
             </div>
 
-            <div class="job-title">
-                Salary 
-            </div>
-
+            <div class="job-title">Salary</div>
             <div class="job-body">
                 $ - - - , - - - 
             </div>
 
-            <div class="job-title">
-                Reports to
-            </div>
-
+            <div class="job-title">Reports to</div>
             <div class="job-body">
                 Construction Manager
                 Construction Director
             </div>
 
-            <div class="job-title">
-                Location
-            </div>
-
+            <div class="job-title">Location</div>
             <div class="job-body">
-                South Yarra, Melbourne, Victoria
+                {{ location }}
             </div>
         </div>
     </div>
@@ -90,15 +66,29 @@
     export default {
         data() {
             return {
-
+                title: '',
+                description: '',
+                about: '',
+                exp_level: '',
+                contract_type: '',
+                salary: '',
+                reports_to: '',
+                location: '',
             }
         },
 
         created() {
             let component = this;
 
-            Bus.$on('jobDetails', function(detailsArray) {
-            
+            Bus.$on('jobDetails', function(details) {
+                component.title = details.title;
+                component.description = details.description;
+                component.about = details.about;
+                component.exp_level = details.exp_level;
+                component.contract_type = details.contract_type;
+                component.salary = details.salary;
+                component.reports_to = details.reports_to;
+                component.location = details.location;
             });
         },
 

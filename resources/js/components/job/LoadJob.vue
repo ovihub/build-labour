@@ -7,10 +7,10 @@
         data() {
             return {
                 summary: {
-                    
+                    photo_url: '', name: '', address: '', introduction: '',
                 },
                 job_details: {
-                    description: '', about: '', exp_level: '', contract_type: '', salary: '', reports_to: '', location: ''
+                    title: '', description: '', about: '', exp_level: '', contract_type: '', salary: '', reports_to: '', location: ''
                 },
                 requirements: {
                     
@@ -19,12 +19,15 @@
                     
                 },
                 endpoints: {
-                    get: '/api/v1/company/1/jobs/1',
+                    get: '',
                 },
             }
         },
 
         created() {
+            let component = this;
+
+            this.endpoints.get = '/api/v1/company/' + Utils.getUrlParams().cid + '/jobs/' + Utils.getUrlParams().jid;
             this.getJob();
         },
 
@@ -38,6 +41,12 @@
                     .then(function(response) {
                         let job = response.data.data.job;
 
+                        component.summary.photo_url = job.company.photo_url;
+                        component.summary.name = job.company.name;
+                        component.summary.location = job.company.location;
+                        component.summary.introduction = job.company.introduction;
+
+                        component.job_details.title = job.title;
                         component.job_details.description = job.description;
                         component.job_details.about = job.about;
                         component.job_details.exp_level = job.exp_level;

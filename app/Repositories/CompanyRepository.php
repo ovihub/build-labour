@@ -157,6 +157,7 @@ class CompanyRepository extends AbstractRepository
 
         if ($job) {
 
+            $job->company;
             $job->requirements;
             $job->responsibilities;
 
@@ -192,7 +193,20 @@ class CompanyRepository extends AbstractRepository
 
     public function getPosts($id) {
 
-        $posts = CompanyPost::with('job')->where('company_id', $id)->get();
+        $posts = CompanyPost::with('job')
+                    ->where('company_id', $id)
+                    ->whereNull('job_id')
+                    ->get();
+
+        return $posts;
+    }
+
+    public function getJobPosts($id) {
+
+        $posts = CompanyPost::with('job')
+                    ->where('company_id', $id)
+                    ->whereNotNull('job_id')
+                    ->get();
 
         return $posts;
     }

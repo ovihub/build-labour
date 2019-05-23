@@ -30,11 +30,10 @@
                         <div class="bl-col-2">
                             <div class="bl-display">
                                 <span class="bl-label-19 bl-ml14">
-                                    Probuild
+                                    Richmond Surveying
                                 </span>
 
                                 <span class="bl-label-14 bl-ml14" style="margin-top:-5px">
-                                    <!-- Posted 2 days ago -->
                                     {{ getTimeDiffNow(job.created_at) }}
                                 </span>
                             </div>
@@ -43,19 +42,20 @@
 
                     <div class="job-summary">
                         <div class="bl-label-21">
-                            Project Manager
+                            {{ job.job.title }}
                         </div>
                         <div class="bl-label-14-style-3">
-                            Melbourne CBD<span class="text-style-1">Posted 3 days ago</span>
+                            {{ job.job.location }}<span class="text-style-1">{{ getTimeDiffNow(job.job.created_at) }}</span>
                         </div>
                         <div class="bl-label-15 bl-mt16">
-                            An opportunity is available for a Construction Manager to work in and with the Melbourne
-                            Asphalt team to take responsibility for delivery of a portfolio of projects whilst optimising performance.
+                            {{ job.job.description }}
                         </div>
                     </div>
 
                     <div class="profile-more mt-2">
-                        <a href="#">View Details<i class="fa fa-angle-right ml-2"></i></a>
+                        <a :href="'/job/view/?cid=' + job.job.company_id + '&jid=' + job.job.id">
+                            View Details<i class="fa fa-angle-right ml-2"></i>
+                        </a>
                     </div>
                 </div>
             </li>
@@ -70,7 +70,7 @@
                 show: false,
                 jobs: [],
                 endpoints: {
-                    get_jobs: '/api/v1/company/1/jobs',
+                    get_jobs: '/api/v1/company/1/posts/jobs',
                 },
             }
         },
@@ -100,7 +100,7 @@
                     
                     .then(function(response) {
                         
-                        component.jobs = response.data.data.jobs;
+                        component.jobs = response.data.data.posts;
                     })
                     .catch(function(error) {
 

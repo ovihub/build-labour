@@ -1,8 +1,7 @@
 <template>
     <div class="profile-item-1">
         <div class="company-image">
-            <img class="sidebar-logo-image" src="/img/build-labour-logo-orange.png" 
-                srcset="/img/build-labour-logo-orange@2x.png 2x, /img/build-labour-logo-orange@3x.png 3x">
+            <img :src="photo_url">
         </div>
 
         <div class="profile-content" style="margin-top:-56px">
@@ -18,19 +17,15 @@
 
             <div class="profile-content-p20 pb-4">
                 <div class="company-title">
-                    ProBuild
+                    {{ name }}
                 </div>
             
                 <div class="company-address">
-                    Melbourne, Australia
+                    {{ address }}
                 </div>
                 
                 <div class="company-body">
-                    At Probuild, we understand that from every strong foundation through to the tip of every tower,
-                    our built environment demands the utmost quality. So for 30 years and counting, we’ve created
-                    major projects for clients nationwide.
-
-                    Creators that work hard to realise our clients’ visions everyday. If you can imagine it, we can do it.
+                    {{ introduction }}
                 </div>
 
                 <div class="company-view">
@@ -50,13 +45,25 @@
     export default {
         data() {
             return {
-
+                id: '',
+                company_id: '',
+                photo_url: '',
+                name: '',
+                address: '',
+                introduction: '',
             }
         },
 
         created() {
             let component = this;
 
+            Bus.$on('companySummaryDetails', function(details) {
+                component.company_id = details.company_id;
+                component.photo_url = details.photo_url;
+                component.name = details.name;
+                component.address = details.address;
+                component.introduction = details.introduction;
+            });
         },
 
         methods: {

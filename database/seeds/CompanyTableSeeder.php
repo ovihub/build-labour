@@ -106,10 +106,12 @@ class CompanyTableSeeder extends Seeder
 
                 $job1 = Job::create([
                     'title' => 'Project Manager',
+                    'about' => '$730 million Residential Skycraper comprising of 941 residential apartments and 208 serviced apartments across 88 storeys.',
                     'description' => 'An opportunity is available for a Construction Manager to work in and with the Melbourne Asphalt team to take responsibility for delivery of a portfolio of projects whilst optimising performance.',
                     'exp_level' => 'Senior',
                     'contract_type' => 'Full-time',
                     'salary' => '$20000',
+                    'location' => 'South Yarra, Melbourne, Victoria',
                     'company_id' => $c->id,
                     'created_by' => $user->id,
                     'created_at' => Carbon::now(),

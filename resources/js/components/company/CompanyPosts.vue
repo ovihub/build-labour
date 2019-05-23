@@ -14,14 +14,12 @@
                                 </span>
 
                                 <span class="bl-label-14 bl-ml14" style="margin-top:-5px">
-                                    <!-- 3hrs ago -->
                                     {{ getTimeDiffNow(post.created_at) }}
                                 </span>
                             </div>
                         </div>
                     </div>
                     <div class="bl-label-15 bl-mt16 bl-mb16">
-                        <!-- Lorem ipsum dolor sit amet, consec tetur adipiscing elit. Donec rutrum con vallis sem at mattis. -->
                         {{ post.content }}
                     </div>
                     <div class="post-action">
