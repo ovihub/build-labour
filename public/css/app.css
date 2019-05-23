@@ -11264,6 +11264,7 @@ ul.job-list-items li {
   overflow: hidden;
   border-radius: 8px;
   width: 100%;
+  box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.19), 0 2px 12px 0 rgba(57, 86, 101, 0.12);
 }
 
 .company-image:hover {
