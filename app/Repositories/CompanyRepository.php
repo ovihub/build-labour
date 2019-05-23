@@ -166,6 +166,18 @@ class CompanyRepository extends AbstractRepository
         return false;
     }
 
+    public function getCompanySpecialization($id) {
+
+        $company = $this->find($id);
+
+        if ($company && $company->Specialization) {
+
+            return $company->Specialization;
+        }
+
+        return [];
+    }
+
     public function getPosts($id) {
 
         $posts = CompanyPost::where('company_id', $id)->get();

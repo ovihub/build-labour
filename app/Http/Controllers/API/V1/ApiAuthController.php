@@ -117,6 +117,12 @@ class ApiAuthController extends ApiBaseController
      *                      example="Jane"
      *                  ),
      *                  @OA\Property(
+     *                      property="signup_type",
+     *                      description="value must be employer or worker",
+     *                      type="string",
+     *                      example="worker"
+     *                  ),
+     *                  @OA\Property(
      *                      property="last_name",
      *                      description="Last Name",
      *                      type="string",

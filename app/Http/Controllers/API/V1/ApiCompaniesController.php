@@ -149,6 +149,61 @@ class ApiCompaniesController extends ApiBaseController
 
     /**
      * @OA\Get(
+     *      path="/company/{id}/specialization",
+     *      tags={"Company"},
+     *      summary="Company Specialization",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Parameter(
+     *          in="path",
+     *          name="id",
+     *          description="company id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function specialization ( Request $request ) {
+
+        try {
+
+            $specialization = $this->repository->getCompanySpecialization($request->id);
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( compact( 'specialization' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Get(
      *      path="/company/{id}/workers",
      *      tags={"Company"},
      *      summary="Get company workers",
@@ -879,4 +934,5 @@ class ApiCompaniesController extends ApiBaseController
 
         return $this->apiSuccessResponse( compact( 'posts' ), true, '', self::HTTP_STATUS_REQUEST_OK);
     }
+
 }
