@@ -11189,17 +11189,29 @@ span.ticket-delete:hover {
 
 .save-icon {
   position: absolute;
-  right: 20px;
+  right: 30px;
   margin-top: -5px;
   cursor: pointer;
 }
 
-.save-icon:hover .star polygon {
-  fill: #ffd055;
+.star-cont {
+  margin-top: -15px;
+  margin-left: 3px;
 }
 
-.star polygon {
-  fill: #d8d8d8;
+.star {
+  visibility: hidden;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.star:before {
+  content: "\2605";
+  visibility: visible;
+}
+
+.star:checked:before {
+  content: "\2606";
 }
 
 .header-active {

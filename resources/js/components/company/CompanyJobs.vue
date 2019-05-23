@@ -12,9 +12,13 @@
             <li class="job-items">
                 <div class="profile-content">
                     <div class="save-icon">
-                        <img style="margin-top:-5px;margin-left:5px;margin-bottom:-5px" src="/img/icons/plus.png"
-                            srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
-                        <div class="bl-label-14-style-2">
+                        <!-- <img style="margin-top:-5px;margin-left:5px;margin-bottom:-5px" src="/img/icons/plus.png"
+                            srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x"> -->
+                        <div class="star-cont">
+                            <input class="star" type="checkbox" title="Bookmark Job" checked />
+                        </div>
+
+                        <div class="bl-label-14-style-2 bl-mt12">
                             Save
                         </div>
                     </div>

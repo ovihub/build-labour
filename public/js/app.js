@@ -4377,6 +4377,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -51344,23 +51348,14 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "save-icon" }, [
-      _c("img", {
-        staticStyle: {
-          "margin-top": "-5px",
-          "margin-left": "5px",
-          "margin-bottom": "-5px"
-        },
-        attrs: {
-          src: "/img/icons/plus.png",
-          srcset:
-            "/img/icons/plus@2x.png" +
-            " 2x, " +
-            "/img/icons/plus@3x.png" +
-            " 3x"
-        }
-      }),
+      _c("div", { staticClass: "star-cont" }, [
+        _c("input", {
+          staticClass: "star",
+          attrs: { type: "checkbox", title: "Bookmark Job", checked: "" }
+        })
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "bl-label-14-style-2" }, [
+      _c("div", { staticClass: "bl-label-14-style-2 bl-mt12" }, [
         _vm._v("\n                        Save\n                    ")
       ])
     ])
