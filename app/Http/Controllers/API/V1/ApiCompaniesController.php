@@ -131,7 +131,7 @@ class ApiCompaniesController extends ApiBaseController
     {
         try {
 
-            $company = $this->repository->find($request->id);
+            $company = $this->repository->getCompany($request->id);
 
             if (!$company) {
 
