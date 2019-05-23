@@ -2925,7 +2925,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       endpoints: {
         login: '/api/v1/auth/login',
-        profile: '/user/profile',
+        user_profile: '/user/profile',
+        company_profile: '/company/profile',
         reset: '/password/request'
       }
     };
@@ -2951,9 +2952,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 component.disabled = true;
                 _context.next = 5;
                 return axios.post(component.endpoints.login, component.$data.input).then(function (response) {
-                  var data = response.data;
-                  _api__WEBPACK_IMPORTED_MODULE_1__["default"].setToken(data.data.token);
-                  window.location.href = component.endpoints.profile;
+                  var data = response.data.data;
+                  _api__WEBPACK_IMPORTED_MODULE_1__["default"].setToken(data.token);
+
+                  if (data.user.role_id == 1) {
+                    window.location.href = component.endpoints.user_profile;
+                  } else if (data.user.role_id == 2) {
+                    window.location.href = component.endpoints.company_profile;
+                  }
                 }).catch(function (error) {
                   Utils.setObjectValues(component.input, '');
                   Utils.handleError(error);

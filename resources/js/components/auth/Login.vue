@@ -50,7 +50,8 @@
                 },
                 endpoints: {
                     login: '/api/v1/auth/login',
-                    profile: '/user/profile',
+                    user_profile: '/user/profile',
+                    company_profile: '/company/profile',
                     reset: '/password/request',
                 }
             }
@@ -76,11 +77,16 @@
                 await axios.post(component.endpoints.login, component.$data.input)
                 
                     .then(function(response) {
-                        let data = response.data;
+                        let data = response.data.data;
 
-                        Api.setToken(data.data.token);
+                        Api.setToken(data.token);
+
+                        if (data.user.role_id == 1) {
+                            window.location.href = component.endpoints.user_profile;
                         
-                        window.location.href = component.endpoints.profile;
+                        } else if (data.user.role_id == 2) {
+                            window.location.href = component.endpoints.company_profile;
+                        }
                     })
                     .catch(function(error) {
                         
