@@ -24,11 +24,12 @@
                 </div> -->
                 <div class="company-image">
                     <img class="sidebar-logo-image" src="/img/build-labour-logo-orange.png" 
-                        srcset="/img/build-labour-logo-orange@2x.png 2x, /img/build-labour-logo-orange@3x.png 3x">
+                        srcset="/img/build-labour-logo-orange@2x.png 2x, /img/build-labour-logo-orange@3x.png 3x"
+                        @click="onClickProfilePhoto">
                 </div>
             </div>
             <div class="profile-content-p20 pb-4">
-                <div class="bl-label-22 m0">Richmond Surveying</div>
+                <div class="bl-label-22 m0">{{ name }}</div>
             
                 <div class="bl-label-17 pb-3">
                     Surveyors
@@ -40,7 +41,7 @@
                             srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
                     </div>
                     <div class="bl-col-4 bl-display">
-                        Richmond, Victoria, Australia
+                        {{ address }}
                     </div>
                 </div>
 
@@ -50,7 +51,7 @@
                             srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
                     </div>
                     <div class="bl-col-4 bl-display">
-                        www.richmondsurveying.com.au
+                        {{ contact_email }}
                     </div>
                 </div>
 
@@ -60,14 +61,13 @@
                             srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
                     </div>
                     <div class="bl-col-4 bl-display">
-                        (03) 3934 3829
+                        {{ phone }}
                     </div>
                 </div>
                 
                 <div class="bl-display">
                     <div class="bl-label-15-style-2 bl-mb20" style="margin-top:24px">
-                        We are a modern, professional and sophisticated surveying firm specialising in land development,
-                        construction and engineering surveying. We provide quality, cost-effective and efficient surveying service.
+                        {{ introduction }}
                     </div>
                 </div>
                 <div class="bl-label-16">
@@ -97,17 +97,20 @@
             return {
                 disabled: false,
                 time_out: false,
-                locations: [],
-                profile_photo_url: '',
-                profile_description: '',
+                name: '',
+                address: '',
+                contact_email: '',
+                phone: '',
+                introduction: '',
+                specialization: [],
                 input: {
-                    profile_description: '', first_name: '', last_name: '', address: '', education_id: '',
+                    name: '', address: '', contact_email: '', phone: '', introduction: '', specialization: []
                 },
                 errors: {
-                    profile_description: '', first_name: '', last_name: '', address: '', education_id: '',
+                    name: '', address: '', contact_email: '', phone: '', introduction: '', specialization: ''
                 },
                 endpoints: {
-                    save: '/api/v1/worker/introduction',
+                    save: '',
                 },
             }
         },
@@ -115,13 +118,60 @@
         created() {
             let component = this;
 
-            Bus.$on('userProfileDetails', function(details) {
-
+            Bus.$on('companyProfileDetails', function(details) {
+                component.setValues(details);
+                component.setDisplayValues(component.input, details);
             });
         },
 
         methods: {
 
+            setValues(details) {
+                this.name = details.name;
+                this.address = details.address;
+                this.contact_email = details.contact_email;
+                this.phone = details.phone;
+                this.introduction = details.introduction;
+                this.specialization = details.specialization;
+            },
+
+            setDisplayValues(val, details) {
+                val.name = details.name;
+                val.address = details.address;
+                val.contact_email = details.contact_email;
+                val.phone = details.phone;
+                val.introduction = details.introduction;
+                val.specialization = details.specialization;
+            },
+
+            open() {
+
+            },
+
+            onClickProfilePhoto() {
+                upload.click();
+            },
+
+            onFileChange(e) {
+                let files = e.target.files || e.dataTransfer.files;
+                
+                if (! files.length) {
+                    return;
+                }
+
+                let file = files[0],
+                    reader  = new FileReader();
+
+                reader.addEventListener('load', function() {
+                    
+                    Bus.$emit('imageToCrop', reader.result, 0, 'Company');
+
+                }, false);
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            },
         }
     }
 </script>

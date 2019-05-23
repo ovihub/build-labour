@@ -11369,6 +11369,7 @@ body.admin {
 .sidebar-logo-image {
   width: 80px;
   margin: 40px 15px;
+  cursor: pointer;
 }
 
 .sidebar-title {

@@ -2465,7 +2465,6 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var component = this;
     Bus.$on('datatableViewCompany', function (id) {
-      console.log('xxxx');
       component.record_id = id;
       component.endpoints.get = '/api/v1/admin/company/get?id=' + id;
       component.viewRecord();
@@ -2493,9 +2492,6 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     getProfilePic: function getProfilePic(value) {
-      console.log('mmmm');
-      console.log(value);
-
       if (!value) {}
 
       return ''; // return value.split(' ')[0];
@@ -2647,7 +2643,7 @@ __webpack_require__.r(__webpack_exports__);
           file = files[0],
           reader = new FileReader();
       reader.addEventListener('load', function () {
-        Bus.$emit('imageToCrop', reader.result, component.record_id);
+        Bus.$emit('imageToCrop', reader.result, component.record_id, 'Admin');
       }, false);
 
       if (file) {
@@ -4004,13 +4000,15 @@ var cropper = null;
       $('#upload').val('');
       component.close();
     });
-    Bus.$on('imageToCrop', function (binary, id) {
-      if (id) {
+    Bus.$on('imageToCrop', function (binary, id, type) {
+      if (type == 'Admin') {
         component.isAdmin = true;
         component.input.id = id;
         component.endpoints.upload = '/api/v1/admin/user/upload';
-      } else {
+      } else if (type == 'User') {
         component.endpoints.upload = '/api/v1/user/photo';
+      } else if (type == 'Company') {
+        component.endpoints.upload = '/api/v1/company/photo';
       }
 
       component.imgCrop = binary;
@@ -4655,33 +4653,132 @@ __webpack_require__.r(__webpack_exports__);
     return {
       disabled: false,
       time_out: false,
-      locations: [],
-      profile_photo_url: '',
-      profile_description: '',
+      name: '',
+      address: '',
+      contact_email: '',
+      phone: '',
+      introduction: '',
+      specialization: [],
       input: {
-        profile_description: '',
-        first_name: '',
-        last_name: '',
+        name: '',
         address: '',
-        education_id: ''
+        contact_email: '',
+        phone: '',
+        introduction: '',
+        specialization: []
       },
       errors: {
-        profile_description: '',
-        first_name: '',
-        last_name: '',
+        name: '',
         address: '',
-        education_id: ''
+        contact_email: '',
+        phone: '',
+        introduction: '',
+        specialization: ''
       },
       endpoints: {
-        save: '/api/v1/worker/introduction'
+        save: ''
       }
     };
   },
   created: function created() {
     var component = this;
-    Bus.$on('userProfileDetails', function (details) {});
+    Bus.$on('companyProfileDetails', function (details) {
+      component.setValues(details);
+      component.setDisplayValues(component.input, details);
+    });
   },
-  methods: {}
+  methods: {
+    setValues: function setValues(details) {
+      this.name = details.name;
+      this.address = details.address;
+      this.contact_email = details.contact_email;
+      this.phone = details.phone;
+      this.introduction = details.introduction;
+      this.specialization = details.specialization;
+    },
+    setDisplayValues: function setDisplayValues(val, details) {
+      val.name = details.name;
+      val.address = details.address;
+      val.contact_email = details.contact_email;
+      val.phone = details.phone;
+      val.introduction = details.introduction;
+      val.specialization = details.specialization;
+    },
+    open: function open() {},
+    onClickProfilePhoto: function onClickProfilePhoto() {
+      upload.click();
+    },
+    onFileChange: function onFileChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+
+      if (!files.length) {
+        return;
+      }
+
+      var file = files[0],
+          reader = new FileReader();
+      reader.addEventListener('load', function () {
+        Bus.$emit('imageToCrop', reader.result, 0, 'Company');
+      }, false);
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/company/LoadCompany.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/company/LoadCompany.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      company: {
+        name: '',
+        address: '',
+        contact_email: '',
+        phone: '',
+        introduction: ''
+      },
+      endpoints: {
+        get: '/api/v1/company/1'
+      }
+    };
+  },
+  created: function created() {
+    this.getCompany();
+  },
+  methods: {
+    getCompany: function getCompany() {
+      var component = this;
+      axios.get(component.endpoints.get, Utils.getBearerAuth()).then(function (response) {
+        var company = response.data.data.company;
+        component.company.name = company.name;
+        component.company.address = company.address;
+        component.company.contact_email = company.contact_email;
+        component.company.phone = company.phone;
+        component.company.introduction = company.introduction;
+        Bus.$emit('companyProfileDetails', component.company); // Bus.$emit('jobDetails', component.job_details);
+        // Bus.$emit('jobRequirementsDetails', component.requirements);
+        // Bus.$emit('jobResponsibilitiesDetails', component.responsibilities);
+      }).catch(function (error) {
+        Utils.handleError(error);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -7719,7 +7816,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var file = files[0],
           reader = new FileReader();
       reader.addEventListener('load', function () {
-        Bus.$emit('imageToCrop', reader.result);
+        Bus.$emit('imageToCrop', reader.result, 0, 'User');
       }, false);
 
       if (file) {
@@ -49152,8 +49249,8 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "ul",
-                _vm._l(_vm.record.workers, function(value, key) {
-                  return _c("li", [
+                _vm._l(_vm.record.workers, function(value, index) {
+                  return _c("li", { key: index }, [
                     _c("span", [
                       value.profile_photo_url
                         ? _c("img", {
@@ -51547,9 +51644,91 @@ var render = function() {
           on: { change: _vm.onFileChange }
         }),
         _vm._v(" "),
-        _vm._m(0),
+        _c("div", { staticClass: "profile-header" }, [
+          _c("div", { staticClass: "company-image" }, [
+            _c("img", {
+              staticClass: "sidebar-logo-image",
+              attrs: {
+                src: "/img/build-labour-logo-orange.png",
+                srcset:
+                  "/img/build-labour-logo-orange@2x.png" +
+                  " 2x, " +
+                  "/img/build-labour-logo-orange@3x.png" +
+                  " 3x"
+              },
+              on: { click: _vm.onClickProfilePhoto }
+            })
+          ])
+        ]),
         _vm._v(" "),
-        _vm._m(1)
+        _c("div", { staticClass: "profile-content-p20 pb-4" }, [
+          _c("div", { staticClass: "bl-label-22 m0" }, [
+            _vm._v(_vm._s(_vm.name))
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "bl-label-17 pb-3" }, [
+            _vm._v("\n                Surveyors\n            ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row bl-label-15" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "bl-col-4 bl-display" }, [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(_vm.address) +
+                  "\n                "
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row bl-label-15" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "bl-col-4 bl-display" }, [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(_vm.contact_email) +
+                  "\n                "
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row bl-label-15" }, [
+            _vm._m(2),
+            _vm._v(" "),
+            _c("div", { staticClass: "bl-col-4 bl-display" }, [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(_vm.phone) +
+                  "\n                "
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "bl-display" }, [
+            _c(
+              "div",
+              {
+                staticClass: "bl-label-15-style-2 bl-mb20",
+                staticStyle: { "margin-top": "24px" }
+              },
+              [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.introduction) +
+                    "\n                "
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "bl-label-16" }, [
+            _vm._v("\n                We specialise in\n            ")
+          ]),
+          _vm._v(" "),
+          _vm._m(3)
+        ])
       ],
       1
     )
@@ -51560,142 +51739,105 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-header" }, [
-      _c("div", { staticClass: "company-image" }, [
-        _c("img", {
-          staticClass: "sidebar-logo-image",
-          attrs: {
-            src: "/img/build-labour-logo-orange.png",
-            srcset:
-              "/img/build-labour-logo-orange@2x.png" +
-              " 2x, " +
-              "/img/build-labour-logo-orange@3x.png" +
-              " 3x"
-          }
-        })
-      ])
+    return _c("div", { staticClass: "bl-col-3" }, [
+      _c("img", {
+        staticClass: "text-icon-3",
+        attrs: {
+          src: "/img/icons/pinlocation.png",
+          srcset:
+            "/img/icons/pinlocation@2x.png" +
+            " 2x, " +
+            "/img/icons/pinlocation@3x.png" +
+            " 3x"
+        }
+      })
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-content-p20 pb-4" }, [
-      _c("div", { staticClass: "bl-label-22 m0" }, [
-        _vm._v("Richmond Surveying")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "bl-label-17 pb-3" }, [
-        _vm._v("\n                Surveyors\n            ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row bl-label-15" }, [
-        _c("div", { staticClass: "bl-col-3" }, [
-          _c("img", {
-            staticClass: "text-icon-3",
-            attrs: {
-              src: "/img/icons/pinlocation.png",
-              srcset:
-                "/img/icons/pinlocation@2x.png" +
-                " 2x, " +
-                "/img/icons/pinlocation@3x.png" +
-                " 3x"
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "bl-col-4 bl-display" }, [
+    return _c("div", { staticClass: "bl-col-3" }, [
+      _c("img", {
+        staticClass: "text-icon-3",
+        attrs: {
+          src: "/img/icons/pinlocation.png",
+          srcset:
+            "/img/icons/pinlocation@2x.png" +
+            " 2x, " +
+            "/img/icons/pinlocation@3x.png" +
+            " 3x"
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bl-col-3" }, [
+      _c("img", {
+        staticClass: "text-icon-3",
+        attrs: {
+          src: "/img/icons/pinlocation.png",
+          srcset:
+            "/img/icons/pinlocation@2x.png" +
+            " 2x, " +
+            "/img/icons/pinlocation@3x.png" +
+            " 3x"
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "job-body" }, [
+      _c("ul", { staticClass: "job-list-items" }, [
+        _c("li", [
           _vm._v(
-            "\n                    Richmond, Victoria, Australia\n                "
+            "\n                        Land Development\n                    "
           )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row bl-label-15" }, [
-        _c("div", { staticClass: "bl-col-3" }, [
-          _c("img", {
-            staticClass: "text-icon-3",
-            attrs: {
-              src: "/img/icons/pinlocation.png",
-              srcset:
-                "/img/icons/pinlocation@2x.png" +
-                " 2x, " +
-                "/img/icons/pinlocation@3x.png" +
-                " 3x"
-            }
-          })
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "bl-col-4 bl-display" }, [
+        _c("li", [
+          _vm._v("\n                        Construction\n                    ")
+        ]),
+        _vm._v(" "),
+        _c("li", [
           _vm._v(
-            "\n                    www.richmondsurveying.com.au\n                "
+            "\n                        Engineering Surveying\n                    "
           )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row bl-label-15" }, [
-        _c("div", { staticClass: "bl-col-3" }, [
-          _c("img", {
-            staticClass: "text-icon-3",
-            attrs: {
-              src: "/img/icons/pinlocation.png",
-              srcset:
-                "/img/icons/pinlocation@2x.png" +
-                " 2x, " +
-                "/img/icons/pinlocation@3x.png" +
-                " 3x"
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "bl-col-4 bl-display" }, [
-          _vm._v("\n                    (03) 3934 3829\n                ")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "bl-display" }, [
-        _c(
-          "div",
-          {
-            staticClass: "bl-label-15-style-2 bl-mb20",
-            staticStyle: { "margin-top": "24px" }
-          },
-          [
-            _vm._v(
-              "\n                    We are a modern, professional and sophisticated surveying firm specialising in land development,\n                    construction and engineering surveying. We provide quality, cost-effective and efficient surveying service.\n                "
-            )
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "bl-label-16" }, [
-        _vm._v("\n                We specialise in\n            ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _c("ul", { staticClass: "job-list-items" }, [
-          _c("li", [
-            _vm._v(
-              "\n                        Land Development\n                    "
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _vm._v(
-              "\n                        Construction\n                    "
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _vm._v(
-              "\n                        Engineering Surveying\n                    "
-            )
-          ])
         ])
       ])
     ])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/company/LoadCompany.vue?vue&type=template&id=f30f6cec&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/company/LoadCompany.vue?vue&type=template&id=f30f6cec& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -68445,6 +68587,7 @@ Vue.component('show-form', __webpack_require__(/*! ./components/record/ShowForm.
 Vue.component('upload-photo', __webpack_require__(/*! ./components/upload/UploadPhoto.vue */ "./resources/js/components/upload/UploadPhoto.vue").default); // Load components
 
 Vue.component('load-user', __webpack_require__(/*! ./components/profile/LoadUser.vue */ "./resources/js/components/profile/LoadUser.vue").default);
+Vue.component('load-company', __webpack_require__(/*! ./components/company/LoadCompany.vue */ "./resources/js/components/company/LoadCompany.vue").default);
 Vue.component('load-job', __webpack_require__(/*! ./components/job/LoadJob.vue */ "./resources/js/components/job/LoadJob.vue").default);
 var app = new Vue({
   el: '#app' // router,
@@ -70345,6 +70488,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/company/LoadCompany.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/company/LoadCompany.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _LoadCompany_vue_vue_type_template_id_f30f6cec___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LoadCompany.vue?vue&type=template&id=f30f6cec& */ "./resources/js/components/company/LoadCompany.vue?vue&type=template&id=f30f6cec&");
+/* harmony import */ var _LoadCompany_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LoadCompany.vue?vue&type=script&lang=js& */ "./resources/js/components/company/LoadCompany.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _LoadCompany_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _LoadCompany_vue_vue_type_template_id_f30f6cec___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _LoadCompany_vue_vue_type_template_id_f30f6cec___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/company/LoadCompany.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/company/LoadCompany.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/company/LoadCompany.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LoadCompany_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./LoadCompany.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/company/LoadCompany.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LoadCompany_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/company/LoadCompany.vue?vue&type=template&id=f30f6cec&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/company/LoadCompany.vue?vue&type=template&id=f30f6cec& ***!
+  \****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LoadCompany_vue_vue_type_template_id_f30f6cec___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./LoadCompany.vue?vue&type=template&id=f30f6cec& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/company/LoadCompany.vue?vue&type=template&id=f30f6cec&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LoadCompany_vue_vue_type_template_id_f30f6cec___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LoadCompany_vue_vue_type_template_id_f30f6cec___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/job/CompanySummary.vue":
 /*!********************************************************!*\
   !*** ./resources/js/components/job/CompanySummary.vue ***!
@@ -71847,8 +72059,8 @@ window.Helper = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! F:\appetiser\build-labour-backend\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! F:\appetiser\build-labour-backend\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

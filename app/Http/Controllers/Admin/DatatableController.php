@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Models\Companies\Job;
 use App\Models\Tickets\Ticket;
+use App\Models\Companies\Company;
 use Illuminate\Http\Request;
 use App\Http\Resources\UsersResource;
 use App\Http\Resources\JobsResource;
 use App\Http\Resources\TicketsResource;
+use App\Http\Resources\CompaniesResource;
 
 class DatatableController extends Controller
 {
@@ -20,11 +22,12 @@ class DatatableController extends Controller
      * @param Job $job
      * @param Ticket $ticket
      */
-    public function __construct(User $user, Job $job, Ticket $ticket)
+    public function __construct(User $user, Job $job, Ticket $ticket, Company $company)
     {        
         $this->user = $user;
         $this->job = $job;
         $this->ticket = $ticket;
+        $this->company = $company;
     }
     
     public function showUsers() {
@@ -37,6 +40,10 @@ class DatatableController extends Controller
 
     public function showTickets() {
         return view('admin.tickets');
+    }
+
+    public function showCompanies() {
+        return view('admin.companies');
     }
 
     /**
@@ -110,6 +117,23 @@ class DatatableController extends Controller
         $data = $query->paginate($per_page);
 
         return TicketsResource::collection($data);
+    }
+
+    public function getCompaniesDatatable(Request $request)
+    {
+        $column = $request->get('column');
+
+        $order = $request->get('order') ? $request->get('order') : 'asc';
+        $per_page = $request->get('per_page') ? $request->get('per_page') : 10;
+        $search_text = $request->get('search_text') ? $request->get('search_text') : '';
+
+        $query = $this->company
+                    ->where('name', 'LIKE', '%'.$search_text.'%')
+                    ->orderBy($column, $order);
+
+        $data = $query->paginate($per_page);
+
+        return CompaniesResource::collection($data);
     }
 
 }
