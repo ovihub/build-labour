@@ -1885,6 +1885,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1899,7 +1904,8 @@ __webpack_require__.r(__webpack_exports__);
       pagination: {
         meta: {
           to: 1,
-          from: 1
+          from: 1,
+          last_page: 1
         }
       },
       offset: 4,
@@ -1940,8 +1946,9 @@ __webpack_require__.r(__webpack_exports__);
     Bus.$on('refreshDatatable', function () {
       component.fetchData();
     });
-    Bus.$on('adminTicketSave', function () {
+    Bus.$on('adminSaveChanges', function () {
       component.onClickTitle();
+      component.changePage(component.pagination.meta.last_page);
     });
     this.fetchData();
   },
@@ -2016,16 +2023,22 @@ __webpack_require__.r(__webpack_exports__);
       this.dataSearch = this.dataSearch == 'hidden' ? 'data-search' : 'hidden';
     },
     onClickViewRow: function onClickViewRow(data) {
-      var id = data.id;
+      var id = 0;
 
-      if (this.modalName == 'User') {
-        this.subTitle = this.getProfileName(data.full_name);
-      } else if (this.modalName == 'Job') {
-        this.subTitle = data.title;
-      } else if (this.modalName == 'Company') {
-        this.subTitle = data.name;
-      } else if (this.modalName == 'Ticket') {
-        this.subTitle = data.ticket;
+      if (data != null) {
+        id = data.id;
+
+        if (this.modalName == 'User') {
+          this.subTitle = this.getProfileName(data.full_name);
+        } else if (this.modalName == 'Job') {
+          this.subTitle = data.title;
+        } else if (this.modalName == 'Company') {
+          this.subTitle = data.name;
+        } else if (this.modalName == 'Ticket') {
+          this.subTitle = data.ticket;
+        }
+      } else {
+        this.subTitle = 'Add New';
       }
 
       this.dataSearch = 'hidden';
@@ -2411,6 +2424,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2427,9 +2472,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         reports_to: [],
         location: ''
       },
+      errors: {
+        title: '',
+        description: '',
+        about: '',
+        exp_level: '',
+        contract_type: '',
+        salary: '',
+        reports_to: '',
+        location: ''
+      },
       endpoints: {
         get: '',
-        save: '/api/v1/company/1/jobs'
+        save: '' // /api/v1/company/1/jobs
+
       }
     };
   },
@@ -2437,8 +2493,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var component = this;
     Bus.$on('datatableViewJob', function (id) {
       component.show = true;
-      component.endpoints.get = '/api/v1/admin/job/get?id=' + id;
-      component.viewRecord();
+
+      if (id != 0) {
+        component.endpoints.get = '/api/v1/admin/job/get?id=' + id;
+        component.endpoints.save = '' + id;
+        component.viewRecord();
+      } else {
+        Utils.setObjectValues(component.record, '');
+        component.record.id = 0;
+        component.endpoints.save = '';
+      }
     });
   },
   methods: {
@@ -2460,17 +2524,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 component = this;
-                _context.next = 3;
+                Utils.setObjectValues(component.errors, '');
+                this.disabled = true;
+                _context.next = 5;
                 return axios.post(component.endpoints.save, component.$data.record, Utils.getBearerAuth()).then(function (response) {
-                  console.log(response.data.data); // component.record = response.data.data.record;
+                  Bus.$emit('adminSaveChanges');
                 }).catch(function (error) {
+                  if (error.response) {
+                    var data = error.response.data;
+                    component.errors.title = data.errors.title ? data.errors.title[0] : '';
+                    component.errors.description = data.errors.description ? data.errors.description[0] : '';
+                    component.errors.about = data.errors.about ? data.errors.about[0] : '';
+                    component.errors.exp_level = data.errors.exp_level ? data.errors.exp_level[0] : '';
+                    component.errors.contract_type = data.errors.contract_type ? data.errors.contract_type[0] : '';
+                    component.errors.salary = data.errors.salary ? data.errors.salary[0] : '';
+                    component.errors.reports_to = data.errors.reports_to ? data.errors.reports_to[0] : '';
+                    component.errors.location = data.errors.location ? data.errors.location[0] : '';
+                  }
+
                   Utils.handleError(error);
                 });
 
-              case 3:
+              case 5:
                 this.disabled = false;
 
-              case 4:
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -2547,6 +2625,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2554,6 +2640,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       show: false,
       record: {
         id: 0,
+        ticket: '',
+        description: ''
+      },
+      errors: {
         ticket: '',
         description: ''
       },
@@ -2567,9 +2657,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var component = this;
     Bus.$on('datatableViewTicket', function (id) {
       component.show = true;
-      component.endpoints.get = '/api/v1/admin/ticket/get?id=' + id;
-      component.endpoints.save = '/api/v1/user/ticket/' + id;
-      component.viewRecord();
+
+      if (id != 0) {
+        component.endpoints.get = '/api/v1/admin/ticket/get?id=' + id;
+        component.endpoints.save = '/api/v1/user/ticket/' + id;
+        component.viewRecord();
+      } else {
+        Utils.setObjectValues(component.record, '');
+        component.record.id = 0;
+        component.endpoints.save = '/api/v1/user/ticket';
+      }
     });
   },
   methods: {
@@ -2591,17 +2688,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 component = this;
-                _context.next = 3;
+                Utils.setObjectValues(component.errors, '');
+                this.disabled = true;
+                _context.next = 5;
                 return axios.post(component.endpoints.save, component.$data.record, Utils.getBearerAuth()).then(function (response) {
-                  Bus.$emit('adminTicketSave');
+                  Bus.$emit('adminSaveChanges');
                 }).catch(function (error) {
+                  if (error.response) {
+                    var data = error.response.data;
+                    component.errors.ticket = data.errors.ticket ? data.errors.ticket[0] : '';
+                    component.errors.description = data.errors.description ? data.errors.description[0] : '';
+                  }
+
                   Utils.handleError(error);
                 });
 
-              case 3:
+              case 5:
                 this.disabled = false;
 
-              case 4:
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -48768,6 +48873,25 @@ var render = function() {
                 "ul",
                 { staticClass: "pagination" },
                 [
+                  _vm.modalName == "Job" || _vm.modalName == "Ticket"
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "page-link-2 mr-3",
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              return _vm.onClickViewRow(null)
+                            }
+                          }
+                        },
+                        [
+                          _c("span", { staticClass: "fa fa-sync" }),
+                          _vm._v("Add\n\t\t\t\t\t")
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c(
                     "a",
                     {
@@ -48777,7 +48901,7 @@ var render = function() {
                     },
                     [
                       _c("span", { staticClass: "fa fa-sync" }),
-                      _vm._v(" Refresh")
+                      _vm._v("Refresh")
                     ]
                   ),
                   _vm._v(" "),
@@ -49175,33 +49299,35 @@ var render = function() {
           _vm._v("\n        " + _vm._s(_vm.record.title) + "\n    ")
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("label", { staticClass: "record-label" }, [_vm._v("ID")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.record.id,
-                  expression: "record.id"
-                }
-              ],
-              staticClass: "form-control record-input",
-              attrs: { type: "text", disabled: "" },
-              domProps: { value: _vm.record.id },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+        _vm.record.id != 0
+          ? _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("label", { staticClass: "record-label" }, [_vm._v("ID")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.record.id,
+                      expression: "record.id"
+                    }
+                  ],
+                  staticClass: "form-control record-input",
+                  attrs: { type: "text", disabled: "" },
+                  domProps: { value: _vm.record.id },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.record, "id", $event.target.value)
+                    }
                   }
-                  _vm.$set(_vm.record, "id", $event.target.value)
-                }
-              }
-            })
-          ])
-        ]),
+                })
+              ])
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
@@ -49227,7 +49353,17 @@ var render = function() {
                   _vm.$set(_vm.record, "title", $event.target.value)
                 }
               }
-            })
+            }),
+            _vm._v(" "),
+            _vm.errors.title
+              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.errors.title) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e()
           ])
         ]),
         _vm._v(" "),
@@ -49256,7 +49392,24 @@ var render = function() {
                 }
               }
             })
-          ])
+          ]),
+          _vm._v(" "),
+          _vm.errors.description
+            ? _c(
+                "span",
+                {
+                  staticClass: "err-msg bl-ml-30",
+                  staticStyle: { "margin-top": "-6px" }
+                },
+                [
+                  _vm._v(
+                    "\n            " +
+                      _vm._s(_vm.errors.description) +
+                      "\n        "
+                  )
+                ]
+              )
+            : _vm._e()
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
@@ -49284,7 +49437,22 @@ var render = function() {
                 }
               }
             })
-          ])
+          ]),
+          _vm._v(" "),
+          _vm.errors.about
+            ? _c(
+                "span",
+                {
+                  staticClass: "err-msg bl-ml-30",
+                  staticStyle: { "margin-top": "-6px" }
+                },
+                [
+                  _vm._v(
+                    "\n            " + _vm._s(_vm.errors.about) + "\n        "
+                  )
+                ]
+              )
+            : _vm._e()
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
@@ -49313,7 +49481,17 @@ var render = function() {
                   _vm.$set(_vm.record, "exp_level", $event.target.value)
                 }
               }
-            })
+            }),
+            _vm._v(" "),
+            _vm.errors.exp_level
+              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.errors.exp_level) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e()
           ])
         ]),
         _vm._v(" "),
@@ -49343,7 +49521,17 @@ var render = function() {
                   _vm.$set(_vm.record, "contract_type", $event.target.value)
                 }
               }
-            })
+            }),
+            _vm._v(" "),
+            _vm.errors.contract_type
+              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.errors.contract_type) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e()
           ])
         ]),
         _vm._v(" "),
@@ -49371,7 +49559,17 @@ var render = function() {
                   _vm.$set(_vm.record, "salary", $event.target.value)
                 }
               }
-            })
+            }),
+            _vm._v(" "),
+            _vm.errors.salary
+              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.errors.salary) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e()
           ])
         ]),
         _vm._v(" "),
@@ -49401,7 +49599,17 @@ var render = function() {
                   _vm.$set(_vm.record, "reports_to", $event.target.value)
                 }
               }
-            })
+            }),
+            _vm._v(" "),
+            _vm.errors.reports_to
+              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.errors.reports_to) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e()
           ])
         ]),
         _vm._v(" "),
@@ -49429,7 +49637,17 @@ var render = function() {
                   _vm.$set(_vm.record, "location", $event.target.value)
                 }
               }
-            })
+            }),
+            _vm._v(" "),
+            _vm.errors.location
+              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.errors.location) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e()
           ])
         ]),
         _vm._v(" "),
@@ -49493,33 +49711,35 @@ var render = function() {
           _vm._v("\n        " + _vm._s(_vm.record.ticket) + "\n    ")
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("label", { staticClass: "record-label" }, [_vm._v("ID")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.record.id,
-                  expression: "record.id"
-                }
-              ],
-              staticClass: "form-control record-input",
-              attrs: { type: "text", disabled: "" },
-              domProps: { value: _vm.record.id },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+        _vm.record.id != 0
+          ? _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("label", { staticClass: "record-label" }, [_vm._v("ID")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.record.id,
+                      expression: "record.id"
+                    }
+                  ],
+                  staticClass: "form-control record-input",
+                  attrs: { type: "text", disabled: "" },
+                  domProps: { value: _vm.record.id },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.record, "id", $event.target.value)
+                    }
                   }
-                  _vm.$set(_vm.record, "id", $event.target.value)
-                }
-              }
-            })
-          ])
-        ]),
+                })
+              ])
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
@@ -49545,7 +49765,17 @@ var render = function() {
                   _vm.$set(_vm.record, "ticket", $event.target.value)
                 }
               }
-            })
+            }),
+            _vm._v(" "),
+            _vm.errors.ticket
+              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.errors.ticket) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e()
           ])
         ]),
         _vm._v(" "),
@@ -49574,7 +49804,24 @@ var render = function() {
                 }
               }
             })
-          ])
+          ]),
+          _vm._v(" "),
+          _vm.errors.description
+            ? _c(
+                "span",
+                {
+                  staticClass: "err-msg bl-ml-30",
+                  staticStyle: { "margin-top": "-6px" }
+                },
+                [
+                  _vm._v(
+                    "\n            " +
+                      _vm._s(_vm.errors.description) +
+                      "\n        "
+                  )
+                ]
+              )
+            : _vm._e()
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group row mt-5" }, [

@@ -58,7 +58,12 @@
 
 			<nav v-if="pagination && tableData.length > 0">
 				<ul class="pagination">
-					<a class="page-link-2 mr-3" href="#" @click="fetchData"><span class="fa fa-sync"></span> Refresh</a>
+					<a class="page-link-2 mr-3" href="#" 
+						v-if="modalName == 'Job' || modalName == 'Ticket'"
+						@click="onClickViewRow(null)">
+							<span class="fa fa-sync"></span>Add
+					</a>
+					<a class="page-link-2 mr-3" href="#" @click="fetchData"><span class="fa fa-sync"></span>Refresh</a>
 					<li class="page-item-2" :class="{'disabled' : currentPage === 1}">
 						<a class="page-link-2" href="#" @click.prevent="changePage(currentPage - 1)">Previous</a>
 					</li>
@@ -90,7 +95,8 @@
 				pagination: {
 					meta: { 
 						to: 1,
-						from: 1
+						from: 1,
+						last_page: 1,
 					}
 				},
 				offset: 4,
@@ -140,8 +146,9 @@
 				component.fetchData();
 			});
 
-			Bus.$on('adminTicketSave', function() {
+			Bus.$on('adminSaveChanges', function() {
 				component.onClickTitle();
+				component.changePage(component.pagination.meta.last_page);
 			});
 
 			this.fetchData();
@@ -230,19 +237,26 @@
 			},
 
 			onClickViewRow(data) {
-				let id = data.id;
+				let id = 0;
+
+				if (data != null) {
+					id = data.id;
+					
+					if (this.modalName == 'User') {
+						this.subTitle = this.getProfileName(data.full_name);
+					
+					} else if (this.modalName == 'Job') {
+						this.subTitle = data.title;
+					
+					} else if (this.modalName == 'Company') {
+						this.subTitle = data.name;
+					
+					} else if (this.modalName == 'Ticket') {
+						this.subTitle = data.ticket;
+					}
 				
-				if (this.modalName == 'User') {
-					this.subTitle = this.getProfileName(data.full_name);
-				
-				} else if (this.modalName == 'Job') {
-					this.subTitle = data.title;
-				
-				} else if (this.modalName == 'Company') {
-					this.subTitle = data.name;
-				
-				} else if (this.modalName == 'Ticket') {
-					this.subTitle = data.ticket;
+				} else {
+					this.subTitle = 'Add New';
 				}
 
 				this.dataSearch = 'hidden';

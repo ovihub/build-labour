@@ -3,7 +3,7 @@
         <div class="record-title">
             {{ record.ticket }}
         </div>
-        <div class="row">
+        <div class="row" v-if="record.id != 0">
             <div class="col-md-12">
                 <label class="record-label">ID</label>
                 
@@ -16,6 +16,10 @@
                 <label class="record-label">TICKET</label>
                 
                 <input type="text" class="form-control record-input" v-model="record.ticket" />
+
+                <span class="err-msg bl-ml-20" v-if="errors.ticket">
+                    {{ errors.ticket }}
+                </span>
             </div>
         </div>
 
@@ -27,6 +31,10 @@
             <div class="col-md-12">
                 <textarea class="record-textarea" style="height:180px;border:1px solid #ced4da;" v-model="record.description"></textarea>
             </div>
+
+            <span class="err-msg bl-ml-30" style="margin-top:-6px;" v-if="errors.description">
+                {{ errors.description }}
+            </span>
         </div>
 
         <div class="form-group row mt-5">
@@ -48,6 +56,9 @@
 				record: {
                     id: 0, ticket: '', description: '',
                 },
+                errors: {
+                    ticket: '', description: '',
+                },
 				endpoints: {
                     get: '',
                     save: '',
@@ -60,9 +71,17 @@
 
             Bus.$on('datatableViewTicket', function(id){
                 component.show = true;
-                component.endpoints.get = '/api/v1/admin/ticket/get?id=' + id;
-                component.endpoints.save = '/api/v1/user/ticket/' + id;
-                component.viewRecord();
+
+                if (id != 0) {
+                    component.endpoints.get = '/api/v1/admin/ticket/get?id=' + id;
+                    component.endpoints.save = '/api/v1/user/ticket/' + id;
+                    component.viewRecord();
+                
+                } else {
+                    Utils.setObjectValues(component.record, '');
+                    component.record.id = 0;
+                    component.endpoints.save = '/api/v1/user/ticket';
+                }
             });
 		},
 		
@@ -86,14 +105,24 @@
             async submit() {
                 let component = this;
 
+                Utils.setObjectValues(component.errors, '');
+
+                this.disabled = true;
+
                 await axios.post(component.endpoints.save, component.$data.record, Utils.getBearerAuth())
 
                     .then(function(response) {
 
-                        Bus.$emit('adminTicketSave');
+                        Bus.$emit('adminSaveChanges');
                     })
                     .catch(function(error) {
-                        
+                        if (error.response) {
+                            let data = error.response.data;
+
+                            component.errors.ticket = data.errors.ticket ? data.errors.ticket[0] : '';
+                            component.errors.description = data.errors.description ? data.errors.description[0] : '';
+                        }
+
                         Utils.handleError(error);
                     });
 

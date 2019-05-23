@@ -23,7 +23,7 @@ class Ticket extends BaseModel
         return [
             'ticket'         => 'required|min:5',
             'description'    => 'required|min:5',
-            'created_by'     => 'required|integer'
+            'created_by'     => 'nullable|integer'
         ];
     }
 
