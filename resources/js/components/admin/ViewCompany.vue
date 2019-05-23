@@ -2,7 +2,7 @@
 
     <div class="form-group" v-if="record">
         <div class="record-title">
-            {{ record.full_name }}
+            {{ record.name }}
         </div>
         <div class="record-photo">
             <div class="record-profile-pic">

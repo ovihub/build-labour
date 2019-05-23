@@ -166,56 +166,104 @@ class UsersTableSeeder extends Seeder
             ]);
 
             Ticket::create([
-                'ticket' => 'TLILIC2001',
-                'description' => 'Licence to operate a Forklift Truck',
+                'ticket' => 'RIIWHS202D',
+                'description' => 'Enter and work in confined spaces',
                 'created_by' => $user->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
 
             Ticket::create([
-                'ticket' => 'RIIHAN301D',
-                'description' => 'Elevating Work Platform Under 11m',
+                'ticket' => 'HLTAID001',
+                'description' => 'Provide cardiopulmonary resuscitation [CPR]',
+                'created_by' => $user->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
+
+            Ticket::create([
+                'ticket' => 'CPCCWHS1001',
+                'description' => 'Prepare to work safely in the construction industry',
+                'created_by' => $user->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
+
+            Ticket::create([
+                'ticket' => 'RIIMPO320E',
+                'description' => 'Conduct civil construction excavator operations',
+                'created_by' => $user->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
+
+            Ticket::create([
+                'ticket' => 'RIIMPO321E',
+                'description' => 'Conduct civil construction wheeled front end loader operations',
+                'created_by' => $user->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
+
+            Ticket::create([
+                'ticket' => 'RIIMPO326D',
+                'description' => 'Conduct civil',
+                'created_by' => $user->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
+
+            Ticket::create([
+                'ticket' => 'TLILIC20005',
+                'description' => 'Licence to operate a boom-type elevating work platform (boom length 11meters or more)',
+                'created_by' => $user->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
+
+            Ticket::create([
+                'ticket' => 'RIIWHS302D',
+                'description' => 'Implement traffic management plan',
                 'created_by' => $user->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
 
             $t1 = Ticket::create([
-                'ticket' => 'RIIWHS205D',
-                'description' => 'Control Traffic with Stop - Slow Bat',
+                'ticket' => 'CPCCDE3014A',
+                'description' => 'Remove non-friable asbestos',
                 'created_by' => $user->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
 
             $t2 = Ticket::create([
-                'ticket' => 'TLILIC2001',
-                'description' => 'Licence to operate a Forklift Truck',
+                'ticket' => 'CPCCDE3015A ',
+                'description' => 'Remove friable asbestos',
                 'created_by' => $user->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
 
             $t3 = Ticket::create([
-                'ticket' => 'RIIHAN301D',
-                'description' => 'Control Traffic with Stop - Slow Bat',
+                'ticket' => 'FWPCOT2237',
+                'description' => 'Maintain chainsaws',
                 'created_by' => $user->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
 
             $t4 = Ticket::create([
-                'ticket' => 'RIIWHS205D',
-                'description' => 'Licence to operate a Forklift Truck',
+                'ticket' => 'FWPCOT2238',
+                'description' => 'Cut materials with a hand-held chainsawk',
                 'created_by' => $user->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
 
             $t5 = Ticket::create([
-                'ticket' => 'TLILIC2001',
-                'description' => 'Licence to operate a Forklift Truck',
+                'ticket' => 'FWPCOT2239',
+                'description' => 'Trim and cut felled tree',
                 'created_by' => $user->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()

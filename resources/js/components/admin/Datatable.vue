@@ -17,7 +17,13 @@
     	</div>
 		
 		<view-user v-if="modalName == 'User'" :class="dataRecord"></view-user>
+
+		<view-job v-else-if="modalName == 'Job'" :class="dataRecord"></view-job>
 		
+		<view-company v-else-if="modalName == 'Company'" :class="dataRecord"></view-company>
+
+		<view-ticket v-else-if="modalName == 'Ticket'" :class="dataRecord"></view-ticket>
+
 		<div :class="dataTable">
 			<div style="overflow:scroll">
 				<table class="table table-hover">
@@ -134,6 +140,10 @@
 				component.fetchData();
 			});
 
+			Bus.$on('adminTicketSave', function() {
+				component.onClickTitle();
+			});
+
 			this.fetchData();
 		},
 
@@ -221,8 +231,20 @@
 
 			onClickViewRow(data) {
 				let id = data.id;
+				
+				if (this.modalName == 'User') {
+					this.subTitle = this.getProfileName(data.full_name);
+				
+				} else if (this.modalName == 'Job') {
+					this.subTitle = data.title;
+				
+				} else if (this.modalName == 'Company') {
+					this.subTitle = data.name;
+				
+				} else if (this.modalName == 'Ticket') {
+					this.subTitle = data.ticket;
+				}
 
-				this.subTitle = this.getProfileName(data.full_name);
 				this.dataSearch = 'hidden';
 				this.dataTitle = 'data-title';
 				this.dataTable = 'hidden';

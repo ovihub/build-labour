@@ -166,6 +166,16 @@ Route::namespace('API\V1\Admin')
                 Route::delete('delete', 'ApiUsersController@delete');
             });
 
+        Route::prefix('ticket')
+            ->group(function () {
+                Route::get('get', 'ApiTicketsController@get');
+            });
+
+        Route::prefix('job')
+            ->group(function () {
+                Route::get('get', 'ApiJobsController@get');
+            });
+
         Route::prefix('company')
             ->group(function () {
                 Route::get('get', 'ApiCompaniesController@get');

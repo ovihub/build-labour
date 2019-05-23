@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\Users\Ticket;
+use App\Models\Tickets\Ticket;
 use App\Repositories\TicketRepository;
 use Illuminate\Http\Request;
 use JWTAuth;

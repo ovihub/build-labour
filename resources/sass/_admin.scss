@@ -212,6 +212,14 @@ body.admin {
   cursor: no-drop;
 }
 
+.form-control {
+  &:hover, &:focus {
+    outline: none !important;
+    border: 1px solid $brand-orange;
+    box-shadow: 0 0 1px 0 $brand;
+  }
+}
+
 /* ==========================================================================
     Record Styling
   ========================================================================== */
@@ -267,6 +275,28 @@ body.admin {
   color: #7a8083;
   padding-top: 24px;
   padding-left: 20px;
+}
+.record-textarea {
+  width: 380px;
+  height: 42px;
+  border-radius: 21px;
+  background-color: #f1f3f4;
+  font-size: 16px;
+  color: #7a8083;
+  padding: 8px 20px;
+
+  &:hover {
+    outline: none !important;
+    border: 1px solid $brand-orange;
+    box-shadow: 0 0 1px 0 $brand;
+  }
+  
+  &:focus {
+    outline: none !important;
+    border: 1px solid $brand-orange;
+    box-shadow: 0 0 1px 0 $brand;
+    background-color: white;
+  }
 }
 .record-input {
   width: 380px;

@@ -16,6 +16,7 @@ class ApiUsersController extends ApiBaseController
         try {
             $record = User::find($request->id)
                         ->makeHidden([
+                            'identifier',
                             'date_of_birth',
                             'country',
                             'mobile_number',

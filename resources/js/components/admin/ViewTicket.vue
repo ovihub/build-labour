@@ -1,7 +1,7 @@
 <template>
     <div class="form-group" v-if="show">
         <div class="record-title">
-            {{ record.title }}
+            {{ record.ticket }}
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -13,9 +13,9 @@
 
         <div class="row">
             <div class="col-md-12">
-                <label class="record-label">TITLE</label>
+                <label class="record-label">TICKET</label>
                 
-                <input type="text" class="form-control record-input" v-model="record.title" />
+                <input type="text" class="form-control record-input" v-model="record.ticket" />
             </div>
         </div>
 
@@ -26,56 +26,6 @@
 
             <div class="col-md-12">
                 <textarea class="record-textarea" style="height:180px;border:1px solid #ced4da;" v-model="record.description"></textarea>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <label class="record-label">ABOUT</label>
-            </div>
-
-            <div class="col-md-12">
-                <textarea class="record-textarea" style="height:180px;border:1px solid #ced4da;" v-model="record.about"></textarea>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <label class="record-label">EXPERIENCE LEVEL</label>
-                
-                <input type="text" class="form-control record-input" v-model="record.exp_level" />
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <label class="record-label">CONTRACT TYPE</label>
-                
-                <input type="text" class="form-control record-input" v-model="record.contract_type" />
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <label class="record-label">SALARY</label>
-                
-                <input type="text" class="form-control record-input" v-model="record.salary" />
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <label class="record-label">REPORTS TO</label>
-                
-                <input type="text" class="form-control record-input" v-model="record.reports_to" />
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <label class="record-label">LOCATION</label>
-                
-                <input type="text" class="form-control record-input" v-model="record.location" />
             </div>
         </div>
 
@@ -96,12 +46,11 @@
                 disabled: false,
                 show: false,
 				record: {
-                    id: 0, title: '', description: '', about: '', exp_level: '', 
-                    contract_type: '', salary: '', reports_to: [], location: '',
+                    id: 0, ticket: '', description: '',
                 },
 				endpoints: {
                     get: '',
-                    save: '/api/v1/company/1/jobs',
+                    save: '',
 				}
 			}
 		},
@@ -109,9 +58,10 @@
 		created() {
 			let component = this;
 
-            Bus.$on('datatableViewJob', function(id){
+            Bus.$on('datatableViewTicket', function(id){
                 component.show = true;
-                component.endpoints.get = '/api/v1/admin/job/get?id=' + id;
+                component.endpoints.get = '/api/v1/admin/ticket/get?id=' + id;
+                component.endpoints.save = '/api/v1/user/ticket/' + id;
                 component.viewRecord();
             });
 		},
@@ -140,8 +90,7 @@
 
                     .then(function(response) {
 
-                        console.log(response.data.data);
-                        // component.record = response.data.data.record;
+                        Bus.$emit('adminTicketSave');
                     })
                     .catch(function(error) {
                         
