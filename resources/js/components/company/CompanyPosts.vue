@@ -69,6 +69,7 @@
 
             Bus.$on('showCompanyPosts', function(flag) {
                 component.show = flag;
+                component.getPosts();
                 
                 Bus.$emit('hideCompanyPeople');
                 Bus.$emit('hideCompanyJobs');

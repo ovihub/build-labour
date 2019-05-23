@@ -7,7 +7,7 @@
         data() {
             return {
                 company: {
-                    name: '', address: '', contact_email: '', phone: '', introduction: ''
+                    photo_url: '', name: '', address: '', contact_email: '', phone: '', introduction: '', specialization: []
                 },
                 endpoints: {
                     get: '/api/v1/company/1',
@@ -29,6 +29,7 @@
                     .then(function(response) {
                         let company = response.data.data.company;
 
+                        component.company.photo_url = company.photo_url;
                         component.company.name = company.name;
                         component.company.address = company.address;
                         component.company.contact_email = company.contact_email;
@@ -36,9 +37,6 @@
                         component.company.introduction = company.introduction;
 
                         Bus.$emit('companyProfileDetails', component.company);
-                        // Bus.$emit('jobDetails', component.job_details);
-                        // Bus.$emit('jobRequirementsDetails', component.requirements);
-                        // Bus.$emit('jobResponsibilitiesDetails', component.responsibilities);
                     })
                     .catch(function(error) {
 

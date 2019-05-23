@@ -42,6 +42,19 @@ ul.job-list-items {
     background-color: #fcfeff;
     position: relative;
     margin: 0 auto;
+
+    img {
+        overflow: hidden;
+        border-radius: 8px;
+        width: 100%;
+    }
+
+    &:hover {
+        cursor: pointer;
+        background: rgb(0, 0, 0, 0.8);
+        opacity: 0.8;
+        transition: .3s ease-in-out;
+    }
 }
 .company-title {
     margin-top: 80px;

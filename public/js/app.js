@@ -3983,7 +3983,7 @@ var cropper = null;
   data: function data() {
     return {
       disabled: false,
-      isAdmin: false,
+      type: 'User',
       imgCrop: '',
       input: {
         id: 0,
@@ -4001,8 +4001,9 @@ var cropper = null;
       component.close();
     });
     Bus.$on('imageToCrop', function (binary, id, type) {
+      component.type = type;
+
       if (type == 'Admin') {
-        component.isAdmin = true;
         component.input.id = id;
         component.endpoints.upload = '/api/v1/admin/user/upload';
       } else if (type == 'User') {
@@ -4066,8 +4067,10 @@ var cropper = null;
                   if (data.success) {
                     component.close();
 
-                    if (!component.isAdmin) {
+                    if (component.type == 'User') {
                       window.location.href = '/user/profile';
+                    } else if (component.type == 'Company') {
+                      window.location.href = '/company/profile';
                     } else {
                       Bus.$emit('alertSuccess', data.message);
                       Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
@@ -4366,6 +4369,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4380,13 +4391,13 @@ __webpack_require__.r(__webpack_exports__);
     var component = this;
     Bus.$on('showCompanyJobs', function (flag) {
       component.show = flag;
+      component.getJobs();
       Bus.$emit('hideCompanyPeople');
       Bus.$emit('hideCompanyPosts');
     });
     Bus.$on('hideCompanyJobs', function () {
       component.show = false;
     });
-    this.getJobs();
   },
   methods: {
     getJobs: function getJobs() {
@@ -4525,6 +4536,7 @@ __webpack_require__.r(__webpack_exports__);
     var component = this;
     Bus.$on('showCompanyPosts', function (flag) {
       component.show = flag;
+      component.getPosts();
       Bus.$emit('hideCompanyPeople');
       Bus.$emit('hideCompanyJobs');
     });
@@ -4644,19 +4656,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       disabled: false,
       time_out: false,
+      photo_url: '',
       name: '',
       address: '',
       contact_email: '',
@@ -4693,6 +4698,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     setValues: function setValues(details) {
+      this.photo_url = details.photo_url;
       this.name = details.name;
       this.address = details.address;
       this.contact_email = details.contact_email;
@@ -4751,11 +4757,13 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       company: {
+        photo_url: '',
         name: '',
         address: '',
         contact_email: '',
         phone: '',
-        introduction: ''
+        introduction: '',
+        specialization: []
       },
       endpoints: {
         get: '/api/v1/company/1'
@@ -4770,14 +4778,13 @@ __webpack_require__.r(__webpack_exports__);
       var component = this;
       axios.get(component.endpoints.get, Utils.getBearerAuth()).then(function (response) {
         var company = response.data.data.company;
+        component.company.photo_url = company.photo_url;
         component.company.name = company.name;
         component.company.address = company.address;
         component.company.contact_email = company.contact_email;
         component.company.phone = company.phone;
         component.company.introduction = company.introduction;
-        Bus.$emit('companyProfileDetails', component.company); // Bus.$emit('jobDetails', component.job_details);
-        // Bus.$emit('jobRequirementsDetails', component.requirements);
-        // Bus.$emit('jobResponsibilitiesDetails', component.responsibilities);
+        Bus.$emit('companyProfileDetails', component.company);
       }).catch(function (error) {
         Utils.handleError(error);
       });
@@ -51269,53 +51276,72 @@ var render = function() {
     ? _c(
         "div",
         { staticClass: "profile-item-2" },
-        _vm._l(_vm.jobs, function(job, index) {
-          return _c("ul", { key: index, staticClass: "list-job-items" }, [
-            _c("li", { staticClass: "job-items" }, [
-              _c("div", { staticClass: "profile-content" }, [
-                _vm._m(0, true),
-                _vm._v(" "),
-                _c("div", { staticClass: "jobads-row" }, [
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _vm._l(_vm.jobs, function(job, index) {
+            return _c("ul", { key: index, staticClass: "list-job-items" }, [
+              _c("li", { staticClass: "job-items" }, [
+                _c("div", { staticClass: "profile-content" }, [
                   _vm._m(1, true),
                   _vm._v(" "),
-                  _c("div", { staticClass: "bl-col-2" }, [
-                    _c("div", { staticClass: "bl-display" }, [
-                      _c("span", { staticClass: "bl-label-19 bl-ml14" }, [
-                        _vm._v(
-                          "\n                                Probuild\n                            "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "span",
-                        {
-                          staticClass: "bl-label-14 bl-ml14",
-                          staticStyle: { "margin-top": "-5px" }
-                        },
-                        [
+                  _c("div", { staticClass: "jobads-row" }, [
+                    _vm._m(2, true),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "bl-col-2" }, [
+                      _c("div", { staticClass: "bl-display" }, [
+                        _c("span", { staticClass: "bl-label-19 bl-ml14" }, [
                           _vm._v(
-                            "\n                                " +
-                              _vm._s(_vm.getTimeDiffNow(job.created_at)) +
-                              "\n                            "
+                            "\n                                Probuild\n                            "
                           )
-                        ]
-                      )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          {
+                            staticClass: "bl-label-14 bl-ml14",
+                            staticStyle: { "margin-top": "-5px" }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.getTimeDiffNow(job.created_at)) +
+                                "\n                            "
+                            )
+                          ]
+                        )
+                      ])
                     ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _vm._m(2, true),
-                _vm._v(" "),
-                _vm._m(3, true)
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(3, true),
+                  _vm._v(" "),
+                  _vm._m(4, true)
+                ])
               ])
             ])
-          ])
-        }),
-        0
+          })
+        ],
+        2
       )
     : _vm._e()
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "job-action" }, [
+      _c("div", { staticClass: "job-filter" }, [
+        _vm._v("\n            Filter\n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-sort" }, [
+        _vm._v("\n            Sort by: "),
+        _c("span", { staticClass: "job-recent" }, [_vm._v("Most Recent")])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -51664,15 +51690,7 @@ var render = function() {
         _c("div", { staticClass: "profile-header" }, [
           _c("div", { staticClass: "company-image" }, [
             _c("img", {
-              staticClass: "sidebar-logo-image",
-              attrs: {
-                src: "/img/build-labour-logo-orange.png",
-                srcset:
-                  "/img/build-labour-logo-orange@2x.png" +
-                  " 2x, " +
-                  "/img/build-labour-logo-orange@3x.png" +
-                  " 3x"
-              },
+              attrs: { src: _vm.photo_url },
               on: { click: _vm.onClickProfilePhoto }
             })
           ])
@@ -51740,11 +51758,28 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "bl-label-16" }, [
-            _vm._v("\n                We specialise in\n            ")
-          ]),
+          _vm.specializations
+            ? _c("div", { staticClass: "bl-label-16" }, [
+                _vm._v("\n                We specialise in\n            ")
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _vm._m(3)
+          _c(
+            "div",
+            { staticClass: "job-body" },
+            _vm._l(_vm.specializations, function(spec, index) {
+              return _c("ul", { key: index, staticClass: "job-list-items" }, [
+                _c("li", [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(spec) +
+                      "\n                    "
+                  )
+                ])
+              ])
+            }),
+            0
+          )
         ])
       ],
       1
@@ -51804,30 +51839,6 @@ var staticRenderFns = [
             " 3x"
         }
       })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "job-body" }, [
-      _c("ul", { staticClass: "job-list-items" }, [
-        _c("li", [
-          _vm._v(
-            "\n                        Land Development\n                    "
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", [
-          _vm._v("\n                        Construction\n                    ")
-        ]),
-        _vm._v(" "),
-        _c("li", [
-          _vm._v(
-            "\n                        Engineering Surveying\n                    "
-          )
-        ])
-      ])
     ])
   }
 ]

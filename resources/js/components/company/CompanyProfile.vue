@@ -23,9 +23,7 @@
                     <avatar cls="profile-picture" size="110" border="0"></avatar>
                 </div> -->
                 <div class="company-image">
-                    <img class="sidebar-logo-image" src="/img/build-labour-logo-orange.png" 
-                        srcset="/img/build-labour-logo-orange@2x.png 2x, /img/build-labour-logo-orange@3x.png 3x"
-                        @click="onClickProfilePhoto">
+                    <img :src="photo_url" @click="onClickProfilePhoto">
                 </div>
             </div>
             <div class="profile-content-p20 pb-4">
@@ -70,19 +68,13 @@
                         {{ introduction }}
                     </div>
                 </div>
-                <div class="bl-label-16">
+                <div class="bl-label-16" v-if="specializations">
                     We specialise in
                 </div>
                 <div class="job-body">
-                    <ul class="job-list-items">
+                    <ul class="job-list-items" v-for="(spec, index) in specializations" :key="index">
                         <li>
-                            Land Development
-                        </li>
-                        <li>
-                            Construction
-                        </li>
-                        <li>
-                            Engineering Surveying
+                            {{ spec }}
                         </li>
                     </ul>
                 </div>
@@ -97,6 +89,7 @@
             return {
                 disabled: false,
                 time_out: false,
+                photo_url: '',
                 name: '',
                 address: '',
                 contact_email: '',
@@ -127,6 +120,7 @@
         methods: {
 
             setValues(details) {
+                this.photo_url = details.photo_url;
                 this.name = details.name;
                 this.address = details.address;
                 this.contact_email = details.contact_email;
