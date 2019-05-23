@@ -17,7 +17,7 @@
                     Workers
                 </label>
                 <ul>
-                    <li v-for="(value, key) in record.workers">
+                    <li v-for="(value, index) in record.workers" :key=index>
                         <span>
                             <img v-if="value.profile_photo_url" :src="value.profile_photo_url" height="40px" />
                             <img v-else src="/img/defaults/user.png" height="40px" />
@@ -62,7 +62,6 @@
 			let component = this;
 
             Bus.$on('datatableViewCompany', function(id){
-                console.log('xxxx');
                 component.record_id = id;
                 component.endpoints.get = '/api/v1/admin/company/get?id=' + id;
                 component.viewRecord();
@@ -103,11 +102,7 @@
 			},
 
             getProfilePic(value) {
-
-		  	    console.log('mmmm');
-		  	    console.log(value);
 		  	    if (!value) {
-
 
                 }
 

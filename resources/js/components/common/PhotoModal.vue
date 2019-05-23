@@ -51,14 +51,17 @@
 				component.close();
 			});
 
-			Bus.$on('imageToCrop', function (binary, id) {
-				if (id) {
+			Bus.$on('imageToCrop', function (binary, id, type) {
+				if (type == 'Admin') {
 					component.isAdmin = true;
 					component.input.id = id;
 					component.endpoints.upload = '/api/v1/admin/user/upload';
 				
-				} else {
+				} else if (type == 'User') {
 					component.endpoints.upload = '/api/v1/user/photo';
+				
+				} else if (type == 'Company') {
+					component.endpoints.upload = '/api/v1/company/photo';
 				}
 
 				component.imgCrop = binary;

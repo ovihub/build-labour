@@ -98,6 +98,7 @@ Vue.component('upload-photo', require('./components/upload/UploadPhoto.vue').def
 
 // Load components
 Vue.component('load-user', require('./components/profile/LoadUser.vue').default);
+Vue.component('load-company', require('./components/company/LoadCompany.vue').default);
 Vue.component('load-job', require('./components/job/LoadJob.vue').default);
 
 const app = new Vue({

@@ -277,7 +277,9 @@
                     reader  = new FileReader();
 
                 reader.addEventListener('load', function() {
-                    Bus.$emit('imageToCrop', reader.result);
+                    
+                    Bus.$emit('imageToCrop', reader.result, 0, 'User');
+
                 }, false);
 
                 if (file) {

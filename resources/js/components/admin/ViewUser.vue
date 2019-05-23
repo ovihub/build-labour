@@ -128,7 +128,7 @@
 
                 reader.addEventListener('load', function () {
 
-                    Bus.$emit('imageToCrop', reader.result, component.record_id);
+                    Bus.$emit('imageToCrop', reader.result, component.record_id, 'Admin');
 
                 }, false);
 

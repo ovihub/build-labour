@@ -32,7 +32,7 @@
             </a>
          </li>
          <li class="nav-item">
-            <a class="nav-link nav-link-custom" href="{{ '/admin/companies' }}">
+            <a class="nav-link nav-link-custom" href="{{ '/all/companies' }}">
                Companies
             </a>
          </li>
