@@ -119,8 +119,9 @@
                         if (error.response) {
                             let data = error.response.data;
 
-                            component.errors.ticket = data.errors.ticket ? data.errors.ticket[0] : '';
-                            component.errors.description = data.errors.description ? data.errors.description[0] : '';
+							for (let key in data.errors) {
+								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                            }
                         }
 
                         Utils.handleError(error);
