@@ -74,7 +74,7 @@
                             v-for="(esp, index) in input.specialization"
                             :id="esp.id"
                             :ref="'espItem-' + index" 
-                            :key="index"
+                            :key="esp.id"
                             v-model="input.specialization[index].name"
                             placeholder="Add Another Specialization"
                             @focus="espTextAreaAdjust(index)"

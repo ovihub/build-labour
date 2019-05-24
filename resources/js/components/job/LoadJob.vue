@@ -40,7 +40,7 @@
                         if (job.company) {
                             component.summary.photo_url = job.company.photo_url;
                             component.summary.name = job.company.name;
-                            component.summary.location = job.company.location;
+                            component.summary.address = job.company.address;
                             component.summary.introduction = job.company.introduction;
                         }
                         
