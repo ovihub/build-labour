@@ -61,6 +61,8 @@ class CompanyRepository extends AbstractRepository
 
                 $r['company_id'] = $user->company->id;
 
+                $spec = new CompanySpecialized();
+
                 if (isset($r['id'])) {
 
                     // update
@@ -130,15 +132,20 @@ class CompanyRepository extends AbstractRepository
         return $jobs;
     }
 
-    public function getJob($id) {
+    public function getJob( Request $request ) {
 
-        $job = Job::find($id);
+        $job = Job::find($request->jid);
 
         if ($job) {
 
-            $job->company;
             $job->requirements;
             $job->responsibilities;
+
+            $company = Company::find($request->id);
+
+            if ($company) {
+                $job->company = $company;
+            }
 
             return $job;
         }

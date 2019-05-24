@@ -49,7 +49,7 @@ class Company extends BaseModel
             'sector'        => 'nullable|min:4',
             'tier'          => 'nullable|min:4',
             'introduction'  => 'nullable|min:5',
-            'website'       => 'nullable|min:5',
+            'website'       => 'nullable|min:5|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
         ];
     }
 

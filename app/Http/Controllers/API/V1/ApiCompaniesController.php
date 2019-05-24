@@ -560,7 +560,7 @@ class ApiCompaniesController extends ApiBaseController
 
         try {
 
-            $job = $this->repository->getJob($request->jid);
+            $job = $this->repository->getJob($request);
 
         } catch(\Exception $e) {
 
