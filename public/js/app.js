@@ -52021,7 +52021,7 @@ var render = function() {
                     _c("div", { staticClass: "bl-col-1" }, [
                       _c("img", {
                         staticClass: "bl-image-40",
-                        attrs: { src: job.job.photo_url }
+                        attrs: { src: job.company_photo }
                       })
                     ]),
                     _vm._v(" "),
@@ -52029,7 +52029,9 @@ var render = function() {
                       _c("div", { staticClass: "bl-display" }, [
                         _c("span", { staticClass: "bl-label-19 bl-ml14" }, [
                           _vm._v(
-                            "\n                                Richmond Surveying\n                            "
+                            "\n                                " +
+                              _vm._s(job.company_name) +
+                              "\n                            "
                           )
                         ]),
                         _vm._v(" "),
@@ -52085,7 +52087,7 @@ var render = function() {
                         attrs: {
                           href:
                             "/job/view/?cid=" +
-                            job.job.company_id +
+                            job.company_id +
                             "&jid=" +
                             job.job.id
                         }
@@ -52204,13 +52206,20 @@ var render = function() {
             _c("li", { staticClass: "job-items" }, [
               _c("div", { staticClass: "profile-content" }, [
                 _c("div", { staticClass: "jobads-row" }, [
-                  _vm._m(0, true),
+                  _c("div", { staticClass: "bl-col-1" }, [
+                    _c("img", {
+                      staticClass: "bl-image-40",
+                      attrs: { src: post.company.photo_url }
+                    })
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "bl-col-2" }, [
                     _c("div", { staticClass: "bl-display" }, [
                       _c("span", { staticClass: "bl-label-19 bl-ml14" }, [
                         _vm._v(
-                          "\n                                Richmond Surveying\n                            "
+                          "\n                                " +
+                            _vm._s(post.company.name) +
+                            "\n                            "
                         )
                       ]),
                       _vm._v(" "),
@@ -52240,9 +52249,9 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _vm._m(1, true),
+                _vm._m(0, true),
                 _vm._v(" "),
-                _vm._m(2, true),
+                _vm._m(1, true),
                 _vm._v(" "),
                 _c("div", { staticClass: "post-action" }, [
                   _c(
@@ -52286,17 +52295,6 @@ var render = function() {
     : _vm._e()
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bl-col-1" }, [
-      _c("img", {
-        staticClass: "bl-image-40",
-        attrs: { src: "/img/logo/1.jpg" }
-      })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

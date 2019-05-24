@@ -5,12 +5,12 @@
                 <div class="profile-content">
                     <div class="jobads-row">
                         <div class="bl-col-1">
-                            <img class="bl-image-40" src="/img/logo/1.jpg">
+                            <img class="bl-image-40" :src="post.company.photo_url">
                         </div>
                         <div class="bl-col-2">
                             <div class="bl-display">
                                 <span class="bl-label-19 bl-ml14">
-                                    Richmond Surveying
+                                    {{ post.company.name }}
                                 </span>
 
                                 <span class="bl-label-14 bl-ml14" style="margin-top:-5px">
