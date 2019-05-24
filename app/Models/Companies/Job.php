@@ -42,7 +42,7 @@ class Job extends BaseModel
             'description'   => 'nullable|min:5',
             'exp_level'     => 'nullable|min:5',
             'contract_type' => 'nullable|min:5',
-            'salary'        => 'nullable|min:2',
+            'salary'        => 'nullable|regex:/\b\d{1,3}(?:,?\d{3})*(?:\.\d{2})?\b/', /* monetary validation */
             'location'      => 'nullable|min:5'
         ];
     }
@@ -88,6 +88,19 @@ class Job extends BaseModel
         } else {
 
             $this->attributes['reports_to_json'] = NULL;
+        }
+    }
+
+    public function setSalaryAttribute($value) {
+
+        if ( ! empty( $value ) ) {
+
+            $format = preg_replace("/[^0-9.]/","",$value);
+            $format = number_format($format,0);
+            $this->attributes['salary'] = $format;
+
+        } else {
+            $this->attributes['salary'] = null;
         }
     }
 
