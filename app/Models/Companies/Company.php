@@ -41,10 +41,10 @@ class Company extends BaseModel
     private function rules()
     {
         return [
-            'name'          => 'required',
+            'name'          => 'required|min:5',
             'address'       => 'nullable|min:5',
-            'contact_email' => 'nullable|min:5',
-            'contact_name'  => 'nullable|min:5',
+         //   'contact_email' => 'nullable|min:5',
+         //   'contact_name'  => 'nullable|min:5',
             'phone'         => 'nullable|min:5',
             'sector'        => 'nullable|min:4',
             'tier'          => 'nullable|min:4',
