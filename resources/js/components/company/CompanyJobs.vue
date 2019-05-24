@@ -25,7 +25,7 @@
             
                     <div class="jobads-row">
                         <div class="bl-col-1">
-                            <img class="bl-image-40" src="/img/logo/1.jpg">
+                            <img class="bl-image-40" :src="job.job.photo_url">
                         </div>
                         <div class="bl-col-2">
                             <div class="bl-display">

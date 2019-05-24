@@ -194,15 +194,10 @@
                     .catch(function(error) {
                         if (error.response) {
                             let data = error.response.data;
-                            
-                            component.errors.title = data.errors.title ? data.errors.title[0] : '';
-                            component.errors.description = data.errors.description ? data.errors.description[0] : '';
-                            component.errors.about = data.errors.about ? data.errors.about[0] : '';
-                            component.errors.exp_level = data.errors.exp_level ? data.errors.exp_level[0] : '';
-                            component.errors.contract_type = data.errors.contract_type ? data.errors.contract_type[0] : '';
-                            component.errors.salary = data.errors.salary ? data.errors.salary[0] : '';
-                            component.errors.reports_to = data.errors.reports_to ? data.errors.reports_to[0] : '';
-                            component.errors.location = data.errors.location ? data.errors.location[0] : '';
+
+							for (let key in data.errors) {
+								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                            }
                         }
 
                         Utils.handleError(error);

@@ -7,7 +7,7 @@
         data() {
             return {
                 company: {
-                    photo_url: '', name: '', address: '', contact_email: '', phone: '', introduction: '', specialization: []
+                    photo_url: '', name: '', address: '', website: '', phone: '', introduction: '', specialization: []
                 },
                 endpoints: {
                     get: '/api/v1/company/1',
@@ -32,7 +32,7 @@
                         component.company.photo_url = company.photo_url;
                         component.company.name = company.name;
                         component.company.address = company.address;
-                        component.company.contact_email = company.contact_email;
+                        component.company.website = company.website;
                         component.company.phone = company.phone;
                         component.company.introduction = company.introduction;
                         component.company.specialization = company.specialization;

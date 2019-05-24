@@ -4,11 +4,87 @@
             
             <photo-modal></photo-modal>
             
+            <main-modal id="modalCompanyProfile">
+		
+                <template slot="custom-modal-title">
+                    <h4 class="modal-title">Edit Introduction</h4>
+                    <div class="close" data-dismiss="modal" @click="close">&times;</div>
+                </template>
+
+                <template slot="custom-modal-content">
+                    <form class="modal-form" method="POST" @submit.prevent="submit">
+                        <div class="emp-row">
+                            <div class="modal-form-label">Location</div>
+                            <input class="form-control" type="text" v-model="input.address"
+                                @keyup="onChangeLocation(input.address)" />
+                            
+                            <span class="err-msg" v-if="errors.address">
+                                {{ errors.address }}
+                            </span>
+                        </div>
+
+                        <div class="emp-row" style="margin-top:0" v-if="locations.length > 0">
+                            <ul class="list-group">
+                                <li class="list-group-item" v-for="(place, idx) in locations" :key="idx"
+                                    @click="onSelectLocation(place.place_name)">
+                                    {{ place.place_name }}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="emp-row">
+                            <div class="modal-form-label">Email Address</div>
+                            <input class="form-control" type="text" v-model="input.website" />
+
+                            <span class="err-msg" v-if="errors.website">
+                                {{ errors.website }}
+                            </span>
+                        </div>
+
+                        <div class="emp-row">
+                            <div class="modal-form-label">Phone</div>
+                            <input class="form-control" type="text" v-model="input.phone" />
+
+                            <span class="err-msg" v-if="errors.phone">
+                                {{ errors.phone }}
+                            </span>
+                        </div>
+
+                        <div class="skill-label">Company Overview</div>
+                        <textarea rows="4" ref="companyIntro" class="form-control" style="overflow:hidden"
+                            placeholder="Example: We are a modern, professional and sophisticated surveying firm specialising in land development, construction and engineering surveying. We provide quality, cost-effective and efficient surveying service."
+                            @keyup="textAreaAdjust()" v-model="input.introduction"></textarea>
+                        
+                        <span class="err-msg" v-if="errors.introduction">
+                            {{ errors.introduction }}
+                        </span>
+                        
+                        <div class="emp-label" style="margin-bottom:17px">Specialization</div>
+                        <textarea class="form-control" style="overflow:hidden"
+                            rows="1"
+                            v-for="(esp, index) in input.specialization"
+                            :ref="'espItem-' + index" 
+                            :key="index"
+                            @focus="espTextAreaAdjust(index)"
+                            @keyup="onChangeSpecialization(index)"
+                            v-model="input.specialization[index].name"
+                            placeholder="Add Another Specialization">
+                        </textarea>
+
+                    </form>
+                </template>
+
+                <template slot="custom-modal-footer">
+                    <button class="pull-right" type="submit" @click="submit" :disabled="disabled">Save Changes</button>
+                </template>
+
+            </main-modal>
+
             <span class="edit-icon edit-icon-2"
                 data-toggle="modal"
                 data-backdrop="static"
                 data-keyboard="false"
-                data-target="#modalUserProfile"
+                data-target="#modalCompanyProfile"
                 @click="open">
 
                 <img src="/img/icons/editbutton.png"
@@ -22,8 +98,8 @@
                 <div v-else @click="onClickProfilePhoto">
                     <avatar cls="profile-picture" size="110" border="0"></avatar>
                 </div> -->
-                <div class="company-image">
-                    <img :src="photo_url" @click="onClickProfilePhoto">
+                <div class="company-image" @click="onClickProfilePhoto">
+                    <img :src="photo_url">
                 </div>
             </div>
             <div class="profile-content-p20 pb-4">
@@ -49,7 +125,7 @@
                             srcset="/img/icons/globe@2x.png 2x, /img/icons/globe@3x.png 3x">
                     </div>
                     <div class="bl-col-4 bl-display">
-                        {{ contact_email }}
+                        {{ website }}
                     </div>
                 </div>
 
@@ -89,18 +165,23 @@
             return {
                 disabled: false,
                 time_out: false,
+                locations: [],
                 photo_url: '',
                 name: '',
                 address: '',
-                contact_email: '',
+                website: '',
                 phone: '',
                 introduction: '',
                 specialization: [],
                 input: {
-                    name: '', address: '', contact_email: '', phone: '', introduction: '', specialization: []
+                    name: '', address: '', website: '', phone: '', introduction: '', specialization: []
+                },
+                errors: {
+                    name: '', address: '', website: '', phone: '', introduction: '', specialization: ''
                 },
                 endpoints: {
-                    save: '',
+                    save: '/api/v1/company/update',
+                    locations: '/api/v1/locations',
                 },
             }
         },
@@ -120,7 +201,7 @@
                 this.photo_url = details.photo_url;
                 this.name = details.name;
                 this.address = details.address;
-                this.contact_email = details.contact_email;
+                this.website = details.website;
                 this.phone = details.phone;
                 this.introduction = details.introduction;
                 this.specialization = details.specialization;
@@ -129,14 +210,35 @@
             setDisplayValues(val, details) {
                 val.name = details.name;
                 val.address = details.address;
-                val.contact_email = details.contact_email;
+                val.website = details.website;
                 val.phone = details.phone;
                 val.introduction = details.introduction;
                 val.specialization = details.specialization;
+
+                val.specialization = val.specialization.filter(r => r!=='');
+                val.specialization.push('');
+            },
+
+            textAreaAdjust(index) {
+                let o = this.$refs['companyIntro'];
+                
+                o.style.height = '1px';
+                o.style.height = (2 + o.scrollHeight) + 'px';
+            },
+
+            espTextAreaAdjust(index) {
+                let o = this.$refs['espItem-' + index][0];
+
+                o.style.height = '1px';
+                o.style.height = (2 + o.scrollHeight) + 'px';
             },
 
             open() {
 
+            },
+
+            close() {
+                this.setDisplayValues(this.input, this);
             },
 
             onClickProfilePhoto() {
@@ -162,6 +264,77 @@
                 if (file) {
                     reader.readAsDataURL(file);
                 }
+            },
+
+            onChangeLocation(location) {
+                let component = this;
+
+                if (location.length <= 0) {
+                    this.locations = [];
+                }
+
+                if (this.time_out) {
+                    clearTimeout(this.time_out);
+                }
+
+                this.time_out = setTimeout(function() {
+
+                    axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth())
+
+                        .then(function(response) {
+                            let data = response.data;
+
+                            component.locations = (location != '' && data.data.locations) ? data.data.locations.features : [];
+                        })
+                        .catch(function(error) {
+
+                            Utils.handleError(error);
+                        });
+
+                }.bind(this), 300);
+            },
+
+            onSelectLocation(location) {
+                this.input.address = location;
+                
+                this.locations = [];
+            },
+
+            onChangeSpecialization(index) {
+                this.espTextAreaAdjust(index);
+
+                this.input.specialization = this.input.specialization.filter(r => r !== '');
+                this.input.specialization.push('');
+            },
+
+            async submit() {
+                let component = this;
+
+                Utils.setObjectValues(this.errors, '');
+                this.disabled = true;
+                
+                await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
+                    
+                    .then(function(response) {
+                        let data = response.data;
+						
+                        $('#modalCompanyProfile').modal('hide');
+
+                        component.setDisplayValues(component, data.data.company);
+                    })
+                    .catch(function(error) {
+                        if (error.response) {
+                            let data = error.response.data;
+
+							for (let key in data.errors) {
+								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                            }
+                        }
+
+                        Utils.handleError(error);
+                    });
+                
+                this.disabled = false;
             },
         }
     }
