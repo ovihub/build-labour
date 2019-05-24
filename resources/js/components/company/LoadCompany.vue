@@ -31,6 +31,7 @@
 
                         component.company.photo_url = company.photo_url;
                         component.company.name = company.name;
+                        component.company.sector = company.sector;
                         component.company.address = company.address;
                         component.company.website = company.website;
                         component.company.phone = company.phone;
