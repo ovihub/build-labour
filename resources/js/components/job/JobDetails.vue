@@ -2,7 +2,7 @@
     <div class="profile-item-2">
         <div class="profile-content">
             
-            <span class="edit-icon"
+            <!-- <span class="edit-icon"
                 data-toggle="modal"
                 data-backdrop="static"
                 data-keyboard="false"
@@ -10,7 +10,7 @@
 
                 <img src="/img/icons/editbutton.png"
                     srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
-            </span>
+            </span> -->
             
             <div class="profile-title">
                 <img src="/img/icons/jobdetails.png"
@@ -50,8 +50,11 @@
 
             <div class="job-title">Reports to</div>
             <div class="job-body">
-                Construction Manager
-                Construction Director
+                <ul class="job-list-items-2">
+                    <li v-for="(item, index) in reports_to" :key="index">
+                        {{ item }}
+                    </li>
+                </ul>
             </div>
 
             <div class="job-title">Location</div>
@@ -72,7 +75,7 @@
                 exp_level: '',
                 contract_type: '',
                 salary: '',
-                reports_to: '',
+                reports_to: [],
                 location: '',
             }
         },

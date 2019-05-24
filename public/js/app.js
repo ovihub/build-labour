@@ -5249,16 +5249,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5358,6 +5348,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5367,7 +5360,7 @@ __webpack_require__.r(__webpack_exports__);
       exp_level: '',
       contract_type: '',
       salary: '',
-      reports_to: '',
+      reports_to: [],
       location: ''
     };
   },
@@ -5449,25 +5442,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      qualifications: [],
+      experience: [],
+      skills: []
+    };
   },
   created: function created() {
     var component = this;
-    Bus.$on('jobRequirements', function (detailsArray) {});
+    Bus.$on('jobRequirementsDetails', function (detailsArray) {
+      component.qualifications = detailsArray[0].items;
+      component.experience = detailsArray[1].items;
+      component.skills = detailsArray[2].items;
+    });
   },
   methods: {}
 });
@@ -5526,31 +5515,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      qualities: [],
+      nextTitles: []
+    };
   },
   created: function created() {
     var component = this;
-    Bus.$on('jobResponsibilities', function (detailsArray) {});
+    Bus.$on('jobResponsibilitiesDetails', function (detailsArray) {
+      component.qualities = detailsArray[0].items;
+      component.nextTitles = detailsArray[1].items;
+    });
   },
   methods: {}
 });
@@ -5606,10 +5583,14 @@ __webpack_require__.r(__webpack_exports__);
       var component = this;
       axios.get(component.endpoints.get, Utils.getBearerAuth()).then(function (response) {
         var job = response.data.data.job;
-        component.summary.photo_url = job.company.photo_url;
-        component.summary.name = job.company.name;
-        component.summary.location = job.company.location;
-        component.summary.introduction = job.company.introduction;
+
+        if (job.company) {
+          component.summary.photo_url = job.company.photo_url;
+          component.summary.name = job.company.name;
+          component.summary.location = job.company.location;
+          component.summary.introduction = job.company.introduction;
+        }
+
         component.job_details.title = job.title;
         component.job_details.description = job.description;
         component.job_details.about = job.about;
@@ -5620,8 +5601,8 @@ __webpack_require__.r(__webpack_exports__);
         component.job_details.location = job.location;
         Bus.$emit('companySummaryDetails', component.summary);
         Bus.$emit('jobDetails', component.job_details);
-        Bus.$emit('jobRequirementsDetails', component.requirements);
-        Bus.$emit('jobResponsibilitiesDetails', component.responsibilities);
+        Bus.$emit('jobRequirementsDetails', job.requirements);
+        Bus.$emit('jobResponsibilitiesDetails', job.responsibilities);
       }).catch(function (error) {
         Utils.handleError(error);
       });
@@ -52973,8 +52954,6 @@ var render = function() {
         staticStyle: { "margin-top": "-56px" }
       },
       [
-        _vm._m(0),
-        _vm._v(" "),
         _c("div", { staticClass: "profile-content-p20 pb-4" }, [
           _c("div", { staticClass: "company-title" }, [
             _vm._v("\n                " + _vm._s(_vm.name) + "\n            ")
@@ -53004,37 +52983,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "span",
-      {
-        staticClass: "edit-icon edit-icon-4",
-        attrs: {
-          "data-toggle": "modal",
-          "data-backdrop": "static",
-          "data-keyboard": "false",
-          "data-target": "#modalCompanyProfile"
-        }
-      },
-      [
-        _c("img", {
-          attrs: {
-            src: "/img/icons/editbutton.png",
-            srcset:
-              "/img/icons/editbutton@2x.png" +
-              " 2x, " +
-              "/img/icons/editbutton@3x.png" +
-              " 3x"
-          }
-        })
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -53059,8 +53008,6 @@ var render = function() {
   return _c("div", { staticClass: "profile-item-2" }, [
     _c("div", { staticClass: "profile-content" }, [
       _vm._m(0),
-      _vm._v(" "),
-      _vm._m(1),
       _vm._v(" "),
       _c("div", { staticClass: "job-header" }, [
         _vm._v("\n            " + _vm._s(_vm.title) + "\n        ")
@@ -53099,8 +53046,17 @@ var render = function() {
       _c("div", { staticClass: "job-title" }, [_vm._v("Reports to")]),
       _vm._v(" "),
       _c("div", { staticClass: "job-body" }, [
-        _vm._v(
-          "\n            Construction Manager\n            Construction Director\n        "
+        _c(
+          "ul",
+          { staticClass: "job-list-items-2" },
+          _vm._l(_vm.reports_to, function(item, index) {
+            return _c("li", { key: index }, [
+              _vm._v(
+                "\n                    " + _vm._s(item) + "\n                "
+              )
+            ])
+          }),
+          0
         )
       ]),
       _vm._v(" "),
@@ -53113,35 +53069,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "span",
-      {
-        staticClass: "edit-icon",
-        attrs: {
-          "data-toggle": "modal",
-          "data-backdrop": "static",
-          "data-keyboard": "false",
-          "data-target": "#modalJobDetails"
-        }
-      },
-      [
-        _c("img", {
-          attrs: {
-            src: "/img/icons/editbutton.png",
-            srcset:
-              "/img/icons/editbutton@2x.png" +
-              " 2x, " +
-              "/img/icons/editbutton@3x.png" +
-              " 3x"
-          }
-        })
-      ]
-    )
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -53182,102 +53109,82 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "profile-item-2" }, [
+    _c("div", { staticClass: "profile-content" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-title" }, [_vm._v("Qualifications")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-body" }, [
+        _c(
+          "ul",
+          { staticClass: "job-list-items" },
+          _vm._l(_vm.qualifications, function(qualification, index) {
+            return _c("li", { key: index }, [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(qualification) +
+                  "\n                "
+              )
+            ])
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-title" }, [_vm._v("Experience")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-body" }, [
+        _c(
+          "ul",
+          { staticClass: "job-list-items" },
+          _vm._l(_vm.experience, function(exp, index) {
+            return _c("li", { key: index }, [
+              _vm._v(
+                "\n                    " + _vm._s(exp) + "\n                "
+              )
+            ])
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-title" }, [_vm._v("Skills")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-body" }, [
+        _c(
+          "ul",
+          { staticClass: "job-list-items" },
+          _vm._l(_vm.skills, function(skill, index) {
+            return _c("li", { key: index }, [
+              _vm._v(
+                "\n                    " + _vm._s(skill) + "\n                "
+              )
+            ])
+          }),
+          0
+        )
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-item-2" }, [
-      _c("div", { staticClass: "profile-content" }, [
-        _c(
-          "span",
-          {
-            staticClass: "edit-icon",
-            attrs: {
-              "data-toggle": "modal",
-              "data-backdrop": "static",
-              "data-keyboard": "false",
-              "data-target": "#modalJobRequirements"
-            }
-          },
-          [
-            _c("img", {
-              attrs: {
-                src: "/img/icons/editbutton.png",
-                srcset:
-                  "/img/icons/editbutton@2x.png" +
-                  " 2x, " +
-                  "/img/icons/editbutton@3x.png" +
-                  " 3x"
-              }
-            })
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "profile-title" }, [
-          _c("img", {
-            attrs: {
-              src: "/img/icons/requirements.png",
-              srcset:
-                "/img/icons/requirements@2x.png" +
-                " 2x, " +
-                "/img/icons/requirements@3x.png" +
-                " 3x"
-            }
-          }),
-          _vm._v("\n            \n            Requirements\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-title" }, [
-          _vm._v("\n            Qualifications \n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-body" }, [
-          _c("ul", { staticClass: "job-list-items" }, [
-            _c("li", [
-              _vm._v(
-                "\n                    Bachelor Degree in Construction or a related field\n                "
-              )
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-title" }, [
-          _vm._v("\n            Experience\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-body" }, [
-          _c("ul", { staticClass: "job-list-items" }, [
-            _c("li", [
-              _vm._v(
-                "\n                    Minimum of 10 years industry experience\n                "
-              )
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _vm._v(
-                "\n                    Experienced in leading teams\n                "
-              )
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-title" }, [
-          _vm._v("\n            Skills\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-body" }, [
-          _c("ul", { staticClass: "job-list-items" }, [
-            _c("li", [
-              _vm._v(
-                "\n                    Able to mentor and become involved in on the job training of others.\n                "
-              )
-            ])
-          ])
-        ])
-      ])
+    return _c("div", { staticClass: "profile-title" }, [
+      _c("img", {
+        attrs: {
+          src: "/img/icons/requirements.png",
+          srcset:
+            "/img/icons/requirements@2x.png" +
+            " 2x, " +
+            "/img/icons/requirements@3x.png" +
+            " 3x"
+        }
+      }),
+      _vm._v("\n            \n            Requirements\n        ")
     ])
   }
 ]
@@ -53302,106 +53209,67 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "profile-item-2" }, [
+    _c("div", { staticClass: "profile-content" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-title" }, [_vm._v("Quality Management")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-body" }, [
+        _c(
+          "ul",
+          { staticClass: "job-list-items" },
+          _vm._l(_vm.qualities, function(quality, index) {
+            return _c("li", { key: index }, [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(quality) +
+                  "\n                "
+              )
+            ])
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-title" }, [_vm._v("Next Title")]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "job-body" },
+        _vm._l(_vm.nextTitles, function(nextTitle, index) {
+          return _c("ul", { key: index, staticClass: "job-list-items" }, [
+            _c("li", [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(nextTitle) +
+                  "\n                "
+              )
+            ])
+          ])
+        }),
+        0
+      )
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-item-2" }, [
-      _c("div", { staticClass: "profile-content" }, [
-        _c(
-          "span",
-          {
-            staticClass: "edit-icon",
-            attrs: {
-              "data-toggle": "modal",
-              "data-backdrop": "static",
-              "data-keyboard": "false",
-              "data-target": "#modalJobResponsibilities"
-            }
-          },
-          [
-            _c("img", {
-              attrs: {
-                src: "/img/icons/editbutton.png",
-                srcset:
-                  "/img/icons/editbutton@2x.png" +
-                  " 2x, " +
-                  "/img/icons/editbutton@3x.png" +
-                  " 3x"
-              }
-            })
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "profile-title" }, [
-          _c("img", {
-            attrs: {
-              src: "/img/icons/responsibilities-orange.png",
-              srcset:
-                "/img/icons/responsibilities-orange@2x.png" +
-                " 2x, " +
-                "/img/icons/responsibilities-orange@3x.png" +
-                " 3x"
-            }
-          }),
-          _vm._v("\n            \n            Responsibilities\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-title" }, [
-          _vm._v("\n            Quality Management \n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-body" }, [
-          _c("ul", { staticClass: "job-list-items" }, [
-            _c("li", [
-              _vm._v(
-                "\n                    Comply with and ensure project works are in accordance with Probuild QM Policies, Plans and Procedures.\n                "
-              )
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _vm._v(
-                "\n                    Lead and drive a “Quality Built In” culture.\n                "
-              )
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _vm._v(
-                "\n                    Ensure systems and processes are in place to manage quality planning processes and the application of risk management methods.\n                "
-              )
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _vm._v(
-                "\n                    Ensure project team effectively manage the quality performance of subcontractors and implement improvements.\n                "
-              )
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-title" }, [
-          _vm._v("\n            Next Title\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "job-body" }, [
-          _c("ul", { staticClass: "job-list-items" }, [
-            _c("li", [
-              _vm._v(
-                "\n                    Comply with and ensure project works are in accordance with Probuild QM Policies, Plans and Procedures.\n                "
-              )
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _vm._v(
-                "\n                    Lead and drive a “Quality Built In” culture.\n                "
-              )
-            ])
-          ])
-        ])
-      ])
+    return _c("div", { staticClass: "profile-title" }, [
+      _c("img", {
+        attrs: {
+          src: "/img/icons/responsibilities-orange.png",
+          srcset:
+            "/img/icons/responsibilities-orange@2x.png" +
+            " 2x, " +
+            "/img/icons/responsibilities-orange@3x.png" +
+            " 3x"
+        }
+      }),
+      _vm._v("\n            \n            Responsibilities\n        ")
     ])
   }
 ]
