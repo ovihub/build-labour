@@ -74,7 +74,7 @@
                             v-for="(esp, index) in input.specialization"
                             :id="esp.id"
                             :ref="'espItem-' + index" 
-                            :key="esp.id"
+                            :key="index"
                             v-model="input.specialization[index].name"
                             placeholder="Add Another Specialization"
                             @focus="espTextAreaAdjust(index)"
@@ -228,8 +228,8 @@
                 val.introduction = details.introduction;
                 val.specialization = details.specialization;
 
-                val.specialization = val.specialization.filter(r => r!=='');
-                val.specialization.push('');
+                val.specialization = val.specialization.filter(r => r.name !== '');
+                val.specialization.push({ name: '' });
             },
 
             textAreaAdjust(index) {
@@ -316,8 +316,8 @@
             onChangeSpecialization(index) {
                 this.espTextAreaAdjust(index);
 
-                // this.input.specialization = this.input.specialization.filter(r => r !== '');
-                // this.input.specialization.push('');
+                this.input.specialization = this.input.specialization.filter(r => r.name !== '');
+                this.input.specialization.push({ name: '' });
             },
 
             async submit() {
