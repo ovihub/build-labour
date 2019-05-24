@@ -39,6 +39,7 @@ class CompanyRepository extends AbstractRepository
 
     public function updateCompany( Request $request ) {
 
+
         $user = JWTAuth::toUser();
 
         $this->company = new Company();
@@ -69,12 +70,15 @@ class CompanyRepository extends AbstractRepository
                     // update
                     $spec = CompanySpecialized::find($r['id']);
 
-                    $excludeIds[] = $r['id'];
+                    if ($spec) {
 
-                } else {
+                        $excludeIds[] = $r['id'];
 
-                    // new
-                    $spec = new CompanySpecialized();
+                    } else {
+
+                        $spec = new CompanySpecialized();
+                    }
+
                 }
 
                 if ($spec->store($r)) {
