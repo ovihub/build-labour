@@ -25,12 +25,12 @@
             
                     <div class="jobads-row">
                         <div class="bl-col-1">
-                            <img class="bl-image-40" :src="job.job.photo_url">
+                            <img class="bl-image-40" :src="job.company_photo">
                         </div>
                         <div class="bl-col-2">
                             <div class="bl-display">
                                 <span class="bl-label-19 bl-ml14">
-                                    Richmond Surveying
+                                    {{ job.company_name }}
                                 </span>
 
                                 <span class="bl-label-14 bl-ml14" style="margin-top:-5px">
@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="profile-more mt-2">
-                        <a :href="'/job/view/?cid=' + job.job.company_id + '&jid=' + job.job.id">
+                        <a :href="'/job/view/?cid=' + job.company_id + '&jid=' + job.job.id">
                             View Details<i class="fa fa-angle-right ml-2"></i>
                         </a>
                     </div>

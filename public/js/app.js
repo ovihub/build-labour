@@ -4977,6 +4977,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5105,25 +5106,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.locations = [];
     },
     onChangeSpecialization: function onChangeSpecialization(index) {
-      this.espTextAreaAdjust(index);
-      this.input.specialization = this.input.specialization.filter(function (r) {
-        return r !== '';
-      });
-      this.input.specialization.push('');
+      this.espTextAreaAdjust(index); // this.input.specialization = this.input.specialization.filter(r => r !== '');
+      // this.input.specialization.push('');
     },
     submit: function () {
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var component;
+        var component, espArray, i, espId, espName;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 component = this;
+                espArray = [];
                 Utils.setObjectValues(this.errors, '');
                 this.disabled = true;
-                _context.next = 5;
+
+                for (i = 0; i < component.input.specialization.length; i++) {
+                  espId = this.$refs['espItem-' + i][0].id, espName = this.$refs['espItem-' + i][0].value;
+
+                  if (espName != '') {
+                    espArray.push({
+                      id: espId,
+                      name: espName
+                    });
+                  }
+                }
+
+                component.input.specialization = espArray;
+                _context.next = 8;
                 return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalCompanyProfile').modal('hide');
@@ -5140,10 +5152,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Utils.handleError(error);
                 });
 
-              case 5:
+              case 8:
                 this.disabled = false;
 
-              case 6:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -5577,8 +5589,8 @@ __webpack_require__.r(__webpack_exports__);
         reports_to: '',
         location: ''
       },
-      requirements: {},
-      responsibilities: {},
+      requirements: [],
+      responsibilities: [],
       endpoints: {
         get: ''
       }
@@ -52052,7 +52064,7 @@ var render = function() {
                     _c("div", { staticClass: "bl-col-1" }, [
                       _c("img", {
                         staticClass: "bl-image-40",
-                        attrs: { src: job.job.photo_url }
+                        attrs: { src: job.company_photo }
                       })
                     ]),
                     _vm._v(" "),
@@ -52060,7 +52072,9 @@ var render = function() {
                       _c("div", { staticClass: "bl-display" }, [
                         _c("span", { staticClass: "bl-label-19 bl-ml14" }, [
                           _vm._v(
-                            "\n                                Richmond Surveying\n                            "
+                            "\n                                " +
+                              _vm._s(job.company_name) +
+                              "\n                            "
                           )
                         ]),
                         _vm._v(" "),
@@ -52116,7 +52130,7 @@ var render = function() {
                         attrs: {
                           href:
                             "/job/view/?cid=" +
-                            job.job.company_id +
+                            job.company_id +
                             "&jid=" +
                             job.job.id
                         }
@@ -52235,13 +52249,20 @@ var render = function() {
             _c("li", { staticClass: "job-items" }, [
               _c("div", { staticClass: "profile-content" }, [
                 _c("div", { staticClass: "jobads-row" }, [
-                  _vm._m(0, true),
+                  _c("div", { staticClass: "bl-col-1" }, [
+                    _c("img", {
+                      staticClass: "bl-image-40",
+                      attrs: { src: post.company.photo_url }
+                    })
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "bl-col-2" }, [
                     _c("div", { staticClass: "bl-display" }, [
                       _c("span", { staticClass: "bl-label-19 bl-ml14" }, [
                         _vm._v(
-                          "\n                                Richmond Surveying\n                            "
+                          "\n                                " +
+                            _vm._s(post.company.name) +
+                            "\n                            "
                         )
                       ]),
                       _vm._v(" "),
@@ -52271,9 +52292,9 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _vm._m(1, true),
+                _vm._m(0, true),
                 _vm._v(" "),
-                _vm._m(2, true),
+                _vm._m(1, true),
                 _vm._v(" "),
                 _c("div", { staticClass: "post-action" }, [
                   _c(
@@ -52317,17 +52338,6 @@ var render = function() {
     : _vm._e()
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bl-col-1" }, [
-      _c("img", {
-        staticClass: "bl-image-40",
-        attrs: { src: "/img/logo/1.jpg" }
-      })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -52684,8 +52694,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: esp.name,
-                          expression: "esp.name"
+                          value: _vm.input.specialization[index].name,
+                          expression: "input.specialization[index].name"
                         }
                       ],
                       key: index,
@@ -52695,9 +52705,10 @@ var render = function() {
                       staticStyle: { overflow: "hidden" },
                       attrs: {
                         rows: "1",
+                        id: esp.id,
                         placeholder: "Add Another Specialization"
                       },
-                      domProps: { value: esp.name },
+                      domProps: { value: _vm.input.specialization[index].name },
                       on: {
                         focus: function($event) {
                           return _vm.espTextAreaAdjust(index)
@@ -52709,7 +52720,11 @@ var render = function() {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(esp, "name", $event.target.value)
+                          _vm.$set(
+                            _vm.input.specialization[index],
+                            "name",
+                            $event.target.value
+                          )
                         }
                       }
                     })
@@ -52850,22 +52865,22 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "job-body" },
-            _vm._l(_vm.specialization, function(spec, index) {
-              return _c("ul", { key: index, staticClass: "job-list-items" }, [
-                _c("li", [
+          _c("div", { staticClass: "job-body" }, [
+            _c(
+              "ul",
+              { staticClass: "job-list-items" },
+              _vm._l(_vm.specialization, function(spec, index) {
+                return _c("li", { key: index }, [
                   _vm._v(
                     "\n                        " +
                       _vm._s(spec.name) +
                       "\n                    "
                   )
                 ])
-              ])
-            }),
-            0
-          )
+              }),
+              0
+            )
+          ])
         ])
       ],
       1
