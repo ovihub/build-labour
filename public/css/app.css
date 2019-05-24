@@ -11762,6 +11762,10 @@ body.admin {
   text-align: center;
 }
 
+.view-company span.record-input {
+  height: auto !important;
+}
+
 /*!
  * Cropper.js v1.0.0-rc.3
  * https://github.com/fengyuanchen/cropperjs

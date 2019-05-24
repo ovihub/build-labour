@@ -1,6 +1,6 @@
 <template>
 
-    <div class="form-group" v-if="record">
+    <div class="form-group view-company" v-if="record">
         <div class="record-title">
             {{ record.name }}
         </div>
@@ -28,19 +28,29 @@
             </div>
         </div>
         <div class="row" v-for="(value, key) in record" :key="key.id">
-            <div class="col-md-12" v-if="key != 'photo_url' && key != 'workers'">
+            <div class="col-md-12" v-if="excludes.indexOf(key) < 0">
                 <label class="record-label">
                     {{ key.split('_').join(' ').toUpperCase() }}
                 </label>
             </div>
 
-            <div class="col-md-12" v-if="key != 'profile_photo_url' && key != 'workers'">
+            <div class="col-md-12" v-if="key && excludes.indexOf(key) < 0">
                 <span v-if="key == 'created_at' || key == 'updated_at' || key == 'deleted_at'"
                     class="form-control record-input">{{ formatDate(value) }}</span>
-                
-                <span v-else-if="key != 'message'" class="form-control record-input">{{ value }}</span>
 
-                <textarea v-else-if="key == 'message'" class="form-control record-input" :value="value" readonly></textarea>
+                <span v-else class="form-control record-input">{{ value }}</span>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-12">
+                <label class="record-label">
+                    LOCATIONS
+                </label>
+            </div>
+
+            <div class="col-md-12">
+                <span class="form-control record-input" v-for="loc in record.locations">{{ loc }}</span>
             </div>
         </div>
     </div>
@@ -54,7 +64,15 @@
 				record: null,
 				endpoints: {
 					get: ''
-				}
+				},
+                excludes: [
+                    'updated_at',
+                    'deleted_at',
+                    'workers',
+                    'created_by',
+                    'locations',
+                    'photo_url'
+                ]
 			}
 		},
 		

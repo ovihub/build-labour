@@ -2256,6 +2256,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2263,7 +2273,8 @@ __webpack_require__.r(__webpack_exports__);
       record: null,
       endpoints: {
         get: ''
-      }
+      },
+      excludes: ['updated_at', 'deleted_at', 'workers', 'created_by', 'locations', 'photo_url']
     };
   },
   created: function created() {
@@ -49389,7 +49400,7 @@ var render = function() {
   return _vm.record
     ? _c(
         "div",
-        { staticClass: "form-group" },
+        { staticClass: "form-group view-company" },
         [
           _c("div", { staticClass: "record-title" }, [
             _vm._v("\n        " + _vm._s(_vm.record.name) + "\n    ")
@@ -49446,7 +49457,7 @@ var render = function() {
           _vm._v(" "),
           _vm._l(_vm.record, function(value, key) {
             return _c("div", { key: key.id, staticClass: "row" }, [
-              key != "photo_url" && key != "workers"
+              _vm.excludes.indexOf(key) < 0
                 ? _c("div", { staticClass: "col-md-12" }, [
                     _c("label", { staticClass: "record-label" }, [
                       _vm._v(
@@ -49463,7 +49474,7 @@ var render = function() {
                   ])
                 : _vm._e(),
               _vm._v(" "),
-              key != "profile_photo_url" && key != "workers"
+              key && _vm.excludes.indexOf(key) < 0
                 ? _c("div", { staticClass: "col-md-12" }, [
                     key == "created_at" ||
                     key == "updated_at" ||
@@ -49473,29 +49484,49 @@ var render = function() {
                           { staticClass: "form-control record-input" },
                           [_vm._v(_vm._s(_vm.formatDate(value)))]
                         )
-                      : key != "message"
-                      ? _c(
+                      : _c(
                           "span",
                           { staticClass: "form-control record-input" },
                           [_vm._v(_vm._s(value))]
                         )
-                      : key == "message"
-                      ? _c("textarea", {
-                          staticClass: "form-control record-input",
-                          attrs: { readonly: "" },
-                          domProps: { value: value }
-                        })
-                      : _vm._e()
                   ])
                 : _vm._e()
             ])
-          })
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-md-12" },
+              _vm._l(_vm.record.locations, function(loc) {
+                return _c(
+                  "span",
+                  { staticClass: "form-control record-input" },
+                  [_vm._v(_vm._s(loc))]
+                )
+              }),
+              0
+            )
+          ])
         ],
         2
       )
     : _vm._e()
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("label", { staticClass: "record-label" }, [
+        _vm._v("\n                LOCATIONS\n            ")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -73101,8 +73132,8 @@ window.Helper = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\appetiser\build-labour-backend\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\appetiser\build-labour-backend\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
