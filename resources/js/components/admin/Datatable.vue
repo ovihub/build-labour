@@ -25,7 +25,7 @@
 		<view-ticket v-else-if="modalName == 'Ticket'" :class="dataRecord"></view-ticket>
 
 		<div :class="dataTable">
-			<div style="overflow:scroll">
+			<div style="overflow:auto">
 				<table class="table table-hover">
 					<thead>
 						<tr>
@@ -55,6 +55,8 @@
 					</tbody>
 				</table>
 			</div>
+			
+			<br>
 
 			<nav v-if="pagination && tableData.length > 0">
 				<ul class="pagination">
@@ -74,6 +76,16 @@
 						<a class="page-link-2" href="#" @click.prevent="changePage(currentPage + 1)">Next</a>
 					</li>
 					<span class="ml-3" style="margin-top: 8px;">Displaying {{ pagination.meta.from }} - {{ pagination.meta.to }} of {{ pagination.meta.total }} entries.</span>
+				</ul>
+			</nav>
+
+			<nav v-else>
+				<ul class="pagination">
+					<a class="page-link-2 mr-3" href="#" 
+						v-if="modalName == 'Job' || modalName == 'Ticket'"
+						@click="onClickViewRow(null)">
+							<span class="fa fa-sync"></span>Add
+					</a>
 				</ul>
 			</nav>
 		</div>
@@ -146,9 +158,12 @@
 				component.fetchData();
 			});
 
-			Bus.$on('adminSaveChanges', function() {
+			Bus.$on('adminSaveChanges', function(id) {
 				component.onClickTitle();
-				component.changePage(component.pagination.meta.last_page);
+				
+				if (id == 0) {
+					component.changePage(component.pagination.meta.last_page);
+				}
 			});
 
 			this.fetchData();

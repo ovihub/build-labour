@@ -137,7 +137,7 @@
                 },
 				endpoints: {
                     get: '',
-                    save: '', // /api/v1/company/1/jobs
+                    save: '',
 				}
 			}
 		},
@@ -150,13 +150,14 @@
                 
                 if (id != 0) {
                     component.endpoints.get = '/api/v1/admin/job/get?id=' + id;
-                    component.endpoints.save = '' + id;
+                    component.endpoints.save = '/api/v1/job/' + id;
+                    
                     component.viewRecord();
                 
                 } else {
                     Utils.setObjectValues(component.record, '');
-                    component.record.id = 0;
-                    component.endpoints.save = '';
+
+                    component.endpoints.save = '/api/v1/job';
                 }
             });
 		},
@@ -189,7 +190,7 @@
 
                     .then(function(response) {
 
-                        Bus.$emit('adminSaveChanges');
+                        Bus.$emit('adminSaveChanges', component.record.id);
                     })
                     .catch(function(error) {
                         if (error.response) {

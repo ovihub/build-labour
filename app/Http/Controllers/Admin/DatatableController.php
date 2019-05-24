@@ -86,13 +86,11 @@ class DatatableController extends Controller
 
         $query = $this->job
                     ->where('id', 'LIKE', '%'.$search_text.'%')
-                    ->orWhere('company_id', 'LIKE', '%'.$search_text.'%')
                     ->orWhere('title', 'LIKE', '%'.$search_text.'%')
                     ->orWhere('description', 'LIKE', '%'.$search_text.'%')
                     ->orWhere('about', 'LIKE', '%'.$search_text.'%')
                     ->orWhere('exp_level', 'LIKE', '%'.$search_text.'%')
                     ->orWhere('contract_type', 'LIKE', '%'.$search_text.'%')
-                    ->orWhere('company_id', 'LIKE', '%'.$search_text.'%')
                     ->orWhere('title', 'LIKE', '%'.$search_text.'%')
                     ->orderBy($column, $order);
 

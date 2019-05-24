@@ -113,7 +113,7 @@
 
                     .then(function(response) {
 
-                        Bus.$emit('adminSaveChanges');
+                        Bus.$emit('adminSaveChanges', component.record.id);
                     })
                     .catch(function(error) {
                         if (error.response) {

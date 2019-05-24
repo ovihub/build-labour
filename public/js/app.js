@@ -1890,6 +1890,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1946,9 +1958,12 @@ __webpack_require__.r(__webpack_exports__);
     Bus.$on('refreshDatatable', function () {
       component.fetchData();
     });
-    Bus.$on('adminSaveChanges', function () {
+    Bus.$on('adminSaveChanges', function (id) {
       component.onClickTitle();
-      component.changePage(component.pagination.meta.last_page);
+
+      if (id == 0) {
+        component.changePage(component.pagination.meta.last_page);
+      }
     });
     this.fetchData();
   },
@@ -2484,8 +2499,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       endpoints: {
         get: '',
-        save: '' // /api/v1/company/1/jobs
-
+        save: ''
       }
     };
   },
@@ -2496,12 +2510,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (id != 0) {
         component.endpoints.get = '/api/v1/admin/job/get?id=' + id;
-        component.endpoints.save = '' + id;
+        component.endpoints.save = '/api/v1/job/' + id;
         component.viewRecord();
       } else {
         Utils.setObjectValues(component.record, '');
-        component.record.id = 0;
-        component.endpoints.save = '';
+        component.endpoints.save = '/api/v1/job';
       }
     });
   },
@@ -2528,7 +2541,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 this.disabled = true;
                 _context.next = 5;
                 return axios.post(component.endpoints.save, component.$data.record, Utils.getBearerAuth()).then(function (response) {
-                  Bus.$emit('adminSaveChanges');
+                  Bus.$emit('adminSaveChanges', component.record.id);
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -2688,7 +2701,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 this.disabled = true;
                 _context.next = 5;
                 return axios.post(component.endpoints.save, component.$data.record, Utils.getBearerAuth()).then(function (response) {
-                  Bus.$emit('adminSaveChanges');
+                  Bus.$emit('adminSaveChanges', component.record.id);
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -48983,7 +48996,7 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("div", { class: _vm.dataTable }, [
-        _c("div", { staticStyle: { overflow: "scroll" } }, [
+        _c("div", { staticStyle: { overflow: "auto" } }, [
           _c("table", { staticClass: "table table-hover" }, [
             _c("thead", [
               _c(
@@ -49073,6 +49086,8 @@ var render = function() {
             )
           ])
         ]),
+        _vm._v(" "),
+        _c("br"),
         _vm._v(" "),
         _vm.pagination && _vm.tableData.length > 0
           ? _c("nav", [
@@ -49214,7 +49229,28 @@ var render = function() {
                 2
               )
             ])
-          : _vm._e()
+          : _c("nav", [
+              _c("ul", { staticClass: "pagination" }, [
+                _vm.modalName == "Job" || _vm.modalName == "Ticket"
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "page-link-2 mr-3",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.onClickViewRow(null)
+                          }
+                        }
+                      },
+                      [
+                        _c("span", { staticClass: "fa fa-sync" }),
+                        _vm._v("Add\n\t\t\t\t\t")
+                      ]
+                    )
+                  : _vm._e()
+              ])
+            ])
       ])
     ],
     1
