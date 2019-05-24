@@ -5272,6 +5272,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5610,7 +5613,7 @@ __webpack_require__.r(__webpack_exports__);
         if (job.company) {
           component.summary.photo_url = job.company.photo_url;
           component.summary.name = job.company.name;
-          component.summary.location = job.company.location;
+          component.summary.address = job.company.address;
           component.summary.introduction = job.company.introduction;
         }
 
@@ -52698,7 +52701,7 @@ var render = function() {
                           expression: "input.specialization[index].name"
                         }
                       ],
-                      key: index,
+                      key: esp.id,
                       ref: "espItem-" + index,
                       refInFor: true,
                       staticClass: "form-control",
@@ -53018,7 +53021,9 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "company-view" }, [
-            _vm._v("\n                View Business\n            ")
+            _c("a", { attrs: { href: "/company/profile" } }, [
+              _vm._v("\n                    View Business\n                ")
+            ])
           ])
         ])
       ]
