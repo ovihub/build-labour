@@ -54,11 +54,7 @@ class CompanyRepository extends AbstractRepository
         if ($user->company->store($request)) {
 
             // save specialization
-            if (!$request->specialization) {
-
-                $this->company->addError('requirements is required');
-            }
-
+            
             $excludeIds = [];
 
             foreach ($request->specialization as $r) {

@@ -21,7 +21,7 @@ class CompanySpecialized extends BaseModel
     public function store($data) {
 
         $this->fill( $data );
-
+        
         $pk = $this->primaryKey;
 
         if (isset($data[$pk])) {
