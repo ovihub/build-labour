@@ -4944,6 +4944,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4952,6 +4961,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       locations: [],
       photo_url: '',
       name: '',
+      sector: '',
       address: '',
       website: '',
       phone: '',
@@ -4959,6 +4969,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       specialization: [],
       input: {
         name: '',
+        sector: '',
         address: '',
         website: '',
         phone: '',
@@ -4967,6 +4978,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       errors: {
         name: '',
+        sector: '',
         address: '',
         website: '',
         phone: '',
@@ -4990,6 +5002,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setValues: function setValues(details) {
       this.photo_url = details.photo_url;
       this.name = details.name;
+      this.sector = details.sector;
       this.address = details.address;
       this.website = details.website;
       this.phone = details.phone;
@@ -4998,6 +5011,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     setDisplayValues: function setDisplayValues(val, details) {
       val.name = details.name;
+      val.sector = details.sector;
       val.address = details.address;
       val.website = details.website;
       val.phone = details.phone;
@@ -5164,6 +5178,7 @@ __webpack_require__.r(__webpack_exports__);
         var company = response.data.data.company;
         component.company.photo_url = company.photo_url;
         component.company.name = company.name;
+        component.company.sector = company.sector;
         component.company.address = company.address;
         component.company.website = company.website;
         component.company.phone = company.phone;
@@ -52368,6 +52383,44 @@ var render = function() {
                 [
                   _c("div", { staticClass: "emp-row" }, [
                     _c("div", { staticClass: "modal-form-label" }, [
+                      _vm._v("Sector")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.input.sector,
+                          expression: "input.sector"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text" },
+                      domProps: { value: _vm.input.sector },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.input, "sector", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.sector
+                      ? _c("span", { staticClass: "err-msg" }, [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(_vm.errors.sector) +
+                              "\n                        "
+                          )
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c("div", { staticClass: "modal-form-label" }, [
                       _vm._v("Location")
                     ]),
                     _vm._v(" "),
@@ -52583,8 +52636,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.input.specialization[index].name,
-                          expression: "input.specialization[index].name"
+                          value: esp.name,
+                          expression: "esp.name"
                         }
                       ],
                       key: index,
@@ -52596,7 +52649,7 @@ var render = function() {
                         rows: "1",
                         placeholder: "Add Another Specialization"
                       },
-                      domProps: { value: _vm.input.specialization[index].name },
+                      domProps: { value: esp.name },
                       on: {
                         focus: function($event) {
                           return _vm.espTextAreaAdjust(index)
@@ -52608,11 +52661,7 @@ var render = function() {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(
-                            _vm.input.specialization[index],
-                            "name",
-                            $event.target.value
-                          )
+                          _vm.$set(esp, "name", $event.target.value)
                         }
                       }
                     })
@@ -52691,7 +52740,7 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "bl-label-17 pb-3" }, [
-            _vm._v("\n                Surveyors\n            ")
+            _vm._v("\n                " + _vm._s(_vm.sector) + "\n            ")
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "row bl-label-15" }, [

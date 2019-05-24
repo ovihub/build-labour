@@ -14,6 +14,15 @@
                 <template slot="custom-modal-content">
                     <form class="modal-form" method="POST" @submit.prevent="submit">
                         <div class="emp-row">
+                            <div class="modal-form-label">Sector</div>
+                            <input class="form-control" type="text" v-model="input.sector" />
+
+                            <span class="err-msg" v-if="errors.sector">
+                                {{ errors.sector }}
+                            </span>
+                        </div>
+
+                        <div class="emp-row">
                             <div class="modal-form-label">Location</div>
                             <input class="form-control" type="text" v-model="input.address"
                                 @keyup="onChangeLocation(input.address)" />
@@ -67,7 +76,7 @@
                             :key="index"
                             @focus="espTextAreaAdjust(index)"
                             @keyup="onChangeSpecialization(index)"
-                            v-model="input.specialization[index].name"
+                            v-model="esp.name"
                             placeholder="Add Another Specialization">
                         </textarea>
 
@@ -106,7 +115,7 @@
                 <div class="bl-label-22 m0">{{ name }}</div>
             
                 <div class="bl-label-17 pb-3">
-                    Surveyors
+                    {{ sector }}
                 </div>
                 
                 <div class="row bl-label-15">
@@ -168,16 +177,17 @@
                 locations: [],
                 photo_url: '',
                 name: '',
+                sector: '',
                 address: '',
                 website: '',
                 phone: '',
                 introduction: '',
                 specialization: [],
                 input: {
-                    name: '', address: '', website: '', phone: '', introduction: '', specialization: []
+                    name: '', sector: '', address: '', website: '', phone: '', introduction: '', specialization: []
                 },
                 errors: {
-                    name: '', address: '', website: '', phone: '', introduction: '', specialization: ''
+                    name: '', sector: '', address: '', website: '', phone: '', introduction: '', specialization: ''
                 },
                 endpoints: {
                     save: '/api/v1/company/update',
@@ -200,6 +210,7 @@
             setValues(details) {
                 this.photo_url = details.photo_url;
                 this.name = details.name;
+                this.sector = details.sector;
                 this.address = details.address;
                 this.website = details.website;
                 this.phone = details.phone;
@@ -209,6 +220,7 @@
 
             setDisplayValues(val, details) {
                 val.name = details.name;
+                val.sector = details.sector;
                 val.address = details.address;
                 val.website = details.website;
                 val.phone = details.phone;
@@ -311,6 +323,7 @@
                 let component = this;
 
                 Utils.setObjectValues(this.errors, '');
+
                 this.disabled = true;
                 
                 await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
