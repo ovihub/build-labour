@@ -5043,9 +5043,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       val.introduction = details.introduction;
       val.specialization = details.specialization;
       val.specialization = val.specialization.filter(function (r) {
-        return r !== '';
+        return r.name !== '';
       });
-      val.specialization.push('');
+      val.specialization.push({
+        name: ''
+      });
     },
     textAreaAdjust: function textAreaAdjust(index) {
       var o = this.$refs['companyIntro'];
@@ -5106,8 +5108,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.locations = [];
     },
     onChangeSpecialization: function onChangeSpecialization(index) {
-      this.espTextAreaAdjust(index); // this.input.specialization = this.input.specialization.filter(r => r !== '');
-      // this.input.specialization.push('');
+      this.espTextAreaAdjust(index);
+      this.input.specialization = this.input.specialization.filter(function (r) {
+        return r.name !== '';
+      });
+      this.input.specialization.push({
+        name: ''
+      });
     },
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -52701,7 +52708,7 @@ var render = function() {
                           expression: "input.specialization[index].name"
                         }
                       ],
-                      key: esp.id,
+                      key: index,
                       ref: "espItem-" + index,
                       refInFor: true,
                       staticClass: "form-control",
