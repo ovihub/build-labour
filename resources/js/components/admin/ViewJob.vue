@@ -91,7 +91,7 @@
             <div class="col-md-12">
                 <label class="record-label">REPORTS TO</label>
                 
-                <input type="text" class="form-control record-input" v-model="record.reports_to" />
+                <input type="text" class="form-control record-input" v-model="record.reports_to_str" />
 
                 <span class="err-msg bl-ml-20" v-if="errors.reports_to">
                     {{ errors.reports_to }}
@@ -129,7 +129,7 @@
                 show: false,
 				record: {
                     id: 0, title: '', description: '', about: '', exp_level: '', 
-                    contract_type: '', salary: '', reports_to: [], location: '',
+                    contract_type: '', salary: '', reports_to: [], reports_to_str: '', location: '',
                 },
                 errors: {
                     title: '', description: '', about: '', exp_level: '', 
@@ -182,10 +182,18 @@
             async submit() {
                 let component = this;
 
-                Utils.setObjectValues(component.errors, '');
+                Utils.setObjectValues(this.errors, '');
 
                 this.disabled = true;
                 
+                let results = this.record.reports_to_str.split(',');
+                
+                this.record.reports_to = [];
+                
+                for (let i = 0; i < results.length; i++) {
+                    this.record.reports_to.push(results[i].trim());
+                }
+
                 await axios.post(component.endpoints.save, component.$data.record, Utils.getBearerAuth())
 
                     .then(function(response) {

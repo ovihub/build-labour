@@ -2266,6 +2266,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2496,6 +2498,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         contract_type: '',
         salary: '',
         reports_to: [],
+        reports_to_str: '',
         location: ''
       },
       errors: {
@@ -2542,15 +2545,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var component;
+        var component, results, i;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 component = this;
-                Utils.setObjectValues(component.errors, '');
+                Utils.setObjectValues(this.errors, '');
                 this.disabled = true;
-                _context.next = 5;
+                results = this.record.reports_to_str.split(',');
+                this.record.reports_to = [];
+
+                for (i = 0; i < results.length; i++) {
+                  this.record.reports_to.push(results[i].trim());
+                }
+
+                _context.next = 8;
                 return axios.post(component.endpoints.save, component.$data.record, Utils.getBearerAuth()).then(function (response) {
                   Bus.$emit('adminSaveChanges', component.record.id);
                 }).catch(function (error) {
@@ -2565,10 +2575,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Utils.handleError(error);
                 });
 
-              case 5:
+              case 8:
                 this.disabled = false;
 
-              case 6:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -49522,11 +49532,15 @@ var render = function() {
             _c(
               "div",
               { staticClass: "col-md-12" },
-              _vm._l(_vm.record.locations, function(loc) {
+              _vm._l(_vm.record.locations, function(loc, index) {
                 return _c(
                   "span",
-                  { staticClass: "form-control record-input" },
-                  [_vm._v(_vm._s(loc))]
+                  { key: index, staticClass: "form-control record-input" },
+                  [
+                    _vm._v(
+                      "\n                " + _vm._s(loc) + "\n            "
+                    )
+                  ]
                 )
               }),
               0
@@ -49861,19 +49875,19 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.record.reports_to,
-                  expression: "record.reports_to"
+                  value: _vm.record.reports_to_str,
+                  expression: "record.reports_to_str"
                 }
               ],
               staticClass: "form-control record-input",
               attrs: { type: "text" },
-              domProps: { value: _vm.record.reports_to },
+              domProps: { value: _vm.record.reports_to_str },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.$set(_vm.record, "reports_to", $event.target.value)
+                  _vm.$set(_vm.record, "reports_to_str", $event.target.value)
                 }
               }
             }),
