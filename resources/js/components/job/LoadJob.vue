@@ -41,11 +41,13 @@
                     .then(function(response) {
                         let job = response.data.data.job;
 
-                        component.summary.photo_url = job.company.photo_url;
-                        component.summary.name = job.company.name;
-                        component.summary.location = job.company.location;
-                        component.summary.introduction = job.company.introduction;
-
+                        if (job.company) {
+                            component.summary.photo_url = job.company.photo_url;
+                            component.summary.name = job.company.name;
+                            component.summary.location = job.company.location;
+                            component.summary.introduction = job.company.introduction;
+                        }
+                        
                         component.job_details.title = job.title;
                         component.job_details.description = job.description;
                         component.job_details.about = job.about;
@@ -57,8 +59,8 @@
 
                         Bus.$emit('companySummaryDetails', component.summary);
                         Bus.$emit('jobDetails', component.job_details);
-                        Bus.$emit('jobRequirementsDetails', component.requirements);
-                        Bus.$emit('jobResponsibilitiesDetails', component.responsibilities);
+                        Bus.$emit('jobRequirementsDetails', job.requirements);
+                        Bus.$emit('jobResponsibilitiesDetails', job.responsibilities);
                     })
                     .catch(function(error) {
 

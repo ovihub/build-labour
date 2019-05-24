@@ -2,7 +2,7 @@
     <div class="profile-item-2">
         <div class="profile-content">
             
-            <span class="edit-icon"
+            <!-- <span class="edit-icon"
                 data-toggle="modal"
                 data-backdrop="static"
                 data-keyboard="false"
@@ -10,7 +10,7 @@
 
                 <img src="/img/icons/editbutton.png"
                     srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
-            </span>
+            </span> -->
             
             <div class="profile-title">
                 <img src="/img/icons/requirements.png"
@@ -19,41 +19,29 @@
                 Requirements
             </div>
         
-            <div class="job-title">
-                Qualifications 
-            </div>
-
+            <div class="job-title">Qualifications</div>
             <div class="job-body">
                 <ul class="job-list-items">
-                    <li>
-                        Bachelor Degree in Construction or a related field
+                    <li v-for="(qualification, index) in qualifications" :key="index">
+                        {{ qualification }}
                     </li>
                 </ul>
             </div>
 
-            <div class="job-title">
-                Experience
-            </div>
-
+            <div class="job-title">Experience</div>
             <div class="job-body">
                 <ul class="job-list-items">
-                    <li>
-                        Minimum of 10 years industry experience
-                    </li>
-                    <li>
-                        Experienced in leading teams
+                    <li v-for="(exp, index) in experience" :key="index">
+                        {{ exp }}
                     </li>
                 </ul>
             </div>
 
-            <div class="job-title">
-                Skills
-            </div>
-
+            <div class="job-title">Skills</div>
             <div class="job-body">
                 <ul class="job-list-items">
-                    <li>
-                        Able to mentor and become involved in on the job training of others.
+                    <li v-for="(skill, index) in skills" :key="index">
+                        {{ skill }}
                     </li>
                 </ul>
             </div>
@@ -65,15 +53,19 @@
     export default {
         data() {
             return {
-
+                qualifications: [],
+                experience: [],
+                skills: [],
             }
         },
 
         created() {
             let component = this;
 
-            Bus.$on('jobRequirements', function(detailsArray) {
-            
+            Bus.$on('jobRequirementsDetails', function(detailsArray) {
+                component.qualifications = detailsArray[0].items;
+                component.experience = detailsArray[1].items;
+                component.skills = detailsArray[2].items;
             });
         },
 

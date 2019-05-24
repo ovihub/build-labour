@@ -5,16 +5,6 @@
         </div>
 
         <div class="profile-content" style="margin-top:-56px">
-            <span class="edit-icon edit-icon-4"
-                data-toggle="modal"
-                data-backdrop="static"
-                data-keyboard="false"
-                data-target="#modalCompanyProfile">
-
-                <img src="/img/icons/editbutton.png"
-                    srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
-            </span>
-
             <div class="profile-content-p20 pb-4">
                 <div class="company-title">
                     {{ name }}
