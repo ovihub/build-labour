@@ -72,12 +72,13 @@
                         <textarea class="form-control" style="overflow:hidden"
                             rows="1"
                             v-for="(esp, index) in input.specialization"
+                            :id="esp.id"
                             :ref="'espItem-' + index" 
                             :key="index"
+                            v-model="input.specialization[index].name"
+                            placeholder="Add Another Specialization"
                             @focus="espTextAreaAdjust(index)"
-                            @keyup="onChangeSpecialization(index)"
-                            v-model="esp.name"
-                            placeholder="Add Another Specialization">
+                            @keyup="onChangeSpecialization(index)">
                         </textarea>
 
                     </form>
@@ -157,8 +158,8 @@
                     We specialise in
                 </div>
                 <div class="job-body">
-                    <ul class="job-list-items" v-for="(spec, index) in specialization" :key="index">
-                        <li>
+                    <ul class="job-list-items">
+                        <li v-for="(spec, index) in specialization" :key="index">
                             {{ spec.name }}
                         </li>
                     </ul>
@@ -315,17 +316,32 @@
             onChangeSpecialization(index) {
                 this.espTextAreaAdjust(index);
 
-                this.input.specialization = this.input.specialization.filter(r => r !== '');
-                this.input.specialization.push('');
+                // this.input.specialization = this.input.specialization.filter(r => r !== '');
+                // this.input.specialization.push('');
             },
 
             async submit() {
                 let component = this;
-
+                let espArray = [];
+                
                 Utils.setObjectValues(this.errors, '');
 
                 this.disabled = true;
                 
+                for (let i = 0; i < component.input.specialization.length; i++) {
+                    let espId = this.$refs['espItem-' + i][0].id,
+                        espName = this.$refs['espItem-' + i][0].value;
+
+                    if (espName != '') {
+                        espArray.push({
+                            id: espId,
+                            name: espName
+                        })
+                    }
+                }
+
+                component.input.specialization = espArray;
+
                 await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
                     
                     .then(function(response) {

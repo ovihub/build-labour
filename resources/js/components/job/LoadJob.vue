@@ -12,12 +12,8 @@
                 job_details: {
                     title: '', description: '', about: '', exp_level: '', contract_type: '', salary: '', reports_to: '', location: ''
                 },
-                requirements: {
-                    
-                },
-                responsibilities: { 
-                    
-                },
+                requirements: [],
+                responsibilities: [],
                 endpoints: {
                     get: '',
                 },
