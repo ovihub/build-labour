@@ -5042,10 +5042,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       val.phone = details.phone;
       val.introduction = details.introduction;
       val.specialization = details.specialization;
-      val.specialization = val.specialization.filter(function (r) {
+      this.input.specialization = this.input.specialization.filter(function (r) {
         return r.name !== '';
       });
-      val.specialization.push({
+      this.input.specialization.push({
         name: ''
       });
     },

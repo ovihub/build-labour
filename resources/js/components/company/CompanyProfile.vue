@@ -228,8 +228,8 @@
                 val.introduction = details.introduction;
                 val.specialization = details.specialization;
 
-                val.specialization = val.specialization.filter(r => r.name !== '');
-                val.specialization.push({ name: '' });
+                this.input.specialization = this.input.specialization.filter(r => r.name !== '');
+                this.input.specialization.push({ name: '' });
             },
 
             textAreaAdjust(index) {
