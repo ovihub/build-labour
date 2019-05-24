@@ -4,6 +4,8 @@ use App\Models\Companies\Company;
 use App\Models\Companies\CompanyPost;
 use App\Models\Companies\CompanySpecialized;
 use App\Models\Companies\Job;
+use App\Models\Companies\JobRequirement;
+use App\Models\Companies\JobResponsibility;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -86,7 +88,6 @@ class CompanyTableSeeder extends Seeder
                     'exp_level' => 'Senior',
                     'contract_type' => 'Partime',
                     'salary' => '$10000',
-                    'company_id' => $c->id,
                     'created_by' => $user->id,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
@@ -98,7 +99,6 @@ class CompanyTableSeeder extends Seeder
                     'exp_level' => '5 year more',
                     'contract_type' => 'Full-time',
                     'salary' => '$30000',
-                    'company_id' => $c->id,
                     'created_by' => $user->id,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
@@ -111,12 +111,83 @@ class CompanyTableSeeder extends Seeder
                     'exp_level' => 'Senior',
                     'contract_type' => 'Full-time',
                     'salary' => '$20000',
+                    'reports_to_json' => ['Construction Manager', 'Construction Director'],
                     'location' => 'South Yarra, Melbourne, Victoria',
-                    'company_id' => $c->id,
                     'created_by' => $user->id,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
+
+                // $Job1 Requirements
+
+                $jobReq = JobRequirement::create([
+                    'title' => 'Qualifications ',
+                    'job_id' => $job1->id
+                ]);
+
+                $items = [
+                    'Bachelor Degree in Construction or a related field'
+                ];
+
+                $jobReq->items_json = $items;
+                $jobReq->save();
+
+                $jobReq = JobRequirement::create([
+                    'title' => 'Experience ',
+                    'job_id' => $job1->id
+                ]);
+
+                $items = [
+                    'Minimum of 10 years industry experience',
+                    'Experienced in leading teams'
+                ];
+
+                $jobReq->items_json = $items;
+                $jobReq->save();
+
+                $jobReq = JobRequirement::create([
+                    'title' => 'Skills ',
+                    'job_id' => $job1->id
+                ]);
+
+                $items = [
+                    'Able to mentor and become involved in on the job training of others.'
+                ];
+
+                $jobReq->items_json = $items;
+                $jobReq->save();
+
+                // $Job1 Responsibilities
+
+                $jobR = JobResponsibility::create([
+                    'title' => 'Quality Management',
+                    'job_id' => $job1->id
+                ]);
+
+                $items = [
+                    'Comply with and ensure project works are in accordance with Probuild QM Policies, Plans and Procedures.',
+                    'Lead and drive a “Quality Built In” culture.',
+                    'Ensure systems and processes are in place to manage quality planning processes and the application of risk management methods.',
+                    'Ensure project team effectively manage the quality performance of subcontractors and implement improvements.'
+                ];
+
+                $jobR->items_json = $items;
+                $jobR->save();
+
+
+                $jobR = JobResponsibility::create([
+                    'title' => 'Next Title',
+                    'job_id' => $job1->id
+                ]);
+
+                $items = [
+                    'Comply with and ensure project works are in accordance with Probuild QM Policies, Plans and Procedures.',
+                    'Lead and drive a “Quality Built In” culture.',
+                ];
+
+                $jobR->items_json = $items;
+                $jobR->save();
+
                 // company posts
 
                 CompanyPost::create([

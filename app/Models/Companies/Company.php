@@ -34,6 +34,7 @@ class Company extends BaseModel
 
     protected $appends = [ 'locations', 'no_of_workers' ];
 
+    protected $hidden = [ 'locations_json' ];
     /**
      * @return array
      */

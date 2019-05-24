@@ -21,9 +21,9 @@ class CreateJobsTable extends Migration
             $table->string('exp_level')->nullable();
             $table->string('contract_type')->nullable(); // employment type
             $table->string('salary')->nullable();
-            $table->text('reports_to')->nullable();
+            $table->text('reports_to_json')->nullable();
             $table->string('location')->nullable();
-            $table->integer('company_id')->unsigned()->nullable();
+          //  $table->integer('company_id')->unsigned()->nullable();
             $table->integer('created_by')->unsigned();
             $table->timestamps();
         });

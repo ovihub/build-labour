@@ -18,10 +18,18 @@ class Job extends BaseModel
         'exp_level',
         'contract_type',
         'salary',
-        'reports_to',
+        'reports_to_json',
         'location',
         'company_id',
         'created_by',
+    ];
+
+    protected $hidden = [
+        'reports_to_json'
+    ];
+
+    protected $appends = [
+        'reports_to'
     ];
 
     /**
@@ -35,7 +43,6 @@ class Job extends BaseModel
             'exp_level'     => 'nullable|min:5',
             'contract_type' => 'nullable|min:5',
             'salary'        => 'nullable|min:2',
-            'reports_to'    => 'nullable|min:5',
             'location'      => 'nullable|min:5'
         ];
     }
@@ -62,11 +69,6 @@ class Job extends BaseModel
         return true;
     }
 
-    public function Company() {
-
-        return $this->belongsTo(Company::class, 'company_id', 'id');
-    }
-
     public function CreatedBy() {
 
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -75,6 +77,23 @@ class Job extends BaseModel
     public function Requirements() {
 
         return $this->hasMany( JobRequirement::class, 'job_id', 'id');
+    }
+
+    public function setReportsToJsonAttribute($data) {
+
+        if (!empty($data) && is_array($data)) {
+
+            $this->attributes['reports_to_json'] = json_encode($data);
+
+        } else {
+
+            $this->attributes['reports_to_json'] = NULL;
+        }
+    }
+
+    public function getReportsToAttribute() {
+
+        return json_decode($this->reports_to_json);
     }
 
     public function Responsibilities() {

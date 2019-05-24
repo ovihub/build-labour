@@ -18,7 +18,11 @@ class CompanyPost extends BaseModel
         'job_id'
     ];
 
-    protected $appends = ['posted_at'];
+    protected $appends = [
+        'posted_at',
+        'company_name',
+        'company_photo'
+    ];
 
     const CREATED_AT = null;
     const UPDATED_AT = null;
@@ -53,10 +57,35 @@ class CompanyPost extends BaseModel
         return $this->belongsTo(Job::class, 'job_id', 'id');
     }
 
+    public function Company() {
+
+        return $this->belongsTo(Company::class, 'company_id', 'id');
+    }
+
     public function getPostedAtAttribute() {
 
         $createdAt = Carbon::parse($this->created_at);
         $now = Carbon::now();
         return $now->diffForHumans($createdAt);
+    }
+
+    public function getCompanyNameAttribute() {
+
+        if ($this->company) {
+
+            return $this->company->name;
+        }
+
+        return '';
+    }
+
+    public function getCompanyPhotoAttribute() {
+
+        if ($this->company && $this->company->photo_url) {
+
+            return $this->company->photo_url;
+        }
+
+        return NULL;
     }
 }

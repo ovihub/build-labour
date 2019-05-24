@@ -96,11 +96,8 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 
             Route::get('{id}/posts/jobs', 'ApiCompaniesController@jobPosts');
             Route::get('{id}/posts', 'ApiCompaniesController@posts');
-            Route::post('{id}/jobs', 'ApiCompaniesController@createJob');
             Route::get('{id}/jobs', 'ApiCompaniesController@jobs');
             Route::get('{id}/jobs/{jid}', 'ApiCompaniesController@viewJob');
-            Route::post('{id}/jobs/{jid}/requirements', 'ApiCompaniesController@postJobRequirements');
-            Route::post('{id}/jobs/{jid}/responsibilities', 'ApiCompaniesController@postJobResponsibilities');
 
         });
     });
@@ -108,8 +105,13 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
     Route::prefix('job')->group(function () {
         Route::middleware([ 'jwt' ])->group(function () {
 
+            Route::post('', 'ApiJobsController@create');
             Route::post('search', 'ApiJobsController@search');
+            Route::post('{id}', 'ApiJobsController@update');
             Route::get('{id}', 'ApiJobsController@view');
+
+            Route::post('{id}/requirements', 'ApiJobsController@postJobRequirements');
+            Route::post('{id}/responsibilities', 'ApiJobsController@postJobResponsibilities');
         });
     });
 
