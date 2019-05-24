@@ -50,7 +50,9 @@
             </div>
 
             <div class="col-md-12">
-                <span class="form-control record-input" v-for="loc in record.locations">{{ loc }}</span>
+                <span class="form-control record-input" v-for="(loc, index) in record.locations" :key=index>
+                    {{ loc }}
+                </span>
             </div>
         </div>
     </div>

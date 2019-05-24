@@ -29,7 +29,8 @@ class Job extends BaseModel
     ];
 
     protected $appends = [
-        'reports_to'
+        'reports_to',
+        'reports_to_str'
     ];
 
     /**
@@ -107,6 +108,13 @@ class Job extends BaseModel
     public function getReportsToAttribute() {
 
         return json_decode($this->reports_to_json);
+    }
+
+    public function getReportsToStrAttribute() {
+        
+        $result = preg_replace("/[[\\]\"]/", " ", $this->reports_to_json);
+        
+        return str_replace(" ,", ", ", $result);
     }
 
     public function Responsibilities() {

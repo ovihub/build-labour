@@ -22,7 +22,7 @@ class JobsResource extends JsonResource
             'exp_level'     => $this->exp_level,
             'contract_type' => $this->contract_type,
             'salary'        => $this->salary,
-            'reports_to'    => $this->reports_to,
+            'reports_to'    => $this->reports_to_str,
             'location'      => $this->location,
         ];
     }
