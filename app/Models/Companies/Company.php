@@ -20,8 +20,8 @@ class Company extends BaseModel
     protected $fillable = [
         'name',
         'address',
-        'contact_email',
-        'contact_name',
+        'business_entity_type',
+        'entity_type_specialization',
         'phone',
         'locations_json',
         'sector',
@@ -29,6 +29,8 @@ class Company extends BaseModel
         'photo_url',
         'introduction',
         'website',
+        'operate_outside_states',
+        'states',
         'created_by'
     ];
 
@@ -53,6 +55,15 @@ class Company extends BaseModel
         ];
     }
 
+
+    public function validationMessages()
+    {
+        return [
+            'name.required'  => 'Company name is required.',
+            'name.min'  => 'Company name must be at least 5 characters',
+        ];
+    }
+
     /**
      * Validate a user request
      *
@@ -62,7 +73,7 @@ class Company extends BaseModel
 
     private function validate( $data ){
 
-        $validator = \Validator::make($data, $this->rules());
+        $validator = \Validator::make($data, $this->rules(), $this->validationMessages());
 
         if ( $validator->fails() ) {
 
@@ -121,6 +132,11 @@ class Company extends BaseModel
         if ($r->$pk) {
 
             $this->exists = true;
+        }
+
+        if ($this->userId) {
+
+            $this->created_by = $this->userId;
         }
 
         try{

@@ -33,6 +33,14 @@
 				type: String,
 				default: '1'
 			},
+			borderRadius: {
+				type: String,
+				default: '100%'
+			},
+			initials: {
+				type: String,
+				required: false
+			},
 		},
 
 		computed: {
@@ -40,7 +48,7 @@
 				return {
 					width: `${this.size}px`,
 					height: `${this.size}px`,
-					borderRadius: '100%',
+					borderRadius: `${this.borderRadius}`,
 					background: '#F0F2F4',
 					border: `solid ${this.border}px #fff`
 				};
@@ -61,6 +69,10 @@
 			Bus.$on('avatarDetails', function(details) {
 				component.input = details;
 			});
+
+			if (this.input.initials == '') {
+				this.input.initials = this.initials;
+			}
 		},
 	}
 </script>

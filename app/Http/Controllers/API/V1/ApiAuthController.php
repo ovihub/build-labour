@@ -7,6 +7,7 @@ use App\Models\Users\WorkerDetail;
 use App\Repositories\UserRepository;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use JWTAuth;
 
@@ -185,8 +186,136 @@ class ApiAuthController extends ApiBaseController
         }
 
         $token = $user->getJwtToken();
-        
+
         return $this->apiSuccessResponse( compact( 'user' , 'token' ), true, 'User has been registered successfully!', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/auth/register",
+     *      tags={"Auth"},
+     *      summary="Register user as worker, sends 'thank you' email and returns a token.",
+     *      security={},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/x-www-form-urlencoded",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="email",
+     *                      description="Email Address",
+     *                      type="string",
+     *                      example="testuser@gmail.com"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="password",
+     *                      description="Password",
+     *                      type="string",
+     *                      example="password",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="password_confirmation",
+     *                      description="Confirm Password",
+     *                      type="string",
+     *                      example="password",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="first_name",
+     *                      description="First Name",
+     *                      type="string",
+     *                      example="Jane"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="signup_type",
+     *                      description="value must be employer or worker",
+     *                      type="string",
+     *                      example="worker"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="last_name",
+     *                      description="Last Name",
+     *                      type="string",
+     *                      example="Doe"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="date_of_birth",
+     *                      description="Date of Birth (Y-m-d)",
+     *                      type="date",
+     *                      example="1991-01-01"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="country",
+     *                      description="Country",
+     *                      type="string",
+     *                      example="Australia"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="mobile_number",
+     *                      description="Mobile Number",
+     *                      type="string",
+     *                      example="6141234567"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="address",
+     *                      description="Address",
+     *                      type="string",
+     *                      example="85 Dover Street Melbourne VIC"
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Invalid Input"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Request Created"
+     *      )
+     * )
+     */
+    public function registerCompany( Request $request )
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            if (!$data = $this->userRepo->registerCompany($request)) {
+
+                DB::rollBack();
+
+                return $this->apiErrorResponse(
+                    false,
+                    $this->userRepo->user->getErrors( true ),
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    $this->userRepo->user->getErrorsDetail()
+                );
+            }
+
+
+        } catch(\Exception $e) {
+
+            DB::rollBack();
+
+            return $this->apiErrorResponse(
+                false,
+                $e->getMessage(),
+                self::INTERNAL_SERVER_ERROR, 'internalServerError'
+            );
+
+        }
+
+        DB::commit();
+      //  $token = $user->getJwtToken();
+
+        return $this->apiSuccessResponse( $data, true, 'User has been registered successfully!', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
