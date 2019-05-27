@@ -29,10 +29,8 @@
                     .then(function(response) {
                         let company = response.data.data.company;
 
-                        let initials = company.name.split(' ');
-                        
                         component.avatar = {};
-                        component.avatar.initials = initials[0].charAt(0) + initials[initials.length-1].charAt(0);
+                        component.avatar.initials = Utils.getInitials(company.name);
                         component.avatar.profile_photo_url = company.photo_url;
 
                         component.company.photo_url = company.photo_url;

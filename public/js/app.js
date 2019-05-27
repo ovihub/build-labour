@@ -3757,6 +3757,10 @@ __webpack_require__.r(__webpack_exports__);
     borderRadius: {
       type: String,
       default: '100%'
+    },
+    initials: {
+      type: String,
+      required: false
     }
   },
   computed: {
@@ -3782,6 +3786,10 @@ __webpack_require__.r(__webpack_exports__);
     Bus.$on('avatarDetails', function (details) {
       component.input = details;
     });
+
+    if (this.input.initials == '') {
+      this.input.initials = this.initials;
+    }
   }
 });
 
@@ -4645,6 +4653,9 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    getInitials: function getInitials(name) {
+      return Utils.getInitials(name);
+    },
     getJobs: function getJobs() {
       var component = this;
       axios.get(component.endpoints.get_jobs, Utils.getBearerAuth()).then(function (response) {
@@ -4790,6 +4801,9 @@ __webpack_require__.r(__webpack_exports__);
     this.getPosts();
   },
   methods: {
+    getInitials: function getInitials(name) {
+      return Utils.getInitials(name);
+    },
     getPosts: function getPosts() {
       var component = this;
       axios.get(component.endpoints.get_posts, Utils.getBearerAuth()).then(function (response) {
@@ -5232,9 +5246,8 @@ __webpack_require__.r(__webpack_exports__);
       var component = this;
       axios.get(component.endpoints.get, Utils.getBearerAuth()).then(function (response) {
         var company = response.data.data.company;
-        var initials = company.name.split(' ');
         component.avatar = {};
-        component.avatar.initials = initials[0].charAt(0) + initials[initials.length - 1].charAt(0);
+        component.avatar.initials = Utils.getInitials(company.name);
         component.avatar.profile_photo_url = company.photo_url;
         component.company.photo_url = company.photo_url;
         component.company.name = company.name;
@@ -52107,7 +52120,8 @@ var render = function() {
                                 cls: "bl-image-40",
                                 size: "40",
                                 border: "0",
-                                "border-radius": "8px"
+                                "border-radius": "8px",
+                                initials: _vm.getInitials(job.company_name)
                               }
                             })
                       ],
@@ -52309,7 +52323,8 @@ var render = function() {
                               cls: "bl-image-40",
                               size: "40",
                               border: "0",
-                              "border-radius": "8px"
+                              "border-radius": "8px",
+                              initials: _vm.getInitials(post.company.name)
                             }
                           })
                     ],
@@ -73189,6 +73204,10 @@ window.Helper = {
       }
 
       return hours == 1 ? 'Posted 1hr ago' : 'Posted ' + hours + 'hrs ago';
+    },
+    getInitials: function getInitials(name) {
+      var initials = name.split(' ');
+      return initials[0].charAt(0) + initials[1].charAt(0);
     },
     getDaysInMonth: function getDaysInMonth(month, year) {
       return new Date(year, month, 0).getDate();

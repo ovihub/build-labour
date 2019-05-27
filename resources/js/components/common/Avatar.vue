@@ -37,6 +37,10 @@
 				type: String,
 				default: '100%'
 			},
+			initials: {
+				type: String,
+				required: false
+			},
 		},
 
 		computed: {
@@ -65,6 +69,10 @@
 			Bus.$on('avatarDetails', function(details) {
 				component.input = details;
 			});
+
+			if (this.input.initials == '') {
+				this.input.initials = this.initials;
+			}
 		},
 	}
 </script>
