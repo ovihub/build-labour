@@ -63,6 +63,7 @@ class DatabaseRerun extends Command
 
         echo shell_exec('php artisan migrate');
 
+        sleep(2/1000);
         echo shell_exec('php artisan db:seed');
 
     }

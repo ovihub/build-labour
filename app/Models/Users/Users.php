@@ -48,6 +48,7 @@ class Users extends BaseModel implements
 
     public $isForIntroduction = false;
 
+    public $isEmployerSignup = false;
     /**
      * @return array
      */

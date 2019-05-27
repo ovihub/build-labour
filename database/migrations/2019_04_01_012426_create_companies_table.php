@@ -17,8 +17,9 @@ class CreateCompaniesTable extends Migration
             $table->increments('id');
             $table->string('name')->nullable();
             $table->string('address')->nullable();
-            $table->string('contact_email')->nullable();
-            $table->string('contact_name')->nullable();
+            $table->string('business_entity_type')->nullable();
+            $table->string('entity_type_specialization')->nullable();
+            $table->string('main_function')->nullable();
             $table->string('phone')->nullable();
             $table->text('locations_json')->nullable();
             $table->string('sector')->nullable();
@@ -26,6 +27,8 @@ class CreateCompaniesTable extends Migration
             $table->string('photo_url')->nullable();
             $table->text('introduction')->nullable();
             $table->string('website')->nullable();
+            $table->boolean('operate_outside_states')->default(0);
+            $table->string('states')->nullable();
             $table->integer('created_by')->unsigned()->nullable();
             $table->timestamps();
         });

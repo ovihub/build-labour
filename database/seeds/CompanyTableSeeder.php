@@ -51,8 +51,6 @@ class CompanyTableSeeder extends Seeder
             }
 
             $c->address = $faker->address;
-            $c->contact_name = $faker->name;
-            $c->contact_email = $faker->email;
             $c->phone = $faker->phoneNumber;
             $c->locations_json = json_encode(['2933 Hills Greens, South Nicola, AK 03297']);
             $c->sector = 'automotive';
@@ -111,7 +109,7 @@ class CompanyTableSeeder extends Seeder
                     'exp_level' => 'Senior',
                     'contract_type' => 'Full-time',
                     'salary' => '$20000',
-                    'reports_to_json' => ['Construction Manager', 'Construction Director'],
+                    'reports_to_json' => json_encode(['Construction Manager', 'Construction Director']),
                     'location' => 'South Yarra, Melbourne, Victoria',
                     'created_by' => $user->id,
                     'created_at' => Carbon::now(),

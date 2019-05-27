@@ -7,6 +7,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
     Route::prefix('auth')->group(function() {
         // anyone can access
         Route::post('register', 'ApiAuthController@register');
+        Route::post('company/register', 'ApiAuthController@registerCompany');
         Route::post('login', 'ApiAuthController@login');
         Route::post('email/check', 'ApiAuthController@checkEmail');
         Route::post('verify', 'ApiAuthController@verify');
