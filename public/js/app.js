@@ -3744,7 +3744,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     cls: {
       type: String,
-      required: true
+      required: false
     },
     size: {
       type: String,
@@ -3753,6 +3753,10 @@ __webpack_require__.r(__webpack_exports__);
     border: {
       type: String,
       default: '1'
+    },
+    borderRadius: {
+      type: String,
+      default: '100%'
     }
   },
   computed: {
@@ -3760,7 +3764,7 @@ __webpack_require__.r(__webpack_exports__);
       return {
         width: "".concat(this.size, "px"),
         height: "".concat(this.size, "px"),
-        borderRadius: '100%',
+        borderRadius: "".concat(this.borderRadius),
         background: '#F0F2F4',
         border: "solid ".concat(this.border, "px #fff")
       };
@@ -4617,6 +4621,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4760,6 +4765,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4817,9 +4823,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
 //
 //
 //
@@ -5229,6 +5232,10 @@ __webpack_require__.r(__webpack_exports__);
       var component = this;
       axios.get(component.endpoints.get, Utils.getBearerAuth()).then(function (response) {
         var company = response.data.data.company;
+        var initials = company.name.split(' ');
+        component.avatar = {};
+        component.avatar.initials = initials[0].charAt(0) + initials[initials.length - 1].charAt(0);
+        component.avatar.profile_photo_url = company.photo_url;
         component.company.photo_url = company.photo_url;
         component.company.name = company.name;
         component.company.sector = company.sector;
@@ -5237,6 +5244,7 @@ __webpack_require__.r(__webpack_exports__);
         component.company.phone = company.phone;
         component.company.introduction = company.introduction;
         component.company.specialization = company.specialization;
+        Bus.$emit('avatarDetails', component.avatar);
         Bus.$emit('companyProfileDetails', component.company);
       }).catch(function (error) {
         Utils.handleError(error);
@@ -52085,12 +52093,25 @@ var render = function() {
                   _vm._m(1, true),
                   _vm._v(" "),
                   _c("div", { staticClass: "jobads-row" }, [
-                    _c("div", { staticClass: "bl-col-1" }, [
-                      _c("img", {
-                        staticClass: "bl-image-40",
-                        attrs: { src: job.company_photo }
-                      })
-                    ]),
+                    _c(
+                      "div",
+                      { staticClass: "bl-col-1" },
+                      [
+                        job.company_photo
+                          ? _c("img", {
+                              staticClass: "bl-image-40",
+                              attrs: { src: job.company_photo }
+                            })
+                          : _c("avatar", {
+                              attrs: {
+                                size: "110",
+                                border: "0",
+                                "border-radius": "8px"
+                              }
+                            })
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     _c("div", { staticClass: "bl-col-2" }, [
                       _c("div", { staticClass: "bl-display" }, [
@@ -52273,12 +52294,25 @@ var render = function() {
             _c("li", { staticClass: "job-items" }, [
               _c("div", { staticClass: "profile-content" }, [
                 _c("div", { staticClass: "jobads-row" }, [
-                  _c("div", { staticClass: "bl-col-1" }, [
-                    _c("img", {
-                      staticClass: "bl-image-40",
-                      attrs: { src: post.company.photo_url }
-                    })
-                  ]),
+                  _c(
+                    "div",
+                    { staticClass: "bl-col-1" },
+                    [
+                      post.company.photo_url
+                        ? _c("img", {
+                            staticClass: "bl-image-40",
+                            attrs: { src: post.company.photo_url }
+                          })
+                        : _c("avatar", {
+                            attrs: {
+                              size: "110",
+                              border: "0",
+                              "border-radius": "8px"
+                            }
+                          })
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
                   _c("div", { staticClass: "bl-col-2" }, [
                     _c("div", { staticClass: "bl-display" }, [
@@ -52817,7 +52851,14 @@ var render = function() {
               staticClass: "company-image",
               on: { click: _vm.onClickProfilePhoto }
             },
-            [_c("img", { attrs: { src: _vm.photo_url } })]
+            [
+              _vm.photo_url
+                ? _c("img", { attrs: { src: _vm.photo_url } })
+                : _c("avatar", {
+                    attrs: { size: "110", border: "0", "border-radius": "8px" }
+                  })
+            ],
+            1
           )
         ]),
         _vm._v(" "),
@@ -52826,65 +52867,77 @@ var render = function() {
             _vm._v(_vm._s(_vm.name))
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "bl-label-17 pb-3" }, [
-            _vm._v("\n                " + _vm._s(_vm.sector) + "\n            ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row bl-label-15" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("div", { staticClass: "bl-col-4 bl-display" }, [
-              _vm._v(
-                "\n                    " +
-                  _vm._s(_vm.address) +
-                  "\n                "
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row bl-label-15" }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c("div", { staticClass: "bl-col-4 bl-display" }, [
-              _vm._v(
-                "\n                    " +
-                  _vm._s(_vm.website) +
-                  "\n                "
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row bl-label-15" }, [
-            _vm._m(2),
-            _vm._v(" "),
-            _c("div", { staticClass: "bl-col-4 bl-display" }, [
-              _vm._v(
-                "\n                    " +
-                  _vm._s(_vm.phone) +
-                  "\n                "
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "bl-display" }, [
-            _c(
-              "div",
-              {
-                staticClass: "bl-label-15-style-2 bl-mb20",
-                staticStyle: { "margin-top": "24px" }
-              },
-              [
+          _vm.sector
+            ? _c("div", { staticClass: "bl-label-17 pb-3" }, [
                 _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.introduction) +
-                    "\n                "
+                  "\n                " + _vm._s(_vm.sector) + "\n            "
                 )
-              ]
-            )
-          ]),
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _vm.specialization
-            ? _c("div", { staticClass: "bl-label-16" }, [
+          _vm.address
+            ? _c("div", { staticClass: "row bl-label-15" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "bl-col-4 bl-display" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.address) +
+                      "\n                "
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.website
+            ? _c("div", { staticClass: "row bl-label-15" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("div", { staticClass: "bl-col-4 bl-display" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.website) +
+                      "\n                "
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.phone
+            ? _c("div", { staticClass: "row bl-label-15" }, [
+                _vm._m(2),
+                _vm._v(" "),
+                _c("div", { staticClass: "bl-col-4 bl-display" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.phone) +
+                      "\n                "
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.introduction
+            ? _c("div", { staticClass: "bl-display" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "bl-label-15-style-2",
+                    staticStyle: { "margin-top": "24px" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.introduction) +
+                        "\n                "
+                    )
+                  ]
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.specialization.length != 0
+            ? _c("div", { staticClass: "bl-label-16 bl-mt20" }, [
                 _vm._v("\n                We specialise in\n            ")
               ])
             : _vm._e(),
