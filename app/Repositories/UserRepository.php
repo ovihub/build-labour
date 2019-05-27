@@ -2,10 +2,14 @@
 
 namespace App\Repositories;
 
+use App\Mails\ResendVerificationCodeEmail;
+use App\Models\Companies\Company;
 use App\Models\Skills\Skill;
+use App\Models\Users\Users;
 use App\Models\Users\UserSkill;
 use App\Models\Users\WorkerDetail;
 use App\User;
+use Illuminate\Support\Facades\Mail;
 use JWTAuth;
 use Illuminate\Http\Request;
 
@@ -22,6 +26,8 @@ class UserRepository extends AbstractRepository
     protected $model = User::class;
 
     public $workerDetail = null;
+    public $user = null;
+    public $company = null;
 
     public function __construct()
     {
@@ -110,5 +116,45 @@ class UserRepository extends AbstractRepository
         }
 
         return false;
+    }
+
+    public function registerCompany(Request $request) {
+
+      //  dd($request->all());
+        $this->user = new Users;
+        $this->company = new Company();
+
+        // user validation
+        $this->user->isEmployerSignup = true;
+
+        if( !$this->user->store($request) ) {
+
+            return false;
+        }
+
+        $this->company->setUserId($this->user->id);
+
+        // check company validation
+        if ( !$this->company->store($request) ) {
+
+            $this->user->errorsDetail = $this->company->getErrorsDetail();
+
+            return false;
+        }
+
+        
+        // check company photo validation
+        if ($request->photo && !$this->company->uploadProfilePhoto($request)) {
+
+            $this->user->errorsDetail = $this->company->getErrorsDetail();
+            return false;
+        }
+
+        $user = $this->user;
+        $company = $this->company;
+        $token = $this->user->getJwtToken();
+
+        Mail::to( $user->email )->send( new ResendVerificationCodeEmail( $user ) );
+        return compact('user', 'company', 'token');
     }
 }
