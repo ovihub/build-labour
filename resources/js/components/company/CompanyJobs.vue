@@ -26,7 +26,7 @@
                     <div class="jobads-row">
                         <div class="bl-col-1">
                             <img v-if="job.company_photo" class="bl-image-40" :src="job.company_photo">
-                            <avatar v-else size="110" border="0" border-radius="8px"></avatar>
+                            <avatar v-else cls="bl-image-40" size="40" border="0" border-radius="8px"></avatar>
                         </div>
                         <div class="bl-col-2">
                             <div class="bl-display">

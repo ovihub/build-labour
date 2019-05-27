@@ -23,7 +23,7 @@
 		props: {
 			cls: {
 				type: String,
-				required: false
+				required: true
 			},
 			size: {
 				type: String,

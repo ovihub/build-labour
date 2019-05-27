@@ -106,7 +106,7 @@
             <div class="profile-header" >
                 <div class="company-image" @click="onClickProfilePhoto">
                     <img v-if="photo_url" :src="photo_url">
-                    <avatar v-else size="110" border="0" border-radius="8px"></avatar>
+                    <avatar v-else cls="" size="110" border="0" border-radius="8px"></avatar>
                 </div>
             </div>
             <div class="profile-content-p20 pb-4">

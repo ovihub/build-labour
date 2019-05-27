@@ -6,7 +6,7 @@
                     <div class="jobads-row">
                         <div class="bl-col-1">
                             <img v-if="post.company.photo_url" class="bl-image-40" :src="post.company.photo_url">
-                            <avatar v-else size="110" border="0" border-radius="8px"></avatar>
+                            <avatar v-else cls="bl-image-40" size="40" border="0" border-radius="8px"></avatar>
                         </div>
                         <div class="bl-col-2">
                             <div class="bl-display">
@@ -65,7 +65,7 @@
 
         created() {
             let component = this;
-
+            
             Bus.$on('showCompanyPosts', function(flag) {
                 component.show = flag;
                 component.getPosts();

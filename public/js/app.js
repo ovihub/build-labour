@@ -3744,7 +3744,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     cls: {
       type: String,
-      required: false
+      required: true
     },
     size: {
       type: String,
@@ -52104,7 +52104,8 @@ var render = function() {
                             })
                           : _c("avatar", {
                               attrs: {
-                                size: "110",
+                                cls: "bl-image-40",
+                                size: "40",
                                 border: "0",
                                 "border-radius": "8px"
                               }
@@ -52305,7 +52306,8 @@ var render = function() {
                           })
                         : _c("avatar", {
                             attrs: {
-                              size: "110",
+                              cls: "bl-image-40",
+                              size: "40",
                               border: "0",
                               "border-radius": "8px"
                             }
@@ -52855,7 +52857,12 @@ var render = function() {
               _vm.photo_url
                 ? _c("img", { attrs: { src: _vm.photo_url } })
                 : _c("avatar", {
-                    attrs: { size: "110", border: "0", "border-radius": "8px" }
+                    attrs: {
+                      cls: "",
+                      size: "110",
+                      border: "0",
+                      "border-radius": "8px"
+                    }
                   })
             ],
             1
