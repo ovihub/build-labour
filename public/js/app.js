@@ -5248,6 +5248,7 @@ __webpack_require__.r(__webpack_exports__);
         var company = response.data.data.company;
         component.avatar = {};
         component.avatar.initials = Utils.getInitials(company.name);
+        component.avatar.profile_photo_url = company.photo_url;
         component.company.photo_url = company.photo_url;
         component.company.name = company.name;
         component.company.sector = company.sector;
@@ -5651,6 +5652,7 @@ __webpack_require__.r(__webpack_exports__);
         if (job.company) {
           component.avatar = {};
           component.avatar.initials = Utils.getInitials(job.company.name);
+          component.avatar.profile_photo_url = job.company.photo_url;
           component.summary.photo_url = job.company.photo_url;
           component.summary.name = job.company.name;
           component.summary.address = job.company.address;

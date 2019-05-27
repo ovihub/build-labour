@@ -40,6 +40,7 @@
                         if (job.company) {
                             component.avatar = {};
                             component.avatar.initials = Utils.getInitials(job.company.name);
+                            component.avatar.profile_photo_url = job.company.photo_url;
 
                             component.summary.photo_url = job.company.photo_url;
                             component.summary.name = job.company.name;
