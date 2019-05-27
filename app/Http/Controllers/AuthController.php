@@ -15,5 +15,10 @@ class AuthController extends Controller
     {
         return view('auth.register');
     }
+
+    public function showCompanyRegisterForm()
+    {
+        return view('auth.register_company');
+    }
 }
 

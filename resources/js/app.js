@@ -65,6 +65,7 @@ Vue.component('logout', require('./components/auth/Logout.vue').default);
 Vue.component('register', require('./components/auth/Register.vue').default);
 Vue.component('request-link', require('./components/auth/passwords/RequestLink.vue').default);
 Vue.component('reset-password', require('./components/auth/passwords/ResetPassword.vue').default);
+Vue.component('register-company', require('./components/auth/RegisterCompany.vue').default);
 
 // Profile components
 Vue.component('user-profile', require('./components/profile/UserProfile.vue').default);

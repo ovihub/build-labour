@@ -97,7 +97,6 @@
                     login: '/login',
                     profile: '/user/profile',
                     register: '/api/v1/auth/register',
-                    get_roles: '/api/v1/roles',
                 }
             }
         },
@@ -112,27 +111,10 @@
             Bus.$on('regToggleConfirm', function(type) {
                 component.$refs['regToggleConfirm'].type = type;
             });
-
-            // this.getRoles();
         },
 
         methods: {
             
-            getRoles() {
-                let component = this;
-
-                axios.get(component.endpoints.get_roles, Utils.getBearerAuth())
-                    
-                    .then(function(response) {
-                        
-                        component.roles = response.data.data.roles;
-                    })
-                    .catch(function(error) {
-
-                        Utils.handleError(error);
-                    });
-            },
-
             async registerUser() {
                 let component = this;
                 

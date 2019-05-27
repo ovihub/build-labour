@@ -14,18 +14,21 @@
 Route::get('/', 'PageController@index');
 Route::get('home', 'PageController@index');
 
-Route::get('login', 'AuthController@showLoginForm')->name('login')->middleware('checktoken');
-Route::get('register', 'AuthController@showRegisterForm')->name('register')->middleware('checktoken');
+Route::middleware(['checktoken'])->group(function() {
+    Route::get('login', 'AuthController@showLoginForm')->name('login');
+    Route::get('register', 'AuthController@showRegisterForm')->name('register');
+    Route::get('company/register', 'AuthController@showCompanyRegisterForm')->name('register_company');
 
-Route::prefix('password')
-    ->group(function() {
-        Route::get('request', 'PasswordResetsController@showRequestForm')->name('password_request')->middleware('checktoken');
-        Route::get('reset', 'PasswordResetsController@showResetForm')->name('password_reset')->middleware('checktoken');
-    });
+    Route::prefix('password')
+        ->group(function() {
+            Route::get('request', 'PasswordResetsController@showRequestForm')->name('password_request');
+            Route::get('reset', 'PasswordResetsController@showResetForm')->name('password_reset');
+        });
+});
 
 Route::prefix('user')
     ->group(function() {
-        Route::middleware(['checktoken'])->group(function(){
+        Route::middleware(['checktoken'])->group(function() {
             Route::get('profile', 'UsersController@showProfile')->name('profile');
         });
         Route::get('verify', 'UsersController@showVerifyForm')->name('verify');
@@ -33,14 +36,14 @@ Route::prefix('user')
 
 Route::prefix('company')
     ->group(function() {
-        Route::middleware(['checktoken'])->group(function(){
+        Route::middleware(['checktoken'])->group(function() {
             Route::get('profile', 'CompaniesController@showCompany');
         });
     });
 
 Route::prefix('job')
     ->group(function() {
-        Route::middleware(['checktoken'])->group(function(){
+        Route::middleware(['checktoken'])->group(function() {
             Route::get('view', 'JobsController@showJob');
         });
     });

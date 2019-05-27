@@ -10,23 +10,24 @@
     <title>{{ config('app.name', 'Appetiser') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}?ref={{ strtotime("now") }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}?ref={{ strtotime("now") }}" rel="stylesheet">
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="/buildlabourfavicon.ico" type="image/x-icon">
     <link rel="icon" href="/buildlabourfavicon.ico" type="image/x-icon">
 </head>
-<body>
+<body style="overflow-x:hidden">
     <div id="app">
-        <!-- <app></app> -->
-
+        
+        <alert></alert>
+        
         <div class="auth-content-section">
             <div class="row justify-content-center">
                 <img src="/img/build-labour-logo-orange.png"
@@ -37,31 +38,20 @@
                 BUILD<br>
                 LABOUR
             </div>
+
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="form-group">
-                        <br><br>
-                        @if (! isset($_COOKIE['bl_token']))
-                            <button type="submit" onclick="location.href='/login'">
-                                Login
-                            </button>
-                            <br><br>
-                            <button type="submit" onclick="location.href='/register'">
-                                Join as a Worker
-                            </button>
-                            <br><br>
-                            <button type="submit" onclick="location.href='/company/register'">
-                                Sign Up as an Employer
-                            </button>
-                        @else
-                            <button type="submit" onclick="location.href='/login'">
-                                My Profile
-                            </button>
-                        @endif
+                    <div class="form-card">
+                        <div class="form-card-body">
+                            
+                            <register-company></register-company>
+                        
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </body>
 </html>
