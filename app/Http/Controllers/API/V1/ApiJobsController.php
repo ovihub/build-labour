@@ -174,7 +174,7 @@ class ApiJobsController extends ApiBaseController
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
-     *              mediaType="application/x-www-form-urlencoded",
+     *              mediaType="application/json",
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
@@ -213,11 +213,13 @@ class ApiJobsController extends ApiBaseController
      *                      type="string",
      *                      example="$500"
      *                  ),
-     *                   @OA\Property(
+     *                  @OA\Property(
      *                      property="reports_to",
-     *                      description="Reports to (comma separated)",
-     *                      type="string",
-     *                      example="Construction Manager, Construction Director"
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="Company Owner"
+     *                      ),
      *                  ),
      *                  @OA\Property(
      *                      property="location",
@@ -289,7 +291,7 @@ class ApiJobsController extends ApiBaseController
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
-     *              mediaType="application/x-www-form-urlencoded",
+     *              mediaType="application/json",
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
@@ -327,6 +329,14 @@ class ApiJobsController extends ApiBaseController
      *                      description="Salary",
      *                      type="string",
      *                      example="$500"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="reports_to",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="Human Resource Department"
+     *                      ),
      *                  ),
      *                  @OA\Property(
      *                      property="location",

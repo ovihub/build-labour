@@ -25,7 +25,7 @@ class Job extends BaseModel
     ];
 
     protected $hidden = [
-        'reports_to_json'
+     //   'reports_to_json'
     ];
 
     protected $appends = [
@@ -80,18 +80,6 @@ class Job extends BaseModel
         return $this->hasMany( JobRequirement::class, 'job_id', 'id');
     }
 
-    public function setReportsToJsonAttribute($data) {
-
-        if (!empty($data) && is_array($data)) {
-
-            $this->attributes['reports_to_json'] = json_encode($data);
-
-        } else {
-
-            $this->attributes['reports_to_json'] = NULL;
-        }
-    }
-
     public function setSalaryAttribute($value) {
 
         if ( ! empty( $value ) ) {
@@ -124,7 +112,6 @@ class Job extends BaseModel
 
     public function store($data) {
 
-
         if( ! $this->validate( $data )) {
 
             return false;
@@ -137,6 +124,18 @@ class Job extends BaseModel
         if (isset($data[$pk])) {
 
             $this->exists = true;
+        }
+
+        if (isset($data['reports_to'])) {
+
+            if (!empty($data['reports_to']) && is_array($data['reports_to'])) {
+
+                $this->reports_to_json = json_encode($data['reports_to']);
+
+            } else {
+
+                $this->reports_to_json = NULL;
+            }
         }
 
         try{
