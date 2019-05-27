@@ -11021,12 +11021,24 @@ ul.list-job-items li.job-items {
   margin-left: 15px;
 }
 
+.bl-image-100 {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.08), 0 0 10px 0 rgba(57, 86, 101, 0.08);
+  background-color: #fcfeff;
+}
+
 .bl-image-34 {
   width: 34px;
   height: 34px;
   border-radius: 4px;
   margin-left: 15px;
   margin-right: 15px;
+}
+
+.bl-mr24 {
+  margin-right: 24px;
 }
 
 .bl-mt20 {
@@ -11224,6 +11236,98 @@ span.ticket-delete:hover {
 
 .header-inactive {
   color: #777777;
+}
+
+.comp-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #383d3f;
+  margin-top: 20px;
+  margin-bottom: -16px;
+}
+
+.comp-label-2 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #383d3f;
+  margin-top: 20px;
+  margin-bottom: 18px;
+}
+
+.comp-row {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.comp-row select {
+  background-position: 450px;
+}
+
+.comp-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.19), 0 2px 12px 0 rgba(57, 86, 101, 0.12);
+  background-color: #fcfeff;
+  position: relative;
+  margin-top: 30px;
+}
+
+.comp-logo img {
+  overflow: hidden;
+  border-radius: 8px;
+  width: 100%;
+  box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.19), 0 2px 12px 0 rgba(57, 86, 101, 0.12);
+}
+
+.comp-button-1 {
+  width: 143px;
+  height: 33px;
+  border-radius: 8px;
+  border: 2px solid #979797;
+  text-align: center;
+  margin-top: 35px;
+  margin-left: 28px;
+  cursor: pointer;
+}
+
+.comp-button-1 p {
+  padding-top: 3px;
+  font-size: 14px;
+  color: #61686b;
+}
+
+.comp-button-2 {
+  width: 146px;
+  height: 34px;
+  border-radius: 8px;
+  background-color: #f5a623;
+  text-align: center;
+  margin-top: 20px;
+  margin-left: 28px;
+  cursor: pointer;
+}
+
+.comp-button-2 p {
+  padding-top: 4px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.comp-nophoto-label {
+  margin-left: 15px;
+  margin-top: 37px;
+  font-size: 16px;
+}
+
+.comp-progress {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 32px;
 }
 
 .job-header {
@@ -16028,6 +16132,33 @@ p.bl-nav-tab-label {
   margin-bottom: 30px;
 }
 
+.form-sub-header {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.4px;
+  text-align: center;
+  color: #435256;
+}
+
+.form-progress {
+  width: 78px;
+  height: 6px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.progress-active {
+  background-color: #f5a623;
+}
+
+.progress-complete {
+  background-color: #ff9934;
+}
+
+.progress-incomplete {
+  background-color: #d8d8d8;
+}
+
 .form-group {
   margin-bottom: 0px;
   margin-top: 28px;
@@ -16453,6 +16584,10 @@ p.bl-nav-tab-label {
   display: flex;
   flex-wrap: wrap;
   margin-top: 28px;
+}
+
+.emp-row select {
+  background-position: 450px;
 }
 
 .row-center {

@@ -579,6 +579,28 @@ p.bl-nav-tab-label {
   color: #435256;
   margin-bottom: 30px;
 }
+.form-sub-header {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.4px;
+  text-align: center;
+  color: #435256;
+}
+.form-progress {
+  width: 78px;
+  height: 6px;
+  border-radius: 3px;
+  display: inline-block;
+}
+.progress-active {
+  background-color: #f5a623;
+}
+.progress-complete {
+  background-color: #ff9934;
+}
+.progress-incomplete {
+  background-color: #d8d8d8;
+}
 .form-group {
   margin-bottom: 0px;
   margin-top: 28px;
@@ -943,6 +965,10 @@ p.bl-nav-tab-label {
   display: flex;
   flex-wrap: wrap;
   margin-top: 28px;
+
+  select {
+    background-position: 450px;
+  }
 }
 .row-center {
   align-items: center;

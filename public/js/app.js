@@ -3450,34 +3450,200 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      subHeader: 'About yourself',
+      firstProgressCls: 'progress-active',
+      secondProgressCls: 'progress-incomplete',
+      thirdProgressCls: 'progress-incomplete',
+      fourthProgressCls: 'progress-incomplete',
       firstCardCls: '',
       secondCardCls: 'hidden',
       thirdCardCls: 'hidden',
       fourthCardCls: 'hidden',
       disabled: false,
+      sectors: [{
+        id: 1,
+        name: 'Residential'
+      }, {
+        id: 2,
+        name: 'Commercial'
+      }, {
+        id: 3,
+        name: 'Civil'
+      }],
+      tiers: [{
+        id: 1,
+        name: 'Tier 1'
+      }, {
+        id: 2,
+        name: 'Tier 2'
+      }, {
+        id: 3,
+        name: 'Tier 3'
+      }, {
+        id: 4,
+        name: 'Tier 4'
+      }, {
+        id: 5,
+        name: 'Tier 5'
+      }],
+      business_types: [{
+        id: 1,
+        name: 'Building Contractor'
+      }, {
+        id: 2,
+        name: 'Trade Services Contractor'
+      }, {
+        id: 3,
+        name: 'Supplier'
+      }, {
+        id: 4,
+        name: 'Design Consultant'
+      }, {
+        id: 5,
+        name: 'Training and Education Provider'
+      }],
+      states: ['QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT'],
       input: {
         first_name: '',
         last_name: '',
-        mobile_number: '',
         email: '',
         password: '',
         password_confirmation: '',
         company_name: '',
         sector: '',
-        specialization: []
+        business_type: '',
+        specialization: [],
+        company_address: '',
+        company_contact: '',
+        company_website: '',
+        operate: '',
+        selected: []
       },
       errors: {
         first_name: '',
         last_name: '',
-        mobile_number: '',
         email: '',
         password: '',
         company_name: '',
-        sector: ''
+        sector: '',
+        business_type: '',
+        specialization: '',
+        company_address: '',
+        company_contact: '',
+        company_website: '',
+        operate: '',
+        selected: ''
       },
       endpoints: {
         login: '/login'
@@ -3498,6 +3664,11 @@ __webpack_require__.r(__webpack_exports__);
     onClickPrevious: function onClickPrevious(curPage) {
       switch (curPage) {
         case 2:
+          this.subHeader = 'About yourself';
+          this.firstProgressCls = 'progress-active';
+          this.secondProgressCls = 'progress-incomplete';
+          this.thirdProgressCls = 'progress-incomplete';
+          this.fourthProgressCls = 'progress-incomplete';
           this.firstCardCls = '';
           this.secondCardCls = 'hidden';
           this.thirdCardCls = 'hidden';
@@ -3505,6 +3676,11 @@ __webpack_require__.r(__webpack_exports__);
           break;
 
         case 3:
+          this.subHeader = 'About the Business';
+          this.firstProgressCls = 'progress-complete';
+          this.secondProgressCls = 'progress-active';
+          this.thirdProgressCls = 'progress-incomplete';
+          this.fourthProgressCls = 'progress-incomplete';
           this.secondCardCls = '';
           this.firstCardCls = 'hidden';
           this.thirdCardCls = 'hidden';
@@ -3512,6 +3688,11 @@ __webpack_require__.r(__webpack_exports__);
           break;
 
         case 4:
+          this.subHeader = 'About the Business';
+          this.firstProgressCls = 'progress-complete';
+          this.secondProgressCls = 'progress-complete';
+          this.thirdProgressCls = 'progress-active';
+          this.fourthProgressCls = 'progress-incomplete';
           this.thirdCardCls = '';
           this.firstCardCls = 'hidden';
           this.secondCardCls = 'hidden';
@@ -3523,20 +3704,33 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     onClickNext: function onClickNext(curPage) {
-      console.log(this.input);
-
       switch (curPage) {
         case 1:
+          this.subHeader = 'About the Business';
+          this.firstProgressCls = 'progress-complete';
+          this.secondProgressCls = 'progress-active';
+          this.thirdProgressCls = 'progress-incomplete';
+          this.fourthProgressCls = 'progress-incomplete';
           this.firstCardCls = 'hidden';
           this.secondCardCls = '';
           break;
 
         case 2:
+          this.subHeader = 'About the Business';
+          this.firstProgressCls = 'progress-complete';
+          this.secondProgressCls = 'progress-complete';
+          this.thirdProgressCls = 'progress-active';
+          this.fourthProgressCls = 'progress-incomplete';
           this.secondCardCls = 'hidden';
           this.thirdCardCls = '';
           break;
 
         case 3:
+          this.subHeader = 'Location & Contact';
+          this.firstProgressCls = 'progress-complete';
+          this.secondProgressCls = 'progress-complete';
+          this.thirdProgressCls = 'progress-complete';
+          this.fourthProgressCls = 'progress-active';
           this.thirdCardCls = 'hidden';
           this.fourthCardCls = '';
           break;
@@ -3563,6 +3757,41 @@ __webpack_require__.r(__webpack_exports__);
     removeEntity: function removeEntity(index) {
       if (this.input.specialization.length > 1) {
         this.input.specialization.splice(index, 1);
+      }
+    },
+    formatOperate: function formatOperate(index) {
+      if (index == 1) {
+        this.$refs['rc-checkbox-1'].checked = true;
+        this.$refs['rc-checkbox-0'].checked = false;
+        this.input.operate = 1;
+      } else if (index == 0) {
+        this.$refs['rc-checkbox-1'].checked = false;
+        this.$refs['rc-checkbox-0'].checked = true;
+        this.input.operate = 0;
+      } else {
+        this.$refs['rc-checkbox-1'].checked = false;
+        this.$refs['rc-checkbox-0'].checked = false;
+        this.input.operate = null;
+      }
+    },
+    onClickProfilePhoto: function onClickProfilePhoto() {
+      upload.click();
+    },
+    onFileChange: function onFileChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+
+      if (!files.length) {
+        return;
+      }
+
+      var file = files[0],
+          reader = new FileReader();
+      reader.addEventListener('load', function () {
+        Bus.$emit('imageToCrop', reader.result, 0, 'Company');
+      }, false);
+
+      if (file) {
+        reader.readAsDataURL(file);
       }
     }
   }
@@ -51162,11 +51391,39 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("form", { class: _vm.firstCardCls }, [
-      _c("div", { staticClass: "form-text-header" }, [
-        _vm._v("Company Registration")
-      ]),
+    _c(
+      "div",
+      {
+        staticClass: "form-text-header",
+        staticStyle: { "margin-bottom": "12px" }
+      },
+      [_vm._v("Company Registration")]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-sub-header" }, [
+      _vm._v(_vm._s(_vm.subHeader))
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "comp-progress" }, [
+      _c("div", {
+        staticClass: "form-progress bl-mr24",
+        class: _vm.firstProgressCls
+      }),
       _vm._v(" "),
+      _c("div", {
+        staticClass: "form-progress bl-mr24",
+        class: _vm.secondProgressCls
+      }),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "form-progress bl-mr24",
+        class: _vm.thirdProgressCls
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-progress", class: _vm.fourthProgressCls })
+    ]),
+    _vm._v(" "),
+    _c("form", { class: _vm.firstCardCls }, [
       _c("div", { staticClass: "form-group" }, [
         _c("input", {
           directives: [
@@ -51249,51 +51506,6 @@ var render = function() {
               )
             ])
           : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group disp-flex" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-col-2" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.input.mobile_number,
-                expression: "input.mobile_number"
-              }
-            ],
-            staticClass: "form-control",
-            staticStyle: { "padding-left": "24px" },
-            attrs: {
-              id: "mobile_number",
-              type: "text",
-              name: "mobile_number",
-              placeholder: "Mobile Number",
-              required: ""
-            },
-            domProps: { value: _vm.input.mobile_number },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.input, "mobile_number", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _vm.errors.mobile_number
-            ? _c("span", { staticClass: "err-msg" }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.errors.mobile_number) +
-                    "\n                "
-                )
-              ])
-            : _vm._e()
-        ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
@@ -51453,10 +51665,6 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("form", { class: _vm.secondCardCls }, [
-      _c("div", { staticClass: "form-text-header" }, [
-        _vm._v("Company Registration")
-      ]),
-      _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
         _c("input", {
           directives: [
@@ -51499,45 +51707,160 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.input.sector,
-              expression: "input.sector"
-            }
-          ],
-          staticClass: "form-control",
-          staticStyle: { "padding-left": "24px" },
-          attrs: {
-            id: "sector",
-            type: "text",
-            name: "sector",
-            placeholder: "Business entity type",
-            required: ""
-          },
-          domProps: { value: _vm.input.sector },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+      _c("div", { staticClass: "emp-row" }, [
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.input.sector,
+                expression: "input.sector"
               }
-              _vm.$set(_vm.input, "sector", $event.target.value)
+            ],
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.$set(
+                  _vm.input,
+                  "sector",
+                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                )
+              }
             }
-          }
-        }),
-        _vm._v(" "),
-        _vm.errors.sector
-          ? _c("span", { staticClass: "err-msg" }, [
-              _vm._v(
-                "\n                " +
-                  _vm._s(_vm.errors.sector) +
-                  "\n            "
+          },
+          [
+            _c("option", { attrs: { value: "", disabled: "", selected: "" } }, [
+              _vm._v("Business Entity Type")
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.sectors, function(sector, index) {
+              return _c(
+                "option",
+                { key: index, domProps: { value: sector.id } },
+                [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(sector.name) +
+                      "\n                "
+                  )
+                ]
               )
-            ])
-          : _vm._e()
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _vm.errors.sector
+        ? _c("span", { staticClass: "err-msg" }, [
+            _vm._v("\n            " + _vm._s(_vm.errors.sector) + "\n        ")
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { staticClass: "emp-row" }, [
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.input.tier,
+                expression: "input.tier"
+              }
+            ],
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.$set(
+                  _vm.input,
+                  "tier",
+                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                )
+              }
+            }
+          },
+          [
+            _c("option", { attrs: { value: "", disabled: "", selected: "" } }, [
+              _vm._v("Entity type specialisation")
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.tiers, function(tier, index) {
+              return _c(
+                "option",
+                { key: index, domProps: { value: tier.id } },
+                [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(tier.name) +
+                      "\n                "
+                  )
+                ]
+              )
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _vm.errors.tier
+        ? _c("span", { staticClass: "err-msg" }, [
+            _vm._v("\n            " + _vm._s(_vm.errors.tier) + "\n        ")
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("input", {
+        staticStyle: { display: "none" },
+        attrs: {
+          type: "file",
+          id: "upload",
+          value: "Choose a file",
+          accept: "image/*"
+        },
+        on: { change: _vm.onFileChange }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "comp-label" }, [
+        _vm._v("\n            Company Logo\n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "disp-flex" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "bl-col-2" }, [
+          _c("div", { staticClass: "bl-display" }, [
+            _c(
+              "div",
+              {
+                staticClass: "comp-button-1",
+                on: { click: _vm.onClickProfilePhoto }
+              },
+              [_c("p", [_vm._v("Choose File")])]
+            ),
+            _vm._v(" "),
+            _vm._m(1)
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "comp-nophoto-label" }, [
+          _vm._v("\n                no photo chosen\n            ")
+        ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
@@ -51575,11 +51898,66 @@ var render = function() {
       "form",
       { class: _vm.thirdCardCls },
       [
-        _c("div", { staticClass: "form-text-header" }, [
-          _vm._v("Company Registration")
+        _c("div", { staticClass: "comp-label" }, [
+          _vm._v("\n            What is your main company function?\n        ")
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "skill-label" }, [
+        _c("div", { staticClass: "emp-row" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.input.business_type,
+                  expression: "input.business_type"
+                }
+              ],
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.$set(
+                    _vm.input,
+                    "business_type",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
+                }
+              }
+            },
+            [
+              _c(
+                "option",
+                { attrs: { value: "", disabled: "", selected: "" } },
+                [_vm._v("Company Specialisation")]
+              ),
+              _vm._v(" "),
+              _vm._l(_vm.business_types, function(type, index) {
+                return _c(
+                  "option",
+                  { key: index, domProps: { value: type.id } },
+                  [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(type.name) +
+                        "\n                "
+                    )
+                  ]
+                )
+              })
+            ],
+            2
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "comp-label" }, [
           _vm._v("\n            What are the secondary functions?\n        ")
         ]),
         _vm._v(" "),
@@ -51692,6 +52070,260 @@ var render = function() {
         ])
       ],
       2
+    ),
+    _vm._v(" "),
+    _c(
+      "form",
+      { class: _vm.fourthCardCls },
+      [
+        _c("div", { staticClass: "comp-label" }, [
+          _vm._v("\n            Head Office Address\n        ")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.input.company_address,
+                expression: "input.company_address"
+              }
+            ],
+            staticClass: "form-control",
+            staticStyle: { "padding-left": "24px" },
+            attrs: {
+              id: "company_address",
+              type: "text",
+              name: "company_address",
+              placeholder: "Start typing address...",
+              required: "",
+              autofocus: ""
+            },
+            domProps: { value: _vm.input.company_address },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.input, "company_address", $event.target.value)
+              }
+            }
+          }),
+          _vm._v(" "),
+          _vm.errors.company_address
+            ? _c("span", { staticClass: "err-msg" }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.errors.company_address) +
+                    "\n            "
+                )
+              ])
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.input.company_contact,
+                expression: "input.company_contact"
+              }
+            ],
+            staticClass: "form-control",
+            staticStyle: { "padding-left": "24px" },
+            attrs: {
+              id: "company_contact",
+              type: "text",
+              name: "company_contact",
+              placeholder: "Business contact number",
+              required: ""
+            },
+            domProps: { value: _vm.input.company_contact },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.input, "company_contact", $event.target.value)
+              }
+            }
+          }),
+          _vm._v(" "),
+          _vm.errors.company_contact
+            ? _c("span", { staticClass: "err-msg" }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.errors.company_contact) +
+                    "\n            "
+                )
+              ])
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.input.company_website,
+                expression: "input.company_website"
+              }
+            ],
+            staticClass: "form-control",
+            staticStyle: { "padding-left": "24px" },
+            attrs: {
+              id: "company_website",
+              type: "text",
+              name: "company_website",
+              placeholder: "Business Website",
+              required: ""
+            },
+            domProps: { value: _vm.input.company_website },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.input, "company_website", $event.target.value)
+              }
+            }
+          }),
+          _vm._v(" "),
+          _vm.errors.company_website
+            ? _c("span", { staticClass: "err-msg" }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.errors.company_website) +
+                    "\n            "
+                )
+              ])
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "comp-label-2" }, [
+          _vm._v(
+            "\n            Do you operate out of any other states?\n        "
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bl-inline" }, [
+          _c("input", {
+            ref: "styled-checkbox-1",
+            staticClass: "styled-checkbox-round",
+            attrs: { id: "rc-checkbox-yes", type: "checkbox" },
+            on: {
+              change: function($event) {
+                return _vm.formatOperate(1)
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("label", { attrs: { for: "rc-checkbox-yes" } }, [_vm._v("Yes")]),
+          _vm._v(" "),
+          _c("input", {
+            ref: "styled-checkbox-0",
+            staticClass: "styled-checkbox-round",
+            attrs: { id: "rc-checkbox-no", type: "checkbox" },
+            on: {
+              change: function($event) {
+                return _vm.formatOperate(0)
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("label", { attrs: { for: "rc-checkbox-no" } }, [_vm._v("No")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "comp-label-2" }, [
+          _vm._v("\n            Check all that apply\n        ")
+        ]),
+        _vm._v(" "),
+        _vm._l(_vm.states, function(state, index) {
+          return _c("div", { key: index, staticClass: "bl-inline" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.input.selected,
+                  expression: "input.selected"
+                }
+              ],
+              staticClass: "styled-checkbox",
+              attrs: { id: "styled-checkbox-" + index, type: "checkbox" },
+              domProps: {
+                value: state,
+                checked: Array.isArray(_vm.input.selected)
+                  ? _vm._i(_vm.input.selected, state) > -1
+                  : _vm.input.selected
+              },
+              on: {
+                change: function($event) {
+                  var $$a = _vm.input.selected,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = state,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 &&
+                        _vm.$set(_vm.input, "selected", $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        _vm.$set(
+                          _vm.input,
+                          "selected",
+                          $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                        )
+                    }
+                  } else {
+                    _vm.$set(_vm.input, "selected", $$c)
+                  }
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "styled-checkbox-" + index } }, [
+              _vm._v(_vm._s(state))
+            ])
+          ])
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-link",
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  return _vm.onClickPrevious(4)
+                }
+              }
+            },
+            [_vm._v("\n                Previous\n            ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "pull-right",
+              attrs: { type: "button", disabled: _vm.disabled },
+              on: {
+                click: function($event) {
+                  return _vm.onClickNext(4)
+                }
+              }
+            },
+            [_vm._v("\n                Next\n            ")]
+          )
+        ])
+      ],
+      2
     )
   ])
 }
@@ -51700,17 +52332,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-col-1" }, [
-      _c("img", {
-        staticClass: "form-mobile-icon",
-        attrs: {
-          src: "/img/icons/au.png",
-          srcset:
-            "/img/icons/au@2x.png" + " 2x, " + "/img/icons/au@3x.png" + " 3x"
-        }
-      }),
-      _vm._v(" "),
-      _c("span", { staticClass: "form-col-label" }, [_vm._v("+61")])
+    return _c("div", { staticClass: "bl-col-1" }, [
+      _c("div", { staticClass: "comp-logo" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "comp-button-2" }, [
+      _c("p", [_vm._v("Upload")])
     ])
   }
 ]
