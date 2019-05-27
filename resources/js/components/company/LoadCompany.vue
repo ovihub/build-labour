@@ -31,7 +31,6 @@
 
                         component.avatar = {};
                         component.avatar.initials = Utils.getInitials(company.name);
-                        component.avatar.profile_photo_url = company.photo_url;
 
                         component.company.photo_url = company.photo_url;
                         component.company.name = company.name;

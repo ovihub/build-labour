@@ -5248,7 +5248,6 @@ __webpack_require__.r(__webpack_exports__);
         var company = response.data.data.company;
         component.avatar = {};
         component.avatar.initials = Utils.getInitials(company.name);
-        component.avatar.profile_photo_url = company.photo_url;
         component.company.photo_url = company.photo_url;
         component.company.name = company.name;
         component.company.sector = company.sector;
@@ -5277,6 +5276,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -5649,6 +5649,8 @@ __webpack_require__.r(__webpack_exports__);
         var job = response.data.data.job;
 
         if (job.company) {
+          component.avatar = {};
+          component.avatar.initials = Utils.getInitials(job.company.name);
           component.summary.photo_url = job.company.photo_url;
           component.summary.name = job.company.name;
           component.summary.address = job.company.address;
@@ -5663,6 +5665,7 @@ __webpack_require__.r(__webpack_exports__);
         component.job_details.salary = job.salary;
         component.job_details.reports_to = job.reports_to;
         component.job_details.location = job.location;
+        Bus.$emit('avatarDetails', component.avatar);
         Bus.$emit('companySummaryDetails', component.summary);
         Bus.$emit('jobDetails', component.job_details);
         Bus.$emit('jobRequirementsDetails', job.requirements);
@@ -53088,9 +53091,23 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "profile-item-1" }, [
-    _c("div", { staticClass: "company-image" }, [
-      _c("img", { attrs: { src: _vm.photo_url } })
-    ]),
+    _c(
+      "div",
+      { staticClass: "company-image" },
+      [
+        _vm.photo_url
+          ? _c("img", { attrs: { src: _vm.photo_url } })
+          : _c("avatar", {
+              attrs: {
+                cls: "",
+                size: "110",
+                border: "0",
+                "border-radius": "8px"
+              }
+            })
+      ],
+      1
+    ),
     _vm._v(" "),
     _c(
       "div",

@@ -38,6 +38,9 @@
                         let job = response.data.data.job;
 
                         if (job.company) {
+                            component.avatar = {};
+                            component.avatar.initials = Utils.getInitials(job.company.name);
+
                             component.summary.photo_url = job.company.photo_url;
                             component.summary.name = job.company.name;
                             component.summary.address = job.company.address;
@@ -53,6 +56,7 @@
                         component.job_details.reports_to = job.reports_to;
                         component.job_details.location = job.location;
 
+                        Bus.$emit('avatarDetails', component.avatar);
                         Bus.$emit('companySummaryDetails', component.summary);
                         Bus.$emit('jobDetails', component.job_details);
                         Bus.$emit('jobRequirementsDetails', job.requirements);
