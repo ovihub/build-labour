@@ -104,22 +104,19 @@
             <input type="file" id="upload" value="Choose a file" accept="image/*" style="display:none" @change="onFileChange" />
             
             <div class="profile-header" >
-                <!-- <img v-if="profile_photo_url" class="profile-picture" :src="profile_photo_url" alt="" @click="onClickProfilePhoto">
-                <div v-else @click="onClickProfilePhoto">
-                    <avatar cls="profile-picture" size="110" border="0"></avatar>
-                </div> -->
                 <div class="company-image" @click="onClickProfilePhoto">
-                    <img :src="photo_url">
+                    <img v-if="photo_url" :src="photo_url">
+                    <avatar v-else size="110" border="0" border-radius="8px"></avatar>
                 </div>
             </div>
             <div class="profile-content-p20 pb-4">
                 <div class="bl-label-22 m0">{{ name }}</div>
             
-                <div class="bl-label-17 pb-3">
+                <div class="bl-label-17 pb-3" v-if="sector">
                     {{ sector }}
                 </div>
                 
-                <div class="row bl-label-15">
+                <div class="row bl-label-15" v-if="address">
                     <div class="bl-col-3">
                         <img class="text-icon-3" src="/img/icons/pinlocation.png"
                             srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
@@ -129,7 +126,7 @@
                     </div>
                 </div>
 
-                <div class="row bl-label-15">
+                <div class="row bl-label-15" v-if="website">
                     <div class="bl-col-3">
                         <img class="text-icon-5" src="/img/icons/globe.png"
                             srcset="/img/icons/globe@2x.png 2x, /img/icons/globe@3x.png 3x">
@@ -139,7 +136,7 @@
                     </div>
                 </div>
 
-                <div class="row bl-label-15">
+                <div class="row bl-label-15"  v-if="phone">
                     <div class="bl-col-3">
                         <img class="text-icon-5" src="/img/icons/phone.png"
                             srcset="/img/icons/phone@2x.png 2x, /img/icons/phone@3x.png 3x">
@@ -149,12 +146,12 @@
                     </div>
                 </div>
                 
-                <div class="bl-display">
-                    <div class="bl-label-15-style-2 bl-mb20" style="margin-top:24px">
+                <div class="bl-display" v-if="introduction">
+                    <div class="bl-label-15-style-2" style="margin-top:24px">
                         {{ introduction }}
                     </div>
                 </div>
-                <div class="bl-label-16" v-if="specialization">
+                <div class="bl-label-16 bl-mt20" v-if="specialization.length != 0">
                     We specialise in
                 </div>
                 <div class="job-body">
