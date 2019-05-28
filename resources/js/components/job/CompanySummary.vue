@@ -1,7 +1,8 @@
 <template>
     <div class="profile-item-1">
         <div class="company-image">
-            <img :src="photo_url">
+            <img v-if="photo_url" :src="photo_url">
+            <avatar v-else cls="" size="110" border="0" border-radius="8px"></avatar>
         </div>
 
         <div class="profile-content" style="margin-top:-56px">

@@ -5,7 +5,7 @@
                 Filter
             </div>
             <div class="job-sort">
-                Sort by: <span  class="job-recent">Most Recent</span>
+                Sort by: <span class="job-recent">Most Recent</span>
             </div>
         </div>
         <ul class="list-job-items" v-for="(job, index) in jobs" :key="index">
@@ -25,7 +25,8 @@
             
                     <div class="jobads-row">
                         <div class="bl-col-1">
-                            <img class="bl-image-40" :src="job.company_photo">
+                            <img v-if="job.company_photo" class="bl-image-40" :src="job.company_photo">
+                            <avatar v-else cls="bl-image-40" size="40" border="0" border-radius="8px" :initials="getInitials(job.company_name)"></avatar>
                         </div>
                         <div class="bl-col-2">
                             <div class="bl-display">
@@ -92,6 +93,10 @@
         },
 
         methods: {
+
+            getInitials(name) {
+                return Utils.getInitials(name);
+            },
 
             getJobs() {
                 let component = this;

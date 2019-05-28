@@ -3753,6 +3753,14 @@ __webpack_require__.r(__webpack_exports__);
     border: {
       type: String,
       default: '1'
+    },
+    borderRadius: {
+      type: String,
+      default: '100%'
+    },
+    initials: {
+      type: String,
+      required: false
     }
   },
   computed: {
@@ -3760,7 +3768,7 @@ __webpack_require__.r(__webpack_exports__);
       return {
         width: "".concat(this.size, "px"),
         height: "".concat(this.size, "px"),
-        borderRadius: '100%',
+        borderRadius: "".concat(this.borderRadius),
         background: '#F0F2F4',
         border: "solid ".concat(this.border, "px #fff")
       };
@@ -3778,6 +3786,10 @@ __webpack_require__.r(__webpack_exports__);
     Bus.$on('avatarDetails', function (details) {
       component.input = details;
     });
+
+    if (this.input.initials == '') {
+      this.input.initials = this.initials;
+    }
   }
 });
 
@@ -4617,6 +4629,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4640,6 +4653,9 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    getInitials: function getInitials(name) {
+      return Utils.getInitials(name);
+    },
     getJobs: function getJobs() {
       var component = this;
       axios.get(component.endpoints.get_jobs, Utils.getBearerAuth()).then(function (response) {
@@ -4760,6 +4776,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4784,6 +4801,9 @@ __webpack_require__.r(__webpack_exports__);
     this.getPosts();
   },
   methods: {
+    getInitials: function getInitials(name) {
+      return Utils.getInitials(name);
+    },
     getPosts: function getPosts() {
       var component = this;
       axios.get(component.endpoints.get_posts, Utils.getBearerAuth()).then(function (response) {
@@ -4817,9 +4837,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
 //
 //
 //
@@ -5229,6 +5246,9 @@ __webpack_require__.r(__webpack_exports__);
       var component = this;
       axios.get(component.endpoints.get, Utils.getBearerAuth()).then(function (response) {
         var company = response.data.data.company;
+        component.avatar = {};
+        component.avatar.initials = Utils.getInitials(company.name);
+        component.avatar.profile_photo_url = company.photo_url;
         component.company.photo_url = company.photo_url;
         component.company.name = company.name;
         component.company.sector = company.sector;
@@ -5237,6 +5257,7 @@ __webpack_require__.r(__webpack_exports__);
         component.company.phone = company.phone;
         component.company.introduction = company.introduction;
         component.company.specialization = company.specialization;
+        Bus.$emit('avatarDetails', component.avatar);
         Bus.$emit('companyProfileDetails', component.company);
       }).catch(function (error) {
         Utils.handleError(error);
@@ -5256,6 +5277,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -5628,6 +5650,9 @@ __webpack_require__.r(__webpack_exports__);
         var job = response.data.data.job;
 
         if (job.company) {
+          component.avatar = {};
+          component.avatar.initials = Utils.getInitials(job.company.name);
+          component.avatar.profile_photo_url = job.company.photo_url;
           component.summary.photo_url = job.company.photo_url;
           component.summary.name = job.company.name;
           component.summary.address = job.company.address;
@@ -5642,6 +5667,7 @@ __webpack_require__.r(__webpack_exports__);
         component.job_details.salary = job.salary;
         component.job_details.reports_to = job.reports_to;
         component.job_details.location = job.location;
+        Bus.$emit('avatarDetails', component.avatar);
         Bus.$emit('companySummaryDetails', component.summary);
         Bus.$emit('jobDetails', component.job_details);
         Bus.$emit('jobRequirementsDetails', job.requirements);
@@ -52085,12 +52111,27 @@ var render = function() {
                   _vm._m(1, true),
                   _vm._v(" "),
                   _c("div", { staticClass: "jobads-row" }, [
-                    _c("div", { staticClass: "bl-col-1" }, [
-                      _c("img", {
-                        staticClass: "bl-image-40",
-                        attrs: { src: job.company_photo }
-                      })
-                    ]),
+                    _c(
+                      "div",
+                      { staticClass: "bl-col-1" },
+                      [
+                        job.company_photo
+                          ? _c("img", {
+                              staticClass: "bl-image-40",
+                              attrs: { src: job.company_photo }
+                            })
+                          : _c("avatar", {
+                              attrs: {
+                                cls: "bl-image-40",
+                                size: "40",
+                                border: "0",
+                                "border-radius": "8px",
+                                initials: _vm.getInitials(job.company_name)
+                              }
+                            })
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     _c("div", { staticClass: "bl-col-2" }, [
                       _c("div", { staticClass: "bl-display" }, [
@@ -52273,12 +52314,27 @@ var render = function() {
             _c("li", { staticClass: "job-items" }, [
               _c("div", { staticClass: "profile-content" }, [
                 _c("div", { staticClass: "jobads-row" }, [
-                  _c("div", { staticClass: "bl-col-1" }, [
-                    _c("img", {
-                      staticClass: "bl-image-40",
-                      attrs: { src: post.company.photo_url }
-                    })
-                  ]),
+                  _c(
+                    "div",
+                    { staticClass: "bl-col-1" },
+                    [
+                      post.company.photo_url
+                        ? _c("img", {
+                            staticClass: "bl-image-40",
+                            attrs: { src: post.company.photo_url }
+                          })
+                        : _c("avatar", {
+                            attrs: {
+                              cls: "bl-image-40",
+                              size: "40",
+                              border: "0",
+                              "border-radius": "8px",
+                              initials: _vm.getInitials(post.company.name)
+                            }
+                          })
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
                   _c("div", { staticClass: "bl-col-2" }, [
                     _c("div", { staticClass: "bl-display" }, [
@@ -52817,7 +52873,19 @@ var render = function() {
               staticClass: "company-image",
               on: { click: _vm.onClickProfilePhoto }
             },
-            [_c("img", { attrs: { src: _vm.photo_url } })]
+            [
+              _vm.photo_url
+                ? _c("img", { attrs: { src: _vm.photo_url } })
+                : _c("avatar", {
+                    attrs: {
+                      cls: "",
+                      size: "110",
+                      border: "0",
+                      "border-radius": "8px"
+                    }
+                  })
+            ],
+            1
           )
         ]),
         _vm._v(" "),
@@ -52826,65 +52894,77 @@ var render = function() {
             _vm._v(_vm._s(_vm.name))
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "bl-label-17 pb-3" }, [
-            _vm._v("\n                " + _vm._s(_vm.sector) + "\n            ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row bl-label-15" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("div", { staticClass: "bl-col-4 bl-display" }, [
-              _vm._v(
-                "\n                    " +
-                  _vm._s(_vm.address) +
-                  "\n                "
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row bl-label-15" }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c("div", { staticClass: "bl-col-4 bl-display" }, [
-              _vm._v(
-                "\n                    " +
-                  _vm._s(_vm.website) +
-                  "\n                "
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row bl-label-15" }, [
-            _vm._m(2),
-            _vm._v(" "),
-            _c("div", { staticClass: "bl-col-4 bl-display" }, [
-              _vm._v(
-                "\n                    " +
-                  _vm._s(_vm.phone) +
-                  "\n                "
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "bl-display" }, [
-            _c(
-              "div",
-              {
-                staticClass: "bl-label-15-style-2 bl-mb20",
-                staticStyle: { "margin-top": "24px" }
-              },
-              [
+          _vm.sector
+            ? _c("div", { staticClass: "bl-label-17 pb-3" }, [
                 _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.introduction) +
-                    "\n                "
+                  "\n                " + _vm._s(_vm.sector) + "\n            "
                 )
-              ]
-            )
-          ]),
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _vm.specialization
-            ? _c("div", { staticClass: "bl-label-16" }, [
+          _vm.address
+            ? _c("div", { staticClass: "row bl-label-15" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "bl-col-4 bl-display" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.address) +
+                      "\n                "
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.website
+            ? _c("div", { staticClass: "row bl-label-15" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("div", { staticClass: "bl-col-4 bl-display" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.website) +
+                      "\n                "
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.phone
+            ? _c("div", { staticClass: "row bl-label-15" }, [
+                _vm._m(2),
+                _vm._v(" "),
+                _c("div", { staticClass: "bl-col-4 bl-display" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.phone) +
+                      "\n                "
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.introduction
+            ? _c("div", { staticClass: "bl-display" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "bl-label-15-style-2",
+                    staticStyle: { "margin-top": "24px" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.introduction) +
+                        "\n                "
+                    )
+                  ]
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.specialization.length != 0
+            ? _c("div", { staticClass: "bl-label-16 bl-mt20" }, [
                 _vm._v("\n                We specialise in\n            ")
               ])
             : _vm._e(),
@@ -53013,9 +53093,23 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "profile-item-1" }, [
-    _c("div", { staticClass: "company-image" }, [
-      _c("img", { attrs: { src: _vm.photo_url } })
-    ]),
+    _c(
+      "div",
+      { staticClass: "company-image" },
+      [
+        _vm.photo_url
+          ? _c("img", { attrs: { src: _vm.photo_url } })
+          : _c("avatar", {
+              attrs: {
+                cls: "",
+                size: "110",
+                border: "0",
+                "border-radius": "8px"
+              }
+            })
+      ],
+      1
+    ),
     _vm._v(" "),
     _c(
       "div",
@@ -73129,6 +73223,10 @@ window.Helper = {
       }
 
       return hours == 1 ? 'Posted 1hr ago' : 'Posted ' + hours + 'hrs ago';
+    },
+    getInitials: function getInitials(name) {
+      var initials = name.split(' ');
+      return initials[0].charAt(0) + initials[1].charAt(0);
     },
     getDaysInMonth: function getDaysInMonth(month, year) {
       return new Date(year, month, 0).getDate();

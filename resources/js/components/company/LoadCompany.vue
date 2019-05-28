@@ -29,6 +29,10 @@
                     .then(function(response) {
                         let company = response.data.data.company;
 
+                        component.avatar = {};
+                        component.avatar.initials = Utils.getInitials(company.name);
+                        component.avatar.profile_photo_url = company.photo_url;
+
                         component.company.photo_url = company.photo_url;
                         component.company.name = company.name;
                         component.company.sector = company.sector;
@@ -38,6 +42,7 @@
                         component.company.introduction = company.introduction;
                         component.company.specialization = company.specialization;
 
+                        Bus.$emit('avatarDetails', component.avatar);
                         Bus.$emit('companyProfileDetails', component.company);
                     })
                     .catch(function(error) {

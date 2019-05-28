@@ -2,7 +2,7 @@
     <div class="" id="navbarSupportedContent" v-if="textOnly != 'true'">
         <div id="navbarDropdown" data-toggle="dropdown" >
             <img v-if="input.profile_photo_url" class="bl-nav-profile-pic" :src="input.profile_photo_url" />
-            <avatar cls="bl-nav-profile-pic" size="32" border="0" :is-logout=true v-else></avatar>
+            <avatar v-else cls="bl-nav-profile-pic" size="32" border="0" :is-logout=true></avatar>
         </div>
 
         <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">

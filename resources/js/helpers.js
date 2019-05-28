@@ -162,6 +162,12 @@ window.Helper = {
             return (hours == 1) ? 'Posted 1hr ago' : 'Posted ' + hours + 'hrs ago';
         },
 
+        getInitials(name) {
+            let initials = name.split(' ');
+
+            return initials[0].charAt(0) + initials[1].charAt(0);
+        },
+
         getDaysInMonth(month, year) {
            return new Date(year, month, 0).getDate();
         },
