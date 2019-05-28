@@ -7,6 +7,7 @@ class BuildLabourApi {
 
         const prod = '';
         const local = '';
+
         this.tokenName = 'bl_token';
 
         this.options = {
@@ -14,7 +15,18 @@ class BuildLabourApi {
                 Domain: local,
                 Version: 'v1'
             }
-        }
+        };
+
+        this.time_out = false;
+        this.searchResults = [];
+        this.locations = [];
+        this.companies = [];
+
+        this.endpoints = {
+            locations: '/api/v1/locations',
+            companies: '/api/v1/company/search',
+        };
+        
         //  this._headers()
     }
 
@@ -53,6 +65,50 @@ class BuildLabourApi {
     deleteToken() {
         VueCookie.delete(this.tokenName);
         window.location.href = '/login';
+    }
+
+    _search(endpoint, keyword) {
+        let component = this;
+
+        if (this.time_out) {
+            clearTimeout(this.time_out);
+        }
+
+        this.time_out = setTimeout(function() {
+
+            Axios.get(endpoint + "?keyword=" + keyword, Utils.getBearerAuth())
+
+                .then(function(response) {
+                    let data = response.data;
+
+                    component.searchResults = data;
+                })
+                .catch(function(error) {
+
+                    Utils.handleError(error);
+                });
+        
+        }.bind(this), 200);
+
+        return this.searchResults;
+    }
+
+    getLocations(keyword) {
+
+        let results = this._search(this.endpoints.locations, keyword);
+        
+        this.locations = (keyword != '' && (keyword && keyword.length > 0) && results.data && results.data.locations) ? results.data.locations.features : [];
+
+        return this.locations;
+    }
+
+    getCompanies(keyword) {
+
+        let results = this._search(this.endpoints.companies, keyword);
+
+        this.companies = (keyword != '' && (keyword && keyword.length > 0) && results.data && results.data.companies) ? results.data.companies : [];
+        
+        return this.companies;
     }
 
 }

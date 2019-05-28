@@ -167,11 +167,12 @@
 </template>
 
 <script>
+    import Api from '@/api';
+
     export default {
         data() {
             return {
                 disabled: false,
-                time_out: false,
                 locations: [],
                 photo_url: '',
                 name: '',
@@ -189,7 +190,6 @@
                 },
                 endpoints: {
                     save: '/api/v1/company/update',
-                    locations: '/api/v1/locations',
                 },
             }
         },
@@ -277,31 +277,7 @@
             },
 
             onChangeLocation(location) {
-                let component = this;
-
-                if (location.length <= 0) {
-                    this.locations = [];
-                }
-
-                if (this.time_out) {
-                    clearTimeout(this.time_out);
-                }
-
-                this.time_out = setTimeout(function() {
-
-                    axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth())
-
-                        .then(function(response) {
-                            let data = response.data;
-
-                            component.locations = (location != '' && data.data.locations) ? data.data.locations.features : [];
-                        })
-                        .catch(function(error) {
-
-                            Utils.handleError(error);
-                        });
-
-                }.bind(this), 300);
+                this.locations = Api.getLocations(location);
             },
 
             onSelectLocation(location) {

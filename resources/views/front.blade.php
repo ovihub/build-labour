@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="/buildlabourfavicon.ico" type="image/x-icon">
     <link rel="icon" href="/buildlabourfavicon.ico" type="image/x-icon">
 </head>
-<body>
+<body style="overflow:hidden">
     <div id="app">
         <!-- <app></app> -->
 
@@ -39,18 +39,18 @@
             </div>
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="form-group">
+                    <div class="form-group ta-center">
                         <br><br>
                         @if (! isset($_COOKIE['bl_token']))
                             <button type="submit" onclick="location.href='/login'">
                                 Login
                             </button>
                             <br><br>
-                            <button type="submit" onclick="location.href='/register'">
+                            <button type="submit" onclick="location.href='/register'" style="width:170px">
                                 Join as a Worker
                             </button>
                             <br><br>
-                            <button type="submit" onclick="location.href='/company/register'">
+                            <button type="submit" onclick="location.href='/company/register'" style="width:200px">
                                 Sign Up as an Employer
                             </button>
                         @else

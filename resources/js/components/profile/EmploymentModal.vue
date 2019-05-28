@@ -148,6 +148,8 @@
 </template>
 
 <script>
+    import Api from '@/api';
+
     export default {
         data() {
             return {
@@ -179,8 +181,6 @@
                 endpoints: {
                     save: '/api/v1/work/experience',
                     delete: '/api/v1/work/experience/',
-                    locations: '/api/v1/locations',
-                    companies: '/api/v1/company/search'
                 },
             }
         },
@@ -239,58 +239,12 @@
                 this.responsibilities.push('');
             },
 
-            onChangeLocation(location) {
-                let component = this;
-
-                if (location && location.length <= 0) {
-                    this.locations = [];
-                }
-
-                if (this.time_out) {
-                    clearTimeout(this.time_out);
-                }
-
-                this.time_out = setTimeout(function() {
-
-                    axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth())
-
-                        .then(function(response) {
-                            let data = response.data;
-
-                            component.locations = (location != '' && data.data.locations) ? data.data.locations.features : [];
-                        })
-                        .catch(function(error) {
-
-                            Utils.handleError(error);
-                        });
-
-                }.bind(this), 300);
+            onChangeLocation(keyword) {
+                this.locations = Api.getLocations(keyword);
             },
 
             onSearchCompany(keyword) {
-                let component = this;
-
-                if (keyword.length <= 0) {
-                    this.companies = [];
-                }
-
-                if (this.time_out) {
-                    clearTimeout(this.time_out);
-                }
-
-                this.time_out = setTimeout(function() {
-
-                    axios.get(this.endpoints.companies + "?keyword=" + keyword, Utils.getBearerAuth())
-
-                        .then(function(response) {
-
-                            component.companies = (keyword != '') ? response.data.data.companies : []
-                        })
-                        .catch(function(error) {
-
-                            Utils.handleError(error);
-                        });
-                }.bind(this), 300);
+                this.companies = Api.getCompanies(keyword);
             },
 
             onSelectLocation(location) {

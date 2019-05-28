@@ -200,11 +200,22 @@
 
             <div class="form-group">
                 <input id="company_address" type="text" name="company_address" class="form-control" style="padding-left:24px"
-                    v-model="input.company_address" placeholder="Start typing address..." required autofocus />
+                    v-model="input.company_address" placeholder="Start typing address..."
+                    @keyup="onChangeLocation(input.company_address)"
+                    required autofocus />
 
                 <span class="err-msg" v-if="errors.company_address">
                     {{ errors.company_address }}
                 </span>
+            </div>
+
+            <div class="emp-row" style="margin-top:0" v-if="locations.length > 0">
+                <ul class="list-group">
+                    <li class="list-group-item" v-for="(place, idx) in locations" :key="idx"
+                        @click="onSelectLocation(place.place_name)">
+                        {{ place.place_name }}
+                    </li>
+                </ul>
             </div>
 
             <div class="form-group">
@@ -255,7 +266,7 @@
                 </a>
                 
                 <button class="pull-right" type="button" :disabled="disabled" @click="onClickNext(4)">
-                    Next
+                    Submit
                 </button>
             </div>
         </form>
@@ -279,6 +290,7 @@
                 thirdCardCls: 'hidden',
                 fourthCardCls: 'hidden',
                 disabled: false,
+                locations: [],
                 sectors: [
                     { id: 1, name: 'Residential' },
                     { id: 2, name: 'Commercial' },
@@ -332,97 +344,15 @@
         },
 
         methods: {
-            
-            onClickPrevious(curPage) {
-                switch(curPage) {
-                    case 2:
-                        this.subHeader = 'About yourself';
 
-                        this.firstProgressCls = 'progress-active';
-                        this.secondProgressCls = 'progress-incomplete';
-                        this.thirdProgressCls = 'progress-incomplete';
-                        this.fourthProgressCls = 'progress-incomplete';
-
-                        this.firstCardCls = '';
-                        this.secondCardCls = 'hidden';
-                        this.thirdCardCls = 'hidden';
-                        this.fourthCardCls = 'hidden';
-                        break;
-                    
-                    case 3:
-                        this.subHeader = 'About the Business';
-
-                        this.firstProgressCls = 'progress-complete';
-                        this.secondProgressCls = 'progress-active';
-                        this.thirdProgressCls = 'progress-incomplete';
-                        this.fourthProgressCls = 'progress-incomplete';
-
-                        this.secondCardCls = '';
-                        this.firstCardCls = 'hidden';
-                        this.thirdCardCls = 'hidden';
-                        this.fourthCardCls = 'hidden';
-                        break;
-
-                    case 4:
-                        this.subHeader = 'About the Business';
-
-                        this.firstProgressCls = 'progress-complete';
-                        this.secondProgressCls = 'progress-complete';
-                        this.thirdProgressCls = 'progress-active';
-                        this.fourthProgressCls = 'progress-incomplete';
-
-                        this.thirdCardCls = '';
-                        this.firstCardCls = 'hidden';
-                        this.secondCardCls = 'hidden';
-                        this.fourthCardCls = 'hidden';
-                        break;
-
-                    default:
-                        break;
-                }
+            onChangeLocation(keyword) {
+                this.locations = Api.getLocations(keyword);
             },
 
-            onClickNext(curPage) {
-                switch(curPage) {
-                    case 1:
-                        this.subHeader = 'About the Business';
-
-                        this.firstProgressCls = 'progress-complete';
-                        this.secondProgressCls = 'progress-active';
-                        this.thirdProgressCls = 'progress-incomplete';
-                        this.fourthProgressCls = 'progress-incomplete';
-
-                        this.firstCardCls = 'hidden';
-                        this.secondCardCls = '';
-                        break;
-
-                    case 2:
-                        this.subHeader = 'About the Business';
-
-                        this.firstProgressCls = 'progress-complete';
-                        this.secondProgressCls = 'progress-complete';
-                        this.thirdProgressCls = 'progress-active';
-                        this.fourthProgressCls = 'progress-incomplete';
-
-                        this.secondCardCls = 'hidden';
-                        this.thirdCardCls = '';
-                        break;
-                    
-                    case 3:
-                        this.subHeader = 'Location & Contact';
-
-                        this.firstProgressCls = 'progress-complete';
-                        this.secondProgressCls = 'progress-complete';
-                        this.thirdProgressCls = 'progress-complete';
-                        this.fourthProgressCls = 'progress-active';
-
-                        this.thirdCardCls = 'hidden';
-                        this.fourthCardCls = '';
-                        break;
-
-                    default:
-                        break;
-                }
+            onSelectLocation(location) {
+                this.input.company_address = location;
+                
+                this.locations = [];
             },
 
             onKeyupSpecialization() {
@@ -483,6 +413,104 @@
 
                 if (file) {
                     reader.readAsDataURL(file);
+                }
+            },
+
+            onClickPrevious(curPage) {
+                switch(curPage) {
+                    case 2:
+                        this.subHeader = 'About yourself';
+
+                        this.firstProgressCls = 'progress-active';
+                        this.secondProgressCls = 'progress-incomplete';
+                        this.thirdProgressCls = 'progress-incomplete';
+                        this.fourthProgressCls = 'progress-incomplete';
+
+                        this.firstCardCls = '';
+                        this.secondCardCls = 'hidden';
+                        this.thirdCardCls = 'hidden';
+                        this.fourthCardCls = 'hidden';
+
+                        break;
+                    
+                    case 3:
+                        this.subHeader = 'About the Business';
+
+                        this.firstProgressCls = 'progress-complete';
+                        this.secondProgressCls = 'progress-active';
+                        this.thirdProgressCls = 'progress-incomplete';
+                        this.fourthProgressCls = 'progress-incomplete';
+
+                        this.firstCardCls = 'hidden';
+                        this.secondCardCls = '';
+                        this.thirdCardCls = 'hidden';
+                        this.fourthCardCls = 'hidden';
+
+                        break;
+
+                    case 4:
+                        this.subHeader = 'About the Business';
+
+                        this.firstProgressCls = 'progress-complete';
+                        this.secondProgressCls = 'progress-complete';
+                        this.thirdProgressCls = 'progress-active';
+                        this.fourthProgressCls = 'progress-incomplete';
+
+                        this.firstCardCls = 'hidden';
+                        this.secondCardCls = 'hidden';
+                        this.thirdCardCls = '';
+                        this.fourthCardCls = 'hidden';
+
+                        break;
+
+                    default:
+                        break;
+                }
+            },
+
+            onClickNext(curPage) {
+                switch(curPage) {
+                    case 1:
+                        this.subHeader = 'About the Business';
+
+                        this.firstProgressCls = 'progress-complete';
+                        this.secondProgressCls = 'progress-active';
+                        this.thirdProgressCls = 'progress-incomplete';
+                        this.fourthProgressCls = 'progress-incomplete';
+
+                        this.firstCardCls = 'hidden';
+                        this.secondCardCls = '';
+
+                        break;
+
+                    case 2:
+                        this.subHeader = 'About the Business';
+
+                        this.firstProgressCls = 'progress-complete';
+                        this.secondProgressCls = 'progress-complete';
+                        this.thirdProgressCls = 'progress-active';
+                        this.fourthProgressCls = 'progress-incomplete';
+
+                        this.secondCardCls = 'hidden';
+                        this.thirdCardCls = '';
+
+                        break;
+                    
+                    case 3:
+                        this.subHeader = 'Location & Contact';
+
+                        this.firstProgressCls = 'progress-complete';
+                        this.secondProgressCls = 'progress-complete';
+                        this.thirdProgressCls = 'progress-complete';
+                        this.fourthProgressCls = 'progress-active';
+
+                        this.thirdCardCls = 'hidden';
+                        this.fourthCardCls = '';
+
+                        break;
+
+                    default:
+                        break;
                 }
             },
         }

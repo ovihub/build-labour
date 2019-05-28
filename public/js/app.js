@@ -3557,6 +3557,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3571,6 +3582,7 @@ __webpack_require__.r(__webpack_exports__);
       thirdCardCls: 'hidden',
       fourthCardCls: 'hidden',
       disabled: false,
+      locations: [],
       sectors: [{
         id: 1,
         name: 'Residential'
@@ -3661,83 +3673,12 @@ __webpack_require__.r(__webpack_exports__);
     this.input.specialization.push('');
   },
   methods: {
-    onClickPrevious: function onClickPrevious(curPage) {
-      switch (curPage) {
-        case 2:
-          this.subHeader = 'About yourself';
-          this.firstProgressCls = 'progress-active';
-          this.secondProgressCls = 'progress-incomplete';
-          this.thirdProgressCls = 'progress-incomplete';
-          this.fourthProgressCls = 'progress-incomplete';
-          this.firstCardCls = '';
-          this.secondCardCls = 'hidden';
-          this.thirdCardCls = 'hidden';
-          this.fourthCardCls = 'hidden';
-          break;
-
-        case 3:
-          this.subHeader = 'About the Business';
-          this.firstProgressCls = 'progress-complete';
-          this.secondProgressCls = 'progress-active';
-          this.thirdProgressCls = 'progress-incomplete';
-          this.fourthProgressCls = 'progress-incomplete';
-          this.secondCardCls = '';
-          this.firstCardCls = 'hidden';
-          this.thirdCardCls = 'hidden';
-          this.fourthCardCls = 'hidden';
-          break;
-
-        case 4:
-          this.subHeader = 'About the Business';
-          this.firstProgressCls = 'progress-complete';
-          this.secondProgressCls = 'progress-complete';
-          this.thirdProgressCls = 'progress-active';
-          this.fourthProgressCls = 'progress-incomplete';
-          this.thirdCardCls = '';
-          this.firstCardCls = 'hidden';
-          this.secondCardCls = 'hidden';
-          this.fourthCardCls = 'hidden';
-          break;
-
-        default:
-          break;
-      }
+    onChangeLocation: function onChangeLocation(keyword) {
+      this.locations = _api__WEBPACK_IMPORTED_MODULE_0__["default"].getLocations(keyword);
     },
-    onClickNext: function onClickNext(curPage) {
-      switch (curPage) {
-        case 1:
-          this.subHeader = 'About the Business';
-          this.firstProgressCls = 'progress-complete';
-          this.secondProgressCls = 'progress-active';
-          this.thirdProgressCls = 'progress-incomplete';
-          this.fourthProgressCls = 'progress-incomplete';
-          this.firstCardCls = 'hidden';
-          this.secondCardCls = '';
-          break;
-
-        case 2:
-          this.subHeader = 'About the Business';
-          this.firstProgressCls = 'progress-complete';
-          this.secondProgressCls = 'progress-complete';
-          this.thirdProgressCls = 'progress-active';
-          this.fourthProgressCls = 'progress-incomplete';
-          this.secondCardCls = 'hidden';
-          this.thirdCardCls = '';
-          break;
-
-        case 3:
-          this.subHeader = 'Location & Contact';
-          this.firstProgressCls = 'progress-complete';
-          this.secondProgressCls = 'progress-complete';
-          this.thirdProgressCls = 'progress-complete';
-          this.fourthProgressCls = 'progress-active';
-          this.thirdCardCls = 'hidden';
-          this.fourthCardCls = '';
-          break;
-
-        default:
-          break;
-      }
+    onSelectLocation: function onSelectLocation(location) {
+      this.input.company_address = location;
+      this.locations = [];
     },
     onKeyupSpecialization: function onKeyupSpecialization() {
       this.input.specialization = this.input.specialization.filter(function (r) {
@@ -3792,6 +3733,84 @@ __webpack_require__.r(__webpack_exports__);
 
       if (file) {
         reader.readAsDataURL(file);
+      }
+    },
+    onClickPrevious: function onClickPrevious(curPage) {
+      switch (curPage) {
+        case 2:
+          this.subHeader = 'About yourself';
+          this.firstProgressCls = 'progress-active';
+          this.secondProgressCls = 'progress-incomplete';
+          this.thirdProgressCls = 'progress-incomplete';
+          this.fourthProgressCls = 'progress-incomplete';
+          this.firstCardCls = '';
+          this.secondCardCls = 'hidden';
+          this.thirdCardCls = 'hidden';
+          this.fourthCardCls = 'hidden';
+          break;
+
+        case 3:
+          this.subHeader = 'About the Business';
+          this.firstProgressCls = 'progress-complete';
+          this.secondProgressCls = 'progress-active';
+          this.thirdProgressCls = 'progress-incomplete';
+          this.fourthProgressCls = 'progress-incomplete';
+          this.firstCardCls = 'hidden';
+          this.secondCardCls = '';
+          this.thirdCardCls = 'hidden';
+          this.fourthCardCls = 'hidden';
+          break;
+
+        case 4:
+          this.subHeader = 'About the Business';
+          this.firstProgressCls = 'progress-complete';
+          this.secondProgressCls = 'progress-complete';
+          this.thirdProgressCls = 'progress-active';
+          this.fourthProgressCls = 'progress-incomplete';
+          this.firstCardCls = 'hidden';
+          this.secondCardCls = 'hidden';
+          this.thirdCardCls = '';
+          this.fourthCardCls = 'hidden';
+          break;
+
+        default:
+          break;
+      }
+    },
+    onClickNext: function onClickNext(curPage) {
+      switch (curPage) {
+        case 1:
+          this.subHeader = 'About the Business';
+          this.firstProgressCls = 'progress-complete';
+          this.secondProgressCls = 'progress-active';
+          this.thirdProgressCls = 'progress-incomplete';
+          this.fourthProgressCls = 'progress-incomplete';
+          this.firstCardCls = 'hidden';
+          this.secondCardCls = '';
+          break;
+
+        case 2:
+          this.subHeader = 'About the Business';
+          this.firstProgressCls = 'progress-complete';
+          this.secondProgressCls = 'progress-complete';
+          this.thirdProgressCls = 'progress-active';
+          this.fourthProgressCls = 'progress-incomplete';
+          this.secondCardCls = 'hidden';
+          this.thirdCardCls = '';
+          break;
+
+        case 3:
+          this.subHeader = 'Location & Contact';
+          this.firstProgressCls = 'progress-complete';
+          this.secondProgressCls = 'progress-complete';
+          this.thirdProgressCls = 'progress-complete';
+          this.fourthProgressCls = 'progress-active';
+          this.thirdCardCls = 'hidden';
+          this.fourthCardCls = '';
+          break;
+
+        default:
+          break;
       }
     }
   }
@@ -5338,6 +5357,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -5512,11 +5532,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       disabled: false,
-      time_out: false,
       locations: [],
       photo_url: '',
       name: '',
@@ -5545,8 +5565,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         specialization: ''
       },
       endpoints: {
-        save: '/api/v1/company/update',
-        locations: '/api/v1/locations'
+        save: '/api/v1/company/update'
       }
     };
   },
@@ -5618,24 +5637,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     onChangeLocation: function onChangeLocation(location) {
-      var component = this;
-
-      if (location.length <= 0) {
-        this.locations = [];
-      }
-
-      if (this.time_out) {
-        clearTimeout(this.time_out);
-      }
-
-      this.time_out = setTimeout(function () {
-        axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth()).then(function (response) {
-          var data = response.data;
-          component.locations = location != '' && data.data.locations ? data.data.locations.features : [];
-        }).catch(function (error) {
-          Utils.handleError(error);
-        });
-      }.bind(this), 300);
+      this.locations = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(location);
     },
     onSelectLocation: function onSelectLocation(location) {
       this.input.address = location;
@@ -7125,6 +7127,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -7280,6 +7283,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -7319,9 +7323,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       endpoints: {
         save: '/api/v1/work/experience',
-        delete: '/api/v1/work/experience/',
-        locations: '/api/v1/locations',
-        companies: '/api/v1/company/search'
+        delete: '/api/v1/work/experience/'
       }
     };
   },
@@ -7372,44 +7374,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
       this.responsibilities.push('');
     },
-    onChangeLocation: function onChangeLocation(location) {
-      var component = this;
-
-      if (location && location.length <= 0) {
-        this.locations = [];
-      }
-
-      if (this.time_out) {
-        clearTimeout(this.time_out);
-      }
-
-      this.time_out = setTimeout(function () {
-        axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth()).then(function (response) {
-          var data = response.data;
-          component.locations = location != '' && data.data.locations ? data.data.locations.features : [];
-        }).catch(function (error) {
-          Utils.handleError(error);
-        });
-      }.bind(this), 300);
+    onChangeLocation: function onChangeLocation(keyword) {
+      this.locations = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword);
     },
     onSearchCompany: function onSearchCompany(keyword) {
-      var component = this;
-
-      if (keyword.length <= 0) {
-        this.companies = [];
-      }
-
-      if (this.time_out) {
-        clearTimeout(this.time_out);
-      }
-
-      this.time_out = setTimeout(function () {
-        axios.get(this.endpoints.companies + "?keyword=" + keyword, Utils.getBearerAuth()).then(function (response) {
-          component.companies = keyword != '' ? response.data.data.companies : [];
-        }).catch(function (error) {
-          Utils.handleError(error);
-        });
-      }.bind(this), 300);
+      this.companies = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getCompanies(keyword);
     },
     onSelectLocation: function onSelectLocation(location) {
       this.location = location;
@@ -8540,6 +8509,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -8684,11 +8654,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       disabled: false,
-      time_out: false,
       educations: [],
       locations: [],
       profile_photo_url: '',
@@ -8723,7 +8693,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       endpoints: {
         save: '/api/v1/worker/introduction',
-        locations: '/api/v1/locations',
         educations: '/api/v1/worker/educations'
       }
     };
@@ -8845,25 +8814,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         Utils.handleError(error);
       });
     },
-    onChangeLocation: function onChangeLocation(location) {
-      var component = this;
-
-      if (location.length <= 0) {
-        this.locations = [];
-      }
-
-      if (this.time_out) {
-        clearTimeout(this.time_out);
-      }
-
-      this.time_out = setTimeout(function () {
-        axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth()).then(function (response) {
-          var data = response.data;
-          component.locations = location != '' && data.data.locations ? data.data.locations.features : [];
-        }).catch(function (error) {
-          Utils.handleError(error);
-        });
-      }.bind(this), 300);
+    onChangeLocation: function onChangeLocation(keyword) {
+      this.locations = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword);
     },
     onSelectLocation: function onSelectLocation(location) {
       this.input.address = location;
@@ -52102,6 +52054,9 @@ var render = function() {
             },
             domProps: { value: _vm.input.company_address },
             on: {
+              keyup: function($event) {
+                return _vm.onChangeLocation(_vm.input.company_address)
+              },
               input: function($event) {
                 if ($event.target.composing) {
                   return
@@ -52121,6 +52076,41 @@ var render = function() {
               ])
             : _vm._e()
         ]),
+        _vm._v(" "),
+        _vm.locations.length > 0
+          ? _c(
+              "div",
+              { staticClass: "emp-row", staticStyle: { "margin-top": "0" } },
+              [
+                _c(
+                  "ul",
+                  { staticClass: "list-group" },
+                  _vm._l(_vm.locations, function(place, idx) {
+                    return _c(
+                      "li",
+                      {
+                        key: idx,
+                        staticClass: "list-group-item",
+                        on: {
+                          click: function($event) {
+                            return _vm.onSelectLocation(place.place_name)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(place.place_name) +
+                            "\n                "
+                        )
+                      ]
+                    )
+                  }),
+                  0
+                )
+              ]
+            )
+          : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [
           _c("input", {
@@ -52319,7 +52309,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n                Next\n            ")]
+            [_vm._v("\n                Submit\n            ")]
           )
         ])
       ],
@@ -71058,9 +71048,16 @@ function () {
       Api: {
         Domain: local,
         Version: 'v1'
-      } //  this._headers()
-
+      }
     };
+    this.time_out = false;
+    this.searchResults = [];
+    this.locations = [];
+    this.companies = [];
+    this.endpoints = {
+      locations: '/api/v1/locations',
+      companies: '/api/v1/company/search'
+    }; //  this._headers()
   }
 
   _createClass(BuildLabourApi, [{
@@ -71105,6 +71102,41 @@ function () {
     value: function deleteToken() {
       vue_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.delete(this.tokenName);
       window.location.href = '/login';
+    }
+  }, {
+    key: "_search",
+    value: function _search(endpoint, keyword) {
+      var component = this;
+
+      if (this.time_out) {
+        clearTimeout(this.time_out);
+      }
+
+      this.time_out = setTimeout(function () {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(endpoint + "?keyword=" + keyword, Utils.getBearerAuth()).then(function (response) {
+          var data = response.data;
+          component.searchResults = data;
+        }).catch(function (error) {
+          Utils.handleError(error);
+        });
+      }.bind(this), 200);
+      return this.searchResults;
+    }
+  }, {
+    key: "getLocations",
+    value: function getLocations(keyword) {
+      var results = this._search(this.endpoints.locations, keyword);
+
+      this.locations = keyword != '' && keyword && keyword.length > 0 && results.data && results.data.locations ? results.data.locations.features : [];
+      return this.locations;
+    }
+  }, {
+    key: "getCompanies",
+    value: function getCompanies(keyword) {
+      var results = this._search(this.endpoints.companies, keyword);
+
+      this.companies = keyword != '' && keyword && keyword.length > 0 && results.data && results.data.companies ? results.data.companies : [];
+      return this.companies;
     }
   }]);
 

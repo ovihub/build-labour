@@ -137,11 +137,12 @@
 </template>
 
 <script>
+    import Api from '@/api';
+
     export default {
         data() {
             return {
                 disabled: false,
-                time_out: false,
                 educations: [],
                 locations: [],
                 profile_photo_url: '',
@@ -168,7 +169,6 @@
                 },
                 endpoints: {
                     save: '/api/v1/worker/introduction',
-                    locations: '/api/v1/locations',
                     educations: '/api/v1/worker/educations',
                 },
             }
@@ -319,32 +319,8 @@
                     });
             },
 
-            onChangeLocation(location) {
-                let component = this;
-
-                if (location.length <= 0) {
-                    this.locations = [];
-                }
-
-                if (this.time_out) {
-                    clearTimeout(this.time_out);
-                }
-
-                this.time_out = setTimeout(function() {
-
-                    axios.get(this.endpoints.locations + "?keyword=" + location, Utils.getBearerAuth())
-
-                        .then(function(response) {
-                            let data = response.data;
-
-                            component.locations = (location != '' && data.data.locations) ? data.data.locations.features : [];
-                        })
-                        .catch(function(error) {
-
-                            Utils.handleError(error);
-                        });
-
-                }.bind(this), 300);
+            onChangeLocation(keyword) {
+                this.locations = Api.getLocations(keyword);
             },
 
             onSelectLocation(location) {
