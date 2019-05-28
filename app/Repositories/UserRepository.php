@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Mails\ResendVerificationCodeEmail;
 use App\Models\Companies\Company;
+use App\Models\Companies\CompanySpecialized;
 use App\Models\Skills\Skill;
 use App\Models\Users\Users;
 use App\Models\Users\UserSkill;
@@ -142,9 +143,22 @@ class UserRepository extends AbstractRepository
             return false;
         }
 
-        
+        // company specialize
+
+        if ($request->company_specialization) {
+
+            foreach ($request->company_specialization as $r) {
+
+                $r['company_id'] = $this->company->id;
+
+                $spec = new CompanySpecialized();
+                $spec->store($r);
+            }
+
+        }
+
         // check company photo validation
-        if ($request->photo && !$this->company->uploadProfilePhoto($request)) {
+        if ($request->company_photo && !$this->company->uploadProfilePhoto($request)) {
 
             $this->user->errorsDetail = $this->company->getErrorsDetail();
             return false;
