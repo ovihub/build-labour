@@ -145,6 +145,16 @@
                         {{ phone }}
                     </div>
                 </div>
+
+                <div class="row bl-label-15"  v-if="sector || tier">
+                    <div class="bl-col-3">
+                        <img class="text-icon-5" src="/img/icons/globe.png"
+                            srcset="/img/icons/globe@2x.png 2x, /img/icons/globe@3x.png 3x">
+                    </div>
+                    <div class="bl-col-4 bl-display">
+                        {{ sector }} • {{ tier }}
+                    </div>
+                </div>
                 
                 <div class="bl-display" v-if="introduction">
                     <div class="bl-label-15-style-2" style="margin-top:24px">
@@ -177,16 +187,20 @@
                 photo_url: '',
                 name: '',
                 sector: '',
+                tier: '',
                 address: '',
                 website: '',
                 phone: '',
                 introduction: '',
+                main_specialization: '',
                 specialization: [],
                 input: {
-                    name: '', sector: '', address: '', website: '', phone: '', introduction: '', specialization: []
+                    name: '', sector: '', tier: '', address: '', website: '', phone: '', introduction: '',
+                    main_specialization: '', specialization: [],
                 },
                 errors: {
-                    name: '', sector: '', address: '', website: '', phone: '', introduction: '', specialization: ''
+                    name: '', sector: '', tier: '', address: '', website: '', phone: '', introduction: '',
+                    main_specialization: '', specialization: '',
                 },
                 endpoints: {
                     save: '/api/v1/company/update',
@@ -209,20 +223,24 @@
                 this.photo_url = details.photo_url;
                 this.name = details.name;
                 this.sector = details.sector;
+                this.tier = details.tier;
                 this.address = details.address;
                 this.website = details.website;
                 this.phone = details.phone;
                 this.introduction = details.introduction;
+                this.main_specialization = details.main_specialization;
                 this.specialization = details.specialization;
             },
 
             setDisplayValues(val, details) {
                 val.name = details.name;
                 val.sector = details.sector;
+                val.tier = details.tier;
                 val.address = details.address;
                 val.website = details.website;
                 val.phone = details.phone;
                 val.introduction = details.introduction;
+                val.main_specialization = details.main_specialization;
                 val.specialization = details.specialization;
 
                 this.input.specialization = this.input.specialization.filter(r => r.name !== '');

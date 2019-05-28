@@ -76,12 +76,11 @@ class BuildLabourApi {
 
         this.time_out = setTimeout(function() {
 
-            Axios.get(endpoint + "?keyword=" + keyword, Utils.getBearerAuth())
+            Axios.get(endpoint + '?keyword=' + keyword, Utils.getBearerAuth())
 
                 .then(function(response) {
-                    let data = response.data;
 
-                    component.searchResults = data;
+                    component.searchResults = response.data;
                 })
                 .catch(function(error) {
 
@@ -97,7 +96,8 @@ class BuildLabourApi {
 
         let results = this._search(this.endpoints.locations, keyword);
         
-        this.locations = (keyword != '' && (keyword && keyword.length > 0) && results.data && results.data.locations) ? results.data.locations.features : [];
+        this.locations = (keyword != '' && (keyword && keyword.length > 0) && results.data && results.data.locations) ? 
+                            results.data.locations.features : [];
 
         return this.locations;
     }
@@ -106,7 +106,8 @@ class BuildLabourApi {
 
         let results = this._search(this.endpoints.companies, keyword);
 
-        this.companies = (keyword != '' && (keyword && keyword.length > 0) && results.data && results.data.companies) ? results.data.companies : [];
+        this.companies = (keyword != '' && (keyword && keyword.length > 0) && results.data && results.data.companies) ?
+                            results.data.companies : [];
         
         return this.companies;
     }

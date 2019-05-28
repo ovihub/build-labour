@@ -11242,7 +11242,7 @@ span.ticket-delete:hover {
   font-size: 15px;
   font-weight: 600;
   color: #383d3f;
-  margin-top: 20px;
+  margin-top: 25px;
   margin-bottom: -16px;
 }
 
@@ -11252,6 +11252,15 @@ span.ticket-delete:hover {
   color: #383d3f;
   margin-top: 20px;
   margin-bottom: 18px;
+}
+
+.comp-label-3 {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.47;
+  color: #a2b2b7;
+  margin-top: 14px;
+  margin-bottom: -8px;
 }
 
 .comp-row {
@@ -11312,7 +11321,7 @@ span.ticket-delete:hover {
 }
 
 .comp-button-2 p {
-  padding-top: 4px;
+  padding-top: 5px;
   font-size: 15px;
   font-weight: 500;
   color: #ffffff;
@@ -16663,6 +16672,10 @@ p.bl-nav-tab-label {
   flex: 0 0 90.5%;
   max-width: 90.5%;
   margin-right: 20px;
+}
+
+.comp-col-left select {
+  background-position: 400px;
 }
 
 .comp-col-right {

@@ -63,6 +63,9 @@
 				
 				} else if (type == 'Company') {
 					component.endpoints.upload = '/api/v1/company/photo';
+				
+				} else if (type == 'CompanyRegister') {
+					component.endpoints.upload = '';
 				}
 
 				component.imgCrop = binary;
@@ -115,30 +118,38 @@
 				
 				this.disabled = true;
 
-				await axios.post(component.endpoints.upload, component.$data.input, Utils.getBearerAuth())
-            
-					.then(function(response) {
-						let data = response.data
-						
-						if (data.success) {
-							component.close();
+				if (this.type != 'CompanyRegister') {
 
-							if (component.type == 'User') {
-								window.location.href = '/user/profile';
+					await axios.post(component.endpoints.upload, component.$data.input, Utils.getBearerAuth())
+				
+						.then(function(response) {
+							let data = response.data
 							
-							} else if (component.type == 'Company') {
-								window.location.href = '/company/profile';
-							
-							} else {
-								Bus.$emit('alertSuccess', data.message);
-								Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
+							if (data.success) {
+								component.close();
+
+								if (component.type == 'User') {
+									window.location.href = '/user/profile';
+								
+								} else if (component.type == 'Company') {
+									window.location.href = '/company/profile';
+								
+								} else {
+									Bus.$emit('alertSuccess', data.message);
+									Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
+								}
 							}
-						}
-					})
-					.catch(function(error) {
+						})
+						.catch(function(error) {
 
-						Utils.handleError(error);
-					});	
+							Utils.handleError(error);
+						});	
+				
+				} else {
+					this.close();
+					
+					Bus.$emit('croppedPhoto', this.input.photo);
+				}
 				
 				this.disabled = false;
 			},
