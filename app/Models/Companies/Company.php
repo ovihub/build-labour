@@ -51,6 +51,7 @@ class Company extends BaseModel
             'sector'        => 'nullable|min:4',
             'tier'          => 'nullable|min:4',
             'introduction'  => 'nullable|min:5',
+            'operate_outside_states' => 'nullable|boolean',
             'website'       => 'nullable|min:5|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
         ];
     }
@@ -62,6 +63,53 @@ class Company extends BaseModel
             'name.required'  => 'Company name is required.',
             'name.min'  => 'Company name must be at least 5 characters',
         ];
+    }
+
+    public function transformRequest($data) {
+
+        $transformed = [];
+
+        if (isset($data['company_name'])) {
+
+            $transformed['name'] = $data['company_name'];
+        }
+
+        if (isset($data['company_business_entity_type'])) {
+
+            $transformed['business_entity_type'] = $data['company_business_entity_type'];
+        }
+
+        if (isset($data['company_entity_type_specialization'])) {
+
+            $transformed['entity_type_specialization'] = $data['company_entity_type_specialization'];
+        }
+
+        if (isset($data['company_address'])) {
+
+            $transformed['address'] = $data['company_address'];
+        }
+
+        if (isset($data['company_contact_number'])) {
+
+            $transformed['phone'] = $data['company_contact_number'];
+        }
+
+        if (isset($data['company_operate_outside_states'])) {
+
+            $transformed['operate_outside_states'] = $data['company_operate_outside_states'];
+        }
+
+        if (isset($data['company_website'])) {
+
+            $transformed['website'] = $data['company_website'];
+        }
+
+        if (isset($data['company_states'])) {
+
+            $transformed['states'] = $data['company_states'];
+        }
+
+        return $transformed;
     }
 
     /**
@@ -116,9 +164,21 @@ class Company extends BaseModel
         $this->userId = $userId;
     }
 
+    public function setStatesAttribute($states) {
+
+        if (!empty($states) && is_array($states)) {
+
+            $this->attributes['states'] = implode(",", $states);
+
+        } else {
+
+            $this->attributes['states'] = NULL;
+        }
+    }
+
     public function store(Request $r) {
 
-        $data = $r->all();
+        $data = $this->transformRequest($r->all());
 
         if( ! $this->validate( $data )) {
 
@@ -167,14 +227,31 @@ class Company extends BaseModel
                 return false;
             }
 
-            $validator = \Validator::make( $request->all(), [ 'photo' => 'required|image64:jpeg,jpg,png' ] );
+            if ($request->company_photo) {
+
+                $rule = [ 'company_photo' => 'required|image64:jpeg,jpg,png' ];
+
+            } else {
+
+                $rule = [ 'photo' => 'required|image64:jpeg,jpg,png' ];
+            }
+
+            $validator = \Validator::make( $request->all(),  $rule);
 
             if( $validator->fails() ){
                 $this->addError(  $validator->errors()->first() ) ;
+                $this->errorsDetail = $validator->errors()->toArray();
                 return false;
             }
 
-            $photo = $request->get('photo');
+            if ($request->company_photo) {
+
+                $photo = $request->get('company_photo');
+
+            } else {
+
+                $photo = $request->get('photo');
+            }
 
             // $ext = $request->photo->getClientOriginalExtension();
             $ext = '.png';
