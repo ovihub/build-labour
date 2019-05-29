@@ -11336,7 +11336,30 @@ span.ticket-delete:hover {
 .comp-progress {
   text-align: center;
   margin-top: 20px;
-  margin-bottom: 32px;
+  margin-bottom: 4px;
+}
+
+.comp-card-wrapper {
+  display: inline-flex;
+  list-style-type: none;
+  padding: 0;
+}
+
+.comp-card-wrapper li {
+  width: 488px;
+  visibility: hidden;
+  overflow: auto;
+  will-change: transform;
+  -webkit-transform: translate(var(--x, 0%), var(--y, 0%));
+          transform: translate(var(--x, 0%), var(--y, 0%));
+  transition: -webkit-transform 300ms ease-out;
+  transition: transform 300ms ease-out;
+  transition: transform 300ms ease-out, -webkit-transform 300ms ease-out;
+  position: relative;
+}
+
+.comp-card-wrapper li.current {
+  visibility: visible;
 }
 
 .job-header {
@@ -16154,17 +16177,18 @@ p.bl-nav-tab-label {
   height: 6px;
   border-radius: 3px;
   display: inline-block;
+  background-color: #d8d8d8;
 }
 
-.progress-active {
+.form-progress.active {
   background-color: #f5a623;
 }
 
-.progress-complete {
+.form-progress.complete {
   background-color: #ff9934;
 }
 
-.progress-incomplete {
+.form-progress.incomplete {
   background-color: #d8d8d8;
 }
 

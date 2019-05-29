@@ -174,5 +174,26 @@
 .comp-progress {
     text-align: center;
     margin-top: 20px;
-    margin-bottom: 32px;
+    margin-bottom: 4px;
+}
+.comp-card-wrapper {
+    display: inline-flex;
+    list-style-type: none;
+    padding: 0;
+
+    li {
+        // width: 100%;
+        width: 488px;
+        visibility: hidden;
+        // flex: 0 0 100%;
+        overflow: auto;
+        will-change: transform;
+        transform: translate(var(--x, 0%), var(--y, 0%));
+        transition: transform 300ms ease-out;
+        position: relative;
+
+        &.current {
+            visibility: visible;
+        }
+    }
 }

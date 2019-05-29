@@ -591,15 +591,17 @@ p.bl-nav-tab-label {
   height: 6px;
   border-radius: 3px;
   display: inline-block;
-}
-.progress-active {
-  background-color: #f5a623;
-}
-.progress-complete {
-  background-color: #ff9934;
-}
-.progress-incomplete {
   background-color: #d8d8d8;
+
+  &.active {
+    background-color: #f5a623;
+  }
+  &.complete {
+    background-color: #ff9934;
+  }
+  &.incomplete {
+    background-color: #d8d8d8;
+  }
 }
 .form-group {
   margin-bottom: 0px;
