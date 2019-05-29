@@ -6,6 +6,10 @@ use App\Models\Companies\CompanySpecialized;
 use App\Models\Companies\Job;
 use App\Models\Companies\JobRequirement;
 use App\Models\Companies\JobResponsibility;
+use App\Models\Options\BusinessType;
+use App\Models\Options\MainFunction;
+use App\Models\Options\SecondaryFunction;
+use App\Models\Options\Tier;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -22,6 +26,10 @@ class CompanyTableSeeder extends Seeder
         $faker = Faker\Factory::create();
 
         $user = User::where('email', 'testusercompany@test.com')->first();
+
+        $businessType = BusinessType::find(1);
+        $tier = Tier::find(1);
+        $main = MainFunction::find(1);
 
         if (!$user) {
 
@@ -50,11 +58,13 @@ class CompanyTableSeeder extends Seeder
                 $c->name = $faker->company;
             }
 
+            $c->business_type_id = $businessType->id;
+            $c->tier_id = $tier->id;
+            $c->main_company_id = $main->id;
+
             $c->address = $faker->address;
             $c->phone = $faker->phoneNumber;
             $c->locations_json = json_encode(['2933 Hills Greens, South Nicola, AK 03297']);
-            $c->sector = 'automotive';
-            $c->tier = 'manufacturing';
             $c->introduction = 'We are a modern, professional and sophisticated surveying firm specialising in land development, construction and engineering surveying. We provide quality, cost-effective and efficient surveying service.';
             $c->website = $faker->domainName;
 
@@ -215,18 +225,16 @@ class CompanyTableSeeder extends Seeder
                 // company specialization
 
                 CompanySpecialized::create([
-                    'name' => 'Land Development',
-                    'company_id' => $c->id
+                    'company_id' => $c->id,
+                    'secondary_id' => $main->items[0]->id
                 ]);
-
                 CompanySpecialized::create([
-                    'name' => 'Construction',
-                    'company_id' => $c->id
+                    'company_id' => $c->id,
+                    'secondary_id' => $main->items[1]->id
                 ]);
-
                 CompanySpecialized::create([
-                    'name' => 'Engineering Surveying',
-                    'company_id' => $c->id
+                    'company_id' => $c->id,
+                    'secondary_id' => $main->items[2]->id
                 ]);
             }
         }

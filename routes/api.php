@@ -88,6 +88,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
     Route::prefix('company')->group(function () {
         Route::middleware([ 'jwt' ])->group(function () {
 
+            Route::get('options', 'ApiCompaniesController@options');
             Route::get('search', 'ApiCompaniesController@search');
             Route::post('update', 'ApiCompaniesController@update');
             Route::post('photo', 'ApiCompaniesController@uploadPhoto');
