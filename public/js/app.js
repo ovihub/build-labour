@@ -51756,7 +51756,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c(
-                  "a",
+                  "span",
                   {
                     staticClass: "btn btn-link",
                     attrs: { href: _vm.endpoints.login }
@@ -51974,10 +51974,9 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
               _c(
-                "a",
+                "span",
                 {
                   staticClass: "btn btn-link",
-                  attrs: { href: "#" },
                   on: {
                     click: function($event) {
                       return _vm.onClickPrevious(2)
@@ -52294,10 +52293,9 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
               _c(
-                "a",
+                "span",
                 {
                   staticClass: "btn btn-link",
-                  attrs: { href: "#" },
                   on: {
                     click: function($event) {
                       return _vm.onClickPrevious(3)
@@ -52546,10 +52544,9 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
               _c(
-                "a",
+                "span",
                 {
                   staticClass: "btn btn-link",
-                  attrs: { href: "#" },
                   on: {
                     click: function($event) {
                       return _vm.onClickPrevious(4)

@@ -73,9 +73,9 @@
                 </center>
 
                 <div class="form-group">
-                    <a class="btn btn-link" v-bind:href="endpoints.login">
+                    <span class="btn btn-link" v-bind:href="endpoints.login">
                         Back to login
-                    </a>
+                    </span>
                     
                     <button class="pull-right" type="button" :disabled="disabled" @click="onClickNext(1)">
                         Next
@@ -136,9 +136,9 @@
                 </div>
                 
                 <div class="form-group">
-                    <a class="btn btn-link" href="#" @click="onClickPrevious(2)">
+                    <span class="btn btn-link" @click="onClickPrevious(2)">
                         Previous
-                    </a>
+                    </span>
                     
                     <button class="pull-right" type="button" :disabled="disabled" @click="onClickNext(2)">
                         Next
@@ -216,9 +216,9 @@
                 </div>
 
                 <div class="form-group">
-                    <a class="btn btn-link" href="#" @click="onClickPrevious(3)">
+                    <span class="btn btn-link" @click="onClickPrevious(3)">
                         Previous
-                    </a>
+                    </span>
                     
                     <button class="pull-right" type="button" :disabled="disabled" @click="onClickNext(3)">
                         Next
@@ -274,9 +274,9 @@
                 </div>
 
                 <div class="form-group">
-                    <a class="btn btn-link" href="#" @click="onClickPrevious(4)">
+                    <span class="btn btn-link" @click="onClickPrevious(4)">
                         Previous
-                    </a>
+                    </span>
                     
                     <button class="pull-right" type="submit" @click="submit" :disabled="disabled">
                         Submit

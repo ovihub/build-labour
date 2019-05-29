@@ -839,7 +839,8 @@ p.bl-nav-tab-label {
 
   &:hover {
     color: $brand-orange;
-    cursor: pointer;    
+    cursor: pointer; 
+    text-decoration: none;   
   }
 }
 .page-item.active .page-link {
