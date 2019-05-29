@@ -17,7 +17,7 @@
             <div :class="firstCardCls">
                 <div class="form-group">
                     <input id="company_name" type="text" name="company_name" class="form-control" style="padding-left:24px"
-                        v-model="input.company_name" placeholder="Company Name" required autofocus />
+                        v-model="input.company_name" placeholder="Company Name" required />
 
                     <span class="err-msg" v-if="errors.company_name">
                         {{ errors.company_name }}
@@ -60,7 +60,8 @@
                     <div class="comp-col-right">
                         <span @click="removeEntity(index)">
                             <img src="/img/icons/remove.png"
-                                srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x">
+                                srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x"
+                                style="cursor:pointer">
                         </span>
                     </div>
                 </div>
@@ -116,7 +117,7 @@
                     <div class="bl-col-1">
                         <div class="comp-logo">
                             <img v-if="input.company_photo" class="bl-image-100" :src="input.company_photo">
-                            <img v-else class="bl-image-100" src="/img/logo/1.jpg">
+                            <!-- <img v-else class="bl-image-100" src="/img/logo/1.jpg"> -->
                         </div>
                     </div>
                     <div class="bl-col-2">
@@ -154,7 +155,7 @@
                     <input id="company_address" type="text" name="company_address" class="form-control" style="padding-left:24px"
                         v-model="input.company_address" placeholder="Start typing address..."
                         @keyup="onChangeLocation(input.company_address)"
-                        required autofocus />
+                        required />
 
                     <span class="err-msg" v-if="errors.company_address">
                         {{ errors.company_address }}
@@ -203,13 +204,15 @@
                     <label for="rc-checkbox-no">No</label>
                 </div>
 
-                <div class="comp-label-2">
-                    Check all that apply
-                </div>
-                <div class="bl-inline" v-for="(state, index) in states" :key="index">
-                    <input class="styled-checkbox" :id="'styled-checkbox-'+index" type="checkbox"
-                        v-bind:value="state" v-model="input.company_states" />
-                    <label :for="'styled-checkbox-'+index">{{ state }}</label>
+                <div v-if="showStates">
+                    <div class="comp-label-2">
+                        Check all that apply
+                    </div>
+                    <div class="bl-inline" v-for="(state, index) in states" :key="index">
+                        <input class="styled-checkbox" :id="'styled-checkbox-'+index" type="checkbox"
+                            v-bind:value="state" v-model="input.company_states" />
+                        <label :for="'styled-checkbox-'+index">{{ state }}</label>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -300,6 +303,7 @@
                 secondCardCls: 'hidden',
                 thirdCardCls: 'hidden',
                 fourthCardCls: 'hidden',
+                showStates: true,
                 disabled: false,
                 locations: [],
                 sectors: [
@@ -401,12 +405,14 @@
                     this.$refs['rc-checkbox-0'].checked = false;
 
                     this.input.company_operate_outside_states = 1;
+                    this.showStates = true;
 
                 } else if (index == 0) {
                     this.$refs['rc-checkbox-1'].checked = false;
                     this.$refs['rc-checkbox-0'].checked = true;
 
                     this.input.company_operate_outside_states = 0;
+                    this.showStates = false;
 
                 } else {
                     this.$refs['rc-checkbox-1'].checked = false;
