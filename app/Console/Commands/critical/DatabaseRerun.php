@@ -40,7 +40,7 @@ class DatabaseRerun extends Command
      */
     public function handle()
     {
-
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         $tables = DB::select('SHOW TABLES');
         $tableName = 'Tables_in_' . env('DB_DATABASE');
 
@@ -61,10 +61,14 @@ class DatabaseRerun extends Command
 
         }
 
-        echo shell_exec('php artisan migrate');
+        echo $output = shell_exec('php artisan migrate');
 
-        sleep(2/1000);
-        echo shell_exec('php artisan db:seed');
+        sleep(2/700);
 
+        if ($output) {
+
+            echo shell_exec('php artisan db:seed');
+        }
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

@@ -209,18 +209,6 @@ class ApiAuthController extends ApiBaseController
      *                      example="testuser@gmail.com"
      *                  ),
      *                  @OA\Property(
-     *                      property="first_name",
-     *                      description="First Name",
-     *                      type="string",
-     *                      example="Jane"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="last_name",
-     *                      description="Last Name",
-     *                      type="string",
-     *                      example="Doe"
-     *                  ),
-     *                  @OA\Property(
      *                      property="password",
      *                      description="Password",
      *                      type="string",
@@ -251,16 +239,30 @@ class ApiAuthController extends ApiBaseController
      *                      example="Sample Company"
      *                  ),
      *                  @OA\Property(
-     *                      property="company_business_entity_type",
-     *                      description="Business Entity Type",
-     *                      type="string",
-     *                      example="Networking"
+     *                      property="company_business_type_id",
+     *                      description="Business Entity Type ID",
+     *                      type="integer",
+     *                      example=2
      *                  ),
      *                  @OA\Property(
-     *                      property="company_entity_type_specialization",
-     *                      description="Entity Type Specialization",
-     *                      type="string",
-     *                      example="Networking"
+     *                      property="company_tier_id",
+     *                      description="Tier ID",
+     *                      type="integer",
+     *                      example=1
+     *                  ),
+     *                  @OA\Property(
+     *                      property="company_main_company_id",
+     *                      description="Company Main function",
+     *                      type="integer",
+     *                      example=1
+     *                  ),
+     *                  @OA\Property(
+     *                      property="company_secondary_functions",
+     *                      type="array",
+     *                      @OA\Items(
+     *                         type="integer",
+     *                         example=1
+     *                      ),
      *                  ),
      *                  @OA\Property(
      *                      property="company_address",
@@ -292,17 +294,6 @@ class ApiAuthController extends ApiBaseController
      *                      @OA\Items(
      *                         type="string",
      *                         example="VIC"
-     *                      ),
-     *                  ),
-     *                  @OA\Property(
-     *                      property="company_specialization",
-     *                      type="array",
-     *                      @OA\Items(
-     *                          @OA\Property(
-     *                              property="name",
-     *                              type="string",
-     *                              example="consultation"
-     *                          ),
      *                      ),
      *                  ),
      *                  @OA\Property(

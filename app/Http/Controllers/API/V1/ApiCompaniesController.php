@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Models\Companies\Company;
+use App\Models\Options\BusinessType;
+use App\Models\Options\MainFunction;
+use App\Models\Options\Tier;
 use App\Repositories\CompanyRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -255,6 +258,51 @@ class ApiCompaniesController extends ApiBaseController
         }
 
         return $this->apiSuccessResponse( compact( 'workers' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/company/options",
+     *      tags={"Company"},
+     *      summary="Get company options for selection",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function options() {
+
+        $business_types = BusinessType::all();
+        $tiers = Tier::all();
+        $main_company_functions = MainFunction::with('items')->get();
+
+        return compact(
+            'business_types',
+            'tiers',
+            'main_company_functions'
+        );
     }
 
     /**

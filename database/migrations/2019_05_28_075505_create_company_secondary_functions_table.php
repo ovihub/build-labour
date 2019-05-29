@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCompanySpecialization extends Migration
+class CreateCompanySecondaryFunctionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateCompanySpecialization extends Migration
      */
     public function up()
     {
-        Schema::create('company_specialization', function (Blueprint $table) {
+        Schema::create('company_secondary_functions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('company_id')->unsigned();
-            $table->integer('secondary_id')->unsigned();
+            $table->integer('main_id')->unsigned();
+            $table->string('secondary_name');
         });
     }
 
@@ -27,6 +27,6 @@ class CreateCompanySpecialization extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_specialization');
+        Schema::dropIfExists('company_secondary_functions');
     }
 }

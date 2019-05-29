@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Mails\ResendVerificationCodeEmail;
 use App\Models\Companies\Company;
 use App\Models\Companies\CompanySpecialized;
+use App\Models\Options\SecondaryFunction;
 use App\Models\Skills\Skill;
 use App\Models\Users\Users;
 use App\Models\Users\UserSkill;
@@ -112,6 +113,10 @@ class UserRepository extends AbstractRepository
                 return false;
             }
 
+            $user->company->BusinessType;
+            $user->company->Tier;
+            $user->company->MainFunction;
+            $user->company->Specialization;
 
             return $user->company;
         }
@@ -145,14 +150,19 @@ class UserRepository extends AbstractRepository
 
         // company specialize
 
-        if ($request->company_specialization) {
+        if ($request->company_secondary_functions && $request->company_main_company_id) {
 
-            foreach ($request->company_specialization as $r) {
+            $secondaryFunctions = SecondaryFunction::whereIn('id', $request->company_secondary_functions)
+                                ->where('main_id', $request->company_main_company_id)->pluck('id');
 
-                $r['company_id'] = $this->company->id;
 
-                $spec = new CompanySpecialized();
-                $spec->store($r);
+            foreach ($secondaryFunctions->toArray() as $id) {
+
+                CompanySpecialized::insert([
+                    'company_id' => $this->company->id,
+                    'secondary_id' => $id
+                ]);
+
             }
 
         }

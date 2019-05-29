@@ -4,6 +4,10 @@ namespace App\Models\Companies;
 
 use App\Helpers\Utils;
 use App\Models\BaseModel;
+use App\Models\Options\BusinessType;
+use App\Models\Options\MainFunction;
+use App\Models\Options\SecondaryFunction;
+use App\Models\Options\Tier;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,19 +23,18 @@ class Company extends BaseModel
 
     protected $fillable = [
         'name',
-        'address',
-        'business_entity_type',
-        'entity_type_specialization',
-        'phone',
-        'locations_json',
-        'sector',
-        'tier',
+        'business_type_id',
+        'tier_id',
+        'main_company_id',
         'photo_url',
+        'address',
+        'phone',
         'introduction',
         'website',
         'operate_outside_states',
         'states',
-        'created_by'
+        'created_by',
+        'locations_json',
     ];
 
     protected $appends = [ 'locations', 'no_of_workers' ];
@@ -74,14 +77,24 @@ class Company extends BaseModel
             $transformed['name'] = $data['company_name'];
         }
 
-        if (isset($data['company_business_entity_type'])) {
+        if (isset($data['company_business_type_id'])) {
 
-            $transformed['business_entity_type'] = $data['company_business_entity_type'];
+            $transformed['business_type_id'] = $data['company_business_type_id'];
         }
 
-        if (isset($data['company_entity_type_specialization'])) {
+        if (isset($data['company_tier_id'])) {
 
-            $transformed['entity_type_specialization'] = $data['company_entity_type_specialization'];
+            $transformed['tier_id'] = $data['company_tier_id'];
+        }
+
+        if (isset($data['company_tier_id'])) {
+
+            $transformed['tier_id'] = $data['company_tier_id'];
+        }
+
+        if (isset($data['company_main_company_id'])) {
+
+            $transformed['main_company_id'] = $data['company_main_company_id'];
         }
 
         if (isset($data['company_address'])) {
@@ -139,6 +152,7 @@ class Company extends BaseModel
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
+
     public function Workers() {
 
         return $this->belongsToMany(User::class, 'work_experience', 'id', 'user_id');
@@ -149,9 +163,25 @@ class Company extends BaseModel
         return $this->hasMany( Job::class, 'company_id', 'id');
     }
 
+    public function BusinessType() {
+
+        return $this->belongsTo(BusinessType::class, 'business_type_id');
+    }
+
+    public function Tier () {
+
+        return $this->belongsTo(Tier::class, 'tier_id');
+
+    }
+
+    public function MainFunction() {
+
+        return $this->belongsTo(MainFunction::class, 'main_company_id');
+    }
+
     public function Specialization() {
 
-        return $this->hasMany( CompanySpecialized::class, 'company_id', 'id');
+        return $this->belongsToMany(SecondaryFunction::class, 'company_specialization', 'company_id', 'secondary_id');
     }
 
     public function Posts() {

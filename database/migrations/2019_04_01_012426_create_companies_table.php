@@ -16,20 +16,18 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
-            $table->string('address')->nullable();
-            $table->string('business_entity_type')->nullable();
-            $table->string('entity_type_specialization')->nullable();
-            $table->string('main_function')->nullable();
-            $table->string('phone')->nullable();
-            $table->text('locations_json')->nullable();
-            $table->string('sector')->nullable();
-            $table->string('tier')->nullable();
+            $table->integer('business_type_id')->unsigned()->nullable();
+            $table->integer('tier_id')->unsigned()->nullable();
+            $table->integer('main_company_id')->unsigned()->nullable();
             $table->string('photo_url')->nullable();
+            $table->string('address')->nullable();
+            $table->string('phone')->nullable();
             $table->text('introduction')->nullable();
             $table->string('website')->nullable();
             $table->boolean('operate_outside_states')->default(0);
             $table->string('states')->nullable();
             $table->integer('created_by')->unsigned()->nullable();
+            $table->text('locations_json')->nullable();
             $table->timestamps();
         });
     }

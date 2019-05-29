@@ -159,6 +159,11 @@ class CompanyRepository extends AbstractRepository
 
         if ($company && $company->Specialization) {
 
+            $company->BusinessType;
+            $company->Tier;
+            $company->MainFunction;
+            $company->Specialization;
+
             return $company;
         }
 
