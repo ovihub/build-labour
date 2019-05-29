@@ -77,7 +77,7 @@ class Users extends BaseModel implements
             return [
                 'email'         => 'required|string|email|max:50|unique:users',
                 'password'      => 'required|string|min:6|max:24|confirmed',
-                'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|digits_between:9,10'
+              //  'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|digits_between:9,10'
             ];
         }
 
