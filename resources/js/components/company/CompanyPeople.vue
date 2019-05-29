@@ -15,6 +15,22 @@
         data() {
             return {
                 show: false,
+                endpoints: {
+                    get: '/api/v1/company/',
+                },
+            }
+        },
+
+        props: {
+            companyId: {
+                type: String,
+                required: false
+            },
+        },
+
+        computed: {
+            endpointGet() {
+                return this.endpoints.get + this.companyId + '/posts/people';
             }
         },
 

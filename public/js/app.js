@@ -5200,9 +5200,20 @@ __webpack_require__.r(__webpack_exports__);
       show: false,
       jobs: [],
       endpoints: {
-        get_jobs: '/api/v1/company/1/posts/jobs'
+        get: '/api/v1/company/'
       }
     };
+  },
+  props: {
+    companyId: {
+      type: String,
+      required: false
+    }
+  },
+  computed: {
+    endpointGet: function endpointGet() {
+      return this.endpoints.get + this.companyId + '/posts/jobs';
+    }
   },
   created: function created() {
     var component = this;
@@ -5222,7 +5233,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     getJobs: function getJobs() {
       var component = this;
-      axios.get(component.endpoints.get_jobs, Utils.getBearerAuth()).then(function (response) {
+      axios.get(component.endpointGet, Utils.getBearerAuth()).then(function (response) {
         component.jobs = response.data.data.posts;
       }).catch(function (error) {
         Utils.handleError(error);
@@ -5260,8 +5271,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      show: false
+      show: false,
+      endpoints: {
+        get: '/api/v1/company/'
+      }
     };
+  },
+  props: {
+    companyId: {
+      type: String,
+      required: false
+    }
+  },
+  computed: {
+    endpointGet: function endpointGet() {
+      return this.endpoints.get + this.companyId + '/posts/people';
+    }
   },
   created: function created() {
     var component = this;
@@ -5347,9 +5372,20 @@ __webpack_require__.r(__webpack_exports__);
       show: true,
       posts: [],
       endpoints: {
-        get_posts: '/api/v1/company/1/posts'
+        get: '/api/v1/company/'
       }
     };
+  },
+  props: {
+    companyId: {
+      type: String,
+      required: false
+    }
+  },
+  computed: {
+    endpointGet: function endpointGet() {
+      return this.endpoints.get + this.companyId + '/posts';
+    }
   },
   created: function created() {
     var component = this;
@@ -5370,7 +5406,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     getPosts: function getPosts() {
       var component = this;
-      axios.get(component.endpoints.get_posts, Utils.getBearerAuth()).then(function (response) {
+      axios.get(component.endpointGet, Utils.getBearerAuth()).then(function (response) {
         component.posts = response.data.data.posts;
       }).catch(function (error) {
         Utils.handleError(error);
@@ -5804,9 +5840,20 @@ __webpack_require__.r(__webpack_exports__);
         specialization: []
       },
       endpoints: {
-        get: '/api/v1/company/6'
+        get: '/api/v1/company/'
       }
     };
+  },
+  props: {
+    companyId: {
+      type: String,
+      required: false
+    }
+  },
+  computed: {
+    endpointGet: function endpointGet() {
+      return this.endpoints.get + this.companyId;
+    }
   },
   created: function created() {
     this.getCompany();
@@ -5814,7 +5861,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     getCompany: function getCompany() {
       var component = this;
-      axios.get(component.endpoints.get, Utils.getBearerAuth()).then(function (response) {
+      axios.get(component.endpointGet, Utils.getBearerAuth()).then(function (response) {
         var company = response.data.data.company;
         component.avatar = {};
         component.avatar.initials = Utils.getInitials(company.name);
@@ -74939,7 +74986,7 @@ window.Helper = {
     },
     getInitials: function getInitials(name) {
       var initials = name.split(' ');
-      return initials[0].charAt(0) + initials[1].charAt(0);
+      return initials.length > 1 ? initials[0].charAt(0) + initials[1].charAt(0) : initials[0].charAt(0);
     },
     getDaysInMonth: function getDaysInMonth(month, year) {
       return new Date(year, month, 0).getDate();

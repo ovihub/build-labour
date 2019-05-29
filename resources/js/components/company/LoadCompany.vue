@@ -12,8 +12,21 @@
                     main_function: '', specialization: []
                 },
                 endpoints: {
-                    get: '/api/v1/company/6',
+                    get: '/api/v1/company/',
                 },
+            }
+        },
+
+        props: {
+            companyId: {
+                type: String,
+                required: false
+            },
+        },
+
+        computed: {
+            endpointGet() {
+                return this.endpoints.get + this.companyId;
             }
         },
 
@@ -26,7 +39,7 @@
             getCompany() {
                 let component = this;
 
-                axios.get(component.endpoints.get, Utils.getBearerAuth())
+                axios.get(component.endpointGet, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         let company = response.data.data.company;

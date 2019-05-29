@@ -71,8 +71,21 @@
                 show: false,
                 jobs: [],
                 endpoints: {
-                    get_jobs: '/api/v1/company/1/posts/jobs',
+                    get: '/api/v1/company/',
                 },
+            }
+        },
+
+        props: {
+            companyId: {
+                type: String,
+                required: false
+            },
+        },
+
+        computed: {
+            endpointGet() {
+                return this.endpoints.get + this.companyId + '/posts/jobs';
             }
         },
 
@@ -101,7 +114,7 @@
             getJobs() {
                 let component = this;
 
-                axios.get(component.endpoints.get_jobs, Utils.getBearerAuth())
+                axios.get(component.endpointGet, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         

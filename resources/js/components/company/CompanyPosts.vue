@@ -58,8 +58,21 @@
                 show: true,
                 posts: [],
                 endpoints: {
-                    get_posts: '/api/v1/company/1/posts',
+                    get: '/api/v1/company/',
                 },
+            }
+        },
+
+        props: {
+            companyId: {
+                type: String,
+                required: false
+            },
+        },
+
+        computed: {
+            endpointGet() {
+                return this.endpoints.get + this.companyId + '/posts';
             }
         },
 
@@ -90,7 +103,7 @@
             getPosts() {
                 let component = this;
 
-                axios.get(component.endpoints.get_posts, Utils.getBearerAuth())
+                axios.get(component.endpointGet, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         
