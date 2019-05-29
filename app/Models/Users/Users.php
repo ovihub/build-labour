@@ -186,6 +186,11 @@ class Users extends BaseModel implements
 
         }
 
+        if ($this->isEmployerSignup) {
+
+            $this->role_id = 2;
+        }
+        
         try {
 
             $this->save();
