@@ -3620,15 +3620,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       states: ['QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT'],
       input: {
         company_name: '',
-        company_sector: '',
-        company_tier: '',
+        company_business_type_id: '',
+        company_tier_id: '',
         company_address: '',
         company_contact_number: '',
         company_operate_outside_states: '',
         company_website: '',
         company_states: [],
-        company_main_specialization: '',
-        company_specialization: [],
+        company_main_company_id: '',
+        company_secondary_functions: [],
         company_photo: '',
         email: '',
         password: '',
@@ -3636,15 +3636,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       errors: {
         company_name: '',
-        company_sector: '',
-        company_tier: '',
+        company_business_type_id: '',
+        company_tier_id: '',
         company_address: '',
         company_contact_number: '',
         company_operate_outside_states: '',
         company_website: '',
         company_states: '',
-        company_main_specialization: '',
-        company_specialization: '',
+        company_main_company_id: '',
+        company_secondary_functions: '',
         company_photo: '',
         email: '',
         password: '',
@@ -3682,7 +3682,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     Bus.$on('closePhotoModal', function () {
       $('#upload').val('');
     });
-    this.input.company_specialization.push('');
+    this.input.company_secondary_functions.push('');
     setTimeout(function () {
       component.$sections = component.$refs['compCardWrapper'].querySelectorAll('li');
       component.max = component.$sections.length;
@@ -3698,14 +3698,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.locations = [];
     },
     addNewEntity: function addNewEntity() {
-      this.input.company_specialization = this.input.company_specialization.filter(function (r) {
+      this.input.company_secondary_functions = this.input.company_secondary_functions.filter(function (r) {
         return r !== '';
       });
-      this.input.company_specialization.push('');
+      this.input.company_secondary_functions.push('');
     },
     removeEntity: function removeEntity(index) {
-      if (this.input.company_specialization.length > 1) {
-        this.input.company_specialization.splice(index, 1);
+      if (this.input.company_secondary_functions.length > 1) {
+        this.input.company_secondary_functions.splice(index, 1);
       }
     },
     formatOperate: function formatOperate(index) {
@@ -5588,34 +5588,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       locations: [],
       photo_url: '',
       name: '',
-      sector: '',
+      business_type: '',
       tier: '',
       address: '',
       website: '',
       phone: '',
       introduction: '',
-      main_specialization: '',
+      main_function: '',
       specialization: [],
       input: {
         name: '',
-        sector: '',
+        business_type: '',
         tier: '',
         address: '',
         website: '',
         phone: '',
         introduction: '',
-        main_specialization: '',
+        main_function: '',
         specialization: []
       },
       errors: {
         name: '',
-        sector: '',
+        business_type: '',
         tier: '',
         address: '',
         website: '',
         phone: '',
         introduction: '',
-        main_specialization: '',
+        main_function: '',
         specialization: ''
       },
       endpoints: {
@@ -5634,30 +5634,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setValues: function setValues(details) {
       this.photo_url = details.photo_url;
       this.name = details.name;
-      this.sector = details.sector;
+      this.business_type = details.business_type;
       this.tier = details.tier;
       this.address = details.address;
       this.website = details.website;
       this.phone = details.phone;
       this.introduction = details.introduction;
-      this.main_specialization = details.main_specialization;
+      this.main_function = details.main_function;
       this.specialization = details.specialization;
     },
     setDisplayValues: function setDisplayValues(val, details) {
       val.name = details.name;
-      val.sector = details.sector;
+      val.business_type = details.business_type;
       val.tier = details.tier;
       val.address = details.address;
       val.website = details.website;
       val.phone = details.phone;
       val.introduction = details.introduction;
-      val.main_specialization = details.main_specialization;
+      val.main_function = details.main_function;
       val.specialization = details.specialization;
       this.input.specialization = this.input.specialization.filter(function (r) {
-        return r.name !== '';
+        return r.secondary_name !== '';
       });
       this.input.specialization.push({
-        name: ''
+        secondary_name: ''
       });
     },
     textAreaAdjust: function textAreaAdjust(index) {
@@ -5704,10 +5704,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onChangeSpecialization: function onChangeSpecialization(index) {
       this.espTextAreaAdjust(index);
       this.input.specialization = this.input.specialization.filter(function (r) {
-        return r.name !== '';
+        return r.secondary_name !== '';
       });
       this.input.specialization.push({
-        name: ''
+        secondary_name: ''
       });
     },
     submit: function () {
@@ -5794,14 +5794,17 @@ __webpack_require__.r(__webpack_exports__);
       company: {
         photo_url: '',
         name: '',
+        business_type: '',
+        tier: '',
         address: '',
         website: '',
         phone: '',
         introduction: '',
+        main_function: '',
         specialization: []
       },
       endpoints: {
-        get: '/api/v1/company/1'
+        get: '/api/v1/company/6'
       }
     };
   },
@@ -5818,11 +5821,13 @@ __webpack_require__.r(__webpack_exports__);
         component.avatar.profile_photo_url = company.photo_url;
         component.company.photo_url = company.photo_url;
         component.company.name = company.name;
-        component.company.sector = company.sector;
+        component.company.business_type = company.business_type.business_type;
+        component.company.tier = company.tier.tier_name;
         component.company.address = company.address;
         component.company.website = company.website;
         component.company.phone = company.phone;
         component.company.introduction = company.introduction;
+        component.company.main_function = company.main_function.main_name;
         component.company.specialization = company.specialization;
         Bus.$emit('avatarDetails', component.avatar);
         Bus.$emit('companyProfileDetails', component.company);
@@ -51518,8 +51523,8 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.input.company_main_specialization,
-                            expression: "input.company_main_specialization"
+                            value: _vm.input.company_main_company_id,
+                            expression: "input.company_main_company_id"
                           }
                         ],
                         on: {
@@ -51534,7 +51539,7 @@ var render = function() {
                               })
                             _vm.$set(
                               _vm.input,
-                              "company_main_specialization",
+                              "company_main_company_id",
                               $event.target.multiple
                                 ? $$selectedVal
                                 : $$selectedVal[0]
@@ -51579,7 +51584,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._l(_vm.input.company_specialization, function(
+                  _vm._l(_vm.input.company_secondary_functions, function(
                     spec,
                     index
                   ) {
@@ -51601,9 +51606,11 @@ var render = function() {
                                   name: "model",
                                   rawName: "v-model",
                                   value:
-                                    _vm.input.company_specialization[index],
+                                    _vm.input.company_secondary_functions[
+                                      index
+                                    ],
                                   expression:
-                                    "input.company_specialization[index]"
+                                    "input.company_secondary_functions[index]"
                                 }
                               ],
                               on: {
@@ -51618,7 +51625,7 @@ var render = function() {
                                       return val
                                     })
                                   _vm.$set(
-                                    _vm.input.company_specialization,
+                                    _vm.input.company_secondary_functions,
                                     index,
                                     $event.target.multiple
                                       ? $$selectedVal
@@ -51717,8 +51724,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.input.company_sector,
-                          expression: "input.company_sector"
+                          value: _vm.input.company_business_type_id,
+                          expression: "input.company_business_type_id"
                         }
                       ],
                       on: {
@@ -51733,7 +51740,7 @@ var render = function() {
                             })
                           _vm.$set(
                             _vm.input,
-                            "company_sector",
+                            "company_business_type_id",
                             $event.target.multiple
                               ? $$selectedVal
                               : $$selectedVal[0]
@@ -51766,11 +51773,11 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _vm.errors.company_sector
+                _vm.errors.company_business_type_id
                   ? _c("span", { staticClass: "err-msg" }, [
                       _vm._v(
                         "\n                    " +
-                          _vm._s(_vm.errors.company_sector) +
+                          _vm._s(_vm.errors.company_business_type_id) +
                           "\n                "
                       )
                     ])
@@ -51784,8 +51791,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.input.company_tier,
-                          expression: "input.company_tier"
+                          value: _vm.input.company_tier_id,
+                          expression: "input.company_tier_id"
                         }
                       ],
                       on: {
@@ -51800,7 +51807,7 @@ var render = function() {
                             })
                           _vm.$set(
                             _vm.input,
-                            "company_tier",
+                            "company_tier_id",
                             $event.target.multiple
                               ? $$selectedVal
                               : $$selectedVal[0]
@@ -51833,11 +51840,11 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _vm.errors.company_tier
+                _vm.errors.company_tier_id
                   ? _c("span", { staticClass: "err-msg" }, [
                       _vm._v(
                         "\n                    " +
-                          _vm._s(_vm.errors.company_tier) +
+                          _vm._s(_vm.errors.company_tier_id) +
                           "\n                "
                       )
                     ])
@@ -54073,7 +54080,7 @@ var render = function() {
                 [
                   _c("div", { staticClass: "emp-row" }, [
                     _c("div", { staticClass: "modal-form-label" }, [
-                      _vm._v("Sector")
+                      _vm._v("Business Entity Type")
                     ]),
                     _vm._v(" "),
                     _c("input", {
@@ -54081,28 +54088,32 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.input.sector,
-                          expression: "input.sector"
+                          value: _vm.input.business_type,
+                          expression: "input.business_type"
                         }
                       ],
                       staticClass: "form-control",
                       attrs: { type: "text" },
-                      domProps: { value: _vm.input.sector },
+                      domProps: { value: _vm.input.business_type },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.input, "sector", $event.target.value)
+                          _vm.$set(
+                            _vm.input,
+                            "business_type",
+                            $event.target.value
+                          )
                         }
                       }
                     }),
                     _vm._v(" "),
-                    _vm.errors.sector
+                    _vm.errors.business_type
                       ? _c("span", { staticClass: "err-msg" }, [
                           _vm._v(
                             "\n                            " +
-                              _vm._s(_vm.errors.sector) +
+                              _vm._s(_vm.errors.business_type) +
                               "\n                        "
                           )
                         ])
@@ -54326,8 +54337,9 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.input.specialization[index].name,
-                          expression: "input.specialization[index].name"
+                          value: _vm.input.specialization[index].secondary_name,
+                          expression:
+                            "input.specialization[index].secondary_name"
                         }
                       ],
                       key: index,
@@ -54340,7 +54352,9 @@ var render = function() {
                         id: esp.id,
                         placeholder: "Add Another Specialization"
                       },
-                      domProps: { value: _vm.input.specialization[index].name },
+                      domProps: {
+                        value: _vm.input.specialization[index].secondary_name
+                      },
                       on: {
                         focus: function($event) {
                           return _vm.espTextAreaAdjust(index)
@@ -54354,7 +54368,7 @@ var render = function() {
                           }
                           _vm.$set(
                             _vm.input.specialization[index],
-                            "name",
+                            "secondary_name",
                             $event.target.value
                           )
                         }
@@ -54446,10 +54460,12 @@ var render = function() {
             _vm._v(_vm._s(_vm.name))
           ]),
           _vm._v(" "),
-          _vm.sector
+          _vm.main_function
             ? _c("div", { staticClass: "bl-label-17 pb-3" }, [
                 _vm._v(
-                  "\n                " + _vm._s(_vm.sector) + "\n            "
+                  "\n                " +
+                    _vm._s(_vm.main_function) +
+                    "\n            "
                 )
               ])
             : _vm._e(),
@@ -54496,14 +54512,14 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.sector || _vm.tier
+          _vm.business_type || _vm.tier
             ? _c("div", { staticClass: "row bl-label-15" }, [
                 _vm._m(3),
                 _vm._v(" "),
                 _c("div", { staticClass: "bl-col-4 bl-display" }, [
                   _vm._v(
                     "\n                    " +
-                      _vm._s(_vm.sector) +
+                      _vm._s(_vm.business_type) +
                       " • " +
                       _vm._s(_vm.tier) +
                       "\n                "
@@ -54545,7 +54561,7 @@ var render = function() {
                 return _c("li", { key: index }, [
                   _vm._v(
                     "\n                        " +
-                      _vm._s(spec.name) +
+                      _vm._s(spec.secondary_name) +
                       "\n                    "
                   )
                 ])

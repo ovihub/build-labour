@@ -30,7 +30,7 @@
                         What is your main company function?
                     </div>
                     <div class="emp-row">
-                        <select v-model="input.company_main_specialization">
+                        <select v-model="input.company_main_company_id">
                             <option value="" disabled selected>Company Specialisation</option>
                             <option v-for="(type, index) in main_types" :key="index" v-bind:value="type.id">
                                 {{ type.name }}
@@ -47,11 +47,11 @@
 
                     <div class="form-group emp-row row-center"
                         :ref="'specItem-' + index" 
-                        v-for="(spec, index) in input.company_specialization"
+                        v-for="(spec, index) in input.company_secondary_functions"
                         :key="index">
 
                         <div class="comp-col-left">
-                            <select v-model="input.company_specialization[index]">
+                            <select v-model="input.company_secondary_functions[index]">
                                 <option value="" disabled selected>Business entity type</option>
                                 <option v-for="(type, index) in secondary_types" :key="index" v-bind:value="type.id">
                                     {{ type.name }}
@@ -77,27 +77,27 @@
 
                 <li>
                     <div class="emp-row">
-                        <select v-model="input.company_sector">
+                        <select v-model="input.company_business_type_id">
                             <option value="" disabled selected>Business Entity Type</option>
                             <option v-for="(sector, index) in sectors" :key="index" v-bind:value="sector.id">
                                 {{ sector.name }}
                             </option>
                         </select> 
                     </div>
-                    <span class="err-msg" v-if="errors.company_sector">
-                        {{ errors.company_sector }}
+                    <span class="err-msg" v-if="errors.company_business_type_id">
+                        {{ errors.company_business_type_id }}
                     </span>
 
                     <div class="emp-row">
-                        <select v-model="input.company_tier">
+                        <select v-model="input.company_tier_id">
                             <option value="" disabled selected>Entity type specialisation</option>
                             <option v-for="(tier, index) in tiers" :key="index" v-bind:value="tier.id">
                                 {{ tier.name }}
                             </option>
                         </select> 
                     </div>
-                    <span class="err-msg" v-if="errors.company_tier">
-                        {{ errors.company_tier }}
+                    <span class="err-msg" v-if="errors.company_tier_id">
+                        {{ errors.company_tier_id }}
                     </span>
 
                     <input type="file" id="upload" value="Choose a file" accept="image/*" style="display:none" @change="onFileChange" />
@@ -287,15 +287,15 @@
                     'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
                 ],
                 input: {
-                    company_name: '', company_sector: '', company_tier: '',
+                    company_name: '', company_business_type_id: '', company_tier_id: '',
                     company_address: '', company_contact_number: '', company_operate_outside_states: '', company_website: '',
-                    company_states: [], company_main_specialization: '', company_specialization: [], company_photo: '',
+                    company_states: [], company_main_company_id: '', company_secondary_functions: [], company_photo: '',
                     email: '', password: '', password_confirmation: '',
                 },
                 errors: {
-                    company_name: '', company_sector: '', company_tier: '',
+                    company_name: '', company_business_type_id: '', company_tier_id: '',
                     company_address: '', company_contact_number: '', company_operate_outside_states: '', company_website: '',
-                    company_states: '', company_main_specialization: '', company_specialization: '', company_photo: '',
+                    company_states: '', company_main_company_id: '', company_secondary_functions: '', company_photo: '',
                     email: '', password: '', password_confirmation: '',
                 },
                 endpoints: {
@@ -340,7 +340,7 @@
                 $('#upload').val('');
             });
 
-            this.input.company_specialization.push('');
+            this.input.company_secondary_functions.push('');
 
             setTimeout(function(){
                 component.$sections = component.$refs['compCardWrapper'].querySelectorAll('li');
@@ -362,13 +362,13 @@
             },
 
             addNewEntity() {
-                this.input.company_specialization = this.input.company_specialization.filter(r => r!=='');
-                this.input.company_specialization.push('');
+                this.input.company_secondary_functions = this.input.company_secondary_functions.filter(r => r!=='');
+                this.input.company_secondary_functions.push('');
             },
 
             removeEntity(index) {
-                if (this.input.company_specialization.length > 1) {
-                    this.input.company_specialization.splice(index, 1);
+                if (this.input.company_secondary_functions.length > 1) {
+                    this.input.company_secondary_functions.splice(index, 1);
                 }
             },
 

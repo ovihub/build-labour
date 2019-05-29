@@ -7,10 +7,12 @@
         data() {
             return {
                 company: {
-                    photo_url: '', name: '', address: '', website: '', phone: '', introduction: '', specialization: []
+                    photo_url: '', name: '', business_type: '', tier: '',
+                    address: '', website: '', phone: '', introduction: '',
+                    main_function: '', specialization: []
                 },
                 endpoints: {
-                    get: '/api/v1/company/1',
+                    get: '/api/v1/company/6',
                 },
             }
         },
@@ -35,11 +37,13 @@
 
                         component.company.photo_url = company.photo_url;
                         component.company.name = company.name;
-                        component.company.sector = company.sector;
+                        component.company.business_type = company.business_type.business_type;
+                        component.company.tier = company.tier.tier_name;
                         component.company.address = company.address;
                         component.company.website = company.website;
                         component.company.phone = company.phone;
                         component.company.introduction = company.introduction;
+                        component.company.main_function = company.main_function.main_name;
                         component.company.specialization = company.specialization;
 
                         Bus.$emit('avatarDetails', component.avatar);

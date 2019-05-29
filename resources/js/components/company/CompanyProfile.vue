@@ -14,11 +14,11 @@
                 <template slot="custom-modal-content">
                     <form class="modal-form" method="POST" @submit.prevent="submit">
                         <div class="emp-row">
-                            <div class="modal-form-label">Sector</div>
-                            <input class="form-control" type="text" v-model="input.sector" />
+                            <div class="modal-form-label">Business Entity Type</div>
+                            <input class="form-control" type="text" v-model="input.business_type" />
 
-                            <span class="err-msg" v-if="errors.sector">
-                                {{ errors.sector }}
+                            <span class="err-msg" v-if="errors.business_type">
+                                {{ errors.business_type }}
                             </span>
                         </div>
 
@@ -75,7 +75,7 @@
                             :id="esp.id"
                             :ref="'espItem-' + index" 
                             :key="index"
-                            v-model="input.specialization[index].name"
+                            v-model="input.specialization[index].secondary_name"
                             placeholder="Add Another Specialization"
                             @focus="espTextAreaAdjust(index)"
                             @keyup="onChangeSpecialization(index)">
@@ -112,8 +112,8 @@
             <div class="profile-content-p20 pb-4">
                 <div class="bl-label-22 m0">{{ name }}</div>
             
-                <div class="bl-label-17 pb-3" v-if="sector">
-                    {{ sector }}
+                <div class="bl-label-17 pb-3" v-if="main_function">
+                    {{ main_function }}
                 </div>
                 
                 <div class="row bl-label-15" v-if="address">
@@ -146,13 +146,13 @@
                     </div>
                 </div>
 
-                <div class="row bl-label-15"  v-if="sector || tier">
+                <div class="row bl-label-15"  v-if="business_type || tier">
                     <div class="bl-col-3">
                         <img class="text-icon-5" src="/img/icons/globe.png"
                             srcset="/img/icons/globe@2x.png 2x, /img/icons/globe@3x.png 3x">
                     </div>
                     <div class="bl-col-4 bl-display">
-                        {{ sector }} • {{ tier }}
+                        {{ business_type }} • {{ tier }}
                     </div>
                 </div>
                 
@@ -167,7 +167,7 @@
                 <div class="job-body">
                     <ul class="job-list-items">
                         <li v-for="(spec, index) in specialization" :key="index">
-                            {{ spec.name }}
+                            {{ spec.secondary_name }}
                         </li>
                     </ul>
                 </div>
@@ -186,21 +186,21 @@
                 locations: [],
                 photo_url: '',
                 name: '',
-                sector: '',
+                business_type: '',
                 tier: '',
                 address: '',
                 website: '',
                 phone: '',
                 introduction: '',
-                main_specialization: '',
+                main_function: '',
                 specialization: [],
                 input: {
-                    name: '', sector: '', tier: '', address: '', website: '', phone: '', introduction: '',
-                    main_specialization: '', specialization: [],
+                    name: '', business_type: '', tier: '', address: '', website: '', phone: '', introduction: '',
+                    main_function: '', specialization: [],
                 },
                 errors: {
-                    name: '', sector: '', tier: '', address: '', website: '', phone: '', introduction: '',
-                    main_specialization: '', specialization: '',
+                    name: '', business_type: '', tier: '', address: '', website: '', phone: '', introduction: '',
+                    main_function: '', specialization: '',
                 },
                 endpoints: {
                     save: '/api/v1/company/update',
@@ -222,29 +222,29 @@
             setValues(details) {
                 this.photo_url = details.photo_url;
                 this.name = details.name;
-                this.sector = details.sector;
+                this.business_type = details.business_type;
                 this.tier = details.tier;
                 this.address = details.address;
                 this.website = details.website;
                 this.phone = details.phone;
                 this.introduction = details.introduction;
-                this.main_specialization = details.main_specialization;
+                this.main_function = details.main_function;
                 this.specialization = details.specialization;
             },
 
             setDisplayValues(val, details) {
                 val.name = details.name;
-                val.sector = details.sector;
+                val.business_type = details.business_type;
                 val.tier = details.tier;
                 val.address = details.address;
                 val.website = details.website;
                 val.phone = details.phone;
                 val.introduction = details.introduction;
-                val.main_specialization = details.main_specialization;
+                val.main_function = details.main_function;
                 val.specialization = details.specialization;
 
-                this.input.specialization = this.input.specialization.filter(r => r.name !== '');
-                this.input.specialization.push({ name: '' });
+                this.input.specialization = this.input.specialization.filter(r => r.secondary_name !== '');
+                this.input.specialization.push({ secondary_name: '' });
             },
 
             textAreaAdjust(index) {
@@ -307,8 +307,8 @@
             onChangeSpecialization(index) {
                 this.espTextAreaAdjust(index);
 
-                this.input.specialization = this.input.specialization.filter(r => r.name !== '');
-                this.input.specialization.push({ name: '' });
+                this.input.specialization = this.input.specialization.filter(r => r.secondary_name !== '');
+                this.input.specialization.push({ secondary_name: '' });
             },
 
             async submit() {

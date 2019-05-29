@@ -40,19 +40,31 @@ class CompanyOptionsTableSeeder extends Seeder
         $main2->main_name = 'Trade Services Contractor';
         $main2->save();
 
-        DB::table('company_main_functions')->insert([
-            ['main_name' => 'Building Contractor'],
-            ['main_name' => 'Trade Services Contractor'],
-        ]);
+        $main3 = new \App\Models\Options\MainFunction();
+        $main3->main_name = 'Supplier';
+        $main3->save();
+
+        $main4 = new \App\Models\Options\MainFunction();
+        $main4->main_name = 'Design Consultant';
+        $main4->save();
+
+        $main5 = new \App\Models\Options\MainFunction();
+        $main5->main_name = 'Training and Education Provider';
+        $main5->save();
 
         // main functions
         DB::table('company_secondary_functions')->insert([
-            ['secondary_name' => 'item1 - building contractor', 'main_id' => $main1->id],
-            ['secondary_name' => 'item2 - building contractor', 'main_id' => $main1->id],
-            ['secondary_name' => 'item3 - building contractor', 'main_id' => $main1->id],
-            ['secondary_name' => 'item1 - Trade Services Contractor', 'main_id' => $main2->id],
-            ['secondary_name' => 'item2 - Trade Services Contractor', 'main_id' => $main2->id],
-            ['secondary_name' => 'item3 - Trade Services Contractor', 'main_id' => $main2->id],
+            ['secondary_name' => 'Item 1 - Building Contractor', 'main_id' => $main1->id],
+            ['secondary_name' => 'Item 2 - Building Contractor', 'main_id' => $main1->id],
+            ['secondary_name' => 'Item 3 - Building Contractor', 'main_id' => $main1->id],
+            ['secondary_name' => 'Plumbing', 'main_id' => $main2->id],
+            ['secondary_name' => 'Carpentry', 'main_id' => $main2->id],
+            ['secondary_name' => 'Item 1 - Supplier', 'main_id' => $main3->id],
+            ['secondary_name' => 'Item 2 - Supplier', 'main_id' => $main3->id],
+            ['secondary_name' => 'Engineer', 'main_id' => $main4->id],
+            ['secondary_name' => 'Architect', 'main_id' => $main4->id],
+            ['secondary_name' => 'Item 1 - Training and Education Provider', 'main_id' => $main5->id],
+            ['secondary_name' => 'Item 2 - Training and Education Provider', 'main_id' => $main5->id],
         ]);
 
     }
