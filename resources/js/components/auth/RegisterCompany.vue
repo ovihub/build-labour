@@ -431,10 +431,10 @@
                     
                     .then(function(response) {
                         let data = response.data;
-						
-                        console.log(component, data.data);
-
-                        // window.location.href = component.endpoints.company_profile;
+                        
+                        Api.setToken(data.data.token);
+                        
+                        window.location.href = component.endpoints.company_profile;
                     })
                     .catch(function(error) {
                         if (error.response) {
