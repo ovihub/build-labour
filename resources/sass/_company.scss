@@ -195,6 +195,18 @@
             visibility: visible;
         }
     }
+
+    .locations-wrapper p {
+        border: 1px solid #828282;
+        height: auto;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 0.9em;
+        margin-bottom: 14px;
+    }
+    .locations-wrapper {
+        padding-top: 25px;
+    }
 }
 .div-form {
     overflow: hidden;

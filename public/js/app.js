@@ -3542,7 +3542,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3560,6 +3559,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       disabled: false,
       locations: [],
       business_types: [],
+      location_timeout: false,
       tiers: [],
       main_company_functions: [],
       secondary_company_functions: [],
@@ -3655,7 +3655,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }).items;
     },
     onChangeLocation: function onChangeLocation(keyword) {
-      this.locations = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword);
+      var component = this;
+
+      if (this.location_timeout) {
+        clearTimeout(this.location_timeout);
+      }
+
+      this.location_timeout = setTimeout(function () {
+        component.locations = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword);
+        this.$forceUpdate();
+      }.bind(this), 100);
     },
     onSelectLocation: function onSelectLocation(location) {
       this.input.company_address = location;
@@ -51987,51 +51996,45 @@ var render = function() {
                         _vm._v(
                           "\n                            " +
                             _vm._s(_vm.errors.company_address) +
-                            "\n                        "
+                            "\n\n                        "
                         )
                       ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.locations.length > 0
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "emp-row",
+                          staticStyle: { "margin-top": "0" }
+                        },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "locations-wrapper" },
+                            _vm._l(_vm.locations, function(place, idx) {
+                              return _c(
+                                "p",
+                                {
+                                  key: idx,
+                                  staticClass: "location-item",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.onSelectLocation(
+                                        place.place_name
+                                      )
+                                    }
+                                  }
+                                },
+                                [_vm._v(_vm._s(place.place_name.trim()))]
+                              )
+                            }),
+                            0
+                          )
+                        ]
+                      )
                     : _vm._e()
                 ]),
-                _vm._v(" "),
-                _vm.locations.length > 0
-                  ? _c(
-                      "div",
-                      {
-                        staticClass: "emp-row",
-                        staticStyle: { "margin-top": "0" }
-                      },
-                      [
-                        _c(
-                          "ul",
-                          { staticClass: "list-group" },
-                          _vm._l(_vm.locations, function(place, idx) {
-                            return _c(
-                              "li",
-                              {
-                                key: idx,
-                                staticClass: "list-group-item",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.onSelectLocation(
-                                      place.place_name
-                                    )
-                                  }
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(place.place_name) +
-                                    "\n                            "
-                                )
-                              ]
-                            )
-                          }),
-                          0
-                        )
-                      ]
-                    )
-                  : _vm._e(),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _c("input", {
@@ -75028,8 +75031,8 @@ window.Helper = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\appetiser\build-labour-backend\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\appetiser\build-labour-backend\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

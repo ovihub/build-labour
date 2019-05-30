@@ -244,6 +244,6 @@ class ApiUsersController extends ApiBaseController
         $buffer = json_decode($buffer);
 
      //   return json_encode($buffer);
-        return $this->apiSuccessResponse([ 'locations' => $buffer ], true, 'Profile Photo Uploaded Successfully ', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse([ 'locations' => $buffer ], true, 'Success', self::HTTP_STATUS_REQUEST_OK);
     }
 }

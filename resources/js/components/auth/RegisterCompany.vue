@@ -141,16 +141,15 @@
 
                             <span class="err-msg" v-if="errors.company_address">
                                 {{ errors.company_address }}
-                            </span>
-                        </div>
 
-                        <div class="emp-row" style="margin-top:0" v-if="locations.length > 0">
-                            <ul class="list-group">
-                                <li class="list-group-item" v-for="(place, idx) in locations" :key="idx"
-                                    @click="onSelectLocation(place.place_name)">
-                                    {{ place.place_name }}
-                                </li>
-                            </ul>
+                            </span>
+
+                            <div class="emp-row" style="margin-top:0" v-if="locations.length > 0">
+                                <div class="locations-wrapper">
+                                    <p class="location-item" v-for="(place, idx) in locations" :key="idx"
+                                       @click="onSelectLocation(place.place_name)">{{ place.place_name.trim() }}</p>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -260,6 +259,7 @@
                 disabled: false,
                 locations: [],
                 business_types: [],
+                location_timeout: false,
                 tiers: [],
                 main_company_functions: [],
                 secondary_company_functions: [],
@@ -356,7 +356,19 @@
             },
 
             onChangeLocation(keyword) {
-                this.locations = Api.getLocations(keyword);
+
+                let component = this;
+
+                if (this.location_timeout) {
+
+                    clearTimeout(this.location_timeout);
+                }
+
+                this.location_timeout = setTimeout(function () {
+                    component.locations = Api.getLocations(keyword);
+                    this.$forceUpdate();
+                }.bind(this), 100);
+
             },
 
             onSelectLocation(location) {
