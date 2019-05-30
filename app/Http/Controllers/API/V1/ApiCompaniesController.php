@@ -309,7 +309,7 @@ class ApiCompaniesController extends ApiBaseController
      * @OA\Post(
      *      path="/company/update",
      *      tags={"Company"},
-     *      summary="Update a Company",
+     *      summary="Update a company in a user as company",
      *      security={{"BearerAuth":{}}},
      *      @OA\RequestBody(
      *          required=true,
@@ -319,96 +319,88 @@ class ApiCompaniesController extends ApiBaseController
      *                  type="object",
      *                  @OA\Property(
      *                      property="name",
-     *                      description="<b>Required</b> Company Name",
+     *                      description="Company Name",
      *                      type="string",
      *                      example="Sample Company"
      *                  ),
      *                  @OA\Property(
-     *                      property="address",
-     *                      description="Locations",
-     *                      type="string",
-     *                      example="28 St James, Victoria Avenue"
+     *                      property="business_type_id",
+     *                      description="Business Entity Type ID",
+     *                      type="integer",
+     *                      example=2
      *                  ),
      *                  @OA\Property(
-     *                      property="contact_name",
-     *                      description="Contact Name",
-     *                      type="string",
-     *                      example="James Hayward"
+     *                      property="tier_id",
+     *                      description="Tier ID",
+     *                      type="integer",
+     *                      example=1
      *                  ),
      *                  @OA\Property(
-     *                      property="contact_email",
-     *                      description="Contact Email",
-     *                      type="string",
-     *                      example="sample@test.com"
-     *                  ),
-     *                   @OA\Property(
-     *                      property="phone",
-     *                      description="Phone",
-     *                      type="string",
-     *                      example="61 2 9876 5432"
+     *                      property="main_company_id",
+     *                      description="Company Main function",
+     *                      type="integer",
+     *                      example=1
      *                  ),
      *                  @OA\Property(
-     *                      property="sector",
-     *                      description="Sector",
-     *                      type="string",
-     *                      example="61 2 9876 5432"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="tier",
-     *                      description="Tier",
-     *                      type="string",
-     *                      example="manufacturing"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="introduction",
-     *                      description="Introduction Company",
-     *                      type="string",
-     *                      example="A good company"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="specialization",
+     *                      property="secondary_functions",
      *                      type="array",
      *                      @OA\Items(
-     *                          @OA\Property(
-     *                              property="name",
-     *                              description="Specialize",
-     *                              type="string",
-     *                              example="Bachelor Degree in Construction or a related field"
-     *                          ),
+     *                         type="integer",
+     *                         example=1
      *                      ),
      *                  ),
      *                  @OA\Property(
-     *                      property="website",
-     *                      description="Website Company",
+     *                      property="address",
+     *                      description="Company Main Address",
      *                      type="string",
-     *                      example="www.companymanu.com"
+     *                      example="51st St. John Avenue, AU"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="contact_number",
+     *                      description="Company Contact Number",
+     *                      type="string",
+     *                      example="123456789"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="operate_outside_states",
+     *                      description="Company Can operate outside states",
+     *                      type="boolean",
+     *                      example=true
+     *                  ),
+     *                  @OA\Property(
+     *                      property="website",
+     *                      description="Company Website",
+     *                      type="string",
+     *                      example="www.sample.com"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="states",
+     *                      type="array",
+     *                      @OA\Items(
+     *                         type="string",
+     *                         example="VIC"
+     *                      ),
+     *                  ),
+     *                  @OA\Property(
+     *                      property="photo",
+     *                      description="Company Photo",
+     *                      type="string",
+     *                      example="data:image/png;base64,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"
      *                  ),
      *              ),
      *          ),
      *      ),
      *      @OA\Response(
-     *          response=400,
-     *          description="Invalid Token"
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Token Expired"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Token Not Found"
-     *      ),
-     *      @OA\Response(
      *          response=422,
-     *          description="Bad Request"
+     *          description="Invalid Input"
      *      ),
      *      @OA\Response(
      *          response=500,
      *          description="Internal Server Error"
      *      ),
      *      @OA\Response(
-     *          response=200,
-     *          description="Request OK"
+     *          response=201,
+     *          description="Request Created"
      *      )
      * )
      */
