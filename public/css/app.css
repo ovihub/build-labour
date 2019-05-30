@@ -11348,18 +11348,20 @@ span.ticket-delete:hover {
 .comp-card-wrapper li {
   width: 488px;
   visibility: hidden;
-  overflow: auto;
   will-change: transform;
   -webkit-transform: translate(var(--x, 0%), var(--y, 0%));
           transform: translate(var(--x, 0%), var(--y, 0%));
   transition: -webkit-transform 300ms ease-out;
   transition: transform 300ms ease-out;
   transition: transform 300ms ease-out, -webkit-transform 300ms ease-out;
-  position: relative;
 }
 
 .comp-card-wrapper li.current {
   visibility: visible;
+}
+
+.div-form {
+  overflow: hidden;
 }
 
 .job-header {

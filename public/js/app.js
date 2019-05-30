@@ -3542,6 +3542,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3555,68 +3556,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       secondProgressCls: '',
       thirdProgressCls: '',
       fourthProgressCls: '',
-      showStates: true,
+      showStates: false,
       disabled: false,
       locations: [],
-      sectors: [{
-        id: 1,
-        name: 'Residential'
-      }, {
-        id: 2,
-        name: 'Commercial'
-      }, {
-        id: 3,
-        name: 'Civil'
-      }],
-      tiers: [{
-        id: 1,
-        name: 'Tier 1'
-      }, {
-        id: 2,
-        name: 'Tier 2'
-      }, {
-        id: 3,
-        name: 'Tier 3'
-      }, {
-        id: 4,
-        name: 'Tier 4'
-      }, {
-        id: 5,
-        name: 'Tier 5'
-      }],
-      main_types: [{
-        id: 1,
-        name: 'Building Contractor'
-      }, {
-        id: 2,
-        name: 'Trade Services Contractor'
-      }, {
-        id: 3,
-        name: 'Supplier'
-      }, {
-        id: 4,
-        name: 'Design Consultant'
-      }, {
-        id: 5,
-        name: 'Training and Education Provider'
-      }],
-      secondary_types: [{
-        id: 1,
-        bid: 4,
-        name: 'Engineer'
-      }, {
-        id: 2,
-        bid: 4,
-        name: 'Architect'
-      }, {
-        id: 3,
-        bid: 2,
-        name: 'Plumbing'
-      }, {
-        id: 4,
-        bid: 2,
-        name: 'Carpentry'
-      }],
+      business_types: [],
+      tiers: [],
+      main_company_functions: [],
+      secondary_company_functions: [],
       states: ['QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT'],
       input: {
         company_name: '',
@@ -3653,7 +3599,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       endpoints: {
         login: '/login',
         save: '/api/v1/auth/company/register',
-        company_profile: '/company/profile'
+        company_profile: '/company/profile',
+        company_options: '/api/v1/company/options'
       }
     };
   },
@@ -3688,8 +3635,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       component.max = component.$sections.length;
       component.goToStep(1);
     }, 1);
+    this.getCompanyOptions();
   },
   methods: {
+    getCompanyOptions: function getCompanyOptions() {
+      var component = this;
+      axios.get(component.endpoints.company_options).then(function (response) {
+        var data = response.data;
+        component.business_types = data.business_types;
+        component.tiers = data.tiers;
+        component.main_company_functions = data.main_company_functions;
+      }).catch(function (error) {
+        Utils.handleError(error);
+      });
+    },
+    onChangeMainCompanyFunctions: function onChangeMainCompanyFunctions(e) {
+      this.secondary_company_functions = this.main_company_functions.find(function (el) {
+        return el.id == e.target.value;
+      }).items;
+    },
     onChangeLocation: function onChangeLocation(keyword) {
       this.locations = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword);
     },
@@ -3719,6 +3683,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.$refs['rc-checkbox-0'].checked = true;
         this.input.company_operate_outside_states = 0;
         this.showStates = false;
+        this.input.company_states = [];
       } else {
         this.$refs['rc-checkbox-1'].checked = false;
         this.$refs['rc-checkbox-0'].checked = false;
@@ -3800,6 +3765,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$refs['compCardWrapper'].style.setProperty('--cross', 'column');
       this.$refs['compCardWrapper'].style.setProperty('--cross-reverse', 'column-reverse');
     },
+    skip: function skip(step) {
+      this.step += step;
+      this.goToStep(this.step);
+    },
     goToStep: function goToStep(step) {
       this.step = step > this.max ? this.max : step < 1 ? 1 : step;
       this.currentSection = this.$sections[this.step - 1];
@@ -3811,30 +3780,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.setCssVars();
 
       if (step == 1) {
+        this.subHeader = 'About the business';
         this.firstProgressCls = 'active';
         this.secondProgressCls = 'incomplete';
         this.thirdProgressCls = 'incomplete';
         this.fourthProgressCls = 'incomplete';
       } else if (step == 2) {
+        this.subHeader = 'About the business';
         this.firstProgressCls = 'complete';
         this.secondProgressCls = 'active';
         this.thirdProgressCls = 'incomplete';
         this.fourthProgressCls = 'incomplete';
       } else if (step == 3) {
+        this.subHeader = 'Location & Contact';
         this.firstProgressCls = 'complete';
         this.secondProgressCls = 'complete';
         this.thirdProgressCls = 'active';
         this.fourthProgressCls = 'incomplete';
       } else if (step == 4) {
+        this.subHeader = 'Login Credentials';
         this.firstProgressCls = 'complete';
         this.secondProgressCls = 'complete';
         this.thirdProgressCls = 'complete';
         this.fourthProgressCls = 'active';
       }
-    },
-    skip: function skip(step) {
-      this.step += step;
-      this.goToStep(this.step);
     }
   }
 });
@@ -51474,37 +51443,47 @@ var render = function() {
       _c("div", { staticClass: "comp-progress" }, [
         _c("div", {
           staticClass: "form-progress bl-mr24",
-          class: _vm.firstProgressCls
+          class: _vm.firstProgressCls,
+          on: {
+            click: function($event) {
+              return _vm.goToStep(1)
+            }
+          }
         }),
         _vm._v(" "),
         _c("div", {
           staticClass: "form-progress bl-mr24",
-          class: _vm.secondProgressCls
+          class: _vm.secondProgressCls,
+          on: {
+            click: function($event) {
+              return _vm.goToStep(2)
+            }
+          }
         }),
         _vm._v(" "),
         _c("div", {
           staticClass: "form-progress bl-mr24",
-          class: _vm.thirdProgressCls
+          class: _vm.thirdProgressCls,
+          on: {
+            click: function($event) {
+              return _vm.goToStep(3)
+            }
+          }
         }),
         _vm._v(" "),
         _c("div", {
           staticClass: "form-progress",
-          class: _vm.fourthProgressCls
+          class: _vm.fourthProgressCls,
+          on: {
+            click: function($event) {
+              return _vm.goToStep(4)
+            }
+          }
         })
       ]),
       _vm._v(" "),
-      _c(
-        "form",
-        {
-          attrs: { method: "POST" },
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.submit($event)
-            }
-          }
-        },
-        [
+      _c("div", { staticClass: "div-form" }, [
+        _c("form", { attrs: { method: "POST" } }, [
           _c(
             "ul",
             { ref: "compCardWrapper", staticClass: "comp-card-wrapper" },
@@ -51549,9 +51528,9 @@ var render = function() {
                     _vm.errors.company_name
                       ? _c("span", { staticClass: "err-msg" }, [
                           _vm._v(
-                            "\n                        " +
+                            "\n                            " +
                               _vm._s(_vm.errors.company_name) +
-                              "\n                    "
+                              "\n                        "
                           )
                         ])
                       : _vm._e()
@@ -51559,7 +51538,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "comp-label" }, [
                     _vm._v(
-                      "\n                    What is your main company function?\n                "
+                      "\n                        What is your main company function?\n                    "
                     )
                   ]),
                   _vm._v(" "),
@@ -51576,23 +51555,26 @@ var render = function() {
                           }
                         ],
                         on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.input,
-                              "company_main_company_id",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input,
+                                "company_main_company_id",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                            _vm.onChangeMainCompanyFunctions
+                          ]
                         }
                       },
                       [
@@ -51602,15 +51584,18 @@ var render = function() {
                           [_vm._v("Company Specialisation")]
                         ),
                         _vm._v(" "),
-                        _vm._l(_vm.main_types, function(type, index) {
+                        _vm._l(_vm.main_company_functions, function(
+                          main,
+                          index
+                        ) {
                           return _c(
                             "option",
-                            { key: index, domProps: { value: type.id } },
+                            { key: index, domProps: { value: main.id } },
                             [
                               _vm._v(
-                                "\n                            " +
-                                  _vm._s(type.name) +
-                                  "\n                        "
+                                "\n                                " +
+                                  _vm._s(main.main_name) +
+                                  "\n                            "
                               )
                             ]
                           )
@@ -51622,13 +51607,13 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "comp-label" }, [
                     _vm._v(
-                      "\n                    What are the secondary functions?\n                "
+                      "\n                        What are the secondary functions?\n                    "
                     )
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "comp-label-3" }, [
                     _vm._v(
-                      "\n                    Add as many as applicable\n                "
+                      "\n                        Add as many as applicable\n                    "
                     )
                   ]),
                   _vm._v(" "),
@@ -51695,7 +51680,7 @@ var render = function() {
                                 [_vm._v("Business entity type")]
                               ),
                               _vm._v(" "),
-                              _vm._l(_vm.secondary_types, function(
+                              _vm._l(_vm.secondary_company_functions, function(
                                 type,
                                 index
                               ) {
@@ -51704,9 +51689,9 @@ var render = function() {
                                   { key: index, domProps: { value: type.id } },
                                   [
                                     _vm._v(
-                                      "\n                                " +
-                                        _vm._s(type.name) +
-                                        "\n                            "
+                                      "\n                                    " +
+                                        _vm._s(type.secondary_name) +
+                                        "\n                                "
                                     )
                                   ]
                                 )
@@ -51754,7 +51739,7 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n                        Add Another\n                    "
+                          "\n                            Add Another\n                        "
                         )
                       ]
                     )
@@ -51803,15 +51788,15 @@ var render = function() {
                         [_vm._v("Business Entity Type")]
                       ),
                       _vm._v(" "),
-                      _vm._l(_vm.sectors, function(sector, index) {
+                      _vm._l(_vm.business_types, function(type, index) {
                         return _c(
                           "option",
-                          { key: index, domProps: { value: sector.id } },
+                          { key: index, domProps: { value: type.id } },
                           [
                             _vm._v(
-                              "\n                            " +
-                                _vm._s(sector.name) +
-                                "\n                        "
+                              "\n                                " +
+                                _vm._s(type.business_type) +
+                                "\n                            "
                             )
                           ]
                         )
@@ -51824,9 +51809,9 @@ var render = function() {
                 _vm.errors.company_business_type_id
                   ? _c("span", { staticClass: "err-msg" }, [
                       _vm._v(
-                        "\n                    " +
+                        "\n                        " +
                           _vm._s(_vm.errors.company_business_type_id) +
-                          "\n                "
+                          "\n                    "
                       )
                     ])
                   : _vm._e(),
@@ -51876,9 +51861,9 @@ var render = function() {
                           { key: index, domProps: { value: tier.id } },
                           [
                             _vm._v(
-                              "\n                            " +
-                                _vm._s(tier.name) +
-                                "\n                        "
+                              "\n                                " +
+                                _vm._s(tier.tier_name) +
+                                "\n                            "
                             )
                           ]
                         )
@@ -51891,9 +51876,9 @@ var render = function() {
                 _vm.errors.company_tier_id
                   ? _c("span", { staticClass: "err-msg" }, [
                       _vm._v(
-                        "\n                    " +
+                        "\n                        " +
                           _vm._s(_vm.errors.company_tier_id) +
-                          "\n                "
+                          "\n                    "
                       )
                     ])
                   : _vm._e(),
@@ -51910,7 +51895,9 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c("div", { staticClass: "comp-label" }, [
-                  _vm._v("\n                    Company Logo\n                ")
+                  _vm._v(
+                    "\n                        Company Logo\n                    "
+                  )
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "disp-flex" }, [
@@ -51943,7 +51930,7 @@ var render = function() {
                   !_vm.input.company_photo
                     ? _c("div", { staticClass: "comp-nophoto-label" }, [
                         _vm._v(
-                          "\n                        no photo chosen\n                    "
+                          "\n                            no photo chosen\n                        "
                         )
                       ])
                     : _vm._e()
@@ -51953,7 +51940,7 @@ var render = function() {
               _c("li", [
                 _c("div", { staticClass: "comp-label" }, [
                   _vm._v(
-                    "\n                    Head Office Address\n                "
+                    "\n                        Head Office Address\n                    "
                   )
                 ]),
                 _vm._v(" "),
@@ -51997,9 +51984,9 @@ var render = function() {
                   _vm.errors.company_address
                     ? _c("span", { staticClass: "err-msg" }, [
                         _vm._v(
-                          "\n                        " +
+                          "\n                            " +
                             _vm._s(_vm.errors.company_address) +
-                            "\n                    "
+                            "\n                        "
                         )
                       ])
                     : _vm._e()
@@ -52032,9 +52019,9 @@ var render = function() {
                               },
                               [
                                 _vm._v(
-                                  "\n                            " +
+                                  "\n                                " +
                                     _vm._s(place.place_name) +
-                                    "\n                        "
+                                    "\n                            "
                                 )
                               ]
                             )
@@ -52082,9 +52069,9 @@ var render = function() {
                   _vm.errors.company_contact_number
                     ? _c("span", { staticClass: "err-msg" }, [
                         _vm._v(
-                          "\n                        " +
+                          "\n                            " +
                             _vm._s(_vm.errors.company_contact_number) +
-                            "\n                    "
+                            "\n                        "
                         )
                       ])
                     : _vm._e()
@@ -52127,9 +52114,9 @@ var render = function() {
                   _vm.errors.company_website
                     ? _c("span", { staticClass: "err-msg" }, [
                         _vm._v(
-                          "\n                        " +
+                          "\n                            " +
                             _vm._s(_vm.errors.company_website) +
-                            "\n                    "
+                            "\n                        "
                         )
                       ])
                     : _vm._e()
@@ -52137,7 +52124,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "comp-label-2" }, [
                   _vm._v(
-                    "\n                    Do you operate out of any other states?\n                "
+                    "\n                        Do you operate out of any other states?\n                    "
                   )
                 ]),
                 _vm._v(" "),
@@ -52179,7 +52166,7 @@ var render = function() {
                       [
                         _c("div", { staticClass: "comp-label-2" }, [
                           _vm._v(
-                            "\n                        Check all that apply\n                    "
+                            "\n                            Check all that apply\n                        "
                           )
                         ]),
                         _vm._v(" "),
@@ -52245,7 +52232,10 @@ var render = function() {
                               _vm._v(" "),
                               _c(
                                 "label",
-                                { attrs: { for: "styled-checkbox-" + index } },
+                                {
+                                  staticStyle: { width: "80px" },
+                                  attrs: { for: "styled-checkbox-" + index }
+                                },
                                 [_vm._v(_vm._s(state))]
                               )
                             ]
@@ -52291,9 +52281,9 @@ var render = function() {
                   _vm.errors.email
                     ? _c("span", { staticClass: "err-msg" }, [
                         _vm._v(
-                          "\n                        " +
+                          "\n                            " +
                             _vm._s(_vm.errors.email) +
-                            "\n                    "
+                            "\n                        "
                         )
                       ])
                     : _vm._e()
@@ -52304,6 +52294,7 @@ var render = function() {
                   { staticClass: "form-group" },
                   [
                     _c("password-eye", {
+                      staticStyle: { "margin-right": "15px" },
                       attrs: { "ref-name": "regTogglePassword" }
                     }),
                     _vm._v(" "),
@@ -52340,9 +52331,9 @@ var render = function() {
                     _vm.errors.password
                       ? _c("span", { staticClass: "err-msg" }, [
                           _vm._v(
-                            "\n                        " +
+                            "\n                            " +
                               _vm._s(_vm.errors.password) +
-                              "\n                    "
+                              "\n                        "
                           )
                         ])
                       : _vm._e()
@@ -52355,6 +52346,7 @@ var render = function() {
                   { staticClass: "form-group" },
                   [
                     _c("password-eye", {
+                      staticStyle: { "margin-right": "15px" },
                       attrs: { "ref-name": "regToggleConfirm" }
                     }),
                     _vm._v(" "),
@@ -52430,7 +52422,7 @@ var render = function() {
                   "button",
                   {
                     staticClass: "pull-right",
-                    attrs: { type: "button", disabled: _vm.disabled },
+                    attrs: { type: "button" },
                     on: {
                       click: function($event) {
                         return _vm.skip(1)
@@ -52446,15 +52438,15 @@ var render = function() {
                   "button",
                   {
                     staticClass: "pull-right",
-                    attrs: { type: "submit", disabled: _vm.disabled },
+                    attrs: { type: "button", disabled: _vm.disabled },
                     on: { click: _vm.submit }
                   },
                   [_vm._v("Submit")]
                 )
               : _vm._e()
           ])
-        ]
-      )
+        ])
+      ])
     ],
     1
   )

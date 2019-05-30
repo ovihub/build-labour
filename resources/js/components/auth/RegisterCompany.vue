@@ -8,234 +8,235 @@
         
         <div class="comp-progress">
             <!-- <div class="form-progress bl-mr24" v-for="(n, idx) in max" :key="idx" :class="{active: n == step}" @click="goToStep(n)"></div> -->
-            <div class="form-progress bl-mr24" :class="firstProgressCls"></div>
-            <div class="form-progress bl-mr24" :class="secondProgressCls"></div>
-            <div class="form-progress bl-mr24" :class="thirdProgressCls"></div>
-            <div class="form-progress" :class="fourthProgressCls"></div>
+            <div class="form-progress bl-mr24" :class="firstProgressCls" @click="goToStep(1)"></div>
+            <div class="form-progress bl-mr24" :class="secondProgressCls" @click="goToStep(2)"></div>
+            <div class="form-progress bl-mr24" :class="thirdProgressCls" @click="goToStep(3)"></div>
+            <div class="form-progress" :class="fourthProgressCls" @click="goToStep(4)"></div>
         </div>
+        <div class="div-form">
+            <form method="POST">
+                <ul class="comp-card-wrapper" ref="compCardWrapper">
+                    <li>
+                        <div class="form-group">
+                            <input id="company_name" type="text" name="company_name" class="form-control" style="padding-left:24px"
+                                v-model="input.company_name" placeholder="Company Name" required />
 
-        <form method="POST" @submit.prevent="submit">
-            <ul class="comp-card-wrapper" ref="compCardWrapper">
-                <li>
-                    <div class="form-group">
-                        <input id="company_name" type="text" name="company_name" class="form-control" style="padding-left:24px"
-                            v-model="input.company_name" placeholder="Company Name" required />
+                            <span class="err-msg" v-if="errors.company_name">
+                                {{ errors.company_name }}
+                            </span>
+                        </div>
 
-                        <span class="err-msg" v-if="errors.company_name">
-                            {{ errors.company_name }}
-                        </span>
-                    </div>
-
-                    <div class="comp-label">
-                        What is your main company function?
-                    </div>
-                    <div class="emp-row">
-                        <select v-model="input.company_main_company_id">
-                            <option value="" disabled selected>Company Specialisation</option>
-                            <option v-for="(type, index) in main_types" :key="index" v-bind:value="type.id">
-                                {{ type.name }}
-                            </option>
-                        </select> 
-                    </div>
-
-                    <div class="comp-label">
-                        What are the secondary functions?
-                    </div>
-                    <div class="comp-label-3">
-                        Add as many as applicable
-                    </div>
-
-                    <div class="form-group emp-row row-center"
-                        :ref="'specItem-' + index" 
-                        v-for="(spec, index) in input.company_secondary_functions"
-                        :key="index">
-
-                        <div class="comp-col-left">
-                            <select v-model="input.company_secondary_functions[index]">
-                                <option value="" disabled selected>Business entity type</option>
-                                <option v-for="(type, index) in secondary_types" :key="index" v-bind:value="type.id">
-                                    {{ type.name }}
+                        <div class="comp-label">
+                            What is your main company function?
+                        </div>
+                        <div class="emp-row">
+                            <select v-model="input.company_main_company_id" @change="onChangeMainCompanyFunctions">
+                                <option value="" disabled selected>Company Specialisation</option>
+                                <option v-for="(main, index) in main_company_functions" :key="index" v-bind:value="main.id">
+                                    {{ main.main_name }}
                                 </option>
                             </select> 
                         </div>
 
-                        <div class="comp-col-right">
-                            <span @click="removeEntity(index)">
-                                <img src="/img/icons/remove.png"
-                                    srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x"
-                                    style="cursor:pointer">
+                        <div class="comp-label">
+                            What are the secondary functions?
+                        </div>
+                        <div class="comp-label-3">
+                            Add as many as applicable
+                        </div>
+
+                        <div class="form-group emp-row row-center"
+                            :ref="'specItem-' + index" 
+                            v-for="(spec, index) in input.company_secondary_functions"
+                            :key="index">
+
+                            <div class="comp-col-left">
+                                <select v-model="input.company_secondary_functions[index]">
+                                    <option value="" disabled selected>Business entity type</option>
+                                    <option v-for="(type, index) in secondary_company_functions" :key="index" v-bind:value="type.id">
+                                        {{ type.secondary_name }}
+                                    </option>
+                                </select> 
+                            </div>
+
+                            <div class="comp-col-right">
+                                <span @click="removeEntity(index)">
+                                    <img src="/img/icons/remove.png"
+                                        srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x"
+                                        style="cursor:pointer">
+                                </span>
+                            </div>
+                        </div>
+
+                        <center>
+                            <div class="btn btn-link btn-delete" @click="addNewEntity">
+                                Add Another
+                            </div>
+                        </center>
+                    </li>
+
+                    <li>
+                        <div class="emp-row">
+                            <select v-model="input.company_business_type_id">
+                                <option value="" disabled selected>Business Entity Type</option>
+                                <option v-for="(type, index) in business_types" :key="index" v-bind:value="type.id">
+                                    {{ type.business_type }}
+                                </option>
+                            </select> 
+                        </div>
+                        <span class="err-msg" v-if="errors.company_business_type_id">
+                            {{ errors.company_business_type_id }}
+                        </span>
+
+                        <div class="emp-row">
+                            <select v-model="input.company_tier_id">
+                                <option value="" disabled selected>Entity type specialisation</option>
+                                <option v-for="(tier, index) in tiers" :key="index" v-bind:value="tier.id">
+                                    {{ tier.tier_name }}
+                                </option>
+                            </select> 
+                        </div>
+                        <span class="err-msg" v-if="errors.company_tier_id">
+                            {{ errors.company_tier_id }}
+                        </span>
+
+                        <input type="file" id="upload" value="Choose a file" accept="image/*" style="display:none" @change="onFileChange" />
+
+                        <div class="comp-label">
+                            Company Logo
+                        </div>
+                        <div class="disp-flex">
+                            <div class="bl-col-1">
+                                <div class="comp-logo">
+                                    <img v-if="input.company_photo" class="bl-image-100" :src="input.company_photo">
+                                    <!-- <img v-else class="bl-image-100" src="/img/logo/1.jpg"> -->
+                                </div>
+                            </div>
+                            <div class="bl-col-2">
+                                <div class="bl-display">
+                                    <div class="comp-button-1" @click="onClickProfilePhoto">
+                                        <p>Choose File</p>
+                                    </div>
+                                    <div class="comp-button-2">
+                                        <p>Upload</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comp-nophoto-label" v-if="! input.company_photo">
+                                no photo chosen
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="comp-label">
+                            Head Office Address
+                        </div>
+
+                        <div class="form-group">
+                            <input id="company_address" type="text" name="company_address" class="form-control" style="padding-left:24px"
+                                v-model="input.company_address" placeholder="Start typing address..."
+                                @keyup="onChangeLocation(input.company_address)"
+                                required />
+
+                            <span class="err-msg" v-if="errors.company_address">
+                                {{ errors.company_address }}
                             </span>
                         </div>
-                    </div>
 
-                    <center>
-                        <div class="btn btn-link btn-delete" @click="addNewEntity">
-                            Add Another
+                        <div class="emp-row" style="margin-top:0" v-if="locations.length > 0">
+                            <ul class="list-group">
+                                <li class="list-group-item" v-for="(place, idx) in locations" :key="idx"
+                                    @click="onSelectLocation(place.place_name)">
+                                    {{ place.place_name }}
+                                </li>
+                            </ul>
                         </div>
-                    </center>
-                </li>
 
-                <li>
-                    <div class="emp-row">
-                        <select v-model="input.company_business_type_id">
-                            <option value="" disabled selected>Business Entity Type</option>
-                            <option v-for="(sector, index) in sectors" :key="index" v-bind:value="sector.id">
-                                {{ sector.name }}
-                            </option>
-                        </select> 
-                    </div>
-                    <span class="err-msg" v-if="errors.company_business_type_id">
-                        {{ errors.company_business_type_id }}
-                    </span>
+                        <div class="form-group">
+                            <input id="company_contact_number" type="text" name="company_contact_number" class="form-control" style="padding-left:24px"
+                                v-model="input.company_contact_number" placeholder="Business contact number" required />
 
-                    <div class="emp-row">
-                        <select v-model="input.company_tier_id">
-                            <option value="" disabled selected>Entity type specialisation</option>
-                            <option v-for="(tier, index) in tiers" :key="index" v-bind:value="tier.id">
-                                {{ tier.name }}
-                            </option>
-                        </select> 
-                    </div>
-                    <span class="err-msg" v-if="errors.company_tier_id">
-                        {{ errors.company_tier_id }}
-                    </span>
-
-                    <input type="file" id="upload" value="Choose a file" accept="image/*" style="display:none" @change="onFileChange" />
-
-                    <div class="comp-label">
-                        Company Logo
-                    </div>
-                    <div class="disp-flex">
-                        <div class="bl-col-1">
-                            <div class="comp-logo">
-                                <img v-if="input.company_photo" class="bl-image-100" :src="input.company_photo">
-                                <!-- <img v-else class="bl-image-100" src="/img/logo/1.jpg"> -->
-                            </div>
+                            <span class="err-msg" v-if="errors.company_contact_number">
+                                {{ errors.company_contact_number }}
+                            </span>
                         </div>
-                        <div class="bl-col-2">
-                            <div class="bl-display">
-                                <div class="comp-button-1" @click="onClickProfilePhoto">
-                                    <p>Choose File</p>
-                                </div>
-                                <div class="comp-button-2">
-                                    <p>Upload</p>
-                                </div>
-                            </div>
+
+                        <div class="form-group">
+                            <input id="company_website" type="text" name="company_website" class="form-control" style="padding-left:24px"
+                                v-model="input.company_website" placeholder="Business Website" required />
+
+                            <span class="err-msg" v-if="errors.company_website">
+                                {{ errors.company_website }}
+                            </span>
                         </div>
-                        <div class="comp-nophoto-label" v-if="! input.company_photo">
-                            no photo chosen
-                        </div>
-                    </div>
-                </li>
 
-                <li>
-                    <div class="comp-label">
-                        Head Office Address
-                    </div>
-
-                    <div class="form-group">
-                        <input id="company_address" type="text" name="company_address" class="form-control" style="padding-left:24px"
-                            v-model="input.company_address" placeholder="Start typing address..."
-                            @keyup="onChangeLocation(input.company_address)"
-                            required />
-
-                        <span class="err-msg" v-if="errors.company_address">
-                            {{ errors.company_address }}
-                        </span>
-                    </div>
-
-                    <div class="emp-row" style="margin-top:0" v-if="locations.length > 0">
-                        <ul class="list-group">
-                            <li class="list-group-item" v-for="(place, idx) in locations" :key="idx"
-                                @click="onSelectLocation(place.place_name)">
-                                {{ place.place_name }}
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="form-group">
-                        <input id="company_contact_number" type="text" name="company_contact_number" class="form-control" style="padding-left:24px"
-                            v-model="input.company_contact_number" placeholder="Business contact number" required />
-
-                        <span class="err-msg" v-if="errors.company_contact_number">
-                            {{ errors.company_contact_number }}
-                        </span>
-                    </div>
-
-                    <div class="form-group">
-                        <input id="company_website" type="text" name="company_website" class="form-control" style="padding-left:24px"
-                            v-model="input.company_website" placeholder="Business Website" required />
-
-                        <span class="err-msg" v-if="errors.company_website">
-                            {{ errors.company_website }}
-                        </span>
-                    </div>
-
-                    <div class="comp-label-2">
-                        Do you operate out of any other states?
-                    </div>
-                    <div class="bl-inline">
-                        <input class="styled-checkbox-round" id="rc-checkbox-yes" type="checkbox"
-                            ref="rc-checkbox-1"
-                            @change="formatOperate(1)" />
-                        <label for="rc-checkbox-yes">Yes</label>
-                        
-                        <input class="styled-checkbox-round" id="rc-checkbox-no" type="checkbox"
-                            ref="rc-checkbox-0"
-                            @change="formatOperate(0)" />
-                        <label for="rc-checkbox-no">No</label>
-                    </div>
-
-                    <div v-if="showStates">
                         <div class="comp-label-2">
-                            Check all that apply
+                            Do you operate out of any other states?
                         </div>
-                        <div class="bl-inline" v-for="(state, index) in states" :key="index">
-                            <input class="styled-checkbox" :id="'styled-checkbox-'+index" type="checkbox"
-                                v-bind:value="state" v-model="input.company_states" />
-                            <label :for="'styled-checkbox-'+index">{{ state }}</label>
+                        <div class="bl-inline">
+                            <input class="styled-checkbox-round" id="rc-checkbox-yes" type="checkbox"
+                                ref="rc-checkbox-1"
+                                @change="formatOperate(1)" />
+                            <label for="rc-checkbox-yes">Yes</label>
+                            
+                            <input class="styled-checkbox-round" id="rc-checkbox-no" type="checkbox"
+                                ref="rc-checkbox-0"
+                                @change="formatOperate(0)" />
+                            <label for="rc-checkbox-no">No</label>
                         </div>
-                    </div>
-                </li>
 
-                <li>
-                    <div class="form-group">
-                        <input id="email" type="email" name="email" class="form-control" style="padding-left:24px"
-                            v-model="input.email" placeholder="Email Address" required />
+                        <div v-if="showStates">
+                            <div class="comp-label-2">
+                                Check all that apply
+                            </div>
+                            <div class="bl-inline" v-for="(state, index) in states" :key="index">
+                                <input class="styled-checkbox" :id="'styled-checkbox-'+index" type="checkbox"
+                                    v-bind:value="state" v-model="input.company_states" />
+                                <label :for="'styled-checkbox-'+index" style="width:80px">{{ state }}</label>
+                            </div>
+                        </div>
+                    </li>
 
-                        <span class="err-msg" v-if="errors.email">
-                            {{ errors.email }}
-                        </span>
-                    </div>
+                    <li>
+                        <div class="form-group">
+                            <input id="email" type="email" name="email" class="form-control" style="padding-left:24px"
+                                v-model="input.email" placeholder="Email Address" required />
 
-                    <div class="form-group">
-                        <password-eye ref-name="regTogglePassword"></password-eye>
-                        
-                        <input id="password" ref="regTogglePassword" type="password" name="password" class="form-control" 
-                            style="padding-left:24px" v-model="input.password" placeholder="Password" required />
+                            <span class="err-msg" v-if="errors.email">
+                                {{ errors.email }}
+                            </span>
+                        </div>
 
-                        <span class="err-msg" v-if="errors.password">
-                            {{ errors.password }}
-                        </span>
-                    </div>
+                        <div class="form-group">
+                            <password-eye ref-name="regTogglePassword" style="margin-right:15px"></password-eye>
+                            
+                            <input id="password" ref="regTogglePassword" type="password" name="password" class="form-control" 
+                                style="padding-left:24px" v-model="input.password" placeholder="Password" required />
 
-                    <div class="form-group">
-                        <password-eye ref-name="regToggleConfirm"></password-eye>
+                            <span class="err-msg" v-if="errors.password">
+                                {{ errors.password }}
+                            </span>
+                        </div>
 
-                        <input id="password-confirm" ref="regToggleConfirm" type="password" class="form-control"
-                            style="padding-left:24px" name="password_confirmation" v-model="input.password_confirmation"
-                            placeholder="Confirm Password" required>
-                    </div>
-                </li>
-            </ul>
+                        <div class="form-group">
+                            <password-eye ref-name="regToggleConfirm" style="margin-right:15px"></password-eye>
 
-            <div class="form-group">
-                <span v-if="isFirstStep" class="btn btn-link" :href="endpoints.login">Back to login</span>
-                <span v-if="! isFirstStep" class="btn btn-link" @click="skip(-1)">Back</span>
-                <button v-if="! isLastStep" class="pull-right" type="button" :disabled="disabled" @click="skip(1)">Next</button>
-                <button v-if="isLastStep" class="pull-right" type="submit" @click="submit" :disabled="disabled">Submit</button>
-            </div>
-        </form>
+                            <input id="password-confirm" ref="regToggleConfirm" type="password" class="form-control"
+                                style="padding-left:24px" name="password_confirmation" v-model="input.password_confirmation"
+                                placeholder="Confirm Password" required>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="form-group">
+                    <span v-if="isFirstStep" class="btn btn-link" :href="endpoints.login">Back to login</span>
+                    <span v-if="! isFirstStep" class="btn btn-link" @click="skip(-1)">Back</span>
+                    <button v-if="! isLastStep" class="pull-right" type="button" @click="skip(1)">Next</button>
+                    <button v-if="isLastStep" class="pull-right" type="button" @click="submit" :disabled="disabled">Submit</button>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -255,34 +256,13 @@
                 secondProgressCls: '',
                 thirdProgressCls: '',
                 fourthProgressCls: '',
-                showStates: true,
+                showStates: false,
                 disabled: false,
                 locations: [],
-                sectors: [
-                    { id: 1, name: 'Residential' },
-                    { id: 2, name: 'Commercial' },
-                    { id: 3, name: 'Civil' },
-                ],
-                tiers: [
-                    { id: 1, name: 'Tier 1' },
-                    { id: 2, name: 'Tier 2' },
-                    { id: 3, name: 'Tier 3' },
-                    { id: 4, name: 'Tier 4' },
-                    { id: 5, name: 'Tier 5' },
-                ],
-                main_types: [
-                    { id: 1, name: 'Building Contractor' },
-                    { id: 2, name: 'Trade Services Contractor' },
-                    { id: 3, name: 'Supplier' },
-                    { id: 4, name: 'Design Consultant' },
-                    { id: 5, name: 'Training and Education Provider' },
-                ],
-                secondary_types: [
-                    { id: 1, bid: 4, name: 'Engineer' },
-                    { id: 2, bid: 4, name: 'Architect' },
-                    { id: 3, bid: 2, name: 'Plumbing' },
-                    { id: 4, bid: 2, name: 'Carpentry' },
-                ],
+                business_types: [],
+                tiers: [],
+                main_company_functions: [],
+                secondary_company_functions: [],
                 states: [
                     'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
                 ],
@@ -302,12 +282,12 @@
                     login: '/login',
                     save: '/api/v1/auth/company/register',
                     company_profile: '/company/profile',
+                    company_options: '/api/v1/company/options',
                 }
             }
         },
 
         computed: {
-
             isFirstStep: function(){
                 return (this.step === 1);
             },
@@ -346,10 +326,34 @@
                 component.$sections = component.$refs['compCardWrapper'].querySelectorAll('li');
                 component.max = component.$sections.length;
                 component.goToStep(1);
-            }, 1)
+            }, 1);
+
+            this.getCompanyOptions();
         },
 
         methods: {
+
+            getCompanyOptions() {
+                let component = this;
+
+                axios.get(component.endpoints.company_options)
+
+                    .then(function(response) {
+                        let data = response.data;
+                        
+                        component.business_types = data.business_types;
+                        component.tiers = data.tiers;
+                        component.main_company_functions = data.main_company_functions;
+                    })
+                    .catch(function(error) {
+
+                        Utils.handleError(error);
+                    });
+            },
+
+            onChangeMainCompanyFunctions(e) {
+                this.secondary_company_functions = this.main_company_functions.find(el => el.id == e.target.value).items;
+            },
 
             onChangeLocation(keyword) {
                 this.locations = Api.getLocations(keyword);
@@ -363,6 +367,7 @@
 
             addNewEntity() {
                 this.input.company_secondary_functions = this.input.company_secondary_functions.filter(r => r!=='');
+
                 this.input.company_secondary_functions.push('');
             },
 
@@ -386,6 +391,8 @@
 
                     this.input.company_operate_outside_states = 0;
                     this.showStates = false;
+                    
+                    this.input.company_states = [];
 
                 } else {
                     this.$refs['rc-checkbox-1'].checked = false;
@@ -462,6 +469,11 @@
                 this.$refs['compCardWrapper'].style.setProperty('--cross-reverse', 'column-reverse')
             },
 
+            skip(step) {
+                this.step += step;
+                this.goToStep(this.step);
+            },
+
             goToStep(step) {
                 this.step = step > this.max ? this.max : step < 1 ? 1 : step;
                 this.currentSection = this.$sections[this.step-1];
@@ -476,34 +488,33 @@
                 this.setCssVars();
 
                 if (step == 1) {
+                    this.subHeader = 'About the business';
                     this.firstProgressCls = 'active';
                     this.secondProgressCls = 'incomplete';
                     this.thirdProgressCls = 'incomplete';
                     this.fourthProgressCls = 'incomplete';
 
                 } else if (step == 2) {
+                    this.subHeader = 'About the business';
                     this.firstProgressCls = 'complete';
                     this.secondProgressCls = 'active';
                     this.thirdProgressCls = 'incomplete';
                     this.fourthProgressCls = 'incomplete';
 
                 } else if (step == 3) {
+                    this.subHeader = 'Location & Contact';
                     this.firstProgressCls = 'complete';
                     this.secondProgressCls = 'complete';
                     this.thirdProgressCls = 'active';
                     this.fourthProgressCls = 'incomplete';
 
                 } else if (step == 4) {
+                    this.subHeader = 'Login Credentials';
                     this.firstProgressCls = 'complete';
                     this.secondProgressCls = 'complete';
                     this.thirdProgressCls = 'complete';
                     this.fourthProgressCls = 'active';
                 }
-            },
-
-            skip(step) {
-                this.step += step;
-                this.goToStep(this.step);
             },
 
         }
