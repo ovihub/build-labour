@@ -592,6 +592,7 @@ p.bl-nav-tab-label {
   border-radius: 3px;
   display: inline-block;
   background-color: #d8d8d8;
+  cursor: pointer;
 
   &.active {
     background-color: #f5a623;

@@ -147,6 +147,14 @@
         font-size: 14px;
         color: #61686b;
     }
+
+    &:hover {
+        border: 2px solid #000;
+
+        p {
+            color: #000;
+        }
+    }
 }
 .comp-button-2 {
     width: 146px;
@@ -157,12 +165,17 @@
     margin-top: 20px;
     margin-left: 28px;
     cursor: pointer;
+    transition: background-color 0.33s ease-in-out, background-image 0.33s ease-in-out;
 
     p {
         padding-top: 5px;
         font-size: 15px;
         font-weight: 500;
         color: #ffffff;
+    }
+
+    &:hover {
+        background-color: $brand-orange;
     }
 }
 .comp-nophoto-label {

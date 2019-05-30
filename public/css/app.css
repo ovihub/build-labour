@@ -11309,6 +11309,14 @@ span.ticket-delete:hover {
   color: #61686b;
 }
 
+.comp-button-1:hover {
+  border: 2px solid #000;
+}
+
+.comp-button-1:hover p {
+  color: #000;
+}
+
 .comp-button-2 {
   width: 146px;
   height: 34px;
@@ -11318,6 +11326,7 @@ span.ticket-delete:hover {
   margin-top: 20px;
   margin-left: 28px;
   cursor: pointer;
+  transition: background-color 0.33s ease-in-out, background-image 0.33s ease-in-out;
 }
 
 .comp-button-2 p {
@@ -11325,6 +11334,10 @@ span.ticket-delete:hover {
   font-size: 15px;
   font-weight: 500;
   color: #ffffff;
+}
+
+.comp-button-2:hover {
+  background-color: #ff7705;
 }
 
 .comp-nophoto-label {
@@ -16180,6 +16193,7 @@ p.bl-nav-tab-label {
   border-radius: 3px;
   display: inline-block;
   background-color: #d8d8d8;
+  cursor: pointer;
 }
 
 .form-progress.active {
