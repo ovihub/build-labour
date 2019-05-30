@@ -8,6 +8,7 @@ use App\Models\Companies\CompanySpecialized;
 use App\Models\Companies\Job;
 use App\Models\Companies\JobRequirement;
 use App\Models\Companies\JobResponsibility;
+use App\Models\Options\SecondaryFunction;
 use Illuminate\Http\Request;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 use JWTAuth;
@@ -54,40 +55,29 @@ class CompanyRepository extends AbstractRepository
         if ($user->company->store($request)) {
 
             // save specialization
-            
-            $excludeIds = [];
 
-            foreach ($request->specialization as $r) {
+            if ($request->secondary_functions && $request->secondary_functions) {
 
-                $r['company_id'] = $user->company->id;
+                CompanySpecialized::where('company_id', $user->company->id)->delete();
 
-                $spec = new CompanySpecialized();
+                $secondaryFunctions = SecondaryFunction::whereIn('id', $request->secondary_functions)
+                    ->where('main_id', $request->main_company_id)->pluck('id');
 
-                if (isset($r['id'])) {
+                foreach ($secondaryFunctions->toArray() as $id) {
 
-                    // update
-                    $spec = CompanySpecialized::find($r['id']);
-
-                    if ($spec) {
-
-                        $excludeIds[] = $r['id'];
-
-                    } else {
-
-                        $spec = new CompanySpecialized();
-                    }
+                    CompanySpecialized::insert([
+                        'company_id' => $this->company->id,
+                        'secondary_id' => $id
+                    ]);
 
                 }
 
-                if ($spec->store($r)) {
-
-                    $excludeIds[] = $spec->id;
-                }
             }
 
-            CompanySpecialized::whereNotIn('id', $excludeIds)->where('company_id', $user->company->id)->delete();
-
-            $user->company->specialization;
+            $user->company->BusinessType;
+            $user->company->Tier;
+            $user->company->MainFunction;
+            $user->company->Specialization;
 
             return $user->company;
         }
