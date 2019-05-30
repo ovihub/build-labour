@@ -147,6 +147,14 @@
         font-size: 14px;
         color: #61686b;
     }
+
+    &:hover {
+        border: 2px solid #000;
+        
+        p {
+            color: #000;
+        }
+    }
 }
 .comp-button-2 {
     width: 146px;
@@ -157,12 +165,17 @@
     margin-top: 20px;
     margin-left: 28px;
     cursor: pointer;
+    transition: background-color 0.33s ease-in-out, background-image 0.33s ease-in-out;
 
     p {
         padding-top: 5px;
         font-size: 15px;
         font-weight: 500;
         color: #ffffff;
+    }
+
+    &:hover {
+        background-color: $brand-orange;
     }
 }
 .comp-nophoto-label {
@@ -197,15 +210,17 @@
     }
 
     .locations-wrapper p {
-        border: 1px solid #828282;
-        height: auto;
-        padding: 12px;
-        border-radius: 6px;
-        font-size: 0.9em;
-        margin-bottom: 14px;
+        border: 1px solid rgba(0, 0, 0, 0.32);
+        min-height: 56px;
+        width: 488px;
+        padding: 16px;
+        border-radius: 0.25rem;
+        font-size: 1rem;
+        margin-bottom: 0px;
     }
+    
     .locations-wrapper {
-        padding-top: 25px;
+        padding-top: 0px;
     }
 }
 .div-form {

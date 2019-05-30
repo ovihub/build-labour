@@ -229,7 +229,7 @@
                 </ul>
 
                 <div class="form-group">
-                    <span v-if="isFirstStep" class="btn btn-link" :href="endpoints.login">Back to login</span>
+                    <a v-if="isFirstStep" class="btn btn-link" :href="endpoints.login">Back to login</a>
                     <span v-if="! isFirstStep" class="btn btn-link" @click="skip(-1)">Back</span>
                     <button v-if="! isLastStep" class="pull-right" type="button" @click="skip(1)">Next</button>
                     <button v-if="isLastStep" class="pull-right" type="button" @click="submit" :disabled="disabled">Submit</button>
@@ -257,6 +257,7 @@
                 fourthProgressCls: '',
                 showStates: false,
                 disabled: false,
+                time_out: false,
                 locations: [],
                 business_types: [],
                 location_timeout: false,
@@ -322,7 +323,7 @@
 
             this.input.company_secondary_functions.push('');
 
-            setTimeout(function(){
+            setTimeout(function() {
                 component.$sections = component.$refs['compCardWrapper'].querySelectorAll('li');
                 component.max = component.$sections.length;
                 component.goToStep(1);
@@ -336,19 +337,12 @@
             getCompanyOptions() {
                 let component = this;
 
-                axios.get(component.endpoints.company_options)
-
-                    .then(function(response) {
-                        let data = response.data;
-                        
-                        component.business_types = data.business_types;
-                        component.tiers = data.tiers;
-                        component.main_company_functions = data.main_company_functions;
-                    })
-                    .catch(function(error) {
-
-                        Utils.handleError(error);
-                    });
+                Promise.resolve(Api.getCompanyOptions()).then(function(data) {
+                    
+                    component.business_types = data.business_types;
+                    component.tiers = data.tiers;
+                    component.main_company_functions = data.main_company_functions;
+                });
             },
 
             onChangeMainCompanyFunctions(e) {
@@ -356,19 +350,14 @@
             },
 
             onChangeLocation(keyword) {
-
                 let component = this;
 
-                if (this.location_timeout) {
-
-                    clearTimeout(this.location_timeout);
-                }
-
-                this.location_timeout = setTimeout(function () {
-                    component.locations = Api.getLocations(keyword);
-                    this.$forceUpdate();
-                }.bind(this), 100);
-
+                Promise.resolve(Api.getLocations(keyword)).then(function(data) {
+                    
+                    component.locations = (keyword != '' && (keyword && keyword.length > 0) && 
+                                            data.data && data.data.locations) ? 
+                                            data.data.locations.features : [];
+                });
             },
 
             onSelectLocation(location) {
