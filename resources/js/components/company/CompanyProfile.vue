@@ -14,11 +14,12 @@
                 <template slot="custom-modal-content">
                     <form class="modal-form" method="POST" @submit.prevent="submit">
                         <div class="emp-row">
-                            <div class="modal-form-label">Business Entity Type</div>
-                            <input class="form-control" type="text" v-model="input.business_type" />
+                            <div class="modal-form-label">Company Name</div>
+                            <input id="name" type="text" name="name" class="form-control" style="padding-left:24px"
+                                v-model="input.name" placeholder="Company Name" required />
 
-                            <span class="err-msg" v-if="errors.business_type">
-                                {{ errors.business_type }}
+                            <span class="err-msg" v-if="errors.name">
+                                {{ errors.name }}
                             </span>
                         </div>
 
@@ -42,7 +43,7 @@
                         </div>
 
                         <div class="emp-row">
-                            <div class="modal-form-label">Email Address</div>
+                            <div class="modal-form-label">Website</div>
                             <input class="form-control" type="text" v-model="input.website" />
 
                             <span class="err-msg" v-if="errors.website">

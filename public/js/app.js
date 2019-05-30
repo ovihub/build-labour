@@ -5586,6 +5586,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -54120,7 +54121,7 @@ var render = function() {
                 [
                   _c("div", { staticClass: "emp-row" }, [
                     _c("div", { staticClass: "modal-form-label" }, [
-                      _vm._v("Business Entity Type")
+                      _vm._v("Company Name")
                     ]),
                     _vm._v(" "),
                     _c("input", {
@@ -54128,32 +54129,35 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.input.business_type,
-                          expression: "input.business_type"
+                          value: _vm.input.name,
+                          expression: "input.name"
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: { type: "text" },
-                      domProps: { value: _vm.input.business_type },
+                      staticStyle: { "padding-left": "24px" },
+                      attrs: {
+                        id: "name",
+                        type: "text",
+                        name: "name",
+                        placeholder: "Company Name",
+                        required: ""
+                      },
+                      domProps: { value: _vm.input.name },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(
-                            _vm.input,
-                            "business_type",
-                            $event.target.value
-                          )
+                          _vm.$set(_vm.input, "name", $event.target.value)
                         }
                       }
                     }),
                     _vm._v(" "),
-                    _vm.errors.business_type
+                    _vm.errors.name
                       ? _c("span", { staticClass: "err-msg" }, [
                           _vm._v(
                             "\n                            " +
-                              _vm._s(_vm.errors.business_type) +
+                              _vm._s(_vm.errors.name) +
                               "\n                        "
                           )
                         ])
@@ -54243,7 +54247,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "emp-row" }, [
                     _c("div", { staticClass: "modal-form-label" }, [
-                      _vm._v("Email Address")
+                      _vm._v("Website")
                     ]),
                     _vm._v(" "),
                     _c("input", {
