@@ -122,7 +122,7 @@ class Company extends BaseModel
             $transformed['states'] = $data['company_states'];
         }
 
-        return $transformed;
+        return array_merge($transformed, $data);
     }
 
     /**
@@ -209,6 +209,7 @@ class Company extends BaseModel
     public function store(Request $r) {
 
         $data = $this->transformRequest($r->all());
+        
 
         if( ! $this->validate( $data )) {
 

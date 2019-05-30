@@ -190,7 +190,7 @@ class Users extends BaseModel implements
 
             $this->role_id = 2;
         }
-        
+
         try {
 
             $this->save();
