@@ -141,16 +141,15 @@
 
                             <span class="err-msg" v-if="errors.company_address">
                                 {{ errors.company_address }}
-                            </span>
-                        </div>
 
-                        <div class="emp-row" style="margin-top:0" v-if="locations.length > 0">
-                            <ul class="list-group">
-                                <li class="list-group-item" v-for="(place, idx) in locations" :key="idx"
-                                    @click="onSelectLocation(place.place_name)">
-                                    {{ place.place_name }}
-                                </li>
-                            </ul>
+                            </span>
+
+                            <div class="emp-row" style="margin-top:0" v-if="locations.length > 0">
+                                <div class="locations-wrapper">
+                                    <p class="location-item" v-for="(place, idx) in locations" :key="idx"
+                                       @click="onSelectLocation(place.place_name)">{{ place.place_name.trim() }}</p>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -230,7 +229,7 @@
                 </ul>
 
                 <div class="form-group">
-                    <span v-if="isFirstStep" class="btn btn-link" :href="endpoints.login">Back to login</span>
+                    <a v-if="isFirstStep" class="btn btn-link" :href="endpoints.login">Back to login</a>
                     <span v-if="! isFirstStep" class="btn btn-link" @click="skip(-1)">Back</span>
                     <button v-if="! isLastStep" class="pull-right" type="button" @click="skip(1)">Next</button>
                     <button v-if="isLastStep" class="pull-right" type="button" @click="submit" :disabled="disabled">Submit</button>
@@ -258,6 +257,7 @@
                 fourthProgressCls: '',
                 showStates: false,
                 disabled: false,
+                time_out: false,
                 locations: [],
                 business_types: [],
                 tiers: [],
@@ -322,7 +322,7 @@
 
             this.input.company_secondary_functions.push('');
 
-            setTimeout(function(){
+            setTimeout(function() {
                 component.$sections = component.$refs['compCardWrapper'].querySelectorAll('li');
                 component.max = component.$sections.length;
                 component.goToStep(1);
@@ -336,19 +336,12 @@
             getCompanyOptions() {
                 let component = this;
 
-                axios.get(component.endpoints.company_options)
-
-                    .then(function(response) {
-                        let data = response.data;
-                        
-                        component.business_types = data.business_types;
-                        component.tiers = data.tiers;
-                        component.main_company_functions = data.main_company_functions;
-                    })
-                    .catch(function(error) {
-
-                        Utils.handleError(error);
-                    });
+                Promise.resolve(Api.getCompanyOptions()).then(function(data) {
+                    
+                    component.business_types = data.business_types;
+                    component.tiers = data.tiers;
+                    component.main_company_functions = data.main_company_functions;
+                });
             },
 
             onChangeMainCompanyFunctions(e) {
@@ -356,7 +349,14 @@
             },
 
             onChangeLocation(keyword) {
-                this.locations = Api.getLocations(keyword);
+                let component = this;
+
+                Promise.resolve(Api.getLocations(keyword)).then(function(data) {
+                    
+                    component.locations = (keyword != '' && (keyword && keyword.length > 0) && 
+                                            data.data && data.data.locations) ? 
+                                            data.data.locations.features : [];
+                });
             },
 
             onSelectLocation(location) {

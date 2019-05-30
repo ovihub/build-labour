@@ -143,6 +143,7 @@
         data() {
             return {
                 disabled: false,
+                time_out: false,
                 educations: [],
                 locations: [],
                 profile_photo_url: '',
@@ -320,7 +321,14 @@
             },
 
             onChangeLocation(keyword) {
-                this.locations = Api.getLocations(keyword);
+                let component = this;
+                
+                Promise.resolve(Api.getLocations(keyword)).then(function(data) {
+                    
+                    component.locations = (keyword != '' && (keyword && keyword.length > 0) && 
+                                            data.data && data.data.locations) ? 
+                                            data.data.locations.features : [];
+                });
             },
 
             onSelectLocation(location) {

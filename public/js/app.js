@@ -3542,7 +3542,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3558,6 +3557,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       fourthProgressCls: '',
       showStates: false,
       disabled: false,
+      time_out: false,
       locations: [],
       business_types: [],
       tiers: [],
@@ -3640,13 +3640,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   methods: {
     getCompanyOptions: function getCompanyOptions() {
       var component = this;
-      axios.get(component.endpoints.company_options).then(function (response) {
-        var data = response.data;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCompanyOptions()).then(function (data) {
         component.business_types = data.business_types;
         component.tiers = data.tiers;
         component.main_company_functions = data.main_company_functions;
-      }).catch(function (error) {
-        Utils.handleError(error);
       });
     },
     onChangeMainCompanyFunctions: function onChangeMainCompanyFunctions(e) {
@@ -3655,7 +3652,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }).items;
     },
     onChangeLocation: function onChangeLocation(keyword) {
-      this.locations = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword);
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
+        component.locations = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.locations ? data.data.locations.features : [];
+      });
     },
     onSelectLocation: function onSelectLocation(location) {
       this.input.company_address = location;
@@ -5587,11 +5587,72 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       disabled: false,
+      time_out: false,
       locations: [],
       photo_url: '',
       name: '',
@@ -5602,7 +5663,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       phone: '',
       introduction: '',
       main_function: '',
-      specialization: [],
+      business_types: [],
+      tiers: [],
+      main_functions: [],
+      secondary_functions: [],
       input: {
         name: '',
         business_type: '',
@@ -5612,7 +5676,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         phone: '',
         introduction: '',
         main_function: '',
-        specialization: []
+        business_type_id: '',
+        tier_id: '',
+        main_company_id: '',
+        secondary_functions: []
       },
       errors: {
         name: '',
@@ -5623,7 +5690,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         phone: '',
         introduction: '',
         main_function: '',
-        specialization: ''
+        secondary_functions: ''
       },
       endpoints: {
         save: '/api/v1/company/update'
@@ -5636,8 +5703,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       component.setValues(details);
       component.setDisplayValues(component.input, details);
     });
+    this.getCompanyOptions();
   },
   methods: {
+    getCompanyOptions: function getCompanyOptions() {
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCompanyOptions()).then(function (data) {
+        component.business_types = data.business_types;
+        component.tiers = data.tiers;
+        component.main_functions = data.main_company_functions;
+      });
+    },
     setValues: function setValues(details) {
       this.photo_url = details.photo_url;
       this.name = details.name;
@@ -5648,7 +5724,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.phone = details.phone;
       this.introduction = details.introduction;
       this.main_function = details.main_function;
-      this.specialization = details.specialization;
+      this.secondary_functions = details.specialization;
     },
     setDisplayValues: function setDisplayValues(val, details) {
       val.name = details.name;
@@ -5659,21 +5735,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       val.phone = details.phone;
       val.introduction = details.introduction;
       val.main_function = details.main_function;
-      val.specialization = details.specialization;
-      this.input.specialization = this.input.specialization.filter(function (r) {
-        return r.secondary_name !== '';
-      });
-      this.input.specialization.push({
-        secondary_name: ''
-      });
+      val.secondary_functions = details.specialization;
     },
     textAreaAdjust: function textAreaAdjust(index) {
       var o = this.$refs['companyIntro'];
-      o.style.height = '1px';
-      o.style.height = 2 + o.scrollHeight + 'px';
-    },
-    espTextAreaAdjust: function espTextAreaAdjust(index) {
-      var o = this.$refs['espItem-' + index][0];
       o.style.height = '1px';
       o.style.height = 2 + o.scrollHeight + 'px';
     },
@@ -5701,27 +5766,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         reader.readAsDataURL(file);
       }
     },
-    onChangeLocation: function onChangeLocation(location) {
-      this.locations = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(location);
+    onChangeMainCompanyFunctions: function onChangeMainCompanyFunctions(e) {
+      this.secondary_functions = this.main_functions.find(function (el) {
+        return el.id == e.target.value;
+      }).items;
+    },
+    onChangeLocation: function onChangeLocation(keyword) {
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
+        component.locations = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.locations ? data.data.locations.features : [];
+      });
     },
     onSelectLocation: function onSelectLocation(location) {
       this.input.address = location;
       this.locations = [];
     },
-    onChangeSpecialization: function onChangeSpecialization(index) {
-      this.espTextAreaAdjust(index);
-      this.input.specialization = this.input.specialization.filter(function (r) {
-        return r.secondary_name !== '';
+    addNewEntity: function addNewEntity() {
+      this.input.secondary_functions = this.input.secondary_functions.filter(function (r) {
+        return r !== '';
       });
-      this.input.specialization.push({
-        secondary_name: ''
-      });
+      this.input.secondary_functions.push('');
+    },
+    removeEntity: function removeEntity(index) {
+      if (this.input.secondary_functions.length > 1) {
+        this.input.secondary_functions.splice(index, 1);
+      }
     },
     submit: function () {
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var component, espArray, i, espId, espName;
+        var component, espArray;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -5730,20 +5805,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 espArray = [];
                 Utils.setObjectValues(this.errors, '');
                 this.disabled = true;
-
-                for (i = 0; i < component.input.specialization.length; i++) {
-                  espId = this.$refs['espItem-' + i][0].id, espName = this.$refs['espItem-' + i][0].value;
-
-                  if (espName != '') {
-                    espArray.push({
-                      id: espId,
-                      name: espName
-                    });
-                  }
-                }
-
-                component.input.specialization = espArray;
-                _context.next = 8;
+                component.input.business_type_id = component.input.business_type.id;
+                component.input.tier_id = component.input.tier.id;
+                component.input.main_company_id = component.input.main_function.id;
+                _context.next = 9;
                 return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalCompanyProfile').modal('hide');
@@ -5760,10 +5825,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Utils.handleError(error);
                 });
 
-              case 8:
+              case 9:
                 this.disabled = false;
 
-              case 9:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -5839,13 +5904,13 @@ __webpack_require__.r(__webpack_exports__);
         component.avatar.profile_photo_url = company.photo_url;
         component.company.photo_url = company.photo_url;
         component.company.name = company.name;
-        component.company.business_type = company.business_type.business_type;
-        component.company.tier = company.tier.tier_name;
+        component.company.business_type = company.business_type;
+        component.company.tier = company.tier;
         component.company.address = company.address;
         component.company.website = company.website;
         component.company.phone = company.phone;
         component.company.introduction = company.introduction;
-        component.company.main_function = company.main_function.main_name;
+        component.company.main_function = company.main_function;
         component.company.specialization = company.specialization;
         Bus.$emit('avatarDetails', component.avatar);
         Bus.$emit('companyProfileDetails', component.company);
@@ -7456,10 +7521,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.responsibilities.push('');
     },
     onChangeLocation: function onChangeLocation(keyword) {
-      this.locations = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword);
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
+        component.locations = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.locations ? data.data.locations.features : [];
+      });
     },
     onSearchCompany: function onSearchCompany(keyword) {
-      this.companies = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getCompanies(keyword);
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCompanies(keyword)).then(function (data) {
+        component.companies = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.companies ? data.data.companies : [];
+      });
     },
     onSelectLocation: function onSelectLocation(location) {
       this.location = location;
@@ -8740,6 +8811,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       disabled: false,
+      time_out: false,
       educations: [],
       locations: [],
       profile_photo_url: '',
@@ -8896,7 +8968,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     onChangeLocation: function onChangeLocation(keyword) {
-      this.locations = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword);
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
+        component.locations = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.locations ? data.data.locations.features : [];
+      });
     },
     onSelectLocation: function onSelectLocation(location) {
       this.input.address = location;
@@ -51987,51 +52062,45 @@ var render = function() {
                         _vm._v(
                           "\n                            " +
                             _vm._s(_vm.errors.company_address) +
-                            "\n                        "
+                            "\n\n                        "
                         )
                       ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.locations.length > 0
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "emp-row",
+                          staticStyle: { "margin-top": "0" }
+                        },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "locations-wrapper" },
+                            _vm._l(_vm.locations, function(place, idx) {
+                              return _c(
+                                "p",
+                                {
+                                  key: idx,
+                                  staticClass: "location-item",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.onSelectLocation(
+                                        place.place_name
+                                      )
+                                    }
+                                  }
+                                },
+                                [_vm._v(_vm._s(place.place_name.trim()))]
+                              )
+                            }),
+                            0
+                          )
+                        ]
+                      )
                     : _vm._e()
                 ]),
-                _vm._v(" "),
-                _vm.locations.length > 0
-                  ? _c(
-                      "div",
-                      {
-                        staticClass: "emp-row",
-                        staticStyle: { "margin-top": "0" }
-                      },
-                      [
-                        _c(
-                          "ul",
-                          { staticClass: "list-group" },
-                          _vm._l(_vm.locations, function(place, idx) {
-                            return _c(
-                              "li",
-                              {
-                                key: idx,
-                                staticClass: "list-group-item",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.onSelectLocation(
-                                      place.place_name
-                                    )
-                                  }
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(place.place_name) +
-                                    "\n                            "
-                                )
-                              ]
-                            )
-                          }),
-                          0
-                        )
-                      ]
-                    )
-                  : _vm._e(),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _c("input", {
@@ -52394,7 +52463,7 @@ var render = function() {
           _c("div", { staticClass: "form-group" }, [
             _vm.isFirstStep
               ? _c(
-                  "span",
+                  "a",
                   {
                     staticClass: "btn btn-link",
                     attrs: { href: _vm.endpoints.login }
@@ -54119,6 +54188,60 @@ var render = function() {
                   }
                 },
                 [
+                  _c("div", { staticClass: "skill-label" }, [
+                    _vm._v("Company Overview")
+                  ]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.input.introduction,
+                        expression: "input.introduction"
+                      }
+                    ],
+                    ref: "companyIntro",
+                    staticClass: "form-control",
+                    staticStyle: { overflow: "hidden" },
+                    attrs: {
+                      rows: "4",
+                      placeholder:
+                        "Example: We are a modern, professional and sophisticated surveying firm specialising in land development, construction and engineering surveying. We provide quality, cost-effective and efficient surveying service."
+                    },
+                    domProps: { value: _vm.input.introduction },
+                    on: {
+                      keyup: function($event) {
+                        return _vm.textAreaAdjust()
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.input, "introduction", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.errors.introduction
+                    ? _c("span", { staticClass: "err-msg" }, [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(_vm.errors.introduction) +
+                            "\n                    "
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "skill-label",
+                      staticStyle: { "margin-bottom": "-15px" }
+                    },
+                    [_vm._v("Company Details")]
+                  ),
+                  _vm._v(" "),
                   _c("div", { staticClass: "emp-row" }, [
                     _c("div", { staticClass: "modal-form-label" }, [
                       _vm._v("Company Name")
@@ -54321,104 +54444,338 @@ var render = function() {
                       : _vm._e()
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "skill-label" }, [
-                    _vm._v("Company Overview")
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.business_type.id,
+                            expression: "input.business_type.id"
+                          }
+                        ],
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.input.business_type,
+                              "id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "option",
+                          { attrs: { value: "", disabled: "", selected: "" } },
+                          [_vm._v("Business Entity Type")]
+                        ),
+                        _vm._v(" "),
+                        _vm._l(_vm.business_types, function(type, index) {
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: type.id } },
+                            [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(type.business_type) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
+                        })
+                      ],
+                      2
+                    )
                   ]),
                   _vm._v(" "),
-                  _c("textarea", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.input.introduction,
-                        expression: "input.introduction"
-                      }
-                    ],
-                    ref: "companyIntro",
-                    staticClass: "form-control",
-                    staticStyle: { overflow: "hidden" },
-                    attrs: {
-                      rows: "4",
-                      placeholder:
-                        "Example: We are a modern, professional and sophisticated surveying firm specialising in land development, construction and engineering surveying. We provide quality, cost-effective and efficient surveying service."
-                    },
-                    domProps: { value: _vm.input.introduction },
-                    on: {
-                      keyup: function($event) {
-                        return _vm.textAreaAdjust()
-                      },
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.input, "introduction", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _vm.errors.introduction
+                  _vm.errors.business_type
                     ? _c("span", { staticClass: "err-msg" }, [
                         _vm._v(
                           "\n                        " +
-                            _vm._s(_vm.errors.introduction) +
+                            _vm._s(_vm.errors.business_type) +
                             "\n                    "
                         )
                       ])
                     : _vm._e(),
                   _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "emp-label",
-                      staticStyle: { "margin-bottom": "17px" }
-                    },
-                    [_vm._v("Specialization")]
-                  ),
-                  _vm._v(" "),
-                  _vm._l(_vm.input.specialization, function(esp, index) {
-                    return _c("textarea", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.input.specialization[index].secondary_name,
-                          expression:
-                            "input.specialization[index].secondary_name"
-                        }
-                      ],
-                      key: index,
-                      ref: "espItem-" + index,
-                      refInFor: true,
-                      staticClass: "form-control",
-                      staticStyle: { overflow: "hidden" },
-                      attrs: {
-                        rows: "1",
-                        id: esp.id,
-                        placeholder: "Add Another Specialization"
-                      },
-                      domProps: {
-                        value: _vm.input.specialization[index].secondary_name
-                      },
-                      on: {
-                        focus: function($event) {
-                          return _vm.espTextAreaAdjust(index)
-                        },
-                        keyup: function($event) {
-                          return _vm.onChangeSpecialization(index)
-                        },
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.tier.id,
+                            expression: "input.tier.id"
                           }
-                          _vm.$set(
-                            _vm.input.specialization[index],
-                            "secondary_name",
-                            $event.target.value
-                          )
+                        ],
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.input.tier,
+                              "id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
                         }
-                      }
-                    })
-                  })
+                      },
+                      [
+                        _c(
+                          "option",
+                          { attrs: { value: "", disabled: "", selected: "" } },
+                          [_vm._v("Entity type specialisation")]
+                        ),
+                        _vm._v(" "),
+                        _vm._l(_vm.tiers, function(tier, index) {
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: tier.id } },
+                            [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(tier.tier_name) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm.errors.tier
+                    ? _c("span", { staticClass: "err-msg" }, [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(_vm.errors.tier) +
+                            "\n                    "
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "comp-label" }, [
+                    _vm._v(
+                      "\n                        What is your main company function?\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.main_function.id,
+                            expression: "input.main_function.id"
+                          }
+                        ],
+                        on: {
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input.main_function,
+                                "id",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                            _vm.onChangeMainCompanyFunctions
+                          ]
+                        }
+                      },
+                      [
+                        _c(
+                          "option",
+                          { attrs: { value: "", disabled: "", selected: "" } },
+                          [_vm._v("Company Specialisation")]
+                        ),
+                        _vm._v(" "),
+                        _vm._l(_vm.main_functions, function(main, index) {
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: main.id } },
+                            [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(main.main_name) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "comp-label" }, [
+                    _vm._v(
+                      "\n                        What are the secondary functions?\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "comp-label-3" }, [
+                    _vm._v(
+                      "\n                        Add as many as applicable\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.input.secondary_functions, function(spec, index) {
+                    return _c(
+                      "div",
+                      {
+                        key: index,
+                        ref: "specItem-" + index,
+                        refInFor: true,
+                        staticClass: "form-group emp-row row-center"
+                      },
+                      [
+                        _c("div", { staticClass: "comp-col-left" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.input.secondary_functions[index],
+                                  expression: "input.secondary_functions[index]"
+                                }
+                              ],
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.input.secondary_functions,
+                                    index,
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "option",
+                                {
+                                  attrs: {
+                                    value: "",
+                                    disabled: "",
+                                    selected: ""
+                                  }
+                                },
+                                [_vm._v("Business entity type")]
+                              ),
+                              _vm._v(" "),
+                              _vm._l(_vm.secondary_functions, function(
+                                type,
+                                index
+                              ) {
+                                return _c(
+                                  "option",
+                                  { key: index, domProps: { value: type.id } },
+                                  [
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(type.secondary_name) +
+                                        "\n                                "
+                                    )
+                                  ]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "comp-col-right" }, [
+                          _c(
+                            "span",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.removeEntity(index)
+                                }
+                              }
+                            },
+                            [
+                              _c("img", {
+                                staticStyle: { cursor: "pointer" },
+                                attrs: {
+                                  src: "/img/icons/remove.png",
+                                  srcset:
+                                    "/img/icons/remove@2x.png" +
+                                    " 2x, " +
+                                    "/img/icons/remove@3x.png" +
+                                    " 3x"
+                                }
+                              })
+                            ]
+                          )
+                        ])
+                      ]
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c("center", [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "btn btn-link btn-delete",
+                        on: { click: _vm.addNewEntity }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            Add Another\n                        "
+                        )
+                      ]
+                    )
+                  ])
                 ],
                 2
               )
@@ -54508,7 +54865,7 @@ var render = function() {
             ? _c("div", { staticClass: "bl-label-17 pb-3" }, [
                 _vm._v(
                   "\n                " +
-                    _vm._s(_vm.main_function) +
+                    _vm._s(_vm.main_function.main_name) +
                     "\n            "
                 )
               ])
@@ -54563,9 +54920,9 @@ var render = function() {
                 _c("div", { staticClass: "bl-col-4 bl-display" }, [
                   _vm._v(
                     "\n                    " +
-                      _vm._s(_vm.business_type) +
+                      _vm._s(_vm.business_type.business_type) +
                       " • " +
-                      _vm._s(_vm.tier) +
+                      _vm._s(_vm.tier.tier_name) +
                       "\n                "
                   )
                 ])
@@ -54591,7 +54948,7 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.specialization.length != 0
+          _vm.secondary_functions.length != 0
             ? _c("div", { staticClass: "bl-label-16 bl-mt20" }, [
                 _vm._v("\n                We specialise in\n            ")
               ])
@@ -54601,7 +54958,7 @@ var render = function() {
             _c(
               "ul",
               { staticClass: "job-list-items" },
-              _vm._l(_vm.specialization, function(spec, index) {
+              _vm._l(_vm.secondary_functions, function(spec, index) {
                 return _c("li", { key: index }, [
                   _vm._v(
                     "\n                        " +
@@ -71195,10 +71552,18 @@ module.exports = function(module) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue_cookie__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-cookie */ "./node_modules/vue-cookie/src/vue-cookie.js");
-/* harmony import */ var vue_cookie__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_cookie__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue_cookie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-cookie */ "./node_modules/vue-cookie/src/vue-cookie.js");
+/* harmony import */ var vue_cookie__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_cookie__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -71227,18 +71592,20 @@ function () {
     this.searchResults = [];
     this.locations = [];
     this.companies = [];
+    this.getResults = [];
     this.endpoints = {
       locations: '/api/v1/locations',
-      companies: '/api/v1/company/search'
+      companies: '/api/v1/company/search',
+      company_options: '/api/v1/company/options'
     }; //  this._headers()
   }
 
   _createClass(BuildLabourApi, [{
     key: "_headers",
     value: function _headers() {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.put['Content-Type'] = 'application/json';
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.post['Content-Type'] = 'application/json';
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.baseURL = this._apiURL();
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.put['Content-Type'] = 'application/json';
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.post['Content-Type'] = 'application/json';
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.baseURL = this._apiURL();
       if (this.isAuthenticated()) this._invalidateToken();
     }
   }, {
@@ -71249,66 +71616,129 @@ function () {
   }, {
     key: "_getBearerToken",
     value: function _getBearerToken() {
-      var token = JSON.parse(vue_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.get(this.tokenName));
+      var token = JSON.parse(vue_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.get(this.tokenName));
       return token;
     }
   }, {
     key: "_invalidateToken",
     value: function _invalidateToken() {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.authorization = "Bearer " + this._getBearerToken();
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.authorization = "Bearer " + this._getBearerToken();
     }
   }, {
     key: "isAuthenticated",
     value: function isAuthenticated() {
-      var authed = JSON.parse(vue_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.get(this.tokenName));
+      var authed = JSON.parse(vue_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.get(this.tokenName));
       return authed != null;
     }
   }, {
     key: "setToken",
     value: function setToken(token) {
-      vue_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.set(this.tokenName, JSON.stringify(token));
+      vue_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.set(this.tokenName, JSON.stringify(token));
 
       this._invalidateToken();
     }
   }, {
     key: "deleteToken",
     value: function deleteToken() {
-      vue_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.delete(this.tokenName);
+      vue_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.delete(this.tokenName);
       window.location.href = '/login';
     }
   }, {
     key: "_search",
-    value: function _search(endpoint, keyword) {
-      var component = this;
+    value: function () {
+      var _search2 = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(endpoint, keyword) {
+        var component;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                component = this; // if (this.time_out) {
+                //     clearTimeout(this.time_out);
+                // }
+                // this.time_out = await setTimeout(function() {
 
-      if (this.time_out) {
-        clearTimeout(this.time_out);
+                _context.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endpoint + '?keyword=' + keyword, Utils.getBearerAuth()).then(function (response) {
+                  component.searchResults = response.data;
+                }).catch(function (error) {
+                  Utils.handleError(error);
+                });
+
+              case 3:
+                return _context.abrupt("return", this.searchResults);
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function _search(_x, _x2) {
+        return _search2.apply(this, arguments);
       }
 
-      this.time_out = setTimeout(function () {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(endpoint + '?keyword=' + keyword, Utils.getBearerAuth()).then(function (response) {
-          component.searchResults = response.data;
-        }).catch(function (error) {
-          Utils.handleError(error);
-        });
-      }.bind(this), 200);
-      return this.searchResults;
-    }
+      return _search;
+    }()
   }, {
     key: "getLocations",
     value: function getLocations(keyword) {
-      var results = this._search(this.endpoints.locations, keyword);
-
-      this.locations = keyword != '' && keyword && keyword.length > 0 && results.data && results.data.locations ? results.data.locations.features : [];
-      return this.locations;
+      return this._search(this.endpoints.locations, keyword); // let results = this._search(this.endpoints.locations, keyword);
+      // this.locations = (keyword != '' && (keyword && keyword.length > 0) && results.data && results.data.locations) ? 
+      //                     results.data.locations.features : [];
+      // return this.locations;
     }
   }, {
     key: "getCompanies",
     value: function getCompanies(keyword) {
-      var results = this._search(this.endpoints.companies, keyword);
+      return this._search(this.endpoints.companies, keyword); // let results = this._search(this.endpoints.companies, keyword);
+      // this.companies = (keyword != '' && (keyword && keyword.length > 0) && results.data && results.data.companies) ?
+      //                     results.data.companies : [];
+      // return this.companies;
+    }
+  }, {
+    key: "_get",
+    value: function () {
+      var _get2 = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(endpoint) {
+        var component;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                component = this;
+                _context2.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endpoint, Utils.getBearerAuth()).then(function (response) {
+                  component.getResults = response.data;
+                }).catch(function (error) {
+                  Utils.handleError(error);
+                });
 
-      this.companies = keyword != '' && keyword && keyword.length > 0 && results.data && results.data.companies ? results.data.companies : [];
-      return this.companies;
+              case 3:
+                return _context2.abrupt("return", this.getResults);
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function _get(_x3) {
+        return _get2.apply(this, arguments);
+      }
+
+      return _get;
+    }()
+  }, {
+    key: "getCompanyOptions",
+    value: function getCompanyOptions() {
+      return this._get(this.endpoints.company_options);
     }
   }]);
 

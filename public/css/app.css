@@ -11373,6 +11373,20 @@ span.ticket-delete:hover {
   visibility: visible;
 }
 
+.comp-card-wrapper .locations-wrapper p {
+  border: 1px solid rgba(0, 0, 0, 0.32);
+  min-height: 56px;
+  width: 488px;
+  padding: 16px;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  margin-bottom: 0px;
+}
+
+.comp-card-wrapper .locations-wrapper {
+  padding-top: 0px;
+}
+
 .div-form {
   overflow: hidden;
 }
@@ -15810,6 +15824,10 @@ a.button {
   appearance: button;
   text-decoration: none;
   color: initial;
+}
+
+.list-group {
+  min-width: 100%;
 }
 
 /* ==========================================================================
