@@ -15723,6 +15723,11 @@ button:hover {
   border: 1px solid #ff7705;
 }
 
+button:focus {
+  outline: none;
+  cursor: pointer;
+}
+
 .field-icon {
   position: absolute;
   right: 0;
