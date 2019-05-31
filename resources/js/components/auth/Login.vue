@@ -51,7 +51,7 @@
                 endpoints: {
                     login: '/api/v1/auth/login',
                     user_profile: '/user/profile',
-                    company_profile: '/company/profile',
+                    company_profile: '/user/profile',
                     reset: '/password/request',
                 }
             }

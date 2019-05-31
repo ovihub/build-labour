@@ -2958,7 +2958,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       endpoints: {
         login: '/api/v1/auth/login',
         user_profile: '/user/profile',
-        company_profile: '/company/profile',
+        company_profile: '/user/profile',
         reset: '/password/request'
       }
     };
@@ -3615,7 +3615,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       endpoints: {
         login: '/login',
         save: '/api/v1/auth/company/register',
-        company_profile: '/company/profile',
+        company_profile: '/user/profile',
         company_options: '/api/v1/company/options'
       }
     };
@@ -4887,7 +4887,7 @@ var cropper = null;
                     if (component.type == 'User') {
                       window.location.href = '/user/profile';
                     } else if (component.type == 'Company') {
-                      window.location.href = '/company/profile';
+                      window.location.href = '/user/profile';
                     } else {
                       Bus.$emit('alertSuccess', data.message);
                       Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
@@ -55279,7 +55279,7 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "company-view" }, [
-            _c("a", { attrs: { href: "/company/profile" } }, [
+            _c("a", { attrs: { href: "/user/profile" } }, [
               _vm._v("\n                    View Business\n                ")
             ])
           ])

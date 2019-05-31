@@ -30,17 +30,18 @@ Route::prefix('user')
     ->group(function() {
         Route::middleware(['checktoken'])->group(function() {
             Route::get('profile', 'UsersController@showProfile')->name('profile');
+            Route::get('profile/{id}', 'UsersController@showProfile');
         });
         Route::get('verify', 'UsersController@showVerifyForm')->name('verify');
     });
 
-Route::prefix('company')
-    ->group(function() {
-        Route::middleware(['checktoken'])->group(function() {
-            Route::get('profile', 'CompaniesController@showCompany');
-            Route::get('profile/{id}', 'CompaniesController@showCompany');
-        });
-    });
+// Route::prefix('company')
+//     ->group(function() {
+//         Route::middleware(['checktoken'])->group(function() {
+//             Route::get('profile', 'CompaniesController@showCompany');
+//             Route::get('profile/{id}', 'CompaniesController@showCompany');
+//         });
+//     });
 
 Route::prefix('job')
     ->group(function() {

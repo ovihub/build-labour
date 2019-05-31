@@ -297,7 +297,7 @@
                 endpoints: {
                     login: '/login',
                     save: '/api/v1/auth/company/register',
-                    company_profile: '/company/profile',
+                    company_profile: '/user/profile',
                     company_options: '/api/v1/company/options',
                 }
             }

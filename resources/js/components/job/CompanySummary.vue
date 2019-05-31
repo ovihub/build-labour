@@ -21,7 +21,7 @@
 
                 <div class="company-view">
                     <!-- TODO: add view company endpoint for worker type -->
-                    <a :href="'/company/profile'">
+                    <a :href="'/user/profile'">
                         View Business
                     </a>
                 </div>

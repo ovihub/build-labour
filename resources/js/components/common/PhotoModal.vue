@@ -132,7 +132,7 @@
 									window.location.href = '/user/profile';
 								
 								} else if (component.type == 'Company') {
-									window.location.href = '/company/profile';
+									window.location.href = '/user/profile';
 								
 								} else {
 									Bus.$emit('alertSuccess', data.message);
