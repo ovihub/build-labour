@@ -120,7 +120,7 @@
                             :key="index">
 
                             <div class="comp-col-left">
-                                <select v-model="input.secondary_functions[index]">
+                                <select v-model="input.secondary_functions[index].id">
                                     <option value="" disabled selected style="display:none">Company Specialisation</option>
                                     <option v-for="(type, index) in secondary_functions" :key="index" v-bind:value="type.id">
                                         {{ type.secondary_name }}
@@ -325,8 +325,6 @@
                 val.tier = details.tier ? details.tier : { id: 0, tier_name: '' };
                 val.main_function = details.main_function ? details.main_function : { id: 0, main_name: '' };
                 val.secondary_functions = details.specialization;
-
-                this.addNewEntity();
             },
 
             textAreaAdjust(index) {
@@ -370,7 +368,7 @@
             },
 
             onChangeMainCompanyFunctions(e) {
-                this.secondary_functions = this.main_functions.find(el => el.id == e.target.value).items;
+                
             },
 
             onChangeLocation(keyword) {

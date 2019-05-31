@@ -54,12 +54,12 @@
 
                             <div class="comp-col-left">
                                 <select v-model="input.company_secondary_functions[index]" style="background-position:405px"
-                                    @change="onChangeSecondaryCompanyFunctions">
+                                    @change="onChangeSecondaryCompanyFunctions($event, index)">
 
                                     <option value="" disabled selected style="display:none">Company Specialisation</option>
                                     <option v-for="(type, idx) in secondary_company_functions" 
-                                        :ref="'specOptItem-' + idx"
-                                        :key="idx"
+                                        :ref="'specOptItem-' + index + '-' + (idx + 1)"
+                                        :key="idx + 1"
                                         v-bind:value="type.id">
 
                                         {{ type.secondary_name }}
@@ -367,8 +367,9 @@
                 this.secondary_company_functions = this.main_company_functions.find(el => el.id == e.target.value).items;
             },
 
-            onChangeSecondaryCompanyFunctions(e) {
-                console.log(this.$ref['specOptItem' + e.target.selectedIndex]);
+            onChangeSecondaryCompanyFunctions(e, index) {
+                // this.$refs['specOptItem-' + index + '-' + e.target.selectedIndex][0].disabled = true;
+                // this.secondary_company_functions.splice(e.target.selectedIndex, 1);
             },
 
             onChangeLocation(keyword) {
