@@ -3669,8 +3669,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return el.id == e.target.value;
       }).items;
     },
-    onChangeSecondaryCompanyFunctions: function onChangeSecondaryCompanyFunctions(e) {
-      console.log(this.$ref['specOptItem' + e.target.selectedIndex]);
+    onChangeSecondaryCompanyFunctions: function onChangeSecondaryCompanyFunctions(e, index) {// this.$refs['specOptItem-' + index + '-' + e.target.selectedIndex][0].disabled = true;
+      // this.secondary_company_functions.splice(e.target.selectedIndex, 1);
     },
     onChangeLocation: function onChangeLocation(keyword) {
       var component = this;
@@ -5807,7 +5807,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         main_name: ''
       };
       val.secondary_functions = details.specialization;
-      this.addNewEntity();
     },
     textAreaAdjust: function textAreaAdjust(index) {
       var o = this.$refs['companyIntro'];
@@ -5838,11 +5837,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         reader.readAsDataURL(file);
       }
     },
-    onChangeMainCompanyFunctions: function onChangeMainCompanyFunctions(e) {
-      this.secondary_functions = this.main_functions.find(function (el) {
-        return el.id == e.target.value;
-      }).items;
-    },
+    onChangeMainCompanyFunctions: function onChangeMainCompanyFunctions(e) {},
     onChangeLocation: function onChangeLocation(keyword) {
       var component = this;
       Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
@@ -51819,7 +51814,12 @@ var render = function() {
                                         : $$selectedVal[0]
                                     )
                                   },
-                                  _vm.onChangeSecondaryCompanyFunctions
+                                  function($event) {
+                                    return _vm.onChangeSecondaryCompanyFunctions(
+                                      $event,
+                                      index
+                                    )
+                                  }
                                 ]
                               }
                             },
@@ -51844,8 +51844,9 @@ var render = function() {
                                 return _c(
                                   "option",
                                   {
-                                    key: idx,
-                                    ref: "specOptItem-" + idx,
+                                    key: idx + 1,
+                                    ref:
+                                      "specOptItem-" + index + "-" + (idx + 1),
                                     refInFor: true,
                                     domProps: { value: type.id }
                                   },
@@ -54787,8 +54788,10 @@ var render = function() {
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: _vm.input.secondary_functions[index],
-                                  expression: "input.secondary_functions[index]"
+                                  value:
+                                    _vm.input.secondary_functions[index].id,
+                                  expression:
+                                    "input.secondary_functions[index].id"
                                 }
                               ],
                               on: {
@@ -54803,8 +54806,8 @@ var render = function() {
                                       return val
                                     })
                                   _vm.$set(
-                                    _vm.input.secondary_functions,
-                                    index,
+                                    _vm.input.secondary_functions[index],
+                                    "id",
                                     $event.target.multiple
                                       ? $$selectedVal
                                       : $$selectedVal[0]
