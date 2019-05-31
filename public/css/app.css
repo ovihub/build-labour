@@ -11023,10 +11023,6 @@ ul.list-job-items li.job-items {
 
 .bl-image-100 {
   width: 100px;
-  height: 100px;
-  border-radius: 8px;
-  box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.08), 0 0 10px 0 rgba(57, 86, 101, 0.08);
-  background-color: #fcfeff;
 }
 
 .bl-image-34 {
@@ -11280,16 +11276,14 @@ span.ticket-delete:hover {
   height: 100px;
   border-radius: 8px;
   box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.19), 0 2px 12px 0 rgba(57, 86, 101, 0.12);
-  background-color: rgba(57, 86, 101, 0.12);
   position: relative;
+  background-color: #d9e3e6;
   margin-top: 30px;
 }
 
 .comp-logo img {
   overflow: hidden;
   border-radius: 8px;
-  width: 100%;
-  box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.19), 0 2px 12px 0 rgba(57, 86, 101, 0.12);
 }
 
 .comp-button-1 {
@@ -11389,6 +11383,19 @@ span.ticket-delete:hover {
 
 .div-form {
   overflow: hidden;
+}
+
+#myProgress {
+  margin-top: 30px;
+  width: 100%;
+  background-color: linear-gradient(to right, #ff7705 0%, #ff7705 0%, #bdc3c7 100%, #fff 100%);
+}
+
+#myBar {
+  width: 0%;
+  border-radius: 8px;
+  height: 4px;
+  background-color: #ff7705;
 }
 
 .job-header {
@@ -16655,7 +16662,7 @@ p.bl-nav-tab-label {
 }
 
 .emp-row select {
-  background-position: 450px;
+  background-position: 480px;
 }
 
 .row-center {
@@ -16734,7 +16741,7 @@ p.bl-nav-tab-label {
 }
 
 .comp-col-left select {
-  background-position: 400px;
+  background-position: 430px;
 }
 
 .comp-col-right {

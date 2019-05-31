@@ -22,11 +22,10 @@
                             {{ errors.introduction }}
                         </span>
 
-                        <div class="skill-label" style="margin-bottom:-15px">Company Details</div>
                         <div class="emp-row">
                             <div class="modal-form-label">Company Name</div>
                             <input id="name" type="text" name="name" class="form-control" style="padding-left:24px"
-                                v-model="input.name" placeholder="Company Name" required />
+                                v-model="input.name" required />
 
                             <span class="err-msg" v-if="errors.name">
                                 {{ errors.name }}
@@ -70,9 +69,11 @@
                             </span>
                         </div>
 
+                        <div class="skill-label" style="margin-bottom:-15px">Company Details</div>
+
                         <div class="emp-row">
+                            <div class="modal-form-label">Business Entity Type</div>
                             <select v-model="input.business_type.id">
-                                <option value="" disabled selected>Business Entity Type</option>
                                 <option v-for="(type, index) in business_types" :key="index" v-bind:value="type.id">
                                     {{ type.business_type }}
                                 </option>
@@ -83,8 +84,8 @@
                         </span>
 
                         <div class="emp-row">
+                            <div class="modal-form-label">Entity Type Specialisation</div>
                             <select v-model="input.tier.id">
-                                <option value="" disabled selected>Entity type specialisation</option>
                                 <option v-for="(tier, index) in tiers" :key="index" v-bind:value="tier.id">
                                     {{ tier.tier_name }}
                                 </option>
@@ -99,7 +100,7 @@
                         </div>
                         <div class="emp-row">
                             <select v-model="input.main_function.id" @change="onChangeMainCompanyFunctions">
-                                <option value="" disabled selected>Company Specialisation</option>
+                                <option value="" disabled selected style="display:none">Company Specialisation</option>
                                 <option v-for="(main, index) in main_functions" :key="index" v-bind:value="main.id">
                                     {{ main.main_name }}
                                 </option>
@@ -120,7 +121,7 @@
 
                             <div class="comp-col-left">
                                 <select v-model="input.secondary_functions[index]">
-                                    <option value="" disabled selected>Business entity type</option>
+                                    <option value="" disabled selected style="display:none">Company Specialisation</option>
                                     <option v-for="(type, index) in secondary_functions" :key="index" v-bind:value="type.id">
                                         {{ type.secondary_name }}
                                     </option>
@@ -207,10 +208,10 @@
                     </div>
                 </div>
 
-                <div class="row bl-label-15"  v-if="business_type || tier">
+                <div class="row bl-label-15"  v-if="business_type.business_type || tier.tier_name">
                     <div class="bl-col-3">
-                        <img class="text-icon-5" src="/img/icons/globe.png"
-                            srcset="/img/icons/globe@2x.png 2x, /img/icons/globe@3x.png 3x">
+                        <img class="text-icon-5" src="/img/icons/industrysegment.png"
+                            srcset="/img/icons/industrysegment@2x.png 2x, /img/icons/industrysegment@3x.png 3x">
                     </div>
                     <div class="bl-col-4 bl-display">
                         {{ business_type.business_type }} • {{ tier.tier_name }}
@@ -260,9 +261,12 @@
                 main_functions: [],
                 secondary_functions: [],
                 input: {
-                    name: '', business_type: '', tier: '', address: '', website: '', phone: '', introduction: '',
-                    main_function: '',
-                    business_type_id: '', tier_id: '', main_company_id: '', secondary_functions: [],
+                    name: '', address: '', website: '', phone: '', introduction: '',
+                    business_type: { id: 0, business_type: '' }, 
+                    tier: { id: 0, tier_name: '' },
+                    main_function: { id: 0, main_name: '' },
+                    business_type_id: '', tier_id: '', main_company_id: '',
+                    secondary_functions: [],
                 },
                 errors: {
                     name: '', business_type: '', tier: '', address: '', website: '', phone: '', introduction: '',
@@ -301,26 +305,28 @@
             setValues(details) {
                 this.photo_url = details.photo_url;
                 this.name = details.name;
-                this.business_type = details.business_type;
-                this.tier = details.tier;
                 this.address = details.address;
                 this.website = details.website;
                 this.phone = details.phone;
                 this.introduction = details.introduction;
-                this.main_function = details.main_function;
+                this.business_type = details.business_type ? details.business_type : { id: 0, business_type: '' };
+                this.tier = details.tier ? details.tier : { id: 0, tier_name: '' };
+                this.main_function = details.main_function ? details.main_function : { id: 0, main_name: '' };
                 this.secondary_functions = details.specialization;
             },
 
             setDisplayValues(val, details) {
                 val.name = details.name;
-                val.business_type = details.business_type;
-                val.tier = details.tier;
                 val.address = details.address;
                 val.website = details.website;
                 val.phone = details.phone;
                 val.introduction = details.introduction;
-                val.main_function = details.main_function;
+                val.business_type = details.business_type ? details.business_type : { id: 0, business_type: '' };
+                val.tier = details.tier ? details.tier : { id: 0, tier_name: '' };
+                val.main_function = details.main_function ? details.main_function : { id: 0, main_name: '' };
                 val.secondary_functions = details.specialization;
+
+                this.addNewEntity();
             },
 
             textAreaAdjust(index) {
@@ -385,7 +391,7 @@
             },
 
             addNewEntity() {
-                this.input.secondary_functions = this.input.secondary_functions.filter(r => r!=='');
+                this.input.secondary_functions = this.input.secondary_functions.filter(r => r.secondary_name !== '');
 
                 this.input.secondary_functions.push('');
             },

@@ -21,8 +21,8 @@
                             <input id="company_name" type="text" name="company_name" class="form-control" style="padding-left:24px"
                                 v-model="input.company_name" placeholder="Company Name" required />
 
-                            <span class="err-msg" v-if="errors.company_name">
-                                {{ errors.company_name }}
+                            <span class="err-msg" v-if="errors.name">
+                                {{ errors.name }}
                             </span>
                         </div>
 
@@ -30,8 +30,10 @@
                             What is your main company function?
                         </div>
                         <div class="emp-row">
-                            <select v-model="input.company_main_company_id" @change="onChangeMainCompanyFunctions">
-                                <option value="" disabled selected>Company Specialisation</option>
+                            <select v-model="input.company_main_company_id" style="background-position:450px"
+                                @change="onChangeMainCompanyFunctions">
+
+                                <option value="" disabled selected style="display:none">Company Specialisation</option>
                                 <option v-for="(main, index) in main_company_functions" :key="index" v-bind:value="main.id">
                                     {{ main.main_name }}
                                 </option>
@@ -51,9 +53,15 @@
                             :key="index">
 
                             <div class="comp-col-left">
-                                <select v-model="input.company_secondary_functions[index]">
-                                    <option value="" disabled selected>Business entity type</option>
-                                    <option v-for="(type, index) in secondary_company_functions" :key="index" v-bind:value="type.id">
+                                <select v-model="input.company_secondary_functions[index]" style="background-position:405px"
+                                    @change="onChangeSecondaryCompanyFunctions">
+
+                                    <option value="" disabled selected style="display:none">Company Specialisation</option>
+                                    <option v-for="(type, idx) in secondary_company_functions" 
+                                        :ref="'specOptItem-' + idx"
+                                        :key="idx"
+                                        v-bind:value="type.id">
+
                                         {{ type.secondary_name }}
                                     </option>
                                 </select> 
@@ -77,8 +85,8 @@
 
                     <li>
                         <div class="emp-row">
-                            <select v-model="input.company_business_type_id">
-                                <option value="" disabled selected>Business Entity Type</option>
+                            <select v-model="input.company_business_type_id" style="background-position:450px">
+                                <option value="" disabled selected style="display:none">Business Entity Type</option>
                                 <option v-for="(type, index) in business_types" :key="index" v-bind:value="type.id">
                                     {{ type.business_type }}
                                 </option>
@@ -89,8 +97,8 @@
                         </span>
 
                         <div class="emp-row">
-                            <select v-model="input.company_tier_id">
-                                <option value="" disabled selected>Entity type specialisation</option>
+                            <select v-model="input.company_tier_id" style="background-position:450px">
+                                <option value="" disabled selected style="display:none">Entity Type Specialisation</option>
                                 <option v-for="(tier, index) in tiers" :key="index" v-bind:value="tier.id">
                                     {{ tier.tier_name }}
                                 </option>
@@ -109,7 +117,9 @@
                             <div class="bl-col-1">
                                 <div class="comp-logo">
                                     <img v-if="input.company_photo" class="bl-image-100" :src="input.company_photo">
-                                    <!-- <img v-else class="bl-image-100" src="/img/logo/1.jpg"> -->
+                                    <img v-else class="bl-image-100" style="padding:15px"
+                                        src="/img/icons/uploadlogo.jpg"
+                                        srcset="/img/icons/uploadlogo@2x.png 2x, /img/icons/uploadlogo@3x.png 3x">
                                 </div>
                             </div>
                             <div class="bl-col-2">
@@ -117,7 +127,7 @@
                                     <div class="comp-button-1" @click="onClickProfilePhoto">
                                         <p>Choose File</p>
                                     </div>
-                                    <div class="comp-button-2">
+                                    <div class="comp-button-2" @click="onClickUpload">
                                         <p>Upload</p>
                                     </div>
                                 </div>
@@ -125,6 +135,9 @@
                             <div class="comp-nophoto-label" v-if="! input.company_photo">
                                 no photo chosen
                             </div>
+                        </div>
+                        <div id="myProgress" v-show="showProgress">
+                            <div id="myBar"></div>
                         </div>
                     </li>
 
@@ -246,6 +259,7 @@
 
         data() {
             return {
+                width: 10,
                 sections: null,
                 step: 1,
                 max: 1,
@@ -256,6 +270,7 @@
                 thirdProgressCls: '',
                 fourthProgressCls: '',
                 showStates: false,
+                showProgress: false,
                 disabled: false,
                 time_out: false,
                 locations: [],
@@ -274,7 +289,7 @@
                     email: '', password: '', password_confirmation: '',
                 },
                 errors: {
-                    company_name: '', company_business_type_id: '', company_tier_id: '',
+                    name: '', company_business_type_id: '', company_tier_id: '',
                     company_address: '', company_contact_number: '', company_operate_outside_states: '', company_website: '',
                     company_states: '', company_main_company_id: '', company_secondary_functions: '', company_photo: '',
                     email: '', password: '', password_confirmation: '',
@@ -315,6 +330,9 @@
 
             Bus.$on('croppedPhoto', function(photo_url) {
                 component.input.company_photo = photo_url;
+
+                component.showProgress = false;
+                component.width = 10;
             });
 
             Bus.$on('closePhotoModal', function() {
@@ -349,6 +367,10 @@
                 this.secondary_company_functions = this.main_company_functions.find(el => el.id == e.target.value).items;
             },
 
+            onChangeSecondaryCompanyFunctions(e) {
+                console.log(this.$ref['specOptItem' + e.target.selectedIndex]);
+            },
+
             onChangeLocation(keyword) {
                 let component = this;
 
@@ -367,7 +389,7 @@
             },
 
             addNewEntity() {
-                this.input.company_secondary_functions = this.input.company_secondary_functions.filter(r => r!=='');
+                this.input.company_secondary_functions = this.input.company_secondary_functions.filter(r => r !== '');
 
                 this.input.company_secondary_functions.push('');
             },
@@ -428,6 +450,27 @@
                 }
             },
 
+            onClickUpload() {
+                let component = this;
+
+                this.showProgress = true;
+
+                if (this.input.company_photo && this.width < 100) {
+                    var elem = document.getElementById('myBar');
+                    var id = setInterval(frame, 20);
+                    
+                    function frame() {
+                        if (component.width >= 100) {
+                            clearInterval(id);
+                        } else {
+                            component.width++;
+                            elem.style.width = component.width + '%'; 
+                            elem.innerHTML = (component.width != 100) ? component.width * 1 + '%' : component.width * 1 + '% Complete';
+                        }
+                    }
+                }
+            },
+
             async submit() {
                 let component = this;
 
@@ -448,7 +491,9 @@
                         if (error.response) {
                             let data = error.response.data;
 
-                            console.log(component, data.errors);
+                            if (data.errors.name) {
+                                component.skip(-3);
+                            }
 
 							for (let key in data.errors) {
 								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';

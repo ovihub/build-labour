@@ -121,15 +121,13 @@
     height: 100px;
     border-radius: 8px;
     box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.19), 0 2px 12px 0 rgba(57, 86, 101, 0.12);
-    background-color: rgba(57, 86, 101, 0.12);
     position: relative;
+    background-color: #d9e3e6;
     margin-top: 30px;
   
     img {
         overflow: hidden;
         border-radius: 8px;
-        width: 100%;
-        box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.19), 0 2px 12px 0 rgba(57, 86, 101, 0.12);
     }
 }
 .comp-button-1 {
@@ -225,4 +223,15 @@
 }
 .div-form {
     overflow: hidden;
+}
+#myProgress {
+    margin-top: 30px;
+    width: 100%;
+    background-color: linear-gradient(to right, $brand-orange 0%, $brand-orange 0%, #bdc3c7 100%, #fff 100%);;
+}
+#myBar {
+    width: 0%;
+    border-radius: 8px;
+    height: 4px;
+    background-color: $brand-orange;
 }

@@ -74,7 +74,6 @@ textarea.form-control {
     box-shadow: 0 0 1px 0 $brand;
   }
 }
-
 select {
   max-width: 524px;
   height: 56px;
@@ -98,7 +97,7 @@ select {
   background-position: 210px;
   background-repeat: no-repeat;
   cursor: pointer;
-  
+
   &:focus {
     border: 1px solid $brand-orange;
     outline: none;
@@ -974,7 +973,7 @@ p.bl-nav-tab-label {
   margin-top: 28px;
 
   select {
-    background-position: 450px;
+    background-position: 480px;
   }
 }
 .row-center {
@@ -1041,7 +1040,7 @@ p.bl-nav-tab-label {
   margin-right: 20px;
 
   select {
-    background-position: 400px;
+    background-position: 430px;
   }
 }
 .comp-col-right {
