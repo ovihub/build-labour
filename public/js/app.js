@@ -5691,6 +5691,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -5711,6 +5714,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       tiers: [],
       main_functions: [],
       secondary_functions: [],
+      specialization: [],
       input: {
         name: '',
         address: '',
@@ -5746,7 +5750,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         secondary_functions: ''
       },
       endpoints: {
-        save: '/api/v1/company/update'
+        save: '/api/v1/company/update',
+        secondary_options: '/api/v1/company/options/'
       }
     };
   },
@@ -5787,6 +5792,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         main_name: ''
       };
       this.secondary_functions = details.specialization;
+      this.getSecondaryOptions(details.main_function.id);
     },
     setDisplayValues: function setDisplayValues(val, details) {
       val.name = details.name;
@@ -5807,6 +5813,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         main_name: ''
       };
       val.secondary_functions = details.specialization;
+    },
+    getSecondaryOptions: function getSecondaryOptions(id) {
+      var component = this;
+      axios.get(component.endpoints.secondary_options + id, Utils.getBearerAuth()).then(function (response) {
+        component.specialization = response.data.data;
+      }).catch(function (error) {
+        Utils.handleError(error);
+      });
     },
     textAreaAdjust: function textAreaAdjust(index) {
       var o = this.$refs['companyIntro'];
@@ -5837,7 +5851,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         reader.readAsDataURL(file);
       }
     },
-    onChangeMainCompanyFunctions: function onChangeMainCompanyFunctions(e) {},
+    onChangeMainCompanyFunctions: function onChangeMainCompanyFunctions(e) {
+      this.input.secondary_functions = [];
+      this.getSecondaryOptions(e.target.value);
+    },
     onChangeLocation: function onChangeLocation(keyword) {
       var component = this;
       Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
@@ -5849,10 +5866,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.locations = [];
     },
     addNewEntity: function addNewEntity() {
-      this.input.secondary_functions = this.input.secondary_functions.filter(function (r) {
-        return r.secondary_name !== '';
+      var component = this;
+      this.input.secondary_functions.push({
+        id: 0,
+        main_id: component.main_function.id,
+        secondary_name: ''
       });
-      this.input.secondary_functions.push('');
     },
     removeEntity: function removeEntity(index) {
       if (this.input.secondary_functions.length > 1) {
@@ -5863,7 +5882,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var component, espArray;
+        var component, espArray, i;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -5872,10 +5891,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 espArray = [];
                 Utils.setObjectValues(this.errors, '');
                 this.disabled = true;
+
+                for (i = 0; i < component.input.secondary_functions.length; i++) {
+                  espArray.push(component.input.secondary_functions[i].id);
+                }
+
+                component.input.secondary_functions = espArray;
                 component.input.business_type_id = component.input.business_type.id;
                 component.input.tier_id = component.input.tier.id;
                 component.input.main_company_id = component.input.main_function.id;
-                _context.next = 9;
+                _context.next = 11;
                 return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalCompanyProfile').modal('hide');
@@ -5892,10 +5917,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Utils.handleError(error);
                 });
 
-              case 9:
+              case 11:
                 this.disabled = false;
 
-              case 10:
+              case 12:
               case "end":
                 return _context.stop();
             }
@@ -54788,10 +54813,8 @@ var render = function() {
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value:
-                                    _vm.input.secondary_functions[index].id,
-                                  expression:
-                                    "input.secondary_functions[index].id"
+                                  value: spec.id,
+                                  expression: "spec.id"
                                 }
                               ],
                               on: {
@@ -54806,7 +54829,7 @@ var render = function() {
                                       return val
                                     })
                                   _vm.$set(
-                                    _vm.input.secondary_functions[index],
+                                    spec,
                                     "id",
                                     $event.target.multiple
                                       ? $$selectedVal
@@ -54829,16 +54852,16 @@ var render = function() {
                                 [_vm._v("Company Specialisation")]
                               ),
                               _vm._v(" "),
-                              _vm._l(_vm.secondary_functions, function(
-                                type,
-                                index
-                              ) {
+                              _vm._l(_vm.specialization, function(type) {
                                 return _c(
                                   "option",
-                                  { key: index, domProps: { value: type.id } },
+                                  {
+                                    key: type.id,
+                                    domProps: { value: type.id }
+                                  },
                                   [
                                     _vm._v(
-                                      "\n                                    " +
+                                      "\n                                    \n                                    " +
                                         _vm._s(type.secondary_name) +
                                         "\n                                "
                                     )

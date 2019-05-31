@@ -120,9 +120,12 @@
                             :key="index">
 
                             <div class="comp-col-left">
-                                <select v-model="input.secondary_functions[index].id">
+                                <select v-model="spec.id">
                                     <option value="" disabled selected style="display:none">Company Specialisation</option>
-                                    <option v-for="(type, index) in secondary_functions" :key="index" v-bind:value="type.id">
+                                    <option v-for="type in specialization"
+                                        :key="type.id"
+                                        v-bind:value="type.id">
+                                        
                                         {{ type.secondary_name }}
                                     </option>
                                 </select> 
@@ -260,6 +263,7 @@
                 tiers: [],
                 main_functions: [],
                 secondary_functions: [],
+                specialization: [],
                 input: {
                     name: '', address: '', website: '', phone: '', introduction: '',
                     business_type: { id: 0, business_type: '' }, 
@@ -274,6 +278,7 @@
                 },
                 endpoints: {
                     save: '/api/v1/company/update',
+                    secondary_options: '/api/v1/company/options/',
                 },
             }
         },
@@ -313,6 +318,8 @@
                 this.tier = details.tier ? details.tier : { id: 0, tier_name: '' };
                 this.main_function = details.main_function ? details.main_function : { id: 0, main_name: '' };
                 this.secondary_functions = details.specialization;
+
+                this.getSecondaryOptions(details.main_function.id);
             },
 
             setDisplayValues(val, details) {
@@ -325,6 +332,21 @@
                 val.tier = details.tier ? details.tier : { id: 0, tier_name: '' };
                 val.main_function = details.main_function ? details.main_function : { id: 0, main_name: '' };
                 val.secondary_functions = details.specialization;
+            },
+
+            getSecondaryOptions(id) {
+                let component = this;
+
+                axios.get(component.endpoints.secondary_options + id, Utils.getBearerAuth())
+
+                    .then(function(response) {
+                        
+                        component.specialization = response.data.data;
+                    })
+                    .catch(function(error) {
+
+                        Utils.handleError(error);
+                    });
             },
 
             textAreaAdjust(index) {
@@ -368,7 +390,9 @@
             },
 
             onChangeMainCompanyFunctions(e) {
+                this.input.secondary_functions = [];
                 
+                this.getSecondaryOptions(e.target.value);
             },
 
             onChangeLocation(keyword) {
@@ -389,9 +413,13 @@
             },
 
             addNewEntity() {
-                this.input.secondary_functions = this.input.secondary_functions.filter(r => r.secondary_name !== '');
+                let component  = this;
 
-                this.input.secondary_functions.push('');
+                this.input.secondary_functions.push({
+                    id: 0,
+                    main_id: component.main_function.id,
+                    secondary_name: '',
+                });
             },
 
             removeEntity(index) {
@@ -408,6 +436,11 @@
 
                 this.disabled = true;
                 
+                for (let i = 0; i < component.input.secondary_functions.length; i++) {
+                    espArray.push(component.input.secondary_functions[i].id);
+                }
+
+                component.input.secondary_functions = espArray;
                 component.input.business_type_id = component.input.business_type.id;
                 component.input.tier_id = component.input.tier.id;
                 component.input.main_company_id = component.input.main_function.id;
