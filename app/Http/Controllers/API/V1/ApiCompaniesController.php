@@ -306,6 +306,61 @@ class ApiCompaniesController extends ApiBaseController
     }
 
     /**
+     * @OA\Get(
+     *      path="/company/options/{id}",
+     *      tags={"Company"},
+     *      summary="Get company options for selection",
+     *      security={{"BearerAuth":{}}},
+     *       @OA\Parameter(
+     *          in="path",
+     *          name="id",
+     *          description="company main function id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function getMainFunctionItems( Request $request ) {
+
+        $mainFunction = MainFunction::find($request->id);
+
+        $items = [];
+
+        if ($mainFunction) {
+
+            $items = $mainFunction->items;
+        }
+
+        return $this->apiSuccessResponse( $items , true, 'success', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
      * @OA\Post(
      *      path="/company/update",
      *      tags={"Company"},
