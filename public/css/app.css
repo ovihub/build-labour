@@ -11391,6 +11391,19 @@ span.ticket-delete:hover {
   overflow: hidden;
 }
 
+#myProgress {
+  margin-top: 30px;
+  width: 100%;
+  background-color: linear-gradient(to right, #ff7705 0%, #ff7705 0%, #bdc3c7 100%, #fff 100%);
+}
+
+#myBar {
+  width: 0%;
+  border-radius: 8px;
+  height: 4px;
+  background-color: #ff7705;
+}
+
 .job-header {
   font-size: 22px;
   font-weight: 600;
@@ -16655,7 +16668,7 @@ p.bl-nav-tab-label {
 }
 
 .emp-row select {
-  background-position: 450px;
+  background-position: 480px;
 }
 
 .row-center {
@@ -16734,7 +16747,7 @@ p.bl-nav-tab-label {
 }
 
 .comp-col-left select {
-  background-position: 400px;
+  background-position: 430px;
 }
 
 .comp-col-right {

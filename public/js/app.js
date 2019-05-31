@@ -3542,10 +3542,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      width: 10,
       sections: null,
       step: 1,
       max: 1,
@@ -3556,6 +3562,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       thirdProgressCls: '',
       fourthProgressCls: '',
       showStates: false,
+      showProgress: false,
       disabled: false,
       time_out: false,
       locations: [],
@@ -3582,7 +3589,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         password_confirmation: ''
       },
       errors: {
-        company_name: '',
+        name: '',
         company_business_type_id: '',
         company_tier_id: '',
         company_address: '',
@@ -3626,6 +3633,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
     Bus.$on('croppedPhoto', function (photo_url) {
       component.input.company_photo = photo_url;
+      component.showProgress = false;
+      component.width = 10;
     });
     Bus.$on('closePhotoModal', function () {
       $('#upload').val('');
@@ -3711,6 +3720,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         reader.readAsDataURL(file);
       }
     },
+    onClickUpload: function onClickUpload() {
+      var component = this;
+      this.showProgress = true;
+
+      if (this.input.company_photo && this.width < 100) {
+        var frame = function frame() {
+          if (component.width >= 100) {
+            clearInterval(id);
+          } else {
+            component.width++;
+            elem.style.width = component.width + '%';
+            elem.innerHTML = component.width != 100 ? component.width * 1 + '%' : component.width * 1 + '% Complete';
+          }
+        };
+
+        var elem = document.getElementById('myBar');
+        var id = setInterval(frame, 20);
+      }
+    },
     submit: function () {
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
@@ -3731,7 +3759,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
-                    console.log(component, data.errors);
+
+                    if (data.errors.name) {
+                      component.skip(-3);
+                    }
 
                     for (var key in data.errors) {
                       component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
@@ -5648,6 +5679,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -5670,13 +5702,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       secondary_functions: [],
       input: {
         name: '',
-        business_type: '',
-        tier: '',
         address: '',
         website: '',
         phone: '',
         introduction: '',
-        main_function: '',
+        business_type: {
+          id: 0,
+          business_type: ''
+        },
+        tier: {
+          id: 0,
+          tier_name: ''
+        },
+        main_function: {
+          id: 0,
+          main_name: ''
+        },
         business_type_id: '',
         tier_id: '',
         main_company_id: '',
@@ -5718,25 +5759,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setValues: function setValues(details) {
       this.photo_url = details.photo_url;
       this.name = details.name;
-      this.business_type = details.business_type;
-      this.tier = details.tier;
       this.address = details.address;
       this.website = details.website;
       this.phone = details.phone;
       this.introduction = details.introduction;
-      this.main_function = details.main_function;
+      this.business_type = details.business_type ? details.business_type : {
+        id: 0,
+        business_type: ''
+      };
+      this.tier = details.tier ? details.tier : {
+        id: 0,
+        tier_name: ''
+      };
+      this.main_function = details.main_function ? details.main_function : {
+        id: 0,
+        main_name: ''
+      };
       this.secondary_functions = details.specialization;
     },
     setDisplayValues: function setDisplayValues(val, details) {
       val.name = details.name;
-      val.business_type = details.business_type;
-      val.tier = details.tier;
       val.address = details.address;
       val.website = details.website;
       val.phone = details.phone;
       val.introduction = details.introduction;
-      val.main_function = details.main_function;
+      val.business_type = details.business_type ? details.business_type : {
+        id: 0,
+        business_type: ''
+      };
+      val.tier = details.tier ? details.tier : {
+        id: 0,
+        tier_name: ''
+      };
+      val.main_function = details.main_function ? details.main_function : {
+        id: 0,
+        main_name: ''
+      };
       val.secondary_functions = details.specialization;
+      this.addNewEntity();
     },
     textAreaAdjust: function textAreaAdjust(index) {
       var o = this.$refs['companyIntro'];
@@ -5784,7 +5844,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     addNewEntity: function addNewEntity() {
       this.input.secondary_functions = this.input.secondary_functions.filter(function (r) {
-        return r !== '';
+        return r.secondary_name !== '';
       });
       this.input.secondary_functions.push('');
     },
@@ -51602,11 +51662,11 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm.errors.company_name
+                    _vm.errors.name
                       ? _c("span", { staticClass: "err-msg" }, [
                           _vm._v(
                             "\n                            " +
-                              _vm._s(_vm.errors.company_name) +
+                              _vm._s(_vm.errors.name) +
                               "\n                        "
                           )
                         ])
@@ -51631,6 +51691,7 @@ var render = function() {
                             expression: "input.company_main_company_id"
                           }
                         ],
+                        staticStyle: { "background-position": "450px" },
                         on: {
                           change: [
                             function($event) {
@@ -51657,7 +51718,10 @@ var render = function() {
                       [
                         _c(
                           "option",
-                          { attrs: { value: "", disabled: "", selected: "" } },
+                          {
+                            staticStyle: { display: "none" },
+                            attrs: { value: "", disabled: "", selected: "" }
+                          },
                           [_vm._v("Company Specialisation")]
                         ),
                         _vm._v(" "),
@@ -51723,6 +51787,7 @@ var render = function() {
                                     "input.company_secondary_functions[index]"
                                 }
                               ],
+                              staticStyle: { "background-position": "405px" },
                               on: {
                                 change: function($event) {
                                   var $$selectedVal = Array.prototype.filter
@@ -51748,13 +51813,14 @@ var render = function() {
                               _c(
                                 "option",
                                 {
+                                  staticStyle: { display: "none" },
                                   attrs: {
                                     value: "",
                                     disabled: "",
                                     selected: ""
                                   }
                                 },
-                                [_vm._v("Business entity type")]
+                                [_vm._v("Company Specialisation")]
                               ),
                               _vm._v(" "),
                               _vm._l(_vm.secondary_company_functions, function(
@@ -51838,6 +51904,7 @@ var render = function() {
                           expression: "input.company_business_type_id"
                         }
                       ],
+                      staticStyle: { "background-position": "450px" },
                       on: {
                         change: function($event) {
                           var $$selectedVal = Array.prototype.filter
@@ -51861,7 +51928,10 @@ var render = function() {
                     [
                       _c(
                         "option",
-                        { attrs: { value: "", disabled: "", selected: "" } },
+                        {
+                          staticStyle: { display: "none" },
+                          attrs: { value: "", disabled: "", selected: "" }
+                        },
                         [_vm._v("Business Entity Type")]
                       ),
                       _vm._v(" "),
@@ -51905,6 +51975,7 @@ var render = function() {
                           expression: "input.company_tier_id"
                         }
                       ],
+                      staticStyle: { "background-position": "450px" },
                       on: {
                         change: function($event) {
                           var $$selectedVal = Array.prototype.filter
@@ -51928,8 +51999,11 @@ var render = function() {
                     [
                       _c(
                         "option",
-                        { attrs: { value: "", disabled: "", selected: "" } },
-                        [_vm._v("Entity type specialisation")]
+                        {
+                          staticStyle: { display: "none" },
+                          attrs: { value: "", disabled: "", selected: "" }
+                        },
+                        [_vm._v("Entity Type Specialisation")]
                       ),
                       _vm._v(" "),
                       _vm._l(_vm.tiers, function(tier, index) {
@@ -52000,7 +52074,14 @@ var render = function() {
                         [_c("p", [_vm._v("Choose File")])]
                       ),
                       _vm._v(" "),
-                      _vm._m(0)
+                      _c(
+                        "div",
+                        {
+                          staticClass: "comp-button-2",
+                          on: { click: _vm.onClickUpload }
+                        },
+                        [_c("p", [_vm._v("Upload")])]
+                      )
                     ])
                   ]),
                   _vm._v(" "),
@@ -52011,7 +52092,23 @@ var render = function() {
                         )
                       ])
                     : _vm._e()
-                ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.showProgress,
+                        expression: "showProgress"
+                      }
+                    ],
+                    attrs: { id: "myProgress" }
+                  },
+                  [_c("div", { attrs: { id: "myBar" } })]
+                )
               ]),
               _vm._v(" "),
               _c("li", [
@@ -52522,16 +52619,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "comp-button-2" }, [
-      _c("p", [_vm._v("Upload")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -54234,15 +54322,6 @@ var render = function() {
                       ])
                     : _vm._e(),
                   _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "skill-label",
-                      staticStyle: { "margin-bottom": "-15px" }
-                    },
-                    [_vm._v("Company Details")]
-                  ),
-                  _vm._v(" "),
                   _c("div", { staticClass: "emp-row" }, [
                     _c("div", { staticClass: "modal-form-label" }, [
                       _vm._v("Company Name")
@@ -54263,7 +54342,6 @@ var render = function() {
                         id: "name",
                         type: "text",
                         name: "name",
-                        placeholder: "Company Name",
                         required: ""
                       },
                       domProps: { value: _vm.input.name },
@@ -54445,7 +54523,20 @@ var render = function() {
                       : _vm._e()
                   ]),
                   _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "skill-label",
+                      staticStyle: { "margin-bottom": "-15px" }
+                    },
+                    [_vm._v("Company Details")]
+                  ),
+                  _vm._v(" "),
                   _c("div", { staticClass: "emp-row" }, [
+                    _c("div", { staticClass: "modal-form-label" }, [
+                      _vm._v("Business Entity Type")
+                    ]),
+                    _vm._v(" "),
                     _c(
                       "select",
                       {
@@ -54477,28 +54568,20 @@ var render = function() {
                           }
                         }
                       },
-                      [
-                        _c(
+                      _vm._l(_vm.business_types, function(type, index) {
+                        return _c(
                           "option",
-                          { attrs: { value: "", disabled: "", selected: "" } },
-                          [_vm._v("Business Entity Type")]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.business_types, function(type, index) {
-                          return _c(
-                            "option",
-                            { key: index, domProps: { value: type.id } },
-                            [
-                              _vm._v(
-                                "\n                                " +
-                                  _vm._s(type.business_type) +
-                                  "\n                            "
-                              )
-                            ]
-                          )
-                        })
-                      ],
-                      2
+                          { key: index, domProps: { value: type.id } },
+                          [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(type.business_type) +
+                                "\n                            "
+                            )
+                          ]
+                        )
+                      }),
+                      0
                     )
                   ]),
                   _vm._v(" "),
@@ -54513,6 +54596,10 @@ var render = function() {
                     : _vm._e(),
                   _vm._v(" "),
                   _c("div", { staticClass: "emp-row" }, [
+                    _c("div", { staticClass: "modal-form-label" }, [
+                      _vm._v("Entity Type Specialisation")
+                    ]),
+                    _vm._v(" "),
                     _c(
                       "select",
                       {
@@ -54544,28 +54631,20 @@ var render = function() {
                           }
                         }
                       },
-                      [
-                        _c(
+                      _vm._l(_vm.tiers, function(tier, index) {
+                        return _c(
                           "option",
-                          { attrs: { value: "", disabled: "", selected: "" } },
-                          [_vm._v("Entity type specialisation")]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.tiers, function(tier, index) {
-                          return _c(
-                            "option",
-                            { key: index, domProps: { value: tier.id } },
-                            [
-                              _vm._v(
-                                "\n                                " +
-                                  _vm._s(tier.tier_name) +
-                                  "\n                            "
-                              )
-                            ]
-                          )
-                        })
-                      ],
-                      2
+                          { key: index, domProps: { value: tier.id } },
+                          [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(tier.tier_name) +
+                                "\n                            "
+                            )
+                          ]
+                        )
+                      }),
+                      0
                     )
                   ]),
                   _vm._v(" "),
@@ -54623,7 +54702,10 @@ var render = function() {
                       [
                         _c(
                           "option",
-                          { attrs: { value: "", disabled: "", selected: "" } },
+                          {
+                            staticStyle: { display: "none" },
+                            attrs: { value: "", disabled: "", selected: "" }
+                          },
                           [_vm._v("Company Specialisation")]
                         ),
                         _vm._v(" "),
@@ -54704,13 +54786,14 @@ var render = function() {
                               _c(
                                 "option",
                                 {
+                                  staticStyle: { display: "none" },
                                   attrs: {
                                     value: "",
                                     disabled: "",
                                     selected: ""
                                   }
                                 },
-                                [_vm._v("Business entity type")]
+                                [_vm._v("Company Specialisation")]
                               ),
                               _vm._v(" "),
                               _vm._l(_vm.secondary_functions, function(
@@ -54914,7 +54997,7 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.business_type || _vm.tier
+          _vm.business_type.business_type || _vm.tier.tier_name
             ? _c("div", { staticClass: "row bl-label-15" }, [
                 _vm._m(3),
                 _vm._v(" "),
