@@ -53,9 +53,15 @@
                             :key="index">
 
                             <div class="comp-col-left">
-                                <select v-model="input.company_secondary_functions[index]" style="background-position:405px">
+                                <select v-model="input.company_secondary_functions[index]" style="background-position:405px"
+                                    @change="onChangeSecondaryCompanyFunctions">
+
                                     <option value="" disabled selected style="display:none">Company Specialisation</option>
-                                    <option v-for="(type, index) in secondary_company_functions" :key="index" v-bind:value="type.id">
+                                    <option v-for="(type, idx) in secondary_company_functions" 
+                                        :ref="'specOptItem-' + idx"
+                                        :key="idx"
+                                        v-bind:value="type.id">
+
                                         {{ type.secondary_name }}
                                     </option>
                                 </select> 
@@ -111,7 +117,9 @@
                             <div class="bl-col-1">
                                 <div class="comp-logo">
                                     <img v-if="input.company_photo" class="bl-image-100" :src="input.company_photo">
-                                    <!-- <img v-else class="bl-image-100" src="/img/logo/1.jpg"> -->
+                                    <img v-else class="bl-image-100" style="padding:15px"
+                                        src="/img/icons/uploadlogo.jpg"
+                                        srcset="/img/icons/uploadlogo@2x.png 2x, /img/icons/uploadlogo@3x.png 3x">
                                 </div>
                             </div>
                             <div class="bl-col-2">
@@ -359,6 +367,10 @@
                 this.secondary_company_functions = this.main_company_functions.find(el => el.id == e.target.value).items;
             },
 
+            onChangeSecondaryCompanyFunctions(e) {
+                console.log(this.$ref['specOptItem' + e.target.selectedIndex]);
+            },
+
             onChangeLocation(keyword) {
                 let component = this;
 
@@ -377,7 +389,7 @@
             },
 
             addNewEntity() {
-                this.input.company_secondary_functions = this.input.company_secondary_functions.filter(r => r!=='');
+                this.input.company_secondary_functions = this.input.company_secondary_functions.filter(r => r !== '');
 
                 this.input.company_secondary_functions.push('');
             },

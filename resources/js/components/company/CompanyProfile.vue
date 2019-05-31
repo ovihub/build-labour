@@ -210,8 +210,8 @@
 
                 <div class="row bl-label-15"  v-if="business_type.business_type || tier.tier_name">
                     <div class="bl-col-3">
-                        <img class="text-icon-5" src="/img/icons/globe.png"
-                            srcset="/img/icons/globe@2x.png 2x, /img/icons/globe@3x.png 3x">
+                        <img class="text-icon-5" src="/img/icons/industrysegment.png"
+                            srcset="/img/icons/industrysegment@2x.png 2x, /img/icons/industrysegment@3x.png 3x">
                     </div>
                     <div class="bl-col-4 bl-display">
                         {{ business_type.business_type }} • {{ tier.tier_name }}

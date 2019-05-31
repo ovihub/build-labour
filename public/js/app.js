@@ -3547,6 +3547,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3660,6 +3668,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.secondary_company_functions = this.main_company_functions.find(function (el) {
         return el.id == e.target.value;
       }).items;
+    },
+    onChangeSecondaryCompanyFunctions: function onChangeSecondaryCompanyFunctions(e) {
+      console.log(this.$ref['specOptItem' + e.target.selectedIndex]);
     },
     onChangeLocation: function onChangeLocation(keyword) {
       var component = this;
@@ -51789,24 +51800,27 @@ var render = function() {
                               ],
                               staticStyle: { "background-position": "405px" },
                               on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    _vm.input.company_secondary_functions,
-                                    index,
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                }
+                                change: [
+                                  function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.input.company_secondary_functions,
+                                      index,
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  },
+                                  _vm.onChangeSecondaryCompanyFunctions
+                                ]
                               }
                             },
                             [
@@ -51825,14 +51839,19 @@ var render = function() {
                               _vm._v(" "),
                               _vm._l(_vm.secondary_company_functions, function(
                                 type,
-                                index
+                                idx
                               ) {
                                 return _c(
                                   "option",
-                                  { key: index, domProps: { value: type.id } },
+                                  {
+                                    key: idx,
+                                    ref: "specOptItem-" + idx,
+                                    refInFor: true,
+                                    domProps: { value: type.id }
+                                  },
                                   [
                                     _vm._v(
-                                      "\n                                    " +
+                                      "\n\n                                    " +
                                         _vm._s(type.secondary_name) +
                                         "\n                                "
                                     )
@@ -52059,7 +52078,18 @@ var render = function() {
                             staticClass: "bl-image-100",
                             attrs: { src: _vm.input.company_photo }
                           })
-                        : _vm._e()
+                        : _c("img", {
+                            staticClass: "bl-image-100",
+                            staticStyle: { padding: "15px" },
+                            attrs: {
+                              src: "/img/icons/uploadlogo.jpg",
+                              srcset:
+                                "/img/icons/uploadlogo@2x.png" +
+                                " 2x, " +
+                                "/img/icons/uploadlogo@3x.png" +
+                                " 3x"
+                            }
+                          })
                     ])
                   ]),
                   _vm._v(" "),
@@ -55123,11 +55153,11 @@ var staticRenderFns = [
       _c("img", {
         staticClass: "text-icon-5",
         attrs: {
-          src: "/img/icons/globe.png",
+          src: "/img/icons/industrysegment.png",
           srcset:
-            "/img/icons/globe@2x.png" +
+            "/img/icons/industrysegment@2x.png" +
             " 2x, " +
-            "/img/icons/globe@3x.png" +
+            "/img/icons/industrysegment@3x.png" +
             " 3x"
         }
       })
