@@ -29,6 +29,7 @@
     "dependencies": {
         "cropperjs": "^1.5.1",
         "font-awesome": "^4.7.0",
+        "vue-spinner": "^1.0.3",
         "vuejs-datepicker": "^1.5.4"
     }
 }

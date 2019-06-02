@@ -58,6 +58,7 @@ Vue.component('password-eye', require('./components/common/PasswordEye.vue').def
 Vue.component('record-form', require('./components/common/RecordForm.vue').default);
 Vue.component('ads', require('./components/common/Ads.vue').default);
 Vue.component('job-ads', require('./components/common/JobAds.vue').default);
+Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue').default);
 
 // Auth components
 Vue.component('login', require('./components/auth/Login.vue').default);

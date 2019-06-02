@@ -74,6 +74,10 @@
             <button class="pull-right" type="submit" :disabled="disabled">
                 Sign Up
             </button>
+            
+            <div class="loading">
+                <pulse-loader :loading="loading" color="#ff7705" size="8px"></pulse-loader>
+            </div>
         </div>
     </form>
 </template>
@@ -86,6 +90,7 @@
         data() {
             return {
                 roles: [],
+                loading: false,
                 disabled: false,
                 input: {
                     first_name: '', last_name: '', mobile_number: '', email: '', password: '', password_confirmation: ''
@@ -120,7 +125,8 @@
                 
                 Utils.setObjectValues(component.errors, '');
 
-                component.disabled = true;
+                this.loading = true;
+                this.disabled = true;
 
                 await axios.post(component.endpoints.register, component.$data.input)
                     
@@ -143,7 +149,8 @@
                         Utils.handleError(error);
                     });
                 
-                component.disabled = false;
+                this.loading = false;
+                this.disabled = false;
             },
         }
     }

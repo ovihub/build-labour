@@ -32,6 +32,10 @@
             <button class="pull-right" type="submit" :disabled="disabled">
                 Done
             </button>
+
+            <div class="loading">
+                <pulse-loader :loading="loading" color="#ff7705" size="8px"></pulse-loader>
+            </div>
         </div>
     </form>
 </template>
@@ -41,6 +45,7 @@
 
         data() {
             return {
+                loading: false,
                 disabled: false,
                 email_formatted: '',
                 input: {
@@ -93,7 +98,8 @@
                 
                 Utils.setObjectValues(component.errors, '');
 
-                component.disabled = true;
+                this.loading = true;
+                this.disabled = true;
 
                 await axios.post(component.endpoints.reset, component.$data.input)
                     
@@ -116,7 +122,8 @@
                         Utils.handleError(error);
                     });
                 
-                component.disabled = false;
+                this.loading = false;
+                this.disabled = false;
             },
         }
     }

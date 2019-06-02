@@ -150,7 +150,9 @@
                 </template>
 
                 <template slot="custom-modal-footer">
-                    <button class="pull-right" type="submit" @click="submit" :disabled="disabled">Save Changes</button>
+                    <button class="pull-right" type="submit" @click="submit" :disabled="disabled">
+                        Save Changes
+                    </button>
                 </template>
 
             </main-modal>

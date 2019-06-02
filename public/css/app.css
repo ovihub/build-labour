@@ -17063,3 +17063,8 @@ p.bl-nav-tab-label {
   margin-top: 12px;
 }
 
+.loading {
+  position: absolute;
+  right: 50px;
+}
+

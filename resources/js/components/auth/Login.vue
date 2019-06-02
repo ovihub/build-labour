@@ -30,6 +30,10 @@
             <button class="pull-right" type="submit" :disabled="disabled">
                 Login
             </button>
+
+            <div class="loading">
+                <pulse-loader :loading="loading" color="#ff7705" size="8px"></pulse-loader>
+            </div>
         </div>
     </form>
 </template>
@@ -41,6 +45,7 @@
     export default {
         data() {
             return {
+                loading: false,
                 disabled: false,
                 input: {
                     email: '', password: '',
@@ -72,7 +77,8 @@
                 
                 Utils.setObjectValues(component.errors, '');
 
-                component.disabled = true;
+                this.loading = true;
+                this.disabled = true;
 
                 await axios.post(component.endpoints.login, component.$data.input)
                 
@@ -95,7 +101,8 @@
                         Utils.handleError(error);
                     });
                 
-                component.disabled = false;
+                this.loading = false;
+                this.disabled = false;
             },
             
         }

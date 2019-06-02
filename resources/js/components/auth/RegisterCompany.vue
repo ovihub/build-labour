@@ -245,7 +245,14 @@
                     <a v-if="isFirstStep" class="btn btn-link" :href="endpoints.login">Back to login</a>
                     <span v-if="! isFirstStep" class="btn btn-link" @click="skip(-1)">Back</span>
                     <button v-if="! isLastStep" class="pull-right" type="button" @click="skip(1)">Next</button>
-                    <button v-if="isLastStep" class="pull-right" type="button" @click="submit" :disabled="disabled">Submit</button>
+                    
+                    <button v-if="isLastStep" class="pull-right" type="button" @click="submit" :disabled="disabled">
+                        Submit
+                    </button>
+                    
+                    <div class="loading">
+                        <pulse-loader :loading="loading" color="#ff7705" size="8px"></pulse-loader>
+                    </div>
                 </div>
             </form>
         </div>
@@ -259,6 +266,7 @@
 
         data() {
             return {
+                loading: false,
                 width: 10,
                 sections: null,
                 step: 1,
@@ -477,6 +485,7 @@
 
                 Utils.setObjectValues(this.errors, '');
 
+                this.loading = true;
                 this.disabled = true;
                 
                 await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
@@ -504,6 +513,7 @@
                         Utils.handleError(error);
                     });
                 
+                this.loading = false;
                 this.disabled = false;
             },
 

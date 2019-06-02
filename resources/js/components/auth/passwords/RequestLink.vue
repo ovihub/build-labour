@@ -23,6 +23,10 @@
             <button class="pull-right" type="submit" :disabled="disabled">
                 Send Reset
             </button>
+
+            <div class="loading">
+                <pulse-loader :loading="loading" color="#ff7705" size="8px"></pulse-loader>
+            </div>
         </div>
     </form>
 </template>
@@ -31,6 +35,7 @@
     export default {
         data() {
             return {
+                loading: false,
                 disabled: false,
                 input: {
                     email: '',
@@ -50,9 +55,9 @@
             async sendResetPasswordLink() {
                 let component = this;
                 
-                component.errors.email = '';
-                
-                component.disabled = true;
+                this.errors.email = '';
+                this.loading = true;
+                this.disabled = true;
 
                 await axios.post(component.endpoints.send, component.$data.input)
 
@@ -73,7 +78,8 @@
                         Utils.handleError(error);
                     });
                 
-                component.disabled = false;
+                this.loading = false;
+                this.disabled = false;
             }
             
         }
