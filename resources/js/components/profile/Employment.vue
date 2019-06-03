@@ -42,7 +42,11 @@
                     </span>
                     <div class="jobads-row mt-3" @click="toggle(index)">
                         <div class="bl-col-1">
-                            <img class="bl-image-56" src="/img/logo/1.jpg">
+                            <!-- <img class="bl-image-56" src="/img/logo/1.jpg"> -->
+                            <!-- <img class="bl-image-56" v-if="photo_url" :src="photo_url"> -->
+                            <avatar cls="bl-image-56" size="56" border="0" border-radius="8px"
+                                :initials="getInitials(employment.company_name)">
+                            </avatar>
                             <div class="bl-box"></div>
                         </div>
                         <div class="bl-col-2 ml-2">
@@ -190,6 +194,10 @@
         },
 
         methods: {
+
+            getInitials(name) {
+                return Utils.getInitials(name);
+            },
 
             toggle(index) {
                 this.expanded[index] === true ? this.collapse(index) : this.expand(index);

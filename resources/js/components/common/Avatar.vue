@@ -37,6 +37,14 @@
 				type: String,
 				default: '100%'
 			},
+			backgroundColor: {
+				type: String,
+				default: '#F0F2F4'
+			},
+			textColor: {
+				type: String,
+				default: '#A2B2B7'
+			},
 			initials: {
 				type: String,
 				required: false
@@ -49,14 +57,14 @@
 					width: `${this.size}px`,
 					height: `${this.size}px`,
 					borderRadius: `${this.borderRadius}`,
-					background: '#F0F2F4',
+					background: `${this.backgroundColor}`,
 					border: `solid ${this.border}px #fff`
 				};
 			},
 
 			textStyle() {
 				return {
-					fill: '#A2B2B7',
+					fill: `${this.textColor}`,
 					fontFamily: "'Inter'",
 					fontSize: `${this.size * 0.4}px`
 				};

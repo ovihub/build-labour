@@ -120,7 +120,10 @@
                 <span class="profile-role-header" v-if="job_role">Current Role</span>
 
                 <div class="jobads-row" v-if="job_role">
-                    <img class="bl-image-56" src="/img/logo/1.jpg">
+                    <!-- <img class="bl-image-56" src="/img/logo/1.jpg"> -->
+                    <avatar cls="bl-image-56" size="56" border="0" border-radius="8px"
+                        :initials="getInitials(company_name)">
+                    </avatar>
                     <div class="bl-display">
                         <span class="bl-label-16 bl-ml15">
                             {{ job_role }}
@@ -230,6 +233,10 @@
 
         methods: {
 
+            getInitials(name) {
+                return Utils.getInitials(name);
+            },
+            
             setValues(details) {
                 this.profile_description = details.profile_description;
                 this.profile_photo_url = details.profile_photo_url;

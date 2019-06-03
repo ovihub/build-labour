@@ -4357,6 +4357,14 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       default: '100%'
     },
+    backgroundColor: {
+      type: String,
+      default: '#F0F2F4'
+    },
+    textColor: {
+      type: String,
+      default: '#A2B2B7'
+    },
     initials: {
       type: String,
       required: false
@@ -4368,13 +4376,13 @@ __webpack_require__.r(__webpack_exports__);
         width: "".concat(this.size, "px"),
         height: "".concat(this.size, "px"),
         borderRadius: "".concat(this.borderRadius),
-        background: '#F0F2F4',
+        background: "".concat(this.backgroundColor),
         border: "solid ".concat(this.border, "px #fff")
       };
     },
     textStyle: function textStyle() {
       return {
-        fill: '#A2B2B7',
+        fill: "".concat(this.textColor),
         fontFamily: "'Inter'",
         fontSize: "".concat(this.size * 0.4, "px")
       };
@@ -4642,11 +4650,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
   },
-  methods: {}
+  methods: {
+    getInitials: function getInitials(name) {
+      return Utils.getInitials(name);
+    }
+  }
 });
 
 /***/ }),
@@ -7284,6 +7305,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -7352,6 +7377,9 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    getInitials: function getInitials(name) {
+      return Utils.getInitials(name);
+    },
     toggle: function toggle(index) {
       this.expanded[index] === true ? this.collapse(index) : this.expand(index);
     },
@@ -8940,6 +8968,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -9029,6 +9060,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
   },
   methods: {
+    getInitials: function getInitials(name) {
+      return Utils.getInitials(name);
+    },
     setValues: function setValues(details) {
       this.profile_description = details.profile_description;
       this.profile_photo_url = details.profile_photo_url;
@@ -56999,7 +57033,24 @@ var render = function() {
                       }
                     },
                     [
-                      _vm._m(1, true),
+                      _c(
+                        "div",
+                        { staticClass: "bl-col-1" },
+                        [
+                          _c("avatar", {
+                            attrs: {
+                              cls: "bl-image-56",
+                              size: "56",
+                              border: "0",
+                              "border-radius": "8px",
+                              initials: _vm.getInitials(employment.company_name)
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "bl-box" })
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _c("div", { staticClass: "bl-col-2 ml-2" }, [
                         _c("div", { staticClass: "bl-display" }, [
@@ -57230,19 +57281,6 @@ var staticRenderFns = [
         }
       }),
       _vm._v("\n            \n            Employment History\n        ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bl-col-1" }, [
-      _c("img", {
-        staticClass: "bl-image-56",
-        attrs: { src: "/img/logo/1.jpg" }
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "bl-box" })
     ])
   }
 ]
@@ -59635,45 +59673,59 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _vm.job_role
-            ? _c("div", { staticClass: "jobads-row" }, [
-                _c("img", {
-                  staticClass: "bl-image-56",
-                  attrs: { src: "/img/logo/1.jpg" }
-                }),
-                _vm._v(" "),
-                _c("div", { staticClass: "bl-display" }, [
-                  _c("span", { staticClass: "bl-label-16 bl-ml15" }, [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(_vm.job_role) +
-                        "\n                    "
-                    )
-                  ]),
+            ? _c(
+                "div",
+                { staticClass: "jobads-row" },
+                [
+                  _c("avatar", {
+                    attrs: {
+                      cls: "bl-image-56",
+                      size: "56",
+                      border: "0",
+                      "border-radius": "8px",
+                      initials: _vm.getInitials(_vm.company_name)
+                    }
+                  }),
                   _vm._v(" "),
-                  _c("span", { staticClass: "bl-label-15 bl-ml15 mt-0 pt-0" }, [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(_vm.company_name) +
-                        "\n                    "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "bl-label-14 bl-ml15" }, [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(
-                          _vm.formatPeriod(
-                            _vm.start_month,
-                            _vm.start_year,
-                            _vm.end_month,
-                            _vm.end_year
-                          )
-                        ) +
-                        "\n                    "
-                    )
+                  _c("div", { staticClass: "bl-display" }, [
+                    _c("span", { staticClass: "bl-label-16 bl-ml15" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.job_role) +
+                          "\n                    "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      { staticClass: "bl-label-15 bl-ml15 mt-0 pt-0" },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(_vm.company_name) +
+                            "\n                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "bl-label-14 bl-ml15" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(
+                            _vm.formatPeriod(
+                              _vm.start_month,
+                              _vm.start_year,
+                              _vm.end_month,
+                              _vm.end_year
+                            )
+                          ) +
+                          "\n                    "
+                      )
+                    ])
                   ])
-                ])
-              ])
+                ],
+                1
+              )
             : _vm._e()
         ])
       ],

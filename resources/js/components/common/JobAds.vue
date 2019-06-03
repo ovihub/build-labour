@@ -8,6 +8,9 @@
                     <div class="jobads-row">
                         <div class="bl-col-1">
                             <img src="/img/logo/1.jpg">
+                            <!-- <avatar cls="" size="32" border="0" border-radius="8px"
+                                :initials="getInitials(company_name)">
+                            </avatar> -->
                         </div>
                         <div class="bl-col-2" style="margin-top:-2px">
                             <div class="bl-display">
@@ -24,6 +27,9 @@
                     <div class="jobads-row">
                         <div class="bl-col-1">
                             <img src="/img/logo/1.jpg">
+                            <!-- <avatar cls="" size="32" border="0" border-radius="8px"
+                                :initials="getInitials(company_name)">
+                            </avatar> -->
                         </div>
                         <div class="bl-col-2" style="margin-top:-2px">
                             <div class="bl-display">
@@ -38,6 +44,9 @@
                     <div class="jobads-row">
                         <div class="bl-col-1">
                             <img src="/img/logo/1.jpg">
+                            <!-- <avatar cls="" size="32" border="0" border-radius="8px"
+                                :initials="getInitials(company_name)">
+                            </avatar> -->
                         </div>
                         <div class="bl-col-2" style="margin-top:-2px">
                             <div class="bl-display">
@@ -65,6 +74,10 @@
         },
 
         methods: {
+
+            getInitials(name) {
+                return Utils.getInitials(name);
+            },
 
         }
     }
