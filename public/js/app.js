@@ -2015,8 +2015,10 @@ __webpack_require__.r(__webpack_exports__);
       return (this.currentPage - 1) * this.perPage + 1 + key;
     },
     changePage: function changePage(pageNumber) {
-      this.currentPage = pageNumber;
-      this.fetchData();
+      if (pageNumber != this.pagination.meta.last_page + 1 && pageNumber >= 1) {
+        this.currentPage = pageNumber;
+        this.fetchData();
+      }
     },
     sortByColumn: function sortByColumn(column) {
       if (column === this.sortedColumn) {

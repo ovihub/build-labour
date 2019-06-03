@@ -222,9 +222,11 @@
 			},
 			
 			changePage(pageNumber) {
-				this.currentPage = pageNumber;
+				if (pageNumber != this.pagination.meta.last_page + 1 && pageNumber >= 1) {
+					this.currentPage = pageNumber;
 
-				this.fetchData();
+					this.fetchData();
+				}
 			},
 			
 			sortByColumn(column) {
