@@ -16223,7 +16223,6 @@ p.bl-nav-tab-label {
   border-radius: 3px;
   display: inline-block;
   background-color: #d8d8d8;
-  cursor: pointer;
 }
 
 .form-progress.active {
@@ -17066,5 +17065,6 @@ p.bl-nav-tab-label {
 .loading {
   position: absolute;
   right: 50px;
+  bottom: 10px;
 }
 

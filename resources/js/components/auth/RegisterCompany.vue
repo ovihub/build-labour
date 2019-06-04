@@ -7,11 +7,10 @@
         <div class="form-sub-header">{{ subHeader }}</div>
         
         <div class="comp-progress">
-            <!-- <div class="form-progress bl-mr24" v-for="(n, idx) in max" :key="idx" :class="{active: n == step}" @click="goToStep(n)"></div> -->
-            <div class="form-progress bl-mr24" :class="firstProgressCls" @click="goToStep(1)"></div>
-            <div class="form-progress bl-mr24" :class="secondProgressCls" @click="goToStep(2)"></div>
-            <div class="form-progress bl-mr24" :class="thirdProgressCls" @click="goToStep(3)"></div>
-            <div class="form-progress" :class="fourthProgressCls" @click="goToStep(4)"></div>
+            <div class="form-progress bl-mr24" :class="firstProgressCls"></div>
+            <div class="form-progress bl-mr24" :class="secondProgressCls"></div>
+            <div class="form-progress bl-mr24" :class="thirdProgressCls"></div>
+            <div class="form-progress" :class="fourthProgressCls"></div>
         </div>
         <div class="div-form">
             <form method="POST">
@@ -19,7 +18,8 @@
                     <li>
                         <div class="form-group">
                             <input id="company_name" type="text" name="company_name" class="form-control" style="padding-left:24px"
-                                v-model="input.company_name" placeholder="Company Name" required />
+                                v-model="input.company_name" placeholder="Company Name"
+                                @keyup="onKeyupCompanyName" required />
 
                             <span class="err-msg" v-if="errors.name">
                                 {{ errors.name }}
@@ -54,7 +54,7 @@
 
                             <div class="comp-col-left">
                                 <select v-model="input.company_secondary_functions[index]" style="background-position:405px"
-                                    @change="onChangeSecondaryCompanyFunctions($event, index)">
+                                    @change="setNextDisabled(1)">
 
                                     <option value="" disabled selected style="display:none">Company Specialisation</option>
                                     <option v-for="(type, idx) in secondary_company_functions" 
@@ -85,7 +85,9 @@
 
                     <li>
                         <div class="emp-row">
-                            <select v-model="input.company_business_type_id" style="background-position:450px">
+                            <select v-model="input.company_business_type_id" style="background-position:450px"
+                                @change="setNextDisabled(2)">
+
                                 <option value="" disabled selected style="display:none">Business Entity Type</option>
                                 <option v-for="(type, index) in business_types" :key="index" v-bind:value="type.id">
                                     {{ type.business_type }}
@@ -97,7 +99,9 @@
                         </span>
 
                         <div class="emp-row">
-                            <select v-model="input.company_tier_id" style="background-position:450px">
+                            <select v-model="input.company_tier_id" style="background-position:450px"
+                                @change="setNextDisabled(2)">
+
                                 <option value="" disabled selected style="display:none">Entity Type Specialisation</option>
                                 <option v-for="(tier, index) in tiers" :key="index" v-bind:value="tier.id">
                                     {{ tier.tier_name }}
@@ -166,8 +170,9 @@
                         </div>
 
                         <div class="form-group">
-                            <input id="company_contact_number" type="text" name="company_contact_number" class="form-control" style="padding-left:24px"
-                                v-model="input.company_contact_number" placeholder="Business contact number" required />
+                            <input id="company_contact_number" type="text" name="company_contact_number" class="form-control"
+                                style="padding-left:24px" v-model="input.company_contact_number" placeholder="Business contact number"
+                                @keyup="setNextDisabled(3)" required />
 
                             <span class="err-msg" v-if="errors.company_contact_number">
                                 {{ errors.company_contact_number }}
@@ -175,11 +180,12 @@
                         </div>
 
                         <div class="form-group">
-                            <input id="company_website" type="text" name="company_website" class="form-control" style="padding-left:24px"
-                                v-model="input.company_website" placeholder="Business Website" required />
+                            <input id="company_website" type="text" name="company_website" class="form-control"
+                                style="padding-left:24px" v-model="input.company_website" placeholder="Business Website"
+                                @keyup="setNextDisabled(3)" required />
 
-                            <span class="err-msg" v-if="errors.company_website">
-                                {{ errors.company_website }}
+                            <span class="err-msg" v-if="errors.website">
+                                {{ errors.website }}
                             </span>
                         </div>
 
@@ -243,8 +249,10 @@
 
                 <div class="form-group">
                     <a v-if="isFirstStep" class="btn btn-link" :href="endpoints.login">Back to login</a>
-                    <span v-if="! isFirstStep" class="btn btn-link" @click="skip(-1)">Back</span>
-                    <button v-if="! isLastStep" class="pull-right" type="button" @click="skip(1)">Next</button>
+
+                    <button v-if="! isLastStep" class="pull-right" type="button" @click="skip(1)" :disabled="disabledNext">
+                        Next
+                    </button>
                     
                     <button v-if="isLastStep" class="pull-right" type="button" @click="submit" :disabled="disabled">
                         Submit
@@ -280,6 +288,7 @@
                 showStates: false,
                 showProgress: false,
                 disabled: false,
+                disabledNext: true,
                 time_out: false,
                 locations: [],
                 business_types: [],
@@ -298,7 +307,7 @@
                 },
                 errors: {
                     name: '', company_business_type_id: '', company_tier_id: '',
-                    company_address: '', company_contact_number: '', company_operate_outside_states: '', company_website: '',
+                    company_address: '', company_contact_number: '', company_operate_outside_states: '', website: '',
                     company_states: '', company_main_company_id: '', company_secondary_functions: '', company_photo: '',
                     email: '', password: '', password_confirmation: '',
                 },
@@ -371,13 +380,50 @@
                 });
             },
 
-            onChangeMainCompanyFunctions(e) {
-                this.secondary_company_functions = this.main_company_functions.find(el => el.id == e.target.value).items;
+            setNextDisabled(step) {
+                
+                switch (step) {
+                    case 1:
+                        if (this.input.company_name && this.input.company_main_company_id && 
+                            this.input.company_secondary_functions && this.input.company_secondary_functions[0] != '') {
+                                
+                            this.disabledNext = false;
+                        } else {
+                            this.disabledNext = true;
+                        }
+
+                        break;
+
+                    case 2:
+                        if (this.input.company_business_type_id && this.input.company_tier_id && this.input.company_photo) {
+                            this.disabledNext = false;
+                        } else {
+                            this.disabledNext = true;
+                        }
+
+                        break;
+
+                    case 3:
+                        if (this.input.company_address && this.input.company_contact_number && this.input.company_website &&
+                            (this.input.company_operate_outside_states === 0 || this.input.company_operate_outside_states === 1)) {
+                            
+                            this.disabledNext = false;
+                        } else {
+                            this.disabledNext = true;
+                        }
+
+                        break;
+                }
             },
 
-            onChangeSecondaryCompanyFunctions(e, index) {
-                // this.$refs['specOptItem-' + index + '-' + e.target.selectedIndex][0].disabled = true;
-                // this.secondary_company_functions.splice(e.target.selectedIndex, 1);
+            onKeyupCompanyName(e) {
+                this.setNextDisabled(1);
+            },
+
+            onChangeMainCompanyFunctions(e) {
+                this.secondary_company_functions = this.main_company_functions.find(el => el.id == e.target.value).items;
+
+                this.setNextDisabled(1);
             },
 
             onChangeLocation(keyword) {
@@ -393,8 +439,9 @@
 
             onSelectLocation(location) {
                 this.input.company_address = location;
-                
                 this.locations = [];
+
+                this.setNextDisabled(3);
             },
 
             addNewEntity() {
@@ -432,6 +479,8 @@
 
                     this.input.company_operate_outside_states = null;
                 }
+
+                this.setNextDisabled(3);
             },
 
             onClickProfilePhoto() {
@@ -476,6 +525,9 @@
                             elem.style.width = component.width + '%'; 
                             elem.innerHTML = (component.width != 100) ? component.width * 1 + '%' : component.width * 1 + '% Complete';
                         }
+                        if (component.width == 100) {
+                            component.setNextDisabled(2);
+                        }
                     }
                 }
             },
@@ -504,6 +556,9 @@
                             if (data.errors.name) {
                                 component.skip(-3);
                             }
+                            if (data.errors.website) {
+                                component.skip(-1);
+                            }
 
 							for (let key in data.errors) {
 								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
@@ -528,6 +583,7 @@
 
             skip(step) {
                 this.step += step;
+                this.disabledNext = true;
                 this.goToStep(this.step);
             },
 
