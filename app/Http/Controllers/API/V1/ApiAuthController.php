@@ -436,6 +436,13 @@ class ApiAuthController extends ApiBaseController
 
             $user->experiences->map(function($e) {
 
+                $e->job;
+
+                if ($e->job) {
+
+                    $e->job->Responsibilities;
+                }
+
             });
 
             if (!$user->workerDetail) {

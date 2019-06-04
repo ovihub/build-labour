@@ -64,7 +64,7 @@ class JobRepository extends AbstractRepository
 
     public function getJob($jobId) {
 
-        $this->job = Job::find($jobId);
+        $this->job = Job::with('Responsibilities')->where('id', $jobId)->first();
 
         if ($this->job){
 
@@ -84,7 +84,8 @@ class JobRepository extends AbstractRepository
 
      //   $jobs = Job::with('company');
 
-        $jobs = Job::where('title', 'like', "%{$params->role}%");
+        $jobs = Job::with('Responsibilities')->where('title', 'like', "%{$params->role}%");
+
 //        $jobs = $jobs->orWhereHas('company',
 //
 //            function ($query) use ($params) {
@@ -136,6 +137,7 @@ class JobRepository extends AbstractRepository
 
         if ($this->job->store($data)) {
 
+            $this->job->responsibiliies;
             return $this->job;
         }
 
@@ -212,7 +214,7 @@ class JobRepository extends AbstractRepository
         return false;
     }
 
-    public function saveResponsibilities( Request $request) {
+    public function saveResponsibilities( Request $request ) {
 
         $this->jobResponsibility = new JobResponsibility();
 
@@ -252,6 +254,20 @@ class JobRepository extends AbstractRepository
             }
 
             JobResponsibility::whereNotIn('id', $excludeIds)->where('job_id', $job->id)->delete();
+
+            return $job->responsibilities;
+        }
+
+        return false;
+    }
+
+    public function getResponsibilities( Request $request ) {
+
+        $this->jobResponsibility = new JobResponsibility();
+
+        $job = Job::find($request->id);
+
+        if ($job) {
 
             return $job->responsibilities;
         }

@@ -32,21 +32,21 @@ class ApiWorksController extends ApiBaseController
      *                  ),
      *                  @OA\Property(
      *                      property="company_name",
-     *                      description="<b>Required</b> Company",
+     *                      description="Company",
      *                      type="string",
      *                      example="Appetiser"
      *                  ),
      *                  @OA\Property(
      *                      property="project_size",
-     *                      description="<b>Required</b> Project Size",
+     *                      description="Project Size",
      *                      type="string",
      *                      example="20000"
      *                  ),
      *                  @OA\Property(
-     *                      property="responsibilities",
-     *                      description="<b>Required</b> Responsibilities",
-     *                      type="string",
-     *                      example="Make computer programs."
+     *                      property="start_year",
+     *                      description="<b>Required</b> 2014-01-01",
+     *                      type="integer",
+     *                      example="11"
      *                  ),
      *                  @OA\Property(
      *                      property="start_month",
@@ -61,8 +61,14 @@ class ApiWorksController extends ApiBaseController
      *                      example="12"
      *                  ),
      *                  @OA\Property(
+     *                      property="job_id",
+     *                      description="Existing Job ID",
+     *                      type="integer",
+     *                      example="1"
+     *                  ),
+     *                  @OA\Property(
      *                      property="company_id",
-     *                      description="Existing Company",
+     *                      description="Existing Company ID",
      *                      type="integer",
      *                      example="1"
      *                  ),
@@ -167,6 +173,12 @@ class ApiWorksController extends ApiBaseController
      *                      example="Make computer programs."
      *                  ),
      *                  @OA\Property(
+     *                      property="start_year",
+     *                      description="<b>Required</b> 2014-01-01",
+     *                      type="integer",
+     *                      example="11"
+     *                  ),
+     *                  @OA\Property(
      *                      property="start_month",
      *                      description="<b>Required</b> Start Month",
      *                      type="integer",
@@ -179,8 +191,14 @@ class ApiWorksController extends ApiBaseController
      *                      example="9"
      *                  ),
      *                  @OA\Property(
+     *                      property="job_id",
+     *                      description="Existing Job ID",
+     *                      type="integer",
+     *                      example="1"
+     *                  ),
+     *                  @OA\Property(
      *                      property="company_id",
-     *                      description="Existing Company",
+     *                      description="Existing Company ID",
      *                      type="integer",
      *                      example="1"
      *                  ),
