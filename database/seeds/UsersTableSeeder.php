@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Companies\Job;
 use App\Models\Users\Education;
 use App\Models\Tickets\Ticket;
 use App\Models\Users\UserSkill;
@@ -51,12 +52,16 @@ class UsersTableSeeder extends Seeder
                 'Process paperwork'
             ];
 
+            $job = Job::find(1);
+
             $w = WorkExperience::create([
-                'job_role' => 'Project Manager',
-                'company_name' => 'Probuild',
+
+                // 'job_role' => 'Project Manager',
+                // 'company_name' => 'Probuild',
                 'company_id' => 1,
                 'user_id' => $user->id,
-                'location' => 'Richmond, Victoria, Australia',
+                'job_id' => $job->id,
+                // 'location' => 'Richmond, Victoria, Australia',
                 'project_size' => '1,750,000',
                 'start_month' => 11,
                 'start_year' => 2015,
@@ -75,10 +80,10 @@ class UsersTableSeeder extends Seeder
 
             WorkExperience::create([
                 'job_role' => 'Assistant Project Manager',
-                'company_name' => 'BBUILD',
+                // 'company_name' => 'BBUILD',
                 'company_id' => 2,
                 'user_id' => $user->id,
-                'location' => 'Richmond, Victoria, Australia',
+                // 'location' => 'Richmond, Victoria, Australia',
                 'project_size' => '1,000,000',
                 'start_month' => 11,
                 'start_year' => 2014,
@@ -90,10 +95,10 @@ class UsersTableSeeder extends Seeder
 
             WorkExperience::create([
                 'job_role' => 'Construction',
-                'company_name' => 'Tools ‘r’ Us',
+                // 'company_name' => 'Tools ‘r’ Us',
                 'company_id' => 3,
                 'user_id' => $user->id,
-                'location' => 'Richmond, Victoria, Australia',
+                //  'location' => 'Richmond, Victoria, Australia',
                 'project_size' => '2,000,000',
                 'start_month' => 11,
                 'start_year' => 2013,
@@ -106,7 +111,7 @@ class UsersTableSeeder extends Seeder
             WorkExperience::create([
                 'job_role' => 'Site Manager',
                 'company_name' => 'Richmond Surveying',
-                'company_id' => 4,
+                // 'company_id' => 4,
                 'user_id' => $user->id,
                 'location' => 'Richmond, Victoria, Australia',
                 'project_size' => '3,000,000',

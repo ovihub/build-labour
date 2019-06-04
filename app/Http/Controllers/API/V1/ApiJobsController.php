@@ -475,6 +475,62 @@ class ApiJobsController extends ApiBaseController
     }
 
     /**
+     * @OA\Get(
+     *      path="/job/{id}/responsibilities",
+     *      tags={"Job"},
+     *      summary="Get Job Responsibilities",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Parameter(
+     *          in="path",
+     *          name="id",
+     *          description="job id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function getJobResponsibilities(Request $request) {
+
+        if ( !$responsibilities = $this->repository->getResponsibilities($request) ) {
+
+            return $this->apiErrorResponse(
+                false,
+                $this->repository->jobResponsibility->getErrors(),
+                self::HTTP_STATUS_INVALID_INPUT,
+                'invalidInput'
+            );
+        }
+
+        return $this->apiSuccessResponse( compact('responsibilities'), true, 'Successfully updated job responsibilities.', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
      * @OA\Post(
      *      path="/job/{id}/responsibilities",
      *      tags={"Job"},
@@ -557,5 +613,4 @@ class ApiJobsController extends ApiBaseController
 
         return $this->apiSuccessResponse( compact('responsibilities'), true, 'Successfully updated job responsibilities.', self::HTTP_STATUS_REQUEST_OK);
     }
-
 }

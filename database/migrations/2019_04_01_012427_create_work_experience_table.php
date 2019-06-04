@@ -15,9 +15,10 @@ class CreateWorkExperienceTable extends Migration
     {
         Schema::create('work_experience', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('job_role');
+            $table->string('job_role')->nullable();
             $table->string('company_name')->nullable();
             $table->integer('company_id')->unsigned()->nullable();
+            $table->integer('job_id')->unsigned()->nullable();
             $table->text('responsibilities')->nullable();
             $table->string('salary')->nullable();
             $table->boolean('isCurrent')->default(0);
@@ -38,3 +39,4 @@ class CreateWorkExperienceTable extends Migration
         Schema::dropIfExists('work_experience');
     }
 }
+

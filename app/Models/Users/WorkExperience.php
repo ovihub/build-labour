@@ -5,6 +5,7 @@ namespace App\Models\Users;
 use App\Helpers\Utils;
 use App\Models\BaseModel;
 use App\Models\Companies\Company;
+use App\Models\Companies\Job;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,11 +22,11 @@ class WorkExperience extends BaseModel
     const CREATED_AT = null;
 
     protected $fillable = [
-        'job_role', 'company_name', 'location', 'project_size', 'user_id', 'company_id',
+        'job_role', 'company_name', 'location', 'project_size', 'user_id', 'job_id', 'company_id',
         'start_month', 'start_year', 'end_month', 'end_year', 'isCurrent'
     ];
 
-    protected $appends = ['responsibilities'];
+    protected $appends = ['responsibilities', 'company_photo'];
 
     protected $hidden = ['ResponsibilitiesDetail'];
     /**
@@ -101,9 +102,24 @@ class WorkExperience extends BaseModel
         return $this->belongsTo( Company::class, 'company_id', 'id');
     }
 
+    public function Job() {
+
+        return $this->belongsTo( Job::class, 'job_id', 'id');
+    }
+
     public function ResponsibilitiesDetail() {
 
         return $this->hasMany(WorkExperienceResponsibility::class, 'work_experience_id', 'id');
+    }
+
+    public function getCompanyPhotoAttribute() {
+
+        if ($this->Company && $this->Company->photo_url) {
+
+            return $this->Company->photo_url;
+        }
+
+        return null;
     }
 
     public function getResponsibilitiesAttribute() {
@@ -173,8 +189,26 @@ class WorkExperience extends BaseModel
             return false;
         }
 
-
         $this->fill( $data );
+
+        if ($r->job_id && $job = Job::find($r->job_id)) {
+
+            $this->job_role = null;
+
+        } else {
+
+            $this->job_id = null;
+        }
+
+        if ($r->company_id && $company = Company::find($r->company_id)) {
+
+            $this->company_name = null;
+            $this->location = null;
+
+        } else {
+
+            $this->company_id = null;
+        }
 
         try {
 

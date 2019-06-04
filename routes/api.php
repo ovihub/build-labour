@@ -117,6 +117,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 
             Route::post('{id}/requirements', 'ApiJobsController@postJobRequirements');
             Route::post('{id}/responsibilities', 'ApiJobsController@postJobResponsibilities');
+            Route::get('{id}/responsibilities', 'ApiJobsController@getJobResponsibilities');
         });
     });
 

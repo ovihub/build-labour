@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Events\Users\DeleteEducation;
+use App\Models\Companies\Company;
+use App\Models\Companies\Job;
 use App\Models\Users\Education;
 use App\Models\Users\WorkerDetail;
 use App\Models\Users\WorkExperience;
@@ -31,7 +33,6 @@ class WorkerRepository extends AbstractRepository
         $this->workExp = new WorkExperience();
         $this->workExp->setUserId($user->id);
 
-
         if (!$this->workExp->store($request)) {
 
             return false;
@@ -53,6 +54,7 @@ class WorkerRepository extends AbstractRepository
         }
 
         $this->workExp->responsibilities;
+        $this->workExp->Job;
 
         return $this->workExp;
     }
