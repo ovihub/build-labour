@@ -5757,6 +5757,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -7310,7 +7312,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -7349,12 +7350,13 @@ __webpack_require__.r(__webpack_exports__);
             refProjectSize = component.$refs['empProjectSize-' + index],
             refLocationIcon = component.$refs['empLocationIcon-' + index],
             refProjectSizeIcon = component.$refs['empProjectSizeIcon-' + index];
-        component.$refs['empJobRole-' + index][0].textContent = details.job_role;
-        component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
+        component.$refs['empJobRole-' + index][0].textContent = component.getJobRole(details.job_role, details.job);
+        component.$refs['empCompanyName-' + index][0].textContent = component.getCompanyName(details.company_name, details.company);
         component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
+        var loc = getLocation(details.location, details.company);
 
-        if (details.location) {
-          refLocation[0].textContent = details.location;
+        if (loc) {
+          refLocation[0].textContent = loc;
           refLocationIcon[0].hidden = false;
         } else {
           refLocation[0].textContent = '';
@@ -7379,8 +7381,17 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    getInitials: function getInitials(name) {
-      return Utils.getInitials(name);
+    getInitials: function getInitials(name, company) {
+      return Utils.getInitials(name != null ? name : company.name);
+    },
+    getJobRole: function getJobRole(job_role, job) {
+      return job_role != null ? job_role : job.title;
+    },
+    getCompanyName: function getCompanyName(name, company) {
+      return name != null ? name : company.name;
+    },
+    getLocation: function getLocation(location, company) {
+      return location != null ? location : company.address;
     },
     toggle: function toggle(index) {
       this.expanded[index] === true ? this.collapse(index) : this.expand(index);
@@ -7393,12 +7404,15 @@ __webpack_require__.r(__webpack_exports__);
       this.expanded[index] = false;
     },
     expand: function expand(index) {
-      if (!this.employments[index].location) {
-        this.$refs['empLocationIcon-' + index][0].hidden = true;
+      var emp = this.employments[index],
+          empLoc = this.$refs['empLocationIcon-' + index][0];
+
+      if (!emp.location && emp.company && !emp.company.address) {
+        empLoc.hidden = true;
       }
 
-      if (!this.employments[index].project_size) {
-        this.$refs['empProjectSizeIcon-' + index][0].hidden = true;
+      if (!emp.project_size) {
+        empLoc.hidden = true;
       }
 
       this.$refs['boxCls-' + index][0].className = 'bl-box-2';
@@ -7607,6 +7621,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
        * Save Input
        */
       id: '',
+      job_id: '',
+      company_id: '',
       job_role: '',
       company_name: '',
       location: '',
@@ -7644,17 +7660,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     setValues: function setValues(details) {
-      this.id = details ? details.id : '';
-      this.job_role = details ? details.job_role : '';
-      this.company_name = details ? details.company_name : '';
-      this.location = details ? details.location : '';
-      this.project_size = details ? details.project_size : '';
-      this.isCurrent = details ? details.isCurrent : '';
-      this.start_month = details ? details.start_month : '';
-      this.start_year = details ? details.start_year : '';
-      this.end_month = details ? details.end_month : '';
-      this.end_year = details ? details.end_year : '';
-      this.responsibilities = details ? details.responsibilities : [];
+      if (details) {
+        this.id = details.id;
+        this.job_id = details.job_id;
+        this.company_id = details.company_id;
+        this.job_role = details.job_id ? details.job.title : details.job_role;
+        this.company_name = details.company_id ? details.company.name : details.company_name;
+        this.location = details.company_id ? details.company.address : details.location;
+        this.project_size = details.project_size;
+        this.isCurrent = details.isCurrent;
+        this.start_month = details.start_month;
+        this.start_year = details.start_year;
+        this.end_month = details.end_month;
+        this.end_year = details.end_year;
+        this.responsibilities = details.responsibilities;
+      }
+
       this.responsibilities = this.responsibilities.filter(function (r) {
         return r !== '';
       });
@@ -7701,6 +7722,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onSelectCompany: function onSelectCompany(company) {
       this.company_id = company.id;
       this.company_name = company.name;
+      this.location = company.address;
       this.companies = [];
     },
     deleteRecord: function deleteRecord() {
@@ -7728,6 +7750,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 saveInput = {
+                  job_id: this.job_id,
+                  company_id: this.company_id,
                   job_role: this.job_role,
                   company_name: this.company_name,
                   location: this.location,
@@ -54914,6 +54938,7 @@ var render = function() {
                             expression: "input.business_type.id"
                           }
                         ],
+                        staticStyle: { "background-position": "480px" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -54977,6 +55002,7 @@ var render = function() {
                             expression: "input.tier.id"
                           }
                         ],
+                        staticStyle: { "background-position": "480px" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -55042,6 +55068,7 @@ var render = function() {
                             expression: "input.main_function.id"
                           }
                         ],
+                        staticStyle: { "background-position": "480px" },
                         on: {
                           change: [
                             function($event) {
@@ -57039,15 +57066,23 @@ var render = function() {
                         "div",
                         { staticClass: "bl-col-1" },
                         [
-                          _c("avatar", {
-                            attrs: {
-                              cls: "bl-image-56",
-                              size: "56",
-                              border: "0",
-                              "border-radius": "8px",
-                              initials: _vm.getInitials(employment.company_name)
-                            }
-                          }),
+                          employment.company_photo
+                            ? _c("img", {
+                                staticClass: "bl-image-56",
+                                attrs: { src: employment.company_photo }
+                              })
+                            : _c("avatar", {
+                                attrs: {
+                                  cls: "bl-image-56",
+                                  size: "56",
+                                  border: "0",
+                                  "border-radius": "8px",
+                                  initials: _vm.getInitials(
+                                    employment.company_name,
+                                    employment.company
+                                  )
+                                }
+                              }),
                           _vm._v(" "),
                           _c("div", { staticClass: "bl-box" })
                         ],
@@ -57066,7 +57101,12 @@ var render = function() {
                             [
                               _vm._v(
                                 "\n                                " +
-                                  _vm._s(employment.job_role) +
+                                  _vm._s(
+                                    _vm.getJobRole(
+                                      employment.job_role,
+                                      employment.job
+                                    )
+                                  ) +
                                   "\n                            "
                               )
                             ]
@@ -57082,7 +57122,12 @@ var render = function() {
                             [
                               _vm._v(
                                 "\n                                " +
-                                  _vm._s(employment.company_name) +
+                                  _vm._s(
+                                    _vm.getCompanyName(
+                                      employment.company_name,
+                                      employment.company
+                                    )
+                                  ) +
                                   "\n                            "
                               )
                             ]
@@ -57148,7 +57193,12 @@ var render = function() {
                             [
                               _vm._v(
                                 "\n                            " +
-                                  _vm._s(employment.location) +
+                                  _vm._s(
+                                    _vm.getLocation(
+                                      employment.location,
+                                      employment.company
+                                    )
+                                  ) +
                                   "\n                        "
                               )
                             ]

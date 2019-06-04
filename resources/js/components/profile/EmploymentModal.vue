@@ -164,6 +164,8 @@
                  * Save Input
                  */
                 id: '',
+                job_id: '',
+                company_id: '',
                 job_role: '',
                 company_name: '',
                 location: '',
@@ -197,17 +199,21 @@
         methods: {
 
             setValues(details) {
-                this.id = details ? details.id : '';
-                this.job_role = details ? details.job_role : '';
-                this.company_name = details ? details.company_name : '';
-                this.location = details ? details.location : '';
-                this.project_size = details ? details.project_size : '';
-                this.isCurrent = details ? details.isCurrent : '';
-                this.start_month = details ? details.start_month : '';
-                this.start_year = details ? details.start_year : '';
-                this.end_month = details ? details.end_month : '';
-                this.end_year = details ? details.end_year : '';
-                this.responsibilities = details ? details.responsibilities : [];
+                if (details) {
+                    this.id = details.id;
+                    this.job_id = details.job_id;
+                    this.company_id = details.company_id;
+                    this.job_role = details.job_id ? details.job.title : details.job_role;
+                    this.company_name = details.company_id ? details.company.name : details.company_name;
+                    this.location = details.company_id ? details.company.address : details.location;
+                    this.project_size = details.project_size;
+                    this.isCurrent = details.isCurrent;
+                    this.start_month = details.start_month;
+                    this.start_year = details.start_year;
+                    this.end_month = details.end_month;
+                    this.end_year = details.end_year;
+                    this.responsibilities = details.responsibilities;
+                }
                 
                 this.responsibilities = this.responsibilities.filter(r => r!=='');
                 this.responsibilities.push('');
@@ -270,6 +276,7 @@
             onSelectCompany(company) {
                 this.company_id = company.id;
                 this.company_name = company.name;
+                this.location = company.address;
 
                 this.companies = [];
             },
@@ -293,6 +300,8 @@
                 }
 
                 let saveInput = {
+                    job_id: this.job_id,
+                    company_id: this.company_id,
                     job_role: this.job_role,
                     company_name: this.company_name,
                     location: this.location,
@@ -306,6 +315,7 @@
                 };
 
                 Utils.setObjectValues(this.errors, '');
+
                 this.disabled = true;
 
                 await axios.post(saveEndpoint, saveInput, Utils.getBearerAuth())

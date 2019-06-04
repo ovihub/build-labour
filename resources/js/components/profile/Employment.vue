@@ -42,21 +42,20 @@
                     </span>
                     <div class="jobads-row mt-3" @click="toggle(index)">
                         <div class="bl-col-1">
-                            <!-- <img class="bl-image-56" src="/img/logo/1.jpg"> -->
-                            <!-- <img class="bl-image-56" v-if="photo_url" :src="photo_url"> -->
-                            <avatar cls="bl-image-56" size="56" border="0" border-radius="8px"
-                                :initials="getInitials(employment.company_name)">
+                            <img class="bl-image-56" v-if="employment.company_photo" :src="employment.company_photo">
+                            <avatar v-else cls="bl-image-56" size="56" border="0" border-radius="8px"
+                                :initials="getInitials(employment.company_name, employment.company)">
                             </avatar>
                             <div class="bl-box"></div>
                         </div>
                         <div class="bl-col-2 ml-2">
                             <div class="bl-display">
                                 <span class="bl-label-16 bl-ml15" :ref="'empJobRole-' + index">
-                                    {{ employment.job_role }}
+                                    {{ getJobRole(employment.job_role, employment.job) }}
                                 </span>
 
                                 <span class="bl-label-15 bl-ml15 mt-0 pt-0" :ref="'empCompanyName-' + index">
-                                    {{ employment.company_name }}
+                                    {{ getCompanyName(employment.company_name, employment.company) }}
                                 </span>
                                 
                                 <span class="bl-label-14 bl-ml15 mt-0 pt-0" :ref="'empPeriod-' + index">
@@ -73,7 +72,7 @@
                                 srcset="/img/icons/pinlocation@2x.png 2x, /img/icons/pinlocation@3x.png 3x">
                                 
                             <span style="display:inline" class="bl-label-14-style-2" :ref="'empLocation-' + index">
-                                {{ employment.location }}
+                                {{ getLocation(employment.location, employment.company) }}
                             </span>
                         </div>
 
@@ -160,12 +159,14 @@
                         refLocationIcon = component.$refs['empLocationIcon-' + index],
                         refProjectSizeIcon = component.$refs['empProjectSizeIcon-' + index];
 
-                    component.$refs['empJobRole-' + index][0].textContent = details.job_role;
-                    component.$refs['empCompanyName-' + index][0].textContent = details.company_name;
+                    component.$refs['empJobRole-' + index][0].textContent = component.getJobRole(details.job_role, details.job);
+                    component.$refs['empCompanyName-' + index][0].textContent = component.getCompanyName(details.company_name, details.company);
                     component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
 
-                    if (details.location) {
-                        refLocation[0].textContent = details.location;
+                    let loc = getLocation(details.location, details.company);
+
+                    if (loc) {
+                        refLocation[0].textContent = loc;
                         refLocationIcon[0].hidden = false;
                     
                     } else {
@@ -195,8 +196,20 @@
 
         methods: {
 
-            getInitials(name) {
-                return Utils.getInitials(name);
+            getInitials(name, company) {
+                return Utils.getInitials((name != null) ? name : company.name);
+            },
+
+            getJobRole(job_role, job) {
+                return (job_role != null) ? job_role : job.title;
+            },
+
+            getCompanyName(name, company) {
+                return (name != null) ? name : company.name;
+            },
+
+            getLocation(location, company) {
+                return (location != null) ? location : company.address;
             },
 
             toggle(index) {
@@ -213,12 +226,15 @@
             },
 
             expand(index) {
-                if (! this.employments[index].location) {
-                    this.$refs['empLocationIcon-' + index][0].hidden = true;
+                let emp = this.employments[index],
+                    empLoc = this.$refs['empLocationIcon-' + index][0];
+
+                if (! emp.location && (emp.company && ! emp.company.address)) {
+                    empLoc.hidden = true;
                 }
 
-                if (! this.employments[index].project_size) {
-                    this.$refs['empProjectSizeIcon-' + index][0].hidden = true;
+                if (! emp.project_size) {
+                    empLoc.hidden = true;
                 }
                 
                 this.$refs['boxCls-' + index][0].className = 'bl-box-2';

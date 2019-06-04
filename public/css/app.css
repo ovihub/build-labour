@@ -16667,10 +16667,6 @@ p.bl-nav-tab-label {
   margin-top: 28px;
 }
 
-.emp-row select {
-  background-position: 470px;
-}
-
 .row-center {
   align-items: center;
   justify-content: center;
@@ -16747,7 +16743,7 @@ p.bl-nav-tab-label {
 }
 
 .comp-col-left select {
-  background-position: 420px;
+  background-position: 430px;
 }
 
 .comp-col-right {
@@ -16833,7 +16829,7 @@ p.bl-nav-tab-label {
 }
 
 .me-row select {
-  background-position: 470px;
+  background-position: 480px;
 }
 
 .me-col-left {
