@@ -7406,7 +7406,7 @@ __webpack_require__.r(__webpack_exports__);
         component.$refs['empJobRole-' + index][0].textContent = component.getJobRole(details.job_role, details.job);
         component.$refs['empCompanyName-' + index][0].textContent = component.getCompanyName(details.company_name, details.company);
         component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
-        var loc = getLocation(details.location, details.company);
+        var loc = component.getLocation(details.location, details.company);
 
         if (loc) {
           refLocation[0].textContent = loc;
@@ -7444,7 +7444,7 @@ __webpack_require__.r(__webpack_exports__);
       return name != null ? name : company.name;
     },
     getLocation: function getLocation(location, company) {
-      return location != null ? location : company.address;
+      return location != null ? location : company ? company.address : '';
     },
     toggle: function toggle(index) {
       this.expanded[index] === true ? this.collapse(index) : this.expand(index);
@@ -7460,7 +7460,7 @@ __webpack_require__.r(__webpack_exports__);
       var emp = this.employments[index],
           empLoc = this.$refs['empLocationIcon-' + index][0];
 
-      if (!emp.location && emp.company && !emp.company.address) {
+      if (!emp.location && (!emp.company || emp.company && !emp.company.address)) {
         empLoc.hidden = true;
       }
 
@@ -7748,6 +7748,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         if (this.company_id) {
           this.$refs['locationRef'].disabled = true;
         }
+
+        if (this.job_id) {// disable job_responsibilities
+        }
       }
 
       this.responsibilities = this.responsibilities.filter(function (r) {
@@ -7785,6 +7788,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onSearchJob: function onSearchJob(keyword) {
       var component = this;
+      this.job_role = '';
+      this.job_id = ''; // remove job_responsibilities
+
       Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobs(keyword)).then(function (data) {
         component.jobs = data.data.jobs;
       });
@@ -7792,6 +7798,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onSearchCompany: function onSearchCompany(keyword) {
       var component = this;
       this.location = '';
+      this.company_id = '';
       this.$refs['locationRef'].disabled = false;
       Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCompanies(keyword)).then(function (data) {
         component.companies = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.companies ? data.data.companies : [];
@@ -7802,7 +7809,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobResponsibilities(job.id)).then(function (data) {
         component.responsibilities = data.data.responsibilities;
       });
-      this.job_role = job.title;
+      this.job_role = job.title; // add/change/set job_responsibilities
+
       this.jobs = [];
     },
     onSelectLocation: function onSelectLocation(location) {
@@ -57532,7 +57540,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                            " +
+                                "\n                            \n                            " +
                                   _vm._s(job.title) +
                                   "\n                        "
                               )
@@ -57564,7 +57572,7 @@ var render = function() {
                   domProps: { value: _vm.company_name },
                   on: {
                     keyup: function($event) {
-                      return _vm.onSearchCompany(_vm.company_name, 1)
+                      return _vm.onSearchCompany(_vm.company_name)
                     },
                     input: function($event) {
                       if ($event.target.composing) {

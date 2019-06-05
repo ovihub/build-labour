@@ -15846,8 +15846,15 @@ a.button {
 
 .form-control:disabled,
 .form-control[readonly] {
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.03);
   opacity: 1;
+}
+
+.form-control:disabled:hover,
+.form-control:disabled:focus,
+.form-control[readonly]:hover,
+.form-control[readonly]:focus {
+  border: solid 1px rgba(0, 0, 0, 0.32);
 }
 
 /* ==========================================================================

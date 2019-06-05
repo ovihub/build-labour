@@ -26,6 +26,7 @@
                         <ul class="list-group">
                             <li class="list-group-item" v-for="(job, idx) in jobs" :key="idx"
                                 @click="onSelectJob(job)">
+                                
                                 {{ job.title }}
                             </li>
                         </ul>
@@ -35,7 +36,7 @@
                         <div class="modal-form-label">Company/Project Name</div>
 
                         <input class="form-control" type="text" v-model="company_name"
-                            @keyup="onSearchCompany(company_name, 1)"/>
+                            @keyup="onSearchCompany(company_name)"/>
 
                         <span class="err-msg" v-if="errors.company_name">
                             {{ errors.company_name }}
@@ -55,8 +56,7 @@
                         <div class="modal-form-label">Location</div>
 
                         <input class="form-control" type="text" v-model="location"
-                            ref="locationRef"
-                            @keyup="onChangeLocation(location)" />
+                            ref="locationRef" @keyup="onChangeLocation(location)" />
                         
                         <span class="err-msg" v-if="errors.location">
                             {{ errors.location }}
@@ -234,6 +234,10 @@
                     if (this.company_id) {
                         this.$refs['locationRef'].disabled = true;
                     }
+
+                    if (this.job_id) {
+                        // disable job_responsibilities
+                    }
                 }
                 
                 this.responsibilities = this.responsibilities.filter(r => r!=='');
@@ -280,6 +284,10 @@
             onSearchJob(keyword) {
                 let component = this;
                 
+                this.job_role = '';
+                this.job_id = '';
+                // remove job_responsibilities
+
                 Promise.resolve(Api.getJobs(keyword)).then(function(data) {
                     
                     component.jobs = data.data.jobs;
@@ -290,6 +298,7 @@
                 let component = this;
                 
                 this.location = '';
+                this.company_id = '';
                 this.$refs['locationRef'].disabled = false;
 
                 Promise.resolve(Api.getCompanies(keyword)).then(function(data) {
@@ -309,6 +318,8 @@
                 });
 
                 this.job_role = job.title;
+                // add/change/set job_responsibilities
+
                 this.jobs = [];
             },
 

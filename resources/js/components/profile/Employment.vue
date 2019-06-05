@@ -163,7 +163,7 @@
                     component.$refs['empCompanyName-' + index][0].textContent = component.getCompanyName(details.company_name, details.company);
                     component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
 
-                    let loc = getLocation(details.location, details.company);
+                    let loc = component.getLocation(details.location, details.company);
 
                     if (loc) {
                         refLocation[0].textContent = loc;
@@ -209,7 +209,7 @@
             },
 
             getLocation(location, company) {
-                return (location != null) ? location : company.address;
+                return (location != null) ? location : (company) ? company.address : '';
             },
 
             toggle(index) {
@@ -229,7 +229,7 @@
                 let emp = this.employments[index],
                     empLoc = this.$refs['empLocationIcon-' + index][0];
 
-                if (! emp.location && (emp.company && ! emp.company.address)) {
+                if (! emp.location && (! emp.company || (emp.company && ! emp.company.address))) {
                     empLoc.hidden = true;
                 }
 
