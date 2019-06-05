@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Models\Users\Users;
 use App\Models\Users\WorkerDetail;
+use App\Models\Users\WorkExperienceResponsibility;
 use App\Repositories\UserRepository;
 use App\User;
 use Illuminate\Http\Request;
@@ -221,12 +222,6 @@ class ApiAuthController extends ApiBaseController
      *                      example="password",
      *                  ),
      *                  @OA\Property(
-     *                      property="mobile_number",
-     *                      description="Mobile Number",
-     *                      type="string",
-     *                      example="6141234567"
-     *                  ),
-     *                  @OA\Property(
      *                      property="address",
      *                      description="Address",
      *                      type="string",
@@ -339,7 +334,6 @@ class ApiAuthController extends ApiBaseController
                 );
             }
 
-
         } catch(\Exception $e) {
 
             DB::rollBack();
@@ -353,9 +347,8 @@ class ApiAuthController extends ApiBaseController
         }
 
         DB::commit();
-      //  $token = $user->getJwtToken();
 
-        return $this->apiSuccessResponse( $data, true, 'User has been registered successfully!', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( $data, true, 'Company has been registered successfully!', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
@@ -441,6 +434,7 @@ class ApiAuthController extends ApiBaseController
                 if ($e->job) {
 
                     $e->job->Responsibilities;
+                    WorkExperienceResponsibility::where('work_experience_id', $e->id)->delete();
                 }
 
             });
