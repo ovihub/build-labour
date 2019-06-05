@@ -44,9 +44,9 @@ class ApiWorksController extends ApiBaseController
      *                  ),
      *                  @OA\Property(
      *                      property="start_year",
-     *                      description="<b>Required</b> 2014-01-01",
+     *                      description="<b>Required</b>",
      *                      type="integer",
-     *                      example="11"
+     *                      example="2014"
      *                  ),
      *                  @OA\Property(
      *                      property="start_month",
@@ -167,16 +167,10 @@ class ApiWorksController extends ApiBaseController
      *                      example="20000"
      *                  ),
      *                  @OA\Property(
-     *                      property="responsibilities",
-     *                      description="<b>Required</b> Responsibilities",
-     *                      type="string",
-     *                      example="Make computer programs."
-     *                  ),
-     *                  @OA\Property(
      *                      property="start_year",
-     *                      description="<b>Required</b> 2014-01-01",
+     *                      description="<b>Required</b>",
      *                      type="integer",
-     *                      example="11"
+     *                      example="2014"
      *                  ),
      *                  @OA\Property(
      *                      property="start_month",

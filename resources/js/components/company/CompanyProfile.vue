@@ -124,8 +124,8 @@
                             <div class="comp-col-left">
                                 <select v-model="spec.id">
                                     <option value="" disabled selected style="display:none">Company Specialisation</option>
-                                    <option v-for="type in specialization"
-                                        :key="type.id"
+                                    <option v-for="(type, idx) in specialization"
+                                        :key="idx + 1"
                                         v-bind:value="type.id">
                                         
                                         {{ type.secondary_name }}
@@ -456,7 +456,8 @@
 						
                         $('#modalCompanyProfile').modal('hide');
 
-                        component.setDisplayValues(component, data.data.company);
+                        component.setValues(data.data.company);
+                        component.setDisplayValues(component.input, data.data.company);
                     })
                     .catch(function(error) {
                         if (error.response) {

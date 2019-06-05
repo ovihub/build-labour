@@ -3578,6 +3578,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3596,6 +3604,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       showStates: false,
       showProgress: false,
       disabled: false,
+      disabledNext: true,
       time_out: false,
       locations: [],
       business_types: [],
@@ -3627,7 +3636,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         company_address: '',
         company_contact_number: '',
         company_operate_outside_states: '',
-        company_website: '',
+        website: '',
         company_states: '',
         company_main_company_id: '',
         company_secondary_functions: '',
@@ -3688,13 +3697,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         component.main_company_functions = data.main_company_functions;
       });
     },
+    setNextDisabled: function setNextDisabled(step) {
+      switch (step) {
+        case 1:
+          if (this.input.company_name && this.input.company_main_company_id && this.input.company_secondary_functions && this.input.company_secondary_functions[0] != '') {
+            this.disabledNext = false;
+          } else {
+            this.disabledNext = true;
+          }
+
+          break;
+
+        case 2:
+          if (this.input.company_business_type_id && this.input.company_tier_id && this.input.company_photo) {
+            this.disabledNext = false;
+          } else {
+            this.disabledNext = true;
+          }
+
+          break;
+
+        case 3:
+          if (this.input.company_address && this.input.company_contact_number && this.input.company_website && (this.input.company_operate_outside_states === 0 || this.input.company_operate_outside_states === 1)) {
+            this.disabledNext = false;
+          } else {
+            this.disabledNext = true;
+          }
+
+          break;
+      }
+    },
+    onKeyupCompanyName: function onKeyupCompanyName(e) {
+      this.setNextDisabled(1);
+    },
     onChangeMainCompanyFunctions: function onChangeMainCompanyFunctions(e) {
       this.secondary_company_functions = this.main_company_functions.find(function (el) {
         return el.id == e.target.value;
       }).items;
-    },
-    onChangeSecondaryCompanyFunctions: function onChangeSecondaryCompanyFunctions(e, index) {// this.$refs['specOptItem-' + index + '-' + e.target.selectedIndex][0].disabled = true;
-      // this.secondary_company_functions.splice(e.target.selectedIndex, 1);
+      this.setNextDisabled(1);
     },
     onChangeLocation: function onChangeLocation(keyword) {
       var component = this;
@@ -3705,6 +3745,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onSelectLocation: function onSelectLocation(location) {
       this.input.company_address = location;
       this.locations = [];
+      this.setNextDisabled(3);
     },
     addNewEntity: function addNewEntity() {
       this.input.company_secondary_functions = this.input.company_secondary_functions.filter(function (r) {
@@ -3734,6 +3775,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.$refs['rc-checkbox-0'].checked = false;
         this.input.company_operate_outside_states = null;
       }
+
+      this.setNextDisabled(3);
     },
     onClickProfilePhoto: function onClickProfilePhoto() {
       upload.click();
@@ -3768,6 +3811,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             elem.style.width = component.width + '%';
             elem.innerHTML = component.width != 100 ? component.width * 1 + '%' : component.width * 1 + '% Complete';
           }
+
+          if (component.width == 100) {
+            component.setNextDisabled(2);
+          }
         };
 
         var elem = document.getElementById('myBar');
@@ -3798,6 +3845,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                     if (data.errors.name) {
                       component.skip(-3);
+                    }
+
+                    if (data.errors.website) {
+                      component.skip(-1);
                     }
 
                     for (var key in data.errors) {
@@ -3836,6 +3887,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     skip: function skip(step) {
       this.step += step;
+      this.disabledNext = true;
       this.goToStep(this.step);
     },
     goToStep: function goToStep(step) {
@@ -5969,7 +6021,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalCompanyProfile').modal('hide');
-                  component.setDisplayValues(component, data.data.company);
+                  component.setValues(data.data.company);
+                  component.setDisplayValues(component.input, data.data.company);
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -51912,42 +51965,22 @@ var render = function() {
       _c("div", { staticClass: "comp-progress" }, [
         _c("div", {
           staticClass: "form-progress bl-mr24",
-          class: _vm.firstProgressCls,
-          on: {
-            click: function($event) {
-              return _vm.goToStep(1)
-            }
-          }
+          class: _vm.firstProgressCls
         }),
         _vm._v(" "),
         _c("div", {
           staticClass: "form-progress bl-mr24",
-          class: _vm.secondProgressCls,
-          on: {
-            click: function($event) {
-              return _vm.goToStep(2)
-            }
-          }
+          class: _vm.secondProgressCls
         }),
         _vm._v(" "),
         _c("div", {
           staticClass: "form-progress bl-mr24",
-          class: _vm.thirdProgressCls,
-          on: {
-            click: function($event) {
-              return _vm.goToStep(3)
-            }
-          }
+          class: _vm.thirdProgressCls
         }),
         _vm._v(" "),
         _c("div", {
           staticClass: "form-progress",
-          class: _vm.fourthProgressCls,
-          on: {
-            click: function($event) {
-              return _vm.goToStep(4)
-            }
-          }
+          class: _vm.fourthProgressCls
         })
       ]),
       _vm._v(" "),
@@ -51981,6 +52014,7 @@ var render = function() {
                       },
                       domProps: { value: _vm.input.company_name },
                       on: {
+                        keyup: _vm.onKeyupCompanyName,
                         input: function($event) {
                           if ($event.target.composing) {
                             return
@@ -52141,10 +52175,7 @@ var render = function() {
                                     )
                                   },
                                   function($event) {
-                                    return _vm.onChangeSecondaryCompanyFunctions(
-                                      $event,
-                                      index
-                                    )
+                                    return _vm.setNextDisabled(1)
                                   }
                                 ]
                               }
@@ -52252,23 +52283,28 @@ var render = function() {
                       ],
                       staticStyle: { "background-position": "450px" },
                       on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.input,
-                            "company_business_type_id",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.input,
+                              "company_business_type_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                          function($event) {
+                            return _vm.setNextDisabled(2)
+                          }
+                        ]
                       }
                     },
                     [
@@ -52323,23 +52359,28 @@ var render = function() {
                       ],
                       staticStyle: { "background-position": "450px" },
                       on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.input,
-                            "company_tier_id",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.input,
+                              "company_tier_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                          function($event) {
+                            return _vm.setNextDisabled(2)
+                          }
+                        ]
                       }
                     },
                     [
@@ -52526,7 +52567,7 @@ var render = function() {
                     ? _c(
                         "div",
                         {
-                          staticClass: "emp-row",
+                          staticClass: "comp-reg-row",
                           staticStyle: { "margin-top": "0" }
                         },
                         [
@@ -52578,6 +52619,9 @@ var render = function() {
                     },
                     domProps: { value: _vm.input.company_contact_number },
                     on: {
+                      keyup: function($event) {
+                        return _vm.setNextDisabled(3)
+                      },
                       input: function($event) {
                         if ($event.target.composing) {
                           return
@@ -52623,6 +52667,9 @@ var render = function() {
                     },
                     domProps: { value: _vm.input.company_website },
                     on: {
+                      keyup: function($event) {
+                        return _vm.setNextDisabled(3)
+                      },
                       input: function($event) {
                         if ($event.target.composing) {
                           return
@@ -52636,11 +52683,11 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _vm.errors.company_website
+                  _vm.errors.website
                     ? _c("span", { staticClass: "err-msg" }, [
                         _vm._v(
                           "\n                            " +
-                            _vm._s(_vm.errors.company_website) +
+                            _vm._s(_vm.errors.website) +
                             "\n                        "
                         )
                       ])
@@ -52927,34 +52974,19 @@ var render = function() {
                 )
               : _vm._e(),
             _vm._v(" "),
-            !_vm.isFirstStep
-              ? _c(
-                  "span",
-                  {
-                    staticClass: "btn btn-link",
-                    on: {
-                      click: function($event) {
-                        return _vm.skip(-1)
-                      }
-                    }
-                  },
-                  [_vm._v("Back")]
-                )
-              : _vm._e(),
-            _vm._v(" "),
             !_vm.isLastStep
               ? _c(
                   "button",
                   {
                     staticClass: "pull-right",
-                    attrs: { type: "button" },
+                    attrs: { type: "button", disabled: _vm.disabledNext },
                     on: {
                       click: function($event) {
                         return _vm.skip(1)
                       }
                     }
                   },
-                  [_vm._v("Next")]
+                  [_vm._v("\n                    Next\n                ")]
                 )
               : _vm._e(),
             _vm._v(" "),
@@ -55189,11 +55221,11 @@ var render = function() {
                                 [_vm._v("Company Specialisation")]
                               ),
                               _vm._v(" "),
-                              _vm._l(_vm.specialization, function(type) {
+                              _vm._l(_vm.specialization, function(type, idx) {
                                 return _c(
                                   "option",
                                   {
-                                    key: type.id,
+                                    key: idx + 1,
                                     domProps: { value: type.id }
                                   },
                                   [
