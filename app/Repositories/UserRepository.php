@@ -197,6 +197,32 @@ class UserRepository extends AbstractRepository
 
         Mail::to( $user->email )->send( new ResendVerificationCodeEmail( $user ) );
 
+        $user->makeHidden([
+            'device_token',
+            'dob_formatted',
+            'full_name',
+            'identifier',
+            'is_verified',
+        ]);
+
+        $company->makeHidden([
+            'address',
+            'business_type_id',
+            'created_at',
+            'created_by',
+            'locations',
+            'main_company_id',
+            'no_of_workers',
+            'operate_outside_states',
+            'phone',
+            'photo_url',
+            'states',
+            'tier_id',
+            'updated_at',
+            'website',
+            'workers'
+        ]);
+
         return compact('user', 'company', 'token');
     }
 }

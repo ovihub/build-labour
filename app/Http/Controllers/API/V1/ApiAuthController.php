@@ -459,74 +459,14 @@ class ApiAuthController extends ApiBaseController
      *                          property="company",
      *                          type="object",
      *                          @OA\Property(
-     *                              property="address",
-     *                              type="string",
-     *                              example="51st St. John Avenue, AU"
-     *                          ),
-     *                          @OA\Property(
-     *                              property="business_type_id",
-     *                              type="integer",
-     *                              example="2"
-     *                          ),
-     *                          @OA\Property(
-     *                              property="created_at",
-     *                              type="string",
-     *                              example="2019-06-05 07:43:22"
-     *                          ),
-     *                          @OA\Property(
-     *                              property="created_by",
-     *                              type="integer",
-     *                              example="8"
-     *                          ),
-     *                          @OA\Property(
      *                              property="id",
      *                              type="integer",
      *                              example="10"
      *                          ),
      *                          @OA\Property(
-     *                              property="main_company_id",
-     *                              type="integer",
-     *                              example="1"
-     *                          ),
-     *                          @OA\Property(
      *                              property="name",
      *                              type="string",
      *                              example="Sample Company"
-     *                          ),
-     *                          @OA\Property(
-     *                              property="no_of_workers",
-     *                              type="integer",
-     *                              example="0"
-     *                          ),
-     *                          @OA\Property(
-     *                              property="operate_outside_states",
-     *                              type="boolean",
-     *                              example=true
-     *                          ),
-     *                          @OA\Property(
-     *                              property="phone",
-     *                              type="string",
-     *                              example="123456789"
-     *                          ),
-     *                          @OA\Property(
-     *                              property="photo_url",
-     *                              type="string",
-     *                              example="http://localhost:8000/storage/images/companies/2019/0605/91404/p_dsuGL2tZPWoo..png"
-     *                          ),
-     *                          @OA\Property(
-     *                              property="states",
-     *                              type="string",
-     *                              example="VIC"
-     *                          ),
-     *                          @OA\Property(
-     *                              property="tier_id",
-     *                              type="integer",
-     *                              example="1"
-     *                          ),
-     *                          @OA\Property(
-     *                              property="website",
-     *                              type="string",
-     *                              example="www.sample.com"
      *                          ),
      *                      ),
      *                      @OA\Property(
