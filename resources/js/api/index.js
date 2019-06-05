@@ -24,9 +24,11 @@ class BuildLabourApi {
         this.getResults = [];
 
         this.endpoints = {
+            jobs: '/api/v1/job/search',
             locations: '/api/v1/locations',
             companies: '/api/v1/company/search',
             company_options: '/api/v1/company/options',
+            responsibilities: '/api/v1/job/',
         };
         
         //  this._headers()
@@ -95,27 +97,11 @@ class BuildLabourApi {
     }
 
     getLocations(keyword) {
-
         return this._search(this.endpoints.locations, keyword);
-
-        // let results = this._search(this.endpoints.locations, keyword);
-        
-        // this.locations = (keyword != '' && (keyword && keyword.length > 0) && results.data && results.data.locations) ? 
-        //                     results.data.locations.features : [];
-
-        // return this.locations;
     }
 
     getCompanies(keyword) {
-
         return this._search(this.endpoints.companies, keyword);
-
-        // let results = this._search(this.endpoints.companies, keyword);
-
-        // this.companies = (keyword != '' && (keyword && keyword.length > 0) && results.data && results.data.companies) ?
-        //                     results.data.companies : [];
-        
-        // return this.companies;
     }
 
     async _get(endpoint) {
@@ -136,8 +122,36 @@ class BuildLabourApi {
     }
 
     getCompanyOptions() {
-
         return this._get(this.endpoints.company_options);
+    }
+
+    async _filter(endpoint, input) {
+        
+        let component = this;
+
+        await Axios.post(endpoint, input, Utils.getBearerAuth())
+
+            .then(function(response) {
+                
+                component.getResults = response.data;
+            })
+            .catch(function(error) {
+
+                Utils.handleError(error);
+            });
+                
+        return this.getResults;
+    }
+
+    getJobs(role = '', tiers = [], sectors = [], locations = []) {
+
+        let input = { role: role, tiers: tiers, sectors: sectors, locations: locations };
+
+        return this._filter(this.endpoints.jobs, input);
+    }
+
+    getJobResponsibilities(id) {
+        return this._get(this.endpoints.responsibilities + id + '/responsibilities');
     }
 
 }

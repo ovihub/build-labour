@@ -249,6 +249,10 @@ a.button {
 .list-group {
   min-width: 100%;
 }
+.form-control:disabled, .form-control[readonly] {
+  background-color: white;
+  opacity: 1;
+}
 
 /* ==========================================================================
   Print styles

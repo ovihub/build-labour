@@ -7658,6 +7658,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -7666,6 +7682,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       months: Utils.getMonths(),
       years: Utils.getYears(),
       current: -1,
+      jobs: [],
       locations: [],
       companies: [],
       time_out: false,
@@ -7727,6 +7744,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.end_month = details.end_month;
         this.end_year = details.end_year;
         this.responsibilities = details.responsibilities;
+
+        if (this.company_id) {
+          this.$refs['locationRef'].disabled = true;
+        }
       }
 
       this.responsibilities = this.responsibilities.filter(function (r) {
@@ -7762,11 +7783,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         component.locations = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.locations ? data.data.locations.features : [];
       });
     },
+    onSearchJob: function onSearchJob(keyword) {
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobs(keyword)).then(function (data) {
+        component.jobs = data.data.jobs;
+      });
+    },
     onSearchCompany: function onSearchCompany(keyword) {
       var component = this;
+      this.location = '';
+      this.$refs['locationRef'].disabled = false;
       Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCompanies(keyword)).then(function (data) {
         component.companies = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.companies ? data.data.companies : [];
       });
+    },
+    onSelectJob: function onSelectJob(job) {
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobResponsibilities(job.id)).then(function (data) {
+        component.responsibilities = data.data.responsibilities;
+      });
+      this.job_role = job.title;
+      this.jobs = [];
     },
     onSelectLocation: function onSelectLocation(location) {
       this.location = location;
@@ -7776,6 +7813,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.company_id = company.id;
       this.company_name = company.name;
       this.location = company.address;
+      this.$refs['locationRef'].disabled = true;
       this.companies = [];
     },
     deleteRecord: function deleteRecord() {
@@ -57446,6 +57484,9 @@ var render = function() {
                   attrs: { type: "text" },
                   domProps: { value: _vm.job_role },
                   on: {
+                    keyup: function($event) {
+                      return _vm.onSearchJob(_vm.job_role)
+                    },
                     input: function($event) {
                       if ($event.target.composing) {
                         return
@@ -57465,6 +57506,44 @@ var render = function() {
                     ])
                   : _vm._e()
               ]),
+              _vm._v(" "),
+              _vm.jobs.length > 0
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "emp-row",
+                      staticStyle: { "margin-top": "0" }
+                    },
+                    [
+                      _c(
+                        "ul",
+                        { staticClass: "list-group" },
+                        _vm._l(_vm.jobs, function(job, idx) {
+                          return _c(
+                            "li",
+                            {
+                              key: idx,
+                              staticClass: "list-group-item",
+                              on: {
+                                click: function($event) {
+                                  return _vm.onSelectJob(job)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(job.title) +
+                                  "\n                        "
+                              )
+                            ]
+                          )
+                        }),
+                        0
+                      )
+                    ]
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c("div", { staticClass: "emp-row" }, [
                 _c("div", { staticClass: "modal-form-label" }, [
@@ -57559,6 +57638,7 @@ var render = function() {
                       expression: "location"
                     }
                   ],
+                  ref: "locationRef",
                   staticClass: "form-control",
                   attrs: { type: "text" },
                   domProps: { value: _vm.location },
@@ -72231,9 +72311,11 @@ function () {
     this.companies = [];
     this.getResults = [];
     this.endpoints = {
+      jobs: '/api/v1/job/search',
       locations: '/api/v1/locations',
       companies: '/api/v1/company/search',
-      company_options: '/api/v1/company/options'
+      company_options: '/api/v1/company/options',
+      responsibilities: '/api/v1/job/'
     }; //  this._headers()
   }
 
@@ -72323,18 +72405,12 @@ function () {
   }, {
     key: "getLocations",
     value: function getLocations(keyword) {
-      return this._search(this.endpoints.locations, keyword); // let results = this._search(this.endpoints.locations, keyword);
-      // this.locations = (keyword != '' && (keyword && keyword.length > 0) && results.data && results.data.locations) ? 
-      //                     results.data.locations.features : [];
-      // return this.locations;
+      return this._search(this.endpoints.locations, keyword);
     }
   }, {
     key: "getCompanies",
     value: function getCompanies(keyword) {
-      return this._search(this.endpoints.companies, keyword); // let results = this._search(this.endpoints.companies, keyword);
-      // this.companies = (keyword != '' && (keyword && keyword.length > 0) && results.data && results.data.companies) ?
-      //                     results.data.companies : [];
-      // return this.companies;
+      return this._search(this.endpoints.companies, keyword);
     }
   }, {
     key: "_get",
@@ -72376,6 +72452,62 @@ function () {
     key: "getCompanyOptions",
     value: function getCompanyOptions() {
       return this._get(this.endpoints.company_options);
+    }
+  }, {
+    key: "_filter",
+    value: function () {
+      var _filter2 = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(endpoint, input) {
+        var component;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                component = this;
+                _context3.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(endpoint, input, Utils.getBearerAuth()).then(function (response) {
+                  component.getResults = response.data;
+                }).catch(function (error) {
+                  Utils.handleError(error);
+                });
+
+              case 3:
+                return _context3.abrupt("return", this.getResults);
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function _filter(_x4, _x5) {
+        return _filter2.apply(this, arguments);
+      }
+
+      return _filter;
+    }()
+  }, {
+    key: "getJobs",
+    value: function getJobs() {
+      var role = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      var tiers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+      var sectors = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+      var locations = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
+      var input = {
+        role: role,
+        tiers: tiers,
+        sectors: sectors,
+        locations: locations
+      };
+      return this._filter(this.endpoints.jobs, input);
+    }
+  }, {
+    key: "getJobResponsibilities",
+    value: function getJobResponsibilities(id) {
+      return this._get(this.endpoints.responsibilities + id + '/responsibilities');
     }
   }]);
 

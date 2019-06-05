@@ -13,10 +13,22 @@
                 <div class="form-group">
                     <div class="emp-row">
                         <div class="modal-form-label">Your Role</div>
-                        <input class="form-control" type="text" v-model="job_role" />
+                        
+                        <input class="form-control" type="text" v-model="job_role"
+                            @keyup="onSearchJob(job_role)" />
+                        
                         <span class="err-msg" v-if="errors.job_role">
                             {{ errors.job_role }}
                         </span>
+                    </div>
+
+                    <div class="emp-row" style="margin-top:0" v-if="jobs.length > 0">
+                        <ul class="list-group">
+                            <li class="list-group-item" v-for="(job, idx) in jobs" :key="idx"
+                                @click="onSelectJob(job)">
+                                {{ job.title }}
+                            </li>
+                        </ul>
                     </div>
 
                     <div class="emp-row">
@@ -41,7 +53,11 @@
 
                     <div class="emp-row">
                         <div class="modal-form-label">Location</div>
-                        <input class="form-control" type="text" v-model="location" @keyup="onChangeLocation(location)" />
+
+                        <input class="form-control" type="text" v-model="location"
+                            ref="locationRef"
+                            @keyup="onChangeLocation(location)" />
+                        
                         <span class="err-msg" v-if="errors.location">
                             {{ errors.location }}
                         </span>
@@ -157,6 +173,7 @@
                 months: Utils.getMonths(),
                 years: Utils.getYears(),
                 current: -1,
+                jobs: [],
                 locations: [],
                 companies: [],
                 time_out: false,
@@ -213,6 +230,10 @@
                     this.end_month = details.end_month;
                     this.end_year = details.end_year;
                     this.responsibilities = details.responsibilities;
+
+                    if (this.company_id) {
+                        this.$refs['locationRef'].disabled = true;
+                    }
                 }
                 
                 this.responsibilities = this.responsibilities.filter(r => r!=='');
@@ -256,15 +277,39 @@
                 });
             },
 
+            onSearchJob(keyword) {
+                let component = this;
+                
+                Promise.resolve(Api.getJobs(keyword)).then(function(data) {
+                    
+                    component.jobs = data.data.jobs;
+                });
+            },
+
             onSearchCompany(keyword) {
                 let component = this;
                 
+                this.location = '';
+                this.$refs['locationRef'].disabled = false;
+
                 Promise.resolve(Api.getCompanies(keyword)).then(function(data) {
                     
                     component.companies = (keyword != '' && (keyword && keyword.length > 0) && 
                                             data.data && data.data.companies) ?
                                             data.data.companies : [];
                 });
+            },
+
+            onSelectJob(job) {
+                let component = this;
+                
+                Promise.resolve(Api.getJobResponsibilities(job.id)).then(function(data) {
+                    
+                    component.responsibilities = data.data.responsibilities;
+                });
+
+                this.job_role = job.title;
+                this.jobs = [];
             },
 
             onSelectLocation(location) {
@@ -277,6 +322,7 @@
                 this.company_id = company.id;
                 this.company_name = company.name;
                 this.location = company.address;
+                this.$refs['locationRef'].disabled = true;
 
                 this.companies = [];
             },
