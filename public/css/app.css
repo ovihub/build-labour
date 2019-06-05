@@ -11367,18 +11367,19 @@ span.ticket-delete:hover {
   visibility: visible;
 }
 
+.comp-card-wrapper .locations-wrapper {
+  padding-top: 0px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
+
 .comp-card-wrapper .locations-wrapper p {
-  border: 1px solid rgba(0, 0, 0, 0.32);
   min-height: 56px;
   width: 488px;
   padding: 16px;
-  border-radius: 0.25rem;
   font-size: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   margin-bottom: 0px;
-}
-
-.comp-card-wrapper .locations-wrapper {
-  padding-top: 0px;
 }
 
 .div-form {
@@ -16655,6 +16656,11 @@ p.bl-nav-tab-label {
 .btn-delete:hover {
   color: #ff7705;
   text-decoration: none;
+}
+
+.comp-reg-row {
+  position: relative;
+  width: 100%;
 }
 
 .emp-row {

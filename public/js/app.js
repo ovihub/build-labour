@@ -5998,7 +5998,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalCompanyProfile').modal('hide');
-                  component.setDisplayValues(component, data.data.company);
+                  component.setValues(data.data.company);
+                  component.setDisplayValues(component.input, data.data.company);
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -52508,7 +52509,7 @@ var render = function() {
                     ? _c(
                         "div",
                         {
-                          staticClass: "emp-row",
+                          staticClass: "comp-reg-row",
                           staticStyle: { "margin-top": "0" }
                         },
                         [
@@ -55159,11 +55160,11 @@ var render = function() {
                                 [_vm._v("Company Specialisation")]
                               ),
                               _vm._v(" "),
-                              _vm._l(_vm.specialization, function(type) {
+                              _vm._l(_vm.specialization, function(type, idx) {
                                 return _c(
                                   "option",
                                   {
-                                    key: type.id,
+                                    key: idx + 1,
                                     domProps: { value: type.id }
                                   },
                                   [
