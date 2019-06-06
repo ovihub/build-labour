@@ -123,10 +123,10 @@ class JobRepository extends AbstractRepository
 
         if ($companyJobPosts) {
 
-            return $companyJobPosts;
+            return [ 'posts' => $companyJobPosts ];
         }
 
-        return [];
+        return [ 'posts' => [] ];
 
     }
 
