@@ -90,6 +90,8 @@
             
             if (this.companyId) {
                 this.getJobs(this.endpointGet);
+            } else {
+                this.getJobs(component.endpoints.search + '&location=');
             }
         },
 

@@ -24,7 +24,7 @@ class BuildLabourApi {
         this.getResults = [];
 
         this.endpoints = {
-            jobs: '/api/v1/job/search',
+            jobs: '/api/v1/job/search/filter',
             locations: '/api/v1/locations',
             companies: '/api/v1/company/search',
             company_options: '/api/v1/company/options',

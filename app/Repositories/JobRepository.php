@@ -100,7 +100,7 @@ class JobRepository extends AbstractRepository
 
     public function searchCompanyJobs(Request $request) {
 
-        $companyJobPosts = CompanyPost::with('Job', 'Job.Responsibilities');
+        $companyJobPosts = CompanyPost::with('Job', 'Job.Responsibilities')->where('job_id', '!=', NULL);
 
         if (!empty($request->keyword)) {
 

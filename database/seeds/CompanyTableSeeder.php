@@ -85,6 +85,7 @@ class CompanyTableSeeder extends Seeder
                     'exp_level' => 'Senior',
                     'contract_type' => 'Full-time',
                     'salary' => '$20000',
+                    'location' => 'Richmond, Victoria, Australia',
                     'created_by' => $user->id,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
@@ -202,6 +203,14 @@ class CompanyTableSeeder extends Seeder
                     'company_id' => $c->id,
                     'posted_by' => $user->id,
                     'job_id' => $job1->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
+                ]);
+
+                CompanyPost::create([
+                    'company_id' => $c->id,
+                    'posted_by' => $user->id,
+                    'job_id' => 1,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);

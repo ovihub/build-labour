@@ -6366,6 +6366,8 @@ __webpack_require__.r(__webpack_exports__);
 
     if (this.companyId) {
       this.getJobs(this.endpointGet);
+    } else {
+      this.getJobs(component.endpoints.search + '&location=');
     }
   },
   methods: {
@@ -6570,18 +6572,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6591,7 +6581,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {},
   methods: {
-    onKeyupSearch: function onKeyupSearch() {
+    onSearchJobPosts: function onSearchJobPosts() {
       Bus.$emit('searchJobPosts', this.keyword, this.location);
     }
   }
@@ -56231,76 +56221,63 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-4" }, [
-        _c("div", { staticClass: "profile-item-2" }, [
-          _c("div", { staticClass: "profile-content" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.keyword,
-                  expression: "keyword"
-                }
-              ],
-              staticClass: "page-search",
-              attrs: { id: "search-key", type: "text", placeholder: "Search" },
-              domProps: { value: _vm.keyword },
-              on: {
-                keyup: _vm.onKeyupSearch,
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.keyword = $event.target.value
-                }
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-md-4" }, [
+      _c("div", { staticClass: "profile-item-2" }, [
+        _c("div", { staticClass: "profile-content" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.keyword,
+                expression: "keyword"
               }
-            })
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-4" }, [
-        _c("div", { staticClass: "profile-item-2" }, [
-          _c("div", { staticClass: "profile-content" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.location,
-                  expression: "location"
+            ],
+            staticClass: "page-search",
+            attrs: { id: "search-key", type: "text", placeholder: "Search" },
+            domProps: { value: _vm.keyword },
+            on: {
+              keyup: _vm.onSearchJobPosts,
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
                 }
-              ],
-              staticClass: "page-search",
-              attrs: {
-                id: "search-loc",
-                type: "text",
-                placeholder: "Location"
-              },
-              domProps: { value: _vm.location },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.location = $event.target.value
-                }
+                _vm.keyword = $event.target.value
               }
-            })
-          ])
+            }
+          })
         ])
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-8" }, [
-        _c("div", { staticClass: "profile-item-2" }, [_c("job-posts")], 1)
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-4" }, [_c("job-ads")], 1)
+    _c("div", { staticClass: "col-md-4" }, [
+      _c("div", { staticClass: "profile-item-2" }, [
+        _c("div", { staticClass: "profile-content" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.location,
+                expression: "location"
+              }
+            ],
+            staticClass: "page-search",
+            attrs: { id: "search-loc", type: "text", placeholder: "Location" },
+            domProps: { value: _vm.location },
+            on: {
+              keyup: _vm.onSearchJobPosts,
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.location = $event.target.value
+              }
+            }
+          })
+        ])
+      ])
     ])
   ])
 }
@@ -72692,7 +72669,7 @@ function () {
     this.companies = [];
     this.getResults = [];
     this.endpoints = {
-      jobs: '/api/v1/job/search',
+      jobs: '/api/v1/job/search/filter',
       locations: '/api/v1/locations',
       companies: '/api/v1/company/search',
       company_options: '/api/v1/company/options',
