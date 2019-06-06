@@ -20,7 +20,7 @@
             </li>
 
             <li>
-                <div class="bl-nav-tab">
+                <div class="bl-nav-tab" @click="onClickJobs">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="18" viewBox="0 0 22 18">
                         <g fill="none" fill-rule="evenodd">
                             <path d="M-1-3h24v24H-1z"/>
@@ -73,6 +73,9 @@
 
         methods: {
 
+            onClickJobs() {
+                window.location = '/job/search';
+            },
         }
     }
 </script>
