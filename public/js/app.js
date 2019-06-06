@@ -6007,25 +6007,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var component, espArray, i;
+        var component, espArray, temp, i;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 component = this;
                 espArray = [];
+                temp = component.input.secondary_functions;
                 Utils.setObjectValues(this.errors, '');
                 this.disabled = true;
 
-                for (i = 0; i < component.input.secondary_functions.length; i++) {
-                  espArray.push(component.input.secondary_functions[i].id);
+                for (i = 0; i < temp.length; i++) {
+                  espArray.push(temp[i].id);
                 }
 
                 component.input.secondary_functions = espArray;
                 component.input.business_type_id = component.input.business_type.id;
                 component.input.tier_id = component.input.tier.id;
                 component.input.main_company_id = component.input.main_function.id;
-                _context.next = 11;
+                _context.next = 12;
                 return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalCompanyProfile').modal('hide');
@@ -6040,13 +6041,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     }
                   }
 
+                  component.input.secondary_functions = temp;
                   Utils.handleError(error);
                 });
 
-              case 11:
+              case 12:
                 this.disabled = false;
 
-              case 12:
+              case 13:
               case "end":
                 return _context.stop();
             }
