@@ -3586,6 +3586,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3630,17 +3638,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         password_confirmation: ''
       },
       errors: {
-        name: '',
-        company_business_type_id: '',
-        company_tier_id: '',
-        company_address: '',
-        company_contact_number: '',
-        company_operate_outside_states: '',
-        website: '',
-        company_states: '',
+        company_name: '',
         company_main_company_id: '',
         company_secondary_functions: '',
+        company_business_type_id: '',
+        company_tier_id: '',
         company_photo: '',
+        company_address: '',
+        company_contact_number: '',
+        company_website: '',
+        company_operate_outside_states: '',
+        company_states: '',
         email: '',
         password: '',
         password_confirmation: ''
@@ -3843,11 +3851,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (error.response) {
                     var data = error.response.data;
 
-                    if (data.errors.name) {
+                    if (data.errors.company_name || data.errors.company_main_company_id || data.errors.company_secondary_functions) {
                       component.skip(-3);
-                    }
-
-                    if (data.errors.website) {
+                    } else if (data.errors.company_business_type_id || data.errors.company_tier_id || data.errors.company_photo) {
+                      component.skip(-2);
+                    } else if (data.errors.company_address || data.errors.company_contact_number || data.errors.company_website || data.errors.company_operate_outside_states || data.errors.company_states) {
                       component.skip(-1);
                     }
 
@@ -52104,11 +52112,11 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm.errors.name
+                    _vm.errors.company_name
                       ? _c("span", { staticClass: "err-msg" }, [
                           _vm._v(
                             "\n                            " +
-                              _vm._s(_vm.errors.name) +
+                              _vm._s(_vm.errors.company_name) +
                               "\n                        "
                           )
                         ])
@@ -52188,6 +52196,16 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
+                  _vm.errors.company_main_company_id
+                    ? _c("span", { staticClass: "err-msg" }, [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(_vm.errors.company_main_company_id) +
+                            "\n                    "
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c("div", { staticClass: "comp-label" }, [
                     _vm._v(
                       "\n                        What are the secondary functions?\n                    "
@@ -52199,6 +52217,16 @@ var render = function() {
                       "\n                        Add as many as applicable\n                    "
                     )
                   ]),
+                  _vm._v(" "),
+                  _vm.errors.company_secondary_functions
+                    ? _c("span", { staticClass: "err-msg" }, [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(_vm.errors.company_secondary_functions) +
+                            "\n                    "
+                        )
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
                   _vm._l(_vm.input.company_secondary_functions, function(
                     spec,
@@ -52582,7 +52610,17 @@ var render = function() {
                     attrs: { id: "myProgress" }
                   },
                   [_c("div", { attrs: { id: "myBar" } })]
-                )
+                ),
+                _vm._v(" "),
+                _vm.errors.company_photo
+                  ? _c("span", { staticClass: "err-msg" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.errors.company_photo) +
+                          "\n                    "
+                      )
+                    ])
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c("li", [
@@ -52634,7 +52672,7 @@ var render = function() {
                         _vm._v(
                           "\n                            " +
                             _vm._s(_vm.errors.company_address) +
-                            "\n\n                        "
+                            "\n                        "
                         )
                       ])
                     : _vm._e(),
@@ -52759,11 +52797,11 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _vm.errors.website
+                  _vm.errors.company_website
                     ? _c("span", { staticClass: "err-msg" }, [
                         _vm._v(
                           "\n                            " +
-                            _vm._s(_vm.errors.website) +
+                            _vm._s(_vm.errors.company_website) +
                             "\n                        "
                         )
                       ])

@@ -21,8 +21,8 @@
                                 v-model="input.company_name" placeholder="Company Name"
                                 @keyup="onKeyupCompanyName" required />
 
-                            <span class="err-msg" v-if="errors.name">
-                                {{ errors.name }}
+                            <span class="err-msg" v-if="errors.company_name">
+                                {{ errors.company_name }}
                             </span>
                         </div>
 
@@ -39,6 +39,9 @@
                                 </option>
                             </select> 
                         </div>
+                        <span class="err-msg" v-if="errors.company_main_company_id">
+                            {{ errors.company_main_company_id }}
+                        </span>
 
                         <div class="comp-label">
                             What are the secondary functions?
@@ -46,6 +49,9 @@
                         <div class="comp-label-3">
                             Add as many as applicable
                         </div>
+                        <span class="err-msg" v-if="errors.company_secondary_functions">
+                            {{ errors.company_secondary_functions }}
+                        </span>
 
                         <div class="form-group emp-row row-center"
                             :ref="'specItem-' + index" 
@@ -143,6 +149,9 @@
                         <div id="myProgress" v-show="showProgress">
                             <div id="myBar"></div>
                         </div>
+                        <span class="err-msg" v-if="errors.company_photo">
+                            {{ errors.company_photo }}
+                        </span>
                     </li>
 
                     <li>
@@ -158,7 +167,6 @@
 
                             <span class="err-msg" v-if="errors.company_address">
                                 {{ errors.company_address }}
-
                             </span>
 
                             <div class="comp-reg-row" style="margin-top:0" v-if="locations.length > 0">
@@ -184,8 +192,8 @@
                                 style="padding-left:24px" v-model="input.company_website" placeholder="Business Website"
                                 @keyup="setNextDisabled(3)" required />
 
-                            <span class="err-msg" v-if="errors.website">
-                                {{ errors.website }}
+                            <span class="err-msg" v-if="errors.company_website">
+                                {{ errors.company_website }}
                             </span>
                         </div>
 
@@ -306,9 +314,9 @@
                     email: '', password: '', password_confirmation: '',
                 },
                 errors: {
-                    name: '', company_business_type_id: '', company_tier_id: '',
-                    company_address: '', company_contact_number: '', company_operate_outside_states: '', website: '',
-                    company_states: '', company_main_company_id: '', company_secondary_functions: '', company_photo: '',
+                    company_name: '', company_main_company_id: '', company_secondary_functions: '',
+                    company_business_type_id: '', company_tier_id: '', company_photo: '',
+                    company_address: '', company_contact_number: '', company_website: '', company_operate_outside_states: '', company_states: '',  
                     email: '', password: '', password_confirmation: '',
                 },
                 endpoints: {
@@ -553,10 +561,26 @@
                         if (error.response) {
                             let data = error.response.data;
 
-                            if (data.errors.name) {
+                            if (data.errors.company_name || 
+                                data.errors.company_main_company_id || 
+                                data.errors.company_secondary_functions) {
+
                                 component.skip(-3);
                             }
-                            if (data.errors.website) {
+
+                            else if (data.errors.company_business_type_id ||
+                                data.errors.company_tier_id ||
+                                data.errors.company_photo) {
+
+                                component.skip(-2);
+                            }
+
+                            else if (data.errors.company_address ||
+                                data.errors.company_contact_number ||
+                                data.errors.company_website ||
+                                data.errors.company_operate_outside_states ||
+                                data.errors.company_states) {
+
                                 component.skip(-1);
                             }
 
