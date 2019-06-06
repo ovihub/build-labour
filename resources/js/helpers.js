@@ -188,6 +188,10 @@ window.Helper = {
             }
 
             return years;
+        },
+
+        redirectToCompanyProfile(company_id) {
+            window.location = '/company/profile/' + company_id;
         }
     }
 }

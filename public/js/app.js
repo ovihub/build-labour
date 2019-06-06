@@ -4430,6 +4430,10 @@ __webpack_require__.r(__webpack_exports__);
     initials: {
       type: String,
       required: false
+    },
+    companyId: {
+      type: String,
+      required: false
     }
   },
   computed: {
@@ -4458,6 +4462,13 @@ __webpack_require__.r(__webpack_exports__);
 
     if (this.input.initials == '') {
       this.input.initials = this.initials;
+    }
+  },
+  methods: {
+    onClickCompanyPhoto: function onClickCompanyPhoto() {
+      if (this.companyId) {
+        Utils.redirectToCompanyProfile(this.companyId);
+      }
     }
   }
 });
@@ -5448,6 +5459,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6141,7 +6155,6 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       id: '',
-      company_id: '',
       photo_url: '',
       name: '',
       address: '',
@@ -6151,7 +6164,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var component = this;
     Bus.$on('companySummaryDetails', function (details) {
-      component.company_id = details.company_id;
+      component.id = details.id;
       component.photo_url = details.photo_url;
       component.name = details.name;
       component.address = details.address;
@@ -6337,6 +6350,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6384,6 +6402,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     getTimeDiffNow: function getTimeDiffNow(created_at) {
       return Utils.formatTimeDiffNow(created_at);
+    },
+    onClickCompanyPhoto: function onClickCompanyPhoto(company_id) {
+      Utils.redirectToCompanyProfile(company_id);
     }
   }
 });
@@ -6606,6 +6627,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       summary: {
+        id: '',
         photo_url: '',
         name: '',
         address: '',
@@ -6643,6 +6665,7 @@ __webpack_require__.r(__webpack_exports__);
           component.avatar = {};
           component.avatar.initials = Utils.getInitials(job.company.name);
           component.avatar.profile_photo_url = job.company.photo_url;
+          component.summary.id = job.company.id;
           component.summary.photo_url = job.company.photo_url;
           component.summary.name = job.company.name;
           component.summary.address = job.company.address;
@@ -7499,6 +7522,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -7627,6 +7654,9 @@ __webpack_require__.r(__webpack_exports__);
     formatPeriod: function formatPeriod(emp) {
       var endDate = emp.end_month && emp.end_year ? new Date(emp.end_year, emp.end_month - 1, 1) : new Date();
       return Utils.formatPeriod(new Date(emp.start_year, emp.start_month - 1, 1), endDate);
+    },
+    onClickCompanyPhoto: function onClickCompanyPhoto(company_id) {
+      Utils.redirectToCompanyProfile(company_id);
     },
     action: function action(index) {
       Bus.$emit('showEmployment', index, index != -1 ? this.employments[index] : null);
@@ -8691,6 +8721,8 @@ __webpack_require__.r(__webpack_exports__);
         is_verified: '',
         address: '',
         education_id: '',
+        company_id: '',
+        company_photo: '',
         company_name: '',
         job_role: '',
         start_month: '',
@@ -8744,6 +8776,8 @@ __webpack_require__.r(__webpack_exports__);
         component.profile.education_id = user.worker_detail.education_id;
         component.profile.education = user.worker_detail.education;
         component.profile.job_role = user.experiences[0] && user.experiences[0].job ? user.experiences[0].job.title : user.experiences[0].job_role;
+        component.profile.company_id = user.experiences[0] && user.experiences[0].company ? user.experiences[0].company.id : '';
+        component.profile.company_photo = user.experiences[0] && user.experiences[0].company ? user.experiences[0].company.photo_url : '';
         component.profile.company_name = user.experiences[0] && user.experiences[0].company ? user.experiences[0].company.name : user.experiences[0].company_name;
         component.profile.start_month = user.experiences[0] ? user.experiences[0].start_month : '';
         component.profile.start_year = user.experiences[0] ? user.experiences[0].start_year : '';
@@ -9245,6 +9279,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -9263,6 +9300,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       education_id: '',
       course: '',
       school: '',
+      company_id: '',
+      company_photo: '',
       company_name: '',
       job_role: '',
       start_month: '',
@@ -9301,6 +9340,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
     Bus.$on('updateEmployment', function (index, details) {
       if (index == 0 || !component.company_name && index == -1) {
+        component.company_id = details.company ? details.company.id : '';
+        component.company_photo = details.company ? details.company.photo_url : '';
         component.company_name = details.company ? details.company.name : details.company_name;
         component.job_role = details.job ? details.job.title : details.job_role;
         component.start_month = details.start_month;
@@ -9318,6 +9359,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
     Bus.$on('removeEmployment', function (index) {
       if (index == 0) {
+        component.company_id = '';
+        component.company_photo = '';
         component.company_name = '';
         component.job_role = '';
         component.start_month = '';
@@ -9348,6 +9391,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.education_id = details.education_id;
       this.course = details.education ? details.education.course : '';
       this.school = details.education ? details.education.school : '';
+      this.company_id = details.company_id;
+      this.company_photo = details.company_photo;
       this.company_name = details.company_name;
       this.job_role = details.job_role;
       this.start_month = details.start_month;
@@ -9408,6 +9453,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }).catch(function (error) {
         Utils.handleError(error);
       });
+    },
+    onClickCompanyPhoto: function onClickCompanyPhoto() {
+      Utils.redirectToCompanyProfile(this.company_id);
     },
     onChangeLocation: function onChangeLocation(keyword) {
       var component = this;
@@ -53656,7 +53704,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("center", [
+  return _c("center", { on: { click: _vm.onClickCompanyPhoto } }, [
     _c("svg", { class: _vm.cls, style: _vm.svgStyle }, [
       _c(
         "text",
@@ -53669,7 +53717,7 @@ var render = function() {
             "dominant-baseline": "central"
           }
         },
-        [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.input.initials) + "\n\t\t\t\t")]
+        [_vm._v("\n\t\t\t\t" + _vm._s(_vm.input.initials) + "\n\t\t\t")]
       )
     ])
   ])
@@ -54612,7 +54660,8 @@ var render = function() {
                               size: "40",
                               border: "0",
                               "border-radius": "8px",
-                              initials: _vm.getInitials(post.company.name)
+                              initials: _vm.getInitials(post.company.name),
+                              company_id: post.company.id
                             }
                           })
                     ],
@@ -55751,7 +55800,7 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "company-view" }, [
-            _c("a", { attrs: { href: "/user/profile" } }, [
+            _c("a", { attrs: { href: "/company/profile/" + _vm.id } }, [
               _vm._v("\n                    View Business\n                ")
             ])
           ])
@@ -55906,7 +55955,12 @@ var render = function() {
                   job.company_photo
                     ? _c("img", {
                         staticClass: "bl-image-40",
-                        attrs: { src: job.company_photo }
+                        attrs: { src: job.company_photo },
+                        on: {
+                          click: function($event) {
+                            return _vm.onClickCompanyPhoto(job.company_id)
+                          }
+                        }
                       })
                     : _c("avatar", {
                         attrs: {
@@ -55914,7 +55968,10 @@ var render = function() {
                           size: "40",
                           border: "0",
                           "border-radius": "8px",
-                          initials: _vm.getInitials(job.company_name)
+                          initials: _vm.getInitials(job.company_name),
+                          "company-id": job.company_id
+                            ? job.company_id + ""
+                            : ""
                         }
                       })
                 ],
@@ -57432,7 +57489,14 @@ var render = function() {
                           employment.company_photo
                             ? _c("img", {
                                 staticClass: "bl-image-56",
-                                attrs: { src: employment.company_photo }
+                                attrs: { src: employment.company_photo },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.onClickCompanyPhoto(
+                                      employment.company_id
+                                    )
+                                  }
+                                }
                               })
                             : _c("avatar", {
                                 attrs: {
@@ -57443,7 +57507,10 @@ var render = function() {
                                   initials: _vm.getInitials(
                                     employment.company_name,
                                     employment.company
-                                  )
+                                  ),
+                                  "company-id": employment.company_id
+                                    ? employment.company_id + ""
+                                    : ""
                                 }
                               }),
                           _vm._v(" "),
@@ -60199,15 +60266,22 @@ var render = function() {
                 "div",
                 { staticClass: "jobads-row" },
                 [
-                  _c("avatar", {
-                    attrs: {
-                      cls: "bl-image-56",
-                      size: "56",
-                      border: "0",
-                      "border-radius": "8px",
-                      initials: _vm.getInitials(_vm.company_name)
-                    }
-                  }),
+                  _vm.company_photo
+                    ? _c("img", {
+                        staticClass: "bl-image-56",
+                        attrs: { src: _vm.company_photo },
+                        on: { click: _vm.onClickCompanyPhoto }
+                      })
+                    : _c("avatar", {
+                        attrs: {
+                          cls: "bl-image-56",
+                          size: "56",
+                          border: "0",
+                          "border-radius": "8px",
+                          initials: _vm.getInitials(_vm.company_name),
+                          "company-id": _vm.company_id + ""
+                        }
+                      }),
                   _vm._v(" "),
                   _c("div", { staticClass: "bl-display" }, [
                     _c("span", { staticClass: "bl-label-16 bl-ml15" }, [
@@ -76702,6 +76776,9 @@ window.Helper = {
       }
 
       return years;
+    },
+    redirectToCompanyProfile: function redirectToCompanyProfile(company_id) {
+      window.location = '/company/profile/' + company_id;
     }
   }
 };

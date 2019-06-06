@@ -21,7 +21,7 @@
 
                 <div class="company-view">
                     <!-- TODO: add view company endpoint for worker type -->
-                    <a :href="'/user/profile'">
+                    <a :href="'/company/profile/' + id">
                         View Business
                     </a>
                 </div>
@@ -40,7 +40,6 @@
         data() {
             return {
                 id: '',
-                company_id: '',
                 photo_url: '',
                 name: '',
                 address: '',
@@ -52,7 +51,7 @@
             let component = this;
 
             Bus.$on('companySummaryDetails', function(details) {
-                component.company_id = details.company_id;
+                component.id = details.id;
                 component.photo_url = details.photo_url;
                 component.name = details.name;
                 component.address = details.address;

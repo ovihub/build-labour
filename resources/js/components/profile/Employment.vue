@@ -42,10 +42,14 @@
                     </span>
                     <div class="jobads-row mt-3" @click="toggle(index)">
                         <div class="bl-col-1">
-                            <img class="bl-image-56" v-if="employment.company_photo" :src="employment.company_photo">
+                            <img class="bl-image-56" v-if="employment.company_photo" :src="employment.company_photo"
+                                @click="onClickCompanyPhoto(employment.company_id)">
+
                             <avatar v-else cls="bl-image-56" size="56" border="0" border-radius="8px"
-                                :initials="getInitials(employment.company_name, employment.company)">
+                                :initials="getInitials(employment.company_name, employment.company)"
+                                :company-id="(employment.company_id) ? employment.company_id + '' : ''">
                             </avatar>
+
                             <div class="bl-box"></div>
                         </div>
                         <div class="bl-col-2 ml-2">
@@ -279,6 +283,10 @@
                               new Date(emp.end_year, emp.end_month-1, 1) : new Date();
 
                 return Utils.formatPeriod(new Date(emp.start_year, emp.start_month-1, 1), endDate);
+            },
+
+            onClickCompanyPhoto(company_id) {
+                Utils.redirectToCompanyProfile(company_id);
             },
 
             action(index) {

@@ -13,8 +13,10 @@
                     initials: '', profile_photo_url: '',
                 },
                 profile: {
-                    profile_description: '', profile_photo_url: '', first_name: '', last_name: '', email: '', is_verified: '', address: '',
-                    education_id: '', company_name: '', job_role: '', start_month: '', start_year: '', end_month: '', end_year: '',
+                    profile_description: '', profile_photo_url: '', first_name: '', last_name: '', email: '', is_verified: '',
+                    address: '', education_id: '',
+                    company_id: '', company_photo: '', company_name: '', job_role: '',
+                    start_month: '', start_year: '', end_month: '', end_year: '',
                 },
                 about_me: {
                     gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: '', has_registered_vehicle: '',
@@ -62,6 +64,10 @@
                         component.profile.education = user.worker_detail.education;
                         component.profile.job_role = (user.experiences[0] && user.experiences[0].job) ?
                                                         user.experiences[0].job.title : user.experiences[0].job_role;
+                        component.profile.company_id = (user.experiences[0] && user.experiences[0].company) ? 
+                                                            user.experiences[0].company.id : '';
+                        component.profile.company_photo = (user.experiences[0] && user.experiences[0].company) ? 
+                                                            user.experiences[0].company.photo_url : '';
                         component.profile.company_name = (user.experiences[0] && user.experiences[0].company) ? 
                                                             user.experiences[0].company.name : user.experiences[0].company_name;
                         component.profile.start_month = user.experiences[0] ? user.experiences[0].start_month : '';

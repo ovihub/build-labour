@@ -1,11 +1,11 @@
 <template>
-    <center>
-			<svg :class="cls" :style="svgStyle">
-				<text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" :style="textStyle">
-					{{ input.initials }}
-				</text>
+    <center @click="onClickCompanyPhoto">
+		<svg :class="cls" :style="svgStyle">
+			<text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" :style="textStyle">
+				{{ input.initials }}
+			</text>
     	</svg>
-		</center>
+	</center>
 </template>
 
 <script>
@@ -49,6 +49,10 @@
 				type: String,
 				required: false
 			},
+			companyId: {
+				type: String,
+				required: false
+			},
 		},
 
 		computed: {
@@ -81,6 +85,16 @@
 			if (this.input.initials == '') {
 				this.input.initials = this.initials;
 			}
+		},
+
+		methods: {
+
+			onClickCompanyPhoto() {
+				if (this.companyId) {
+					Utils.redirectToCompanyProfile(this.companyId);
+				}
+			},
+			
 		},
 	}
 </script>

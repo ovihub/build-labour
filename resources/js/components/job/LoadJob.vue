@@ -7,7 +7,7 @@
         data() {
             return {
                 summary: {
-                    photo_url: '', name: '', address: '', introduction: '',
+                    id: '', photo_url: '', name: '', address: '', introduction: '',
                 },
                 job_details: {
                     title: '', description: '', about: '', exp_level: '', contract_type: '', salary: '', reports_to: '', location: ''
@@ -42,6 +42,7 @@
                             component.avatar.initials = Utils.getInitials(job.company.name);
                             component.avatar.profile_photo_url = job.company.photo_url;
 
+                            component.summary.id = job.company.id;
                             component.summary.photo_url = job.company.photo_url;
                             component.summary.name = job.company.name;
                             component.summary.address = job.company.address;

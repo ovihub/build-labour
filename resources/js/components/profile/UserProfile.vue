@@ -120,9 +120,12 @@
                 <span class="profile-role-header" v-if="job_role">Current Role</span>
 
                 <div class="jobads-row" v-if="job_role">
-                    <!-- <img class="bl-image-56" src="/img/logo/1.jpg"> -->
-                    <avatar cls="bl-image-56" size="56" border="0" border-radius="8px"
-                        :initials="getInitials(company_name)">
+                    <img class="bl-image-56" v-if="company_photo" :src="company_photo"
+                        @click="onClickCompanyPhoto">
+
+                    <avatar v-else cls="bl-image-56" size="56" border="0" border-radius="8px"
+                        :initials="getInitials(company_name)"
+                        :company-id="company_id + ''">
                     </avatar>
                     <div class="bl-display">
                         <span class="bl-label-16 bl-ml15">
@@ -161,6 +164,8 @@
                 education_id: '',
                 course: '',
                 school: '',
+                company_id: '',
+                company_photo: '',
                 company_name: '',
                 job_role: '',
                 start_month: '',
@@ -194,6 +199,8 @@
 
             Bus.$on('updateEmployment', function(index, details) {
                 if (index == 0 || (!component.company_name && index == -1)) {
+                    component.company_id = (details.company) ? details.company.id : '';
+                    component.company_photo = (details.company) ? details.company.photo_url : '';
                     component.company_name = (details.company) ? details.company.name : details.company_name;
                     component.job_role = (details.job) ? details.job.title : details.job_role;
                     component.start_month = details.start_month;
@@ -213,6 +220,8 @@
 
             Bus.$on('removeEmployment', function(index) {
                 if (index == 0) {
+                    component.company_id = '';
+                    component.company_photo = '';
                     component.company_name = '';
                     component.job_role = '';
                     component.start_month = '';
@@ -248,6 +257,8 @@
                 this.education_id = details.education_id;
                 this.course = details.education ? details.education.course : '';
                 this.school = details.education ? details.education.school : '';
+                this.company_id = details.company_id;
+                this.company_photo = details.company_photo;
                 this.company_name = details.company_name;
                 this.job_role = details.job_role;
                 this.start_month = details.start_month;
@@ -327,6 +338,10 @@
 
                         Utils.handleError(error);
                     });
+            },
+
+            onClickCompanyPhoto() {
+                Utils.redirectToCompanyProfile(this.company_id);
             },
 
             onChangeLocation(keyword) {

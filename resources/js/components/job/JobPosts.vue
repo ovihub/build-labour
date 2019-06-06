@@ -17,8 +17,13 @@
             
                     <div class="jobads-row">
                         <div class="bl-col-1">
-                            <img v-if="job.company_photo" class="bl-image-40" :src="job.company_photo">
-                            <avatar v-else cls="bl-image-40" size="40" border="0" border-radius="8px" :initials="getInitials(job.company_name)"></avatar>
+                            <img v-if="job.company_photo" class="bl-image-40" :src="job.company_photo"
+                                @click="onClickCompanyPhoto(job.company_id)">
+
+                            <avatar v-else cls="bl-image-40" size="40" border="0" border-radius="8px"
+                                :initials="getInitials(job.company_name)"
+                                :company-id="(job.company_id) ? job.company_id + '' : ''">
+                            </avatar>
                         </div>
                         <div class="bl-col-2">
                             <div class="bl-display">
@@ -118,6 +123,10 @@
 
             getTimeDiffNow(created_at) {
                 return Utils.formatTimeDiffNow(created_at);
+            },
+
+            onClickCompanyPhoto(company_id) {
+                Utils.redirectToCompanyProfile(company_id);
             },
 
         }

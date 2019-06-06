@@ -6,7 +6,10 @@
                     <div class="jobads-row">
                         <div class="bl-col-1">
                             <img v-if="post.company.photo_url" class="bl-image-40" :src="post.company.photo_url">
-                            <avatar v-else cls="bl-image-40" size="40" border="0" border-radius="8px" :initials="getInitials(post.company.name)"></avatar>
+                            <avatar v-else cls="bl-image-40" size="40" border="0" border-radius="8px"
+                                :initials="getInitials(post.company.name)"
+                                :company_id="post.company.id">
+                            </avatar>
                         </div>
                         <div class="bl-col-2">
                             <div class="bl-display">

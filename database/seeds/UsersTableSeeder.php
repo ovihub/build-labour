@@ -110,7 +110,7 @@ class UsersTableSeeder extends Seeder
 
             WorkExperience::create([
                 'job_role' => 'Site Manager',
-                'company_name' => 'Richmond Surveying',
+                'company_name' => 'Probuild',
                 // 'company_id' => 4,
                 'user_id' => $user->id,
                 'location' => 'Richmond, Victoria, Australia',

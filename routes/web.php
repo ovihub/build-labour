@@ -35,13 +35,12 @@ Route::prefix('user')
         Route::get('verify', 'UsersController@showVerifyForm')->name('verify');
     });
 
-// Route::prefix('company')
-//     ->group(function() {
-//         Route::middleware(['checktoken'])->group(function() {
-//             Route::get('profile', 'CompaniesController@showCompany');
-//             Route::get('profile/{id}', 'CompaniesController@showCompany');
-//         });
-//     });
+Route::prefix('company')
+    ->group(function() {
+        Route::middleware(['checktoken'])->group(function() {
+            Route::get('profile/{id}', 'UsersController@showProfile');
+        });
+    });
 
 Route::prefix('job')
     ->group(function() {
