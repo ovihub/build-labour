@@ -45,6 +45,8 @@ class UsersController extends Controller
             if ($user->role_id == 2 && $company && $company->id == $id) {
                 return redirect('/user/profile');
             }
+
+            return view('companies.profile')->with('company_id', $id);
         }
 
         // if ($page == 'profile') {
@@ -53,9 +55,9 @@ class UsersController extends Controller
         //     if ($user->role_id == 1 && $profile && $profile->id == $id) {
         //         return redirect('/user/profile');
         //     }
-        // }
 
-        return view('companies.profile')->with('company_id', $id);
+        //     return view('users.profile')->with('user_id', $id);
+        // }
     }
 
     public function showVerifyForm(Request $r)

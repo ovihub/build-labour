@@ -159,7 +159,8 @@
 
             </main-modal>
 
-            <span class="edit-icon edit-icon-2"
+            <span v-if="editable"
+                class="edit-icon edit-icon-2"
                 data-toggle="modal"
                 data-backdrop="static"
                 data-keyboard="false"
@@ -251,6 +252,7 @@
     export default {
         data() {
             return {
+                editable: false,
                 disabled: false,
                 time_out: false,
                 locations: [],
@@ -296,6 +298,10 @@
             });
 
             this.getCompanyOptions();
+
+            if (! parseInt(window.location.pathname.split('/').pop(), 10)) {
+                this.editable = true;
+            }
         },
 
         methods: {
@@ -369,7 +375,9 @@
             },
 
             onClickProfilePhoto() {
-                upload.click();
+                if (this.editable) {
+                    upload.click(); 
+                }
             },
 
             onFileChange(e) {

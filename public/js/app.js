@@ -5781,10 +5781,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      editable: false,
       disabled: false,
       time_out: false,
       locations: [],
@@ -5849,6 +5851,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       component.setDisplayValues(component.input, details);
     });
     this.getCompanyOptions();
+
+    if (!parseInt(window.location.pathname.split('/').pop(), 10)) {
+      this.editable = true;
+    }
   },
   methods: {
     getCompanyOptions: function getCompanyOptions() {
@@ -5919,7 +5925,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.setDisplayValues(this.input, this);
     },
     onClickProfilePhoto: function onClickProfilePhoto() {
-      upload.click();
+      if (this.editable) {
+        upload.click();
+      }
     },
     onFileChange: function onFileChange(e) {
       var files = e.target.files || e.dataTransfer.files;
@@ -55457,31 +55465,33 @@ var render = function() {
           2
         ),
         _vm._v(" "),
-        _c(
-          "span",
-          {
-            staticClass: "edit-icon edit-icon-2",
-            attrs: {
-              "data-toggle": "modal",
-              "data-backdrop": "static",
-              "data-keyboard": "false",
-              "data-target": "#modalCompanyProfile"
-            },
-            on: { click: _vm.open }
-          },
-          [
-            _c("img", {
-              attrs: {
-                src: "/img/icons/editbutton.png",
-                srcset:
-                  "/img/icons/editbutton@2x.png" +
-                  " 2x, " +
-                  "/img/icons/editbutton@3x.png" +
-                  " 3x"
-              }
-            })
-          ]
-        ),
+        _vm.editable
+          ? _c(
+              "span",
+              {
+                staticClass: "edit-icon edit-icon-2",
+                attrs: {
+                  "data-toggle": "modal",
+                  "data-backdrop": "static",
+                  "data-keyboard": "false",
+                  "data-target": "#modalCompanyProfile"
+                },
+                on: { click: _vm.open }
+              },
+              [
+                _c("img", {
+                  attrs: {
+                    src: "/img/icons/editbutton.png",
+                    srcset:
+                      "/img/icons/editbutton@2x.png" +
+                      " 2x, " +
+                      "/img/icons/editbutton@3x.png" +
+                      " 3x"
+                  }
+                })
+              ]
+            )
+          : _vm._e(),
         _vm._v(" "),
         _c("input", {
           staticStyle: { display: "none" },
