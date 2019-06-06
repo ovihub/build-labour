@@ -222,12 +222,6 @@ class ApiAuthController extends ApiBaseController
      *                      example="password",
      *                  ),
      *                  @OA\Property(
-     *                      property="address",
-     *                      description="Address",
-     *                      type="string",
-     *                      example="85 Dover Street Melbourne VIC"
-     *                  ),
-     *                  @OA\Property(
      *                      property="company_name",
      *                      description="Company Name",
      *                      type="string",
@@ -302,16 +296,222 @@ class ApiAuthController extends ApiBaseController
      *      ),
      *      @OA\Response(
      *          response=422,
-     *          description="Invalid Input"
+     *          description="Invalid Input",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  @OA\Property(
+     *                      property="errors",
+     *                      type="object",
+     *                      @OA\Property(
+     *                          property="company_name",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="string",
+     *                              example="The company name field is required."
+     *                          )
+     *                      ),
+     *                      @OA\Property(
+     *                          property="company_main_company_id",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="string",
+     *                              example="The company main company id field is required."
+     *                          )
+     *                      ),
+     *                      @OA\Property(
+     *                          property="company_secondary_functions",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="string",
+     *                              example="The company secondary functions field is required."
+     *                          )
+     *                      ),
+     *                      @OA\Property(
+     *                          property="company_business_type_id",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="string",
+     *                              example="The company business type id field is required."
+     *                          )
+     *                      ),
+     *                      @OA\Property(
+     *                          property="company_tier_id",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="string",
+     *                              example="The company tier id field is required."
+     *                          )
+     *                      ),
+     *                      @OA\Property(
+     *                          property="company_photo",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="string",
+     *                              example="The company photo field is required."
+     *                          )
+     *                      ),
+     *                      @OA\Property(
+     *                          property="company_address",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="string",
+     *                              example="The company address field is required."
+     *                          )
+     *                      ),
+     *                      @OA\Property(
+     *                          property="company_contact_number",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="string",
+     *                              example="The company contact number field is required."
+     *                          )
+     *                      ),
+     *                      @OA\Property(
+     *                          property="company_operate_outside_states",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="string",
+     *                              example="The company operate outside states field is required."
+     *                          )
+     *                      ),
+     *                      @OA\Property(
+     *                          property="company_website",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="string",
+     *                              example="The company website field is required."
+     *                          )
+     *                      ),
+     *                      @OA\Property(
+     *                          property="email",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="string",
+     *                              example="The email field is required."
+     *                          )
+     *                      ),
+     *                      @OA\Property(
+     *                          property="password",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="string",
+     *                              example="The password field is required."
+     *                          )
+     *                      ),
+     *                  ),
+     *                  @OA\Property(
+     *                      property="success",
+     *                      type="boolean",
+     *                      example=false,
+     *                  ),
+     *                  @OA\Property(
+     *                      property="message",
+     *                      type="string",
+     *                      example="Invalid Input",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="http_status",
+     *                      type="integer",
+     *                      example=422,
+     *                  ),
+     *              ),
+     *          ),
      *      ),
      *      @OA\Response(
      *          response=500,
-     *          description="Internal Server Error"
+     *          description="Internal server error.",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  @OA\Property(
+     *                      property="data",
+     *                      type="object"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="success",
+     *                      type="boolean",
+     *                      example=false,
+     *                  ),
+     *                  @OA\Property(
+     *                      property="message",
+     *                      type="string",
+     *                      example="Internal server error.",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="http_status",
+     *                      type="integer",
+     *                      example=500,
+     *                  ),
+     *              ),
+     *          ),
      *      ),
      *      @OA\Response(
-     *          response=201,
-     *          description="Request Created"
-     *      )
+     *          response=200,
+     *          description="Request Created",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  @OA\Property(
+     *                      property="data",
+     *                      type="object",
+     *                      @OA\Property(
+     *                          property="company",
+     *                          type="object",
+     *                          @OA\Property(
+     *                              property="id",
+     *                              type="integer",
+     *                              example="10"
+     *                          ),
+     *                          @OA\Property(
+     *                              property="name",
+     *                              type="string",
+     *                              example="Sample Company"
+     *                          ),
+     *                      ),
+     *                      @OA\Property(
+     *                          property="user",
+     *                          type="object",
+     *                          @OA\Property(
+     *                              property="email",
+     *                              type="string",
+     *                              example="testuser3@gmail.com"
+     *                          ),
+     *                          @OA\Property(
+     *                              property="id",
+     *                              type="integer",
+     *                              example="8"
+     *                          ),
+     *                          @OA\Property(
+     *                              property="role_id",
+     *                              type="integer",
+     *                              example="2"
+     *                          ),
+     *                      ),
+     *                  ),
+     *                  @OA\Property(
+     *                      property="token",
+     *                      type="string",
+     *                      example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="success",
+     *                      type="boolean",
+     *                      example=true,
+     *                  ),
+     *                  @OA\Property(
+     *                      property="message",
+     *                      type="string",
+     *                      example="Company has been registered successfully!",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="http_status",
+     *                      type="integer",
+     *                      example=200,
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
      * )
      */
     public function registerCompany( Request $request )
@@ -327,7 +527,7 @@ class ApiAuthController extends ApiBaseController
 
                 return $this->apiErrorResponse(
                     false,
-                    $this->userRepo->user->getErrors( true ),
+                    "Invalid Input",
                     self::HTTP_STATUS_INVALID_INPUT,
                     'invalidInput',
                     $this->userRepo->user->getErrorsDetail()

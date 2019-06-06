@@ -126,9 +126,32 @@ class UserRepository extends AbstractRepository
 
     public function registerCompany(Request $request) {
 
-      //  dd($request->all());
         $this->user = new Users;
         $this->company = new Company();
+
+        $rules = [
+            'company_name'  => 'required|min:5',
+            'company_main_company_id'  => 'required|integer',
+            'company_secondary_functions' => 'required|array',
+            'company_business_type_id' => 'required|integer',
+            'company_tier_id' => 'required|integer',
+            'company_photo' => 'required|image64:jpeg,jpg,png',
+            'company_address'  => 'required|min:5',
+            'company_contact_number' => 'required|min:5',
+            'company_operate_outside_states' => 'required|boolean',
+            'company_website' => 'required|min:5|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+            'email'     => 'required|string|email|max:50|unique:users',
+            'password'  => 'required|string|min:6|max:24|confirmed'
+        ];
+
+        $validator = \Validator::make($request->all(), $rules);
+
+        if ( $validator->fails() ) {
+
+            $this->user->errorsDetail = $validator->errors()->toArray();
+
+            return false;
+        }
 
         // user validation
         $this->user->isEmployerSignup = true;
@@ -140,10 +163,7 @@ class UserRepository extends AbstractRepository
 
         $this->company->setUserId($this->user->id);
 
-        // check company validation
         if ( !$this->company->store($request) ) {
-
-            $this->user->errorsDetail = $this->company->getErrorsDetail();
 
             return false;
         }
@@ -155,7 +175,6 @@ class UserRepository extends AbstractRepository
             $secondaryFunctions = SecondaryFunction::whereIn('id', $request->company_secondary_functions)
                                 ->where('main_id', $request->company_main_company_id)->pluck('id');
 
-
             foreach ($secondaryFunctions->toArray() as $id) {
 
                 CompanySpecialized::insert([
@@ -164,13 +183,11 @@ class UserRepository extends AbstractRepository
                 ]);
 
             }
-
         }
 
         // check company photo validation
-        if ($request->company_photo && !$this->company->uploadProfilePhoto($request)) {
+        if (!$this->company->uploadProfilePhoto($request)) {
 
-            $this->user->errorsDetail = $this->company->getErrorsDetail();
             return false;
         }
 
@@ -179,6 +196,33 @@ class UserRepository extends AbstractRepository
         $token = $this->user->getJwtToken();
 
         Mail::to( $user->email )->send( new ResendVerificationCodeEmail( $user ) );
+
+        $user->makeHidden([
+            'device_token',
+            'dob_formatted',
+            'full_name',
+            'identifier',
+            'is_verified',
+        ]);
+
+        $company->makeHidden([
+            'address',
+            'business_type_id',
+            'created_at',
+            'created_by',
+            'locations',
+            'main_company_id',
+            'no_of_workers',
+            'operate_outside_states',
+            'phone',
+            'photo_url',
+            'states',
+            'tier_id',
+            'updated_at',
+            'website',
+            'workers'
+        ]);
+
         return compact('user', 'company', 'token');
     }
 }
