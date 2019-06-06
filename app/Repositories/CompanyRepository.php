@@ -56,7 +56,7 @@ class CompanyRepository extends AbstractRepository
 
             // save specialization
 
-            if ($request->secondary_functions && $request->secondary_functions) {
+            if (isset($request->secondary_functions) && is_array($request->secondary_functions)) {
 
                 CompanySpecialized::where('company_id', $user->company->id)->delete();
 
@@ -71,9 +71,8 @@ class CompanyRepository extends AbstractRepository
                     ]);
 
                 }
-
             }
-
+            
             $user->company->BusinessType;
             $user->company->Tier;
             $user->company->MainFunction;
