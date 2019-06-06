@@ -7408,7 +7408,7 @@ __webpack_require__.r(__webpack_exports__);
     Bus.$on('updateEmployment', function (index, details) {
       var emps = component.employments;
 
-      if (emps.length > 1 && details.isCurrent == 1 && component.formatPeriod(details) != component.formatPeriod(emps[index]) || details.responsibilities.length > emps[index].responsibilities.length) {
+      if (emps.length > 1 && details.isCurrent == 1 && component.formatPeriod(details) != component.formatPeriod(emps[index]) || details.responsibilities.length > emps[index].responsibilities.length || emps[index].job_id != details.job_id) {
         window.location.href = component.endpoints.profile;
       }
 
@@ -7840,14 +7840,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     onSelectJob: function onSelectJob(job) {
-      // let component = this;
-      // Promise.resolve(Api.getJobResponsibilities(job.id)).then(function(data) {
-      //     component.responsibilities = data.data.responsibilities;
-      // });
       this.job_id = job.id;
       this.job_role = job.title;
-      this.responsibilities = [];
-      this.responsibilities.push('');
       this.job_responsibilities = job && job.responsibilities && job.responsibilities[0] ? job.responsibilities[0].items : [];
       this.jobs = [];
     },
@@ -9190,8 +9184,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
     Bus.$on('updateEmployment', function (index, details) {
       if (index == 0 || !component.company_name && index == -1) {
-        component.company_name = details.company_name;
-        component.job_role = details.job_role;
+        component.company_name = details.company ? details.company.name : details.company_name;
+        component.job_role = details.job ? details.job.title : details.job_role;
         component.start_month = details.start_month;
         component.start_year = details.start_year;
         component.end_month = details.end_month;

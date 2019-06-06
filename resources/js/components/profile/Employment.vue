@@ -151,7 +151,8 @@
 
                 if ((emps.length > 1 && details.isCurrent == 1 &&
                     component.formatPeriod(details) != component.formatPeriod(emps[index])) || 
-                    (details.responsibilities.length > emps[index].responsibilities.length)) {
+                    (details.responsibilities.length > emps[index].responsibilities.length) ||
+                    emps[index].job_id != details.job_id) {
                     
                     window.location.href = component.endpoints.profile;
                 }

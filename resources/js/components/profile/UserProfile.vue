@@ -194,8 +194,8 @@
 
             Bus.$on('updateEmployment', function(index, details) {
                 if (index == 0 || (!component.company_name && index == -1)) {
-                    component.company_name = details.company_name;
-                    component.job_role = details.job_role;
+                    component.company_name = (details.company) ? details.company.name : details.company_name;
+                    component.job_role = (details.job) ? details.job.title : details.job_role;
                     component.start_month = details.start_month;
                     component.start_year = details.start_year;
                     component.end_month = details.end_month;

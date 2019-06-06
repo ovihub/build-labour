@@ -317,17 +317,8 @@
             },
 
             onSelectJob(job) {
-                // let component = this;
-                
-                // Promise.resolve(Api.getJobResponsibilities(job.id)).then(function(data) {
-                    
-                //     component.responsibilities = data.data.responsibilities;
-                // });
-
                 this.job_id = job.id;
                 this.job_role = job.title;
-                this.responsibilities = [];
-                this.responsibilities.push('');
 
                 this.job_responsibilities = (job && job.responsibilities && job.responsibilities[0]) ?
                                                 job.responsibilities[0].items : [];
