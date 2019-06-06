@@ -14,20 +14,22 @@ class UsersController extends Controller
 {
     public function showProfile($id = null)
     {
+        $page = \Route::current()->getName();
+
+        $token = isset($_COOKIE['bl_token']) ? $_COOKIE['bl_token'] : null;
+
+        if ( !$token ) {
+            $user = JWTAuth::parseToken()->authenticate();
+
+        } else {
+            $rawToken = substr($token, 1, -1);
+            $token = new Token($rawToken);
+            $payload = JWTAuth::decode($token);
+
+            $user = Auth::loginUsingId($payload['sub']);
+        }
+
         if ($id == null) {
-            $token = isset($_COOKIE['bl_token']) ? $_COOKIE['bl_token'] : null;
-
-            if ( !$token ) {
-                $user = JWTAuth::parseToken()->authenticate();
-
-            } else {
-                $rawToken = substr($token, 1, -1);
-                $token = new Token($rawToken);
-                $payload = JWTAuth::decode($token);
-
-                $user = Auth::loginUsingId($payload['sub']);
-            }
-
             if ($user->role_id == 1) {
                 return view('users.profile');
             
@@ -36,6 +38,22 @@ class UsersController extends Controller
                             (Company::where('created_by', $user->id)->first())->id);
             }
         }
+
+        if ($page == 'company_profile') {
+            $company = Company::where('created_by', $user->id)->first();
+
+            if ($user->role_id == 2 && $company && $company->id == $id) {
+                return redirect('/user/profile');
+            }
+        }
+
+        // if ($page == 'profile') {
+        //     $profile = User::find($id)->first();
+
+        //     if ($user->role_id == 1 && $profile && $profile->id == $id) {
+        //         return redirect('/user/profile');
+        //     }
+        // }
 
         return view('companies.profile')->with('company_id', $id);
     }

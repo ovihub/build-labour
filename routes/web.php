@@ -30,7 +30,7 @@ Route::prefix('user')
     ->group(function() {
         Route::middleware(['checktoken'])->group(function() {
             Route::get('profile', 'UsersController@showProfile')->name('profile');
-            Route::get('profile/{id}', 'UsersController@showProfile');
+            // Route::get('profile/{id}', 'UsersController@showProfile');
         });
         Route::get('verify', 'UsersController@showVerifyForm')->name('verify');
     });
@@ -38,7 +38,7 @@ Route::prefix('user')
 Route::prefix('company')
     ->group(function() {
         Route::middleware(['checktoken'])->group(function() {
-            Route::get('profile/{id}', 'UsersController@showProfile');
+            Route::get('profile/{id}', 'UsersController@showProfile')->name('company_profile');
         });
     });
 
