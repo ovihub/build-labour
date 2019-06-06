@@ -59,7 +59,7 @@
                 </li>
             </ul>
             <div class="profile-more">
-                <a href="#">View More<i class="fa fa-angle-right ml-2"></i></a>
+                <a href="/job/search">View More<i class="fa fa-angle-right ml-2"></i></a>
             </div>
         </div>
     </div>

@@ -46,7 +46,8 @@ Route::prefix('user')
 Route::prefix('job')
     ->group(function() {
         Route::middleware(['checktoken'])->group(function() {
-            Route::get('view', 'JobsController@showJob');
+            Route::get('view', 'JobsController@view');
+            Route::get('search', 'JobsController@search');
         });
     });
     

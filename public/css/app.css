@@ -11505,6 +11505,17 @@ ul.job-list-items-2 {
   color: #ff7705;
 }
 
+.page-search {
+  outline: none;
+  border: 0;
+  box-shadow: 0;
+  padding-left: 35px;
+  background-image: url(/img/icons/search.png);
+  background-image: -webkit-image-set(url(/img/icons/search@2x.png) 2x, url(/img/icons/search@3x.png) 3x);
+  background-position: 4px 4px;
+  background-repeat: no-repeat;
+}
+
 body.admin {
   font-family: "Source Sans Pro", sans-serif;
 }

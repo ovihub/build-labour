@@ -92,6 +92,8 @@ Vue.component('company-summary', require('./components/job/CompanySummary.vue').
 Vue.component('job-details', require('./components/job/JobDetails.vue').default);
 Vue.component('job-requirements', require('./components/job/JobRequirements.vue').default);
 Vue.component('job-responsibilities', require('./components/job/JobResponsibilities.vue').default);
+Vue.component('job-posts', require('./components/job/JobPosts.vue').default);
+Vue.component('job-search', require('./components/job/JobSearch.vue').default);
 
 // Record components
 Vue.component('show-form', require('./components/record/ShowForm.vue').default);
