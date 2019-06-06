@@ -634,7 +634,7 @@ class ApiAuthController extends ApiBaseController
                 if ($e->job) {
 
                     $e->job->Responsibilities;
-                    WorkExperienceResponsibility::where('work_experience_id', $e->id)->delete();
+
                 }
 
             });

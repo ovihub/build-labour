@@ -26,7 +26,7 @@ class WorkExperience extends BaseModel
         'start_month', 'start_year', 'end_month', 'end_year', 'isCurrent'
     ];
 
-    protected $appends = ['responsibilities', 'company_photo'];
+    protected $appends = ['responsibilities', 'company_photo', 'job_responsibilities'];
 
     protected $hidden = ['ResponsibilitiesDetail'];
     /**
@@ -107,6 +107,7 @@ class WorkExperience extends BaseModel
         return $this->belongsTo( Job::class, 'job_id', 'id');
     }
 
+
     public function ResponsibilitiesDetail() {
 
         return $this->hasMany(WorkExperienceResponsibility::class, 'work_experience_id', 'id');
@@ -117,6 +118,16 @@ class WorkExperience extends BaseModel
         if ($this->Company && $this->Company->photo_url) {
 
             return $this->Company->photo_url;
+        }
+
+        return null;
+    }
+
+    public function getJobResponsibilitiesAttribute() {
+
+        if ($this->Job) {
+
+            return $this->Job->responsibilities;
         }
 
         return null;
