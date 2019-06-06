@@ -435,13 +435,14 @@
             async submit() {
                 let component = this;
                 let espArray = [];
-                
+                let temp = component.input.secondary_functions;
+
                 Utils.setObjectValues(this.errors, '');
 
                 this.disabled = true;
                 
-                for (let i = 0; i < component.input.secondary_functions.length; i++) {
-                    espArray.push(component.input.secondary_functions[i].id);
+                for (let i = 0; i < temp.length; i++) {
+                    espArray.push(temp[i].id);
                 }
 
                 component.input.secondary_functions = espArray;
@@ -467,6 +468,8 @@
 								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
                             }
                         }
+
+                        component.input.secondary_functions = temp;
 
                         Utils.handleError(error);
                     });
