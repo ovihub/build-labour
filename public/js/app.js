@@ -55084,7 +55084,7 @@ var render = function() {
                             expression: "input.business_type.id"
                           }
                         ],
-                        staticStyle: { "background-position": "480px" },
+                        staticStyle: { "background-position": "470px" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -55148,7 +55148,7 @@ var render = function() {
                             expression: "input.tier.id"
                           }
                         ],
-                        staticStyle: { "background-position": "480px" },
+                        staticStyle: { "background-position": "470px" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -55214,7 +55214,7 @@ var render = function() {
                             expression: "input.main_function.id"
                           }
                         ],
-                        staticStyle: { "background-position": "480px" },
+                        staticStyle: { "background-position": "470px" },
                         on: {
                           change: [
                             function($event) {
