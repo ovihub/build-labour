@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Companies\CompanyPost;
 use App\Models\Companies\Job;
 use App\Models\Companies\JobRequirement;
 use App\Models\Companies\JobResponsibility;
@@ -78,40 +79,11 @@ class JobRepository extends AbstractRepository
 
     }
 
-    public function getSearch(Request $request) {
+    public function getFilter(Request $request) {
 
         $params = (object) $request->all();
 
-     //   $jobs = Job::with('company');
-
         $jobs = Job::with('Responsibilities')->where('title', 'like', "%{$params->role}%");
-
-//        $jobs = $jobs->orWhereHas('company',
-//
-//            function ($query) use ($params) {
-//
-//                foreach($params->tiers as $tier){
-//
-//                    $tier = trim($tier);
-//
-//                    $query->where('tier', 'LIKE', "%{$tier}%");
-//                }
-//
-//                foreach($params->sectors as $sector) {
-//
-//                    $sector = trim($sector);
-//
-//                    if (count($params->tiers) > 0) {
-//
-//                        $query->orWhere('sector', 'LIKE', "%{$sector}%");
-//
-//                    } else {
-//
-//                        $query->where('sector', 'LIKE', "%{$sector}%");
-//                    }
-//                }
-//
-//            });
 
         foreach($params->locations as $location) {
 
@@ -124,6 +96,38 @@ class JobRepository extends AbstractRepository
         $jobs = $jobs->get();
 
         return $jobs;
+    }
+
+    public function searchCompanyJobs(Request $request) {
+
+        $companyJobPosts = CompanyPost::with('Job', 'Job.Responsibilities');
+
+        if (!empty($request->keyword)) {
+
+            $companyJobPosts = $companyJobPosts->whereHas('Job', function ($query) use($request) {
+
+                $query->where('title', 'like', "%{$request->keyword}%");
+            });
+        }
+
+
+        if (!empty($request->location)) {
+
+            $companyJobPosts = $companyJobPosts->whereHas('Job', function ($query) use($request) {
+
+                $query->where('location', 'like', "%{$request->location}%");
+            });
+        }
+
+        $companyJobPosts = $companyJobPosts->take(30)->get();
+
+        if ($companyJobPosts) {
+
+            return [ 'posts' => $companyJobPosts ];
+        }
+
+        return [ 'posts' => [] ];
+
     }
 
     public function createJob( Request $request ) {
