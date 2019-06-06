@@ -6342,7 +6342,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       jobs: [],
       endpoints: {
-        get: '/api/v1/company/'
+        get: '/api/v1/company/',
+        search: '/api/v1/job/search?keyword='
       }
     };
   },
@@ -6358,15 +6359,22 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.getJobs();
+    var component = this;
+    Bus.$on('searchJobPosts', function (keyword, location) {
+      component.getJobs(component.endpoints.search + keyword + '&location=' + location);
+    });
+
+    if (this.companyId) {
+      this.getJobs(this.endpointGet);
+    }
   },
   methods: {
     getInitials: function getInitials(name) {
       return Utils.getInitials(name);
     },
-    getJobs: function getJobs() {
+    getJobs: function getJobs(endpoint) {
       var component = this;
-      axios.get(component.endpointGet, Utils.getBearerAuth()).then(function (response) {
+      axios.get(endpoint, Utils.getBearerAuth()).then(function (response) {
         component.jobs = response.data.data.posts;
       }).catch(function (error) {
         Utils.handleError(error);
@@ -6572,12 +6580,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      keyword: '',
+      location: ''
+    };
   },
   created: function created() {},
-  methods: {}
+  methods: {
+    onKeyupSearch: function onKeyupSearch() {
+      Bus.$emit('searchJobPosts', this.keyword, this.location);
+    }
+  }
 });
 
 /***/ }),
@@ -56215,52 +56232,79 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm._m(0),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-4" }, [
+        _c("div", { staticClass: "profile-item-2" }, [
+          _c("div", { staticClass: "profile-content" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.keyword,
+                  expression: "keyword"
+                }
+              ],
+              staticClass: "page-search",
+              attrs: { id: "search-key", type: "text", placeholder: "Search" },
+              domProps: { value: _vm.keyword },
+              on: {
+                keyup: _vm.onKeyupSearch,
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.keyword = $event.target.value
+                }
+              }
+            })
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-4" }, [
+        _c("div", { staticClass: "profile-item-2" }, [
+          _c("div", { staticClass: "profile-content" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.location,
+                  expression: "location"
+                }
+              ],
+              staticClass: "page-search",
+              attrs: {
+                id: "search-loc",
+                type: "text",
+                placeholder: "Location"
+              },
+              domProps: { value: _vm.location },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.location = $event.target.value
+                }
+              }
+            })
+          ])
+        ])
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "row justify-content-center" }, [
       _c("div", { staticClass: "col-md-8" }, [
-        _c(
-          "div",
-          { staticClass: "profile-item-2" },
-          [_c("job-posts", { attrs: { "company-id": "1" } })],
-          1
-        )
+        _c("div", { staticClass: "profile-item-2" }, [_c("job-posts")], 1)
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-4" }, [_c("job-ads")], 1)
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-4" }, [
-        _c("div", { staticClass: "profile-item-2" }, [
-          _c("div", { staticClass: "profile-content" }, [
-            _c("input", {
-              staticClass: "page-search",
-              attrs: { id: "search-key", type: "text", placeholder: "Search" }
-            })
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-4" }, [
-        _c("div", { staticClass: "profile-item-2" }, [
-          _c("div", { staticClass: "profile-content" }, [
-            _c("input", {
-              staticClass: "page-search",
-              attrs: { id: "search-loc", type: "text", placeholder: "Location" }
-            })
-          ])
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

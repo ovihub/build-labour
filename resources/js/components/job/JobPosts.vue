@@ -63,6 +63,7 @@
                 jobs: [],
                 endpoints: {
                     get: '/api/v1/company/',
+                    search: '/api/v1/job/search?keyword=',
                 },
             }
         },
@@ -81,7 +82,15 @@
         },
 
         created() {
-            this.getJobs();
+            let component = this;
+
+            Bus.$on('searchJobPosts', function(keyword, location) {
+                component.getJobs(component.endpoints.search + keyword + '&location=' + location);
+            });
+            
+            if (this.companyId) {
+                this.getJobs(this.endpointGet);
+            }
         },
 
         methods: {
@@ -90,10 +99,10 @@
                 return Utils.getInitials(name);
             },
 
-            getJobs() {
+            getJobs(endpoint) {
                 let component = this;
 
-                axios.get(component.endpointGet, Utils.getBearerAuth())
+                axios.get(endpoint, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         

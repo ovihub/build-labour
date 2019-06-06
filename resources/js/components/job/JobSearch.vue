@@ -4,14 +4,16 @@
             <div class="col-md-4">
                 <div class="profile-item-2">
                     <div class="profile-content">
-                        <input class="page-search" id="search-key" type="text" placeholder="Search" />
+                        <input class="page-search" id="search-key" type="text" placeholder="Search"
+                            v-model="keyword"
+                            @keyup="onKeyupSearch" />
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="profile-item-2">
                     <div class="profile-content">
-                        <input class="page-search" id="search-loc" type="text" placeholder="Location" />
+                        <input class="page-search" id="search-loc" type="text" placeholder="Location" v-model="location" />
                     </div>
                 </div>
             </div>
@@ -19,7 +21,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="profile-item-2">
-                    <job-posts company-id="1"></job-posts>
+                    <job-posts></job-posts>
                 </div>
             </div>
             <div class="col-md-4">
@@ -33,7 +35,8 @@
     export default {
         data() {
             return {
-                
+                keyword: '',
+                location: '',
             }
         },
 
@@ -42,6 +45,10 @@
         },
 
         methods: {
+
+            onKeyupSearch() {
+                Bus.$emit('searchJobPosts', this.keyword, this.location);
+            },
 
         }
     }
