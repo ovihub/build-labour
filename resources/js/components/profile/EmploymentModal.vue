@@ -138,12 +138,21 @@
                 <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
 
                 <textarea class="form-control" style="overflow:hidden"
+                    v-for="(res, idx) in job_responsibilities"
+                    :rows="job_responsibilities[idx].length < 68 ? 1 : 2"
+                    :key="idx"
+                    v-model="job_responsibilities[idx]"
+                    @focus="textAreaAdjust(idx)"
+                    disabled>
+                </textarea>
+                
+                <textarea class="form-control" style="overflow:hidden"
                     :rows="responsibilities[index].length < 68 ? 1 : 2"
                     :ref="'respItem-' + index" 
                     @focus="textAreaAdjust(index)"
                     @keyup="onChangeResponsibilities(index)"
                     v-for="(res, index) in responsibilities"
-                    :key="index"
+                    :key="index + job_responsibilities.length"
                     v-model="responsibilities[index]"
                     placeholder="Add Another Responsibility">
                 </textarea>
@@ -193,6 +202,7 @@
                 end_month: '',
                 end_year: '',
                 responsibilities: [],
+                job_responsibilities: [],
                 errors: {
                     job_role: '', company_name: '', location: '', project_size: '', isCurrent: '',
                     start_month: '', start_year: '', end_month: '', end_year: '', responsibilities: [],
@@ -230,13 +240,11 @@
                     this.end_month = details.end_month;
                     this.end_year = details.end_year;
                     this.responsibilities = details.responsibilities;
+                    this.job_responsibilities = (details.job && details.job.responsibilities && details.job.responsibilities[0]) ? 
+                                                    details.job.responsibilities[0].items : [];
 
                     if (this.company_id) {
                         this.$refs['locationRef'].disabled = true;
-                    }
-
-                    if (this.job_id) {
-                        // disable job_responsibilities
                     }
                 }
                 
@@ -284,9 +292,8 @@
             onSearchJob(keyword) {
                 let component = this;
                 
-                this.job_role = '';
                 this.job_id = '';
-                // remove job_responsibilities
+                this.job_responsibilities = [];
 
                 Promise.resolve(Api.getJobs(keyword)).then(function(data) {
                     
@@ -310,15 +317,20 @@
             },
 
             onSelectJob(job) {
-                let component = this;
+                // let component = this;
                 
-                Promise.resolve(Api.getJobResponsibilities(job.id)).then(function(data) {
+                // Promise.resolve(Api.getJobResponsibilities(job.id)).then(function(data) {
                     
-                    component.responsibilities = data.data.responsibilities;
-                });
+                //     component.responsibilities = data.data.responsibilities;
+                // });
 
+                this.job_id = job.id;
                 this.job_role = job.title;
-                // add/change/set job_responsibilities
+                this.responsibilities = [];
+                this.responsibilities.push('');
+
+                this.job_responsibilities = (job && job.responsibilities && job.responsibilities[0]) ?
+                                                job.responsibilities[0].items : [];
 
                 this.jobs = [];
             },

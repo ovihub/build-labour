@@ -85,7 +85,8 @@
                             </span>
                         </div>
                         
-                        <div class="empinfo-row" v-if="employment.responsibilities.length != 0">
+                        <div class="empinfo-row" v-if="employment.responsibilities.length != 0 || getJobResLen(employment.job) != 0">
+
                             <img class="text-icon" src="/img/icons/responsibilities.png"
                                     srcset="/img/icons/responsibilities@2x.png 2x, /img/icons/responsibilities@3x.png 3x">
                             <span style="display:inline" class="bl-label-14-style-2">
@@ -93,9 +94,17 @@
                             </span>
                         </div>
 
+                        <div class="bl-label-15" v-if="getJobResLen(employment.job) != 0">
+                            <ul class="list-items">
+                                <div v-for="(res, idx) in employment.job.responsibilities[0].items" :key="idx">
+                                    <li :ref="'empJobRespItem-' + index + '-' + idx">{{ res }}</li>
+                                </div>
+                            </ul>
+                        </div>
+
                         <div class="bl-label-15" v-if="employment.responsibilities.length != 0">
                             <ul class="list-items">
-                                <div v-for="(res, idx) in employment.responsibilities" v-bind:key="idx">
+                                <div v-for="(res, idx) in employment.responsibilities" :key="idx + getJobResLen(employment.job)">
                                     <li :ref="'empRespItem-' + index + '-' + idx">{{ res }}</li>
                                 </div>
                             </ul>
@@ -183,7 +192,15 @@
                         refProjectSizeIcon[0].hidden = true;
                     }
                     
-                    for (let i = 0; i < details.responsibilities.length; i++) {
+                    if (component.getJobResLen(details.job) != 0) {
+                        let items = details.job.responsibilities[0].items;
+
+                        for (let i = 0; i < items.length; i++) {
+                            component.$refs['empJobRespItem-' + index + '-' + i][0].textContent = items[i];
+                        }
+                    }
+
+                    for (let i = details.responsibilities.length; i < details.responsibilities.length + component.getJobResLen(details.job); i++) {
                         component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
                     }
                 }
@@ -195,6 +212,11 @@
         },
 
         methods: {
+
+            getJobResLen(emp) {
+                return (emp && emp.responsibilities && emp.responsibilities[0]) ? 
+                            emp.responsibilities[0].items.length : 0;
+            },
 
             getInitials(name, company) {
                 return Utils.getInitials((name != null) ? name : company.name);

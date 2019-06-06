@@ -7365,6 +7365,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -7424,8 +7433,16 @@ __webpack_require__.r(__webpack_exports__);
           refProjectSizeIcon[0].hidden = true;
         }
 
-        for (var i = 0; i < details.responsibilities.length; i++) {
-          component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
+        if (component.getJobResLen(details.job) != 0) {
+          var items = details.job.responsibilities[0].items;
+
+          for (var i = 0; i < items.length; i++) {
+            component.$refs['empJobRespItem-' + index + '-' + i][0].textContent = items[i];
+          }
+        }
+
+        for (var _i = details.responsibilities.length; _i < details.responsibilities.length + component.getJobResLen(details.job); _i++) {
+          component.$refs['empRespItem-' + index + '-' + _i][0].textContent = details.responsibilities[_i];
         }
       }
     });
@@ -7434,6 +7451,9 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    getJobResLen: function getJobResLen(emp) {
+      return emp && emp.responsibilities && emp.responsibilities[0] ? emp.responsibilities[0].items.length : 0;
+    },
     getInitials: function getInitials(name, company) {
       return Utils.getInitials(name != null ? name : company.name);
     },
@@ -7674,6 +7694,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -7703,6 +7732,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       end_month: '',
       end_year: '',
       responsibilities: [],
+      job_responsibilities: [],
       errors: {
         job_role: '',
         company_name: '',
@@ -7744,12 +7774,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.end_month = details.end_month;
         this.end_year = details.end_year;
         this.responsibilities = details.responsibilities;
+        this.job_responsibilities = details.job && details.job.responsibilities && details.job.responsibilities[0] ? details.job.responsibilities[0].items : [];
 
         if (this.company_id) {
           this.$refs['locationRef'].disabled = true;
-        }
-
-        if (this.job_id) {// disable job_responsibilities
         }
       }
 
@@ -7788,9 +7816,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onSearchJob: function onSearchJob(keyword) {
       var component = this;
-      this.job_role = '';
-      this.job_id = ''; // remove job_responsibilities
-
+      this.job_id = '';
+      this.job_responsibilities = [];
       Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobs(keyword)).then(function (data) {
         component.jobs = data.data.jobs;
       });
@@ -7805,12 +7832,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     onSelectJob: function onSelectJob(job) {
-      var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobResponsibilities(job.id)).then(function (data) {
-        component.responsibilities = data.data.responsibilities;
-      });
-      this.job_role = job.title; // add/change/set job_responsibilities
-
+      // let component = this;
+      // Promise.resolve(Api.getJobResponsibilities(job.id)).then(function(data) {
+      //     component.responsibilities = data.data.responsibilities;
+      // });
+      this.job_id = job.id;
+      this.job_role = job.title;
+      this.responsibilities = [];
+      this.responsibilities.push('');
+      this.job_responsibilities = job && job.responsibilities && job.responsibilities[0] ? job.responsibilities[0].items : [];
       this.jobs = [];
     },
     onSelectLocation: function onSelectLocation(location) {
@@ -8594,8 +8624,8 @@ __webpack_require__.r(__webpack_exports__);
         component.profile.address = user.address;
         component.profile.education_id = user.worker_detail.education_id;
         component.profile.education = user.worker_detail.education;
-        component.profile.job_role = user.experiences[0] ? user.experiences[0].job_role : '';
-        component.profile.company_name = user.experiences[0] ? user.experiences[0].company_name : '';
+        component.profile.job_role = user.experiences[0] && user.experiences[0].job ? user.experiences[0].job.title : user.experiences[0].job_role;
+        component.profile.company_name = user.experiences[0] && user.experiences[0].company ? user.experiences[0].company.name : user.experiences[0].company_name;
         component.profile.start_month = user.experiences[0] ? user.experiences[0].start_month : '';
         component.profile.start_year = user.experiences[0] ? user.experiences[0].start_year : '';
         component.profile.end_month = user.experiences[0] ? user.experiences[0].end_month : '';
@@ -57323,7 +57353,8 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      employment.responsibilities.length != 0
+                      employment.responsibilities.length != 0 ||
+                      _vm.getJobResLen(employment.job) != 0
                         ? _c("div", { staticClass: "empinfo-row" }, [
                             _c("img", {
                               staticClass: "text-icon",
@@ -57352,6 +57383,32 @@ var render = function() {
                           ])
                         : _vm._e(),
                       _vm._v(" "),
+                      _vm.getJobResLen(employment.job) != 0
+                        ? _c("div", { staticClass: "bl-label-15" }, [
+                            _c(
+                              "ul",
+                              { staticClass: "list-items" },
+                              _vm._l(
+                                employment.job.responsibilities[0].items,
+                                function(res, idx) {
+                                  return _c("div", { key: idx }, [
+                                    _c(
+                                      "li",
+                                      {
+                                        ref:
+                                          "empJobRespItem-" + index + "-" + idx,
+                                        refInFor: true
+                                      },
+                                      [_vm._v(_vm._s(res))]
+                                    )
+                                  ])
+                                }
+                              ),
+                              0
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
                       employment.responsibilities.length != 0
                         ? _c("div", { staticClass: "bl-label-15" }, [
                             _c(
@@ -57361,16 +57418,22 @@ var render = function() {
                                 res,
                                 idx
                               ) {
-                                return _c("div", { key: idx }, [
-                                  _c(
-                                    "li",
-                                    {
-                                      ref: "empRespItem-" + index + "-" + idx,
-                                      refInFor: true
-                                    },
-                                    [_vm._v(_vm._s(res))]
-                                  )
-                                ])
+                                return _c(
+                                  "div",
+                                  {
+                                    key: idx + _vm.getJobResLen(employment.job)
+                                  },
+                                  [
+                                    _c(
+                                      "li",
+                                      {
+                                        ref: "empRespItem-" + index + "-" + idx,
+                                        refInFor: true
+                                      },
+                                      [_vm._v(_vm._s(res))]
+                                    )
+                                  ]
+                                )
                               }),
                               0
                             )
@@ -58047,6 +58110,38 @@ var render = function() {
               [_vm._v("Responsibilities")]
             ),
             _vm._v(" "),
+            _vm._l(_vm.job_responsibilities, function(res, idx) {
+              return _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.job_responsibilities[idx],
+                    expression: "job_responsibilities[idx]"
+                  }
+                ],
+                key: idx,
+                staticClass: "form-control",
+                staticStyle: { overflow: "hidden" },
+                attrs: {
+                  rows: _vm.job_responsibilities[idx].length < 68 ? 1 : 2,
+                  disabled: ""
+                },
+                domProps: { value: _vm.job_responsibilities[idx] },
+                on: {
+                  focus: function($event) {
+                    return _vm.textAreaAdjust(idx)
+                  },
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.job_responsibilities, idx, $event.target.value)
+                  }
+                }
+              })
+            }),
+            _vm._v(" "),
             _vm._l(_vm.responsibilities, function(res, index) {
               return _c("textarea", {
                 directives: [
@@ -58057,7 +58152,7 @@ var render = function() {
                     expression: "responsibilities[index]"
                   }
                 ],
-                key: index,
+                key: index + _vm.job_responsibilities.length,
                 ref: "respItem-" + index,
                 refInFor: true,
                 staticClass: "form-control",
