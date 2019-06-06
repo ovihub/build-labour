@@ -21,9 +21,9 @@ class ApiJobsController extends ApiBaseController
 
     /**
      * @OA\Post(
-     *      path="/job/search",
+     *      path="/job/search/filter",
      *      tags={"Job"},
-     *      summary="Search a jobs",
+     *      summary="Search and FIlter Jobs",
      *      security={{"BearerAuth":{}}},
      *      @OA\RequestBody(
      *          required=true,
@@ -90,11 +90,57 @@ class ApiJobsController extends ApiBaseController
      *      )
      * )
      */
-    public function search(Request $request) {
+    public function postFilter(Request $request) {
 
         try {
 
-            $jobs = $this->repository->getSearch($request);
+            $jobs = $this->repository->getFilter($request);
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( compact( 'jobs' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/job/search",
+     *      tags={"Job"},
+     *      summary="Search by keyword",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function searchCompanyJobs( Request $request )
+    {
+        try {
+
+            $jobs = $this->repository->searchCompanyJobs($request);
 
         } catch(\Exception $e) {
 

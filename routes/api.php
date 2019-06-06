@@ -111,7 +111,9 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
         Route::middleware([ 'jwt' ])->group(function () {
 
             Route::post('', 'ApiJobsController@create');
-            Route::post('search', 'ApiJobsController@search');
+            Route::get('search', 'ApiJobsController@searchCompanyJobs');
+            Route::post('search/filter', 'ApiJobsController@postFilter');
+
             Route::post('{id}', 'ApiJobsController@update');
             Route::get('{id}', 'ApiJobsController@view');
 
