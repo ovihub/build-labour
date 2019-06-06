@@ -140,14 +140,14 @@ class ApiJobsController extends ApiBaseController
     {
         try {
 
-            $jobs = $this->repository->searchCompanyJobs($request);
+            $posts = $this->repository->searchCompanyJobs($request);
 
         } catch(\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'jobs' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'posts' ), true, '', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
