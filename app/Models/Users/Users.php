@@ -347,6 +347,36 @@ class Users extends BaseModel implements
         return $this;
     }
 
+    public function getWelcomeName() {
+
+        $headerName = "";
+
+        if ($this->role_id == 1) {
+
+            if ($this->first_name) {
+
+                $headerName = $this->first_name;
+            }
+
+        } else {
+
+            $user = User::find($this->id);
+
+            if ($user && $user->Company) {
+
+                $headerName = $user->Company->name;
+            }
+
+        }
+
+        if (empty($headerName)) {
+
+            $headerName = $this->email;
+        }
+
+        return $headerName;
+    }
+
     /**
      * @param Request $r
      * @return $this|bool

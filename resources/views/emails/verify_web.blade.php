@@ -10,7 +10,7 @@
 					<table class="main" width="100%" cellpadding="0" cellspacing="0">
 						<tr>
 							<td class="alert alert-good">
-								Hi <?php echo $user->first_name ?>,
+								Hi <?php echo $user->getWelcomeName(); ?>,
 							</td>
 						</tr>
 						<tr>

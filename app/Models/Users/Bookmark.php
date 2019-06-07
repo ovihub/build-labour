@@ -56,7 +56,7 @@ class Bookmark extends BaseModel
         if (!$companyPost) {
 
             $validator->errors()->add( 'post', 'Company Post is not exists' );
-            
+
             $this->errors = $validator->errors()->all();
             $this->errorsDetail = $validator->errors()->toArray();
             return false;
