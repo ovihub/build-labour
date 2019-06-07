@@ -6264,6 +6264,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6483,6 +6497,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6494,9 +6514,11 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var component = this;
     Bus.$on('jobRequirementsDetails', function (detailsArray) {
-      component.qualifications = detailsArray[0].items;
-      component.experience = detailsArray[1].items;
-      component.skills = detailsArray[2].items;
+      if (detailsArray.length != 0) {
+        component.qualifications = detailsArray[0].items;
+        component.experience = detailsArray[1].items;
+        component.skills = detailsArray[2].items;
+      }
     });
   },
   methods: {}
@@ -6556,6 +6578,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6566,8 +6592,10 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var component = this;
     Bus.$on('jobResponsibilitiesDetails', function (detailsArray) {
-      component.qualities = detailsArray[0].items;
-      component.nextTitles = detailsArray[1].items;
+      if (detailsArray.length != 0) {
+        component.qualities = detailsArray[0].items;
+        component.nextTitles = detailsArray[1].items;
+      }
     });
   },
   methods: {}
@@ -55942,62 +55970,114 @@ var render = function() {
     _c("div", { staticClass: "profile-content" }, [
       _vm._m(0),
       _vm._v(" "),
-      _c("div", { staticClass: "job-header" }, [
-        _vm._v("\n            " + _vm._s(_vm.title) + "\n        ")
-      ]),
+      _vm.title
+        ? _c("div", { staticClass: "job-header" }, [
+            _vm._v("\n            " + _vm._s(_vm.title) + "\n        ")
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Job Description")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _vm._v("\n            " + _vm._s(_vm.description) + "\n        ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("About the Project")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _vm._v("\n            " + _vm._s(_vm.about) + "\n        ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Experience Level")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _vm._v("\n            " + _vm._s(_vm.exp_level) + " \n        ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Contract type")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _vm._v("\n            " + _vm._s(_vm.contract_type) + "\n        ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Salary")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _vm._v("\n            $ - - - , - - - \n        ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Reports to")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _c(
-          "ul",
-          { staticClass: "job-list-items-2" },
-          _vm._l(_vm.reports_to, function(item, index) {
-            return _c("li", { key: index }, [
+      _vm.description
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [
+              _vm._v("Job Description")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
               _vm._v(
-                "\n                    " + _vm._s(item) + "\n                "
+                "\n                " +
+                  _vm._s(_vm.description) +
+                  "\n            "
               )
             ])
-          }),
-          0
-        )
-      ]),
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Location")]),
+      _vm.about
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [
+              _vm._v("About the Project")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _vm._v(
+                "\n                " + _vm._s(_vm.about) + "\n            "
+              )
+            ])
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _vm._v("\n            " + _vm._s(_vm.location) + "\n        ")
-      ])
+      _vm.exp_level
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [
+              _vm._v("Experience Level")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _vm._v(
+                "\n                " + _vm._s(_vm.exp_level) + " \n            "
+              )
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.contract_type
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [_vm._v("Contract type")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _vm._v(
+                "\n                " +
+                  _vm._s(_vm.contract_type) +
+                  "\n            "
+              )
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.salary
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [_vm._v("Salary")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _vm._v("\n                $ - - - , - - - \n            ")
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.reports_to
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [_vm._v("Reports to")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _c(
+                "ul",
+                { staticClass: "job-list-items-2" },
+                _vm._l(_vm.reports_to, function(item, index) {
+                  return _c("li", { key: index }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(item) +
+                        "\n                    "
+                    )
+                  ])
+                }),
+                0
+              )
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.location
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [_vm._v("Location")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _vm._v(
+                "\n                " + _vm._s(_vm.location) + "\n            "
+              )
+            ])
+          ])
+        : _vm._e()
     ])
   ])
 }
@@ -56200,58 +56280,74 @@ var render = function() {
     _c("div", { staticClass: "profile-content" }, [
       _vm._m(0),
       _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Qualifications")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _c(
-          "ul",
-          { staticClass: "job-list-items" },
-          _vm._l(_vm.qualifications, function(qualification, index) {
-            return _c("li", { key: index }, [
-              _vm._v(
-                "\n                    " +
-                  _vm._s(qualification) +
-                  "\n                "
+      _vm.qualifications.length > 0
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [_vm._v("Qualifications")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _c(
+                "ul",
+                { staticClass: "job-list-items" },
+                _vm._l(_vm.qualifications, function(qualification, index) {
+                  return _c("li", { key: index }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(qualification) +
+                        "\n                    "
+                    )
+                  ])
+                }),
+                0
               )
             ])
-          }),
-          0
-        )
-      ]),
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Experience")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _c(
-          "ul",
-          { staticClass: "job-list-items" },
-          _vm._l(_vm.experience, function(exp, index) {
-            return _c("li", { key: index }, [
-              _vm._v(
-                "\n                    " + _vm._s(exp) + "\n                "
+      _vm.experience.length > 0
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [_vm._v("Experience")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _c(
+                "ul",
+                { staticClass: "job-list-items" },
+                _vm._l(_vm.experience, function(exp, index) {
+                  return _c("li", { key: index }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(exp) +
+                        "\n                    "
+                    )
+                  ])
+                }),
+                0
               )
             ])
-          }),
-          0
-        )
-      ]),
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Skills")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _c(
-          "ul",
-          { staticClass: "job-list-items" },
-          _vm._l(_vm.skills, function(skill, index) {
-            return _c("li", { key: index }, [
-              _vm._v(
-                "\n                    " + _vm._s(skill) + "\n                "
+      _vm.skills.length > 0
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [_vm._v("Skills")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _c(
+                "ul",
+                { staticClass: "job-list-items" },
+                _vm._l(_vm.skills, function(skill, index) {
+                  return _c("li", { key: index }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(skill) +
+                        "\n                    "
+                    )
+                  ])
+                }),
+                0
               )
             ])
-          }),
-          0
-        )
-      ])
+          ])
+        : _vm._e()
     ])
   ])
 }
@@ -56300,43 +56396,53 @@ var render = function() {
     _c("div", { staticClass: "profile-content" }, [
       _vm._m(0),
       _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Quality Management")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _c(
-          "ul",
-          { staticClass: "job-list-items" },
-          _vm._l(_vm.qualities, function(quality, index) {
-            return _c("li", { key: index }, [
-              _vm._v(
-                "\n                    " +
-                  _vm._s(quality) +
-                  "\n                "
-              )
-            ])
-          }),
-          0
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Next Title")]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "job-body" },
-        _vm._l(_vm.nextTitles, function(nextTitle, index) {
-          return _c("ul", { key: index, staticClass: "job-list-items" }, [
-            _c("li", [
-              _vm._v(
-                "\n                    " +
-                  _vm._s(nextTitle) +
-                  "\n                "
+      _vm.qualities.length > 0
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [
+              _vm._v("Quality Management")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _c(
+                "ul",
+                { staticClass: "job-list-items" },
+                _vm._l(_vm.qualities, function(quality, index) {
+                  return _c("li", { key: index }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(quality) +
+                        "\n                    "
+                    )
+                  ])
+                }),
+                0
               )
             ])
           ])
-        }),
-        0
-      )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.nextTitles.length > 0
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [_vm._v("Next Title")]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "job-body" },
+              _vm._l(_vm.nextTitles, function(nextTitle, index) {
+                return _c("ul", { key: index, staticClass: "job-list-items" }, [
+                  _c("li", [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(nextTitle) +
+                        "\n                    "
+                    )
+                  ])
+                ])
+              }),
+              0
+            )
+          ])
+        : _vm._e()
     ])
   ])
 }

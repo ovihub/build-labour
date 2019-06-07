@@ -18,32 +18,38 @@
                 
                 Requirements
             </div>
-        
-            <div class="job-title">Qualifications</div>
-            <div class="job-body">
-                <ul class="job-list-items">
-                    <li v-for="(qualification, index) in qualifications" :key="index">
-                        {{ qualification }}
-                    </li>
-                </ul>
+
+            <div v-if="qualifications.length > 0">
+                <div class="job-title">Qualifications</div>
+                <div class="job-body">
+                    <ul class="job-list-items">
+                        <li v-for="(qualification, index) in qualifications" :key="index">
+                            {{ qualification }}
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="job-title">Experience</div>
-            <div class="job-body">
-                <ul class="job-list-items">
-                    <li v-for="(exp, index) in experience" :key="index">
-                        {{ exp }}
-                    </li>
-                </ul>
+            <div v-if="experience.length > 0">
+                <div class="job-title">Experience</div>
+                <div class="job-body">
+                    <ul class="job-list-items">
+                        <li v-for="(exp, index) in experience" :key="index">
+                            {{ exp }}
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="job-title">Skills</div>
-            <div class="job-body">
-                <ul class="job-list-items">
-                    <li v-for="(skill, index) in skills" :key="index">
-                        {{ skill }}
-                    </li>
-                </ul>
+            <div v-if="skills.length > 0">
+                <div class="job-title">Skills</div>
+                <div class="job-body">
+                    <ul class="job-list-items">
+                        <li v-for="(skill, index) in skills" :key="index">
+                            {{ skill }}
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -63,9 +69,11 @@
             let component = this;
 
             Bus.$on('jobRequirementsDetails', function(detailsArray) {
-                component.qualifications = detailsArray[0].items;
-                component.experience = detailsArray[1].items;
-                component.skills = detailsArray[2].items;
+                if (detailsArray.length != 0) {
+                    component.qualifications = detailsArray[0].items;
+                    component.experience = detailsArray[1].items;
+                    component.skills = detailsArray[2].items;
+                }
             });
         },
 

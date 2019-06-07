@@ -19,47 +19,61 @@
                 Job Details
             </div>
 
-            <div class="job-header">
+            <div class="job-header" v-if="title">
                 {{ title }}
             </div>
 
-            <div class="job-title">Job Description</div>
-            <div class="job-body">
-                {{ description }}
+            <div v-if="description">
+                <div class="job-title">Job Description</div>
+                <div class="job-body">
+                    {{ description }}
+                </div>
             </div>
 
-            <div class="job-title">About the Project</div>
-            <div class="job-body">
-                {{ about }}
+            <div v-if="about">
+                <div class="job-title">About the Project</div>
+                <div class="job-body">
+                    {{ about }}
+                </div>
             </div>
 
-            <div class="job-title">Experience Level</div>
-            <div class="job-body">
-                {{ exp_level }} 
+            <div v-if="exp_level">
+                <div class="job-title">Experience Level</div>
+                <div class="job-body">
+                    {{ exp_level }} 
+                </div>
             </div>
 
-            <div class="job-title">Contract type</div>
-            <div class="job-body">
-                {{ contract_type }}
+            <div v-if="contract_type">
+                <div class="job-title">Contract type</div>
+                <div class="job-body">
+                    {{ contract_type }}
+                </div>
             </div>
 
-            <div class="job-title">Salary</div>
-            <div class="job-body">
-                $ - - - , - - - 
+            <div v-if="salary">
+                <div class="job-title">Salary</div>
+                <div class="job-body">
+                    $ - - - , - - - 
+                </div>
             </div>
 
-            <div class="job-title">Reports to</div>
-            <div class="job-body">
-                <ul class="job-list-items-2">
-                    <li v-for="(item, index) in reports_to" :key="index">
-                        {{ item }}
-                    </li>
-                </ul>
+            <div v-if="reports_to">
+                <div class="job-title">Reports to</div>
+                <div class="job-body">
+                    <ul class="job-list-items-2">
+                        <li v-for="(item, index) in reports_to" :key="index">
+                            {{ item }}
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="job-title">Location</div>
-            <div class="job-body">
-                {{ location }}
+            <div v-if="location">
+                <div class="job-title">Location</div>
+                <div class="job-body">
+                    {{ location }}
+                </div>
             </div>
         </div>
     </div>
