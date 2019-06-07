@@ -11030,6 +11030,7 @@ ul.list-job-items li.job-items {
 }
 
 .bl-image-32 {
+  cursor: pointer;
   width: 32px;
   height: 32px;
   border-radius: 4px;

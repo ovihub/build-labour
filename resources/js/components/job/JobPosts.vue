@@ -3,7 +3,7 @@
         <ul class="list-job-items" v-for="(job, index) in jobs" :key="index">
             <li class="job-items">
                 <div class="profile-content">
-                    <div class="save-icon" @click="onSaveJobPost(job)">
+                    <div class="save-icon" @click="save(job)">
                         <!-- <img style="margin-top:-5px;margin-left:5px;margin-bottom:-5px" src="/img/icons/plus.png"
                             srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x"> -->
                         <div class="star-cont">
@@ -66,9 +66,13 @@
         data() {
             return {
                 jobs: [],
+                input: {
+                    post_id: '',
+                },
                 endpoints: {
                     get: '/api/v1/company/',
                     search: '/api/v1/job/search?keyword=',
+                    save: '/api/v1/bookmarks',
                 },
             }
         },
@@ -133,6 +137,26 @@
                 Bus.$emit('saveJobPost', post);
             },
 
+            async save(post) {
+                let component = this;
+                
+                this.disabled = true;
+                this.input.post_id = post.id;
+
+                await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
+                    
+                    .then(function(response) {
+                        let data = response.data;
+                        
+                        Bus.$emit('saveJobPost', post);
+                    })
+                    .catch(function(error) {
+
+                        Utils.handleError(error);
+                    });
+                
+                this.disabled = false;
+            },
         }
     }
 </script>

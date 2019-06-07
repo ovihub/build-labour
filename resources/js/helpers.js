@@ -192,6 +192,10 @@ window.Helper = {
 
         redirectToCompanyProfile(company_id) {
             window.location = '/company/profile/' + company_id;
+        },
+
+        redirectToJobPost(company_id, job_id) {
+            window.location = '/job/view/?cid=' + company_id + '&jid=' + job_id;
         }
     }
 }

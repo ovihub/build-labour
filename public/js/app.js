@@ -6318,6 +6318,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -6385,9 +6393,13 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       jobs: [],
+      input: {
+        post_id: ''
+      },
       endpoints: {
         get: '/api/v1/company/',
-        search: '/api/v1/job/search?keyword='
+        search: '/api/v1/job/search?keyword=',
+        save: '/api/v1/bookmarks'
       }
     };
   },
@@ -6434,7 +6446,44 @@ __webpack_require__.r(__webpack_exports__);
     },
     onSaveJobPost: function onSaveJobPost(post) {
       Bus.$emit('saveJobPost', post);
-    }
+    },
+    save: function () {
+      var _save = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(post) {
+        var component;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                component = this;
+                this.disabled = true;
+                this.input.post_id = post.id;
+                _context.next = 5;
+                return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
+                  var data = response.data;
+                  Bus.$emit('saveJobPost', post);
+                }).catch(function (error) {
+                  Utils.handleError(error);
+                });
+
+              case 5:
+                this.disabled = false;
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function save(_x) {
+        return _save.apply(this, arguments);
+      }
+
+      return save;
+    }()
   }
 });
 
@@ -6645,6 +6694,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -6654,8 +6708,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var component = this;
-    Bus.$on('saveJobPost', function (post) {
-      component.bookmarks.push(post);
+    Bus.$on('saveJobPost', function (bookmark) {
+      component.bookmarks.push({
+        job_id: bookmark.job.id,
+        company_id: bookmark.company_id,
+        company_name: bookmark.company_name,
+        company_photo: bookmark.company_photo,
+        location: bookmark.job.location,
+        job_role: bookmark.job.title
+      });
     });
     this.getBookmarks();
   },
@@ -6668,6 +6729,12 @@ __webpack_require__.r(__webpack_exports__);
       Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_0__["default"].getBookmarks()).then(function (data) {
         component.bookmarks = data.data.bookmarks;
       });
+    },
+    onClickCompanyPhoto: function onClickCompanyPhoto(company_id) {
+      Utils.redirectToCompanyProfile(company_id);
+    },
+    onClickJobPost: function onClickJobPost(company_id, job_id) {
+      Utils.redirectToJobPost(company_id, job_id);
     }
   }
 });
@@ -53992,7 +54059,10 @@ var staticRenderFns = [
           _c("li", [
             _c("div", { staticClass: "jobads-row" }, [
               _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", { attrs: { src: "/img/logo/1.jpg" } })
+                _c("img", {
+                  staticClass: "bl-image-32",
+                  attrs: { src: "/img/logo/1.jpg" }
+                })
               ]),
               _vm._v(" "),
               _c(
@@ -54023,7 +54093,10 @@ var staticRenderFns = [
           _c("li", [
             _c("div", { staticClass: "jobads-row" }, [
               _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", { attrs: { src: "/img/logo/1.jpg" } })
+                _c("img", {
+                  staticClass: "bl-image-32",
+                  attrs: { src: "/img/logo/1.jpg" }
+                })
               ]),
               _vm._v(" "),
               _c(
@@ -54052,7 +54125,10 @@ var staticRenderFns = [
           _c("li", [
             _c("div", { staticClass: "jobads-row" }, [
               _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", { attrs: { src: "/img/logo/1.jpg" } })
+                _c("img", {
+                  staticClass: "bl-image-32",
+                  attrs: { src: "/img/logo/1.jpg" }
+                })
               ]),
               _vm._v(" "),
               _c(
@@ -56120,7 +56196,7 @@ var render = function() {
                 staticClass: "save-icon",
                 on: {
                   click: function($event) {
-                    return _vm.onSaveJobPost(job)
+                    return _vm.save(job)
                   }
                 }
               },
@@ -56502,7 +56578,14 @@ var render = function() {
                       bookmark.company_photo
                         ? _c("img", {
                             staticClass: "bl-image-32",
-                            attrs: { src: bookmark.company_photo }
+                            attrs: { src: bookmark.company_photo },
+                            on: {
+                              click: function($event) {
+                                return _vm.onClickCompanyPhoto(
+                                  bookmark.company_id
+                                )
+                              }
+                            }
                           })
                         : _c("avatar", {
                             attrs: {
@@ -56510,7 +56593,8 @@ var render = function() {
                               size: "32",
                               border: "0",
                               "border-radius": "8px",
-                              initials: _vm.getInitials(bookmark.company_name)
+                              initials: _vm.getInitials(bookmark.company_name),
+                              "company-id": bookmark.company_id
                             }
                           })
                     ],
@@ -56521,7 +56605,15 @@ var render = function() {
                     "div",
                     {
                       staticClass: "bl-col-2",
-                      staticStyle: { "margin-top": "-2px" }
+                      staticStyle: { "margin-top": "-2px", cursor: "pointer" },
+                      on: {
+                        click: function($event) {
+                          return _vm.onClickJobPost(
+                            bookmark.company_id,
+                            bookmark.job_id
+                          )
+                        }
+                      }
                     },
                     [
                       _c("div", { staticClass: "bl-display" }, [
@@ -77151,6 +77243,9 @@ window.Helper = {
     },
     redirectToCompanyProfile: function redirectToCompanyProfile(company_id) {
       window.location = '/company/profile/' + company_id;
+    },
+    redirectToJobPost: function redirectToJobPost(company_id, job_id) {
+      window.location = '/job/view/?cid=' + company_id + '&jid=' + job_id;
     }
   }
 };
