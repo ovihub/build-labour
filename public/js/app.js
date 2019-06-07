@@ -6664,7 +6664,10 @@ __webpack_require__.r(__webpack_exports__);
       return Utils.getInitials(name);
     },
     getBookmarks: function getBookmarks() {
-      this.bookmarks = _api__WEBPACK_IMPORTED_MODULE_0__["default"].getBookmarks();
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_0__["default"].getBookmarks()).then(function (data) {
+        component.bookmarks = data.data.bookmarks;
+      });
     }
   }
 });
@@ -56496,17 +56499,20 @@ var render = function() {
                     "div",
                     { staticClass: "bl-col-1" },
                     [
-                      _c("img", { attrs: { src: bookmark.company_photo } }),
-                      _vm._v(" "),
-                      _c("avatar", {
-                        attrs: {
-                          cls: "",
-                          size: "32",
-                          border: "0",
-                          "border-radius": "8px",
-                          initials: _vm.getInitials(bookmark.company_name)
-                        }
-                      })
+                      bookmark.company_photo
+                        ? _c("img", {
+                            staticClass: "bl-image-32",
+                            attrs: { src: bookmark.company_photo }
+                          })
+                        : _c("avatar", {
+                            attrs: {
+                              cls: "bl-image-32",
+                              size: "32",
+                              border: "0",
+                              "border-radius": "8px",
+                              initials: _vm.getInitials(bookmark.company_name)
+                            }
+                          })
                     ],
                     1
                   ),
@@ -56520,7 +56526,7 @@ var render = function() {
                     [
                       _c("div", { staticClass: "bl-display" }, [
                         _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                          _vm._v("bookmark.job_role")
+                          _vm._v(_vm._s(bookmark.job_role))
                         ]),
                         _vm._v(" "),
                         _c("span", { staticClass: "job-text" }, [

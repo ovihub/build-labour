@@ -10901,14 +10901,6 @@ ul.list-job-items li.job-items {
   padding: 16px;
 }
 
-.profile-item-3 .profile-content img {
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
-  margin-left: 15px;
-  margin-right: 15px;
-}
-
 .profile-item-3 .profile-content ul {
   padding: 16px 0 0 0;
 }
@@ -11032,6 +11024,14 @@ ul.list-job-items li.job-items {
 .bl-image-34 {
   width: 34px;
   height: 34px;
+  border-radius: 4px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.bl-image-32 {
+  width: 32px;
+  height: 32px;
   border-radius: 4px;
   margin-left: 15px;
   margin-right: 15px;

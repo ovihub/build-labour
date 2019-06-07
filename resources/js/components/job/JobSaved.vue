@@ -6,14 +6,14 @@
                 <li v-for="(bookmark, index) in bookmarks" :key="index">
                     <div class="jobads-row">
                         <div class="bl-col-1">
-                            <img :src="bookmark.company_photo">
-                            <avatar cls="" size="32" border="0" border-radius="8px"
+                            <img v-if="bookmark.company_photo" class="bl-image-32" :src="bookmark.company_photo">
+                            <avatar v-else cls="bl-image-32" size="32" border="0" border-radius="8px"
                                 :initials="getInitials(bookmark.company_name)">
                             </avatar>
                         </div>
                         <div class="bl-col-2" style="margin-top:-2px">
                             <div class="bl-display">
-                                <span class="bl-label-15 mt-0 pt-0">bookmark.job_role</span>
+                                <span class="bl-label-15 mt-0 pt-0">{{ bookmark.job_role }}</span>
                                 <span class="job-text">
                                     {{ bookmark.company_name }} • {{ bookmark.location }}
                                 </span>
@@ -55,7 +55,12 @@
             },
 
             getBookmarks() {
-                this.bookmarks = Api.getBookmarks();
+                let component = this;
+
+                Promise.resolve(Api.getBookmarks()).then(function(data) {
+
+                    component.bookmarks = data.data.bookmarks;
+                });
             },
 
         }
