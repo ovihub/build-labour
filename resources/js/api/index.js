@@ -25,6 +25,7 @@ class BuildLabourApi {
 
         this.endpoints = {
             jobs: '/api/v1/job/search/filter',
+            bookmarks: '/api/v1/bookmarks/posts/jobs',
             locations: '/api/v1/locations',
             companies: '/api/v1/company/search',
             company_options: '/api/v1/company/options',
@@ -154,6 +155,9 @@ class BuildLabourApi {
         return this._get(this.endpoints.responsibilities + id + '/responsibilities');
     }
 
+    getBookmarks() {
+        return this._get(this.endpoints.bookmarks);
+    }
 }
 
 export default new BuildLabourApi()

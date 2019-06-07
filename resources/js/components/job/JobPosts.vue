@@ -3,7 +3,7 @@
         <ul class="list-job-items" v-for="(job, index) in jobs" :key="index">
             <li class="job-items">
                 <div class="profile-content">
-                    <div class="save-icon">
+                    <div class="save-icon" @click="onSaveJobPost(job)">
                         <!-- <img style="margin-top:-5px;margin-left:5px;margin-bottom:-5px" src="/img/icons/plus.png"
                             srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x"> -->
                         <div class="star-cont">
@@ -127,6 +127,10 @@
 
             onClickCompanyPhoto(company_id) {
                 Utils.redirectToCompanyProfile(company_id);
+            },
+
+            onSaveJobPost(post) {
+                Bus.$emit('saveJobPost', post);
             },
 
         }

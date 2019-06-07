@@ -6431,6 +6431,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     onClickCompanyPhoto: function onClickCompanyPhoto(company_id) {
       Utils.redirectToCompanyProfile(company_id);
+    },
+    onSaveJobPost: function onSaveJobPost(post) {
+      Bus.$emit('saveJobPost', post);
     }
   }
 });
@@ -6612,6 +6615,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
@@ -6641,47 +6645,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      bookmarks: []
+    };
+  },
+  created: function created() {
+    var component = this;
+    Bus.$on('saveJobPost', function (post) {
+      component.bookmarks.push(post);
+    });
+    this.getBookmarks();
   },
   methods: {
     getInitials: function getInitials(name) {
       return Utils.getInitials(name);
+    },
+    getBookmarks: function getBookmarks() {
+      this.bookmarks = _api__WEBPACK_IMPORTED_MODULE_0__["default"].getBookmarks();
     }
   }
 });
@@ -56128,7 +56111,24 @@ var render = function() {
       return _c("ul", { key: index, staticClass: "list-job-items" }, [
         _c("li", { staticClass: "job-items" }, [
           _c("div", { staticClass: "profile-content" }, [
-            _vm._m(0, true),
+            _c(
+              "div",
+              {
+                staticClass: "save-icon",
+                on: {
+                  click: function($event) {
+                    return _vm.onSaveJobPost(job)
+                  }
+                }
+              },
+              [
+                _vm._m(0, true),
+                _vm._v(" "),
+                _c("div", { staticClass: "bl-label-14-style-2 bl-mt12" }, [
+                  _vm._v("\n                        Save\n                    ")
+                ])
+              ]
+            ),
             _vm._v(" "),
             _c("div", { staticClass: "jobads-row" }, [
               _c(
@@ -56241,17 +56241,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "save-icon" }, [
-      _c("div", { staticClass: "star-cont" }, [
-        _c("input", {
-          staticClass: "star",
-          attrs: { type: "checkbox", title: "Bookmark Job", checked: "" }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "bl-label-14-style-2 bl-mt12" }, [
-        _vm._v("\n                        Save\n                    ")
-      ])
+    return _c("div", { staticClass: "star-cont" }, [
+      _c("input", {
+        staticClass: "star",
+        attrs: { type: "checkbox", title: "Bookmark Job", checked: "" }
+      })
     ])
   }
 ]
@@ -56487,111 +56481,72 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-item-3" }, [
-      _c("div", { staticClass: "profile-content" }, [
-        _c("span", { staticClass: "bl-label-16" }, [_vm._v("Saved")]),
-        _vm._v(" "),
-        _c("ul", { staticClass: "list-items" }, [
-          _c("li", [
-            _c("div", { staticClass: "jobads-row" }, [
-              _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", { attrs: { src: "/img/logo/1.jpg" } })
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "bl-col-2",
-                  staticStyle: { "margin-top": "-2px" }
-                },
-                [
-                  _c("div", { staticClass: "bl-display" }, [
-                    _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                      _vm._v("Contracts Administrator (Commercial)")
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "job-text" }, [
-                      _vm._v(
-                        "\n                                ABC Constructions Group • Cremorne VIC\n                            "
-                      )
-                    ])
-                  ]),
+  return _c("div", { staticClass: "profile-item-3" }, [
+    _c("div", { staticClass: "profile-content" }, [
+      _c("span", { staticClass: "bl-label-16" }, [_vm._v("Saved")]),
+      _vm._v(" "),
+      _vm.bookmarks.length > 0
+        ? _c(
+            "ul",
+            { staticClass: "list-items" },
+            _vm._l(_vm.bookmarks, function(bookmark, index) {
+              return _c("li", { key: index }, [
+                _c("div", { staticClass: "jobads-row" }, [
+                  _c(
+                    "div",
+                    { staticClass: "bl-col-1" },
+                    [
+                      _c("img", { attrs: { src: bookmark.company_photo } }),
+                      _vm._v(" "),
+                      _c("avatar", {
+                        attrs: {
+                          cls: "",
+                          size: "32",
+                          border: "0",
+                          "border-radius": "8px",
+                          initials: _vm.getInitials(bookmark.company_name)
+                        }
+                      })
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
-                  _c("div", { staticClass: "bl-box-3" })
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _c("div", { staticClass: "jobads-row" }, [
-              _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", { attrs: { src: "/img/logo/1.jpg" } })
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "bl-col-2",
-                  staticStyle: { "margin-top": "-2px" }
-                },
-                [
-                  _c("div", { staticClass: "bl-display" }, [
-                    _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                      _vm._v("Contracts Manager (Commercial)")
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "job-text" }, [
-                      _vm._v("XYZ Constructions • South Yarra VIC")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "bl-box-3" })
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _c("div", { staticClass: "jobads-row" }, [
-              _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", { attrs: { src: "/img/logo/1.jpg" } })
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "bl-col-2",
-                  staticStyle: { "margin-top": "-2px" }
-                },
-                [
-                  _c("div", { staticClass: "bl-display" }, [
-                    _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                      _vm._v("Junior Project Manager (Commercial)")
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "job-text" }, [
-                      _vm._v("ABC Constructions Group • Cremorne VIC")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "bl-box-3" })
-                ]
-              )
-            ])
-          ])
-        ])
-      ])
+                  _c(
+                    "div",
+                    {
+                      staticClass: "bl-col-2",
+                      staticStyle: { "margin-top": "-2px" }
+                    },
+                    [
+                      _c("div", { staticClass: "bl-display" }, [
+                        _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
+                          _vm._v("bookmark.job_role")
+                        ]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "job-text" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(bookmark.company_name) +
+                              " • " +
+                              _vm._s(bookmark.location) +
+                              "\n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "bl-box-3" })
+                    ]
+                  )
+                ])
+              ])
+            }),
+            0
+          )
+        : _vm._e()
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -73079,6 +73034,7 @@ function () {
     this.getResults = [];
     this.endpoints = {
       jobs: '/api/v1/job/search/filter',
+      bookmarks: '/api/v1/bookmarks/posts/jobs',
       locations: '/api/v1/locations',
       companies: '/api/v1/company/search',
       company_options: '/api/v1/company/options',
@@ -73275,6 +73231,11 @@ function () {
     key: "getJobResponsibilities",
     value: function getJobResponsibilities(id) {
       return this._get(this.endpoints.responsibilities + id + '/responsibilities');
+    }
+  }, {
+    key: "getBookmarks",
+    value: function getBookmarks() {
+      return this._get(this.endpoints.bookmarks);
     }
   }]);
 
