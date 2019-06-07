@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Mails\ResendVerificationCodeEmail;
 use App\Models\Companies\Company;
+use App\Models\Companies\CompanyPost;
 use App\Models\Companies\CompanySpecialized;
 use App\Models\Options\SecondaryFunction;
 use App\Models\Skills\Skill;
@@ -230,8 +231,7 @@ class UserRepository extends AbstractRepository
 
     public function doBookMark(Request $request) {
 
-
-        // if no post id exists then insert
+        $this->bookmark = new Bookmark();
 
         $user = JWTAuth::toUser();
 

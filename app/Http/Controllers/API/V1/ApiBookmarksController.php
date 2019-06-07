@@ -75,10 +75,10 @@ class ApiBookmarksController extends ApiBaseController
 
                 return $this->apiErrorResponse(
                     false,
-                    $bookmark->$bookmark->getErrors( true ),
+                    $this->userRepo->bookmark->getErrors( true ),
                     self::HTTP_STATUS_INVALID_INPUT,
                     'invalidInput',
-                    $bookmark->workExp->getErrorsDetail()
+                    $this->userRepo->bookmark->getErrorsDetail()
                 );
             }
 

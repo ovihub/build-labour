@@ -50,6 +50,18 @@ class Bookmark extends BaseModel
             return false;
         }
 
+        // check the company post
+        $companyPost = CompanyPost::find($data['post_id']);
+
+        if (!$companyPost) {
+
+            $validator->errors()->add( 'post', 'Company Post is not exists' );
+            
+            $this->errors = $validator->errors()->all();
+            $this->errorsDetail = $validator->errors()->toArray();
+            return false;
+        }
+
         return true;
     }
 
