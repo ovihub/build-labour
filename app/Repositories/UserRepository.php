@@ -7,6 +7,7 @@ use App\Models\Companies\Company;
 use App\Models\Companies\CompanySpecialized;
 use App\Models\Options\SecondaryFunction;
 use App\Models\Skills\Skill;
+use App\Models\Users\Bookmark;
 use App\Models\Users\Users;
 use App\Models\Users\UserSkill;
 use App\Models\Users\WorkerDetail;
@@ -30,6 +31,7 @@ class UserRepository extends AbstractRepository
     public $workerDetail = null;
     public $user = null;
     public $company = null;
+    public $bookmark = null;
 
     public function __construct()
     {
@@ -224,5 +226,86 @@ class UserRepository extends AbstractRepository
         ]);
 
         return compact('user', 'company', 'token');
+    }
+
+    public function doBookMark(Request $request) {
+
+
+        // if no post id exists then insert
+
+        $user = JWTAuth::toUser();
+
+        if ($user) {
+
+            $this->bookmark = Bookmark::where('user_id', $user->id)->where('post_id', $request->post_id)->first();
+
+            // if the post id exists then delete
+            if ($this->bookmark) {
+
+                $this->bookmark->delete();
+                $this->bookmark->unbookmarked = true;
+
+            } else {
+
+                $this->bookmark = new Bookmark();
+
+                if (!$this->bookmark->store([
+                    'post_id' => $request->post_id,
+                    'user_id' => $user->id
+                ])) {
+
+                    return false;
+                }
+            }
+
+            return $this->bookmark;
+        }
+    }
+
+    public function getPostJobsBookmarks() {
+
+        $user = JWTAuth::toUser();
+
+        if ($user) {
+
+            $query = Bookmark::with('CompanyPost', 'CompanyPost.Job');
+
+            $bookmarkWithJobs = $query->where('user_id', $user->id)->get();
+
+            if ($bookmarkWithJobs) {
+
+                $jobs = [];
+
+                foreach ($bookmarkWithJobs as $bookmark) {
+
+                    if ($bookmark->CompanyPost && $bookmark->CompanyPost->Job) {
+
+                        $jobs[] = $bookmark->CompanyPost->Job;
+                    }
+
+                }
+
+                return $jobs;
+            }
+        }
+
+        return [];
+    }
+
+    public function getBookmarksById() {
+
+        $user = JWTAuth::toUser();
+
+        if ($user) {
+
+            $bookmarks = Bookmark::where('user_id', $user->id)->pluck('post_id');
+
+            if ($bookmarks) {
+
+                return $bookmarks;
+            }
+        }
+
+        return [];
     }
 }

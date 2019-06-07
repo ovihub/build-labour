@@ -8,6 +8,7 @@ namespace App;
 
 use App\Models\Companies\Company;
 use App\Models\Tickets\Ticket;
+use App\Models\Users\Bookmark;
 use App\Models\Users\Education;
 use App\Models\Users\FirebaseUsers;
 use App\Models\Users\Users;
@@ -84,6 +85,15 @@ class User extends Users implements JWTSubject
     }
 
     /**
+     * Return a collection relates to Bookmarks
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function Bookmarks() {
+
+        return $this->hasMany( Bookmark::class, 'user_id', 'id');
+    }
+
+    /**
      * Return a collection relates to Worker Detail, e.g Worker Extra information
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -110,7 +120,6 @@ class User extends Users implements JWTSubject
 
         return $this->belongsTo(Company::class, 'id', 'created_by');
     }
-
 
     public function Firebase() {
 
