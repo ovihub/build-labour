@@ -123,6 +123,16 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
         });
     });
 
+    Route::prefix('bookmarks')->group(function () {
+        Route::middleware([ 'jwt' ])->group(function () {
+
+            Route::post('', 'ApiBookmarksController@postBookmark');
+            Route::get('posts', 'ApiBookmarksController@getPosts');
+            Route::get('posts/ids', 'ApiBookmarksController@getPostsById');
+            Route::get('posts/jobs', 'ApiBookmarksController@getPostJobs');
+        });
+    });
+
     Route::get('locations', 'ApiUsersController@searchLocation');
 
     Route::get('roles', 'ApiRolesController@index');
