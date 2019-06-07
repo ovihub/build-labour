@@ -284,6 +284,7 @@ class UserRepository extends AbstractRepository
                             'bookmark_id' => $bookmark->id,
                             'post_id' => $bookmark->CompanyPost->id,
                             'company_photo' => $bookmark->CompanyPost->Company->photo,
+                            'company_name' => $bookmark->CompanyPost->Company->name,
                             'job_role' => $bookmark->CompanyPost->Job->title,
                             'location' => $bookmark->CompanyPost->Job->location
                         ];
