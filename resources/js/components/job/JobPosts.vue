@@ -3,11 +3,12 @@
         <ul class="list-job-items" v-for="(job, index) in jobs" :key="index">
             <li class="job-items">
                 <div class="profile-content">
-                    <div class="save-icon" @click="save(job)">
+                    <div class="save-icon" @click="save(job, index)">
                         <!-- <img style="margin-top:-5px;margin-left:5px;margin-bottom:-5px" src="/img/icons/plus.png"
                             srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x"> -->
                         <div class="star-cont">
-                            <input class="star" type="checkbox" title="Bookmark Job" checked />
+                            <input class="star" type="checkbox" title="Bookmark Job" :ref="'savedJobPost-' + index"
+                                :value="job.id" v-model="checkedJobPosts" />
                         </div>
 
                         <div class="bl-label-14-style-2 bl-mt12">
@@ -62,10 +63,13 @@
 </template>
 
 <script>
+    import Api from '@/api';
+
     export default {
         data() {
             return {
                 jobs: [],
+                checkedJobPosts: [],
                 input: {
                     post_id: '',
                 },
@@ -102,6 +106,11 @@
             } else {
                 this.getJobs(component.endpoints.search + '&location=');
             }
+
+            Promise.resolve(Api.getSavedJobPosts()).then(function(data) {
+
+                component.checkedJobPosts = data.data.bookmarks;
+            });
         },
 
         methods: {
@@ -133,11 +142,7 @@
                 Utils.redirectToCompanyProfile(company_id);
             },
 
-            onSaveJobPost(post) {
-                Bus.$emit('saveJobPost', post);
-            },
-
-            async save(post) {
+            async save(post, index) {
                 let component = this;
                 
                 this.disabled = true;
@@ -148,7 +153,7 @@
                     .then(function(response) {
                         let data = response.data;
                         
-                        Bus.$emit('saveJobPost', post);
+                        Bus.$emit('saveJobPost', post, index, component.$refs['savedJobPost-' + index][0].checked);
                     })
                     .catch(function(error) {
 

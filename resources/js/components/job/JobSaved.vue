@@ -46,15 +46,19 @@
         created() {
             let component = this;
 
-            Bus.$on('saveJobPost', function(bookmark) {
-                component.bookmarks.push({
-                    job_id: bookmark.job.id,
-                    company_id: bookmark.company_id,
-                    company_name: bookmark.company_name,
-                    company_photo: bookmark.company_photo,
-                    location: bookmark.job.location,
-                    job_role: bookmark.job.title,
-                });
+            Bus.$on('saveJobPost', function(bookmark, index, flag) {
+                if (flag) {
+                    component.bookmarks.push({
+                        job_id: bookmark.job.id,
+                        company_id: bookmark.company_id,
+                        company_name: bookmark.company_name,
+                        company_photo: bookmark.company_photo,
+                        location: bookmark.job.location,
+                        job_role: bookmark.job.title,
+                    });
+                } else {
+                    component.bookmarks.splice(index, 1);
+                }
             });
 
             this.getBookmarks();

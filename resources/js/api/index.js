@@ -30,6 +30,7 @@ class BuildLabourApi {
             companies: '/api/v1/company/search',
             company_options: '/api/v1/company/options',
             responsibilities: '/api/v1/job/',
+            savedJobPosts: '/api/v1/bookmarks/posts/ids',
         };
         
         //  this._headers()
@@ -157,6 +158,10 @@ class BuildLabourApi {
 
     getBookmarks() {
         return this._get(this.endpoints.bookmarks);
+    }
+
+    getSavedJobPosts() {
+        return this._get(this.endpoints.savedJobPosts);
     }
 }
 

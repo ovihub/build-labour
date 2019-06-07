@@ -6320,6 +6320,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -6389,10 +6390,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       jobs: [],
+      checkedJobPosts: [],
       input: {
         post_id: ''
       },
@@ -6425,6 +6429,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     } else {
       this.getJobs(component.endpoints.search + '&location=');
     }
+
+    Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getSavedJobPosts()).then(function (data) {
+      component.checkedJobPosts = data.data.bookmarks;
+    });
   },
   methods: {
     getInitials: function getInitials(name) {
@@ -6444,13 +6452,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onClickCompanyPhoto: function onClickCompanyPhoto(company_id) {
       Utils.redirectToCompanyProfile(company_id);
     },
-    onSaveJobPost: function onSaveJobPost(post) {
-      Bus.$emit('saveJobPost', post);
-    },
     save: function () {
       var _save = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(post) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(post, index) {
         var component;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -6462,7 +6467,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 5;
                 return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
-                  Bus.$emit('saveJobPost', post);
+                  Bus.$emit('saveJobPost', post, index, component.$refs['savedJobPost-' + index][0].checked);
                 }).catch(function (error) {
                   Utils.handleError(error);
                 });
@@ -6478,7 +6483,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee, this);
       }));
 
-      function save(_x) {
+      function save(_x, _x2) {
         return _save.apply(this, arguments);
       }
 
@@ -6708,15 +6713,19 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var component = this;
-    Bus.$on('saveJobPost', function (bookmark) {
-      component.bookmarks.push({
-        job_id: bookmark.job.id,
-        company_id: bookmark.company_id,
-        company_name: bookmark.company_name,
-        company_photo: bookmark.company_photo,
-        location: bookmark.job.location,
-        job_role: bookmark.job.title
-      });
+    Bus.$on('saveJobPost', function (bookmark, index, flag) {
+      if (flag) {
+        component.bookmarks.push({
+          job_id: bookmark.job.id,
+          company_id: bookmark.company_id,
+          company_name: bookmark.company_name,
+          company_photo: bookmark.company_photo,
+          location: bookmark.job.location,
+          job_role: bookmark.job.title
+        });
+      } else {
+        component.bookmarks.splice(index, 1);
+      }
     });
     this.getBookmarks();
   },
@@ -56196,12 +56205,54 @@ var render = function() {
                 staticClass: "save-icon",
                 on: {
                   click: function($event) {
-                    return _vm.save(job)
+                    return _vm.save(job, index)
                   }
                 }
               },
               [
-                _vm._m(0, true),
+                _c("div", { staticClass: "star-cont" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.checkedJobPosts,
+                        expression: "checkedJobPosts"
+                      }
+                    ],
+                    ref: "savedJobPost-" + index,
+                    refInFor: true,
+                    staticClass: "star",
+                    attrs: { type: "checkbox", title: "Bookmark Job" },
+                    domProps: {
+                      value: job.id,
+                      checked: Array.isArray(_vm.checkedJobPosts)
+                        ? _vm._i(_vm.checkedJobPosts, job.id) > -1
+                        : _vm.checkedJobPosts
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.checkedJobPosts,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = job.id,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 && (_vm.checkedJobPosts = $$a.concat([$$v]))
+                          } else {
+                            $$i > -1 &&
+                              (_vm.checkedJobPosts = $$a
+                                .slice(0, $$i)
+                                .concat($$a.slice($$i + 1)))
+                          }
+                        } else {
+                          _vm.checkedJobPosts = $$c
+                        }
+                      }
+                    }
+                  })
+                ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "bl-label-14-style-2 bl-mt12" }, [
                   _vm._v("\n                        Save\n                    ")
@@ -56315,19 +56366,7 @@ var render = function() {
     0
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "star-cont" }, [
-      _c("input", {
-        staticClass: "star",
-        attrs: { type: "checkbox", title: "Bookmark Job", checked: "" }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -73136,7 +73175,8 @@ function () {
       locations: '/api/v1/locations',
       companies: '/api/v1/company/search',
       company_options: '/api/v1/company/options',
-      responsibilities: '/api/v1/job/'
+      responsibilities: '/api/v1/job/',
+      savedJobPosts: '/api/v1/bookmarks/posts/ids'
     }; //  this._headers()
   }
 
@@ -73334,6 +73374,11 @@ function () {
     key: "getBookmarks",
     value: function getBookmarks() {
       return this._get(this.endpoints.bookmarks);
+    }
+  }, {
+    key: "getSavedJobPosts",
+    value: function getSavedJobPosts() {
+      return this._get(this.endpoints.savedJobPosts);
     }
   }]);
 
