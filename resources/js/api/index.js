@@ -73,39 +73,6 @@ class BuildLabourApi {
         window.location.href = '/login';
     }
 
-    async _search(endpoint, keyword) {
-        let component = this;
-
-        // if (this.time_out) {
-        //     clearTimeout(this.time_out);
-        // }
-
-        // this.time_out = await setTimeout(function() {
-
-        await Axios.get(endpoint + '?keyword=' + keyword, Utils.getBearerAuth())
-
-                .then(function(response) {
-
-                    component.searchResults = response.data;
-                })
-                .catch(function(error) {
-
-                    Utils.handleError(error);
-                });
-        
-        // }.bind(this), 300);
-
-        return this.searchResults;
-    }
-
-    getLocations(keyword) {
-        return this._search(this.endpoints.locations, keyword);
-    }
-
-    getCompanies(keyword) {
-        return this._search(this.endpoints.companies, keyword);
-    }
-
     async _get(endpoint) {
         let component = this;
 
@@ -123,11 +90,7 @@ class BuildLabourApi {
         return this.getResults;
     }
 
-    getCompanyOptions() {
-        return this._get(this.endpoints.company_options);
-    }
-
-    async _filter(endpoint, input) {
+    async _post(endpoint, input) {
         
         let component = this;
 
@@ -145,11 +108,16 @@ class BuildLabourApi {
         return this.getResults;
     }
 
-    getJobs(role = '', tiers = [], sectors = [], locations = []) {
+    getLocations(keyword) {
+        return this._get(this.endpoints.locations + '?keyword=' + keyword);
+    }
 
-        let input = { role: role, tiers: tiers, sectors: sectors, locations: locations };
+    getCompanies(keyword) {
+        return this._get(this.endpoints.companies + '?keyword=' + keyword);
+    }
 
-        return this._filter(this.endpoints.jobs, input);
+    getCompanyOptions() {
+        return this._get(this.endpoints.company_options);
     }
 
     getJobResponsibilities(id) {
@@ -162,6 +130,17 @@ class BuildLabourApi {
 
     getSavedJobPosts() {
         return this._get(this.endpoints.savedJobPosts);
+    }
+
+    getJobPosts(endpoint) {
+        return this._get(endpoint);
+    }
+
+    getJobs(role = '', tiers = [], sectors = [], locations = []) {
+
+        let input = { role: role, tiers: tiers, sectors: sectors, locations: locations };
+
+        return this._post(this.endpoints.jobs, input);
     }
 }
 

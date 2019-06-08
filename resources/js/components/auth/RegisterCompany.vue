@@ -381,7 +381,6 @@
                 let component = this;
 
                 Promise.resolve(Api.getCompanyOptions()).then(function(data) {
-                    
                     component.business_types = data.business_types;
                     component.tiers = data.tiers;
                     component.main_company_functions = data.main_company_functions;
@@ -438,7 +437,6 @@
                 let component = this;
 
                 Promise.resolve(Api.getLocations(keyword)).then(function(data) {
-                    
                     component.locations = (keyword != '' && (keyword && keyword.length > 0) && 
                                             data.data && data.data.locations) ? 
                                             data.data.locations.features : [];

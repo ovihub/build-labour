@@ -1,14 +1,14 @@
 <template>
     <div>
-        <ul class="list-job-items" v-for="(job, index) in jobs" :key="index">
+        <ul class="list-job-items" v-for="(post, index) in jobPosts" :key="index">
             <li class="job-items">
                 <div class="profile-content">
-                    <div class="save-icon" @click="save(job, index)">
+                    <div class="save-icon" @click="save(post)">
                         <!-- <img style="margin-top:-5px;margin-left:5px;margin-bottom:-5px" src="/img/icons/plus.png"
                             srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x"> -->
                         <div class="star-cont">
-                            <input class="star" type="checkbox" title="Bookmark Job" :ref="'savedJobPost-' + index"
-                                :value="job.id" v-model="checkedJobPosts" />
+                            <input class="star" type="checkbox" title="Bookmark Job" :ref="'savedJobPost-' + post.id"
+                                :value="post.id" v-model="checkedJobPosts" />
                         </div>
 
                         <div class="bl-label-14-style-2 bl-mt12">
@@ -18,22 +18,22 @@
             
                     <div class="jobads-row">
                         <div class="bl-col-1">
-                            <img v-if="job.company_photo" class="bl-image-40" :src="job.company_photo"
-                                @click="onClickCompanyPhoto(job.company_id)">
+                            <img v-if="post.company_photo" class="bl-image-40" :src="post.company_photo"
+                                @click="onClickCompanyPhoto(post.company_id)">
 
                             <avatar v-else cls="bl-image-40" size="40" border="0" border-radius="8px"
-                                :initials="getInitials(job.company_name)"
-                                :company-id="(job.company_id) ? job.company_id + '' : ''">
+                                :initials="getInitials(post.company_name)"
+                                :company-id="(post.company_id) ? post.company_id + '' : ''">
                             </avatar>
                         </div>
                         <div class="bl-col-2">
                             <div class="bl-display">
                                 <span class="bl-label-19 bl-ml14">
-                                    {{ job.company_name }}
+                                    {{ post.company_name }}
                                 </span>
 
                                 <span class="bl-label-14 bl-ml14" style="margin-top:-5px">
-                                    {{ getTimeDiffNow(job.created_at) }}
+                                    {{ getTimeDiffNow(post.created_at) }}
                                 </span>
                             </div>
                         </div>
@@ -41,18 +41,18 @@
 
                     <div class="job-summary">
                         <div class="bl-label-21">
-                            {{ job.job.title }}
+                            {{ post.job.title }}
                         </div>
                         <div class="bl-label-14-style-3">
-                            {{ job.job.location }}<span class="text-style-1">{{ getTimeDiffNow(job.job.created_at) }}</span>
+                            {{ post.job.location }}<span class="text-style-1">{{ getTimeDiffNow(post.job.created_at) }}</span>
                         </div>
                         <div class="bl-label-15 bl-mt16">
-                            {{ job.job.description }}
+                            {{ post.job.description }}
                         </div>
                     </div>
 
                     <div class="profile-more mt-2">
-                        <a :href="'/job/view/?cid=' + job.company_id + '&jid=' + job.job.id">
+                        <a :href="'/job/view/?cid=' + post.company_id + '&jid=' + post.job.id">
                             View Details<i class="fa fa-angle-right ml-2"></i>
                         </a>
                     </div>
@@ -68,7 +68,7 @@
     export default {
         data() {
             return {
-                jobs: [],
+                jobPosts: [],
                 checkedJobPosts: [],
                 input: {
                     post_id: '',
@@ -98,17 +98,16 @@
             let component = this;
 
             Bus.$on('searchJobPosts', function(keyword, location) {
-                component.getJobs(component.endpoints.search + keyword + '&location=' + location);
+                component.getJobPosts(component.endpoints.search + keyword + '&location=' + location);
             });
             
             if (this.companyId) {
-                this.getJobs(this.endpointGet);
+                this.getJobPosts(this.endpointGet);
             } else {
-                this.getJobs(component.endpoints.search + '&location=');
+                this.getJobPosts(component.endpoints.search + '&location=');
             }
 
             Promise.resolve(Api.getSavedJobPosts()).then(function(data) {
-
                 component.checkedJobPosts = data.data.bookmarks;
             });
         },
@@ -119,19 +118,12 @@
                 return Utils.getInitials(name);
             },
 
-            getJobs(endpoint) {
+            getJobPosts(endpoint) {
                 let component = this;
 
-                axios.get(endpoint, Utils.getBearerAuth())
-                    
-                    .then(function(response) {
-                        
-                        component.jobs = response.data.data.posts;
-                    })
-                    .catch(function(error) {
-
-                        Utils.handleError(error);
-                    });
+                Promise.resolve(Api.getJobPosts(endpoint)).then(function(data) {
+                    component.jobPosts = data.data.posts;
+                });
             },
 
             getTimeDiffNow(created_at) {
@@ -142,7 +134,7 @@
                 Utils.redirectToCompanyProfile(company_id);
             },
 
-            async save(post, index) {
+            async save(post) {
                 let component = this;
                 
                 this.disabled = true;
@@ -153,7 +145,7 @@
                     .then(function(response) {
                         let data = response.data;
                         
-                        Bus.$emit('saveJobPost', post, index, component.$refs['savedJobPost-' + index][0].checked);
+                        Bus.$emit('saveJobPost', post, component.$refs['savedJobPost-' + post.id][0].checked);
                     })
                     .catch(function(error) {
 

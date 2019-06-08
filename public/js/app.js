@@ -6395,7 +6395,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      jobs: [],
+      jobPosts: [],
       checkedJobPosts: [],
       input: {
         post_id: ''
@@ -6421,13 +6421,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   created: function created() {
     var component = this;
     Bus.$on('searchJobPosts', function (keyword, location) {
-      component.getJobs(component.endpoints.search + keyword + '&location=' + location);
+      component.getJobPosts(component.endpoints.search + keyword + '&location=' + location);
     });
 
     if (this.companyId) {
-      this.getJobs(this.endpointGet);
+      this.getJobPosts(this.endpointGet);
     } else {
-      this.getJobs(component.endpoints.search + '&location=');
+      this.getJobPosts(component.endpoints.search + '&location=');
     }
 
     Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getSavedJobPosts()).then(function (data) {
@@ -6438,12 +6438,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getInitials: function getInitials(name) {
       return Utils.getInitials(name);
     },
-    getJobs: function getJobs(endpoint) {
+    getJobPosts: function getJobPosts(endpoint) {
       var component = this;
-      axios.get(endpoint, Utils.getBearerAuth()).then(function (response) {
-        component.jobs = response.data.data.posts;
-      }).catch(function (error) {
-        Utils.handleError(error);
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobPosts(endpoint)).then(function (data) {
+        component.jobPosts = data.data.posts;
       });
     },
     getTimeDiffNow: function getTimeDiffNow(created_at) {
@@ -6455,7 +6453,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     save: function () {
       var _save = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(post, index) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(post) {
         var component;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -6467,7 +6465,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 5;
                 return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
-                  Bus.$emit('saveJobPost', post, index, component.$refs['savedJobPost-' + index][0].checked);
+                  Bus.$emit('saveJobPost', post, component.$refs['savedJobPost-' + post.id][0].checked);
                 }).catch(function (error) {
                   Utils.handleError(error);
                 });
@@ -6483,7 +6481,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee, this);
       }));
 
-      function save(_x, _x2) {
+      function save(_x) {
         return _save.apply(this, arguments);
       }
 
@@ -6713,9 +6711,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var component = this;
-    Bus.$on('saveJobPost', function (bookmark, index, flag) {
+    Bus.$on('saveJobPost', function (bookmark, flag) {
+      var bookmarks = component.bookmarks;
+
       if (flag) {
-        component.bookmarks.push({
+        bookmarks.push({
+          post_id: bookmark.id,
           job_id: bookmark.job.id,
           company_id: bookmark.company_id,
           company_name: bookmark.company_name,
@@ -6724,7 +6725,12 @@ __webpack_require__.r(__webpack_exports__);
           job_role: bookmark.job.title
         });
       } else {
-        component.bookmarks.splice(index, 1);
+        for (var i = 0; i < bookmarks.length; i++) {
+          if (bookmarks[i].post_id === bookmark.id) {
+            bookmarks.splice(i, 1);
+            break;
+          }
+        }
       }
     });
     this.getBookmarks();
@@ -56195,7 +56201,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.jobs, function(job, index) {
+    _vm._l(_vm.jobPosts, function(post, index) {
       return _c("ul", { key: index, staticClass: "list-job-items" }, [
         _c("li", { staticClass: "job-items" }, [
           _c("div", { staticClass: "profile-content" }, [
@@ -56205,7 +56211,7 @@ var render = function() {
                 staticClass: "save-icon",
                 on: {
                   click: function($event) {
-                    return _vm.save(job, index)
+                    return _vm.save(post)
                   }
                 }
               },
@@ -56220,14 +56226,14 @@ var render = function() {
                         expression: "checkedJobPosts"
                       }
                     ],
-                    ref: "savedJobPost-" + index,
+                    ref: "savedJobPost-" + post.id,
                     refInFor: true,
                     staticClass: "star",
                     attrs: { type: "checkbox", title: "Bookmark Job" },
                     domProps: {
-                      value: job.id,
+                      value: post.id,
                       checked: Array.isArray(_vm.checkedJobPosts)
-                        ? _vm._i(_vm.checkedJobPosts, job.id) > -1
+                        ? _vm._i(_vm.checkedJobPosts, post.id) > -1
                         : _vm.checkedJobPosts
                     },
                     on: {
@@ -56236,7 +56242,7 @@ var render = function() {
                           $$el = $event.target,
                           $$c = $$el.checked ? true : false
                         if (Array.isArray($$a)) {
-                          var $$v = job.id,
+                          var $$v = post.id,
                             $$i = _vm._i($$a, $$v)
                           if ($$el.checked) {
                             $$i < 0 && (_vm.checkedJobPosts = $$a.concat([$$v]))
@@ -56265,13 +56271,13 @@ var render = function() {
                 "div",
                 { staticClass: "bl-col-1" },
                 [
-                  job.company_photo
+                  post.company_photo
                     ? _c("img", {
                         staticClass: "bl-image-40",
-                        attrs: { src: job.company_photo },
+                        attrs: { src: post.company_photo },
                         on: {
                           click: function($event) {
-                            return _vm.onClickCompanyPhoto(job.company_id)
+                            return _vm.onClickCompanyPhoto(post.company_id)
                           }
                         }
                       })
@@ -56281,9 +56287,9 @@ var render = function() {
                           size: "40",
                           border: "0",
                           "border-radius": "8px",
-                          initials: _vm.getInitials(job.company_name),
-                          "company-id": job.company_id
-                            ? job.company_id + ""
+                          initials: _vm.getInitials(post.company_name),
+                          "company-id": post.company_id
+                            ? post.company_id + ""
                             : ""
                         }
                       })
@@ -56296,7 +56302,7 @@ var render = function() {
                   _c("span", { staticClass: "bl-label-19 bl-ml14" }, [
                     _vm._v(
                       "\n                                " +
-                        _vm._s(job.company_name) +
+                        _vm._s(post.company_name) +
                         "\n                            "
                     )
                   ]),
@@ -56310,7 +56316,7 @@ var render = function() {
                     [
                       _vm._v(
                         "\n                                " +
-                          _vm._s(_vm.getTimeDiffNow(job.created_at)) +
+                          _vm._s(_vm.getTimeDiffNow(post.created_at)) +
                           "\n                            "
                       )
                     ]
@@ -56323,22 +56329,24 @@ var render = function() {
               _c("div", { staticClass: "bl-label-21" }, [
                 _vm._v(
                   "\n                        " +
-                    _vm._s(job.job.title) +
+                    _vm._s(post.job.title) +
                     "\n                    "
                 )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "bl-label-14-style-3" }, [
-                _vm._v("\n                        " + _vm._s(job.job.location)),
+                _vm._v(
+                  "\n                        " + _vm._s(post.job.location)
+                ),
                 _c("span", { staticClass: "text-style-1" }, [
-                  _vm._v(_vm._s(_vm.getTimeDiffNow(job.job.created_at)))
+                  _vm._v(_vm._s(_vm.getTimeDiffNow(post.job.created_at)))
                 ])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "bl-label-15 bl-mt16" }, [
                 _vm._v(
                   "\n                        " +
-                    _vm._s(job.job.description) +
+                    _vm._s(post.job.description) +
                     "\n                    "
                 )
               ])
@@ -56350,7 +56358,10 @@ var render = function() {
                 {
                   attrs: {
                     href:
-                      "/job/view/?cid=" + job.company_id + "&jid=" + job.job.id
+                      "/job/view/?cid=" +
+                      post.company_id +
+                      "&jid=" +
+                      post.job.id
                   }
                 },
                 [
@@ -73224,30 +73235,26 @@ function () {
       window.location.href = '/login';
     }
   }, {
-    key: "_search",
+    key: "_get",
     value: function () {
-      var _search2 = _asyncToGenerator(
+      var _get2 = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(endpoint, keyword) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(endpoint) {
         var component;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                component = this; // if (this.time_out) {
-                //     clearTimeout(this.time_out);
-                // }
-                // this.time_out = await setTimeout(function() {
-
+                component = this;
                 _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endpoint + '?keyword=' + keyword, Utils.getBearerAuth()).then(function (response) {
-                  component.searchResults = response.data;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endpoint, Utils.getBearerAuth()).then(function (response) {
+                  component.getResults = response.data;
                 }).catch(function (error) {
                   Utils.handleError(error);
                 });
 
               case 3:
-                return _context.abrupt("return", this.searchResults);
+                return _context.abrupt("return", this.getResults);
 
               case 4:
               case "end":
@@ -73257,28 +73264,18 @@ function () {
         }, _callee, this);
       }));
 
-      function _search(_x, _x2) {
-        return _search2.apply(this, arguments);
+      function _get(_x) {
+        return _get2.apply(this, arguments);
       }
 
-      return _search;
+      return _get;
     }()
   }, {
-    key: "getLocations",
-    value: function getLocations(keyword) {
-      return this._search(this.endpoints.locations, keyword);
-    }
-  }, {
-    key: "getCompanies",
-    value: function getCompanies(keyword) {
-      return this._search(this.endpoints.companies, keyword);
-    }
-  }, {
-    key: "_get",
+    key: "_post",
     value: function () {
-      var _get2 = _asyncToGenerator(
+      var _post2 = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(endpoint) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(endpoint, input) {
         var component;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
@@ -73286,7 +73283,7 @@ function () {
               case 0:
                 component = this;
                 _context2.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endpoint, Utils.getBearerAuth()).then(function (response) {
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(endpoint, input, Utils.getBearerAuth()).then(function (response) {
                   component.getResults = response.data;
                 }).catch(function (error) {
                   Utils.handleError(error);
@@ -73303,67 +73300,26 @@ function () {
         }, _callee2, this);
       }));
 
-      function _get(_x3) {
-        return _get2.apply(this, arguments);
+      function _post(_x2, _x3) {
+        return _post2.apply(this, arguments);
       }
 
-      return _get;
+      return _post;
     }()
+  }, {
+    key: "getLocations",
+    value: function getLocations(keyword) {
+      return this._get(this.endpoints.locations + '?keyword=' + keyword);
+    }
+  }, {
+    key: "getCompanies",
+    value: function getCompanies(keyword) {
+      return this._get(this.endpoints.companies + '?keyword=' + keyword);
+    }
   }, {
     key: "getCompanyOptions",
     value: function getCompanyOptions() {
       return this._get(this.endpoints.company_options);
-    }
-  }, {
-    key: "_filter",
-    value: function () {
-      var _filter2 = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(endpoint, input) {
-        var component;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                component = this;
-                _context3.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(endpoint, input, Utils.getBearerAuth()).then(function (response) {
-                  component.getResults = response.data;
-                }).catch(function (error) {
-                  Utils.handleError(error);
-                });
-
-              case 3:
-                return _context3.abrupt("return", this.getResults);
-
-              case 4:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this);
-      }));
-
-      function _filter(_x4, _x5) {
-        return _filter2.apply(this, arguments);
-      }
-
-      return _filter;
-    }()
-  }, {
-    key: "getJobs",
-    value: function getJobs() {
-      var role = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-      var tiers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-      var sectors = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-      var locations = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
-      var input = {
-        role: role,
-        tiers: tiers,
-        sectors: sectors,
-        locations: locations
-      };
-      return this._filter(this.endpoints.jobs, input);
     }
   }, {
     key: "getJobResponsibilities",
@@ -73379,6 +73335,26 @@ function () {
     key: "getSavedJobPosts",
     value: function getSavedJobPosts() {
       return this._get(this.endpoints.savedJobPosts);
+    }
+  }, {
+    key: "getJobPosts",
+    value: function getJobPosts(endpoint) {
+      return this._get(endpoint);
+    }
+  }, {
+    key: "getJobs",
+    value: function getJobs() {
+      var role = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      var tiers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+      var sectors = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+      var locations = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
+      var input = {
+        role: role,
+        tiers: tiers,
+        sectors: sectors,
+        locations: locations
+      };
+      return this._post(this.endpoints.jobs, input);
     }
   }]);
 

@@ -46,9 +46,12 @@
         created() {
             let component = this;
 
-            Bus.$on('saveJobPost', function(bookmark, index, flag) {
+            Bus.$on('saveJobPost', function(bookmark, flag) {
+                let bookmarks = component.bookmarks;
+
                 if (flag) {
-                    component.bookmarks.push({
+                    bookmarks.push({
+                        post_id: bookmark.id,
                         job_id: bookmark.job.id,
                         company_id: bookmark.company_id,
                         company_name: bookmark.company_name,
@@ -57,7 +60,12 @@
                         job_role: bookmark.job.title,
                     });
                 } else {
-                    component.bookmarks.splice(index, 1);
+                    for (let i = 0; i < bookmarks.length; i++){ 
+                        if (bookmarks[i].post_id === bookmark.id) {
+                            bookmarks.splice(i, 1);
+                            break;
+                        }
+                    }
                 }
             });
 
@@ -74,7 +82,6 @@
                 let component = this;
 
                 Promise.resolve(Api.getBookmarks()).then(function(data) {
-
                     component.bookmarks = data.data.bookmarks;
                 });
             },

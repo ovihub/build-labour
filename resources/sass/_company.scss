@@ -76,6 +76,7 @@
 }
 .star:checked:before {
    content: "\2605";
+   color: $brand;
 }
 .header-active {
     color: $brand;

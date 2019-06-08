@@ -11229,6 +11229,7 @@ span.ticket-delete:hover {
 
 .star:checked:before {
   content: "\2605";
+  color: #f5a623;
 }
 
 .header-active {
