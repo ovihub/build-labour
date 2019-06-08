@@ -165,7 +165,8 @@ window.Helper = {
         getInitials(name) {
             let initials = name.split(' ');
             
-            return (initials.length > 1) ? initials[0].charAt(0) + initials[1].charAt(0) : initials[0].charAt(0);
+            return (initials.length > 1) ? initials[0].charAt(0).toUppercase() + initials[1].charAt(0).toUppercase() : 
+                                            initials[0].charAt(0).toUppercase();
         },
 
         getDaysInMonth(month, year) {
