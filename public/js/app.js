@@ -4823,9 +4823,21 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
+  created: function created() {
+    var component = this;
+    Bus.$on('activateTab', function (tabName) {
+      component.$refs['nav-' + tabName].style = 'opacity: 1';
+    });
+  },
   methods: {
+    onClickDashboard: function onClickDashboard() {// this.$refs['nav-dashboard'].style = 'opacity: 1';
+    },
     onClickJobs: function onClickJobs() {
-      window.location = '/job/search';
+      if (window.location.pathname != '/job/search') {
+        window.location = '/job/search';
+      }
+    },
+    onClickMessages: function onClickMessages() {// this.$refs['nav-messages'].style = 'opacity: 1';
     }
   }
 });
@@ -6793,7 +6805,9 @@ __webpack_require__.r(__webpack_exports__);
       location: ''
     };
   },
-  created: function created() {},
+  created: function created() {
+    Bus.$emit('activateTab', 'jobs');
+  },
   methods: {
     onSearchJobPosts: function onSearchJobPosts() {
       Bus.$emit('searchJobPosts', this.keyword, this.location);
@@ -54269,7 +54283,7 @@ var render = function() {
     }),
     _vm._v(" "),
     _c("ul", { staticClass: "row bl-nav-list" }, [
-      _c("li", [
+      _c("li", { ref: "nav-dashboard", on: { click: _vm.onClickDashboard } }, [
         _c("div", { staticClass: "bl-nav-tab" }, [
           _c(
             "svg",
@@ -54301,43 +54315,39 @@ var render = function() {
         _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Dashboard")])
       ]),
       _vm._v(" "),
-      _c("li", [
-        _c(
-          "div",
-          { staticClass: "bl-nav-tab", on: { click: _vm.onClickJobs } },
-          [
-            _c(
-              "svg",
-              {
-                attrs: {
-                  xmlns: "http://www.w3.org/2000/svg",
-                  width: "22",
-                  height: "18",
-                  viewBox: "0 0 22 18"
-                }
-              },
-              [
-                _c("g", { attrs: { fill: "none", "fill-rule": "evenodd" } }, [
-                  _c("path", { attrs: { d: "M-1-3h24v24H-1z" } }),
-                  _vm._v(" "),
-                  _c("path", {
-                    attrs: {
-                      fill: "#FFF",
-                      "fill-rule": "nonzero",
-                      d:
-                        "M20 0H2C.9 0 0 .9 0 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2zm-1 16H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1zM5 7h7a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2zm0-3h7a1 1 0 0 1 0 2H5a1 1 0 1 1 0-2z"
-                    }
-                  })
-                ])
-              ]
-            )
-          ]
-        ),
+      _c("li", { ref: "nav-jobs", on: { click: _vm.onClickJobs } }, [
+        _c("div", { staticClass: "bl-nav-tab" }, [
+          _c(
+            "svg",
+            {
+              attrs: {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "22",
+                height: "18",
+                viewBox: "0 0 22 18"
+              }
+            },
+            [
+              _c("g", { attrs: { fill: "none", "fill-rule": "evenodd" } }, [
+                _c("path", { attrs: { d: "M-1-3h24v24H-1z" } }),
+                _vm._v(" "),
+                _c("path", {
+                  attrs: {
+                    fill: "#FFF",
+                    "fill-rule": "nonzero",
+                    d:
+                      "M20 0H2C.9 0 0 .9 0 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2zm-1 16H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1zM5 7h7a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2zm0-3h7a1 1 0 0 1 0 2H5a1 1 0 1 1 0-2z"
+                  }
+                })
+              ])
+            ]
+          )
+        ]),
         _vm._v(" "),
         _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Jobs")])
       ]),
       _vm._v(" "),
-      _c("li", [
+      _c("li", { ref: "nav-messages", on: { click: _vm.onClickMessages } }, [
         _c("div", { staticClass: "bl-nav-tab" }, [
           _c(
             "svg",
@@ -56758,7 +56768,7 @@ var render = function() {
                 expression: "location"
               }
             ],
-            staticClass: "page-search",
+            staticClass: "page-search-loc",
             attrs: { id: "search-loc", type: "text", placeholder: "Location" },
             domProps: { value: _vm.location },
             on: {
@@ -77240,7 +77250,7 @@ window.Helper = {
     },
     getInitials: function getInitials(name) {
       var initials = name.split(' ');
-      return initials.length > 1 ? initials[0].charAt(0).toUppercase() + initials[1].charAt(0).toUppercase() : initials[0].charAt(0).toUppercase();
+      return initials.length > 1 ? initials[0].charAt(0).toUpperCase() + initials[1].charAt(0).toUpperCase() : initials[0].charAt(0).toUpperCase();
     },
     getDaysInMonth: function getDaysInMonth(month, year) {
       return new Date(year, month, 0).getDate();

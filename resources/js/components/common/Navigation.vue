@@ -6,7 +6,7 @@
         <input class="bl-nav-search" id="search" type="text" name="search" />
 
         <ul class="row bl-nav-list">
-            <li>
+            <li ref="nav-dashboard" @click="onClickDashboard">
                 <div class="bl-nav-tab">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                         <g fill="none" fill-rule="evenodd">
@@ -19,8 +19,8 @@
                 <p class="bl-nav-tab-label">Dashboard</p>
             </li>
 
-            <li>
-                <div class="bl-nav-tab" @click="onClickJobs">
+            <li ref="nav-jobs" @click="onClickJobs">
+                <div class="bl-nav-tab">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="18" viewBox="0 0 22 18">
                         <g fill="none" fill-rule="evenodd">
                             <path d="M-1-3h24v24H-1z"/>
@@ -31,7 +31,7 @@
                 <p class="bl-nav-tab-label">Jobs</p>
             </li>
 
-            <li>
+            <li ref="nav-messages" @click="onClickMessages">
                 <div class="bl-nav-tab">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                         <g fill="none" fill-rule="evenodd">
@@ -71,10 +71,28 @@
             }
         },
 
+        created() {
+            let component = this;
+
+            Bus.$on('activateTab', function(tabName) {
+                component.$refs['nav-' + tabName].style = 'opacity: 1';
+            });
+        },
+
         methods: {
 
+            onClickDashboard() {
+                // this.$refs['nav-dashboard'].style = 'opacity: 1';
+            },
+
             onClickJobs() {
-                window.location = '/job/search';
+                if (window.location.pathname != '/job/search') {
+                    window.location = '/job/search';
+                }
+            },
+
+            onClickMessages() {
+                // this.$refs['nav-messages'].style = 'opacity: 1';
             },
         }
     }
