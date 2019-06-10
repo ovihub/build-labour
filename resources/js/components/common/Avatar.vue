@@ -9,13 +9,14 @@
 </template>
 
 <script>
+	import Api from '@/api';
+
 	export default {
 		
 		data() {
 			return {
 				input: {
 					initials: '',
-					profile_photo_url: '',
 				},
 			}
 		},
@@ -53,6 +54,10 @@
 				type: String,
 				required: false
 			},
+			isLogout: {
+				type: Boolean,
+				required: false
+			}
 		},
 
 		computed: {
@@ -78,12 +83,20 @@
 		created() {
 			let component = this;
 
-			Bus.$on('avatarDetails', function(details) {
-				component.input = details;
-			});
+			component.input.initials = component.initials;
 
-			if (this.input.initials == '') {
-				this.input.initials = this.initials;
+			if (! this.isLogout) {
+				Bus.$on('profileAvatarDetails', function(initials) {
+					component.input.initials = initials;
+
+					if (component.initials) {
+						component.input.initials = component.initials;
+					}
+				});
+			
+			} else if (this.isLogout) {
+				this.input.initials = Api.getNavAvatar().initials;
+			
 			}
 		},
 

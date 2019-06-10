@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Models\Users\Users;
 use App\Models\Users\WorkerDetail;
 use App\Models\Users\WorkExperienceResponsibility;
+use App\Models\Companies\Company;
 use App\Repositories\UserRepository;
 use App\User;
 use Illuminate\Http\Request;
@@ -79,6 +80,14 @@ class ApiAuthController extends ApiBaseController
         }
 
         $user = JWTAuth::user();
+        
+        if ($user->role_id == 2) {
+            $company = Company::where('created_by', $user->id)->first();
+            
+            $user->company_name = $company->name;
+            $user->company_photo = $company->photo_url;
+        }
+
         return $this->apiSuccessResponse( compact('user', 'token'), true, 'Login Success', self::HTTP_STATUS_REQUEST_OK);
     }
 

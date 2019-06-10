@@ -44,10 +44,6 @@
                     .then(function(response) {
                         let company = response.data.data.company;
 
-                        component.avatar = {};
-                        component.avatar.initials = Utils.getInitials(company.name);
-                        component.avatar.profile_photo_url = company.photo_url;
-
                         component.company.photo_url = company.photo_url;
                         component.company.name = company.name;
                         component.company.business_type = company.business_type;
@@ -59,7 +55,7 @@
                         component.company.main_function = company.main_function;
                         component.company.specialization = company.specialization;
 
-                        Bus.$emit('avatarDetails', component.avatar);
+                        Bus.$emit('profileAvatarDetails', Utils.getInitials(company.name));
                         Bus.$emit('companyProfileDetails', component.company);
                     })
                     .catch(function(error) {

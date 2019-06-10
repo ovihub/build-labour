@@ -48,10 +48,6 @@
                     .then(function(response) {
                         let user = response.data.data.user;
 
-                        component.avatar = {};
-                        component.avatar.initials = user.first_name.charAt(0) + user.last_name.charAt(0);
-                        component.avatar.profile_photo_url = user.profile_photo_url;
-                        
                         component.profile = {};
                         component.profile.profile_photo_url = user.profile_photo_url;
                         component.profile.profile_description = user.worker_detail ? user.worker_detail.profile_description : '';
@@ -92,7 +88,7 @@
                         component.tickets = user.tickets;
                         component.industry_skills = user.skills;
 
-                        Bus.$emit('avatarDetails', component.avatar);
+                        Bus.$emit('profileAvatarDetails', Utils.getInitials(user.full_name));
                         Bus.$emit('userProfileDetails', component.profile);
                         Bus.$emit('aboutMeDetails', component.about_me);
                         Bus.$emit('idealRoleDetails', component.ideal_role);

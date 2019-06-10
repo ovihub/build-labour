@@ -2992,14 +2992,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 this.disabled = true;
                 _context.next = 6;
                 return axios.post(component.endpoints.login, component.$data.input).then(function (response) {
-                  var data = response.data.data;
+                  var name,
+                      profile_photo_url,
+                      data = response.data.data;
                   _api__WEBPACK_IMPORTED_MODULE_1__["default"].setToken(data.token);
 
                   if (data.user.role_id == 1) {
-                    window.location.href = component.endpoints.user_profile;
+                    name = data.user.full_name;
+                    profile_photo_url = data.user.profile_photo_url;
                   } else if (data.user.role_id == 2) {
-                    window.location.href = component.endpoints.company_profile;
+                    name = data.user.company_name;
+                    profile_photo_url = data.user.company_photo;
                   }
+
+                  if (profile_photo_url) {
+                    _api__WEBPACK_IMPORTED_MODULE_1__["default"].setNavAvatar('', profile_photo_url);
+                  } else {
+                    _api__WEBPACK_IMPORTED_MODULE_1__["default"].setNavAvatar(Utils.getInitials(name), '');
+                  }
+
+                  window.location.href = component.endpoints.user_profile;
                 }).catch(function (error) {
                   Utils.setObjectValues(component.input, '');
                   Utils.handleError(error);
@@ -3078,12 +3090,14 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var component = this;
-    Bus.$on('avatarDetails', function (details) {
-      component.input = details;
-    }); // Bus.$on('croppedPhoto', function(photo_url) {
+    var profile_photo_url = _api__WEBPACK_IMPORTED_MODULE_0__["default"].getNavAvatar().profile_photo_url;
+
+    if (profile_photo_url) {
+      this.input.profile_photo_url = profile_photo_url;
+    } // Bus.$on('croppedPhoto', function(photo_url) {
     //     component.input.profile_photo_url = photo_url;
     // });
+
   },
   methods: {
     showProfile: function showProfile() {
@@ -4383,6 +4397,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
@@ -4393,12 +4408,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       input: {
-        initials: '',
-        profile_photo_url: ''
+        initials: ''
       }
     };
   },
@@ -4434,6 +4449,10 @@ __webpack_require__.r(__webpack_exports__);
     companyId: {
       type: String,
       required: false
+    },
+    isLogout: {
+      type: Boolean,
+      required: false
     }
   },
   computed: {
@@ -4456,12 +4475,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var component = this;
-    Bus.$on('avatarDetails', function (details) {
-      component.input = details;
-    });
+    component.input.initials = component.initials;
 
-    if (this.input.initials == '') {
-      this.input.initials = this.initials;
+    if (!this.isLogout) {
+      Bus.$on('profileAvatarDetails', function (initials) {
+        component.input.initials = initials;
+
+        if (component.initials) {
+          component.input.initials = component.initials;
+        }
+      });
+    } else if (this.isLogout) {
+      this.input.initials = _api__WEBPACK_IMPORTED_MODULE_0__["default"].getNavAvatar().initials;
     }
   },
   methods: {
@@ -4903,8 +4928,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var cropperjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cropperjs */ "./node_modules/cropperjs/dist/cropper.js");
-/* harmony import */ var cropperjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(cropperjs__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
+/* harmony import */ var cropperjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cropperjs */ "./node_modules/cropperjs/dist/cropper.js");
+/* harmony import */ var cropperjs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(cropperjs__WEBPACK_IMPORTED_MODULE_2__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -4934,6 +4960,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+
 
 var cropper = null;
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4985,7 +5012,7 @@ var cropper = null;
       }
 
       var image = document.getElementById('crop_photo');
-      cropper = new cropperjs__WEBPACK_IMPORTED_MODULE_1___default.a(image, {
+      cropper = new cropperjs__WEBPACK_IMPORTED_MODULE_2___default.a(image, {
         viewMode: '1',
         dragMode: 'move',
         aspectRatio: 16 / 16,
@@ -5033,8 +5060,10 @@ var cropper = null;
                     component.close();
 
                     if (component.type == 'User') {
+                      _api__WEBPACK_IMPORTED_MODULE_1__["default"].setNavAvatar('', data.data.user.profile_photo_url);
                       window.location.href = '/user/profile';
                     } else if (component.type == 'Company') {
+                      _api__WEBPACK_IMPORTED_MODULE_1__["default"].setNavAvatar('', data.data.photo_url.photo_url);
                       window.location.href = '/user/profile';
                     } else {
                       Bus.$emit('alertSuccess', data.message);
@@ -6105,9 +6134,6 @@ __webpack_require__.r(__webpack_exports__);
       var component = this;
       axios.get(component.endpointGet, Utils.getBearerAuth()).then(function (response) {
         var company = response.data.data.company;
-        component.avatar = {};
-        component.avatar.initials = Utils.getInitials(company.name);
-        component.avatar.profile_photo_url = company.photo_url;
         component.company.photo_url = company.photo_url;
         component.company.name = company.name;
         component.company.business_type = company.business_type;
@@ -6118,7 +6144,7 @@ __webpack_require__.r(__webpack_exports__);
         component.company.introduction = company.introduction;
         component.company.main_function = company.main_function;
         component.company.specialization = company.specialization;
-        Bus.$emit('avatarDetails', component.avatar);
+        Bus.$emit('profileAvatarDetails', Utils.getInitials(company.name));
         Bus.$emit('companyProfileDetails', component.company);
       }).catch(function (error) {
         Utils.handleError(error);
@@ -6869,9 +6895,7 @@ __webpack_require__.r(__webpack_exports__);
         var job = response.data.data.job;
 
         if (job.company) {
-          component.avatar = {};
-          component.avatar.initials = Utils.getInitials(job.company.name);
-          component.avatar.profile_photo_url = job.company.photo_url;
+          Bus.$emit('profileAvatarDetails', Utils.getInitials(job.company.name));
           component.summary.id = job.company.id;
           component.summary.photo_url = job.company.photo_url;
           component.summary.name = job.company.name;
@@ -6887,7 +6911,6 @@ __webpack_require__.r(__webpack_exports__);
         component.job_details.salary = job.salary;
         component.job_details.reports_to = job.reports_to;
         component.job_details.location = job.location;
-        Bus.$emit('avatarDetails', component.avatar);
         Bus.$emit('companySummaryDetails', component.summary);
         Bus.$emit('jobDetails', component.job_details);
         Bus.$emit('jobRequirementsDetails', job.requirements);
@@ -8969,9 +8992,6 @@ __webpack_require__.r(__webpack_exports__);
       var component = this;
       axios.get(component.endpoints.get, Utils.getBearerAuth()).then(function (response) {
         var user = response.data.data.user;
-        component.avatar = {};
-        component.avatar.initials = user.first_name.charAt(0) + user.last_name.charAt(0);
-        component.avatar.profile_photo_url = user.profile_photo_url;
         component.profile = {};
         component.profile.profile_photo_url = user.profile_photo_url;
         component.profile.profile_description = user.worker_detail ? user.worker_detail.profile_description : '';
@@ -9003,7 +9023,7 @@ __webpack_require__.r(__webpack_exports__);
         component.educations = user.educations;
         component.tickets = user.tickets;
         component.industry_skills = user.skills;
-        Bus.$emit('avatarDetails', component.avatar);
+        Bus.$emit('profileAvatarDetails', Utils.getInitials(user.full_name));
         Bus.$emit('userProfileDetails', component.profile);
         Bus.$emit('aboutMeDetails', component.about_me);
         Bus.$emit('idealRoleDetails', component.ideal_role);
@@ -54067,129 +54087,168 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "profile-item-3" }, [
+    _c("div", { staticClass: "profile-content" }, [
+      _c("span", { staticClass: "bl-label-16" }, [
+        _vm._v("Jobs you may be interested in")
+      ]),
+      _vm._v(" "),
+      _c("span", { staticClass: "bl-label-14" }, [
+        _vm._v("Based off on your profile")
+      ]),
+      _vm._v(" "),
+      _c("ul", { staticClass: "list-items" }, [
+        _c("li", [
+          _c("div", { staticClass: "jobads-row" }, [
+            _c(
+              "div",
+              { staticClass: "bl-col-1" },
+              [
+                _c("avatar", {
+                  attrs: {
+                    cls: "bl-image-32",
+                    size: "32",
+                    border: "0",
+                    "border-radius": "8px",
+                    initials: _vm.getInitials("ABC Constructions Group")
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _vm._m(0)
+          ])
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c("div", { staticClass: "jobads-row" }, [
+            _c(
+              "div",
+              { staticClass: "bl-col-1" },
+              [
+                _c("avatar", {
+                  attrs: {
+                    cls: "bl-image-32",
+                    size: "32",
+                    border: "0",
+                    "border-radius": "8px",
+                    initials: _vm.getInitials("XYZ Constructions")
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _vm._m(1)
+          ])
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c("div", { staticClass: "jobads-row" }, [
+            _c(
+              "div",
+              { staticClass: "bl-col-1" },
+              [
+                _c("avatar", {
+                  attrs: {
+                    cls: "bl-image-32",
+                    size: "32",
+                    border: "0",
+                    "border-radius": "8px",
+                    initials: _vm.getInitials("ABC Constructions Group")
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _vm._m(2)
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._m(3)
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-item-3" }, [
-      _c("div", { staticClass: "profile-content" }, [
-        _c("span", { staticClass: "bl-label-16" }, [
-          _vm._v("Jobs you may be interested in")
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "bl-label-14" }, [
-          _vm._v("Based off on your profile")
-        ]),
-        _vm._v(" "),
-        _c("ul", { staticClass: "list-items" }, [
-          _c("li", [
-            _c("div", { staticClass: "jobads-row" }, [
-              _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", {
-                  staticClass: "bl-image-32",
-                  attrs: { src: "/img/logo/1.jpg" }
-                })
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "bl-col-2",
-                  staticStyle: { "margin-top": "-2px" }
-                },
-                [
-                  _c("div", { staticClass: "bl-display" }, [
-                    _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                      _vm._v("Contracts Administrator (Commercial)")
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "job-text" }, [
-                      _vm._v(
-                        "\n                                ABC Constructions Group • Cremorne VIC\n                            "
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "bl-box-3" })
-                ]
-              )
-            ])
+    return _c(
+      "div",
+      { staticClass: "bl-col-2", staticStyle: { "margin-top": "-2px" } },
+      [
+        _c("div", { staticClass: "bl-display" }, [
+          _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
+            _vm._v("Contracts Administrator (Commercial)")
           ]),
           _vm._v(" "),
-          _c("li", [
-            _c("div", { staticClass: "jobads-row" }, [
-              _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", {
-                  staticClass: "bl-image-32",
-                  attrs: { src: "/img/logo/1.jpg" }
-                })
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "bl-col-2",
-                  staticStyle: { "margin-top": "-2px" }
-                },
-                [
-                  _c("div", { staticClass: "bl-display" }, [
-                    _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                      _vm._v("Contracts Manager (Commercial)")
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "job-text" }, [
-                      _vm._v("XYZ Constructions • South Yarra VIC")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "bl-box-3" })
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _c("div", { staticClass: "jobads-row" }, [
-              _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", {
-                  staticClass: "bl-image-32",
-                  attrs: { src: "/img/logo/1.jpg" }
-                })
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "bl-col-2",
-                  staticStyle: { "margin-top": "-2px" }
-                },
-                [
-                  _c("div", { staticClass: "bl-display" }, [
-                    _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                      _vm._v("Junior Project Manager (Commercial)")
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "job-text" }, [
-                      _vm._v("ABC Constructions Group • Cremorne VIC")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "bl-box-3" })
-                ]
-              )
-            ])
+          _c("span", { staticClass: "job-text" }, [
+            _vm._v(
+              "\n                                ABC Constructions Group • Cremorne VIC\n                            "
+            )
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "profile-more" }, [
-          _c("a", { attrs: { href: "#" } }, [
-            _vm._v("View More"),
-            _c("i", { staticClass: "fa fa-angle-right ml-2" })
+        _c("div", { staticClass: "bl-box-3" })
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "bl-col-2", staticStyle: { "margin-top": "-2px" } },
+      [
+        _c("div", { staticClass: "bl-display" }, [
+          _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
+            _vm._v("Contracts Manager (Commercial)")
+          ]),
+          _vm._v(" "),
+          _c("span", { staticClass: "job-text" }, [
+            _vm._v("XYZ Constructions • South Yarra VIC")
           ])
-        ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bl-box-3" })
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "bl-col-2", staticStyle: { "margin-top": "-2px" } },
+      [
+        _c("div", { staticClass: "bl-display" }, [
+          _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
+            _vm._v("Junior Project Manager (Commercial)")
+          ]),
+          _vm._v(" "),
+          _c("span", { staticClass: "job-text" }, [
+            _vm._v("ABC Constructions Group • Cremorne VIC")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bl-box-3" })
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "profile-more" }, [
+      _c("a", { attrs: { href: "#" } }, [
+        _vm._v("View More"),
+        _c("i", { staticClass: "fa fa-angle-right ml-2" })
       ])
     ])
   }
@@ -56654,7 +56713,7 @@ var render = function() {
                               border: "0",
                               "border-radius": "8px",
                               initials: _vm.getInitials(bookmark.company_name),
-                              "company-id": bookmark.company_id
+                              "company-id": bookmark.company_id + ""
                             }
                           })
                     ],
@@ -73179,6 +73238,8 @@ function () {
     var prod = '';
     var local = '';
     this.tokenName = 'bl_token';
+    this.initials = 'bl_initials';
+    this.profile_photo_url = 'bl_profile_photo_url';
     this.options = {
       Api: {
         Domain: local,
@@ -73232,6 +73293,20 @@ function () {
       return authed != null;
     }
   }, {
+    key: "setNavAvatar",
+    value: function setNavAvatar(initials, profile_photo_url) {
+      vue_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.set(this.initials, initials);
+      vue_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.set(this.profile_photo_url, profile_photo_url);
+    }
+  }, {
+    key: "getNavAvatar",
+    value: function getNavAvatar() {
+      return {
+        initials: vue_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.get(this.initials),
+        profile_photo_url: vue_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.get(this.profile_photo_url)
+      };
+    }
+  }, {
     key: "setToken",
     value: function setToken(token) {
       vue_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.set(this.tokenName, JSON.stringify(token));
@@ -73242,6 +73317,8 @@ function () {
     key: "deleteToken",
     value: function deleteToken() {
       vue_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.delete(this.tokenName);
+      vue_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.delete(this.initials);
+      vue_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.delete(this.profile_photo_url);
       window.location.href = '/login';
     }
   }, {

@@ -83,16 +83,29 @@
                 await axios.post(component.endpoints.login, component.$data.input)
                 
                     .then(function(response) {
-                        let data = response.data.data;
+                        let name,
+                            profile_photo_url,
+                            data = response.data.data;
 
                         Api.setToken(data.token);
 
                         if (data.user.role_id == 1) {
-                            window.location.href = component.endpoints.user_profile;
-                        
+                            name = data.user.full_name;
+                            profile_photo_url = data.user.profile_photo_url;
+
                         } else if (data.user.role_id == 2) {
-                            window.location.href = component.endpoints.company_profile;
+                            name = data.user.company_name;
+                            profile_photo_url = data.user.company_photo;
                         }
+
+                        if (profile_photo_url) {
+                            Api.setNavAvatar('', profile_photo_url);
+                            
+                        } else {
+                            Api.setNavAvatar(Utils.getInitials(name), '');
+                        }
+
+                        window.location.href = component.endpoints.user_profile;
                     })
                     .catch(function(error) {
                         

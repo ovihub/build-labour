@@ -9,6 +9,8 @@ class BuildLabourApi {
         const local = '';
 
         this.tokenName = 'bl_token';
+        this.initials = 'bl_initials';
+        this.profile_photo_url = 'bl_profile_photo_url';
 
         this.options = {
             Api: {
@@ -63,6 +65,16 @@ class BuildLabourApi {
         return authed != null;
     }
 
+    setNavAvatar(initials, profile_photo_url) {
+        VueCookie.set(this.initials, initials);
+        VueCookie.set(this.profile_photo_url, profile_photo_url);
+    }
+
+    getNavAvatar() {
+        return { initials: VueCookie.get(this.initials),
+                 profile_photo_url: VueCookie.get(this.profile_photo_url) };
+    }
+
     setToken(token) {
         VueCookie.set(this.tokenName, JSON.stringify(token));
         this._invalidateToken()
@@ -70,6 +82,8 @@ class BuildLabourApi {
 
     deleteToken() {
         VueCookie.delete(this.tokenName);
+        VueCookie.delete(this.initials);
+        VueCookie.delete(this.profile_photo_url);
         window.location.href = '/login';
     }
 

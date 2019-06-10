@@ -7,10 +7,10 @@
                 <li>
                     <div class="jobads-row">
                         <div class="bl-col-1">
-                            <img class="bl-image-32" src="/img/logo/1.jpg">
-                            <!-- <avatar cls="bl-image-32" size="32" border="0" border-radius="8px"
-                                :initials="getInitials(company_name)">
-                            </avatar> -->
+                            <!-- <img class="bl-image-32" src="/img/logo/1.jpg"> -->
+                            <avatar cls="bl-image-32" size="32" border="0" border-radius="8px"
+                                :initials="getInitials('ABC Constructions Group')">
+                            </avatar>
                         </div>
                         <div class="bl-col-2" style="margin-top:-2px">
                             <div class="bl-display">
@@ -26,10 +26,10 @@
                 <li>
                     <div class="jobads-row">
                         <div class="bl-col-1">
-                            <img class="bl-image-32" src="/img/logo/1.jpg">
-                            <!-- <avatar cls="bl-image-32" size="32" border="0" border-radius="8px"
-                                :initials="getInitials(company_name)">
-                            </avatar> -->
+                            <!-- <img class="bl-image-32" src="/img/logo/1.jpg"> -->
+                            <avatar cls="bl-image-32" size="32" border="0" border-radius="8px"
+                                :initials="getInitials('XYZ Constructions')">
+                            </avatar>
                         </div>
                         <div class="bl-col-2" style="margin-top:-2px">
                             <div class="bl-display">
@@ -43,10 +43,10 @@
                 <li>
                     <div class="jobads-row">
                         <div class="bl-col-1">
-                            <img class="bl-image-32" src="/img/logo/1.jpg">
-                            <!-- <avatar cls="bl-image-32" size="32" border="0" border-radius="8px"
-                                :initials="getInitials(company_name)">
-                            </avatar> -->
+                            <!-- <img class="bl-image-32" src="/img/logo/1.jpg"> -->
+                            <avatar cls="bl-image-32" size="32" border="0" border-radius="8px"
+                                :initials="getInitials('ABC Constructions Group')">
+                            </avatar>
                         </div>
                         <div class="bl-col-2" style="margin-top:-2px">
                             <div class="bl-display">

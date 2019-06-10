@@ -11,7 +11,7 @@
 
                             <avatar v-else cls="bl-image-32" size="32" border="0" border-radius="8px"
                                 :initials="getInitials(bookmark.company_name)"
-                                :company-id="bookmark.company_id">
+                                :company-id="bookmark.company_id + ''">
                             </avatar>
                         </div>
                         <div class="bl-col-2" style="margin-top:-2px;cursor:pointer"

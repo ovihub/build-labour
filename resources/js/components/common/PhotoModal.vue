@@ -22,6 +22,7 @@
 </template>
 
 <script>
+	import Api from '@/api';
 	import Cropper from 'cropperjs';
 
 	var cropper = null;
@@ -129,11 +130,13 @@
 								component.close();
 
 								if (component.type == 'User') {
+									Api.setNavAvatar('', data.data.user.profile_photo_url);
 									window.location.href = '/user/profile';
 								
 								} else if (component.type == 'Company') {
+									Api.setNavAvatar('', data.data.photo_url.photo_url);
 									window.location.href = '/user/profile';
-								
+									
 								} else {
 									Bus.$emit('alertSuccess', data.message);
 									Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);

@@ -43,12 +43,12 @@
         },
 
         created() {
-            let component = this;
+            let profile_photo_url = Api.getNavAvatar().profile_photo_url;
 
-            Bus.$on('avatarDetails', function(details) {
-                component.input = details;
-            });
-            
+            if (profile_photo_url) {
+                this.input.profile_photo_url = profile_photo_url;
+            }
+
             // Bus.$on('croppedPhoto', function(photo_url) {
             //     component.input.profile_photo_url = photo_url;
             // });
