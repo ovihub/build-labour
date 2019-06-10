@@ -40,11 +40,11 @@ class Job extends BaseModel
     {
         return [
             'title'         => 'required|min:5',
-            'description'   => 'nullable|min:5',
-            'exp_level'     => 'nullable|min:5',
-            'contract_type' => 'nullable|min:5',
+            'description'   => 'required|min:5',
+            'exp_level'     => 'required|min:5',
+            'contract_type' => 'required|min:5',
             'salary'        => 'nullable|regex:/\b\d{1,3}(?:,?\d{3})*(?:\.\d{2})?\b/', /* monetary validation */
-            'location'      => 'nullable|min:5'
+            'location'      => 'required|min:5'
         ];
     }
 

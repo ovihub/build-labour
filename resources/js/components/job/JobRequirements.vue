@@ -69,7 +69,7 @@
             let component = this;
 
             Bus.$on('jobRequirementsDetails', function(detailsArray) {
-                if (detailsArray.length != 0) {
+                if (detailsArray && detailsArray.length != 0) {
                     component.qualifications = detailsArray[0].items;
                     component.experience = detailsArray[1].items;
                     component.skills = detailsArray[2].items;

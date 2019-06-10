@@ -18,7 +18,7 @@
                             
                             <textarea rows="3" ref="idealIntro" class="form-control" style="overflow:hidden"
                                 placeholder="Example: My ideal next role would be as a qualified plumber working on high-end residential jobs with an awesome team."
-                                @keyup="textAreaAdjust" v-model="input.introduction"></textarea>
+                                @keyup="textAreaAdjust('idealIntro')" v-model="input.introduction"></textarea>
                             
                             <div class="skill-label" style="margin-bottom:0">
                                 When could this happen?
@@ -241,10 +241,8 @@
                 this.setValues(this.input, this);
             },
             
-            textAreaAdjust() {
-                let o = this.$refs['idealIntro'];
-                o.style.height = '1px';
-                o.style.height = (2 + o.scrollHeight) + 'px';
+            textAreaAdjust(refName) {
+                Utils.textAreaAdjust(this.$refs[refName]);
             },
 
             deleteRecord() {

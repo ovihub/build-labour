@@ -5960,10 +5960,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         Utils.handleError(error);
       });
     },
-    textAreaAdjust: function textAreaAdjust(index) {
-      var o = this.$refs['companyIntro'];
-      o.style.height = '1px';
-      o.style.height = 2 + o.scrollHeight + 'px';
+    textAreaAdjust: function textAreaAdjust(refName) {
+      Utils.textAreaAdjust(this.$refs[refName]);
     },
     open: function open() {},
     close: function close() {
@@ -6201,9 +6199,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      show: true,
       id: '',
       photo_url: '',
       name: '',
@@ -6214,14 +6222,22 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var component = this;
     Bus.$on('companySummaryDetails', function (details) {
-      component.id = details.id;
-      component.photo_url = details.photo_url;
-      component.name = details.name;
-      component.address = details.address;
-      component.introduction = details.introduction;
+      if (details) {
+        component.id = details.id;
+        component.photo_url = details.photo_url;
+        component.name = details.name;
+        component.address = details.address;
+        component.introduction = details.introduction;
+      } else {
+        component.show = false;
+      }
     });
   },
-  methods: {}
+  methods: {
+    postJob: function postJob() {
+      Bus.$emit('postJob');
+    }
+  }
 });
 
 /***/ }),
@@ -6235,6 +6251,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -6316,9 +6341,144 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      show: true,
+      locations: [],
       title: '',
       description: '',
       about: '',
@@ -6326,23 +6486,125 @@ __webpack_require__.r(__webpack_exports__);
       contract_type: '',
       salary: '',
       reports_to: [],
-      location: ''
+      location: '',
+      input: {
+        title: '',
+        description: '',
+        about: '',
+        exp_level: '',
+        contract_type: '',
+        salary: '',
+        reports_to: [],
+        location: ''
+      },
+      errors: {
+        title: '',
+        description: '',
+        about: '',
+        exp_level: '',
+        contract_type: '',
+        salary: '',
+        reports_to: '',
+        location: ''
+      },
+      endpoints: {
+        save: '/api/v1/job'
+      }
     };
   },
   created: function created() {
     var component = this;
     Bus.$on('jobDetails', function (details) {
-      component.title = details.title;
-      component.description = details.description;
-      component.about = details.about;
-      component.exp_level = details.exp_level;
-      component.contract_type = details.contract_type;
-      component.salary = details.salary;
-      component.reports_to = details.reports_to;
-      component.location = details.location;
+      if (details) {
+        component.title = details.title;
+        component.description = details.description;
+        component.about = details.about;
+        component.exp_level = details.exp_level;
+        component.contract_type = details.contract_type;
+        component.salary = details.salary;
+        component.reports_to = details.reports_to;
+        component.location = details.location;
+      } else {
+        component.show = false;
+      }
     });
+    Bus.$on('postJob', function () {
+      component.submit();
+    });
+    this.input.reports_to.push('');
   },
-  methods: {}
+  methods: {
+    textAreaAdjust: function textAreaAdjust(refName) {
+      Utils.textAreaAdjust(this.$refs[refName]);
+    },
+    onChangeLocation: function onChangeLocation(keyword) {
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
+        component.locations = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.locations ? data.data.locations.features : [];
+      });
+    },
+    onSelectLocation: function onSelectLocation(location) {
+      this.input.location = location;
+      this.locations = [];
+    },
+    addNewEntity: function addNewEntity() {
+      this.input.reports_to = this.input.reports_to.filter(function (r) {
+        return r !== '';
+      });
+      this.input.reports_to.push('');
+    },
+    removeEntity: function removeEntity(index) {
+      if (this.input.reports_to.length > 1) {
+        this.input.reports_to.splice(index, 1);
+      }
+    },
+    submit: function () {
+      var _submit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var component;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                component = this;
+                Utils.setObjectValues(this.errors, '');
+                this.disabled = true;
+                _context.next = 5;
+                return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
+                  var data = response.data;
+                  console.log(data);
+                  Bus.$emit('alertSuccess', data.message);
+                }).catch(function (error) {
+                  if (error.response) {
+                    var data = error.response.data;
+
+                    for (var key in data.errors) {
+                      component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                    }
+                  }
+
+                  Utils.handleError(error);
+                });
+
+              case 5:
+                this.disabled = false;
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function submit() {
+        return _submit.apply(this, arguments);
+      }
+
+      return submit;
+    }()
+  }
 });
 
 /***/ }),
@@ -6365,6 +6627,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
 //
 //
 //
@@ -6607,7 +6870,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var component = this;
     Bus.$on('jobRequirementsDetails', function (detailsArray) {
-      if (detailsArray.length != 0) {
+      if (detailsArray && detailsArray.length != 0) {
         component.qualifications = detailsArray[0].items;
         component.experience = detailsArray[1].items;
         component.skills = detailsArray[2].items;
@@ -6685,7 +6948,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var component = this;
     Bus.$on('jobResponsibilitiesDetails', function (detailsArray) {
-      if (detailsArray.length != 0) {
+      if (detailsArray && detailsArray.length != 0) {
         component.qualities = detailsArray[0].items;
         component.nextTitles = detailsArray[1].items;
       }
@@ -6894,23 +7157,29 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(component.endpoints.get, Utils.getBearerAuth()).then(function (response) {
         var job = response.data.data.job;
 
-        if (job.company) {
-          Bus.$emit('profileAvatarDetails', Utils.getInitials(job.company.name));
-          component.summary.id = job.company.id;
-          component.summary.photo_url = job.company.photo_url;
-          component.summary.name = job.company.name;
-          component.summary.address = job.company.address;
-          component.summary.introduction = job.company.introduction;
+        if (job) {
+          if (job.company) {
+            Bus.$emit('profileAvatarDetails', Utils.getInitials(job.company.name));
+            component.summary.id = job.company.id;
+            component.summary.photo_url = job.company.photo_url;
+            component.summary.name = job.company.name;
+            component.summary.address = job.company.address;
+            component.summary.introduction = job.company.introduction;
+          }
+
+          component.job_details.title = job.title;
+          component.job_details.description = job.description;
+          component.job_details.about = job.about;
+          component.job_details.exp_level = job.exp_level;
+          component.job_details.contract_type = job.contract_type;
+          component.job_details.salary = job.salary;
+          component.job_details.reports_to = job.reports_to;
+          component.job_details.location = job.location;
+        } else {
+          component.summary = null;
+          component.job_details = null;
         }
 
-        component.job_details.title = job.title;
-        component.job_details.description = job.description;
-        component.job_details.about = job.about;
-        component.job_details.exp_level = job.exp_level;
-        component.job_details.contract_type = job.contract_type;
-        component.job_details.salary = job.salary;
-        component.job_details.reports_to = job.reports_to;
-        component.job_details.location = job.location;
         Bus.$emit('companySummaryDetails', component.summary);
         Bus.$emit('jobDetails', component.job_details);
         Bus.$emit('jobRequirementsDetails', job.requirements);
@@ -8559,10 +8828,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     close: function close() {
       this.setValues(this.input, this);
     },
-    textAreaAdjust: function textAreaAdjust() {
-      var o = this.$refs['idealIntro'];
-      o.style.height = '1px';
-      o.style.height = 2 + o.scrollHeight + 'px';
+    textAreaAdjust: function textAreaAdjust(refName) {
+      Utils.textAreaAdjust(this.$refs[refName]);
     },
     deleteRecord: function deleteRecord() {
       $('#deleteRecordModal').modal('show');
@@ -8826,10 +9093,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.firstColumn = this.user_skills.slice(0, half);
       this.secondColumn = this.user_skills.slice(half, len);
     },
-    textAreaAdjust: function textAreaAdjust() {
-      var o = this.$refs['skillsIntro'];
-      o.style.height = '1px';
-      o.style.height = 2 + o.scrollHeight + 'px';
+    textAreaAdjust: function textAreaAdjust(refName) {
+      Utils.textAreaAdjust(this.$refs[refName]);
     },
     close: function close() {
       this.input.main_skill = this.main_skill;
@@ -9660,10 +9925,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         reader.readAsDataURL(file);
       }
     },
-    textAreaAdjust: function textAreaAdjust() {
-      var o = this.$refs['userIntro'];
-      o.style.height = '1px';
-      o.style.height = 2 + o.scrollHeight + 'px';
+    textAreaAdjust: function textAreaAdjust(refName) {
+      Utils.textAreaAdjust(this.$refs[refName]);
     },
     open: function open() {
       this.loadEducations();
@@ -55150,7 +55413,7 @@ var render = function() {
                     domProps: { value: _vm.input.introduction },
                     on: {
                       keyup: function($event) {
-                        return _vm.textAreaAdjust()
+                        return _vm.textAreaAdjust("companyIntro")
                       },
                       input: function($event) {
                         if ($event.target.composing) {
@@ -56033,62 +56296,80 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "profile-item-1" }, [
-    _c(
-      "div",
-      { staticClass: "company-image" },
-      [
-        _vm.photo_url
-          ? _c("img", { attrs: { src: _vm.photo_url } })
-          : _c("avatar", {
-              attrs: {
-                cls: "",
-                size: "110",
-                border: "0",
-                "border-radius": "8px"
-              }
-            })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "profile-content",
-        staticStyle: { "margin-top": "-56px" }
-      },
-      [
-        _c("div", { staticClass: "profile-content-p20 pb-4" }, [
-          _c("div", { staticClass: "company-title" }, [
-            _vm._v("\n                " + _vm._s(_vm.name) + "\n            ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "company-address" }, [
-            _vm._v(
-              "\n                " + _vm._s(_vm.address) + "\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "company-body" }, [
-            _vm._v(
-              "\n                " + _vm._s(_vm.introduction) + "\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "company-view" }, [
-            _c("a", { attrs: { href: "/company/profile/" + _vm.id } }, [
-              _vm._v("\n                    View Business\n                ")
+  return _vm.show
+    ? _c("div", { staticClass: "profile-item-1" }, [
+        _c(
+          "div",
+          { staticClass: "company-image" },
+          [
+            _vm.photo_url
+              ? _c("img", { attrs: { src: _vm.photo_url } })
+              : _c("avatar", {
+                  attrs: {
+                    cls: "",
+                    size: "110",
+                    border: "0",
+                    "border-radius": "8px"
+                  }
+                })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "profile-content",
+            staticStyle: { "margin-top": "-56px" }
+          },
+          [
+            _c("div", { staticClass: "profile-content-p20 pb-4" }, [
+              _c("div", { staticClass: "company-title" }, [
+                _vm._v(
+                  "\n                " + _vm._s(_vm.name) + "\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "company-address" }, [
+                _vm._v(
+                  "\n                " + _vm._s(_vm.address) + "\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "company-body" }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.introduction) +
+                    "\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "company-view" }, [
+                _c("a", { attrs: { href: "/company/profile/" + _vm.id } }, [
+                  _vm._v(
+                    "\n                    View Business\n                "
+                  )
+                ])
+              ])
             ])
-          ])
+          ]
+        ),
+        _vm._v(" "),
+        _c("button", { staticStyle: { width: "100%" } }, [
+          _vm._v("\n        Apply\n    ")
         ])
-      ]
-    ),
-    _vm._v(" "),
-    _c("button", { staticStyle: { width: "100%" } }, [
-      _vm._v("\n        Apply\n    ")
-    ])
-  ])
+      ])
+    : _c("div", [
+        _c("button", { staticStyle: { width: "100%" } }, [
+          _vm._v("\n        Save as template\n    ")
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticStyle: { width: "100%" }, on: { click: _vm.postJob } },
+          [_vm._v("\n        Post Job\n    ")]
+        )
+      ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -56116,114 +56397,632 @@ var render = function() {
     _c("div", { staticClass: "profile-content" }, [
       _vm._m(0),
       _vm._v(" "),
-      _vm.title
-        ? _c("div", { staticClass: "job-header" }, [
-            _vm._v("\n            " + _vm._s(_vm.title) + "\n        ")
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.description
+      _vm.show
         ? _c("div", [
-            _c("div", { staticClass: "job-title" }, [
-              _vm._v("Job Description")
-            ]),
+            _vm.title
+              ? _c("div", { staticClass: "job-header" }, [
+                  _vm._v(
+                    "\n                " + _vm._s(_vm.title) + "\n            "
+                  )
+                ])
+              : _vm._e(),
             _vm._v(" "),
-            _c("div", { staticClass: "job-body" }, [
-              _vm._v(
-                "\n                " +
-                  _vm._s(_vm.description) +
-                  "\n            "
-              )
-            ])
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.about
-        ? _c("div", [
-            _c("div", { staticClass: "job-title" }, [
-              _vm._v("About the Project")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "job-body" }, [
-              _vm._v(
-                "\n                " + _vm._s(_vm.about) + "\n            "
-              )
-            ])
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.exp_level
-        ? _c("div", [
-            _c("div", { staticClass: "job-title" }, [
-              _vm._v("Experience Level")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "job-body" }, [
-              _vm._v(
-                "\n                " + _vm._s(_vm.exp_level) + " \n            "
-              )
-            ])
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.contract_type
-        ? _c("div", [
-            _c("div", { staticClass: "job-title" }, [_vm._v("Contract type")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "job-body" }, [
-              _vm._v(
-                "\n                " +
-                  _vm._s(_vm.contract_type) +
-                  "\n            "
-              )
-            ])
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.salary
-        ? _c("div", [
-            _c("div", { staticClass: "job-title" }, [_vm._v("Salary")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "job-body" }, [
-              _vm._v("\n                $ - - - , - - - \n            ")
-            ])
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.reports_to
-        ? _c("div", [
-            _c("div", { staticClass: "job-title" }, [_vm._v("Reports to")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "job-body" }, [
-              _c(
-                "ul",
-                { staticClass: "job-list-items-2" },
-                _vm._l(_vm.reports_to, function(item, index) {
-                  return _c("li", { key: index }, [
+            _vm.description
+              ? _c("div", [
+                  _c("div", { staticClass: "job-title" }, [
+                    _vm._v("Job Description")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "job-body" }, [
                     _vm._v(
-                      "\n                        " +
-                        _vm._s(item) +
-                        "\n                    "
+                      "\n                    " +
+                        _vm._s(_vm.description) +
+                        "\n                "
                     )
                   ])
-                }),
-                0
-              )
-            ])
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.location
-        ? _c("div", [
-            _c("div", { staticClass: "job-title" }, [_vm._v("Location")]),
+                ])
+              : _vm._e(),
             _vm._v(" "),
-            _c("div", { staticClass: "job-body" }, [
-              _vm._v(
-                "\n                " + _vm._s(_vm.location) + "\n            "
-              )
+            _vm.about
+              ? _c("div", [
+                  _c("div", { staticClass: "job-title" }, [
+                    _vm._v("About the Project")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "job-body" }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.about) +
+                        "\n                "
+                    )
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.exp_level
+              ? _c("div", [
+                  _c("div", { staticClass: "job-title" }, [
+                    _vm._v("Experience Level")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "job-body" }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.exp_level) +
+                        " \n                "
+                    )
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.contract_type
+              ? _c("div", [
+                  _c("div", { staticClass: "job-title" }, [
+                    _vm._v("Contract type")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "job-body" }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.contract_type) +
+                        "\n                "
+                    )
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.salary
+              ? _c("div", [
+                  _c("div", { staticClass: "job-title" }, [_vm._v("Salary")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "job-body" }, [
+                    _vm._v(
+                      "\n                    $ - - - , - - - \n                "
+                    )
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.reports_to && _vm.reports_to.length > 0
+              ? _c("div", [
+                  _c("div", { staticClass: "job-title" }, [
+                    _vm._v("Reports to")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "job-body" }, [
+                    _c(
+                      "ul",
+                      { staticClass: "job-list-items-2" },
+                      _vm._l(_vm.reports_to, function(item, index) {
+                        return _c("li", { key: index }, [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(item) +
+                              "\n                        "
+                          )
+                        ])
+                      }),
+                      0
+                    )
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.location
+              ? _c("div", [
+                  _c("div", { staticClass: "job-title" }, [_vm._v("Location")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "job-body" }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.location) +
+                        "\n                "
+                    )
+                  ])
+                ])
+              : _vm._e()
+          ])
+        : _c("div", [
+            _c("form", { attrs: { method: "POST" } }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("div", { staticClass: "job-title mb-2" }, [
+                  _vm._v("Job Title")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.input.title,
+                      expression: "input.title"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  staticStyle: { "padding-left": "24px" },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Start typing",
+                    required: "",
+                    autofocus: ""
+                  },
+                  domProps: { value: _vm.input.title },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.input, "title", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.errors.title
+                  ? _c("span", { staticClass: "err-msg" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.errors.title) +
+                          "\n                    "
+                      )
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("div", { staticClass: "job-title" }, [
+                  _vm._v("Job Description")
+                ]),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.input.description,
+                      expression: "input.description"
+                    }
+                  ],
+                  ref: "jobDesc",
+                  staticClass: "form-control",
+                  staticStyle: { overflow: "hidden" },
+                  attrs: {
+                    rows: "5",
+                    placeholder:
+                      "Example: The Project Manager is accountable for the leadership and management of their nominated project including the achievement of safety, quality, commercial and programme objectives and the effective day to day management of the project team."
+                  },
+                  domProps: { value: _vm.input.description },
+                  on: {
+                    keyup: function($event) {
+                      return _vm.textAreaAdjust("jobDesc")
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.input, "description", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.errors.description
+                  ? _c("span", { staticClass: "err-msg" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.errors.description) +
+                          "\n                    "
+                      )
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("div", { staticClass: "job-title" }, [
+                  _vm._v("About the project")
+                ]),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.input.about,
+                      expression: "input.about"
+                    }
+                  ],
+                  ref: "jobAbout",
+                  staticClass: "form-control",
+                  staticStyle: { overflow: "hidden" },
+                  attrs: {
+                    rows: "3",
+                    placeholder:
+                      "Example: $730 million Residential Skycraper comprising of 941 residential apartments and 208 serviced apartments across 88 storeys."
+                  },
+                  domProps: { value: _vm.input.about },
+                  on: {
+                    keyup: function($event) {
+                      return _vm.textAreaAdjust("jobAbout")
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.input, "about", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.errors.about
+                  ? _c("span", { staticClass: "err-msg" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.errors.about) +
+                          "\n                    "
+                      )
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("div", { staticClass: "job-title mb-2" }, [
+                  _vm._v("Experience Level")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "me-row" }, [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.input.exp_level,
+                          expression: "input.exp_level"
+                        }
+                      ],
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.input,
+                            "exp_level",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "option",
+                        { key: "1", attrs: { value: "Entry Level" } },
+                        [_vm._v("Entry Level")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "option",
+                        { key: "2", attrs: { value: "Intermediate" } },
+                        [_vm._v("Intermediate")]
+                      ),
+                      _vm._v(" "),
+                      _c("option", { key: "3", attrs: { value: "Junior" } }, [
+                        _vm._v("Junior")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { key: "4", attrs: { value: "Senior" } }, [
+                        _vm._v("Senior")
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _vm.errors.exp_level
+                    ? _c("span", { staticClass: "err-msg" }, [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(_vm.errors.exp_level) +
+                            "\n                        "
+                        )
+                      ])
+                    : _vm._e()
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("div", { staticClass: "job-title mb-2" }, [
+                  _vm._v("Contract Type")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "me-row" }, [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.input.contract_type,
+                          expression: "input.contract_type"
+                        }
+                      ],
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.input,
+                            "contract_type",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "option",
+                        { key: "1", attrs: { value: "Part-Time" } },
+                        [_vm._v("Part-Time")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "option",
+                        { key: "2", attrs: { value: "Full-Time Permanent" } },
+                        [_vm._v("Full-Time Permanent")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "option",
+                        { key: "3", attrs: { value: "Fixed-Term" } },
+                        [_vm._v("Fixed-Term")]
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _vm.errors.contract_type
+                    ? _c("span", { staticClass: "err-msg" }, [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(_vm.errors.contract_type) +
+                            "\n                        "
+                        )
+                      ])
+                    : _vm._e()
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("div", { staticClass: "job-title mb-2" }, [
+                  _vm._v("Salary")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.input.salary,
+                      expression: "input.salary"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  staticStyle: { "padding-left": "24px" },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Enter amount",
+                    required: "",
+                    autofocus: ""
+                  },
+                  domProps: { value: _vm.input.salary },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.input, "salary", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.errors.salary
+                  ? _c("span", { staticClass: "err-msg" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.errors.salary) +
+                          "\n                    "
+                      )
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  _c("div", { staticClass: "job-title mb-2" }, [
+                    _vm._v("Reports To")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.input.reports_to, function(to, index) {
+                    return _c(
+                      "div",
+                      {
+                        key: index,
+                        ref: "toItem-" + index,
+                        refInFor: true,
+                        staticClass: "form-group emp-row row-center"
+                      },
+                      [
+                        _c("div", { staticClass: "comp-col-left" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.input.reports_to[index],
+                                expression: "input.reports_to[index]"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.input.reports_to[index] },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.input.reports_to,
+                                  index,
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "comp-col-right" }, [
+                          _c(
+                            "span",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.removeEntity(index)
+                                }
+                              }
+                            },
+                            [
+                              _c("img", {
+                                staticStyle: { cursor: "pointer" },
+                                attrs: {
+                                  src: "/img/icons/remove.png",
+                                  srcset:
+                                    "/img/icons/remove@2x.png" +
+                                    " 2x, " +
+                                    "/img/icons/remove@3x.png" +
+                                    " 3x"
+                                }
+                              })
+                            ]
+                          )
+                        ])
+                      ]
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "btn btn-link btn-delete",
+                      on: { click: _vm.addNewEntity }
+                    },
+                    [
+                      _vm._v(
+                        "\n                        Add new position\n                    "
+                      )
+                    ]
+                  )
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("div", { staticClass: "job-title mb-2" }, [
+                  _vm._v("Location")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.input.location,
+                      expression: "input.location"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  staticStyle: { "padding-left": "24px" },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Start typing address..."
+                  },
+                  domProps: { value: _vm.input.location },
+                  on: {
+                    keyup: function($event) {
+                      return _vm.onChangeLocation(_vm.input.location)
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.input, "location", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.errors.location
+                  ? _c("span", { staticClass: "err-msg" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.errors.location) +
+                          "\n                    "
+                      )
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _vm.locations.length > 0
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "emp-row",
+                      staticStyle: { "margin-top": "0" }
+                    },
+                    [
+                      _c(
+                        "ul",
+                        { staticClass: "list-group" },
+                        _vm._l(_vm.locations, function(place, idx) {
+                          return _c(
+                            "li",
+                            {
+                              key: idx,
+                              staticClass: "list-group-item",
+                              on: {
+                                click: function($event) {
+                                  return _vm.onSelectLocation(place.place_name)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(place.place_name) +
+                                  "\n                        "
+                              )
+                            ]
+                          )
+                        }),
+                        0
+                      )
+                    ]
+                  )
+                : _vm._e()
             ])
           ])
-        : _vm._e()
     ])
   ])
 }
@@ -56405,11 +57204,10 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "bl-label-14-style-3" }, [
                 _vm._v(
-                  "\n                        " + _vm._s(post.job.location)
-                ),
-                _c("span", { staticClass: "text-style-1" }, [
-                  _vm._v(_vm._s(_vm.getTimeDiffNow(post.job.created_at)))
-                ])
+                  "\n                        " +
+                    _vm._s(post.job.location) +
+                    "\n                        "
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "bl-label-15 bl-mt16" }, [
@@ -59126,7 +59924,9 @@ var render = function() {
                       },
                       domProps: { value: _vm.input.introduction },
                       on: {
-                        keyup: _vm.textAreaAdjust,
+                        keyup: function($event) {
+                          return _vm.textAreaAdjust("idealIntro")
+                        },
                         input: function($event) {
                           if ($event.target.composing) {
                             return
@@ -59637,7 +60437,9 @@ var render = function() {
                     },
                     domProps: { value: _vm.input.main_skill },
                     on: {
-                      keyup: _vm.textAreaAdjust,
+                      keyup: function($event) {
+                        return _vm.textAreaAdjust("skillsIntro")
+                      },
                       input: function($event) {
                         if ($event.target.composing) {
                           return
@@ -60549,7 +61351,9 @@ var render = function() {
                     },
                     domProps: { value: _vm.input.profile_description },
                     on: {
-                      keyup: _vm.textAreaAdjust,
+                      keyup: function($event) {
+                        return _vm.textAreaAdjust("userIntro")
+                      },
                       input: function($event) {
                         if ($event.target.composing) {
                           return
@@ -77354,6 +78158,10 @@ window.Helper = {
     },
     redirectToJobPost: function redirectToJobPost(company_id, job_id) {
       window.location = '/job/view/?cid=' + company_id + '&jid=' + job_id;
+    },
+    textAreaAdjust: function textAreaAdjust(o) {
+      o.style.height = '1px';
+      o.style.height = 2 + o.scrollHeight + 'px';
     }
   }
 };

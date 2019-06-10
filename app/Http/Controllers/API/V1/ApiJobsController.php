@@ -316,7 +316,7 @@ class ApiJobsController extends ApiBaseController
             );
         }
 
-        return $this->apiSuccessResponse( compact('job'), true, 'Successfully Job Posted.', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact('job'), true, 'Posted job successfully', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
@@ -433,7 +433,7 @@ class ApiJobsController extends ApiBaseController
             );
         }
 
-        return $this->apiSuccessResponse( compact('job'), true, 'Successfully Job Updated.', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact('job'), true, 'Updated job successfully', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**

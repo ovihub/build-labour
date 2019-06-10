@@ -43,7 +43,7 @@
                         <div class="skill-label">Summary of career</div>
                         <textarea rows="3" ref="userIntro" class="form-control" style="overflow:hidden"
                             placeholder="Example: Experienced Senior Project Manager; demonstrated history of working on a wide range of construction projects for leading companies."
-                            @keyup="textAreaAdjust" v-model="input.profile_description"></textarea>
+                            @keyup="textAreaAdjust('userIntro')" v-model="input.profile_description"></textarea>
                         
                         <div class="skill-label">Education</div>
                         <div class="me-row">
@@ -308,10 +308,8 @@
                 }
             },
 
-            textAreaAdjust() {
-                let o = this.$refs['userIntro'];
-                o.style.height = '1px';
-                o.style.height = (2 + o.scrollHeight) + 'px';
+            textAreaAdjust(refName) {
+                Utils.textAreaAdjust(this.$refs[refName]);
             },
 
             open() {

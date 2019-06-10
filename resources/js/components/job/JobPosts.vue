@@ -44,7 +44,8 @@
                             {{ post.job.title }}
                         </div>
                         <div class="bl-label-14-style-3">
-                            {{ post.job.location }}<span class="text-style-1">{{ getTimeDiffNow(post.job.created_at) }}</span>
+                            {{ post.job.location }}
+                            <!-- <span class="text-style-1">{{ getTimeDiffNow(post.job.created_at) }}</span> -->
                         </div>
                         <div class="bl-label-15 bl-mt16">
                             {{ post.job.description }}

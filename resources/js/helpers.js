@@ -147,13 +147,15 @@ window.Helper = {
                 days = Math.floor(hours/24);
 
                 if (days > 29) {
-                months = Math.floor(days/30);
+                    months = Math.floor(days/30);
 
-                if (months > 11) {
-                    years = Math.floor(months/12);
-                    return (years == 1) ? 'Posted a year ago' : 'Posted ' + years + ' years ago'
-                }
-                return (months == 1) ? 'Posted a month ago' : 'Posted ' + months + ' months ago';
+                    if (months > 11) {
+                        years = Math.floor(months/12);
+                        
+                        return (years == 1) ? 'Posted a year ago' : 'Posted ' + years + ' years ago'
+                    }
+
+                    return (months == 1) ? 'Posted a month ago' : 'Posted ' + months + ' months ago';
                 }
 
                 return (days == 1) ? 'Posted 1day ago' : 'Posted ' + days + 'days ago';
@@ -197,6 +199,11 @@ window.Helper = {
 
         redirectToJobPost(company_id, job_id) {
             window.location = '/job/view/?cid=' + company_id + '&jid=' + job_id;
-        }
+        },
+
+        textAreaAdjust(o) {
+            o.style.height = '1px';
+            o.style.height = (2 + o.scrollHeight) + 'px';
+        },
     }
 }

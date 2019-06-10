@@ -58,7 +58,7 @@
             let component = this;
 
             Bus.$on('jobResponsibilitiesDetails', function(detailsArray) {
-                if (detailsArray.length != 0) {
+                if (detailsArray && detailsArray.length != 0) {
                     component.qualities = detailsArray[0].items;
                     component.nextTitles = detailsArray[1].items;
                 }

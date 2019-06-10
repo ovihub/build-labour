@@ -19,7 +19,7 @@
                         
                         <textarea rows="3" ref="skillsIntro" class="form-control" style="overflow:hidden"
                             placeholder="Example: Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline."
-                            @keyup="textAreaAdjust" v-model="input.main_skill"></textarea>
+                            @keyup="textAreaAdjust('skillsIntro')" v-model="input.main_skill"></textarea>
                         
                         <span class="err-msg" v-if="errors.main_skill">
                             {{ errors.main_skill }}
@@ -188,10 +188,8 @@
                 this.secondColumn = this.user_skills.slice(half, len);
             },
 
-            textAreaAdjust() {
-                let o = this.$refs['skillsIntro'];
-                o.style.height = '1px';
-                o.style.height = (2 + o.scrollHeight) + 'px';
+            textAreaAdjust(refName) {
+                Utils.textAreaAdjust(this.$refs[refName]);
             },
 
             close() {

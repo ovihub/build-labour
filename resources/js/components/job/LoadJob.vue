@@ -37,24 +37,30 @@
                     .then(function(response) {
                         let job = response.data.data.job;
 
-                        if (job.company) {
-                            Bus.$emit('profileAvatarDetails', Utils.getInitials(job.company.name));
+                        if (job) {
+                            if (job.company) {
+                                Bus.$emit('profileAvatarDetails', Utils.getInitials(job.company.name));
+                                
+                                component.summary.id = job.company.id;
+                                component.summary.photo_url = job.company.photo_url;
+                                component.summary.name = job.company.name;
+                                component.summary.address = job.company.address;
+                                component.summary.introduction = job.company.introduction;
+                            }
                             
-                            component.summary.id = job.company.id;
-                            component.summary.photo_url = job.company.photo_url;
-                            component.summary.name = job.company.name;
-                            component.summary.address = job.company.address;
-                            component.summary.introduction = job.company.introduction;
-                        }
+                            component.job_details.title = job.title;
+                            component.job_details.description = job.description;
+                            component.job_details.about = job.about;
+                            component.job_details.exp_level = job.exp_level;
+                            component.job_details.contract_type = job.contract_type;
+                            component.job_details.salary = job.salary;
+                            component.job_details.reports_to = job.reports_to;
+                            component.job_details.location = job.location;
                         
-                        component.job_details.title = job.title;
-                        component.job_details.description = job.description;
-                        component.job_details.about = job.about;
-                        component.job_details.exp_level = job.exp_level;
-                        component.job_details.contract_type = job.contract_type;
-                        component.job_details.salary = job.salary;
-                        component.job_details.reports_to = job.reports_to;
-                        component.job_details.location = job.location;
+                        } else {
+                            component.summary = null;
+                            component.job_details = null;
+                        }
 
                         Bus.$emit('companySummaryDetails', component.summary);
                         Bus.$emit('jobDetails', component.job_details);
