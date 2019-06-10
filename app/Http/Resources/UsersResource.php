@@ -16,20 +16,16 @@ class UsersResource extends JsonResource
     public function toArray($request)
     {
         $profile_photo_url = ($this->profile_photo_url == null) ? '/img/defaults/user.png' : $this->profile_photo_url;
-        
-        // $experiences = WorkExperience::where([ 'user_id' => $this->id, 'isCurrent' => 1 ])->get();
-
-        // $roles = '';
-        // foreach ($experiences as $experience) {
-        //     $roles .= $experience->job_role . ' / ';
-        // }
 
         return [
             'full_name' => $profile_photo_url . ' ' . $this->first_name . ' ' . $this->last_name,
             'id'        => $this->id,
             'email'     => $this->email,
+            'role'      => $this->role,
             'address'   => $this->address,
-            // 'roles'     => rtrim($roles, ' / '),
+            'sector'    => $this->sector,
+            'tier'      => $this->tier,
+            'willing_to_relocate' => $this->willing_to_relocate
         ];
     }
 }
