@@ -19,22 +19,26 @@
                 Responsibilities
             </div>
         
-            <div class="job-title">Quality Management</div>
-            <div class="job-body">
-                <ul class="job-list-items">
-                    <li v-for="(quality, index) in qualities" :key="index">
-                        {{ quality }}
-                    </li>
-                </ul>
+            <div v-if="qualities.length > 0">
+                <div class="job-title">Quality Management</div>
+                <div class="job-body">
+                    <ul class="job-list-items">
+                        <li v-for="(quality, index) in qualities" :key="index">
+                            {{ quality }}
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="job-title">Next Title</div>
-            <div class="job-body">
-                <ul class="job-list-items" v-for="(nextTitle, index) in nextTitles" :key="index">
-                    <li>
-                        {{ nextTitle }}
-                    </li>
-                </ul>
+            <div v-if="nextTitles.length > 0">
+                <div class="job-title">Next Title</div>
+                <div class="job-body">
+                    <ul class="job-list-items" v-for="(nextTitle, index) in nextTitles" :key="index">
+                        <li>
+                            {{ nextTitle }}
+                        </li>
+                    </ul>
+                </div>
             </div>
 
         </div>
@@ -54,8 +58,10 @@
             let component = this;
 
             Bus.$on('jobResponsibilitiesDetails', function(detailsArray) {
-                component.qualities = detailsArray[0].items;
-                component.nextTitles = detailsArray[1].items;
+                if (detailsArray.length != 0) {
+                    component.qualities = detailsArray[0].items;
+                    component.nextTitles = detailsArray[1].items;
+                }
             });
         },
 

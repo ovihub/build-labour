@@ -11,7 +11,7 @@
         <div class="col-md-4">
             <div class="profile-item-2">
                 <div class="profile-content">
-                    <input class="page-search" id="search-loc" type="text" placeholder="Location"
+                    <input class="page-search-loc" id="search-loc" type="text" placeholder="Location"
                         v-model="location" @keyup="onSearchJobPosts" />
                 </div>
             </div>
@@ -29,7 +29,7 @@
         },
 
         created() {
-        
+            Bus.$emit('activateTab', 'jobs');
         },
 
         methods: {

@@ -4823,9 +4823,21 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
+  created: function created() {
+    var component = this;
+    Bus.$on('activateTab', function (tabName) {
+      component.$refs['nav-' + tabName].style = 'opacity: 1';
+    });
+  },
   methods: {
+    onClickDashboard: function onClickDashboard() {// this.$refs['nav-dashboard'].style = 'opacity: 1';
+    },
     onClickJobs: function onClickJobs() {
-      window.location = '/job/search';
+      if (window.location.pathname != '/job/search') {
+        window.location = '/job/search';
+      }
+    },
+    onClickMessages: function onClickMessages() {// this.$refs['nav-messages'].style = 'opacity: 1';
     }
   }
 });
@@ -6264,6 +6276,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6304,6 +6330,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -6367,13 +6402,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      jobs: [],
+      jobPosts: [],
+      checkedJobPosts: [],
+      input: {
+        post_id: ''
+      },
       endpoints: {
         get: '/api/v1/company/',
-        search: '/api/v1/job/search?keyword='
+        search: '/api/v1/job/search?keyword=',
+        save: '/api/v1/bookmarks'
       }
     };
   },
@@ -6391,25 +6433,27 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var component = this;
     Bus.$on('searchJobPosts', function (keyword, location) {
-      component.getJobs(component.endpoints.search + keyword + '&location=' + location);
+      component.getJobPosts(component.endpoints.search + keyword + '&location=' + location);
     });
 
     if (this.companyId) {
-      this.getJobs(this.endpointGet);
+      this.getJobPosts(this.endpointGet);
     } else {
-      this.getJobs(component.endpoints.search + '&location=');
+      this.getJobPosts(component.endpoints.search + '&location=');
     }
+
+    Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getSavedJobPosts()).then(function (data) {
+      component.checkedJobPosts = data.data.bookmarks;
+    });
   },
   methods: {
     getInitials: function getInitials(name) {
       return Utils.getInitials(name);
     },
-    getJobs: function getJobs(endpoint) {
+    getJobPosts: function getJobPosts(endpoint) {
       var component = this;
-      axios.get(endpoint, Utils.getBearerAuth()).then(function (response) {
-        component.jobs = response.data.data.posts;
-      }).catch(function (error) {
-        Utils.handleError(error);
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobPosts(endpoint)).then(function (data) {
+        component.jobPosts = data.data.posts;
       });
     },
     getTimeDiffNow: function getTimeDiffNow(created_at) {
@@ -6417,7 +6461,44 @@ __webpack_require__.r(__webpack_exports__);
     },
     onClickCompanyPhoto: function onClickCompanyPhoto(company_id) {
       Utils.redirectToCompanyProfile(company_id);
-    }
+    },
+    save: function () {
+      var _save = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(post) {
+        var component;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                component = this;
+                this.disabled = true;
+                this.input.post_id = post.id;
+                _context.next = 5;
+                return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
+                  var data = response.data;
+                  Bus.$emit('saveJobPost', post, component.$refs['savedJobPost-' + post.id][0].checked);
+                }).catch(function (error) {
+                  Utils.handleError(error);
+                });
+
+              case 5:
+                this.disabled = false;
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function save(_x) {
+        return _save.apply(this, arguments);
+      }
+
+      return save;
+    }()
   }
 });
 
@@ -6483,6 +6564,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6494,9 +6581,11 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var component = this;
     Bus.$on('jobRequirementsDetails', function (detailsArray) {
-      component.qualifications = detailsArray[0].items;
-      component.experience = detailsArray[1].items;
-      component.skills = detailsArray[2].items;
+      if (detailsArray.length != 0) {
+        component.qualifications = detailsArray[0].items;
+        component.experience = detailsArray[1].items;
+        component.skills = detailsArray[2].items;
+      }
     });
   },
   methods: {}
@@ -6556,6 +6645,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6566,8 +6659,10 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var component = this;
     Bus.$on('jobResponsibilitiesDetails', function (detailsArray) {
-      component.qualities = detailsArray[0].items;
-      component.nextTitles = detailsArray[1].items;
+      if (detailsArray.length != 0) {
+        component.qualities = detailsArray[0].items;
+        component.nextTitles = detailsArray[1].items;
+      }
     });
   },
   methods: {}
@@ -6584,6 +6679,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
@@ -6618,42 +6714,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      bookmarks: []
+    };
+  },
+  created: function created() {
+    var component = this;
+    Bus.$on('saveJobPost', function (bookmark, flag) {
+      var bookmarks = component.bookmarks;
+
+      if (flag) {
+        bookmarks.push({
+          post_id: bookmark.id,
+          job_id: bookmark.job.id,
+          company_id: bookmark.company_id,
+          company_name: bookmark.company_name,
+          company_photo: bookmark.company_photo,
+          location: bookmark.job.location,
+          job_role: bookmark.job.title
+        });
+      } else {
+        for (var i = 0; i < bookmarks.length; i++) {
+          if (bookmarks[i].post_id === bookmark.id) {
+            bookmarks.splice(i, 1);
+            break;
+          }
+        }
+      }
+    });
+    this.getBookmarks();
   },
   methods: {
     getInitials: function getInitials(name) {
       return Utils.getInitials(name);
+    },
+    getBookmarks: function getBookmarks() {
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_0__["default"].getBookmarks()).then(function (data) {
+        component.bookmarks = data.data.bookmarks;
+      });
+    },
+    onClickCompanyPhoto: function onClickCompanyPhoto(company_id) {
+      Utils.redirectToCompanyProfile(company_id);
+    },
+    onClickJobPost: function onClickJobPost(company_id, job_id) {
+      Utils.redirectToJobPost(company_id, job_id);
     }
   }
 });
@@ -6697,7 +6805,9 @@ __webpack_require__.r(__webpack_exports__);
       location: ''
     };
   },
-  created: function created() {},
+  created: function created() {
+    Bus.$emit('activateTab', 'jobs');
+  },
   methods: {
     onSearchJobPosts: function onSearchJobPosts() {
       Bus.$emit('searchJobPosts', this.keyword, this.location);
@@ -8872,10 +8982,10 @@ __webpack_require__.r(__webpack_exports__);
         component.profile.address = user.address;
         component.profile.education_id = user.worker_detail.education_id;
         component.profile.education = user.worker_detail.education;
-        component.profile.job_role = user.experiences[0] && user.experiences[0].job ? user.experiences[0].job.title : user.experiences[0].job_role;
+        component.profile.job_role = user.experiences[0] && user.experiences[0].job ? user.experiences[0].job.title : user.experiences[0] ? user.experiences[0].job_role : '';
         component.profile.company_id = user.experiences[0] && user.experiences[0].company ? user.experiences[0].company.id : '';
         component.profile.company_photo = user.experiences[0] && user.experiences[0].company ? user.experiences[0].company.photo_url : '';
-        component.profile.company_name = user.experiences[0] && user.experiences[0].company ? user.experiences[0].company.name : user.experiences[0].company_name;
+        component.profile.company_name = user.experiences[0] && user.experiences[0].company ? user.experiences[0].company.name : user.experiences[0] ? user.experiences[0].company_name : '';
         component.profile.start_month = user.experiences[0] ? user.experiences[0].start_month : '';
         component.profile.start_year = user.experiences[0] ? user.experiences[0].start_year : '';
         component.profile.end_month = user.experiences[0] ? user.experiences[0].end_month : '';
@@ -53978,7 +54088,10 @@ var staticRenderFns = [
           _c("li", [
             _c("div", { staticClass: "jobads-row" }, [
               _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", { attrs: { src: "/img/logo/1.jpg" } })
+                _c("img", {
+                  staticClass: "bl-image-32",
+                  attrs: { src: "/img/logo/1.jpg" }
+                })
               ]),
               _vm._v(" "),
               _c(
@@ -54009,7 +54122,10 @@ var staticRenderFns = [
           _c("li", [
             _c("div", { staticClass: "jobads-row" }, [
               _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", { attrs: { src: "/img/logo/1.jpg" } })
+                _c("img", {
+                  staticClass: "bl-image-32",
+                  attrs: { src: "/img/logo/1.jpg" }
+                })
               ]),
               _vm._v(" "),
               _c(
@@ -54038,7 +54154,10 @@ var staticRenderFns = [
           _c("li", [
             _c("div", { staticClass: "jobads-row" }, [
               _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", { attrs: { src: "/img/logo/1.jpg" } })
+                _c("img", {
+                  staticClass: "bl-image-32",
+                  attrs: { src: "/img/logo/1.jpg" }
+                })
               ]),
               _vm._v(" "),
               _c(
@@ -54164,7 +54283,7 @@ var render = function() {
     }),
     _vm._v(" "),
     _c("ul", { staticClass: "row bl-nav-list" }, [
-      _c("li", [
+      _c("li", { ref: "nav-dashboard", on: { click: _vm.onClickDashboard } }, [
         _c("div", { staticClass: "bl-nav-tab" }, [
           _c(
             "svg",
@@ -54196,43 +54315,39 @@ var render = function() {
         _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Dashboard")])
       ]),
       _vm._v(" "),
-      _c("li", [
-        _c(
-          "div",
-          { staticClass: "bl-nav-tab", on: { click: _vm.onClickJobs } },
-          [
-            _c(
-              "svg",
-              {
-                attrs: {
-                  xmlns: "http://www.w3.org/2000/svg",
-                  width: "22",
-                  height: "18",
-                  viewBox: "0 0 22 18"
-                }
-              },
-              [
-                _c("g", { attrs: { fill: "none", "fill-rule": "evenodd" } }, [
-                  _c("path", { attrs: { d: "M-1-3h24v24H-1z" } }),
-                  _vm._v(" "),
-                  _c("path", {
-                    attrs: {
-                      fill: "#FFF",
-                      "fill-rule": "nonzero",
-                      d:
-                        "M20 0H2C.9 0 0 .9 0 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2zm-1 16H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1zM5 7h7a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2zm0-3h7a1 1 0 0 1 0 2H5a1 1 0 1 1 0-2z"
-                    }
-                  })
-                ])
-              ]
-            )
-          ]
-        ),
+      _c("li", { ref: "nav-jobs", on: { click: _vm.onClickJobs } }, [
+        _c("div", { staticClass: "bl-nav-tab" }, [
+          _c(
+            "svg",
+            {
+              attrs: {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "22",
+                height: "18",
+                viewBox: "0 0 22 18"
+              }
+            },
+            [
+              _c("g", { attrs: { fill: "none", "fill-rule": "evenodd" } }, [
+                _c("path", { attrs: { d: "M-1-3h24v24H-1z" } }),
+                _vm._v(" "),
+                _c("path", {
+                  attrs: {
+                    fill: "#FFF",
+                    "fill-rule": "nonzero",
+                    d:
+                      "M20 0H2C.9 0 0 .9 0 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2zm-1 16H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1zM5 7h7a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2zm0-3h7a1 1 0 0 1 0 2H5a1 1 0 1 1 0-2z"
+                  }
+                })
+              ])
+            ]
+          )
+        ]),
         _vm._v(" "),
         _c("p", { staticClass: "bl-nav-tab-label" }, [_vm._v("Jobs")])
       ]),
       _vm._v(" "),
-      _c("li", [
+      _c("li", { ref: "nav-messages", on: { click: _vm.onClickMessages } }, [
         _c("div", { staticClass: "bl-nav-tab" }, [
           _c(
             "svg",
@@ -55942,62 +56057,114 @@ var render = function() {
     _c("div", { staticClass: "profile-content" }, [
       _vm._m(0),
       _vm._v(" "),
-      _c("div", { staticClass: "job-header" }, [
-        _vm._v("\n            " + _vm._s(_vm.title) + "\n        ")
-      ]),
+      _vm.title
+        ? _c("div", { staticClass: "job-header" }, [
+            _vm._v("\n            " + _vm._s(_vm.title) + "\n        ")
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Job Description")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _vm._v("\n            " + _vm._s(_vm.description) + "\n        ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("About the Project")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _vm._v("\n            " + _vm._s(_vm.about) + "\n        ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Experience Level")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _vm._v("\n            " + _vm._s(_vm.exp_level) + " \n        ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Contract type")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _vm._v("\n            " + _vm._s(_vm.contract_type) + "\n        ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Salary")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _vm._v("\n            $ - - - , - - - \n        ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Reports to")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _c(
-          "ul",
-          { staticClass: "job-list-items-2" },
-          _vm._l(_vm.reports_to, function(item, index) {
-            return _c("li", { key: index }, [
+      _vm.description
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [
+              _vm._v("Job Description")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
               _vm._v(
-                "\n                    " + _vm._s(item) + "\n                "
+                "\n                " +
+                  _vm._s(_vm.description) +
+                  "\n            "
               )
             ])
-          }),
-          0
-        )
-      ]),
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Location")]),
+      _vm.about
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [
+              _vm._v("About the Project")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _vm._v(
+                "\n                " + _vm._s(_vm.about) + "\n            "
+              )
+            ])
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _vm._v("\n            " + _vm._s(_vm.location) + "\n        ")
-      ])
+      _vm.exp_level
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [
+              _vm._v("Experience Level")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _vm._v(
+                "\n                " + _vm._s(_vm.exp_level) + " \n            "
+              )
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.contract_type
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [_vm._v("Contract type")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _vm._v(
+                "\n                " +
+                  _vm._s(_vm.contract_type) +
+                  "\n            "
+              )
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.salary
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [_vm._v("Salary")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _vm._v("\n                $ - - - , - - - \n            ")
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.reports_to
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [_vm._v("Reports to")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _c(
+                "ul",
+                { staticClass: "job-list-items-2" },
+                _vm._l(_vm.reports_to, function(item, index) {
+                  return _c("li", { key: index }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(item) +
+                        "\n                    "
+                    )
+                  ])
+                }),
+                0
+              )
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.location
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [_vm._v("Location")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _vm._v(
+                "\n                " + _vm._s(_vm.location) + "\n            "
+              )
+            ])
+          ])
+        : _vm._e()
     ])
   ])
 }
@@ -56044,24 +56211,83 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.jobs, function(job, index) {
+    _vm._l(_vm.jobPosts, function(post, index) {
       return _c("ul", { key: index, staticClass: "list-job-items" }, [
         _c("li", { staticClass: "job-items" }, [
           _c("div", { staticClass: "profile-content" }, [
-            _vm._m(0, true),
+            _c(
+              "div",
+              {
+                staticClass: "save-icon",
+                on: {
+                  click: function($event) {
+                    return _vm.save(post)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "star-cont" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.checkedJobPosts,
+                        expression: "checkedJobPosts"
+                      }
+                    ],
+                    ref: "savedJobPost-" + post.id,
+                    refInFor: true,
+                    staticClass: "star",
+                    attrs: { type: "checkbox", title: "Bookmark Job" },
+                    domProps: {
+                      value: post.id,
+                      checked: Array.isArray(_vm.checkedJobPosts)
+                        ? _vm._i(_vm.checkedJobPosts, post.id) > -1
+                        : _vm.checkedJobPosts
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.checkedJobPosts,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = post.id,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 && (_vm.checkedJobPosts = $$a.concat([$$v]))
+                          } else {
+                            $$i > -1 &&
+                              (_vm.checkedJobPosts = $$a
+                                .slice(0, $$i)
+                                .concat($$a.slice($$i + 1)))
+                          }
+                        } else {
+                          _vm.checkedJobPosts = $$c
+                        }
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "bl-label-14-style-2 bl-mt12" }, [
+                  _vm._v("\n                        Save\n                    ")
+                ])
+              ]
+            ),
             _vm._v(" "),
             _c("div", { staticClass: "jobads-row" }, [
               _c(
                 "div",
                 { staticClass: "bl-col-1" },
                 [
-                  job.company_photo
+                  post.company_photo
                     ? _c("img", {
                         staticClass: "bl-image-40",
-                        attrs: { src: job.company_photo },
+                        attrs: { src: post.company_photo },
                         on: {
                           click: function($event) {
-                            return _vm.onClickCompanyPhoto(job.company_id)
+                            return _vm.onClickCompanyPhoto(post.company_id)
                           }
                         }
                       })
@@ -56071,9 +56297,9 @@ var render = function() {
                           size: "40",
                           border: "0",
                           "border-radius": "8px",
-                          initials: _vm.getInitials(job.company_name),
-                          "company-id": job.company_id
-                            ? job.company_id + ""
+                          initials: _vm.getInitials(post.company_name),
+                          "company-id": post.company_id
+                            ? post.company_id + ""
                             : ""
                         }
                       })
@@ -56086,7 +56312,7 @@ var render = function() {
                   _c("span", { staticClass: "bl-label-19 bl-ml14" }, [
                     _vm._v(
                       "\n                                " +
-                        _vm._s(job.company_name) +
+                        _vm._s(post.company_name) +
                         "\n                            "
                     )
                   ]),
@@ -56100,7 +56326,7 @@ var render = function() {
                     [
                       _vm._v(
                         "\n                                " +
-                          _vm._s(_vm.getTimeDiffNow(job.created_at)) +
+                          _vm._s(_vm.getTimeDiffNow(post.created_at)) +
                           "\n                            "
                       )
                     ]
@@ -56113,22 +56339,24 @@ var render = function() {
               _c("div", { staticClass: "bl-label-21" }, [
                 _vm._v(
                   "\n                        " +
-                    _vm._s(job.job.title) +
+                    _vm._s(post.job.title) +
                     "\n                    "
                 )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "bl-label-14-style-3" }, [
-                _vm._v("\n                        " + _vm._s(job.job.location)),
+                _vm._v(
+                  "\n                        " + _vm._s(post.job.location)
+                ),
                 _c("span", { staticClass: "text-style-1" }, [
-                  _vm._v(_vm._s(_vm.getTimeDiffNow(job.job.created_at)))
+                  _vm._v(_vm._s(_vm.getTimeDiffNow(post.job.created_at)))
                 ])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "bl-label-15 bl-mt16" }, [
                 _vm._v(
                   "\n                        " +
-                    _vm._s(job.job.description) +
+                    _vm._s(post.job.description) +
                     "\n                    "
                 )
               ])
@@ -56140,7 +56368,10 @@ var render = function() {
                 {
                   attrs: {
                     href:
-                      "/job/view/?cid=" + job.company_id + "&jid=" + job.job.id
+                      "/job/view/?cid=" +
+                      post.company_id +
+                      "&jid=" +
+                      post.job.id
                   }
                 },
                 [
@@ -56156,25 +56387,7 @@ var render = function() {
     0
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "save-icon" }, [
-      _c("div", { staticClass: "star-cont" }, [
-        _c("input", {
-          staticClass: "star",
-          attrs: { type: "checkbox", title: "Bookmark Job", checked: "" }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "bl-label-14-style-2 bl-mt12" }, [
-        _vm._v("\n                        Save\n                    ")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -56200,58 +56413,74 @@ var render = function() {
     _c("div", { staticClass: "profile-content" }, [
       _vm._m(0),
       _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Qualifications")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _c(
-          "ul",
-          { staticClass: "job-list-items" },
-          _vm._l(_vm.qualifications, function(qualification, index) {
-            return _c("li", { key: index }, [
-              _vm._v(
-                "\n                    " +
-                  _vm._s(qualification) +
-                  "\n                "
+      _vm.qualifications.length > 0
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [_vm._v("Qualifications")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _c(
+                "ul",
+                { staticClass: "job-list-items" },
+                _vm._l(_vm.qualifications, function(qualification, index) {
+                  return _c("li", { key: index }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(qualification) +
+                        "\n                    "
+                    )
+                  ])
+                }),
+                0
               )
             ])
-          }),
-          0
-        )
-      ]),
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Experience")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _c(
-          "ul",
-          { staticClass: "job-list-items" },
-          _vm._l(_vm.experience, function(exp, index) {
-            return _c("li", { key: index }, [
-              _vm._v(
-                "\n                    " + _vm._s(exp) + "\n                "
+      _vm.experience.length > 0
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [_vm._v("Experience")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _c(
+                "ul",
+                { staticClass: "job-list-items" },
+                _vm._l(_vm.experience, function(exp, index) {
+                  return _c("li", { key: index }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(exp) +
+                        "\n                    "
+                    )
+                  ])
+                }),
+                0
               )
             ])
-          }),
-          0
-        )
-      ]),
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Skills")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _c(
-          "ul",
-          { staticClass: "job-list-items" },
-          _vm._l(_vm.skills, function(skill, index) {
-            return _c("li", { key: index }, [
-              _vm._v(
-                "\n                    " + _vm._s(skill) + "\n                "
+      _vm.skills.length > 0
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [_vm._v("Skills")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _c(
+                "ul",
+                { staticClass: "job-list-items" },
+                _vm._l(_vm.skills, function(skill, index) {
+                  return _c("li", { key: index }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(skill) +
+                        "\n                    "
+                    )
+                  ])
+                }),
+                0
               )
             ])
-          }),
-          0
-        )
-      ])
+          ])
+        : _vm._e()
     ])
   ])
 }
@@ -56300,43 +56529,53 @@ var render = function() {
     _c("div", { staticClass: "profile-content" }, [
       _vm._m(0),
       _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Quality Management")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-body" }, [
-        _c(
-          "ul",
-          { staticClass: "job-list-items" },
-          _vm._l(_vm.qualities, function(quality, index) {
-            return _c("li", { key: index }, [
-              _vm._v(
-                "\n                    " +
-                  _vm._s(quality) +
-                  "\n                "
-              )
-            ])
-          }),
-          0
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-title" }, [_vm._v("Next Title")]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "job-body" },
-        _vm._l(_vm.nextTitles, function(nextTitle, index) {
-          return _c("ul", { key: index, staticClass: "job-list-items" }, [
-            _c("li", [
-              _vm._v(
-                "\n                    " +
-                  _vm._s(nextTitle) +
-                  "\n                "
+      _vm.qualities.length > 0
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [
+              _vm._v("Quality Management")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "job-body" }, [
+              _c(
+                "ul",
+                { staticClass: "job-list-items" },
+                _vm._l(_vm.qualities, function(quality, index) {
+                  return _c("li", { key: index }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(quality) +
+                        "\n                    "
+                    )
+                  ])
+                }),
+                0
               )
             ])
           ])
-        }),
-        0
-      )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.nextTitles.length > 0
+        ? _c("div", [
+            _c("div", { staticClass: "job-title" }, [_vm._v("Next Title")]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "job-body" },
+              _vm._l(_vm.nextTitles, function(nextTitle, index) {
+                return _c("ul", { key: index, staticClass: "job-list-items" }, [
+                  _c("li", [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(nextTitle) +
+                        "\n                    "
+                    )
+                  ])
+                ])
+              }),
+              0
+            )
+          ])
+        : _vm._e()
     ])
   ])
 }
@@ -56381,111 +56620,91 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-item-3" }, [
-      _c("div", { staticClass: "profile-content" }, [
-        _c("span", { staticClass: "bl-label-16" }, [_vm._v("Saved")]),
-        _vm._v(" "),
-        _c("ul", { staticClass: "list-items" }, [
-          _c("li", [
-            _c("div", { staticClass: "jobads-row" }, [
-              _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", { attrs: { src: "/img/logo/1.jpg" } })
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "bl-col-2",
-                  staticStyle: { "margin-top": "-2px" }
-                },
-                [
-                  _c("div", { staticClass: "bl-display" }, [
-                    _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                      _vm._v("Contracts Administrator (Commercial)")
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "job-text" }, [
-                      _vm._v(
-                        "\n                                ABC Constructions Group • Cremorne VIC\n                            "
-                      )
-                    ])
-                  ]),
+  return _c("div", { staticClass: "profile-item-3" }, [
+    _c("div", { staticClass: "profile-content" }, [
+      _c("span", { staticClass: "bl-label-16" }, [_vm._v("Saved")]),
+      _vm._v(" "),
+      _vm.bookmarks.length > 0
+        ? _c(
+            "ul",
+            { staticClass: "list-items" },
+            _vm._l(_vm.bookmarks, function(bookmark, index) {
+              return _c("li", { key: index }, [
+                _c("div", { staticClass: "jobads-row" }, [
+                  _c(
+                    "div",
+                    { staticClass: "bl-col-1" },
+                    [
+                      bookmark.company_photo
+                        ? _c("img", {
+                            staticClass: "bl-image-32",
+                            attrs: { src: bookmark.company_photo },
+                            on: {
+                              click: function($event) {
+                                return _vm.onClickCompanyPhoto(
+                                  bookmark.company_id
+                                )
+                              }
+                            }
+                          })
+                        : _c("avatar", {
+                            attrs: {
+                              cls: "bl-image-32",
+                              size: "32",
+                              border: "0",
+                              "border-radius": "8px",
+                              initials: _vm.getInitials(bookmark.company_name),
+                              "company-id": bookmark.company_id
+                            }
+                          })
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
-                  _c("div", { staticClass: "bl-box-3" })
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _c("div", { staticClass: "jobads-row" }, [
-              _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", { attrs: { src: "/img/logo/1.jpg" } })
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "bl-col-2",
-                  staticStyle: { "margin-top": "-2px" }
-                },
-                [
-                  _c("div", { staticClass: "bl-display" }, [
-                    _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                      _vm._v("Contracts Manager (Commercial)")
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "job-text" }, [
-                      _vm._v("XYZ Constructions • South Yarra VIC")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "bl-box-3" })
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _c("div", { staticClass: "jobads-row" }, [
-              _c("div", { staticClass: "bl-col-1" }, [
-                _c("img", { attrs: { src: "/img/logo/1.jpg" } })
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "bl-col-2",
-                  staticStyle: { "margin-top": "-2px" }
-                },
-                [
-                  _c("div", { staticClass: "bl-display" }, [
-                    _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
-                      _vm._v("Junior Project Manager (Commercial)")
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "job-text" }, [
-                      _vm._v("ABC Constructions Group • Cremorne VIC")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "bl-box-3" })
-                ]
-              )
-            ])
-          ])
-        ])
-      ])
+                  _c(
+                    "div",
+                    {
+                      staticClass: "bl-col-2",
+                      staticStyle: { "margin-top": "-2px", cursor: "pointer" },
+                      on: {
+                        click: function($event) {
+                          return _vm.onClickJobPost(
+                            bookmark.company_id,
+                            bookmark.job_id
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "bl-display" }, [
+                        _c("span", { staticClass: "bl-label-15 mt-0 pt-0" }, [
+                          _vm._v(_vm._s(bookmark.job_role))
+                        ]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "job-text" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(bookmark.company_name) +
+                              " • " +
+                              _vm._s(bookmark.location) +
+                              "\n                            "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "bl-box-3" })
+                    ]
+                  )
+                ])
+              ])
+            }),
+            0
+          )
+        : _vm._e()
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -56549,7 +56768,7 @@ var render = function() {
                 expression: "location"
               }
             ],
-            staticClass: "page-search",
+            staticClass: "page-search-loc",
             attrs: { id: "search-loc", type: "text", placeholder: "Location" },
             domProps: { value: _vm.location },
             on: {
@@ -72973,10 +73192,12 @@ function () {
     this.getResults = [];
     this.endpoints = {
       jobs: '/api/v1/job/search/filter',
+      bookmarks: '/api/v1/bookmarks/posts/jobs',
       locations: '/api/v1/locations',
       companies: '/api/v1/company/search',
       company_options: '/api/v1/company/options',
-      responsibilities: '/api/v1/job/'
+      responsibilities: '/api/v1/job/',
+      savedJobPosts: '/api/v1/bookmarks/posts/ids'
     }; //  this._headers()
   }
 
@@ -73024,30 +73245,26 @@ function () {
       window.location.href = '/login';
     }
   }, {
-    key: "_search",
+    key: "_get",
     value: function () {
-      var _search2 = _asyncToGenerator(
+      var _get2 = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(endpoint, keyword) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(endpoint) {
         var component;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                component = this; // if (this.time_out) {
-                //     clearTimeout(this.time_out);
-                // }
-                // this.time_out = await setTimeout(function() {
-
+                component = this;
                 _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endpoint + '?keyword=' + keyword, Utils.getBearerAuth()).then(function (response) {
-                  component.searchResults = response.data;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endpoint, Utils.getBearerAuth()).then(function (response) {
+                  component.getResults = response.data;
                 }).catch(function (error) {
                   Utils.handleError(error);
                 });
 
               case 3:
-                return _context.abrupt("return", this.searchResults);
+                return _context.abrupt("return", this.getResults);
 
               case 4:
               case "end":
@@ -73057,28 +73274,18 @@ function () {
         }, _callee, this);
       }));
 
-      function _search(_x, _x2) {
-        return _search2.apply(this, arguments);
+      function _get(_x) {
+        return _get2.apply(this, arguments);
       }
 
-      return _search;
+      return _get;
     }()
   }, {
-    key: "getLocations",
-    value: function getLocations(keyword) {
-      return this._search(this.endpoints.locations, keyword);
-    }
-  }, {
-    key: "getCompanies",
-    value: function getCompanies(keyword) {
-      return this._search(this.endpoints.companies, keyword);
-    }
-  }, {
-    key: "_get",
+    key: "_post",
     value: function () {
-      var _get2 = _asyncToGenerator(
+      var _post2 = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(endpoint) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(endpoint, input) {
         var component;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
@@ -73086,7 +73293,7 @@ function () {
               case 0:
                 component = this;
                 _context2.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endpoint, Utils.getBearerAuth()).then(function (response) {
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(endpoint, input, Utils.getBearerAuth()).then(function (response) {
                   component.getResults = response.data;
                 }).catch(function (error) {
                   Utils.handleError(error);
@@ -73103,53 +73310,47 @@ function () {
         }, _callee2, this);
       }));
 
-      function _get(_x3) {
-        return _get2.apply(this, arguments);
+      function _post(_x2, _x3) {
+        return _post2.apply(this, arguments);
       }
 
-      return _get;
+      return _post;
     }()
+  }, {
+    key: "getLocations",
+    value: function getLocations(keyword) {
+      return this._get(this.endpoints.locations + '?keyword=' + keyword);
+    }
+  }, {
+    key: "getCompanies",
+    value: function getCompanies(keyword) {
+      return this._get(this.endpoints.companies + '?keyword=' + keyword);
+    }
   }, {
     key: "getCompanyOptions",
     value: function getCompanyOptions() {
       return this._get(this.endpoints.company_options);
     }
   }, {
-    key: "_filter",
-    value: function () {
-      var _filter2 = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(endpoint, input) {
-        var component;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                component = this;
-                _context3.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(endpoint, input, Utils.getBearerAuth()).then(function (response) {
-                  component.getResults = response.data;
-                }).catch(function (error) {
-                  Utils.handleError(error);
-                });
-
-              case 3:
-                return _context3.abrupt("return", this.getResults);
-
-              case 4:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this);
-      }));
-
-      function _filter(_x4, _x5) {
-        return _filter2.apply(this, arguments);
-      }
-
-      return _filter;
-    }()
+    key: "getJobResponsibilities",
+    value: function getJobResponsibilities(id) {
+      return this._get(this.endpoints.responsibilities + id + '/responsibilities');
+    }
+  }, {
+    key: "getBookmarks",
+    value: function getBookmarks() {
+      return this._get(this.endpoints.bookmarks);
+    }
+  }, {
+    key: "getSavedJobPosts",
+    value: function getSavedJobPosts() {
+      return this._get(this.endpoints.savedJobPosts);
+    }
+  }, {
+    key: "getJobPosts",
+    value: function getJobPosts(endpoint) {
+      return this._get(endpoint);
+    }
   }, {
     key: "getJobs",
     value: function getJobs() {
@@ -73163,12 +73364,7 @@ function () {
         sectors: sectors,
         locations: locations
       };
-      return this._filter(this.endpoints.jobs, input);
-    }
-  }, {
-    key: "getJobResponsibilities",
-    value: function getJobResponsibilities(id) {
-      return this._get(this.endpoints.responsibilities + id + '/responsibilities');
+      return this._post(this.endpoints.jobs, input);
     }
   }]);
 
@@ -77054,7 +77250,7 @@ window.Helper = {
     },
     getInitials: function getInitials(name) {
       var initials = name.split(' ');
-      return initials.length > 1 ? initials[0].charAt(0) + initials[1].charAt(0) : initials[0].charAt(0);
+      return initials.length > 1 ? initials[0].charAt(0).toUpperCase() + initials[1].charAt(0).toUpperCase() : initials[0].charAt(0).toUpperCase();
     },
     getDaysInMonth: function getDaysInMonth(month, year) {
       return new Date(year, month, 0).getDate();
@@ -77078,6 +77274,9 @@ window.Helper = {
     },
     redirectToCompanyProfile: function redirectToCompanyProfile(company_id) {
       window.location = '/company/profile/' + company_id;
+    },
+    redirectToJobPost: function redirectToJobPost(company_id, job_id) {
+      window.location = '/job/view/?cid=' + company_id + '&jid=' + job_id;
     }
   }
 };

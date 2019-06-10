@@ -165,7 +165,8 @@ window.Helper = {
         getInitials(name) {
             let initials = name.split(' ');
             
-            return (initials.length > 1) ? initials[0].charAt(0) + initials[1].charAt(0) : initials[0].charAt(0);
+            return (initials.length > 1) ? initials[0].charAt(0).toUpperCase() + initials[1].charAt(0).toUpperCase() : 
+                                            initials[0].charAt(0).toUpperCase();
         },
 
         getDaysInMonth(month, year) {
@@ -192,6 +193,10 @@ window.Helper = {
 
         redirectToCompanyProfile(company_id) {
             window.location = '/company/profile/' + company_id;
+        },
+
+        redirectToJobPost(company_id, job_id) {
+            window.location = '/job/view/?cid=' + company_id + '&jid=' + job_id;
         }
     }
 }

@@ -10901,14 +10901,6 @@ ul.list-job-items li.job-items {
   padding: 16px;
 }
 
-.profile-item-3 .profile-content img {
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
-  margin-left: 15px;
-  margin-right: 15px;
-}
-
 .profile-item-3 .profile-content ul {
   padding: 16px 0 0 0;
 }
@@ -11032,6 +11024,15 @@ ul.list-job-items li.job-items {
 .bl-image-34 {
   width: 34px;
   height: 34px;
+  border-radius: 4px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.bl-image-32 {
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
   border-radius: 4px;
   margin-left: 15px;
   margin-right: 15px;
@@ -11222,12 +11223,13 @@ span.ticket-delete:hover {
 }
 
 .star:before {
-  content: "\2605";
+  content: "\2606";
   visibility: visible;
 }
 
 .star:checked:before {
-  content: "\2606";
+  content: "\2605";
+  color: #f5a623;
 }
 
 .header-active {
@@ -11515,10 +11517,24 @@ ul.job-list-items-2 {
   border: 0;
   box-shadow: 0;
   padding-left: 35px;
-  background-image: url(/img/icons/search.png);
-  background-image: -webkit-image-set(url(/img/icons/search@2x.png) 2x, url(/img/icons/search@3x.png) 3x);
   background-position: 4px 4px;
   background-repeat: no-repeat;
+  background-image: url(/img/icons/search.png);
+  background-image: -webkit-image-set(url(/img/icons/search@2x.png) 2x, url(/img/icons/search@3x.png) 3x);
+}
+
+.page-search-loc {
+  cursor: pointer;
+  width: 100%;
+  outline: none;
+  border: 0;
+  box-shadow: 0;
+  padding-left: 35px;
+  background-position: 8px 5px;
+  background-size: 12px;
+  background-repeat: no-repeat;
+  background-image: url(/img/icons/pinlocation.png);
+  background-image: -webkit-image-set(url(/img/icons/pinlocation@2x.png) 2x, url(/img/icons/pinlocation@3x.png) 3x);
 }
 
 body.admin {

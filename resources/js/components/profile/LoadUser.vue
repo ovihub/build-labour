@@ -63,13 +63,15 @@
                         component.profile.education_id = user.worker_detail.education_id;
                         component.profile.education = user.worker_detail.education;
                         component.profile.job_role = (user.experiences[0] && user.experiences[0].job) ?
-                                                        user.experiences[0].job.title : user.experiences[0].job_role;
+                                                        user.experiences[0].job.title :
+                                                        (user.experiences[0]) ? user.experiences[0].job_role : '';
                         component.profile.company_id = (user.experiences[0] && user.experiences[0].company) ? 
                                                             user.experiences[0].company.id : '';
                         component.profile.company_photo = (user.experiences[0] && user.experiences[0].company) ? 
                                                             user.experiences[0].company.photo_url : '';
                         component.profile.company_name = (user.experiences[0] && user.experiences[0].company) ? 
-                                                            user.experiences[0].company.name : user.experiences[0].company_name;
+                                                            user.experiences[0].company.name : 
+                                                            (user.experiences[0]) ? user.experiences[0].company_name : '';
                         component.profile.start_month = user.experiences[0] ? user.experiences[0].start_month : '';
                         component.profile.start_year = user.experiences[0] ? user.experiences[0].start_year : '';
                         component.profile.end_month = user.experiences[0] ? user.experiences[0].end_month : '';

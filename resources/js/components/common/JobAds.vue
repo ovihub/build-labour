@@ -7,8 +7,8 @@
                 <li>
                     <div class="jobads-row">
                         <div class="bl-col-1">
-                            <img src="/img/logo/1.jpg">
-                            <!-- <avatar cls="" size="32" border="0" border-radius="8px"
+                            <img class="bl-image-32" src="/img/logo/1.jpg">
+                            <!-- <avatar cls="bl-image-32" size="32" border="0" border-radius="8px"
                                 :initials="getInitials(company_name)">
                             </avatar> -->
                         </div>
@@ -26,8 +26,8 @@
                 <li>
                     <div class="jobads-row">
                         <div class="bl-col-1">
-                            <img src="/img/logo/1.jpg">
-                            <!-- <avatar cls="" size="32" border="0" border-radius="8px"
+                            <img class="bl-image-32" src="/img/logo/1.jpg">
+                            <!-- <avatar cls="bl-image-32" size="32" border="0" border-radius="8px"
                                 :initials="getInitials(company_name)">
                             </avatar> -->
                         </div>
@@ -43,8 +43,8 @@
                 <li>
                     <div class="jobads-row">
                         <div class="bl-col-1">
-                            <img src="/img/logo/1.jpg">
-                            <!-- <avatar cls="" size="32" border="0" border-radius="8px"
+                            <img class="bl-image-32" src="/img/logo/1.jpg">
+                            <!-- <avatar cls="bl-image-32" size="32" border="0" border-radius="8px"
                                 :initials="getInitials(company_name)">
                             </avatar> -->
                         </div>
