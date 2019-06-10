@@ -7,7 +7,7 @@
     
     <datatable  title="Users"
                 fetch-url="{{ route('users.table') }}"
-                :columns="['full_name', 'id', 'email',  'address']"
+                :columns="['full_name', 'id', 'email', 'role', 'address', 'sector', 'tier', 'willing to relocate']"
                 modal-name="User">
     </datatable>
 @endsection
