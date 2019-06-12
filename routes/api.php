@@ -100,9 +100,9 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             Route::get('{id}/workers', 'ApiCompaniesController@workers');
 
             Route::get('{id}/posts/jobs', 'ApiCompaniesController@jobPosts'); // company jobs with is_template is false - done
-            Route::get('{id}/posts', 'ApiCompaniesController@posts'); // - done
-            Route::get('{id}/jobs', 'ApiCompaniesController@jobs'); // jobs and company_jobs with is_template is true and false // - done
-            Route::get('{id}/jobs/{jid}', 'ApiCompaniesController@viewJob'); // - done
+            Route::get('{id}/posts', 'ApiCompaniesController@posts');
+            Route::get('{id}/jobs', 'ApiCompaniesController@jobs'); // jobs and company_jobs with is_template is true and false
+            Route::get('{id}/jobs/{jid}', 'ApiCompaniesController@viewJob');
 
         });
     });
@@ -110,9 +110,9 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
     Route::prefix('job')->group(function () {
         Route::middleware([ 'jwt' ])->group(function () {
 
-            Route::post('', 'ApiJobsController@create'); // post a job then flag is_template is set to false - done
-            Route::post('save-template', 'ApiJobsController@saveTemplate'); // post a job then flag is_template is set to true - done
-            Route::get('search', 'ApiJobsController@searchCompanyJobs'); // search a jobs and company jobs with is_template is false - done
+            Route::post('', 'ApiJobsController@create'); // post a job then flag is_template is set to false
+            Route::post('save-template', 'ApiJobsController@saveTemplate'); // post a job then flag is_template is set to true
+            Route::get('search', 'ApiJobsController@searchCompanyJobs'); // search a jobs and company jobs with is_template is false
             Route::post('search/filter', 'ApiJobsController@postFilter');
 
             Route::post('{id}', 'ApiJobsController@update');
@@ -127,11 +127,11 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
     Route::prefix('bookmarks')->group(function () {
         Route::middleware([ 'jwt' ])->group(function () {
 
-            Route::post('', 'ApiBookmarksController@postBookmark'); // - done
-            Route::get('posts', 'ApiBookmarksController@getPosts'); // - done
-            Route::get('posts/ids', 'ApiBookmarksController@getPostsById'); // - done
-            Route::get('posts/jobs', 'ApiBookmarksController@getPostJobs'); // - done
-            Route::get('posts/jobs/ids', 'ApiBookmarksController@getJobsById'); // - done
+            Route::post('', 'ApiBookmarksController@postBookmark');
+            Route::get('posts', 'ApiBookmarksController@getPosts');
+            Route::get('posts/ids', 'ApiBookmarksController@getPostsById');
+            Route::get('posts/jobs', 'ApiBookmarksController@getPostJobs');
+            Route::get('posts/jobs/ids', 'ApiBookmarksController@getJobsById');
         });
     });
 
