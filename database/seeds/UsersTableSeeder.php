@@ -52,15 +52,12 @@ class UsersTableSeeder extends Seeder
                 'Process paperwork'
             ];
 
-            $job = Job::find(1);
-
             $w = WorkExperience::create([
 
-                // 'job_role' => 'Project Manager',
-                // 'company_name' => 'Probuild',
+                 'job_role' => 'Project Manager',
+                 'company_name' => 'Probuild',
                 'company_id' => 1,
                 'user_id' => $user->id,
-                'job_id' => $job->id,
                 // 'location' => 'Richmond, Victoria, Australia',
                 'project_size' => '1,750,000',
                 'start_month' => 11,

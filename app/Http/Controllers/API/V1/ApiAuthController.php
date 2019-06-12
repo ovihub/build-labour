@@ -636,18 +636,6 @@ class ApiAuthController extends ApiBaseController
             $user->workerDetail;
             $user->tickets;
 
-            $user->experiences->map(function($e) {
-
-                $e->job;
-
-                if ($e->job) {
-
-                    $e->job->Responsibilities;
-
-                }
-
-            });
-
             if (!$user->workerDetail) {
 
                 WorkerDetail::create(['user_id' => $user->id]);

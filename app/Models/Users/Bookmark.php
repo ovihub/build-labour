@@ -4,6 +4,7 @@ namespace App\Models\Users;
 
 use App\Models\BaseModel;
 use App\Models\Companies\CompanyPost;
+use App\Models\Companies\Job;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -18,6 +19,7 @@ class Bookmark extends BaseModel
 
     protected $fillable = [
         'post_id',
+        'job_id',
         'user_id'
     ];
 
@@ -27,7 +29,7 @@ class Bookmark extends BaseModel
     private function rules()
     {
         return [
-            'post_id'  => 'required|integer',
+           // 'post_id'  => 'required|integer',
         ];
     }
 
@@ -50,18 +52,6 @@ class Bookmark extends BaseModel
             return false;
         }
 
-        // check the company post
-        $companyPost = CompanyPost::find($data['post_id']);
-
-        if (!$companyPost) {
-
-            $validator->errors()->add( 'post', 'Company Post is not exists' );
-
-            $this->errors = $validator->errors()->all();
-            $this->errorsDetail = $validator->errors()->toArray();
-            return false;
-        }
-
         return true;
     }
 
@@ -73,6 +63,11 @@ class Bookmark extends BaseModel
     public function CompanyPost() {
 
         return $this->belongsTo(CompanyPost::class, 'post_id', 'id');
+    }
+
+    public function Job() {
+
+        return $this->belongsTo(Job::class, 'job_id', 'id');
     }
 
     public function store($data) {

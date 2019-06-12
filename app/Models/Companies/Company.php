@@ -171,7 +171,6 @@ class Company extends BaseModel
     public function Tier () {
 
         return $this->belongsTo(Tier::class, 'tier_id');
-
     }
 
     public function MainFunction() {

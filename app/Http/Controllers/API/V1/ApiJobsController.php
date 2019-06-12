@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Repositories\JobRepository;
+use Illuminate\Support\Facades\DB;
 use JWTAuth;
 use Illuminate\Http\Request;
 
@@ -140,14 +141,14 @@ class ApiJobsController extends ApiBaseController
     {
         try {
 
-            $posts = $this->repository->searchCompanyJobs($request);
+            $jobs = $this->repository->searchCompanyJobs($request);
 
         } catch(\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'posts' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'jobs' ), true, '', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
@@ -215,7 +216,7 @@ class ApiJobsController extends ApiBaseController
      * @OA\Post(
      *      path="/job",
      *      tags={"Job"},
-     *      summary="Create a Job",
+     *      summary="Post a Job",
      *      security={{"BearerAuth":{}}},
      *      @OA\RequestBody(
      *          required=true,
@@ -273,6 +274,46 @@ class ApiJobsController extends ApiBaseController
      *                      type="string",
      *                      example="South Yarra, Melbourne, Victoria"
      *                  ),
+     *                  @OA\Property(
+     *                      property="responsibilities",
+     *                      description="Responsibilities",
+     *                      type="array",
+     *                      @OA\Items(
+     *                         @OA\Property(
+     *                              property="title",
+     *                              type="string",
+     *                              example="Quality Management"
+     *                          ),
+     *                          @OA\Property(
+     *                              property="items",
+     *                              type="array",
+     *                              @OA\Items(
+     *                                  type="string",
+     *                                  example="Compliance"
+     *                              ),
+     *                          ),
+     *                      ),
+     *                  ),
+     *                  @OA\Property(
+     *                      property="requirements",
+     *                      description="Requirements",
+     *                      type="array",
+     *                      @OA\Items(
+     *                         @OA\Property(
+     *                              property="title",
+     *                              type="string",
+     *                              example="Skills"
+     *                          ),
+     *                          @OA\Property(
+     *                              property="items",
+     *                              type="array",
+     *                              @OA\Items(
+     *                                  type="string",
+     *                                  example="Able to mentor youth guys"
+     *                              ),
+     *                          ),
+     *                      ),
+     *                  ),
      *              ),
      *          ),
      *      ),
@@ -304,9 +345,11 @@ class ApiJobsController extends ApiBaseController
      */
     public function create( Request $request )
     {
+        DB::beginTransaction();
 
         if ( !$job = $this->repository->createJob( $request ) ) {
 
+            DB::rollBack();
             return $this->apiErrorResponse(
                 false,
                 $this->repository->job->getErrors( true ),
@@ -316,7 +359,161 @@ class ApiJobsController extends ApiBaseController
             );
         }
 
+        DB::commit();
+
         return $this->apiSuccessResponse( compact('job'), true, 'Posted job successfully', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/job/save-template",
+     *      tags={"Job"},
+     *      summary="Save a Job Template",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="title",
+     *                      description="<b>Required</b> Title",
+     *                      type="string",
+     *                      example="Project Manager"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="description",
+     *                      description="Job Description",
+     *                      type="string",
+     *                      example="The Project Manager is accountable for the leadership and management of their nominated project including the achievement of safety, quality, commercial and programme objectives and the effective day to day management of the project team."
+     *                  ),
+     *                  @OA\Property(
+     *                      property="about",
+     *                      description="About the project",
+     *                      type="string",
+     *                      example="$730 million Residential Skycraper comprising of 941 residential apartments and 208 serviced apartments across 88 storeys. "
+     *                  ),
+     *                  @OA\Property(
+     *                      property="exp_level",
+     *                      description="Experience Level",
+     *                      type="string",
+     *                      example="Senior"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="contract_type",
+     *                      description="Contract type",
+     *                      type="string",
+     *                      example="Full-time permanent"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="salary",
+     *                      description="Salary",
+     *                      type="string",
+     *                      example="$500"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="reports_to",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="Company Owner"
+     *                      ),
+     *                  ),
+     *                  @OA\Property(
+     *                      property="location",
+     *                      description="Location",
+     *                      type="string",
+     *                      example="South Yarra, Melbourne, Victoria"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="responsibilities",
+     *                      description="Responsibilities",
+     *                      type="array",
+     *                      @OA\Items(
+     *                         @OA\Property(
+     *                              property="title",
+     *                              type="string",
+     *                              example="Quality Management"
+     *                          ),
+     *                          @OA\Property(
+     *                              property="items",
+     *                              type="array",
+     *                              @OA\Items(
+     *                                  type="string",
+     *                                  example="Compliance"
+     *                              ),
+     *                          ),
+     *                      ),
+     *                  ),
+     *                  @OA\Property(
+     *                      property="requirements",
+     *                      description="Requirements",
+     *                      type="array",
+     *                      @OA\Items(
+     *                         @OA\Property(
+     *                              property="title",
+     *                              type="string",
+     *                              example="Skills"
+     *                          ),
+     *                          @OA\Property(
+     *                              property="items",
+     *                              type="array",
+     *                              @OA\Items(
+     *                                  type="string",
+     *                                  example="Able to mentor youth guys"
+     *                              ),
+     *                          ),
+     *                      ),
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function saveTemplate( Request $request )
+    {
+        DB::beginTransaction();
+
+        if ( !$job = $this->repository->saveTemplate( $request ) ) {
+
+            DB::rollBack();
+            return $this->apiErrorResponse(
+                false,
+                $this->repository->job->getErrors( true ),
+                self::HTTP_STATUS_INVALID_INPUT,
+                'invalidInput',
+                $this->repository->job->getErrorsDetail()
+            );
+        }
+
+        DB::commit();
+
+        return $this->apiSuccessResponse( compact('job'), true, 'Successfully saved template', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
@@ -422,7 +619,11 @@ class ApiJobsController extends ApiBaseController
     public function update( Request $request )
     {
 
+        DB::beginTransaction();
+
         if ( !$job = $this->repository->updateJob( $request ) ) {
+
+            DB::rollback();
 
             return $this->apiErrorResponse(
                 false,
@@ -432,6 +633,8 @@ class ApiJobsController extends ApiBaseController
                 $this->repository->job->getErrorsDetail()
             );
         }
+
+        DB::commit();
 
         return $this->apiSuccessResponse( compact('job'), true, 'Updated job successfully', self::HTTP_STATUS_REQUEST_OK);
     }
@@ -507,7 +710,11 @@ class ApiJobsController extends ApiBaseController
      */
     public function postJobRequirements(Request $request) {
 
+        DB::beginTransaction();
+
         if ( !$requirements = $this->repository->saveRequirements( $request ) ) {
+
+            DB::rollBack();
 
             return $this->apiErrorResponse(
                 false,
@@ -516,6 +723,8 @@ class ApiJobsController extends ApiBaseController
                 'invalidInput'
             );
         }
+
+        DB::rollBack();
 
         return $this->apiSuccessResponse( compact('requirements'), true, 'Successfully updated job requirements.', self::HTTP_STATUS_REQUEST_OK);
     }

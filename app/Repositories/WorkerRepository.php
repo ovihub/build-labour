@@ -54,13 +54,7 @@ class WorkerRepository extends AbstractRepository
         }
 
         $this->workExp->responsibilities;
-        $this->workExp->Job;
         $this->workExp->Company;
-
-        if ($this->workExp->Job) {
-
-            $this->workExp->Job->responsibilities;
-        }
 
         return $this->workExp;
     }
@@ -107,13 +101,6 @@ class WorkerRepository extends AbstractRepository
         }
 
         $this->workExp->responsibilities;
-        $this->workExp->Job;
-
-        if ($this->workExp->Job) {
-
-            $this->workExp->Job->responsibilities;
-        }
-
         $this->workExp->Company;
 
         return $this->workExp;

@@ -76,9 +76,7 @@ class DatatableController extends Controller
             'we.id as work_exp_id',
             'we.job_role as work_exp_role',
             'we.isCurrent as work_exp_current',
-            'we.job_id as work_exp_job_id',
-            'j.title as job_title',
-            DB::raw('IF(we.job_id IS NOT NULL, j.title, we.job_role) AS role'),
+            'we.job_role as role',
             'c.name as company_name',
             'c.id as company_id',
             'cbt.business_type as sector',
@@ -89,7 +87,6 @@ class DatatableController extends Controller
 
         $users = $users->leftJoin('work_experience as we', 'users.id', '=', 'we.user_id');
         $users = $users->join('worker_details as worker', 'users.id', '=', 'worker.user_id');
-        $users = $users->leftJoin('jobs as j', 'we.job_id', '=', 'j.id');
         $users = $users->leftJoin('companies as c', 'we.company_id', '=', 'c.id');
         $users = $users->leftJoin('company_business_types as cbt', 'cbt.id', '=', 'c.business_type_id');
         $users = $users->leftJoin('company_tiers as ct', 'ct.id', '=', 'c.tier_id');
@@ -102,7 +99,6 @@ class DatatableController extends Controller
             $likeRaw .= " OR users.id LIKE '%{$search_text}%'";
             $likeRaw .= " OR users.address LIKE '%{$search_text}%'";
             $likeRaw .= " OR we.job_role LIKE '%{$search_text}%'";
-            $likeRaw .= " OR j.title LIKE '%{$search_text}%'";
             $likeRaw .= " OR cbt.business_type LIKE '%{$search_text}%'"; //sector
             $likeRaw .= " OR ct.tier_name LIKE '%{$search_text}%')";
 

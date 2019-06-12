@@ -22,7 +22,7 @@ class WorkExperience extends BaseModel
     const CREATED_AT = null;
 
     protected $fillable = [
-        'job_role', 'company_name', 'location', 'project_size', 'user_id', 'job_id', 'company_id',
+        'job_role', 'company_name', 'location', 'project_size', 'user_id', 'company_id',
         'start_month', 'start_year', 'end_month', 'end_year', 'isCurrent'
     ];
 
@@ -101,12 +101,6 @@ class WorkExperience extends BaseModel
 
         return $this->belongsTo( Company::class, 'company_id', 'id');
     }
-
-    public function Job() {
-
-        return $this->belongsTo( Job::class, 'job_id', 'id');
-    }
-
 
     public function ResponsibilitiesDetail() {
 
@@ -201,15 +195,6 @@ class WorkExperience extends BaseModel
         }
 
         $this->fill( $data );
-
-        if ($r->job_id && $job = Job::find($r->job_id)) {
-
-            $this->job_role = null;
-
-        } else {
-
-            $this->job_id = null;
-        }
 
         if ($r->company_id && $company = Company::find($r->company_id)) {
 

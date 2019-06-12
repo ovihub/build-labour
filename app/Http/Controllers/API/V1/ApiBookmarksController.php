@@ -32,8 +32,8 @@ class ApiBookmarksController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="post_id",
-     *                      description="<b>Required</b> Post ID",
+     *                      property="job_id",
+     *                      description="<b>Required</b> Job ID",
      *                      type="integer",
      *                      example=1
      *                  ),
@@ -132,23 +132,23 @@ class ApiBookmarksController extends ApiBaseController
     public function getPostJobs( Request $request )
     {
 
-        try {
+      //  try {
 
             $bookmarks = $this->userRepo->getPostJobsBookmarks($request);
 
-        } catch(\Exception $e) {
+//        } catch(\Exception $e) {
+//
+//            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+//        }
 
-            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
-        }
-
-        return $this->apiSuccessResponse( compact( 'bookmarks' ), true, 'Successfully updated a work experience', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'bookmarks' ), true, 'Success', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
      * @OA\Get(
      *      path="/bookmarks/posts/ids",
      *      tags={"Bookmarks"},
-     *      summary="Get auth bookmarks by set of id",
+     *      summary="Get auth posts bookmarks by set of id",
      *      security={{"BearerAuth":{}}},
      *      @OA\Response(
      *          response=400,
@@ -181,13 +181,60 @@ class ApiBookmarksController extends ApiBaseController
 
         try {
 
-            $bookmarks = $this->userRepo->getBookmarksById();
+            $bookmarks = $this->userRepo->getPostBookmarksById();
 
         } catch(\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'bookmarks' ), true, 'Successfully updated a work experience', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'bookmarks' ), true, 'Success', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/bookmarks/posts/jobs/ids",
+     *      tags={"Bookmarks"},
+     *      summary="Get auth job bookmarks by set of id",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function getJobsById()
+    {
+
+        try {
+
+            $bookmarks = $this->userRepo->getJobBookmarksById();
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( compact( 'bookmarks' ), true, 'Success', self::HTTP_STATUS_REQUEST_OK);
     }
 }

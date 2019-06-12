@@ -7,7 +7,7 @@ use App\User;
 
 class Job extends BaseModel
 {
-    protected $table = 'jobs';
+    protected $table = 'job_posts';
 
     protected $primaryKey = 'id';
 
@@ -20,8 +20,10 @@ class Job extends BaseModel
         'salary',
         'reports_to_json',
         'location',
+        'job_role_id',
         'company_id',
         'created_by',
+        'is_template'
     ];
 
     protected $hidden = [
@@ -30,7 +32,8 @@ class Job extends BaseModel
 
     protected $appends = [
         'reports_to',
-        'reports_to_str'
+        'reports_to_str',
+        'job_role_name'
     ];
 
     /**
@@ -70,6 +73,11 @@ class Job extends BaseModel
         return true;
     }
 
+    public function Company() {
+
+        return $this->belongsTo(Company::class, 'company_id', 'id');
+    }
+
     public function CreatedBy() {
 
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -78,6 +86,11 @@ class Job extends BaseModel
     public function Requirements() {
 
         return $this->hasMany( JobRequirement::class, 'job_id', 'id');
+    }
+
+    public function JobRole() {
+
+        return $this->belongsTo(JobRole::class, 'job_role_id', 'id');
     }
 
     public function setSalaryAttribute($value) {
@@ -103,6 +116,16 @@ class Job extends BaseModel
         $result = preg_replace("/[[\\]\"]/", " ", $this->reports_to_json);
         
         return str_replace(" ,", ", ", $result);
+    }
+
+    public function getJobRoleNameAttribute() {
+
+        if ($this->JobRole) {
+
+            return $this->JobRole->job_role_name;
+        }
+
+        return null;
     }
 
     public function Responsibilities() {
@@ -136,6 +159,11 @@ class Job extends BaseModel
 
                 $this->reports_to_json = NULL;
             }
+        }
+
+        if (isset($data['job_role_id'])) {
+
+            $this->title = null;
         }
 
         try{

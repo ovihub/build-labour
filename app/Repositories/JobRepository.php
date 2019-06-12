@@ -6,6 +6,7 @@ use App\Models\Companies\CompanyPost;
 use App\Models\Companies\Job;
 use App\Models\Companies\JobRequirement;
 use App\Models\Companies\JobResponsibility;
+use App\Models\Companies\JobRole;
 use JWTAuth;
 use Illuminate\Http\Request;
 
@@ -100,49 +101,46 @@ class JobRepository extends AbstractRepository
 
     public function searchCompanyJobs(Request $request) {
 
-        $companyJobPosts = CompanyPost::with('Job', 'Job.Responsibilities')->where('job_id', '!=', NULL);
+        $jobs = Job::with('company');
+        $jobs = $jobs->select('job_posts.*');
 
-        if (!empty($request->keyword)) {
+        $jobs = $jobs->leftjoin('job_roles as job_role', 'job_role.id', '=', 'job_posts.job_role_id');
 
-            $companyJobPosts = $companyJobPosts->whereHas('Job', function ($query) use($request) {
+        $keyword = $request->keyword ? $request->keyword : '';
 
-                $query->where('title', 'like', "%{$request->keyword}%");
-            });
-        }
+        $jobs = $jobs->where('job_posts.is_template', false)
+                ->whereNotNull('job_posts.company_id');
 
+        $jobs = $jobs->where(function($query) use ($keyword) {
+            $query->where('job_posts.title', 'like', "%{$keyword}%")
+                ->orWhere('job_role.job_role_name', 'like', "%{$keyword}%");
+        });
 
-        if (!empty($request->location)) {
+        $jobs = $jobs->take(30)->get();
 
-            $companyJobPosts = $companyJobPosts->whereHas('Job', function ($query) use($request) {
-
-                $query->where('location', 'like', "%{$request->location}%");
-            });
-        }
-
-        $companyJobPosts = $companyJobPosts->take(30)->get();
-
-        if ($companyJobPosts) {
-
-            return $companyJobPosts ;
-        }
-
-        return [];
+        return $jobs;
 
     }
 
     public function createJob( Request $request ) {
 
-        $user = JWTAuth::toUser();
+        $job = $this->saveJob($request, false);
 
-        $this->job = new Job();
+        if ($job) {
 
-        $data = $request->all();
-        $data['created_by'] = $user->id;
+            return $job;
+        }
 
-        if ($this->job->store($data)) {
+        return false;
+    }
 
-            $this->job->responsibiliies;
-            return $this->job;
+    public function saveTemplate( Request $request ) {
+
+        $job = $this->saveJob($request, true);
+
+        if ($job) {
+
+            return $job;
         }
 
         return false;
@@ -156,6 +154,19 @@ class JobRepository extends AbstractRepository
 
             $data = $request->all();
 
+            if ($request->job_role_id) {
+
+                $jobRole = JobRole::find($request->job_role_id);
+
+                if (!$jobRole) {
+
+                    $message = "Can't process request";
+                    $this->job->addError( $message );
+
+                    return false;
+                }
+            }
+
             if ($request->id) {
 
                 $data['id'] = $request->id;
@@ -165,6 +176,82 @@ class JobRepository extends AbstractRepository
 
                 return $this->job;
             }
+        }
+
+        return false;
+    }
+
+    public function saveJob( Request $request, $isTemplate=true ) {
+
+        $user = JWTAuth::toUser();
+
+        $this->job = new Job();
+
+        $data = $request->all();
+        $data['created_by'] = $user->id;
+        $data['is_template'] = $isTemplate;
+        $data['company_id'] = $user->Company->id;
+
+        if ($request->job_role_id) {
+
+            $jobRole = JobRole::find($request->job_role_id);
+
+            if (!$jobRole) {
+
+                $message = "Can't process request";
+                $this->job->addError( $message );
+
+                return false;
+            }
+        }
+
+        if ($job = $this->job->store($data))
+        {
+
+            // job responsibilities
+
+            if ($request->responsibilities) {
+
+                foreach ($request->responsibilities as $r) {
+
+                    $r['items_json'] = $r['items'];
+                    $r['job_id'] = $job->id;
+
+                    $jobRes = new JobResponsibility();
+
+                    if (!$jobRes->store($r)) {
+
+                        $message = "Can't processed request";
+                        $this->job->addError( $message );
+
+                        return false;
+                    }
+                }
+            }
+
+            if ($request->requirements) {
+
+                foreach ($request->requirements as $r) {
+
+                    $r['items_json'] = $r['items'];
+                    $r['job_id'] = $job->id;
+
+                    $jobReq = new JobRequirement();
+
+                    if (!$jobReq->store($r)) {
+
+                        $message = "Can't processed request";
+                        $this->job->addError( $message );
+
+                        return false;
+                    }
+                }
+            }
+
+            $this->job->Requirements;
+            $this->job->Responsibilities;
+
+            return $this->job;
         }
 
         return false;

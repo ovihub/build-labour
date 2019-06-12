@@ -6,6 +6,7 @@ use App\Mails\ResendVerificationCodeEmail;
 use App\Models\Companies\Company;
 use App\Models\Companies\CompanyPost;
 use App\Models\Companies\CompanySpecialized;
+use App\Models\Companies\Job;
 use App\Models\Options\SecondaryFunction;
 use App\Models\Skills\Skill;
 use App\Models\Users\Bookmark;
@@ -237,7 +238,46 @@ class UserRepository extends AbstractRepository
 
         if ($user) {
 
-            $this->bookmark = Bookmark::where('user_id', $user->id)->where('post_id', $request->post_id)->first();
+            $data = ['user_id' => $user->id];
+            $tempBookmark = null;
+
+            if ($request->post_id) {
+
+                $post = CompanyPost::find($request->post_id);
+
+                if (!$post) {
+
+                    $message = "Can't processed request";
+                    $this->bookmark->addError( $message );
+
+                    return false;
+                }
+
+                $data['post_id'] = $post->id;
+                $this->bookmark = Bookmark::where('user_id', $user->id)->where('post_id', $request->post_id)->first();
+
+            } else if ($request->job_id) {
+
+                $job = Job::find($request->job_id);
+
+                if (!$job) {
+
+                    $message = "Can't processed request";
+                    $this->bookmark->addError( $message );
+
+                    return false;
+                }
+
+                $data['job_id'] = $job->id;
+                $this->bookmark = Bookmark::where('user_id', $user->id)->where('job_id', $request->post_id)->first();
+
+            } else {
+
+                $message = "Can't processed request";
+                $this->bookmark->addError( $message );
+
+                return false;
+            }
 
             // if the post id exists then delete
             if ($this->bookmark) {
@@ -249,10 +289,7 @@ class UserRepository extends AbstractRepository
 
                 $this->bookmark = new Bookmark();
 
-                if (!$this->bookmark->store([
-                    'post_id' => $request->post_id,
-                    'user_id' => $user->id
-                ])) {
+                if (!$this->bookmark->store($data)) {
 
                     return false;
                 }
@@ -268,27 +305,28 @@ class UserRepository extends AbstractRepository
 
         if ($user) {
 
-            $query = Bookmark::with('CompanyPost', 'CompanyPost.Job');
+            $query = Bookmark::with('Job');
 
-            $bookmarkWithJobs = $query->where('user_id', $user->id)->get();
+            $bookmarks = $query
+                ->where('user_id', $user->id)
+                ->where('post_id', null)
+                ->get();
 
-            if ($bookmarkWithJobs) {
+            if ($bookmarks) {
 
                 $jobs = [];
 
-                foreach ($bookmarkWithJobs as $bookmark) {
+                foreach ($bookmarks as $bookmark) {
 
-                    if ($bookmark->CompanyPost && $bookmark->CompanyPost->Job) {
+                    if ($bookmark->Job && $bookmark->Job->Company) {
 
                         $jobPost = [
                             'bookmark_id' => $bookmark->id,
-                            'post_id' => $bookmark->CompanyPost->id,
-                            'company_id' => $bookmark->CompanyPost->Company->id,
-                            'company_photo' => $bookmark->CompanyPost->Company->photo_url,
-                            'company_name' => $bookmark->CompanyPost->Company->name,
-                            'job_id' => $bookmark->CompanyPost->Job->id,
-                            'job_role' => $bookmark->CompanyPost->Job->title,
-                            'location' => $bookmark->CompanyPost->Job->location
+                            'company_photo' => $bookmark->Job->Company->photo_url,
+                            'company_name' => $bookmark->Job->Company->name,
+                            'job_id' => $bookmark->Job->id,
+                            'job_role' => $bookmark->Job->job_role_name,
+                            'location' => $bookmark->Job->location
                         ];
 
                         $jobs[] = $jobPost;
@@ -303,13 +341,34 @@ class UserRepository extends AbstractRepository
         return [];
     }
 
-    public function getBookmarksById() {
+    public function getPostBookmarksById() {
 
         $user = JWTAuth::toUser();
 
         if ($user) {
 
-            $bookmarks = Bookmark::where('user_id', $user->id)->pluck('post_id');
+            $bookmarks = Bookmark::where('user_id', $user->id)
+                        ->where('job_id', null)
+                        ->pluck('post_id');
+
+            if ($bookmarks) {
+
+                return $bookmarks;
+            }
+        }
+
+        return [];
+    }
+
+    public function getJobBookmarksById() {
+
+        $user = JWTAuth::toUser();
+
+        if ($user) {
+
+            $bookmarks = Bookmark::where('user_id', $user->id)
+                ->where('post_id', null)
+                ->pluck('job_id');
 
             if ($bookmarks) {
 

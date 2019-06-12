@@ -765,14 +765,14 @@ class ApiCompaniesController extends ApiBaseController
     {
         try {
 
-            $posts = $this->repository->getJobPosts($request->id);
+            $jobs = $this->repository->getJobPosts($request->id);
 
         } catch(\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'posts' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'jobs' ), true, '', self::HTTP_STATUS_REQUEST_OK);
     }
 
 }

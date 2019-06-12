@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBookmarksTable extends Migration
+class CreateJobRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateBookmarksTable extends Migration
      */
     public function up()
     {
-        Schema::create('bookmarks', function (Blueprint $table) {
+        Schema::create('job_roles', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('post_id')->unsigned()->nullable();
-            $table->integer('job_id')->unsigned()->nullable();
-            $table->integer('user_id')->unsigned();
+            $table->string('job_role_name');
         });
     }
 
@@ -28,6 +26,6 @@ class CreateBookmarksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bookmarks');
+        Schema::dropIfExists('job_roles');
     }
 }

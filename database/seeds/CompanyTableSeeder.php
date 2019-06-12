@@ -6,6 +6,7 @@ use App\Models\Companies\CompanySpecialized;
 use App\Models\Companies\Job;
 use App\Models\Companies\JobRequirement;
 use App\Models\Companies\JobResponsibility;
+use App\Models\Companies\JobRole;
 use App\Models\Options\BusinessType;
 use App\Models\Options\MainFunction;
 use App\Models\Options\SecondaryFunction;
@@ -77,10 +78,16 @@ class CompanyTableSeeder extends Seeder
 
             if ($i == 0) {
 
+                $jobRole1 = JobRole::where('job_role_name', 'Master Carpenter')->first();
+
+                $jobRole2 = JobRole::where('job_role_name', 'Computer Programmer')->first();
+
+                $jobRole3 = JobRole::where('job_role_name', 'Plumber')->first();
+
                 // jobs
 
                 Job::create([
-                    'title' => 'Master Carpenter',
+                //    'title' => $jobRole1->job_role_name,
                     'description' => 'A 20 years experience carpenter with a big salary',
                     'exp_level' => 'Senior',
                     'contract_type' => 'Full-time',
@@ -88,44 +95,76 @@ class CompanyTableSeeder extends Seeder
                     'location' => 'Richmond, Victoria, Australia',
                     'created_by' => $user->id,
                     'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now()
+                    'updated_at' => Carbon::now(),
+                    'is_template' => true,
+                    'job_role_id' => $jobRole1->id
                 ]);
 
                 Job::create([
-                    'title' => 'Junior Programmer',
+               //     'title' => $jobRole2->job_role_name,
                     'description' => 'Looking for a c# programmer',
                     'exp_level' => 'Senior',
                     'contract_type' => 'Partime',
                     'salary' => '$10000',
                     'created_by' => $user->id,
                     'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now()
+                    'updated_at' => Carbon::now(),
+                    'is_template' => true,
+                    'job_role_id' => $jobRole2->id
+                ]);
+
+
+                Job::create([
+                    'title' => 'Maintenance Supervisor',
+                    'description' => 'Looking for an experienced supervisor',
+                    'exp_level' => '2 years',
+                    'contract_type' => 'Full-time',
+                    'salary' => '$15000',
+                    'created_by' => $user->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                    'is_template' => true
                 ]);
 
                 Job::create([
-                    'title' => 'Plumber',
+                    'description' => 'Looking for Java programmer',
+                    'exp_level' => '1 year',
+                    'contract_type' => 'Full-time',
+                    'salary' => '$10000',
+                    'created_by' => $user->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                    'is_template' => false,
+                    'company_id' => $c->id,
+                    'job_role_id' => $jobRole2->id
+                ]);
+
+                Job::create([
+                    'description' => 'Looking for VB programmer',
+                    'exp_level' => '5 year',
+                    'contract_type' => 'Part-time',
+                    'salary' => '$10000',
+                    'created_by' => $user->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                    'is_template' => false,
+                    'company_id' => $c->id,
+                    'job_role_id' => $jobRole2->id
+                ]);
+
+                $job1 = Job::create([
+                 //   'title' => $jobRole3->job_role_name,
                     'description' => 'Looking for a experienced plumber',
                     'exp_level' => '5 year more',
                     'contract_type' => 'Full-time',
                     'salary' => '$30000',
                     'created_by' => $user->id,
                     'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now()
+                    'updated_at' => Carbon::now(),
+                    'is_template' => true,
+                    'job_role_id' => $jobRole3->id
                 ]);
 
-                $job1 = Job::create([
-                    'title' => 'Project Manager',
-                    'about' => '$730 million Residential Skycraper comprising of 941 residential apartments and 208 serviced apartments across 88 storeys.',
-                    'description' => 'An opportunity is available for a Construction Manager to work in and with the Melbourne Asphalt team to take responsibility for delivery of a portfolio of projects whilst optimising performance.',
-                    'exp_level' => 'Senior',
-                    'contract_type' => 'Full-time',
-                    'salary' => '$20000',
-                    'reports_to_json' => json_encode(['Construction Manager', 'Construction Director']),
-                    'location' => 'South Yarra, Melbourne, Victoria',
-                    'created_by' => $user->id,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now()
-                ]);
 
                 // $Job1 Requirements
 
@@ -200,22 +239,6 @@ class CompanyTableSeeder extends Seeder
                 // company posts
 
                 CompanyPost::create([
-                    'company_id' => $c->id,
-                    'posted_by' => $user->id,
-                    'job_id' => $job1->id,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now()
-                ]);
-
-                CompanyPost::create([
-                    'company_id' => $c->id,
-                    'posted_by' => $user->id,
-                    'job_id' => 1,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now()
-                ]);
-
-                CompanyPost::create([
                     'content' => 'Mass hiring please apply :)',
                     'company_id' => $c->id,
                     'posted_by' => $user->id,
@@ -237,10 +260,12 @@ class CompanyTableSeeder extends Seeder
                     'company_id' => $c->id,
                     'secondary_id' => $main->items[0]->id
                 ]);
+
                 CompanySpecialized::create([
                     'company_id' => $c->id,
                     'secondary_id' => $main->items[1]->id
                 ]);
+
                 CompanySpecialized::create([
                     'company_id' => $c->id,
                     'secondary_id' => $main->items[2]->id

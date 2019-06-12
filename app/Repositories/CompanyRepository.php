@@ -8,6 +8,7 @@ use App\Models\Companies\CompanySpecialized;
 use App\Models\Companies\Job;
 use App\Models\Companies\JobRequirement;
 use App\Models\Companies\JobResponsibility;
+use App\Models\Companies\JobRole;
 use App\Models\Options\SecondaryFunction;
 use Illuminate\Http\Request;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
@@ -116,7 +117,9 @@ class CompanyRepository extends AbstractRepository
 
     public function getJobs($id) {
 
-        $jobs = Job::where('company_id', $id)->get();
+        $jobs = Job::where('company_id', $id)
+            ->orWhere('company_id', null)
+            ->get();
 
         return $jobs;
     }
@@ -175,7 +178,6 @@ class CompanyRepository extends AbstractRepository
 
         $posts = CompanyPost::with('job')
                     ->where('company_id', $id)
-                    ->whereNull('job_id')
                     ->get();
 
         return $posts;
@@ -183,12 +185,23 @@ class CompanyRepository extends AbstractRepository
 
     public function getJobPosts($id) {
 
-        $posts = CompanyPost::with('job')
-                    ->where('company_id', $id)
-                    ->whereNotNull('job_id')
-                    ->get();
+        $jobs = Job::with('Company')
+                ->where('is_template', false)
+                ->get();
 
-        return $posts;
+        return $jobs;
+    }
+
+    public function searchJobRoles(Request $request) {
+
+        $keyword = $request->keyword ? $request->keyword : '';
+
+        $jobRoles = JobRole::where('job_role_name', 'like', "%{$keyword}%")
+            ->orWhere('job_role_name', 'like', "%{$keyword}%")
+            ->take(10)
+            ->get();
+
+        return $jobRoles;
     }
 
 }

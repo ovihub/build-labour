@@ -61,12 +61,6 @@ class ApiWorksController extends ApiBaseController
      *                      example="12"
      *                  ),
      *                  @OA\Property(
-     *                      property="job_id",
-     *                      description="Existing Job ID",
-     *                      type="integer",
-     *                      example="1"
-     *                  ),
-     *                  @OA\Property(
      *                      property="company_id",
      *                      description="Existing Company ID",
      *                      type="integer",
@@ -183,12 +177,6 @@ class ApiWorksController extends ApiBaseController
      *                      description="<b>Optional</b> End Month",
      *                      type="integer",
      *                      example="9"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="job_id",
-     *                      description="Existing Job ID",
-     *                      type="integer",
-     *                      example="1"
      *                  ),
      *                  @OA\Property(
      *                      property="company_id",
