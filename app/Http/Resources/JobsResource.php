@@ -16,7 +16,7 @@ class JobsResource extends JsonResource
     {
         return [
             'id'            => $this->id,
-            'title'         => $this->title,
+            'title'         => $this->job_role_name,
             'description'   => $this->description,
             'about'         => $this->about,
             'exp_level'     => $this->exp_level,
@@ -24,6 +24,8 @@ class JobsResource extends JsonResource
             'salary'        => $this->salary,
             'reports_to'    => $this->reports_to_str,
             'location'      => $this->location,
+         //   'job_role_id'   => $this->job_role_id,
+           // 'is_template'   => $this->is_template
         ];
     }
 }

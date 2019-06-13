@@ -120,16 +120,22 @@ class DatatableController extends Controller
         $per_page = $request->get('per_page') ? $request->get('per_page') : 10;
         $search_text = $request->get('search_text') ? $request->get('search_text') : '';
 
-        $query = $this->job
-                    ->where('id', 'LIKE', '%'.$search_text.'%')
-                    ->orWhere('title', 'LIKE', '%'.$search_text.'%')
-                    ->orWhere('description', 'LIKE', '%'.$search_text.'%')
-                    ->orWhere('about', 'LIKE', '%'.$search_text.'%')
-                    ->orWhere('exp_level', 'LIKE', '%'.$search_text.'%')
-                    ->orWhere('contract_type', 'LIKE', '%'.$search_text.'%')
-                    ->orWhere('title', 'LIKE', '%'.$search_text.'%')
-                    ->orderBy($column, $order);
+        $query = $this->job->where('is_template', false);
 
+        $query = $query->where(function($query) use($search_text) {
+
+            $query
+                ->where('id', 'LIKE', '%'.$search_text.'%')
+                ->orWhere('title', 'LIKE', '%'.$search_text.'%')
+                ->orWhere('description', 'LIKE', '%'.$search_text.'%')
+                ->orWhere('about', 'LIKE', '%'.$search_text.'%')
+                ->orWhere('exp_level', 'LIKE', '%'.$search_text.'%')
+                ->orWhere('contract_type', 'LIKE', '%'.$search_text.'%')
+                ->orWhere('title', 'LIKE', '%'.$search_text.'%');
+        });
+
+
+        $query = $query->orderBy($column, $order);
         $data = $query->paginate($per_page);
 
         return JobsResource::collection($data);
