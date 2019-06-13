@@ -243,9 +243,9 @@
                     this.job_responsibilities = (details.job && details.job.responsibilities && details.job.responsibilities[0]) ? 
                                                     details.job.responsibilities[0].items : [];
 
-                    if (this.company_id) {
-                        this.$refs['locationRef'].disabled = true;
-                    }
+                    // if (this.company_id) {
+                    //     this.$refs['locationRef'].disabled = true;
+                    // }
                 }
                 
                 this.responsibilities = this.responsibilities.filter(r => r!=='');
@@ -302,9 +302,9 @@
             onSearchCompany(keyword) {
                 let component = this;
                 
-                this.location = '';
                 this.company_id = '';
-                this.$refs['locationRef'].disabled = false;
+                // this.location = '';
+                // this.$refs['locationRef'].disabled = false;
 
                 Promise.resolve(Api.getCompanies(keyword)).then(function(data) {
                     component.companies = (keyword != '' && (keyword && keyword.length > 0) && 
@@ -333,7 +333,7 @@
                 this.company_id = company.id;
                 this.company_name = company.name;
                 this.location = company.address;
-                this.$refs['locationRef'].disabled = true;
+                // this.$refs['locationRef'].disabled = true;
 
                 this.companies = [];
             },

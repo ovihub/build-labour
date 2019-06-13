@@ -8017,14 +8017,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -8051,7 +8043,7 @@ __webpack_require__.r(__webpack_exports__);
     Bus.$on('updateEmployment', function (index, details) {
       var emps = component.employments;
 
-      if (emps.length > 1 && details.isCurrent == 1 && component.formatPeriod(details) != component.formatPeriod(emps[index]) || details.responsibilities.length > emps[index].responsibilities.length || emps[index].job_id != details.job_id) {
+      if (emps.length > 1 && details.isCurrent == 1 && component.formatPeriod(details) != component.formatPeriod(emps[index]) || details.responsibilities.length > emps[index].responsibilities.length) {
         window.location.href = component.endpoints.profile;
       }
 
@@ -8063,7 +8055,7 @@ __webpack_require__.r(__webpack_exports__);
             refProjectSize = component.$refs['empProjectSize-' + index],
             refLocationIcon = component.$refs['empLocationIcon-' + index],
             refProjectSizeIcon = component.$refs['empProjectSizeIcon-' + index];
-        component.$refs['empJobRole-' + index][0].textContent = component.getJobRole(details.job_role, details.job);
+        component.$refs['empJobRole-' + index][0].textContent = details.job_role;
         component.$refs['empCompanyName-' + index][0].textContent = component.getCompanyName(details.company_name, details.company);
         component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
         var loc = component.getLocation(details.location, details.company);
@@ -8084,16 +8076,8 @@ __webpack_require__.r(__webpack_exports__);
           refProjectSizeIcon[0].hidden = true;
         }
 
-        if (component.getJobResLen(details.job) != 0) {
-          var items = details.job.responsibilities[0].items;
-
-          for (var i = 0; i < items.length; i++) {
-            component.$refs['empJobRespItem-' + index + '-' + i][0].textContent = items[i];
-          }
-        }
-
-        for (var _i = details.responsibilities.length; _i < details.responsibilities.length + component.getJobResLen(details.job); _i++) {
-          component.$refs['empRespItem-' + index + '-' + _i][0].textContent = details.responsibilities[_i];
+        for (var i = details.responsibilities.length; i < details.responsibilities.length; i++) {
+          component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
         }
       }
     });
@@ -8102,14 +8086,8 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    getJobResLen: function getJobResLen(emp) {
-      return emp && emp.responsibilities && emp.responsibilities[0] ? emp.responsibilities[0].items.length : 0;
-    },
     getInitials: function getInitials(name, company) {
       return Utils.getInitials(name != null ? name : company.name);
-    },
-    getJobRole: function getJobRole(job_role, job) {
-      return job_role != null ? job_role : job.title;
     },
     getCompanyName: function getCompanyName(name, company) {
       return name != null ? name : company.name;
@@ -8428,11 +8406,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.end_month = details.end_month;
         this.end_year = details.end_year;
         this.responsibilities = details.responsibilities;
-        this.job_responsibilities = details.job && details.job.responsibilities && details.job.responsibilities[0] ? details.job.responsibilities[0].items : [];
-
-        if (this.company_id) {
-          this.$refs['locationRef'].disabled = true;
-        }
+        this.job_responsibilities = details.job && details.job.responsibilities && details.job.responsibilities[0] ? details.job.responsibilities[0].items : []; // if (this.company_id) {
+        //     this.$refs['locationRef'].disabled = true;
+        // }
       }
 
       this.responsibilities = this.responsibilities.filter(function (r) {
@@ -8478,9 +8454,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onSearchCompany: function onSearchCompany(keyword) {
       var component = this;
-      this.location = '';
-      this.company_id = '';
-      this.$refs['locationRef'].disabled = false;
+      this.company_id = ''; // this.location = '';
+      // this.$refs['locationRef'].disabled = false;
+
       Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCompanies(keyword)).then(function (data) {
         component.companies = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.companies ? data.data.companies : [];
       });
@@ -8498,8 +8474,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onSelectCompany: function onSelectCompany(company) {
       this.company_id = company.id;
       this.company_name = company.name;
-      this.location = company.address;
-      this.$refs['locationRef'].disabled = true;
+      this.location = company.address; // this.$refs['locationRef'].disabled = true;
+
       this.companies = [];
     },
     deleteRecord: function deleteRecord() {
@@ -58836,12 +58812,7 @@ var render = function() {
                             [
                               _vm._v(
                                 "\n                                " +
-                                  _vm._s(
-                                    _vm.getJobRole(
-                                      employment.job_role,
-                                      employment.job
-                                    )
-                                  ) +
+                                  _vm._s(employment.job_role) +
                                   "\n                            "
                               )
                             ]
@@ -58980,8 +58951,7 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      employment.responsibilities.length != 0 ||
-                      _vm.getJobResLen(employment.job) != 0
+                      employment.responsibilities.length != 0
                         ? _c("div", { staticClass: "empinfo-row" }, [
                             _c("img", {
                               staticClass: "text-icon",
@@ -59010,32 +58980,6 @@ var render = function() {
                           ])
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.getJobResLen(employment.job) != 0
-                        ? _c("div", { staticClass: "bl-label-15" }, [
-                            _c(
-                              "ul",
-                              { staticClass: "list-items" },
-                              _vm._l(
-                                employment.job.responsibilities[0].items,
-                                function(res, idx) {
-                                  return _c("div", { key: idx }, [
-                                    _c(
-                                      "li",
-                                      {
-                                        ref:
-                                          "empJobRespItem-" + index + "-" + idx,
-                                        refInFor: true
-                                      },
-                                      [_vm._v(_vm._s(res))]
-                                    )
-                                  ])
-                                }
-                              ),
-                              0
-                            )
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
                       employment.responsibilities.length != 0
                         ? _c("div", { staticClass: "bl-label-15" }, [
                             _c(
@@ -59045,22 +58989,16 @@ var render = function() {
                                 res,
                                 idx
                               ) {
-                                return _c(
-                                  "div",
-                                  {
-                                    key: idx + _vm.getJobResLen(employment.job)
-                                  },
-                                  [
-                                    _c(
-                                      "li",
-                                      {
-                                        ref: "empRespItem-" + index + "-" + idx,
-                                        refInFor: true
-                                      },
-                                      [_vm._v(_vm._s(res))]
-                                    )
-                                  ]
-                                )
+                                return _c("div", { key: idx }, [
+                                  _c(
+                                    "li",
+                                    {
+                                      ref: "empRespItem-" + index + "-" + idx,
+                                      refInFor: true
+                                    },
+                                    [_vm._v(_vm._s(res))]
+                                  )
+                                ])
                               }),
                               0
                             )
