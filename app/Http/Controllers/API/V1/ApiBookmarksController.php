@@ -89,7 +89,7 @@ class ApiBookmarksController extends ApiBaseController
 
         $message = "Successfully bookmarked post!";
 
-        if ($bookmark->unbookmarked) {
+        if (isset($bookmark['unbookmarked'])) {
 
             $message = "Successfully unbookmark post!";
         }

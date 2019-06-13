@@ -307,6 +307,32 @@ class UserRepository extends AbstractRepository
                 }
             }
 
+            if ($request->job_id) {
+
+                $jobBookmark = [
+                    'id' => $this->bookmark->id,
+                    'company_id' => null,
+                    'company_name' => null,
+                    'company_photo' => null,
+                    'location' => null,
+                    'title' => null,
+                    'unbookmarked' => $this->bookmark->unbookmarked
+                ];
+
+                if (isset($job) && $job->Company) {
+
+                    $jobBookmark['company_id'] = $job->Company->id;
+                    $jobBookmark['company_name'] = $job->Company->name;
+                    $jobBookmark['company_photo'] = $job->Company->photo_url;
+                    $jobBookmark['location'] = $job->location;
+                    $jobBookmark['title'] = $job->job_role_name;
+                    $jobBookmark['job_id'] = $job->id;
+                    $jobBookmark['post_id'] = null;
+                }
+
+                return $jobBookmark;
+            }
+
             return $this->bookmark;
         }
     }
