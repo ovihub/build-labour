@@ -207,9 +207,9 @@ class ApiCompaniesController extends ApiBaseController
 
     /**
      * @OA\Get(
-     *      path="/company/{id}/workers",
+     *      path="/company/{id}/people",
      *      tags={"Company"},
-     *      summary="Get company workers",
+     *      summary="Get company people",
      *      security={{"BearerAuth":{}}},
      *      @OA\Parameter(
      *          in="path",
@@ -250,14 +250,14 @@ class ApiCompaniesController extends ApiBaseController
     {
         try {
 
-            $workers = $this->repository->getWorkers($request->id);
+            $people = $this->repository->getWorkers($request->id);
 
         } catch(\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'workers' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'people' ), true, '', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
