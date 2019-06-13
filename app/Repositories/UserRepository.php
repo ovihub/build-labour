@@ -269,7 +269,8 @@ class UserRepository extends AbstractRepository
                 }
 
                 $data['job_id'] = $job->id;
-                $this->bookmark = Bookmark::where('user_id', $user->id)->where('job_id', $request->post_id)->first();
+
+                $this->bookmark = Bookmark::where('user_id', $user->id)->where('job_id', $request->job_id)->first();
 
             } else {
 
@@ -284,6 +285,17 @@ class UserRepository extends AbstractRepository
 
                 $this->bookmark->delete();
                 $this->bookmark->unbookmarked = true;
+
+                if ($request->post_id) {
+
+                    Bookmark::where('user_id', $user->id)->where('post_id', $request->post_id)->delete();
+                }
+
+                if ($request->job_id) {
+
+                    Bookmark::where('user_id', $user->id)->where('job_id', $request->job_id)->delete();
+                }
+
 
             } else {
 
