@@ -199,7 +199,6 @@ class WorkExperience extends BaseModel
         if ($r->company_id && $company = Company::find($r->company_id)) {
 
             $this->company_name = null;
-            $this->location = null;
 
         } else {
 
