@@ -52,12 +52,11 @@
                 if (flag) {
                     bookmarks.push({
                         post_id: bookmark.id,
-                        job_id: bookmark.job.id,
                         company_id: bookmark.company_id,
                         company_name: bookmark.company_name,
                         company_photo: bookmark.company_photo,
-                        location: bookmark.job.location,
-                        job_role: bookmark.job.title,
+                        location: bookmark.location,
+                        job_role: bookmark.title ? bookmark.title : bookmark.job_role.job_role_name,
                     });
                 } else {
                     for (let i = 0; i < bookmarks.length; i++){ 

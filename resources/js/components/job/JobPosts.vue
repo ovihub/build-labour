@@ -22,14 +22,14 @@
                                 @click="onClickCompanyPhoto(post.company_id)">
 
                             <avatar v-else cls="bl-image-40" size="40" border="0" border-radius="8px"
-                                :initials="getInitials(post.company_name)"
+                                :initials="getInitials(post.company.name)"
                                 :company-id="(post.company_id) ? post.company_id + '' : ''">
                             </avatar>
                         </div>
                         <div class="bl-col-2">
                             <div class="bl-display">
                                 <span class="bl-label-19 bl-ml14">
-                                    {{ post.company_name }}
+                                    {{ post.company.name }}
                                 </span>
 
                                 <span class="bl-label-14 bl-ml14" style="margin-top:-5px">
@@ -41,19 +41,19 @@
 
                     <div class="job-summary">
                         <div class="bl-label-21">
-                            {{ post.job.title }}
+                            {{ post.title ? post.title : post.job_role.name }}
                         </div>
                         <div class="bl-label-14-style-3">
-                            {{ post.job.location }}
+                            {{ post.location }}
                             <!-- <span class="text-style-1">{{ getTimeDiffNow(post.job.created_at) }}</span> -->
                         </div>
                         <div class="bl-label-15 bl-mt16">
-                            {{ post.job.description }}
+                            {{ post.description }}
                         </div>
                     </div>
 
                     <div class="profile-more mt-2">
-                        <a :href="'/job/view/?cid=' + post.company_id + '&jid=' + post.job.id">
+                        <a :href="'/job/view/?cid=' + post.company_id + '&jid=' + post.id">
                             View Details<i class="fa fa-angle-right ml-2"></i>
                         </a>
                     </div>
@@ -72,7 +72,7 @@
                 jobPosts: [],
                 checkedJobPosts: [],
                 input: {
-                    post_id: '',
+                    job_id: '',
                 },
                 endpoints: {
                     get: '/api/v1/company/',
@@ -123,7 +123,7 @@
                 let component = this;
 
                 Promise.resolve(Api.getJobPosts(endpoint)).then(function(data) {
-                    component.jobPosts = data.data.posts;
+                    component.jobPosts = data.data.jobs;
                 });
             },
 
@@ -139,7 +139,7 @@
                 let component = this;
                 
                 this.disabled = true;
-                this.input.post_id = post.id;
+                this.input.job_id = post.id;
 
                 await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
                     

@@ -26,13 +26,14 @@ class BuildLabourApi {
         this.getResults = [];
 
         this.endpoints = {
+            job_roles: '/api/v1/roles/job/search',
             jobs: '/api/v1/job/search/filter',
             bookmarks: '/api/v1/bookmarks/posts/jobs',
             locations: '/api/v1/locations',
             companies: '/api/v1/company/search',
             company_options: '/api/v1/company/options',
             responsibilities: '/api/v1/job/',
-            savedJobPosts: '/api/v1/bookmarks/posts/ids',
+            savedJobPosts: '/api/v1/bookmarks/posts/jobs/ids',
         };
         
         //  this._headers()
@@ -155,6 +156,10 @@ class BuildLabourApi {
         let input = { role: role, tiers: tiers, sectors: sectors, locations: locations };
 
         return this._post(this.endpoints.jobs, input);
+    }
+
+    getJobRoles() {
+        return this._get(this.endpoints.job_roles);
     }
 }
 

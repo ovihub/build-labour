@@ -6699,7 +6699,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       jobPosts: [],
       checkedJobPosts: [],
       input: {
-        post_id: ''
+        job_id: ''
       },
       endpoints: {
         get: '/api/v1/company/',
@@ -6742,7 +6742,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getJobPosts: function getJobPosts(endpoint) {
       var component = this;
       Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobPosts(endpoint)).then(function (data) {
-        component.jobPosts = data.data.posts;
+        component.jobPosts = data.data.jobs;
       });
     },
     getTimeDiffNow: function getTimeDiffNow(created_at) {
@@ -6762,7 +6762,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 component = this;
                 this.disabled = true;
-                this.input.post_id = post.id;
+                this.input.job_id = post.id;
                 _context.next = 5;
                 return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
@@ -7018,12 +7018,11 @@ __webpack_require__.r(__webpack_exports__);
       if (flag) {
         bookmarks.push({
           post_id: bookmark.id,
-          job_id: bookmark.job.id,
           company_id: bookmark.company_id,
           company_name: bookmark.company_name,
           company_photo: bookmark.company_photo,
-          location: bookmark.job.location,
-          job_role: bookmark.job.title
+          location: bookmark.location,
+          job_role: bookmark.title ? bookmark.title : bookmark.job_role.job_role_name
         });
       } else {
         for (var i = 0; i < bookmarks.length; i++) {
@@ -8343,7 +8342,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       months: Utils.getMonths(),
       years: Utils.getYears(),
       current: -1,
-      jobs: [],
+      job_roles: [],
       locations: [],
       companies: [],
       time_out: false,
@@ -8394,19 +8393,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setValues: function setValues(details) {
       if (details) {
         this.id = details.id;
-        this.job_id = details.job_id;
         this.company_id = details.company_id;
-        this.job_role = details.job_id ? details.job.title : details.job_role;
+        this.job_id = details.job_role.id;
+        this.job_role = details.job_role.job_role_name;
         this.company_name = details.company_id ? details.company.name : details.company_name;
-        this.location = details.company_id ? details.company.address : details.location;
+        this.location = details.location ? details.location : details.company.address;
         this.project_size = details.project_size;
         this.isCurrent = details.isCurrent;
         this.start_month = details.start_month;
         this.start_year = details.start_year;
         this.end_month = details.end_month;
         this.end_year = details.end_year;
-        this.responsibilities = details.responsibilities;
-        this.job_responsibilities = details.job && details.job.responsibilities && details.job.responsibilities[0] ? details.job.responsibilities[0].items : []; // if (this.company_id) {
+        this.responsibilities = details.responsibilities; // if (this.company_id) {
         //     this.$refs['locationRef'].disabled = true;
         // }
       }
@@ -8445,11 +8443,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     onSearchJob: function onSearchJob(keyword) {
-      var component = this;
       this.job_id = '';
-      this.job_responsibilities = [];
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobs(keyword)).then(function (data) {
-        component.jobs = data.data.jobs;
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
+        component.job_roles = data.data.job_roles;
       });
     },
     onSearchCompany: function onSearchCompany(keyword) {
@@ -8463,9 +8460,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onSelectJob: function onSelectJob(job) {
       this.job_id = job.id;
-      this.job_role = job.title;
-      this.job_responsibilities = job && job.responsibilities && job.responsibilities[0] ? job.responsibilities[0].items : [];
-      this.jobs = [];
+      this.job_role = job.job_role_name;
+      this.job_roles = [];
     },
     onSelectLocation: function onSelectLocation(location) {
       this.location = location;
@@ -57131,7 +57127,7 @@ var render = function() {
                           size: "40",
                           border: "0",
                           "border-radius": "8px",
-                          initials: _vm.getInitials(post.company_name),
+                          initials: _vm.getInitials(post.company.name),
                           "company-id": post.company_id
                             ? post.company_id + ""
                             : ""
@@ -57146,7 +57142,7 @@ var render = function() {
                   _c("span", { staticClass: "bl-label-19 bl-ml14" }, [
                     _vm._v(
                       "\n                                " +
-                        _vm._s(post.company_name) +
+                        _vm._s(post.company.name) +
                         "\n                            "
                     )
                   ]),
@@ -57173,7 +57169,7 @@ var render = function() {
               _c("div", { staticClass: "bl-label-21" }, [
                 _vm._v(
                   "\n                        " +
-                    _vm._s(post.job.title) +
+                    _vm._s(post.title ? post.title : post.job_role.name) +
                     "\n                    "
                 )
               ]),
@@ -57181,7 +57177,7 @@ var render = function() {
               _c("div", { staticClass: "bl-label-14-style-3" }, [
                 _vm._v(
                   "\n                        " +
-                    _vm._s(post.job.location) +
+                    _vm._s(post.location) +
                     "\n                        "
                 )
               ]),
@@ -57189,7 +57185,7 @@ var render = function() {
               _c("div", { staticClass: "bl-label-15 bl-mt16" }, [
                 _vm._v(
                   "\n                        " +
-                    _vm._s(post.job.description) +
+                    _vm._s(post.description) +
                     "\n                    "
                 )
               ])
@@ -57201,10 +57197,7 @@ var render = function() {
                 {
                   attrs: {
                     href:
-                      "/job/view/?cid=" +
-                      post.company_id +
-                      "&jid=" +
-                      post.job.id
+                      "/job/view/?cid=" + post.company_id + "&jid=" + post.id
                   }
                 },
                 [
@@ -59143,7 +59136,7 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _vm.jobs.length > 0
+              _vm.job_roles.length > 0
                 ? _c(
                     "div",
                     {
@@ -59154,7 +59147,7 @@ var render = function() {
                       _c(
                         "ul",
                         { staticClass: "list-group" },
-                        _vm._l(_vm.jobs, function(job, idx) {
+                        _vm._l(_vm.job_roles, function(job, idx) {
                           return _c(
                             "li",
                             {
@@ -59169,7 +59162,7 @@ var render = function() {
                             [
                               _vm._v(
                                 "\n                            \n                            " +
-                                  _vm._s(job.title) +
+                                  _vm._s(job.job_role_name) +
                                   "\n                        "
                               )
                             ]
@@ -73994,13 +73987,14 @@ function () {
     this.companies = [];
     this.getResults = [];
     this.endpoints = {
+      job_roles: '/api/v1/roles/job/search',
       jobs: '/api/v1/job/search/filter',
       bookmarks: '/api/v1/bookmarks/posts/jobs',
       locations: '/api/v1/locations',
       companies: '/api/v1/company/search',
       company_options: '/api/v1/company/options',
       responsibilities: '/api/v1/job/',
-      savedJobPosts: '/api/v1/bookmarks/posts/ids'
+      savedJobPosts: '/api/v1/bookmarks/posts/jobs/ids'
     }; //  this._headers()
   }
 
@@ -74184,6 +74178,11 @@ function () {
         locations: locations
       };
       return this._post(this.endpoints.jobs, input);
+    }
+  }, {
+    key: "getJobRoles",
+    value: function getJobRoles() {
+      return this._get(this.endpoints.job_roles);
     }
   }]);
 

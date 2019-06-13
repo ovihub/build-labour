@@ -22,12 +22,12 @@
                         </span>
                     </div>
 
-                    <div class="emp-row" style="margin-top:0" v-if="jobs.length > 0">
+                    <div class="emp-row" style="margin-top:0" v-if="job_roles.length > 0">
                         <ul class="list-group">
-                            <li class="list-group-item" v-for="(job, idx) in jobs" :key="idx"
+                            <li class="list-group-item" v-for="(job, idx) in job_roles" :key="idx"
                                 @click="onSelectJob(job)">
                                 
-                                {{ job.title }}
+                                {{ job.job_role_name }}
                             </li>
                         </ul>
                     </div>
@@ -182,7 +182,7 @@
                 months: Utils.getMonths(),
                 years: Utils.getYears(),
                 current: -1,
-                jobs: [],
+                job_roles: [],
                 locations: [],
                 companies: [],
                 time_out: false,
@@ -228,11 +228,11 @@
             setValues(details) {
                 if (details) {
                     this.id = details.id;
-                    this.job_id = details.job_id;
                     this.company_id = details.company_id;
-                    this.job_role = details.job_id ? details.job.title : details.job_role;
+                    this.job_id = details.job_role.id;
+                    this.job_role = details.job_role.job_role_name;
                     this.company_name = details.company_id ? details.company.name : details.company_name;
-                    this.location = details.company_id ? details.company.address : details.location;
+                    this.location = details.location ? details.location : details.company.address;
                     this.project_size = details.project_size;
                     this.isCurrent = details.isCurrent;
                     this.start_month = details.start_month;
@@ -240,8 +240,6 @@
                     this.end_month = details.end_month;
                     this.end_year = details.end_year;
                     this.responsibilities = details.responsibilities;
-                    this.job_responsibilities = (details.job && details.job.responsibilities && details.job.responsibilities[0]) ? 
-                                                    details.job.responsibilities[0].items : [];
 
                     // if (this.company_id) {
                     //     this.$refs['locationRef'].disabled = true;
@@ -289,13 +287,12 @@
             },
 
             onSearchJob(keyword) {
+                this.job_id = '';
+                
                 let component = this;
                 
-                this.job_id = '';
-                this.job_responsibilities = [];
-
-                Promise.resolve(Api.getJobs(keyword)).then(function(data) {
-                    component.jobs = data.data.jobs;
+                Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
+                    component.job_roles = data.data.job_roles;
                 });
             },
 
@@ -315,12 +312,9 @@
 
             onSelectJob(job) {
                 this.job_id = job.id;
-                this.job_role = job.title;
+                this.job_role = job.job_role_name;
 
-                this.job_responsibilities = (job && job.responsibilities && job.responsibilities[0]) ?
-                                                job.responsibilities[0].items : [];
-
-                this.jobs = [];
+                this.job_roles = [];
             },
 
             onSelectLocation(location) {
