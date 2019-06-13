@@ -361,6 +361,7 @@ class UserRepository extends AbstractRepository
                         $jobPost = [
                             'bookmark_id' => $bookmark->id,
                             'company_photo' => $bookmark->Job->Company->photo_url,
+                            'company_id' => $bookmark->Job->Company->id,
                             'company_name' => $bookmark->Job->Company->name,
                             'job_id' => $bookmark->Job->id,
                             'job_role' => $bookmark->Job->job_role_name,

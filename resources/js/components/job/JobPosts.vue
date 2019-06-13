@@ -3,12 +3,12 @@
         <ul class="list-job-items" v-for="(post, index) in jobPosts" :key="index">
             <li class="job-items">
                 <div class="profile-content">
-                    <div class="save-icon" @click="save(post)">
+                    <div class="save-icon">
                         <!-- <img style="margin-top:-5px;margin-left:5px;margin-bottom:-5px" src="/img/icons/plus.png"
                             srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x"> -->
                         <div class="star-cont">
                             <input class="star" type="checkbox" title="Bookmark Job" :ref="'savedJobPost-' + post.id"
-                                :value="post.id" v-model="checkedJobPosts" />
+                                :value="post.id" v-model="checkedJobPosts" @click="save(post)" />
                         </div>
 
                         <div class="bl-label-14-style-2 bl-mt12">
@@ -41,7 +41,7 @@
 
                     <div class="job-summary">
                         <div class="bl-label-21">
-                            {{ post.title ? post.title : post.job_role.name }}
+                            {{ post.title ? post.title : post.job_role_name }}
                         </div>
                         <div class="bl-label-14-style-3">
                             {{ post.location }}

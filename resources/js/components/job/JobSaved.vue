@@ -51,16 +51,16 @@
 
                 if (flag) {
                     bookmarks.push({
-                        post_id: bookmark.id,
+                        job_id: bookmark.id,
                         company_id: bookmark.company_id,
-                        company_name: bookmark.company_name,
-                        company_photo: bookmark.company_photo,
+                        company_name: bookmark.company.name,
+                        company_photo: bookmark.company.photo_url,
                         location: bookmark.location,
-                        job_role: bookmark.title ? bookmark.title : bookmark.job_role.job_role_name,
+                        job_role: bookmark.title ? bookmark.title : bookmark.job_role_name,
                     });
                 } else {
-                    for (let i = 0; i < bookmarks.length; i++){ 
-                        if (bookmarks[i].post_id === bookmark.id) {
+                    for (let i = 0; i < bookmarks.length; i++) {
+                        if (bookmarks[i].job_id === bookmark.id) {
                             bookmarks.splice(i, 1);
                             break;
                         }

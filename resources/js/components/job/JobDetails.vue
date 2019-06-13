@@ -246,7 +246,8 @@
 
             Bus.$on('jobDetails', function(details) {
                 if (details) {
-                    component.title = details.title;
+                    component.job_role = details.job_role;
+                    component.title = details.title ? details.title : details.job_role.job_role_name;
                     component.description = details.description;
                     component.about = details.about;
                     component.exp_level = details.exp_level;

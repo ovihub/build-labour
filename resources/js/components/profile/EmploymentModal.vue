@@ -229,8 +229,7 @@
                 if (details) {
                     this.id = details.id;
                     this.company_id = details.company_id;
-                    this.job_id = details.job_role.id;
-                    this.job_role = details.job_role.job_role_name;
+                    this.job_role = details.job_role;
                     this.company_name = details.company_id ? details.company.name : details.company_name;
                     this.location = details.location ? details.location : details.company.address;
                     this.project_size = details.project_size;
@@ -288,7 +287,7 @@
 
             onSearchJob(keyword) {
                 this.job_id = '';
-                
+
                 let component = this;
                 
                 Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {

@@ -15,7 +15,7 @@ class JobRolesSeeder extends Seeder
         JobRole::insert(array(
             ['job_role_name' => 'Master Carpenter'],
             ['job_role_name' => 'Plumber'],
-            ['job_role_name' => 'Computer Programmer']
+            ['job_role_name' => 'Project Manager']
         ));
     }
 }

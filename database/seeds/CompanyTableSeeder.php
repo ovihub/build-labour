@@ -80,7 +80,7 @@ class CompanyTableSeeder extends Seeder
 
                 $jobRole1 = JobRole::where('job_role_name', 'Master Carpenter')->first();
 
-                $jobRole2 = JobRole::where('job_role_name', 'Computer Programmer')->first();
+                $jobRole2 = JobRole::where('job_role_name', 'Project Manager')->first();
 
                 $jobRole3 = JobRole::where('job_role_name', 'Plumber')->first();
 
@@ -127,23 +127,11 @@ class CompanyTableSeeder extends Seeder
                 ]);
 
                 Job::create([
-                    'description' => 'Looking for Java programmer',
+                    'description' => 'An opportunity is available for a Construction Manager to work in and with the Melbourne Asphalt team to take responsibility for delivery of a portfolio of projects whilst optimising performance.',
                     'exp_level' => '1 year',
                     'contract_type' => 'Full-time',
                     'salary' => '$10000',
-                    'created_by' => $user->id,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                    'is_template' => false,
-                    'company_id' => $c->id,
-                    'job_role_id' => $jobRole2->id
-                ]);
-
-                Job::create([
-                    'description' => 'Looking for VB programmer',
-                    'exp_level' => '5 year',
-                    'contract_type' => 'Part-time',
-                    'salary' => '$10000',
+                    'location' => 'Melbourne, Victoria, Australia',
                     'created_by' => $user->id,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
@@ -153,6 +141,20 @@ class CompanyTableSeeder extends Seeder
                 ]);
 
                 $job1 = Job::create([
+                    'description' => 'An opportunity is available for a Master Carpenter to work in and with the Richmond Asphalt team to take responsibility for delivery of a portfolio of projects whilst optimising performance.',
+                    'exp_level' => '5 year',
+                    'contract_type' => 'Part-time',
+                    'salary' => '$10000',
+                    'location' => 'Richmond, Victoria, Australia',
+                    'created_by' => $user->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                    'is_template' => false,
+                    'company_id' => $c->id,
+                    'job_role_id' => $jobRole1->id
+                ]);
+
+                Job::create([
                  //   'title' => $jobRole3->job_role_name,
                     'description' => 'Looking for a experienced plumber',
                     'exp_level' => '5 year more',

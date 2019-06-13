@@ -6516,7 +6516,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var component = this;
     Bus.$on('jobDetails', function (details) {
       if (details) {
-        component.title = details.title;
+        component.job_role = details.job_role;
+        component.title = details.title ? details.title : details.job_role.job_role_name;
         component.description = details.description;
         component.about = details.about;
         component.exp_level = details.exp_level;
@@ -7017,16 +7018,16 @@ __webpack_require__.r(__webpack_exports__);
 
       if (flag) {
         bookmarks.push({
-          post_id: bookmark.id,
+          job_id: bookmark.id,
           company_id: bookmark.company_id,
-          company_name: bookmark.company_name,
-          company_photo: bookmark.company_photo,
+          company_name: bookmark.company.name,
+          company_photo: bookmark.company.photo_url,
           location: bookmark.location,
-          job_role: bookmark.title ? bookmark.title : bookmark.job_role.job_role_name
+          job_role: bookmark.title ? bookmark.title : bookmark.job_role_name
         });
       } else {
         for (var i = 0; i < bookmarks.length; i++) {
-          if (bookmarks[i].post_id === bookmark.id) {
+          if (bookmarks[i].job_id === bookmark.id) {
             bookmarks.splice(i, 1);
             break;
           }
@@ -7166,6 +7167,7 @@ __webpack_require__.r(__webpack_exports__);
             component.summary.introduction = job.company.introduction;
           }
 
+          component.job_details.job_role = job.job_role;
           component.job_details.title = job.title;
           component.job_details.description = job.description;
           component.job_details.about = job.about;
@@ -8394,8 +8396,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (details) {
         this.id = details.id;
         this.company_id = details.company_id;
-        this.job_id = details.job_role.id;
-        this.job_role = details.job_role.job_role_name;
+        this.job_role = details.job_role;
         this.company_name = details.company_id ? details.company.name : details.company_name;
         this.location = details.location ? details.location : details.company.address;
         this.project_size = details.project_size;
@@ -57045,66 +57046,58 @@ var render = function() {
       return _c("ul", { key: index, staticClass: "list-job-items" }, [
         _c("li", { staticClass: "job-items" }, [
           _c("div", { staticClass: "profile-content" }, [
-            _c(
-              "div",
-              {
-                staticClass: "save-icon",
-                on: {
-                  click: function($event) {
-                    return _vm.save(post)
-                  }
-                }
-              },
-              [
-                _c("div", { staticClass: "star-cont" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.checkedJobPosts,
-                        expression: "checkedJobPosts"
-                      }
-                    ],
-                    ref: "savedJobPost-" + post.id,
-                    refInFor: true,
-                    staticClass: "star",
-                    attrs: { type: "checkbox", title: "Bookmark Job" },
-                    domProps: {
-                      value: post.id,
-                      checked: Array.isArray(_vm.checkedJobPosts)
-                        ? _vm._i(_vm.checkedJobPosts, post.id) > -1
-                        : _vm.checkedJobPosts
+            _c("div", { staticClass: "save-icon" }, [
+              _c("div", { staticClass: "star-cont" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.checkedJobPosts,
+                      expression: "checkedJobPosts"
+                    }
+                  ],
+                  ref: "savedJobPost-" + post.id,
+                  refInFor: true,
+                  staticClass: "star",
+                  attrs: { type: "checkbox", title: "Bookmark Job" },
+                  domProps: {
+                    value: post.id,
+                    checked: Array.isArray(_vm.checkedJobPosts)
+                      ? _vm._i(_vm.checkedJobPosts, post.id) > -1
+                      : _vm.checkedJobPosts
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.save(post)
                     },
-                    on: {
-                      change: function($event) {
-                        var $$a = _vm.checkedJobPosts,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = post.id,
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 && (_vm.checkedJobPosts = $$a.concat([$$v]))
-                          } else {
-                            $$i > -1 &&
-                              (_vm.checkedJobPosts = $$a
-                                .slice(0, $$i)
-                                .concat($$a.slice($$i + 1)))
-                          }
+                    change: function($event) {
+                      var $$a = _vm.checkedJobPosts,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = post.id,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 && (_vm.checkedJobPosts = $$a.concat([$$v]))
                         } else {
-                          _vm.checkedJobPosts = $$c
+                          $$i > -1 &&
+                            (_vm.checkedJobPosts = $$a
+                              .slice(0, $$i)
+                              .concat($$a.slice($$i + 1)))
                         }
+                      } else {
+                        _vm.checkedJobPosts = $$c
                       }
                     }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "bl-label-14-style-2 bl-mt12" }, [
-                  _vm._v("\n                        Save\n                    ")
-                ])
-              ]
-            ),
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "bl-label-14-style-2 bl-mt12" }, [
+                _vm._v("\n                        Save\n                    ")
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "jobads-row" }, [
               _c(
@@ -57169,7 +57162,7 @@ var render = function() {
               _c("div", { staticClass: "bl-label-21" }, [
                 _vm._v(
                   "\n                        " +
-                    _vm._s(post.title ? post.title : post.job_role.name) +
+                    _vm._s(post.title ? post.title : post.job_role_name) +
                     "\n                    "
                 )
               ]),

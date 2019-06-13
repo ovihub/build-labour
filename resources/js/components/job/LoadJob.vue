@@ -48,6 +48,7 @@
                                 component.summary.introduction = job.company.introduction;
                             }
                             
+                            component.job_details.job_role = job.job_role;
                             component.job_details.title = job.title;
                             component.job_details.description = job.description;
                             component.job_details.about = job.about;
