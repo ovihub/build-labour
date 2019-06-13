@@ -132,14 +132,14 @@ class ApiBookmarksController extends ApiBaseController
     public function getPostJobs( Request $request )
     {
 
-      //  try {
+        try {
 
             $bookmarks = $this->userRepo->getPostJobsBookmarks($request);
 
-//        } catch(\Exception $e) {
-//
-//            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
-//        }
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
 
         return $this->apiSuccessResponse( compact( 'bookmarks' ), true, 'Success', self::HTTP_STATUS_REQUEST_OK);
     }
