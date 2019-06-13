@@ -125,7 +125,8 @@ class Job extends BaseModel
             return $this->JobRole->job_role_name;
         }
 
-        return null;
+        return $this->title;
+        
     }
 
     public function Responsibilities() {
