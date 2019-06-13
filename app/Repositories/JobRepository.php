@@ -107,6 +107,7 @@ class JobRepository extends AbstractRepository
         $jobs = $jobs->leftjoin('job_roles as job_role', 'job_role.id', '=', 'job_posts.job_role_id');
 
         $keyword = $request->keyword ? $request->keyword : '';
+        $location = $request->location ? $request->location : '';
 
         $jobs = $jobs->where('job_posts.is_template', false)
                 ->whereNotNull('job_posts.company_id');
@@ -115,6 +116,13 @@ class JobRepository extends AbstractRepository
             $query->where('job_posts.title', 'like', "%{$keyword}%")
                 ->orWhere('job_role.job_role_name', 'like', "%{$keyword}%");
         });
+
+        if (!empty($location)) {
+
+            $jobs = $jobs->where(function($query) use ($location) {
+                $query->where('job_posts.location', 'like', "%{$location}%");
+            });
+        }
 
         $jobs = $jobs->take(30)->get();
 
