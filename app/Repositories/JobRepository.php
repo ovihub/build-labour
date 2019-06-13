@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Http\Resources\JobsResource;
 use App\Models\Companies\CompanyPost;
 use App\Models\Companies\Job;
 use App\Models\Companies\JobRequirement;
@@ -64,7 +65,8 @@ class JobRepository extends AbstractRepository
         ],
     ];
 
-    public function getJob($jobId) {
+    public function getJob($jobId)
+    {
 
         $this->job = Job::with('Responsibilities')->where('id', $jobId)->first();
 
@@ -80,7 +82,8 @@ class JobRepository extends AbstractRepository
 
     }
 
-    public function getFilter(Request $request) {
+    public function getFilter(Request $request)
+    {
 
         $params = (object) $request->all();
 
@@ -99,7 +102,12 @@ class JobRepository extends AbstractRepository
         return $jobs;
     }
 
-    public function searchCompanyJobs(Request $request) {
+    public function searchCompanyJobs(Request $request)
+    {
+
+        $column = $request->get('column') ? $request->get('column') : 'created_at';
+        $order = $request->get('order') ? $request->get('order') : 'desc';
+        $per_page = $request->get('per_page') ? $request->get('per_page') : 10;
 
         $jobs = Job::with('company');
         $jobs = $jobs->select('job_posts.*');
@@ -124,13 +132,15 @@ class JobRepository extends AbstractRepository
             });
         }
 
-        $jobs = $jobs->take(30)->get();
+        $jobs = $jobs->orderBy($column, $order);
+        $data = $jobs->paginate($per_page);
 
-        return $jobs;
+        return $data;
 
     }
 
-    public function createJob( Request $request ) {
+    public function createJob( Request $request )
+    {
 
         $job = $this->saveJob($request, false);
 
@@ -142,7 +152,8 @@ class JobRepository extends AbstractRepository
         return false;
     }
 
-    public function saveTemplate( Request $request ) {
+    public function saveTemplate( Request $request )
+    {
 
         $job = $this->saveJob($request, true);
 
@@ -154,7 +165,8 @@ class JobRepository extends AbstractRepository
         return false;
     }
 
-    public function updateJob( Request $request ) {
+    public function updateJob( Request $request )
+    {
 
         $this->job = Job::find($request->id);
 
@@ -189,7 +201,8 @@ class JobRepository extends AbstractRepository
         return false;
     }
 
-    public function saveJob( Request $request, $isTemplate=true ) {
+    public function saveJob( Request $request, $isTemplate=true )
+    {
 
         $user = JWTAuth::toUser();
 
@@ -265,7 +278,8 @@ class JobRepository extends AbstractRepository
         return false;
     }
 
-    public function saveRequirements( Request $request) {
+    public function saveRequirements( Request $request)
+    {
 
         $this->jobRequirement = new JobRequirement();
 
@@ -313,7 +327,8 @@ class JobRepository extends AbstractRepository
         return false;
     }
 
-    public function saveResponsibilities( Request $request ) {
+    public function saveResponsibilities( Request $request )
+    {
 
         $this->jobResponsibility = new JobResponsibility();
 
@@ -360,7 +375,8 @@ class JobRepository extends AbstractRepository
         return false;
     }
 
-    public function getResponsibilities( Request $request ) {
+    public function getResponsibilities( Request $request )
+    {
 
         $this->jobResponsibility = new JobResponsibility();
 
