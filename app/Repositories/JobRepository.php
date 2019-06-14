@@ -132,10 +132,12 @@ class JobRepository extends AbstractRepository
             });
         }
 
-        $jobs = $jobs->orderBy($column, $order);
-        $data = $jobs->paginate($per_page);
+//        $jobs = $jobs->orderBy($column, $order);
+//        $data = $jobs->paginate($per_page);
 
-        return $data;
+        $jobs = $jobs->take(30)->get();
+
+        return $jobs;
 
     }
 
