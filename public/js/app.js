@@ -1902,6 +1902,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2486,6 +2487,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2513,9 +2524,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         reports_to: '',
         location: ''
       },
+      job_roles: [],
       endpoints: {
         get: '',
-        save: ''
+        save: '',
+        job_roles: '/api/v1/admin/job/roles'
       }
     };
   },
@@ -2533,15 +2546,322 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         component.endpoints.save = '/api/v1/job';
       }
     });
+    axios.get(component.endpoints.job_roles, Utils.getBearerAuth()).then(function (response) {
+      console.log(response);
+      component.job_roles = response.data.data.job_roles;
+      console.log(component.job_roles);
+    }).catch(function (error) {
+      Utils.handleError(error);
+    });
   },
   methods: {
     viewRecord: function viewRecord() {
       var component = this;
       axios.get(component.endpoints.get, Utils.getBearerAuth()).then(function (response) {
         component.record = response.data.data.record;
+
+        if (component.record.job_role) {
+          component.record.title = component.record.job_role.job_role_name;
+        }
       }).catch(function (error) {
         Utils.handleError(error);
       });
+    },
+    onChange: function onChange(event) {
+      var findById = parseInt(event.target.value);
+      var findRole = this.job_roles.find(function (x) {
+        return x.id === findById;
+      });
+
+      if (findRole) {
+        this.record.title = findRole.job_role_name;
+      }
+    },
+    submit: function () {
+      var _submit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var component, results, i;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                component = this;
+                Utils.setObjectValues(this.errors, '');
+                this.disabled = true;
+                results = this.record.reports_to_str.split(',');
+                this.record.reports_to = [];
+
+                for (i = 0; i < results.length; i++) {
+                  this.record.reports_to.push(results[i].trim());
+                }
+
+                _context.next = 8;
+                return axios.post(component.endpoints.save, component.$data.record, Utils.getBearerAuth()).then(function (response) {
+                  Bus.$emit('adminSaveChanges', component.record.id);
+                }).catch(function (error) {
+                  if (error.response) {
+                    var data = error.response.data;
+
+                    for (var key in data.errors) {
+                      component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                    }
+                  }
+
+                  Utils.handleError(error);
+                });
+
+              case 8:
+                this.disabled = false;
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function submit() {
+        return _submit.apply(this, arguments);
+      }
+
+      return submit;
+    }()
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/ViewJobRole.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/admin/ViewJobRole.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      disabled: false,
+      show: false,
+      record: {
+        id: 0,
+        title: '',
+        description: '',
+        about: '',
+        exp_level: '',
+        contract_type: '',
+        salary: '',
+        reports_to: [],
+        reports_to_str: '',
+        location: ''
+      },
+      errors: {
+        title: '',
+        description: '',
+        about: '',
+        exp_level: '',
+        contract_type: '',
+        salary: '',
+        reports_to: '',
+        location: ''
+      },
+      job_roles: [],
+      endpoints: {
+        get: '',
+        save: '',
+        job_roles: '/api/v1/admin/job/roles'
+      }
+    };
+  },
+  created: function created() {
+    var component = this;
+    Bus.$on('datatableViewJob', function (id) {
+      component.show = true;
+
+      if (id != 0) {
+        component.endpoints.get = '/api/v1/admin/job/get?id=' + id;
+        component.endpoints.save = '/api/v1/job/' + id;
+        component.viewRecord();
+      } else {
+        Utils.setObjectValues(component.record, '');
+        component.endpoints.save = '/api/v1/job';
+      }
+    });
+    axios.get(component.endpoints.job_roles, Utils.getBearerAuth()).then(function (response) {
+      console.log(response);
+      component.job_roles = response.data.data.job_roles;
+      console.log(component.job_roles);
+    }).catch(function (error) {
+      Utils.handleError(error);
+    });
+  },
+  methods: {
+    viewRecord: function viewRecord() {
+      var component = this;
+      axios.get(component.endpoints.get, Utils.getBearerAuth()).then(function (response) {
+        component.record = response.data.data.record;
+
+        if (component.record.job_role) {
+          component.record.title = component.record.job_role.job_role_name;
+        }
+      }).catch(function (error) {
+        Utils.handleError(error);
+      });
+    },
+    onChange: function onChange(event) {
+      var findById = parseInt(event.target.value);
+      var findRole = this.job_roles.find(function (x) {
+        return x.id === findById;
+      });
+
+      if (findRole) {
+        this.record.title = findRole.job_role_name;
+      }
     },
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -50876,6 +51196,8 @@ var render = function() {
         ? _c("view-company", { class: _vm.dataRecord })
         : _vm.modalName == "Ticket"
         ? _c("view-ticket", { class: _vm.dataRecord })
+        : _vm.modalName == "JobRole"
+        ? _c("view-job-role", { class: _vm.dataRecord })
         : _vm._e(),
       _vm._v(" "),
       _c("div", { class: _vm.dataTable }, [
@@ -51514,6 +51836,522 @@ var render = function() {
                   )
                 ])
               : _vm._e()
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("label", { staticClass: "record-label" }, [_vm._v("JOB ROLE")]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.record.job_role_id,
+                    expression: "record.job_role_id"
+                  }
+                ],
+                staticClass: "form-control record-input",
+                staticStyle: { margin: "0" },
+                on: {
+                  change: [
+                    function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.record,
+                        "job_role_id",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    },
+                    function($event) {
+                      return _vm.onChange($event)
+                    }
+                  ]
+                }
+              },
+              _vm._l(_vm.job_roles, function(role) {
+                return _c("option", { domProps: { value: role.id } }, [
+                  _vm._v(_vm._s(role.job_role_name))
+                ])
+              }),
+              0
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.record.description,
+                  expression: "record.description"
+                }
+              ],
+              staticClass: "record-textarea",
+              staticStyle: { height: "180px", border: "1px solid #ced4da" },
+              domProps: { value: _vm.record.description },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.record, "description", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _vm.errors.description
+            ? _c(
+                "span",
+                {
+                  staticClass: "err-msg bl-ml-30",
+                  staticStyle: { "margin-top": "-6px" }
+                },
+                [
+                  _vm._v(
+                    "\n            " +
+                      _vm._s(_vm.errors.description) +
+                      "\n        "
+                  )
+                ]
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.record.about,
+                  expression: "record.about"
+                }
+              ],
+              staticClass: "record-textarea",
+              staticStyle: { height: "180px", border: "1px solid #ced4da" },
+              domProps: { value: _vm.record.about },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.record, "about", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _vm.errors.about
+            ? _c(
+                "span",
+                {
+                  staticClass: "err-msg bl-ml-30",
+                  staticStyle: { "margin-top": "-6px" }
+                },
+                [
+                  _vm._v(
+                    "\n            " + _vm._s(_vm.errors.about) + "\n        "
+                  )
+                ]
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("label", { staticClass: "record-label" }, [
+              _vm._v("EXPERIENCE LEVEL")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.record.exp_level,
+                  expression: "record.exp_level"
+                }
+              ],
+              staticClass: "form-control record-input",
+              attrs: { type: "text" },
+              domProps: { value: _vm.record.exp_level },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.record, "exp_level", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.exp_level
+              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.errors.exp_level) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e()
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("label", { staticClass: "record-label" }, [
+              _vm._v("CONTRACT TYPE")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.record.contract_type,
+                  expression: "record.contract_type"
+                }
+              ],
+              staticClass: "form-control record-input",
+              attrs: { type: "text" },
+              domProps: { value: _vm.record.contract_type },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.record, "contract_type", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.contract_type
+              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.errors.contract_type) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e()
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("label", { staticClass: "record-label" }, [_vm._v("SALARY")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.record.salary,
+                  expression: "record.salary"
+                }
+              ],
+              staticClass: "form-control record-input",
+              attrs: { type: "text" },
+              domProps: { value: _vm.record.salary },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.record, "salary", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.salary
+              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.errors.salary) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e()
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("label", { staticClass: "record-label" }, [
+              _vm._v("REPORTS TO")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.record.reports_to_str,
+                  expression: "record.reports_to_str"
+                }
+              ],
+              staticClass: "form-control record-input",
+              attrs: { type: "text" },
+              domProps: { value: _vm.record.reports_to_str },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.record, "reports_to_str", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.reports_to
+              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.errors.reports_to) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e()
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("label", { staticClass: "record-label" }, [_vm._v("LOCATION")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.record.location,
+                  expression: "record.location"
+                }
+              ],
+              staticClass: "form-control record-input",
+              attrs: { type: "text" },
+              domProps: { value: _vm.record.location },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.record, "location", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.location
+              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.errors.location) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e()
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group row mt-5" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c(
+              "button",
+              {
+                attrs: { type: "submit", disabled: _vm.disabled },
+                on: { click: _vm.submit }
+              },
+              [_vm._v("\n                Save Changes\n            ")]
+            )
+          ])
+        ])
+      ])
+    : _vm._e()
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("label", { staticClass: "record-label" }, [_vm._v("DESCRIPTION")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("label", { staticClass: "record-label" }, [_vm._v("ABOUT")])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/ViewJobRole.vue?vue&type=template&id=290682d3&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/admin/ViewJobRole.vue?vue&type=template&id=290682d3& ***!
+  \********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.show
+    ? _c("div", { staticClass: "form-group" }, [
+        _c("div", { staticClass: "record-title" }, [
+          _vm._v("\n        " + _vm._s(_vm.record.title) + "\n    ")
+        ]),
+        _vm._v(" "),
+        _vm.record.id != 0
+          ? _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("label", { staticClass: "record-label" }, [_vm._v("ID")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.record.id,
+                      expression: "record.id"
+                    }
+                  ],
+                  staticClass: "form-control record-input",
+                  attrs: { type: "text", disabled: "" },
+                  domProps: { value: _vm.record.id },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.record, "id", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("label", { staticClass: "record-label" }, [_vm._v("TITLE")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.record.title,
+                  expression: "record.title"
+                }
+              ],
+              staticClass: "form-control record-input",
+              attrs: { type: "text" },
+              domProps: { value: _vm.record.title },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.record, "title", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.title
+              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.errors.title) +
+                      "\n            "
+                  )
+                ])
+              : _vm._e()
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("label", { staticClass: "record-label" }, [_vm._v("JOB ROLE")]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.record.job_role_id,
+                    expression: "record.job_role_id"
+                  }
+                ],
+                staticClass: "form-control record-input",
+                staticStyle: { margin: "0" },
+                on: {
+                  change: [
+                    function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.record,
+                        "job_role_id",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    },
+                    function($event) {
+                      return _vm.onChange($event)
+                    }
+                  ]
+                }
+              },
+              _vm._l(_vm.job_roles, function(role) {
+                return _c("option", { domProps: { value: role.id } }, [
+                  _vm._v(_vm._s(role.job_role_name))
+                ])
+              }),
+              0
+            )
           ])
         ]),
         _vm._v(" "),
@@ -74430,6 +75268,7 @@ Vue.component('datatable', __webpack_require__(/*! ./components/admin/Datatable.
 Vue.component('view-user', __webpack_require__(/*! ./components/admin/ViewUser.vue */ "./resources/js/components/admin/ViewUser.vue").default);
 Vue.component('view-ticket', __webpack_require__(/*! ./components/admin/ViewTicket.vue */ "./resources/js/components/admin/ViewTicket.vue").default);
 Vue.component('view-job', __webpack_require__(/*! ./components/admin/ViewJob.vue */ "./resources/js/components/admin/ViewJob.vue").default);
+Vue.component('view-job-role', __webpack_require__(/*! ./components/admin/ViewJobRole.vue */ "./resources/js/components/admin/ViewJobRole.vue").default);
 Vue.component('view-company', __webpack_require__(/*! ./components/admin/ViewCompany.vue */ "./resources/js/components/admin/ViewCompany.vue").default);
 Vue.component('admin-login', __webpack_require__(/*! ./components/admin/Login.vue */ "./resources/js/components/admin/Login.vue").default); // Common components
 
@@ -74891,6 +75730,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewJob_vue_vue_type_template_id_e6a23886___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewJob_vue_vue_type_template_id_e6a23886___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/admin/ViewJobRole.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/admin/ViewJobRole.vue ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ViewJobRole_vue_vue_type_template_id_290682d3___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ViewJobRole.vue?vue&type=template&id=290682d3& */ "./resources/js/components/admin/ViewJobRole.vue?vue&type=template&id=290682d3&");
+/* harmony import */ var _ViewJobRole_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ViewJobRole.vue?vue&type=script&lang=js& */ "./resources/js/components/admin/ViewJobRole.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ViewJobRole_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ViewJobRole_vue_vue_type_template_id_290682d3___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ViewJobRole_vue_vue_type_template_id_290682d3___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/admin/ViewJobRole.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/admin/ViewJobRole.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/admin/ViewJobRole.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewJobRole_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ViewJobRole.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/ViewJobRole.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewJobRole_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/admin/ViewJobRole.vue?vue&type=template&id=290682d3&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/admin/ViewJobRole.vue?vue&type=template&id=290682d3& ***!
+  \**************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewJobRole_vue_vue_type_template_id_290682d3___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ViewJobRole.vue?vue&type=template&id=290682d3& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/ViewJobRole.vue?vue&type=template&id=290682d3&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewJobRole_vue_vue_type_template_id_290682d3___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ViewJobRole_vue_vue_type_template_id_290682d3___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -78313,8 +79221,8 @@ window.Helper = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! F:\appetiser\build-labour-backend\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! F:\appetiser\build-labour-backend\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

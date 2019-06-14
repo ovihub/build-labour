@@ -23,7 +23,12 @@
          </li>
          <li class="nav-item">
             <a class="nav-link nav-link-custom" href="{{ '/all/jobs' }}">
-               Jobs
+               Job Posts
+            </a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="{{ '/all/job-roles' }}">
+               Job Roles
             </a>
          </li>
          <li class="nav-item">

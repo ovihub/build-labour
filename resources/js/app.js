@@ -44,6 +44,7 @@ Vue.component('datatable', require('./components/admin/Datatable.vue').default);
 Vue.component('view-user', require('./components/admin/ViewUser.vue').default);
 Vue.component('view-ticket', require('./components/admin/ViewTicket.vue').default);
 Vue.component('view-job', require('./components/admin/ViewJob.vue').default);
+Vue.component('view-job-role', require('./components/admin/ViewJobRole.vue').default);
 Vue.component('view-company', require('./components/admin/ViewCompany.vue').default);
 Vue.component('admin-login', require('./components/admin/Login.vue').default);
 

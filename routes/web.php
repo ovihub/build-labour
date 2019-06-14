@@ -57,6 +57,7 @@ Route::namespace('Admin')
     ->group(function() {
         Route::get('users', 'DatatableController@showUsers')->name('users');
         Route::get('jobs', 'DatatableController@showJobs')->name('jobs');
+        Route::get('job-roles', 'DatatableController@showJobRoles')->name('jobRoles');
         Route::get('tickets', 'DatatableController@showTickets')->name('tickets');
         Route::get('companies', 'DatatableController@showCompanies')->name('companies');
 
@@ -64,6 +65,7 @@ Route::namespace('Admin')
             ->group(function () {
                 Route::get('users', 'DatatableController@getUsersDatatable')->name('users.table');
                 Route::get('jobs', 'DatatableController@getJobsDatatable')->name('jobs.table');
+                Route::get('job-roles', 'DatatableController@getJobRolesDatatable')->name('job-roles.table');
                 Route::get('tickets', 'DatatableController@getTicketsDatatable')->name('tickets.table');
                 Route::get('companies', 'DatatableController@getCompaniesDatatable')->name('companies.table');
             });
