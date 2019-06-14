@@ -6212,6 +6212,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       show: true,
+      disabled: false,
       id: '',
       photo_url: '',
       name: '',
@@ -6221,21 +6222,27 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var component = this;
-    Bus.$on('companySummaryDetails', function (details) {
+    Bus.$on('companySummaryDetails', function (details, action) {
       if (details) {
         component.id = details.id;
         component.photo_url = details.photo_url;
         component.name = details.name;
         component.address = details.address;
         component.introduction = details.introduction;
-      } else {
+      }
+
+      if (action == 'new') {
         component.show = false;
       }
     });
+    Bus.$on('postedJob', function () {
+      component.disabled = false;
+    });
   },
   methods: {
-    postJob: function postJob() {
-      Bus.$emit('postJob');
+    postJob: function postJob(isTemplate) {
+      this.disabled = true;
+      Bus.$emit('postJob', isTemplate);
     }
   }
 });
@@ -6473,12 +6480,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       show: true,
+      reports_to_active_index: 0,
+      reports_to_job_roles: [],
+      job_roles: [],
       locations: [],
+      job_role: '',
       title: '',
       description: '',
       about: '',
@@ -6488,6 +6525,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       reports_to: [],
       location: '',
       input: {
+        job_role_id: '',
         title: '',
         description: '',
         about: '',
@@ -6508,7 +6546,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         location: ''
       },
       endpoints: {
-        save: '/api/v1/job'
+        post: '/api/v1/job',
+        save: '/api/v1/job/save-template'
       }
     };
   },
@@ -6516,7 +6555,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var component = this;
     Bus.$on('jobDetails', function (details) {
       if (details) {
-        component.job_role = details.job_role;
         component.title = details.title ? details.title : details.job_role.job_role_name;
         component.description = details.description;
         component.about = details.about;
@@ -6529,8 +6567,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         component.show = false;
       }
     });
-    Bus.$on('postJob', function () {
-      component.submit();
+    Bus.$on('postJob', function (isTemplate) {
+      if (isTemplate) {
+        component.submit(component.endpoints.save);
+      } else {
+        component.submit(component.endpoints.post);
+      }
     });
     this.input.reports_to.push('');
   },
@@ -6541,12 +6583,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onChangeLocation: function onChangeLocation(keyword) {
       var component = this;
       Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
-        component.locations = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.locations ? data.data.locations.features : [];
+        component.locations = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.locations && data.data.locations.features ? data.data.locations.features : [];
       });
     },
     onSelectLocation: function onSelectLocation(location) {
       this.input.location = location;
       this.locations = [];
+    },
+    onSearchJob: function onSearchJob(keyword) {
+      this.input.job_role_id = '';
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
+        component.job_roles = data.data ? data.data.job_roles : [];
+      });
+    },
+    onSearchReportsTo: function onSearchReportsTo(keyword, index) {
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
+        component.reports_to_job_roles = data.data ? data.data.job_roles : [];
+      });
+      this.reports_to_active_index = index;
+    },
+    onSelectReportsTo: function onSelectReportsTo(job) {
+      this.input.reports_to[this.reports_to_active_index] = job.job_role_name;
+      this.reports_to_job_roles = [];
+    },
+    onSelectJob: function onSelectJob(job) {
+      this.input.job_role_id = job.id;
+      this.input.title = job.job_role_name;
+      this.job_roles = [];
     },
     addNewEntity: function addNewEntity() {
       this.input.reports_to = this.input.reports_to.filter(function (r) {
@@ -6562,7 +6627,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     submit: function () {
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(endpoint) {
         var component;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
@@ -6570,12 +6635,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 component = this;
                 Utils.setObjectValues(this.errors, '');
-                this.disabled = true;
-                _context.next = 5;
-                return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
-                  var data = response.data;
-                  console.log(data);
-                  Bus.$emit('alertSuccess', data.message);
+                _context.next = 4;
+                return axios.post(endpoint, component.$data.input, Utils.getBearerAuth()).then(function (response) {
+                  var data = response.data,
+                      job = data.data.job;
+
+                  if (job.is_template) {
+                    Bus.$emit('alertSuccess', data.message);
+                    Utils.setObjectValues(component.input, '');
+                  } else {
+                    window.location.href = '/job/view?cid=' + job.company_id + '&jid=' + job.id;
+                  }
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -6588,10 +6658,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Utils.handleError(error);
                 });
 
-              case 5:
-                this.disabled = false;
+              case 4:
+                Bus.$emit('postedJob');
 
-              case 6:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -6599,7 +6669,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee, this);
       }));
 
-      function submit() {
+      function submit(_x) {
         return _submit.apply(this, arguments);
       }
 
@@ -7142,49 +7212,67 @@ __webpack_require__.r(__webpack_exports__);
       requirements: [],
       responsibilities: [],
       endpoints: {
-        get: ''
+        get: '/api/v1/company/'
       }
     };
   },
   created: function created() {
     var component = this;
-    this.endpoints.get = '/api/v1/company/' + Utils.getUrlParams().cid + '/jobs/' + Utils.getUrlParams().jid;
+
+    if (Utils.getUrlParams().jid) {
+      this.endpoints.get = this.endpoints.get + Utils.getUrlParams().cid + '/jobs/' + Utils.getUrlParams().jid;
+    } else {
+      this.endpoints.get = this.endpoints.get + Utils.getUrlParams().cid;
+    }
+
     this.getJob();
   },
   methods: {
     getJob: function getJob() {
       var component = this;
       axios.get(component.endpoints.get, Utils.getBearerAuth()).then(function (response) {
-        var job = response.data.data.job;
+        if (Utils.getUrlParams().jid) {
+          var job = response.data.data.job;
 
-        if (job) {
-          if (job.company) {
-            Bus.$emit('profileAvatarDetails', Utils.getInitials(job.company.name));
-            component.summary.id = job.company.id;
-            component.summary.photo_url = job.company.photo_url;
-            component.summary.name = job.company.name;
-            component.summary.address = job.company.address;
-            component.summary.introduction = job.company.introduction;
+          if (job) {
+            if (job.company) {
+              Bus.$emit('profileAvatarDetails', Utils.getInitials(job.company.name));
+              component.summary.id = job.company.id;
+              component.summary.photo_url = job.company.photo_url;
+              component.summary.name = job.company.name;
+              component.summary.address = job.company.address;
+              component.summary.introduction = job.company.introduction;
+            }
+
+            component.job_details.job_role = job.job_role;
+            component.job_details.title = job.title;
+            component.job_details.description = job.description;
+            component.job_details.about = job.about;
+            component.job_details.exp_level = job.exp_level;
+            component.job_details.contract_type = job.contract_type;
+            component.job_details.salary = job.salary;
+            component.job_details.reports_to = job.reports_to;
+            component.job_details.location = job.location;
+          } else {
+            component.job_details = null;
           }
 
-          component.job_details.job_role = job.job_role;
-          component.job_details.title = job.title;
-          component.job_details.description = job.description;
-          component.job_details.about = job.about;
-          component.job_details.exp_level = job.exp_level;
-          component.job_details.contract_type = job.contract_type;
-          component.job_details.salary = job.salary;
-          component.job_details.reports_to = job.reports_to;
-          component.job_details.location = job.location;
+          Bus.$emit('companySummaryDetails', component.summary, 'view');
+          Bus.$emit('jobDetails', component.job_details);
+          Bus.$emit('jobRequirementsDetails', job.requirements);
+          Bus.$emit('jobResponsibilitiesDetails', job.responsibilities);
         } else {
-          component.summary = null;
+          var company = response.data.data.company;
+          component.summary.id = company.id;
+          component.summary.photo_url = company.photo_url;
+          component.summary.name = company.name;
+          component.summary.address = company.address;
+          component.summary.introduction = company.introduction;
           component.job_details = null;
+          Bus.$emit('profileAvatarDetails', Utils.getInitials(company.name));
+          Bus.$emit('companySummaryDetails', component.summary, 'new');
+          Bus.$emit('jobDetails', component.job_details);
         }
-
-        Bus.$emit('companySummaryDetails', component.summary);
-        Bus.$emit('jobDetails', component.job_details);
-        Bus.$emit('jobRequirementsDetails', job.requirements);
-        Bus.$emit('jobResponsibilitiesDetails', job.responsibilities);
       }).catch(function (error) {
         Utils.handleError(error);
       });
@@ -55066,7 +55154,20 @@ var render = function() {
         "div",
         { staticClass: "profile-item-2" },
         [
-          _vm._m(0),
+          _c("div", { staticClass: "job-action" }, [
+            _c("div", { staticClass: "job-filter" }, [
+              _c(
+                "a",
+                {
+                  staticStyle: { "font-weight": "500" },
+                  attrs: { href: "/job/new?cid=" + _vm.companyId }
+                },
+                [_vm._v("+ Post new job")]
+              )
+            ]),
+            _vm._v(" "),
+            _vm._m(0)
+          ]),
           _vm._v(" "),
           _c("job-posts", { attrs: { "company-id": _vm.companyId } })
         ],
@@ -55079,15 +55180,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "job-action" }, [
-      _c("div", { staticClass: "job-filter" }, [
-        _vm._v("\n            Filter\n        ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "job-sort" }, [
-        _vm._v("\n            Sort by: "),
-        _c("span", { staticClass: "job-recent" }, [_vm._v("Most Recent")])
-      ])
+    return _c("div", { staticClass: "job-sort" }, [
+      _vm._v("\n            Sort by: "),
+      _c("span", { staticClass: "job-recent" }, [_vm._v("Most Recent")])
     ])
   }
 ]
@@ -56269,80 +56364,96 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.show
-    ? _c("div", { staticClass: "profile-item-1" }, [
-        _c(
-          "div",
-          { staticClass: "company-image" },
-          [
-            _vm.photo_url
-              ? _c("img", { attrs: { src: _vm.photo_url } })
-              : _c("avatar", {
-                  attrs: {
-                    cls: "",
-                    size: "110",
-                    border: "0",
-                    "border-radius": "8px"
-                  }
-                })
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "profile-content",
-            staticStyle: { "margin-top": "-56px" }
-          },
-          [
-            _c("div", { staticClass: "profile-content-p20 pb-4" }, [
-              _c("div", { staticClass: "company-title" }, [
-                _vm._v(
-                  "\n                " + _vm._s(_vm.name) + "\n            "
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "company-address" }, [
-                _vm._v(
-                  "\n                " + _vm._s(_vm.address) + "\n            "
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "company-body" }, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.introduction) +
-                    "\n            "
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "company-view" }, [
+  return _c("div", { staticClass: "profile-item-1" }, [
+    _c(
+      "div",
+      { staticClass: "company-image" },
+      [
+        _vm.photo_url
+          ? _c("img", { attrs: { src: _vm.photo_url } })
+          : _c("avatar", {
+              attrs: {
+                cls: "",
+                size: "110",
+                border: "0",
+                "border-radius": "8px"
+              }
+            })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "profile-content",
+        staticStyle: { "margin-top": "-56px" }
+      },
+      [
+        _c("div", { staticClass: "profile-content-p20 pb-4" }, [
+          _c("div", { staticClass: "company-title" }, [
+            _vm._v("\n                " + _vm._s(_vm.name) + "\n            ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "company-address" }, [
+            _vm._v(
+              "\n                " + _vm._s(_vm.address) + "\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "company-body" }, [
+            _vm._v(
+              "\n                " + _vm._s(_vm.introduction) + "\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _vm.show
+            ? _c("div", { staticClass: "company-view" }, [
                 _c("a", { attrs: { href: "/company/profile/" + _vm.id } }, [
                   _vm._v(
                     "\n                    View Business\n                "
                   )
                 ])
               ])
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c("button", { staticStyle: { width: "100%" } }, [
+            : _vm._e()
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _vm.show
+      ? _c("button", { staticStyle: { width: "100%" } }, [
           _vm._v("\n        Apply\n    ")
         ])
-      ])
-    : _c("div", [
-        _c("button", { staticStyle: { width: "100%" } }, [
-          _vm._v("\n        Save as template\n    ")
-        ]),
-        _vm._v(" "),
-        _c(
-          "button",
-          { staticStyle: { width: "100%" }, on: { click: _vm.postJob } },
-          [_vm._v("\n        Post Job\n    ")]
-        )
-      ])
+      : _c("div", [
+          _c(
+            "button",
+            {
+              staticStyle: { width: "100%" },
+              attrs: { disabled: _vm.disabled },
+              on: {
+                click: function($event) {
+                  return _vm.postJob(1)
+                }
+              }
+            },
+            [_vm._v("\n            Save as template\n        ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticStyle: { width: "100%" },
+              attrs: { disabled: _vm.disabled },
+              on: {
+                click: function($event) {
+                  return _vm.postJob(0)
+                }
+              }
+            },
+            [_vm._v("\n            Post Job\n        ")]
+          )
+        ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -56513,14 +56624,12 @@ var render = function() {
                   ],
                   staticClass: "form-control",
                   staticStyle: { "padding-left": "24px" },
-                  attrs: {
-                    type: "text",
-                    placeholder: "Start typing",
-                    required: "",
-                    autofocus: ""
-                  },
+                  attrs: { type: "text", placeholder: "Start typing" },
                   domProps: { value: _vm.input.title },
                   on: {
+                    keyup: function($event) {
+                      return _vm.onSearchJob(_vm.input.title)
+                    },
                     input: function($event) {
                       if ($event.target.composing) {
                         return
@@ -56540,6 +56649,44 @@ var render = function() {
                     ])
                   : _vm._e()
               ]),
+              _vm._v(" "),
+              _vm.input.title && _vm.job_roles.length > 0
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "form-group",
+                      staticStyle: { "margin-top": "0" }
+                    },
+                    [
+                      _c(
+                        "ul",
+                        { staticClass: "list-group" },
+                        _vm._l(_vm.job_roles, function(job, idx) {
+                          return _c(
+                            "li",
+                            {
+                              key: idx,
+                              staticClass: "list-group-item",
+                              on: {
+                                click: function($event) {
+                                  return _vm.onSelectJob(job)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            \n                            " +
+                                  _vm._s(job.job_role_name) +
+                                  "\n                        "
+                              )
+                            ]
+                          )
+                        }),
+                        0
+                      )
+                    ]
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c("div", { staticClass: "job-title" }, [
@@ -56793,12 +56940,7 @@ var render = function() {
                   ],
                   staticClass: "form-control",
                   staticStyle: { "padding-left": "24px" },
-                  attrs: {
-                    type: "text",
-                    placeholder: "Enter amount",
-                    required: "",
-                    autofocus: ""
-                  },
+                  attrs: { type: "text", placeholder: "Enter amount" },
                   domProps: { value: _vm.input.salary },
                   on: {
                     input: function($event) {
@@ -56853,6 +56995,12 @@ var render = function() {
                             attrs: { type: "text" },
                             domProps: { value: _vm.input.reports_to[index] },
                             on: {
+                              keyup: function($event) {
+                                return _vm.onSearchReportsTo(
+                                  _vm.input.reports_to[index],
+                                  index
+                                )
+                              },
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
@@ -56891,7 +57039,52 @@ var render = function() {
                               })
                             ]
                           )
-                        ])
+                        ]),
+                        _vm._v(" "),
+                        _vm.reports_to_active_index == index &&
+                        _vm.reports_to_job_roles.length > 0
+                          ? _c(
+                              "div",
+                              {
+                                staticClass: "comp-col-left",
+                                staticStyle: {
+                                  "margin-top": "0",
+                                  "margin-left": "-25px"
+                                }
+                              },
+                              [
+                                _c(
+                                  "ul",
+                                  { staticClass: "list-group" },
+                                  _vm._l(_vm.reports_to_job_roles, function(
+                                    job,
+                                    idx
+                                  ) {
+                                    return _c(
+                                      "li",
+                                      {
+                                        key: idx,
+                                        staticClass: "list-group-item",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.onSelectReportsTo(job)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                    \n                                    " +
+                                            _vm._s(job.job_role_name) +
+                                            "\n                                "
+                                        )
+                                      ]
+                                    )
+                                  }),
+                                  0
+                                )
+                              ]
+                            )
+                          : _vm._e()
                       ]
                     )
                   }),
@@ -74061,7 +74254,11 @@ function () {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                component = this;
+                component = this; // if (component.time_out) {
+                //     clearTimeout(component.time_out);
+                // }
+                // component.time_out = await setTimeout(async function() {
+
                 _context.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endpoint, Utils.getBearerAuth()).then(function (response) {
                   component.getResults = response.data;
@@ -74174,8 +74371,8 @@ function () {
     }
   }, {
     key: "getJobRoles",
-    value: function getJobRoles() {
-      return this._get(this.endpoints.job_roles);
+    value: function getJobRoles(keyword) {
+      return this._get(this.endpoints.job_roles + '?keyword=' + keyword);
     }
   }]);
 

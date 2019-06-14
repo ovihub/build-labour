@@ -104,6 +104,7 @@
             
             if (this.companyId) {
                 this.getJobPosts(this.endpointGet);
+                
             } else {
                 this.getJobPosts(component.endpoints.search + '&location=');
             }

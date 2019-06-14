@@ -2,7 +2,7 @@
     <div class="profile-item-2" v-if="show">
         <div class="job-action">
             <div class="job-filter">
-                Filter
+                <a :href="'/job/new?cid=' + companyId" style="font-weight:500">+ Post new job</a>
             </div>
             <div class="job-sort">
                 Sort by: <span class="job-recent">Most Recent</span>

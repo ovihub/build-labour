@@ -83,12 +83,23 @@
                     <div class="form-group">
                         <div class="job-title mb-2">Job Title</div>
 
-                        <input type="text" class="form-control" style="padding-left:24px"
-                            v-model="input.title" placeholder="Start typing" required autofocus>
+                        <input type="text" class="form-control" style="padding-left:24px" placeholder="Start typing"
+                            v-model="input.title"
+                            @keyup="onSearchJob(input.title)">
 
                         <span class="err-msg" v-if="errors.title">
                             {{ errors.title }}
                         </span>
+                    </div>
+
+                    <div class="form-group" style="margin-top:0" v-if="input.title && job_roles.length > 0">
+                        <ul class="list-group">
+                            <li class="list-group-item" v-for="(job, idx) in job_roles" :key="idx"
+                                @click="onSelectJob(job)">
+                                
+                                {{ job.job_role_name }}
+                            </li>
+                        </ul>
                     </div>
 
                     <div class="form-group">
@@ -96,7 +107,9 @@
 
                         <textarea rows="5" ref="jobDesc" class="form-control" style="overflow:hidden"
                             placeholder="Example: The Project Manager is accountable for the leadership and management of their nominated project including the achievement of safety, quality, commercial and programme objectives and the effective day to day management of the project team."
-                            @keyup="textAreaAdjust('jobDesc')" v-model="input.description"></textarea>
+                            @keyup="textAreaAdjust('jobDesc')"
+                            v-model="input.description">
+                        </textarea>
 
                         <span class="err-msg" v-if="errors.description">
                             {{ errors.description }}
@@ -108,7 +121,9 @@
 
                         <textarea rows="3" ref="jobAbout" class="form-control" style="overflow:hidden"
                             placeholder="Example: $730 million Residential Skycraper comprising of 941 residential apartments and 208 serviced apartments across 88 storeys."
-                            @keyup="textAreaAdjust('jobAbout')" v-model="input.about"></textarea>
+                            @keyup="textAreaAdjust('jobAbout')"
+                            v-model="input.about">
+                        </textarea>
 
                         <span class="err-msg" v-if="errors.about">
                             {{ errors.about }}
@@ -152,7 +167,7 @@
                         <div class="job-title mb-2">Salary</div>
 
                         <input type="text" class="form-control" style="padding-left:24px"
-                            v-model="input.salary" placeholder="Enter amount" required autofocus>
+                            v-model="input.salary" placeholder="Enter amount">
 
                         <span class="err-msg" v-if="errors.salary">
                             {{ errors.salary }}
@@ -168,7 +183,8 @@
                             :key="index">
 
                             <div class="comp-col-left">
-                                <input class="form-control" type="text" v-model="input.reports_to[index]"/>
+                                <input class="form-control" type="text" v-model="input.reports_to[index]"
+                                    @keyup="onSearchReportsTo(input.reports_to[index], index)"/>
                             </div>
 
                             <div class="comp-col-right">
@@ -177,6 +193,16 @@
                                         srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x"
                                         style="cursor:pointer">
                                 </span>
+                            </div>
+
+                            <div class="comp-col-left" style="margin-top:0;margin-left:-25px" v-if="reports_to_active_index == index && reports_to_job_roles.length > 0">
+                                <ul class="list-group">
+                                    <li class="list-group-item" v-for="(job, idx) in reports_to_job_roles" :key="idx"
+                                        @click="onSelectReportsTo(job)">
+                                        
+                                        {{ job.job_role_name }}
+                                    </li>
+                                </ul>
                             </div>
                         </div>
 
@@ -218,7 +244,11 @@
         data() {
             return {
                 show: true,
+                reports_to_active_index: 0,
+                reports_to_job_roles: [],
+                job_roles: [],
                 locations: [],
+                job_role: '',
                 title: '',
                 description: '',
                 about: '',
@@ -228,7 +258,7 @@
                 reports_to: [],
                 location: '',
                 input: {
-                    title: '', description: '', about: '', exp_level: '',
+                    job_role_id: '', title: '', description: '', about: '', exp_level: '',
                     contract_type: '', salary: '', reports_to: [], location: '',
                 },
                 errors: {
@@ -236,7 +266,8 @@
                     contract_type: '', salary: '', reports_to: '', location: '',
                 },
                 endpoints: {
-                    save: '/api/v1/job'
+                    post: '/api/v1/job',
+                    save: '/api/v1/job/save-template',
                 },
             }
         },
@@ -246,7 +277,6 @@
 
             Bus.$on('jobDetails', function(details) {
                 if (details) {
-                    component.job_role = details.job_role;
                     component.title = details.title ? details.title : details.job_role.job_role_name;
                     component.description = details.description;
                     component.about = details.about;
@@ -261,8 +291,13 @@
                 }
             });
 
-            Bus.$on('postJob', function() {
-                component.submit();
+            Bus.$on('postJob', function(isTemplate) {
+                if (isTemplate) {
+                    component.submit(component.endpoints.save)
+                
+                } else {
+                    component.submit(component.endpoints.post);
+                }
             });
 
             this.input.reports_to.push('');
@@ -279,7 +314,7 @@
 
                 Promise.resolve(Api.getLocations(keyword)).then(function(data) {
                     component.locations = (keyword != '' && (keyword && keyword.length > 0) && 
-                                            data.data && data.data.locations) ? 
+                                            data.data && data.data.locations && data.data.locations.features) ? 
                                             data.data.locations.features : [];
                 });
             },
@@ -288,6 +323,39 @@
                 this.input.location = location;
                 
                 this.locations = [];
+            },
+
+            onSearchJob(keyword) {
+                this.input.job_role_id = '';
+
+                let component = this;
+                
+                Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
+                    component.job_roles = data.data ? data.data.job_roles : [];
+                });
+            },
+
+            onSearchReportsTo(keyword, index) { 
+                let component = this;
+                
+                Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
+                    component.reports_to_job_roles = data.data ? data.data.job_roles : [];
+                });
+
+                this.reports_to_active_index = index;
+            },
+            
+            onSelectReportsTo(job) {
+                this.input.reports_to[this.reports_to_active_index] = job.job_role_name;
+
+                this.reports_to_job_roles = [];
+            },
+
+            onSelectJob(job) {
+                this.input.job_role_id = job.id;
+                this.input.title = job.job_role_name;
+
+                this.job_roles = [];
             },
 
             addNewEntity() {
@@ -302,21 +370,25 @@
                 }
             },
 
-            async submit() {
+            async submit(endpoint) {
                 let component = this;
 
                 Utils.setObjectValues(this.errors, '');
                 
-                this.disabled = true;
-                
-                await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
+                await axios.post(endpoint, component.$data.input, Utils.getBearerAuth())
                     
                     .then(function(response) {
-                        let data = response.data;
+                        let data = response.data,
+                            job = data.data.job;
                         
-                        console.log(data);
+                        if (job.is_template) {
+                            Bus.$emit('alertSuccess', data.message);
+                            
+                            Utils.setObjectValues(component.input, '');
 
-                        Bus.$emit('alertSuccess', data.message);
+                        } else {
+                            window.location.href = '/job/view?cid=' + job.company_id + '&jid=' + job.id;
+                        }
                     })
                     .catch(function(error) {
                         if (error.response) {
@@ -329,8 +401,8 @@
 
                         Utils.handleError(error);
                     });
-                
-                this.disabled = false;
+
+                Bus.$emit('postedJob');
             },
 
         }

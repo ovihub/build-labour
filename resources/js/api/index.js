@@ -91,16 +91,24 @@ class BuildLabourApi {
     async _get(endpoint) {
         let component = this;
 
-        await Axios.get(endpoint, Utils.getBearerAuth())
+        // if (component.time_out) {
+        //     clearTimeout(component.time_out);
+        // }
 
-            .then(function(response) {
-                
-                component.getResults = response.data;
-            })
-            .catch(function(error) {
+        // component.time_out = await setTimeout(async function() {
+            
+            await Axios.get(endpoint, Utils.getBearerAuth())
 
-                Utils.handleError(error);
-            });
+                .then(function(response) {
+                    
+                    component.getResults = response.data;
+                })
+                .catch(function(error) {
+
+                    Utils.handleError(error);
+                });
+
+        // }.bind(this), 100);
                 
         return this.getResults;
     }
@@ -158,8 +166,8 @@ class BuildLabourApi {
         return this._post(this.endpoints.jobs, input);
     }
 
-    getJobRoles() {
-        return this._get(this.endpoints.job_roles);
+    getJobRoles(keyword) {
+        return this._get(this.endpoints.job_roles + '?keyword=' + keyword);
     }
 }
 

@@ -55,7 +55,7 @@ class UsersTableSeeder extends Seeder
             $w = WorkExperience::create([
 
                  'job_role' => 'Project Manager',
-                 'company_name' => 'Probuild',
+                //  'company_name' => 'Probuild',
                 'company_id' => 1,
                 'user_id' => $user->id,
                 // 'location' => 'Richmond, Victoria, Australia',

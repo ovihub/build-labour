@@ -28,7 +28,9 @@ class JobsController extends Controller
             $user = Auth::loginUsingId($payload['sub']);
         }
 
-        if ($page == 'view_job' && $_GET || ($page == 'post_job' && $user->role_id == 2 && ! $_GET)) {
+        $params = $_GET;
+
+        if ($page == 'view_job' && $params || ($page == 'post_job' && $user->role_id == 2 && ! isset($params['jid']))) {
             return view('jobs.view');
         
         } else {
