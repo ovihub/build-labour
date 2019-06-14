@@ -199,6 +199,7 @@ Route::namespace('API\V1\Admin')
         Route::prefix('job')
             ->group(function () {
                 Route::get('get', 'ApiJobsController@get');
+                Route::get('roles', 'ApiJobsController@getRoles');
             });
 
         Route::prefix('company')

@@ -211,8 +211,12 @@ class JobRepository extends AbstractRepository
         $data = $request->all();
         $data['created_by'] = $user->id;
         $data['is_template'] = $isTemplate;
-        $data['company_id'] = $user->Company->id;
 
+        if ($user->Company) {
+
+            $data['company_id'] = $user->Company->id;
+        }
+        
         if ($request->job_role_id) {
 
             $jobRole = JobRole::find($request->job_role_id);

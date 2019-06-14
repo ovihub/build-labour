@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Companies\JobRole;
 use App\User;
 use App\Models\Companies\Job;
 use App\Models\Tickets\Ticket;
@@ -47,6 +48,9 @@ class DatatableController extends Controller
         return view('admin.companies');
     }
 
+    public function showJobRoles() {
+        return view('admin.job-roles');
+    }
     /**
      * Get users for the data table.
      *
@@ -132,6 +136,29 @@ class DatatableController extends Controller
                 ->orWhere('exp_level', 'LIKE', '%'.$search_text.'%')
                 ->orWhere('contract_type', 'LIKE', '%'.$search_text.'%')
                 ->orWhere('title', 'LIKE', '%'.$search_text.'%');
+        });
+
+
+        $query = $query->orderBy($column, $order);
+        $data = $query->paginate($per_page);
+
+        return JobsResource::collection($data);
+    }
+
+    public function getJobRolesDatatable(Request $request)
+    {
+        $column = $request->get('column') ? $request->get('column') : 'id';
+        $order = $request->get('order') ? $request->get('order') : 'asc';
+        $per_page = $request->get('per_page') ? $request->get('per_page') : 10;
+        $search_text = $request->get('search_text') ? $request->get('search_text') : '';
+
+        $query = JobRole::query();
+
+        $query = $query->where(function($query) use($search_text) {
+
+            $query
+                ->where('id', 'LIKE', '%'.$search_text.'%')
+                ->orWhere('job_role_name', 'LIKE', '%'.$search_text.'%');
         });
 
 
