@@ -29,6 +29,7 @@ class BuildLabourApi {
             job_roles: '/api/v1/roles/job/search',
             jobs: '/api/v1/job/search/filter',
             bookmarks: '/api/v1/bookmarks/posts/jobs',
+            tickets: '/api/v1/tickets/search',
             locations: '/api/v1/locations',
             companies: '/api/v1/company/search',
             company_options: '/api/v1/company/options',
@@ -129,6 +130,10 @@ class BuildLabourApi {
             });
                 
         return this.getResults;
+    }
+
+    getTickets(keyword) {
+        return this._get(this.endpoints.tickets + '?keyword=' + keyword);
     }
 
     getLocations(keyword) {

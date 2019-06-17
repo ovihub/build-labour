@@ -42,11 +42,9 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="form-card">
-                        <div class="form-card-body">
                             
-                            <register-company></register-company>
+                        <register-company></register-company>
                         
-                        </div>
                     </div>
                 </div>
             </div>

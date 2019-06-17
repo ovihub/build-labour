@@ -31,6 +31,7 @@ Route::prefix('user')
         Route::middleware(['checktoken'])->group(function() {
             Route::get('profile', 'UsersController@showProfile')->name('profile');
             // Route::get('profile/{id}', 'UsersController@showProfile');
+            Route::get('onboarding', 'UsersController@showOnboarding')->name('onboarding');
         });
         Route::get('verify', 'UsersController@showVerifyForm')->name('verify');
     });

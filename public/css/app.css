@@ -11042,6 +11042,10 @@ ul.list-job-items li.job-items {
   margin-right: 24px;
 }
 
+.bl-mr10 {
+  margin-right: 10px;
+}
+
 .bl-mt20 {
   margin-top: 20px;
 }
@@ -11359,7 +11363,7 @@ span.ticket-delete:hover {
 }
 
 .comp-card-wrapper li {
-  width: 488px;
+  width: 500px;
   visibility: hidden;
   will-change: transform;
   -webkit-transform: translate(var(--x, 0%), var(--y, 0%));
@@ -15981,6 +15985,10 @@ body {
   font-style: normal;
 }
 
+.modal-open .modal {
+  overflow-y: hidden;
+}
+
 a {
   color: #f5a623;
   text-decoration: none !important;
@@ -16282,6 +16290,26 @@ p.bl-nav-tab-label {
 }
 
 .form-progress.incomplete {
+  background-color: #d8d8d8;
+}
+
+.form-progress-2 {
+  width: 24px;
+  height: 6px;
+  border-radius: 3px;
+  display: inline-block;
+  background-color: #d8d8d8;
+}
+
+.form-progress-2.active {
+  background-color: #f5a623;
+}
+
+.form-progress-2.complete {
+  background-color: #ff9934;
+}
+
+.form-progress-2.incomplete {
   background-color: #d8d8d8;
 }
 
@@ -16829,7 +16857,6 @@ p.bl-nav-tab-label {
 }
 
 .skill-label {
-  max-width: 450px;
   font-size: 16px;
   font-weight: 600;
   color: #383d3f;
@@ -16868,6 +16895,20 @@ p.bl-nav-tab-label {
   margin-bottom: 8px;
 }
 
+.me-label-2 {
+  font-size: 13px;
+  font-weight: 500;
+  color: red;
+  margin-bottom: 6px;
+}
+
+.me-label-3 {
+  font-size: 16px;
+  color: #383d3f;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
 .me-row {
   position: relative;
   width: 100%;
@@ -16900,7 +16941,7 @@ p.bl-nav-tab-label {
 }
 
 .me-col-mid select {
-  background-position: 160px;
+  background-position: 155px;
 }
 
 .me-col-right {
@@ -16960,7 +17001,7 @@ p.bl-nav-tab-label {
   padding: 0;
   margin-right: 34px;
   color: #000000;
-  width: 100px;
+  width: 80px;
 }
 
 .styled-checkbox + label:before {
