@@ -42,15 +42,15 @@
                     <div class="form-group ta-center">
                         <br><br>
                         @if (! isset($_COOKIE['bl_token']))
-                            <button type="submit" onclick="location.href='/login'">
+                            <button type="submit" onclick="location.href='/login'" style="width:220px">
                                 Login
                             </button>
                             <br><br>
-                            <button type="submit" onclick="location.href='/register'" style="width:170px">
+                            <button type="submit" onclick="location.href='/register'" style="width:220px">
                                 Join as a Worker
                             </button>
                             <br><br>
-                            <button type="submit" onclick="location.href='/company/register'" style="width:200px">
+                            <button type="submit" onclick="location.href='/company/register'" style="width:220px">
                                 Sign Up as an Employer
                             </button>
                         @else

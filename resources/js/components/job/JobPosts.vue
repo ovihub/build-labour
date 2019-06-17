@@ -18,7 +18,7 @@
             
                     <div class="jobads-row">
                         <div class="bl-col-1">
-                            <img v-if="post.company_photo" class="bl-image-40" :src="post.company_photo"
+                            <img v-if="post.company.photo_url" class="bl-image-40" :src="post.company.photo_url"
                                 @click="onClickCompanyPhoto(post.company_id)">
 
                             <avatar v-else cls="bl-image-40" size="40" border="0" border-radius="8px"
