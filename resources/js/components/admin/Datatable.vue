@@ -62,7 +62,7 @@
 			<nav v-if="pagination && tableData.length > 0">
 				<ul class="pagination">
 					<a class="page-link-2 mr-3" href="#" 
-						v-if="modalName == 'Job' || modalName == 'Ticket'"
+						v-if="modalName == 'Job' || modalName == 'Ticket' || modalName == 'JobRole'"
 						@click="onClickViewRow(null)">
 							<span class="fa fa-sync"></span>Add
 					</a>
@@ -154,7 +154,7 @@
 
 		created() {
 			let component = this;
-			
+
 			Bus.$on('refreshDatatable', function() {
 				component.fetchData();
 			});
@@ -255,6 +255,7 @@
 			},
 
 			onClickViewRow(data) {
+
 				let id = 0;
 
 				if (data != null) {
@@ -270,8 +271,13 @@
 						this.subTitle = data.name;
 					
 					} else if (this.modalName == 'Ticket') {
+
 						this.subTitle = data.ticket;
-					}
+
+					} else if (this.modalName == 'JobRole') {
+
+                    	this.subTitle = data.JobRole;
+                	}
 				
 				} else {
 					this.subTitle = 'Add New';

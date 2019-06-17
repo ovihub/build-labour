@@ -2054,6 +2054,8 @@ __webpack_require__.r(__webpack_exports__);
           this.subTitle = data.name;
         } else if (this.modalName == 'Ticket') {
           this.subTitle = data.ticket;
+        } else if (this.modalName == 'JobRole') {
+          this.subTitle = data.JobRole;
         }
       } else {
         this.subTitle = 'Add New';
@@ -2685,104 +2687,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2790,65 +2694,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       show: false,
       record: {
         id: 0,
-        title: '',
-        description: '',
-        about: '',
-        exp_level: '',
-        contract_type: '',
-        salary: '',
-        reports_to: [],
-        reports_to_str: '',
-        location: ''
+        job_role_name: ''
       },
       errors: {
-        title: '',
-        description: '',
-        about: '',
-        exp_level: '',
-        contract_type: '',
-        salary: '',
-        reports_to: '',
-        location: ''
+        job_role_name: ''
       },
       job_roles: [],
       endpoints: {
-        get: '',
-        save: '',
-        job_roles: '/api/v1/admin/job/roles'
+        get: '/api/v1/admin/job/roles/',
+        save: '/api/v1/admin/job/roles/'
       }
     };
   },
   created: function created() {
     var component = this;
-    Bus.$on('datatableViewJob', function (id) {
+    Bus.$on('datatableViewJobRole', function (id) {
       component.show = true;
 
       if (id != 0) {
-        component.endpoints.get = '/api/v1/admin/job/get?id=' + id;
-        component.endpoints.save = '/api/v1/job/' + id;
+        component.endpoints.get = '/api/v1/admin/job/roles/' + id;
         component.viewRecord();
       } else {
         Utils.setObjectValues(component.record, '');
-        component.endpoints.save = '/api/v1/job';
       }
-    });
-    axios.get(component.endpoints.job_roles, Utils.getBearerAuth()).then(function (response) {
-      console.log(response);
-      component.job_roles = response.data.data.job_roles;
-      console.log(component.job_roles);
-    }).catch(function (error) {
-      Utils.handleError(error);
     });
   },
   methods: {
     viewRecord: function viewRecord() {
       var component = this;
       axios.get(component.endpoints.get, Utils.getBearerAuth()).then(function (response) {
-        component.record = response.data.data.record;
-
-        if (component.record.job_role) {
-          component.record.title = component.record.job_role.job_role_name;
-        }
+        component.record = response.data.data.role;
       }).catch(function (error) {
         Utils.handleError(error);
       });
@@ -2867,7 +2742,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var component, results, i;
+        var component;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2875,14 +2750,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 component = this;
                 Utils.setObjectValues(this.errors, '');
                 this.disabled = true;
-                results = this.record.reports_to_str.split(',');
-                this.record.reports_to = [];
-
-                for (i = 0; i < results.length; i++) {
-                  this.record.reports_to.push(results[i].trim());
-                }
-
-                _context.next = 8;
+                _context.next = 5;
                 return axios.post(component.endpoints.save, component.$data.record, Utils.getBearerAuth()).then(function (response) {
                   Bus.$emit('adminSaveChanges', component.record.id);
                 }).catch(function (error) {
@@ -2897,10 +2765,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Utils.handleError(error);
                 });
 
-              case 8:
+              case 5:
                 this.disabled = false;
 
-              case 9:
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -51300,7 +51168,9 @@ var render = function() {
                 "ul",
                 { staticClass: "pagination" },
                 [
-                  _vm.modalName == "Job" || _vm.modalName == "Ticket"
+                  _vm.modalName == "Job" ||
+                  _vm.modalName == "Ticket" ||
+                  _vm.modalName == "JobRole"
                     ? _c(
                         "a",
                         {
@@ -52232,7 +52102,7 @@ var render = function() {
   return _vm.show
     ? _c("div", { staticClass: "form-group" }, [
         _c("div", { staticClass: "record-title" }, [
-          _vm._v("\n        " + _vm._s(_vm.record.title) + "\n    ")
+          _vm._v("\n        " + _vm._s(_vm.record.job_role_name) + "\n    ")
         ]),
         _vm._v(" "),
         _vm.record.id != 0
@@ -52267,371 +52137,35 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
-            _c("label", { staticClass: "record-label" }, [_vm._v("TITLE")]),
+            _c("label", { staticClass: "record-label" }, [_vm._v("Role Name")]),
             _vm._v(" "),
             _c("input", {
               directives: [
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.record.title,
-                  expression: "record.title"
+                  value: _vm.record.job_role_name,
+                  expression: "record.job_role_name"
                 }
               ],
               staticClass: "form-control record-input",
               attrs: { type: "text" },
-              domProps: { value: _vm.record.title },
+              domProps: { value: _vm.record.job_role_name },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.$set(_vm.record, "title", $event.target.value)
+                  _vm.$set(_vm.record, "job_role_name", $event.target.value)
                 }
               }
             }),
             _vm._v(" "),
-            _vm.errors.title
+            _vm.errors.job_role_name
               ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
                   _vm._v(
                     "\n                " +
-                      _vm._s(_vm.errors.title) +
-                      "\n            "
-                  )
-                ])
-              : _vm._e()
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("label", { staticClass: "record-label" }, [_vm._v("JOB ROLE")]),
-            _vm._v(" "),
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.record.job_role_id,
-                    expression: "record.job_role_id"
-                  }
-                ],
-                staticClass: "form-control record-input",
-                staticStyle: { margin: "0" },
-                on: {
-                  change: [
-                    function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.record,
-                        "job_role_id",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    },
-                    function($event) {
-                      return _vm.onChange($event)
-                    }
-                  ]
-                }
-              },
-              _vm._l(_vm.job_roles, function(role) {
-                return _c("option", { domProps: { value: role.id } }, [
-                  _vm._v(_vm._s(role.job_role_name))
-                ])
-              }),
-              0
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("textarea", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.record.description,
-                  expression: "record.description"
-                }
-              ],
-              staticClass: "record-textarea",
-              staticStyle: { height: "180px", border: "1px solid #ced4da" },
-              domProps: { value: _vm.record.description },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.record, "description", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _vm.errors.description
-            ? _c(
-                "span",
-                {
-                  staticClass: "err-msg bl-ml-30",
-                  staticStyle: { "margin-top": "-6px" }
-                },
-                [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(_vm.errors.description) +
-                      "\n        "
-                  )
-                ]
-              )
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _vm._m(1),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("textarea", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.record.about,
-                  expression: "record.about"
-                }
-              ],
-              staticClass: "record-textarea",
-              staticStyle: { height: "180px", border: "1px solid #ced4da" },
-              domProps: { value: _vm.record.about },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.record, "about", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _vm.errors.about
-            ? _c(
-                "span",
-                {
-                  staticClass: "err-msg bl-ml-30",
-                  staticStyle: { "margin-top": "-6px" }
-                },
-                [
-                  _vm._v(
-                    "\n            " + _vm._s(_vm.errors.about) + "\n        "
-                  )
-                ]
-              )
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("label", { staticClass: "record-label" }, [
-              _vm._v("EXPERIENCE LEVEL")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.record.exp_level,
-                  expression: "record.exp_level"
-                }
-              ],
-              staticClass: "form-control record-input",
-              attrs: { type: "text" },
-              domProps: { value: _vm.record.exp_level },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.record, "exp_level", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm.errors.exp_level
-              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.errors.exp_level) +
-                      "\n            "
-                  )
-                ])
-              : _vm._e()
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("label", { staticClass: "record-label" }, [
-              _vm._v("CONTRACT TYPE")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.record.contract_type,
-                  expression: "record.contract_type"
-                }
-              ],
-              staticClass: "form-control record-input",
-              attrs: { type: "text" },
-              domProps: { value: _vm.record.contract_type },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.record, "contract_type", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm.errors.contract_type
-              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.errors.contract_type) +
-                      "\n            "
-                  )
-                ])
-              : _vm._e()
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("label", { staticClass: "record-label" }, [_vm._v("SALARY")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.record.salary,
-                  expression: "record.salary"
-                }
-              ],
-              staticClass: "form-control record-input",
-              attrs: { type: "text" },
-              domProps: { value: _vm.record.salary },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.record, "salary", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm.errors.salary
-              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.errors.salary) +
-                      "\n            "
-                  )
-                ])
-              : _vm._e()
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("label", { staticClass: "record-label" }, [
-              _vm._v("REPORTS TO")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.record.reports_to_str,
-                  expression: "record.reports_to_str"
-                }
-              ],
-              staticClass: "form-control record-input",
-              attrs: { type: "text" },
-              domProps: { value: _vm.record.reports_to_str },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.record, "reports_to_str", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm.errors.reports_to
-              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.errors.reports_to) +
-                      "\n            "
-                  )
-                ])
-              : _vm._e()
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("label", { staticClass: "record-label" }, [_vm._v("LOCATION")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.record.location,
-                  expression: "record.location"
-                }
-              ],
-              staticClass: "form-control record-input",
-              attrs: { type: "text" },
-              domProps: { value: _vm.record.location },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.record, "location", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm.errors.location
-              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.errors.location) +
+                      _vm._s(_vm.errors.job_role_name) +
                       "\n            "
                   )
                 ])
@@ -52654,24 +52188,7 @@ var render = function() {
       ])
     : _vm._e()
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12" }, [
-      _c("label", { staticClass: "record-label" }, [_vm._v("DESCRIPTION")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12" }, [
-      _c("label", { staticClass: "record-label" }, [_vm._v("ABOUT")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -79221,8 +78738,8 @@ window.Helper = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! F:\appetiser\build-labour-backend\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! F:\appetiser\build-labour-backend\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
