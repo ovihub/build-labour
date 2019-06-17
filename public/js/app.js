@@ -57652,10 +57652,10 @@ var render = function() {
                 "div",
                 { staticClass: "bl-col-1" },
                 [
-                  post.company_photo
+                  post.company.photo_url
                     ? _c("img", {
                         staticClass: "bl-image-40",
-                        attrs: { src: post.company_photo },
+                        attrs: { src: post.company.photo_url },
                         on: {
                           click: function($event) {
                             return _vm.onClickCompanyPhoto(post.company_id)
