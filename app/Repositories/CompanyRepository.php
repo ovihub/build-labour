@@ -184,8 +184,9 @@ class CompanyRepository extends AbstractRepository
     }
 
     public function getJobPosts($id) {
-
+        
         $jobs = Job::with('Company')
+                ->where('company_id', $id)
                 ->where('is_template', false)
                 ->get();
 
