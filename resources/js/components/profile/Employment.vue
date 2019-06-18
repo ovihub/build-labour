@@ -143,53 +143,55 @@
             });
 
             Bus.$on('updateEmployment', function(index, details) {
-                let emps = component.employments;
-
-                if ((emps.length > 1 && details.isCurrent == 1 &&
-                    component.formatPeriod(details) != component.formatPeriod(emps[index])) || 
-                    (details.responsibilities.length > emps[index].responsibilities.length)) {
+                if (details) {
+                    let emps = component.employments;
                     
-                    window.location.href = component.endpoints.profile;
-                }
-
-                if (index == -1) {
-                    emps.push(details);
-                
-                } else {
-                    
-                    emps[index] = details;
-                    
-                    let refLocation = component.$refs['empLocation-' + index],
-                        refProjectSize = component.$refs['empProjectSize-' + index],
-                        refLocationIcon = component.$refs['empLocationIcon-' + index],
-                        refProjectSizeIcon = component.$refs['empProjectSizeIcon-' + index];
-
-                    component.$refs['empJobRole-' + index][0].textContent = details.job_role;
-                    component.$refs['empCompanyName-' + index][0].textContent = component.getCompanyName(details.company_name, details.company);
-                    component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
-
-                    let loc = component.getLocation(details.location, details.company);
-
-                    if (loc) {
-                        refLocation[0].textContent = loc;
-                        refLocationIcon[0].hidden = false;
-                    
-                    } else {
-                        refLocation[0].textContent = '';
-                        refLocationIcon[0].hidden = true;
+                    if (emps[index] && ((emps.length > 1 && details.isCurrent == 1 &&
+                        component.formatPeriod(details) != component.formatPeriod(emps[index])) || 
+                        (details.responsibilities.length > emps[index].responsibilities.length))) {
+                        
+                        window.location.href = component.endpoints.profile;
                     }
 
-                    if (details.project_size) {
-                        refProjectSize[0].textContent = details.project_size;
-                        refProjectSizeIcon[0].hidden = false;
+                    if (index == -1) {
+                        emps.push(details);
                     
                     } else {
-                        refProjectSize[0].textContent = '';
-                        refProjectSizeIcon[0].hidden = true;
-                    }
+                        
+                        emps[index] = details;
+                        
+                        let refLocation = component.$refs['empLocation-' + index],
+                            refProjectSize = component.$refs['empProjectSize-' + index],
+                            refLocationIcon = component.$refs['empLocationIcon-' + index],
+                            refProjectSizeIcon = component.$refs['empProjectSizeIcon-' + index];
 
-                    for (let i = details.responsibilities.length; i < details.responsibilities.length; i++) {
-                        component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
+                        component.$refs['empJobRole-' + index][0].textContent = details.job_role;
+                        component.$refs['empCompanyName-' + index][0].textContent = component.getCompanyName(details.company_name, details.company);
+                        component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
+
+                        let loc = component.getLocation(details.location, details.company);
+
+                        if (loc) {
+                            refLocation[0].textContent = loc;
+                            refLocationIcon[0].hidden = false;
+                        
+                        } else {
+                            refLocation[0].textContent = '';
+                            refLocationIcon[0].hidden = true;
+                        }
+
+                        if (details.project_size) {
+                            refProjectSize[0].textContent = details.project_size;
+                            refProjectSizeIcon[0].hidden = false;
+                        
+                        } else {
+                            refProjectSize[0].textContent = '';
+                            refProjectSizeIcon[0].hidden = true;
+                        }
+
+                        for (let i = details.responsibilities.length; i < details.responsibilities.length; i++) {
+                            component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
+                        }
                     }
                 }
             });
