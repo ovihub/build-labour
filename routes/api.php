@@ -200,6 +200,8 @@ Route::namespace('API\V1\Admin')
             ->group(function () {
                 Route::get('get', 'ApiJobsController@get');
                 Route::get('roles', 'ApiJobsController@getRoles');
+                Route::post('roles/', 'ApiJobsController@postRole');
+                Route::get('roles/{id}', 'ApiJobsController@getRole');
             });
 
         Route::prefix('company')

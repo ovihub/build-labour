@@ -47,4 +47,59 @@ class ApiJobsController extends ApiBaseController
 
         return $this->apiSuccessResponse(compact('job_roles'), true, 'Request OK', self::HTTP_STATUS_REQUEST_OK);
     }
+
+    public function postRole(Request $request)
+    {
+
+        $job_role = new JobRole();
+
+        try {
+
+            if ($request->id) {
+
+                $job_role = JobRole::find($request->id);
+
+                if (!$job_role) {
+
+                    return $this->apiErrorResponse(
+                        false,
+                        $job_role->getErrors( true ),
+                        self::HTTP_STATUS_INVALID_INPUT,
+                        'invalidInput'
+                    );
+                }
+            }
+
+            if (!$job_role->store($request->all())) {
+
+                return $this->apiErrorResponse(
+                    false,
+                    $job_role->getErrors( true ),
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    $job_role->getErrorsDetail()
+                );
+            }
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse(compact('job_role'), true, 'Request OK', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    public function getRole(Request $request)
+    {
+        try {
+
+            $role = JobRole::find($request->id);
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse(compact('role'), true, 'Request OK', self::HTTP_STATUS_REQUEST_OK);
+    }
 }

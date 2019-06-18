@@ -17,7 +17,38 @@ class JobRole extends BaseModel
     const CREATED_AT = null;
     const UPDATED_AT = null;
 
+    /**
+     * @return array
+     */
+    private function rules()
+    {
+        return [
+            'job_role_name' => 'required|min:5'
+        ];
+    }
+
+    private function validate( $data ){
+
+        $validator = \Validator::make($data, $this->rules());
+
+        if ( $validator->fails() ) {
+
+            $this->errors = $validator->errors()->all();
+            $this->errorsDetail = $validator->errors()->toArray();
+
+            return false;
+        }
+
+        return true;
+    }
+
     public function store($data) {
+
+
+        if (!$this->validate($data)) {
+
+            return false;
+        }
 
         $this->fill( $data );
 
