@@ -1,35 +1,34 @@
 <template>
     <div class="profile-item-2">
-        <div class="profile-content" style="padding-left:0;padding-right:0">
-
+        <div class="profile-content" style="padding: 20px 0px 0px 0px">
+            <!-- ; max-height: 650px; overflow: scroll; -->
             <div class="form-sub-header">{{ subHeader }}</div>
             
             <div class="comp-progress">
-                <div class="form-progress-2 bl-mr10 complete"></div>
                 <div class="form-progress-2 bl-mr10" :class="progressCls[0]" @click="goToStep(1)"></div>
                 <div class="form-progress-2 bl-mr10" :class="progressCls[1]" @click="goToStep(2)"></div>
                 <div class="form-progress-2 bl-mr10" :class="progressCls[2]" @click="goToStep(3)"></div>
                 <div class="form-progress-2 bl-mr10" :class="progressCls[3]" @click="goToStep(4)"></div>
                 <div class="form-progress-2 bl-mr10" :class="progressCls[4]" @click="goToStep(5)"></div>
                 <div class="form-progress-2 bl-mr10" :class="progressCls[5]" @click="goToStep(6)"></div>
-                <div class="form-progress-2" :class="progressCls[6]" @click="goToStep(7)"></div>
+                <div class="form-progress-2 bl-mr10" :class="progressCls[6]" @click="goToStep(7)"></div>
+                <div class="form-progress-2" :class="progressCls[7]" @click="goToStep(8)"></div>
             </div>
             
             <employment-modal></employment-modal>
 
             <education-modal></education-modal>
 
-            <form>
-                <ul class="comp-card-wrapper" ref="compCardWrapper">
-                    <li><employment-history></employment-history></li>
-                    <li><education-history></education-history></li>
-                    <li><ticket-details></ticket-details></li>
-                    <li><skill-details></skill-details></li>
-                    <li><work-preferences></work-preferences></li>
-                    <li><work-information></work-information></li>
-                    <li><personal-details></personal-details></li>
-                </ul>
-            </form>
+            <ul class="comp-card-wrapper" ref="compCardWrapper">
+                <li><current-role></current-role></li>
+                <li><employment-history></employment-history></li>
+                <li><education-history></education-history></li>
+                <li><ticket-details></ticket-details></li>
+                <li><skill-details></skill-details></li>
+                <li><work-preferences></work-preferences></li>
+                <li><work-information></work-information></li>
+                <li><personal-details></personal-details></li>
+            </ul>
         </div>
     </div>
 </template>
@@ -48,6 +47,7 @@
                 subHeader: 'Employment History',
                 progressCls: [],
                 subHeaders: [
+                    'Starting your profile',
                     'Employment History',
                     'Education',
                     'Tickets',
@@ -85,7 +85,9 @@
                 component.goToStep(1);
             }, 1);
 
-            this.progressCls[0] = 'active';
+            Bus.$on('onboardingNext', function(step) {
+                component.goToStep(step);
+            });
         },
 
         methods: {
@@ -134,5 +136,6 @@
         width: 570px;
         padding-left: 8px;
         padding-right: 8px;
+        padding-bottom: -50px;
     }
 </style>

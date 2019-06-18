@@ -105,6 +105,7 @@ Vue.component('upload-photo', require('./components/upload/UploadPhoto.vue').def
 
 // Onboarding components
 Vue.component('onboarding', require('./components/onboarding/Onboarding.vue').default);
+Vue.component('current-role', require('./components/onboarding/CurrentRole.vue').default);
 Vue.component('employment-history', require('./components/onboarding/EmploymentHistory.vue').default);
 Vue.component('education-history', require('./components/onboarding/EducationHistory.vue').default);
 Vue.component('ticket-details', require('./components/onboarding/TicketDetails.vue').default);

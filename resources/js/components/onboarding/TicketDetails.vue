@@ -23,7 +23,7 @@
                 <input class="form-control" type="text"  placeholder="Search" v-model="keyword" @keyup="onSearch(keyword)" />
             </div>
             <div class="ticket-col-right">
-                <button class="add-button" type="button" @click="onAdd()">Add</button>
+                <button style="margin-left:0px;width:100%" class="add-button" type="button" @click="onAdd()">Add</button>
             </div>
             <span class="err-msg" v-if="errors.ticket">
                 {{ errors.ticket }}
@@ -46,6 +46,16 @@
                 <img src="/img/icons/remove.png"
                     srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x">
             </span>
+        </div>
+
+        <div class="bl-btn-group">
+            <div class="btn btn-link btn-delete" @click="submit">
+                Save and Finish later
+            </div>
+
+            <button type="button" @click="next">
+                To Industry Skills
+            </button>
         </div>
     </form>
 </template>
@@ -135,9 +145,20 @@
                 Utils.formatCheckbox(this, refName, value);
             },
 
+            next() {
+                Bus.$emit('onboardingNext', 5);
+            },
+
             async submit() {
 
             },
         }
     }
 </script>
+
+<style scoped>
+    button {
+        width: 200px;
+        margin-left: 130px;
+    }
+</style>

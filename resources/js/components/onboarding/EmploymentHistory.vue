@@ -1,6 +1,6 @@
 <template>
     <form class="modal-form" method="POST" @submit.prevent="submit">
-        <div class="me-label-3">
+        <div class="bl-label-16-style-2">
             Enter any previous experience you have had in construction related roles:
         </div>
 
@@ -32,7 +32,7 @@
             Add new position
         </div>
         
-        <ul class="list-main-items">
+        <ul class="list-main-items" v-if="employments.length > 0">
             <li class="main-items"
                 v-for="(employment, index) in employments"
                 v-bind:key="index">
@@ -121,6 +121,16 @@
                 <div :class="getBox" :ref="'boxCls-' + index"></div>
             </li>
         </ul>
+
+        <div class="bl-btn-group">
+            <div class="btn btn-link btn-delete" @click="submit">
+                Save and Finish later
+            </div>
+
+            <button type="button" @click="next">
+                To Education
+            </button>
+        </div>
     </form>
 </template>
 
@@ -166,46 +176,56 @@
             });
 
             Bus.$on('updateEmployment', function(index, details) {
-                let emps = component.employments;
-
-                if (index == -1) {
-                    emps.push(details);
-                
-                } else {
+                if (details) {
+                    let emps = component.employments;
                     
-                    emps[index] = details;
-                    
-                    let refLocation = component.$refs['empLocation-' + index],
-                        refProjectSize = component.$refs['empProjectSize-' + index],
-                        refLocationIcon = component.$refs['empLocationIcon-' + index],
-                        refProjectSizeIcon = component.$refs['empProjectSizeIcon-' + index];
-
-                    component.$refs['empJobRole-' + index][0].textContent = details.job_role;
-                    component.$refs['empCompanyName-' + index][0].textContent = component.getCompanyName(details.company_name, details.company);
-                    component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
-
-                    let loc = component.getLocation(details.location, details.company);
-
-                    if (loc) {
-                        refLocation[0].textContent = loc;
-                        refLocationIcon[0].hidden = false;
-                    
-                    } else {
-                        refLocation[0].textContent = '';
-                        refLocationIcon[0].hidden = true;
+                    if (emps[index] && ((emps.length > 1 && details.isCurrent == 1 &&
+                        component.formatPeriod(details) != component.formatPeriod(emps[index])) || 
+                        (details.responsibilities.length > emps[index].responsibilities.length))) {
+                        
+                        window.location.href = component.endpoints.profile;
                     }
 
-                    if (details.project_size) {
-                        refProjectSize[0].textContent = details.project_size;
-                        refProjectSizeIcon[0].hidden = false;
-                    
-                    } else {
-                        refProjectSize[0].textContent = '';
-                        refProjectSizeIcon[0].hidden = true;
-                    }
+                    if (index == -1) {
+                        emps.push(details);
+                        console.log(emps);
+                        console.log(details);
 
-                    for (let i = details.responsibilities.length; i < details.responsibilities.length; i++) {
-                        component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
+                    } else {
+                        emps[index] = details;
+                        
+                        let refLocation = component.$refs['empLocation-' + index],
+                            refProjectSize = component.$refs['empProjectSize-' + index],
+                            refLocationIcon = component.$refs['empLocationIcon-' + index],
+                            refProjectSizeIcon = component.$refs['empProjectSizeIcon-' + index];
+
+                        component.$refs['empJobRole-' + index][0].textContent = details.job_role;
+                        component.$refs['empCompanyName-' + index][0].textContent = component.getCompanyName(details.company_name, details.company);
+                        component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
+
+                        let loc = component.getLocation(details.location, details.company);
+
+                        if (loc) {
+                            refLocation[0].textContent = loc;
+                            refLocationIcon[0].hidden = false;
+                        
+                        } else {
+                            refLocation[0].textContent = '';
+                            refLocationIcon[0].hidden = true;
+                        }
+
+                        if (details.project_size) {
+                            refProjectSize[0].textContent = details.project_size;
+                            refProjectSizeIcon[0].hidden = false;
+                        
+                        } else {
+                            refProjectSize[0].textContent = '';
+                            refProjectSizeIcon[0].hidden = true;
+                        }
+
+                        for (let i = details.responsibilities.length; i < details.responsibilities.length; i++) {
+                            component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
+                        }
                     }
                 }
             });
@@ -283,9 +303,20 @@
                 Bus.$emit('showEmployment', index, index != -1 ? this.employments[index] : null);
             },
 
+            next() {
+                Bus.$emit('onboardingNext', 3);
+            },
+
             async submit() {
 
             },
         }
     }
 </script>
+
+<style scoped>
+    button {
+        width: 200px;
+        margin-left: 130px;
+    }
+</style>

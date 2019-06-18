@@ -45,6 +45,16 @@
                 </span>
             </div>
         </div>
+
+        <div class="bl-btn-group">
+            <div class="btn btn-link btn-delete" @click="submit">
+                Save and Finish later
+            </div>
+
+            <button type="button" @click="next">
+                To Work Preferences
+            </button>
+        </div>
     </form>
 </template>
 
@@ -130,9 +140,20 @@
                 this.input.skills.splice(index, 1);
             },
 
+            next() {
+                Bus.$emit('onboardingNext', 6);
+            },
+            
             async submit() {
 
             },
         }
     }
 </script>
+
+<style scoped>
+    button {
+        width: 200px;
+        margin-left: 130px;
+    }
+</style>

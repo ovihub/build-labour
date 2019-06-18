@@ -44,6 +44,16 @@
                 </div>
             </div>
         </div>
+
+        <div class="bl-btn-group">
+            <div class="btn btn-link btn-delete" @click="submit">
+                Save and Finish later
+            </div>
+
+            <button type="button" @click="next">
+                To Tickets
+            </button>
+        </div>
     </form>
 </template>
 
@@ -104,9 +114,20 @@
                 Bus.$emit('showEducation', index, index != -1 ?  this.educations[index] : null);
             },
 
+            next() {
+                Bus.$emit('onboardingNext', 4);
+            },
+
             async submit() {
 
             },
         }
     }
 </script>
+
+<style scoped>
+    button {
+        width: 200px;
+        margin-left: 130px;
+    }
+</style>

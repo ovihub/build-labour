@@ -50,8 +50,18 @@
             <!-- </div> -->
         </div>
         <span class="err-msg" v-if="errors.country">
-        {{ errors.country }}
+            {{ errors.country }}
         </span>
+
+        <div class="bl-btn-group">
+            <div class="btn btn-link btn-delete" @click="submit">
+                Save and Finish later
+            </div>
+
+            <button type="button" @click="next">
+                Complete Profile
+            </button>
+        </div>
     </form>
 </template>
 
@@ -93,9 +103,20 @@
                 this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
             },
 
+            next() {
+
+            },
+
             async submit() {
 
             },
         }
     }
 </script>
+
+<style scoped>
+    button {
+        width: 200px;
+        margin-left: 130px;
+    }
+</style>

@@ -10720,6 +10720,12 @@ a.text-dark:focus {
   color: #000000;
 }
 
+.bl-label-16-style-2 {
+  font-size: 16px;
+  color: #252829;
+  margin-top: 20px;
+}
+
 .bl-label-17 {
   font-size: 17px;
   color: #484c4e;
@@ -10962,6 +10968,11 @@ ul.list-job-items li.job-items {
   background: rgba(0, 0, 0, 0.8);
   opacity: 0.8;
   transition: 0.3s ease-in-out;
+}
+
+.bl-btn-group {
+  position: absolute;
+  bottom: 20px;
 }
 
 .bl-box {
