@@ -5,14 +5,14 @@
             <div class="form-sub-header">{{ subHeader }}</div>
             
             <div class="comp-progress">
-                <div class="form-progress-2 bl-mr10" :class="progressCls[0]" @click="goToStep(1)"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[1]" @click="goToStep(2)"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[2]" @click="goToStep(3)"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[3]" @click="goToStep(4)"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[4]" @click="goToStep(5)"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[5]" @click="goToStep(6)"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[6]" @click="goToStep(7)"></div>
-                <div class="form-progress-2" :class="progressCls[7]" @click="goToStep(8)"></div>
+                <div class="form-progress-2 bl-mr10" :class="progressCls[0]"></div>
+                <div class="form-progress-2 bl-mr10" :class="progressCls[1]"></div>
+                <div class="form-progress-2 bl-mr10" :class="progressCls[2]"></div>
+                <div class="form-progress-2 bl-mr10" :class="progressCls[3]"></div>
+                <div class="form-progress-2 bl-mr10" :class="progressCls[4]"></div>
+                <div class="form-progress-2 bl-mr10" :class="progressCls[5]"></div>
+                <div class="form-progress-2 bl-mr10" :class="progressCls[6]"></div>
+                <div class="form-progress-2" :class="progressCls[7]"></div>
             </div>
             
             <employment-modal></employment-modal>
@@ -20,14 +20,14 @@
             <education-modal></education-modal>
 
             <ul class="comp-card-wrapper" ref="compCardWrapper">
-                <li><current-role></current-role></li>
-                <li><employment-history></employment-history></li>
-                <li><education-history></education-history></li>
-                <li><ticket-details></ticket-details></li>
-                <li><skill-details></skill-details></li>
-                <li><work-preferences></work-preferences></li>
-                <li><work-information></work-information></li>
-                <li><personal-details></personal-details></li>
+                <li class="comp-card-list"><current-role></current-role></li>
+                <li class="comp-card-list"><employment-history></employment-history></li>
+                <li class="comp-card-list"><education-history></education-history></li>
+                <li class="comp-card-list"><ticket-details></ticket-details></li>
+                <li class="comp-card-list"><skill-details></skill-details></li>
+                <li class="comp-card-list"><work-preferences></work-preferences></li>
+                <li class="comp-card-list"><work-information></work-information></li>
+                <li class="comp-card-list"><personal-details></personal-details></li>
             </ul>
         </div>
     </div>
@@ -133,9 +133,6 @@
 
 <style scoped>
     li {
-        width: 570px;
-        padding-left: 8px;
-        padding-right: 8px;
-        padding-bottom: -50px;
+        width: 565px;
     }
 </style>

@@ -11373,8 +11373,7 @@ span.ticket-delete:hover {
   padding: 0;
 }
 
-.comp-card-wrapper li {
-  width: 500px;
+.comp-card-wrapper li.comp-card-list {
   visibility: hidden;
   will-change: transform;
   -webkit-transform: translate(var(--x, 0%), var(--y, 0%));
@@ -11384,7 +11383,7 @@ span.ticket-delete:hover {
   transition: transform 300ms ease-out, -webkit-transform 300ms ease-out;
 }
 
-.comp-card-wrapper li.current {
+.comp-card-wrapper li.comp-card-list.current {
   visibility: visible;
 }
 

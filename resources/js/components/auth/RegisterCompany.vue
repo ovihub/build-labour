@@ -14,7 +14,7 @@
         </div>
         <form>
             <ul class="comp-card-wrapper" ref="compCardWrapper">
-                <li>
+                <li class="comp-card-list">
                     <div class="emp-row">
                         <input class="form-control" type="text" placeholder="Company Name"
                             v-model="input.company_name"
@@ -88,7 +88,7 @@
                     </center>
                 </li>
 
-                <li>
+                <li class="comp-card-list">
                     <div class="emp-row">
                         <select v-model="input.company_business_type_id" style="background-position:450px"
                             @change="setNextDisabled(2)">
@@ -153,7 +153,7 @@
                     </span>
                 </li>
 
-                <li>
+                <li class="comp-card-list">
                     <div class="comp-label">
                         Head Office Address
                     </div>
@@ -223,7 +223,7 @@
                     </div>
                 </li>
 
-                <li>
+                <li class="comp-card-list">
                     <div class="form-group">
                         <input id="email" type="email" name="email" class="form-control"
                             v-model="input.email" placeholder="Email Address" required />
