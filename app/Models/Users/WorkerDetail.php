@@ -109,6 +109,20 @@ class WorkerDetail extends BaseModel
         $this->userId = $userId;
     }
 
+    public function getLatestExperience() {
+
+        $exp = $this->user->experiences->where('isCurrent', true)->first();
+
+        if (!$exp) {
+
+            $expId = $this->user->experiences->max('id');
+
+            $exp = WorkExperience::find($expId);
+        }
+
+        return $exp;
+    }
+
     public function store(Request $r) {
 
         $data = $r->all();

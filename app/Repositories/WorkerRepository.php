@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Events\Users\DeleteEducation;
+use App\Http\Resources\PeoplesResource;
 use App\Models\Companies\Company;
 use App\Models\Companies\Job;
 use App\Models\Options\BusinessType;
@@ -13,6 +14,7 @@ use App\Models\Users\WorkerDetail;
 use App\Models\Users\WorkerTier;
 use App\Models\Users\WorkExperience;
 use App\Models\Users\WorkExperienceResponsibility;
+use App\User;
 use JWTAuth;
 use Illuminate\Http\Request;
 
@@ -320,6 +322,40 @@ class WorkerRepository extends AbstractRepository
         $user->workerDetail->save();
 
         return true;
+    }
+
+
+    public function getWorker(Request $request) {
+
+        $user = User::find($request->userid);
+
+        if (!$user->workerDetail) {
+
+            return false;
+        }
+
+        $profile_photo_url = ($user->profile_photo_url == null) ? '/img/defaults/user.png' : $user->profile_photo_url;
+
+        $exp = null;
+        $jobRole = '';
+
+        if ($user->workerDetail) {
+
+            $exp = $user->workerDetail->getLatestExperience();
+        }
+
+        if ($exp) {
+
+            $jobRole = $exp->job_role;
+        }
+
+
+        return [
+            'id' => $user->id,
+            'full_name' => $user->first_name . ' ' . $user->last_name,
+            'profile_photo_url' => $profile_photo_url,
+            'job_role' => $jobRole
+        ];
     }
 
 }
