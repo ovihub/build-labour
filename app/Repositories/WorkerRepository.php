@@ -5,8 +5,12 @@ namespace App\Repositories;
 use App\Events\Users\DeleteEducation;
 use App\Models\Companies\Company;
 use App\Models\Companies\Job;
+use App\Models\Options\BusinessType;
+use App\Models\Options\Tier;
 use App\Models\Users\Education;
+use App\Models\Users\WorkerArea;
 use App\Models\Users\WorkerDetail;
+use App\Models\Users\WorkerTier;
 use App\Models\Users\WorkExperience;
 use App\Models\Users\WorkExperienceResponsibility;
 use JWTAuth;
@@ -160,4 +164,162 @@ class WorkerRepository extends AbstractRepository
 
         return false;
     }
+
+    public function updateCurrentRole(Request $request) {
+
+        $user = JWTAuth::toUser();
+
+        $this->workExp = new WorkExperience();
+        $this->workExp->setUserId($user->id);
+
+        WorkExperience::where('user_id', $user->id)->update(['isCurrent' => 0]);
+
+        if (!$this->workExp->store($request)) {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function updateSectors(Request $request) {
+
+        $user = JWTAuth::toUser();
+
+        if (!$user->workerDetail) {
+
+            return false;
+        }
+
+        if (!empty($request->business_types)) {
+
+            WorkerArea::where('worker_id', $user->workerDetail->id)->delete();
+
+            $businessTypes = $request->business_types;
+
+            $businessTypes = array_filter($businessTypes, function($id) {
+
+                // check businsss type
+
+                $b = BusinessType::find($id);
+
+                if ($b) {
+
+                    return $id;
+                }
+
+            });
+
+
+            $saveBusinessTypes = array_map(function($id) use($user) {
+
+                return array('business_type_id' => $id, 'worker_id' => $user->workerDetail->id);
+
+            }, $businessTypes);
+
+            WorkerArea::insert($saveBusinessTypes);
+
+        }
+
+        if (!empty($request->tiers)) {
+
+            WorkerTier::where('worker_id', $user->workerDetail->id)->delete();
+
+            $tiers = $request->tiers;
+
+            $tiers = array_filter($tiers, function($id) {
+
+                // check tier
+
+                $b = Tier::find($id);
+
+                if ($b) {
+
+                    return $id;
+                }
+
+            });
+
+            $saveTiers = array_map(function($id) use($user) {
+
+                return array('tier_id' => $id, 'worker_id' => $user->workerDetail->id);
+
+            }, $tiers);
+
+            WorkerTier::insert($saveTiers);
+
+        }
+
+        return true;
+    }
+
+
+    public function updateAffirmations(Request $request) {
+
+        $user = JWTAuth::toUser();
+
+        if (!$user->workerDetail) {
+
+            return false;
+        }
+
+        if ($request->right_to_work) {
+
+            $user->workerDetail->right_to_work = true;
+
+        } else {
+
+            $user->workerDetail->right_to_work = false;
+        }
+
+        if ($request->has_tfn) {
+
+            $user->workerDetail->has_tfn = true;
+
+        } else {
+
+            $user->workerDetail->has_tfn = false;
+        }
+
+        if ($request->has_abn) {
+
+            $user->workerDetail->has_abn = true;
+
+        } else {
+
+            $user->workerDetail->has_abn = false;
+        }
+
+        if ($request->can_spoke_english) {
+
+            $user->workerDetail->english_skill = true;
+
+        } else {
+
+            $user->workerDetail->english_skill = false;
+        }
+
+        if ($request->has_drivers_license) {
+
+            $user->workerDetail->drivers_license = true;
+
+        } else {
+
+            $user->workerDetail->drivers_license = false;
+        }
+
+        if ($request->has_registered_vehicle) {
+
+            $user->workerDetail->has_registered_vehicle = true;
+
+        } else {
+
+            $user->workerDetail->has_registered_vehicle = false;
+        }
+
+        $user->workerDetail->save();
+
+        return true;
+    }
+
 }

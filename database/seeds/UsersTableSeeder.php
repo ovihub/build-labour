@@ -1,11 +1,15 @@
 <?php
 
 use App\Models\Companies\Job;
+use App\Models\Options\BusinessType;
+use App\Models\Options\Tier;
 use App\Models\Users\Education;
 use App\Models\Tickets\Ticket;
 use App\Models\Users\UserSkill;
 use App\Models\Users\UserTicket;
+use App\Models\Users\WorkerArea;
 use App\Models\Users\WorkerDetail;
+use App\Models\Users\WorkerTier;
 use App\Models\Users\WorkExperience;
 use App\Models\Users\WorkExperienceResponsibility;
 use App\User;
@@ -153,7 +157,7 @@ class UsersTableSeeder extends Seeder
                 'user_id' => $user->id
             ]);
 
-            WorkerDetail::create([
+            $worker = WorkerDetail::create([
                 'profile_description' => 'Experienced Senior Project Manager; demonstrated history of working on a wide range of construction projects for leading companies.',
                 'english_skill' => true,
                 'drivers_license' => true,
@@ -324,6 +328,37 @@ class UsersTableSeeder extends Seeder
                 'user_id' => $user->id,
                 'skill_id' => 5,
                 'level_id' => 2
+            ]);
+
+            // worker areas
+
+            $residential = BusinessType::where('business_type', 'Residential')->first();
+
+            $commercial = BusinessType::where('business_type', 'Commercial')->first();
+
+            WorkerArea::insert([
+                'worker_id' => $worker->id,
+                'business_type_id' => $residential->id
+            ]);
+
+            WorkerArea::insert([
+                'worker_id' => $worker->id,
+                'business_type_id' => $commercial->id
+            ]);
+
+            // worker tiers
+
+            $tier1 = Tier::where('tier_name', 'Tier 1')->first();
+            $tier2 = Tier::where('tier_name', 'Tier 2')->first();
+
+            WorkerTier::insert([
+                'worker_id' => $worker->id,
+                'tier_id' => $tier1->id
+            ]);
+
+            WorkerTier::insert([
+                'worker_id' => $worker->id,
+                'tier_id' => $tier2->id
             ]);
         }
     }

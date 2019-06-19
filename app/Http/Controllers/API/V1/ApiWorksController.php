@@ -240,6 +240,286 @@ class ApiWorksController extends ApiBaseController
     }
 
     /**
+     * @OA\Post(
+     *      path="/worker/current-role",
+     *      tags={"Work"},
+     *      summary="Step 1: Current Role",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *             mediaType="application/json",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="job_role",
+     *                      description="<b>Required</b> Job Role",
+     *                      type="string",
+     *                      example="Developer"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="company_name",
+     *                      description="Company",
+     *                      type="string",
+     *                      example="Appetiser"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="start_year",
+     *                      description="<b>Required</b>",
+     *                      type="integer",
+     *                      example="2014"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="start_month",
+     *                      description="<b>Required</b> Start Month",
+     *                      type="integer",
+     *                      example="11"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="isCurrent",
+     *                      description="Current Role for employment history",
+     *                      type="boolean",
+     *                      example=true
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function updateCurrentRole( Request $request )
+    {
+
+        try {
+
+            $workerRepo = new WorkerRepository();
+
+            if( ! $work_experience = $workerRepo->updateCurrentRole($request) ){
+
+                return $this->apiErrorResponse(
+                    false,
+                    $workerRepo->workExp->getErrors( true ),
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    $workerRepo->workExp->getErrorsDetail()
+                );
+            }
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+
+        return $this->apiSuccessResponse( compact( 'work_experience' ), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/worker/sectors",
+     *      tags={"Work"},
+     *      summary="Step 2: Areas and Tiers",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *             mediaType="application/json",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="business_types",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="integer",
+     *                          example=1
+     *                      ),
+     *                  ),
+     *                  @OA\Property(
+     *                      property="tiers",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="integer",
+     *                          example=1
+     *                      ),
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function updateSectors( Request $request )
+    {
+
+        try {
+
+            $workerRepo = new WorkerRepository();
+
+            if( ! $result = $workerRepo->updateSectors($request) ){
+
+                return $this->apiErrorResponse(
+                    false,
+                    $workerRepo->workExp->getErrors( true ),
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    $workerRepo->workExp->getErrorsDetail()
+                );
+            }
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+
+        return $this->apiSuccessResponse( compact( 'result' ), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/worker/affirmations",
+     *      tags={"Work"},
+     *      summary="Step 3: Yes or No",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *             mediaType="application/json",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="right_to_work",
+     *                      type="boolean",
+     *                      example=true
+     *                  ),
+     *                  @OA\Property(
+     *                      property="has_tfn",
+     *                      type="boolean",
+     *                      example=false
+     *                  ),
+     *                  @OA\Property(
+     *                      property="has_abn",
+     *                      type="boolean",
+     *                      example=true
+     *                  ),
+     *                  @OA\Property(
+     *                      property="can_spoke_english",
+     *                      type="boolean",
+     *                      example=false
+     *                  ),
+     *                  @OA\Property(
+     *                      property="has_drivers_license",
+     *                      type="boolean",
+     *                      example=false
+     *                  ),
+     *                  @OA\Property(
+     *                      property="has_registered_vehicle",
+     *                      type="boolean",
+     *                      example=true
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function updateAffirmations( Request $request )
+    {
+
+        try {
+
+            $workerRepo = new WorkerRepository();
+
+            if( ! $result = $workerRepo->updateAffirmations($request) ){
+
+                return $this->apiErrorResponse(
+                    false,
+                    $workerRepo->workExp->getErrors( true ),
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    $workerRepo->workExp->getErrorsDetail()
+                );
+            }
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+
+        return $this->apiSuccessResponse( compact( 'result' ), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
      * @OA\Delete(
      *      path="/work/experience/{id}",
      *      tags={"Work"},
