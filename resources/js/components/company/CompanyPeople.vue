@@ -11,10 +11,10 @@
                         :initials="getInitials(employee.full_name)" v-else>
                     </avatar>
 
-                    <div class="bl-label-16">
+                    <div class="bl-label-16 bl-ellipsis">
                         {{ employee.full_name }}
                     </div>
-                    <div class="bl-label-14">
+                    <div class="bl-label-14 bl-ellipsis">
                         {{ employee.job_role }}
                     </div>
                 </div>

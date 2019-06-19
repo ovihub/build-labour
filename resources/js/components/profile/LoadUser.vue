@@ -30,6 +30,7 @@
                 industry_skills: [],
                 endpoints: {
                     get: '/api/v1/auth/user',
+                    get_user: '/api/v1/worker/view/'
                 },
             }
         },
@@ -43,8 +44,7 @@
 
         computed: {
             endpointGet() {
-                // return this.userId ? this.endpoints.get_user + this.userId : this.endpoints.get;
-                return this.endpoints.get;
+                return this.userId ? this.endpoints.get_user + this.userId : this.endpoints.get;
             }
         },
 

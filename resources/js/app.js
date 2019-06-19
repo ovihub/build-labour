@@ -51,6 +51,7 @@ Vue.component('admin-login', require('./components/admin/Login.vue').default);
 // Common components
 Vue.component('alert', require('./components/common/Alert.vue').default);
 Vue.component('avatar', require('./components/common/Avatar.vue').default);
+Vue.component('edit-icon', require('./components/common/EditIcon.vue').default);
 Vue.component('main-modal', require('./components/common/MainModal.vue').default);
 Vue.component('photo-modal', require('./components/common/PhotoModal.vue').default);
 Vue.component('delete-modal', require('./components/common/DeleteModal.vue').default);

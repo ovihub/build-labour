@@ -17,16 +17,10 @@
             </span>
             
             <div v-for="(education, idx) in educations" :key="idx">
-                <span class="edit-icon edit-icon-3"
-                    data-toggle="modal"
-                    data-backdrop="static"
-                    data-keyboard="false"
-                    data-target="#modalEducation"
-                    @click="action(idx)">
-
-                    <img src="/img/icons/editbutton.png"
-                        srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
-                </span>
+                <div @click="action(idx)">
+                    <edit-icon cls="edit-icon edit-icon-3" data-target="#modalEducation"></edit-icon>
+                </div>
+                
                 <div class="jobads-row mt-4">
                     <div class="bl-col-1">
                         <img class="bl-image-56" src="/img/logo/1.jpg">

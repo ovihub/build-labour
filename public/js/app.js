@@ -4869,6 +4869,54 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/EditIcon.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/EditIcon.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      editable: false
+    };
+  },
+  props: {
+    cls: {
+      type: String,
+      required: true
+    },
+    dataTarget: {
+      type: String,
+      required: true
+    }
+  },
+  created: function created() {
+    if (!parseInt(window.location.pathname.split('/').pop(), 10)) {
+      this.editable = true;
+    }
+  },
+  methods: {}
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/JobAds.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/JobAds.vue?vue&type=script&lang=js& ***!
@@ -7688,9 +7736,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -7888,12 +7933,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -8207,12 +8246,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -9018,9 +9051,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -9187,14 +9217,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -9526,7 +9548,8 @@ __webpack_require__.r(__webpack_exports__);
       tickets: [],
       industry_skills: [],
       endpoints: {
-        get: '/api/v1/auth/user'
+        get: '/api/v1/auth/user',
+        get_user: '/api/v1/worker/view/'
       }
     };
   },
@@ -9538,8 +9561,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     endpointGet: function endpointGet() {
-      // return this.userId ? this.endpoints.get_user + this.userId : this.endpoints.get;
-      return this.endpoints.get;
+      return this.userId ? this.endpoints.get_user + this.userId : this.endpoints.get;
     }
   },
   created: function created() {
@@ -9612,14 +9634,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -10060,17 +10074,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      editable: false,
       disabled: false,
       time_out: false,
       educations: [],
@@ -10160,6 +10168,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     Bus.$on('closePhotoModal', function () {
       $('#upload').val('');
     });
+
+    if (!parseInt(window.location.pathname.split('/').pop(), 10)) {
+      this.editable = true;
+    }
   },
   methods: {
     getInitials: function getInitials(name) {
@@ -10199,7 +10211,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return Utils.formatPeriod(new Date(sy, sm - 1, 1), endDate);
     },
     onClickProfilePhoto: function onClickProfilePhoto() {
-      upload.click();
+      if (this.editable) {
+        upload.click();
+      }
     },
     onFileChange: function onFileChange(e) {
       var files = e.target.files || e.dataTransfer.files;
@@ -54795,6 +54809,55 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/EditIcon.vue?vue&type=template&id=61ec5328&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/EditIcon.vue?vue&type=template&id=61ec5328& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.editable
+    ? _c(
+        "span",
+        {
+          class: _vm.cls,
+          attrs: {
+            "data-toggle": "modal",
+            "data-backdrop": "static",
+            "data-keyboard": "false",
+            "data-target": _vm.dataTarget
+          }
+        },
+        [
+          _c("img", {
+            attrs: {
+              src: "/img/icons/editbutton.png",
+              srcset:
+                "/img/icons/editbutton@2x.png" +
+                " 2x, " +
+                "/img/icons/editbutton@3x.png" +
+                " 3x"
+            }
+          })
+        ]
+      )
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/JobAds.vue?vue&type=template&id=4d82ecbc&":
 /*!****************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/JobAds.vue?vue&type=template&id=4d82ecbc& ***!
@@ -55637,7 +55700,7 @@ var render = function() {
                         }
                       }),
                   _vm._v(" "),
-                  _c("div", { staticClass: "bl-label-16" }, [
+                  _c("div", { staticClass: "bl-label-16 bl-ellipsis" }, [
                     _vm._v(
                       "\n                    " +
                         _vm._s(employee.full_name) +
@@ -55645,7 +55708,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "bl-label-14" }, [
+                  _c("div", { staticClass: "bl-label-14 bl-ellipsis" }, [
                     _vm._v(
                       "\n                    " +
                         _vm._s(employee.job_role) +
@@ -58598,7 +58661,9 @@ var render = function() {
             2
           ),
           _vm._v(" "),
-          _vm._m(0),
+          _c("edit-icon", {
+            attrs: { cls: "edit-icon", "data-target": "#modalAboutMe" }
+          }),
           _vm._v(" "),
           _c("div", { staticClass: "profile-title" }, [_vm._v("About Me")]),
           _vm._v(" "),
@@ -58661,37 +58726,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "span",
-      {
-        staticClass: "edit-icon",
-        attrs: {
-          "data-toggle": "modal",
-          "data-backdrop": "static",
-          "data-keyboard": "false",
-          "data-target": "#modalAboutMe"
-        }
-      },
-      [
-        _c("img", {
-          attrs: {
-            src: "/img/icons/editbutton.png",
-            srcset:
-              "/img/icons/editbutton@2x.png" +
-              " 2x, " +
-              "/img/icons/editbutton@3x.png" +
-              " 3x"
-          }
-        })
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -58755,15 +58790,8 @@ var render = function() {
         _vm._l(_vm.educations, function(education, idx) {
           return _c("div", { key: idx }, [
             _c(
-              "span",
+              "div",
               {
-                staticClass: "edit-icon edit-icon-3",
-                attrs: {
-                  "data-toggle": "modal",
-                  "data-backdrop": "static",
-                  "data-keyboard": "false",
-                  "data-target": "#modalEducation"
-                },
                 on: {
                   click: function($event) {
                     return _vm.action(idx)
@@ -58771,17 +58799,14 @@ var render = function() {
                 }
               },
               [
-                _c("img", {
+                _c("edit-icon", {
                   attrs: {
-                    src: "/img/icons/editbutton.png",
-                    srcset:
-                      "/img/icons/editbutton@2x.png" +
-                      " 2x, " +
-                      "/img/icons/editbutton@3x.png" +
-                      " 3x"
+                    cls: "edit-icon edit-icon-3",
+                    "data-target": "#modalEducation"
                   }
                 })
-              ]
+              ],
+              1
             ),
             _vm._v(" "),
             _c("div", { staticClass: "jobads-row mt-4" }, [
@@ -59331,15 +59356,8 @@ var render = function() {
               _vm._l(_vm.employments, function(employment, index) {
                 return _c("li", { key: index, staticClass: "main-items" }, [
                   _c(
-                    "span",
+                    "div",
                     {
-                      staticClass: "edit-icon edit-icon-3",
-                      attrs: {
-                        "data-toggle": "modal",
-                        "data-backdrop": "static",
-                        "data-keyboard": "false",
-                        "data-target": "#modalEmployment"
-                      },
                       on: {
                         click: function($event) {
                           return _vm.action(index)
@@ -59347,17 +59365,14 @@ var render = function() {
                       }
                     },
                     [
-                      _c("img", {
+                      _c("edit-icon", {
                         attrs: {
-                          src: "/img/icons/editbutton.png",
-                          srcset:
-                            "/img/icons/editbutton@2x.png" +
-                            " 2x, " +
-                            "/img/icons/editbutton@3x.png" +
-                            " 3x"
+                          cls: "edit-icon edit-icon-3",
+                          "data-target": "#modalEmployment"
                         }
                       })
-                    ]
+                    ],
+                    1
                   ),
                   _vm._v(" "),
                   _c("span", { staticClass: "text-icon-2" }, [
@@ -60777,7 +60792,9 @@ var render = function() {
             2
           ),
           _vm._v(" "),
-          _vm._m(0),
+          _c("edit-icon", {
+            attrs: { cls: "edit-icon", "data-target": "#modalIdealRole" }
+          }),
           _vm._v(" "),
           _c("div", { staticClass: "profile-title" }, [
             _vm._v("Your Ideal Next Role")
@@ -60878,37 +60895,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "span",
-      {
-        staticClass: "edit-icon",
-        attrs: {
-          "data-toggle": "modal",
-          "data-backdrop": "static",
-          "data-keyboard": "false",
-          "data-target": "#modalIdealRole"
-        }
-      },
-      [
-        _c("img", {
-          attrs: {
-            src: "/img/icons/editbutton.png",
-            srcset:
-              "/img/icons/editbutton@2x.png" +
-              " 2x, " +
-              "/img/icons/editbutton@3x.png" +
-              " 3x"
-          }
-        })
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -61187,9 +61174,11 @@ var render = function() {
           2
         ),
         _vm._v(" "),
-        _vm._m(0),
+        _c("edit-icon", {
+          attrs: { cls: "edit-icon", "data-target": "#modalIndustrySkill" }
+        }),
         _vm._v(" "),
-        _vm._m(1),
+        _vm._m(0),
         _vm._v(" "),
         !_vm.is_empty
           ? _c(
@@ -61269,35 +61258,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "span",
-      {
-        staticClass: "edit-icon",
-        attrs: {
-          "data-toggle": "modal",
-          "data-backdrop": "static",
-          "data-keyboard": "false",
-          "data-target": "#modalIndustrySkill"
-        }
-      },
-      [
-        _c("img", {
-          attrs: {
-            src: "/img/icons/editbutton.png",
-            srcset:
-              "/img/icons/editbutton@2x.png" +
-              " 2x, " +
-              "/img/icons/editbutton@3x.png" +
-              " 3x"
-          }
-        })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "profile-title" }, [
       _c("img", {
         attrs: {
@@ -61365,9 +61325,11 @@ var render = function() {
       [
         _c("tickets-modal"),
         _vm._v(" "),
-        _vm._m(0),
+        _c("edit-icon", {
+          attrs: { cls: "edit-icon", "data-target": "#modalTickets" }
+        }),
         _vm._v(" "),
-        _vm._m(1),
+        _vm._m(0),
         _vm._v(" "),
         _c(
           "div",
@@ -61429,35 +61391,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "span",
-      {
-        staticClass: "edit-icon",
-        attrs: {
-          "data-toggle": "modal",
-          "data-backdrop": "static",
-          "data-keyboard": "false",
-          "data-target": "#modalTickets"
-        }
-      },
-      [
-        _c("img", {
-          attrs: {
-            src: "/img/icons/editbutton.png",
-            srcset:
-              "/img/icons/editbutton@2x.png" +
-              " 2x, " +
-              "/img/icons/editbutton@3x.png" +
-              " 3x"
-          }
-        })
-      ]
-    )
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -62010,29 +61943,17 @@ var render = function() {
         ),
         _vm._v(" "),
         _c(
-          "span",
-          {
-            staticClass: "edit-icon edit-icon-2",
-            attrs: {
-              "data-toggle": "modal",
-              "data-backdrop": "static",
-              "data-keyboard": "false",
-              "data-target": "#modalUserProfile"
-            },
-            on: { click: _vm.open }
-          },
+          "div",
+          { on: { click: _vm.open } },
           [
-            _c("img", {
+            _c("edit-icon", {
               attrs: {
-                src: "/img/icons/editbutton.png",
-                srcset:
-                  "/img/icons/editbutton@2x.png" +
-                  " 2x, " +
-                  "/img/icons/editbutton@3x.png" +
-                  " 3x"
+                cls: "edit-icon edit-icon-2",
+                "data-target": "#modalUserProfile"
               }
             })
-          ]
+          ],
+          1
         ),
         _vm._v(" "),
         _c("input", {
@@ -74884,6 +74805,7 @@ Vue.component('admin-login', __webpack_require__(/*! ./components/admin/Login.vu
 
 Vue.component('alert', __webpack_require__(/*! ./components/common/Alert.vue */ "./resources/js/components/common/Alert.vue").default);
 Vue.component('avatar', __webpack_require__(/*! ./components/common/Avatar.vue */ "./resources/js/components/common/Avatar.vue").default);
+Vue.component('edit-icon', __webpack_require__(/*! ./components/common/EditIcon.vue */ "./resources/js/components/common/EditIcon.vue").default);
 Vue.component('main-modal', __webpack_require__(/*! ./components/common/MainModal.vue */ "./resources/js/components/common/MainModal.vue").default);
 Vue.component('photo-modal', __webpack_require__(/*! ./components/common/PhotoModal.vue */ "./resources/js/components/common/PhotoModal.vue").default);
 Vue.component('delete-modal', __webpack_require__(/*! ./components/common/DeleteModal.vue */ "./resources/js/components/common/DeleteModal.vue").default);
@@ -76255,6 +76177,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteModal_vue_vue_type_template_id_604367ee_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteModal_vue_vue_type_template_id_604367ee_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/common/EditIcon.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/common/EditIcon.vue ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EditIcon_vue_vue_type_template_id_61ec5328___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditIcon.vue?vue&type=template&id=61ec5328& */ "./resources/js/components/common/EditIcon.vue?vue&type=template&id=61ec5328&");
+/* harmony import */ var _EditIcon_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditIcon.vue?vue&type=script&lang=js& */ "./resources/js/components/common/EditIcon.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EditIcon_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EditIcon_vue_vue_type_template_id_61ec5328___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EditIcon_vue_vue_type_template_id_61ec5328___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/common/EditIcon.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/common/EditIcon.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/common/EditIcon.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditIcon_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./EditIcon.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/EditIcon.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditIcon_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/common/EditIcon.vue?vue&type=template&id=61ec5328&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/common/EditIcon.vue?vue&type=template&id=61ec5328& ***!
+  \************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditIcon_vue_vue_type_template_id_61ec5328___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./EditIcon.vue?vue&type=template&id=61ec5328& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/EditIcon.vue?vue&type=template&id=61ec5328&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditIcon_vue_vue_type_template_id_61ec5328___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditIcon_vue_vue_type_template_id_61ec5328___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

@@ -10720,6 +10720,13 @@ a.text-dark:focus {
   color: #000000;
 }
 
+.bl-ellipsis {
+  height: 24px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .bl-label-17 {
   font-size: 17px;
   color: #484c4e;

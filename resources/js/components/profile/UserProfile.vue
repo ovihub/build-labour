@@ -65,16 +65,9 @@
 
             </main-modal>
             
-            <span class="edit-icon edit-icon-2"
-                data-toggle="modal"
-                data-backdrop="static"
-                data-keyboard="false"
-                data-target="#modalUserProfile"
-                @click="open">
-
-                <img src="/img/icons/editbutton.png"
-                    srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
-            </span>
+            <div @click="open">
+                <edit-icon cls="edit-icon edit-icon-2" data-target="#modalUserProfile"></edit-icon>
+            </div>
 
             <input type="file" id="upload" value="Choose a file" accept="image/*" style="display:none" @change="onFileChange" />
             
@@ -150,6 +143,7 @@
     export default {
         data() {
             return {
+                editable: false,
                 disabled: false,
                 time_out: false,
                 educations: [],
@@ -238,6 +232,10 @@
             Bus.$on('closePhotoModal', function() {
                 $('#upload').val('');
             });
+
+            if (! parseInt(window.location.pathname.split('/').pop(), 10)) {
+                this.editable = true;
+            }
         },
 
         methods: {
@@ -284,7 +282,9 @@
             },
             
             onClickProfilePhoto() {
-                upload.click();
+                if (this.editable) {
+                    upload.click();
+                }
             },
 
             onFileChange(e) {
