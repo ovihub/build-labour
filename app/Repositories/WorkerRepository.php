@@ -334,7 +334,6 @@ class WorkerRepository extends AbstractRepository
             return false;
         }
 
-        $profile_photo_url = ($user->profile_photo_url == null) ? '/img/defaults/user.png' : $user->profile_photo_url;
 
         $exp = null;
         $jobRole = '';
@@ -349,13 +348,9 @@ class WorkerRepository extends AbstractRepository
             $jobRole = $exp->job_role;
         }
 
+        $user->job_role = $jobRole;
 
-        return [
-            'id' => $user->id,
-            'full_name' => $user->first_name . ' ' . $user->last_name,
-            'profile_photo_url' => $profile_photo_url,
-            'job_role' => $jobRole
-        ];
+        return $user;
     }
 
 }
