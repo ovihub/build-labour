@@ -3,6 +3,8 @@
 namespace App\Models\Users;
 
 use App\Models\BaseModel;
+use App\Models\Options\BusinessType;
+use App\Models\Options\Tier;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -84,9 +86,41 @@ class WorkerDetail extends BaseModel
         return $this->belongsTo(Education::class, 'education_id', 'id');
     }
 
+    /**
+     * Return a collection relates to Tickets
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function Areas() {
+
+        return $this->belongsToMany(BusinessType::class, 'worker_areas', 'worker_id', 'business_type_id');
+    }
+
+    /**
+     * Return a collection relates to Tickets
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function Tiers() {
+
+        return $this->belongsToMany(Tier::class, 'worker_tiers', 'worker_id', 'tier_id');
+    }
+
     public function setUserId($userId) {
 
         $this->userId = $userId;
+    }
+
+    public function getLatestExperience() {
+
+        $exp = $this->user->experiences->where('isCurrent', true)->first();
+
+        if (!$exp) {
+
+            $expId = $this->user->experiences->max('id');
+
+            $exp = WorkExperience::find($expId);
+        }
+
+        return $exp;
     }
 
     public function store(Request $r) {

@@ -59,6 +59,12 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
     Route::prefix('worker')->group(function () {
         Route::middleware([ 'jwt' ])->group(function () {
 
+            Route::post('current-role', 'ApiWorksController@updateCurrentRole'); // onboarding worker step 1
+
+            Route::post('sectors', 'ApiWorksController@updateSectors'); // onboarding worker step 2
+
+            Route::post('affirmations', 'ApiWorksController@updateAffirmations'); // onboarding worker step 7
+
             Route::post('next-role', 'ApiWorkerController@updateNextRole');
             Route::delete('next-role', 'ApiWorkerController@deleteNextRole');
 
@@ -73,6 +79,8 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             Route::get('experiences', 'ApiWorkerController@experiences');
             Route::get('educations', 'ApiWorkerController@educations');
             Route::get('skill-options', 'ApiWorkerController@skillOptions');
+
+            Route::get('view/{userid}', 'ApiWorkerController@getWorker');
         });
     });
 

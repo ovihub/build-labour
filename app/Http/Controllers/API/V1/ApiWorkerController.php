@@ -524,4 +524,71 @@ class ApiWorkerController extends ApiBaseController
         $levels = Level::all();
         return $this->apiSuccessResponse( compact('skills', 'levels'), true, 'Success', self::HTTP_STATUS_REQUEST_OK);
     }
+
+    /**
+     * @OA\Get(
+     *      path="/worker/view/{userid}",
+     *      tags={"Worker"},
+     *      summary="Get user as worker",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Parameter(
+     *          in="path",
+     *          name="userid",
+     *          description="user id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function getWorker( Request $request )
+    {
+        try {
+
+            $worker = $this->workerRepo->getWorker($request);
+
+            if (!$worker) {
+
+                return $this->apiErrorResponse(
+                    false,
+                    'invalid input',
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput'
+                );
+            }
+
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( compact( 'worker' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+    }
 }
