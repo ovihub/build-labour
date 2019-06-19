@@ -193,6 +193,10 @@ window.Helper = {
             return years;
         },
 
+        redirectToUserProfile(user_id) {
+            window.location = '/user/profile/' + user_id;
+        },
+
         redirectToCompanyProfile(company_id) {
             window.location = '/company/profile/' + company_id;
         },

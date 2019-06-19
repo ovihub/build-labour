@@ -31,7 +31,7 @@ class UsersController extends Controller
 
         if ($id == null) {
             if ($user->role_id == 1) {
-                return view('users.profile');
+                return view('users.profile')->with('user_id', null);
             
             } else if ($user->role_id == 2) {
                 return view('companies.profile')->with('company_id',
@@ -49,15 +49,15 @@ class UsersController extends Controller
             return view('companies.profile')->with('company_id', $id);
         }
 
-        // if ($page == 'profile') {
-        //     $profile = User::find($id)->first();
+        if ($page == 'profile') {
+            $profile = User::find($id)->first();
 
-        //     if ($user->role_id == 1 && $profile && $profile->id == $id) {
-        //         return redirect('/user/profile');
-        //     }
+            if ($user->role_id == 1 && $profile && $profile->id == $id) {
+                return redirect('/user/profile');
+            }
 
-        //     return view('users.profile')->with('user_id', $id);
-        // }
+            return view('users.profile')->with('user_id', $id);
+        }
     }
 
     public function showVerifyForm(Request $r)

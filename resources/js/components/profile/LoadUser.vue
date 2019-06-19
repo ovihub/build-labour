@@ -34,6 +34,20 @@
             }
         },
 
+        props: {
+            userId: {
+                type: String,
+                required: false
+            },
+        },
+
+        computed: {
+            endpointGet() {
+                // return this.userId ? this.endpoints.get_user + this.userId : this.endpoints.get;
+                return this.endpoints.get;
+            }
+        },
+
         created() {
             this.getUser();
         },
@@ -43,7 +57,7 @@
             getUser() {
                 let component = this;
 
-                axios.get(component.endpoints.get, Utils.getBearerAuth())
+                axios.get(component.endpointGet, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         let user = response.data.data.user;

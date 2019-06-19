@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row justify-content-center">
-        <load-user></load-user>
+        <load-user user-id="{{ $user_id }}"></load-user>
         <div class="col-md-3">
             <user-profile></user-profile>
             <about-me></about-me>
