@@ -27,7 +27,7 @@ class Education extends BaseModel
     private function rules()
     {
         return [
-            'course'        => 'required|min:5',
+            'course_name'   => 'nullable|min:5',
             'school'        => 'required|min:5',
             'start_month'   => 'required|integer',
             'start_year'    => 'required|integer',
@@ -120,6 +120,7 @@ class Education extends BaseModel
     public function store(Request $r) {
 
         $data = $r->all();
+
         $data['user_id'] = $this->userId;
 
         if( ! $this->validate( $data )) {
@@ -139,6 +140,12 @@ class Education extends BaseModel
 
             $data['created_at'] = Carbon::now();
             $data['updated_at'] = Carbon::now();
+        }
+
+
+        if (isset($data['course_name'])) {
+
+            $data['course'] = $data['course_name'];
         }
 
         if (!empty($data['course_id'])) {
