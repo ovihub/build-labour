@@ -36,7 +36,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             Route::delete('photo', 'ApiUsersController@deleteProfilePhoto');
 
             Route::prefix('skills')->group(function() {
-                Route::post('/', 'ApiUserSkillsController@update');
+                Route::post('/', 'ApiUserSkillsController@update'); // onboarding step 5
                 Route::delete('', 'ApiUserSkillsController@deleteMainSkills');
             });
 
@@ -59,14 +59,22 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
     Route::prefix('worker')->group(function () {
         Route::middleware([ 'jwt' ])->group(function () {
 
-            Route::post('next-role', 'ApiWorkerController@updateNextRole');
+            Route::post('current-role', 'ApiWorksController@updateCurrentRole'); // onboarding worker step 1
+
+            Route::post('sectors', 'ApiWorksController@updateSectors'); // onboarding worker step 2
+
+            Route::post('affirmations', 'ApiWorksController@updateAffirmations'); // onboarding worker step 7
+
+            Route::post('next-role', 'ApiWorkerController@updateNextRole'); // onboarding worker step 6
             Route::delete('next-role', 'ApiWorkerController@deleteNextRole');
 
             Route::post('about-me', 'ApiWorkerController@updateNextRole');
             Route::delete('about-me', 'ApiWorkerController@deleteAboutMe');
 
             Route::get('tickets', 'ApiUserTicketsController@tickets');
-            Route::post('tickets', 'ApiUserTicketsController@updateTickets');
+            Route::post('tickets', 'ApiUserTicketsController@updateTickets'); // onboarding step 4
+
+            Route::post('personal-details', 'ApiWorkerController@updatePersonalDetails'); // onboarding step 8
 
             Route::post('optional', 'ApiWorkerController@updateOptional');
             Route::post('introduction', 'ApiWorkerController@updateIntroduction');

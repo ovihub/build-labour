@@ -24,7 +24,7 @@ class ApiUserSkillsController extends ApiBaseController
      * @OA\POST(
      *      path="/user/skills",
      *      tags={"Worker"},
-     *      summary="Update worker main skill and skills",
+     *      summary="Update worker main skill and skills or Step 5",
      *      security={{"BearerAuth":{}}},
      *      @OA\Parameter(
      *          in="path",

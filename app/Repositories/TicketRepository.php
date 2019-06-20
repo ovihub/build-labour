@@ -57,7 +57,13 @@ class TicketRepository extends AbstractRepository
             UserTicket::where('user_id', $user->id)->delete();
         }
 
-        if ($user && $request->tickets) {
+        if (isset($request->has_whitecard)) {
+
+            $user->workerDetail->has_whitecard = $request->has_whitecard;
+            $user->workerDetail->save();
+        }
+
+        if ($request->tickets) {
 
             UserTicket::where('user_id', $user->id)->delete();
 

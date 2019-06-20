@@ -109,6 +109,8 @@ class CompanyRepository extends AbstractRepository
 
         if ($company) {
 
+            $workers = $company->workers;
+            
             return $company->workers;
         }
 
