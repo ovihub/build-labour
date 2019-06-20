@@ -68,7 +68,11 @@
         },
 
         created() {
-            
+            let component = this;
+
+            Bus.$on('onboardingSubmitEmploymentHistory', function() {
+                Api.submit(component.endpoints.save, component.$data.input);
+            });
         },
 
         methods: {
@@ -77,27 +81,6 @@
                 Bus.$emit('showEmployment', index, null);
             },
 
-            async submit() {
-                let component = this;
-
-                Utils.setObjectValues(this.errors, '');
-
-                this.disabled = true;
-
-                await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
-
-                    .then(function(response) {
-                        let data = response.data;
-
-                        Bus.$emit('alertSuccess', data.message);
-                    })
-                    .catch(function(error) {
-
-                        Utils.handleError(error);
-                    });
-
-                this.disabled = false;
-            },
         }
     }
 </script>

@@ -7766,15 +7766,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
@@ -7853,48 +7845,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     };
   },
-  created: function created() {},
+  created: function created() {
+    var component = this;
+    Bus.$on('onboardingSubmitEmploymentHistory', function () {
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
+    });
+  },
   methods: {
     action: function action(index) {
       Bus.$emit('showEmployment', index, null);
-    },
-    submit: function () {
-      var _submit = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var component;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                component = this;
-                Utils.setObjectValues(this.errors, '');
-                this.disabled = true;
-                _context.next = 5;
-                return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
-                  var data = response.data;
-                  Bus.$emit('alertSuccess', data.message);
-                }).catch(function (error) {
-                  Utils.handleError(error);
-                });
-
-              case 5:
-                this.disabled = false;
-
-              case 6:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function submit() {
-        return _submit.apply(this, arguments);
-      }
-
-      return submit;
-    }()
+    }
   }
 });
 
@@ -7968,6 +7928,7 @@ __webpack_require__.r(__webpack_exports__);
       currentSection: '',
       subHeaders: ['Starting your profile', 'Employment History', 'Education', 'Tickets', 'Main Industry Skills & Achievements', 'Work Preferences', 'Work Information', 'Personal Details'],
       nextButtons: ['To Employment History', 'To Education', 'To Tickets', 'To Industry Skills', 'To Work Preferences', 'To Work Information', 'To Personal Details', 'Complete Profile'],
+      submitForms: ['CurrentRole', 'EmploymentHistory', 'Education', 'Tickets', 'IndustrySkills', 'WorkPreferences', 'WorkInformation', 'PersonalDetails', 'Complete Profile'],
       endpoints: {}
     };
   },
@@ -7998,9 +7959,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     next: function next() {
+      Bus.$emit('alertHide');
       this.goToStep(this.step + 1);
     },
-    submit: function submit() {},
+    submit: function submit() {
+      Bus.$emit('onboardingSubmit' + this.submitForms[this.step - 1]);
+    },
     setCssVars: function setCssVars() {
       this.$refs['compCardWrapper'].style.setProperty('--x', (this.step * 100 - 100) * -1 + '%');
       this.$refs['compCardWrapper'].style.setProperty('--y', (this.step * 100 - 100) * 0 + '%');
@@ -78249,6 +78213,39 @@ function () {
       }
 
       return _post;
+    }()
+  }, {
+    key: "submit",
+    value: function () {
+      var _submit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(endpoint, input) {
+        var component;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                component = this;
+                _context3.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(endpoint, input, Utils.getBearerAuth()).then(function (response) {
+                  Bus.$emit('alertSuccess', response.data.message);
+                }).catch(function (error) {
+                  Utils.handleError(error);
+                });
+
+              case 3:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function submit(_x4, _x5) {
+        return _submit.apply(this, arguments);
+      }
+
+      return submit;
     }()
   }, {
     key: "getTickets",

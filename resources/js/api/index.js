@@ -135,6 +135,22 @@ class BuildLabourApi {
         return this.getResults;
     }
 
+    async submit(endpoint, input) {
+        
+        let component = this;
+
+        await Axios.post(endpoint, input, Utils.getBearerAuth())
+
+            .then(function(response) {
+                
+                Bus.$emit('alertSuccess', response.data.message);
+            })
+            .catch(function(error) {
+
+                Utils.handleError(error);
+            });
+    }
+
     getTickets(keyword) {
         return this._get(this.endpoints.tickets + '?keyword=' + keyword);
     }

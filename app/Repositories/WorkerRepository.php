@@ -330,8 +330,11 @@ class WorkerRepository extends AbstractRepository
         $user = JWTAuth::toUser();
 
         if (!$user->workerDetail) {
-            $this->workerDetail = $user->workerDetail;
+
+            return false;
         }
+
+        $this->workerDetail = $user->workerDetail;
 
         $rules = [
             'country_birth' => 'nullable|min:3',
@@ -409,6 +412,7 @@ class WorkerRepository extends AbstractRepository
         }
 
         return $user;
+
     }
 
 }

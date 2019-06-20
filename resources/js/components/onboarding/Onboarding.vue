@@ -77,6 +77,17 @@
                     'To Personal Details',
                     'Complete Profile'
                 ],
+                submitForms: [
+                    'CurrentRole',
+                    'EmploymentHistory',
+                    'Education',
+                    'Tickets',
+                    'IndustrySkills',
+                    'WorkPreferences',
+                    'WorkInformation',
+                    'PersonalDetails',
+                    'Complete Profile'
+                ],
                 endpoints: {
 
                 },
@@ -118,11 +129,13 @@
         methods: {
 
             next() {
+                Bus.$emit('alertHide');
+
                 this.goToStep(this.step + 1);
             },
 
             submit() {
-
+                Bus.$emit('onboardingSubmit' + this.submitForms[this.step - 1]);
             },
 
             setCssVars() {
