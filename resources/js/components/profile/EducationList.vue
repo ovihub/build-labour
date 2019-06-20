@@ -18,7 +18,7 @@
                 <div class="bl-col-2" style="margin-top:-4px">
                     <div class="bl-display">
                         <span class="bl-label-16 bl-ml15" :ref="'eduCourse-' + idx">
-                            {{ education.course }}
+                            {{ education.course ? education.course.course_name : education.course_name }}
                         </span>
                         <span class="bl-label-15 bl-ml15 mt-0 pt-0" :ref="'eduSchool-' + idx">
                             {{ education.school }}

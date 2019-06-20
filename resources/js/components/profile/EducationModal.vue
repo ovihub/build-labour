@@ -11,10 +11,21 @@
                 <div class="form-group">
                     <div class="emp-row">
                         <div class="modal-form-label">Course</div>
-                        <input class="form-control" type="text" v-model="course" />
-                        <span class="err-msg" v-if="errors.course">
-                            {{ errors.course }}
+                        
+                        <input class="form-control" type="text" v-model="course_name" @keyup="onSearchCourse(course_name)"/>
+
+                        <span class="err-msg" v-if="errors.course_name">
+                            {{ errors.course_name }}
                         </span>
+                    </div>
+
+                    <div class="emp-row" style="margin-top:0" v-if="courses.length > 0">
+                        <ul class="list-group">
+                            <li class="list-group-item" v-for="(course, idx) in courses" :key="idx"
+                                @click="onSelectCourse(course)">
+                                {{ course.course_name }}
+                            </li>
+                        </ul>
                     </div>
 
                     <div class="emp-row">
@@ -23,6 +34,20 @@
                         <span class="err-msg" v-if="errors.school">
                             {{ errors.school }}
                         </span>
+                    </div>
+
+                    <div class="emp-row">
+                        <input id="education_status_2" class="styled-checkbox-round" type="checkbox"
+                            ref="education_status_2" @change="formatEduStatus(0)" />
+                        <label for="education_status_2">Completed Study</label>
+                        
+                        <input id="education_status_1" class="styled-checkbox-round" type="checkbox"
+                            ref="education_status_1" @change="formatEduStatus(1)" />
+                        <label for="education_status_1">Still Studying</label>
+
+                        <input id="education_status_0" class="styled-checkbox-round" type="checkbox"
+                            ref="education_status_0" @change="formatEduStatus(2)" />
+                        <label for="education_status_0">Incomplete</label>
                     </div>
                 </div>
 
@@ -83,6 +108,8 @@
 </template>
 
 <script>
+    import Api from '@/api';
+
     export default {
         data() {
             return {
@@ -90,18 +117,26 @@
                 months: Utils.getMonths(),
                 years: Utils.getYears(),
                 current: -1,
+                courses: [],
                 /**
                  * Save Input
                  */
                 id: '',
-                course: '',
+                course_id: '',
+                course_name: '',
+                education_status: '',
                 school: '',
                 start_month: '',
                 start_year: '',
                 end_month: '',
                 end_year: '',
+                statuses: [
+                    'Completed Study',
+                    'Still Studying',
+                    'Incomplete'
+                ],
                 errors: {
-                    course: '', school: '', start_month: '', start_year: '', end_month: '', end_year: '',
+                    course_name: '', education_status: '', school: '', start_month: '', start_year: '', end_month: '', end_year: '',
                 },
                 endpoints: {
                     save: '/api/v1/user/education',
@@ -123,12 +158,15 @@
 
             setValues(details) {
                 this.id = details ? details.id : '';
-                this.course = details ? details.course : '';
+                this.course_name = details ? details.course_name : '';
+                this.education_status = details ? details.education_status : '';
                 this.school = details ? details.school : '';
                 this.start_month = details ? details.start_month : '';
                 this.start_year = details ? details.start_year : '';
                 this.end_month = details ? details.end_month : '';
                 this.end_year = details ? details.end_year : '';
+
+                this.formatEduStatus(this.statuses.indexOf(this.education_status));
             },
 
             formatPeriod(edu) {
@@ -148,12 +186,58 @@
                 Bus.$emit('deleteEducation', this.current, this.endpoints.delete + this.id);
             },
 
+            onSearchCourse(keyword) {
+                this.course_id = '';
+
+                let component = this;
+
+                Promise.resolve(Api.getCourses(keyword)).then(function(data) {
+                    component.courses = data.data.courses;
+                });
+            },
+
+            onSelectCourse(course) {
+                this.course_id = course.id;
+                this.course_name = course.course_name;
+
+                this.courses = [];
+            },
+
+            formatEduStatus(value) {
+                let refName = 'education_status';
+
+                if (value == 0) {
+                    this.$refs[refName + '_0'].checked = true;
+                    this.$refs[refName + '_1'].checked = false;
+                    this.$refs[refName + '_2'].checked = false;
+
+                } else if (value == 1) {
+                    this.$refs[refName + '_0'].checked = false;
+                    this.$refs[refName + '_1'].checked = true;
+                    this.$refs[refName + '_2'].checked = false;
+
+                } else if (value == 2) {
+                    this.$refs[refName + '_0'].checked = false;
+                    this.$refs[refName + '_1'].checked = false;
+                    this.$refs[refName + '_2'].checked = true;
+                    
+                } else {
+                    this.$refs[refName + '_2'].checked = false;
+                    this.$refs[refName + '_1'].checked = false;
+                    this.$refs[refName + '_0'].checked = false;
+                }
+
+                this.education_status = value ? this.statuses[value] : null;
+            },
+
             async submit() {
                 let component = this;
                 let saveEndpoint = this.id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.id;
 
                 let saveInput = {
-                    course: this.course,
+                    course_id: this.course_id,
+                    course_name: this.course_name,
+                    education_status: this.education_status,
                     school: this.school,
                     start_month: this.start_month,
                     start_year: this.start_year,
@@ -190,3 +274,12 @@
         }
     }
 </script>
+
+<style scoped>
+    .styled-checkbox-round + label {
+        width: 100%;
+        font-size: 15px;
+        color: #383d3f;
+        margin-top: 8px;
+    }
+</style>
