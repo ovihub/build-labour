@@ -329,11 +329,10 @@ class WorkerRepository extends AbstractRepository
 
         $user = User::find($request->userid);
 
-        if (!$user->workerDetail) {
+        if (!$user || !$user->workerDetail) {
 
             return false;
         }
-
 
         $exp = null;
         $jobRole = '';
@@ -349,6 +348,18 @@ class WorkerRepository extends AbstractRepository
         }
 
         $user->job_role = $jobRole;
+
+        $user->experiences;
+        $user->role;
+        $user->skills;
+        $user->educations;
+        $user->workerDetail;
+        $user->tickets;
+
+        if ($user->workerDetail) {
+
+            $user->workerDetail->education;
+        }
 
         return $user;
     }
