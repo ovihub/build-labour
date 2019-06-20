@@ -571,9 +571,9 @@ class ApiWorkerController extends ApiBaseController
     {
         try {
 
-            $worker = $this->workerRepo->getWorker($request);
+            $user = $this->workerRepo->getWorker($request);
 
-            if (!$worker) {
+            if (!$user) {
 
                 return $this->apiErrorResponse(
                     false,
@@ -589,6 +589,6 @@ class ApiWorkerController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'worker' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'user' ), true, '', self::HTTP_STATUS_REQUEST_OK);
     }
 }
