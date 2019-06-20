@@ -9187,7 +9187,7 @@ __webpack_require__.r(__webpack_exports__);
         component.educations.push(details);
       } else {
         component.educations[index] = details;
-        component.$refs['eduCourse-' + index][0].textContent = details.course;
+        component.$refs['eduCourse-' + index][0].textContent = details.course ? details.course.course_name : details.course_name;
         component.$refs['eduSchool-' + index][0].textContent = details.school;
         component.$refs['eduPeriod-' + index][0].textContent = component.formatPeriod(details);
       }
@@ -9198,6 +9198,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     formatPeriod: function formatPeriod(edu) {
+      if (!edu.end_month || !edu.end_year) {
+        return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - Present (Currently Studying)';
+      }
+
       return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
     },
     action: function action(index) {
@@ -9388,8 +9392,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.school = details ? details.school : '';
       this.start_month = details ? details.start_month : '';
       this.start_year = details ? details.start_year : '';
-      this.end_month = details ? details.end_month : '';
-      this.end_year = details ? details.end_year : '';
+      this.end_month = details && details.education_status != this.statuses[1] ? details.end_month : '';
+      this.end_year = details && details.education_status != this.statuses[1] ? details.end_year : '';
       this.formatEduStatus(this.statuses.indexOf(this.education_status));
     },
     formatPeriod: function formatPeriod(edu) {
@@ -9416,27 +9420,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.courses = [];
     },
     formatEduStatus: function formatEduStatus(value) {
-      var refName = 'education_status';
-
-      if (value == 0) {
-        this.$refs[refName + '_0'].checked = true;
-        this.$refs[refName + '_1'].checked = false;
-        this.$refs[refName + '_2'].checked = false;
-      } else if (value == 1) {
-        this.$refs[refName + '_0'].checked = false;
-        this.$refs[refName + '_1'].checked = true;
-        this.$refs[refName + '_2'].checked = false;
-      } else if (value == 2) {
-        this.$refs[refName + '_0'].checked = false;
-        this.$refs[refName + '_1'].checked = false;
-        this.$refs[refName + '_2'].checked = true;
-      } else {
-        this.$refs[refName + '_2'].checked = false;
-        this.$refs[refName + '_1'].checked = false;
-        this.$refs[refName + '_0'].checked = false;
+      for (var i = 0; i < this.statuses.length; i++) {
+        this.$refs['education_status_' + i].checked = false;
       }
 
-      this.education_status = value ? this.statuses[value] : null;
+      this.$refs['education_status_' + value].checked = true;
+      this.education_status = this.statuses[value];
     },
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -19913,7 +19902,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.styled-checkbox-round + label[data-v-3c5d47b6] {\n    width: 100%;\n    font-size: 15px;\n    color: #383d3f;\n    margin-top: 8px;\n}\n", ""]);
+exports.push([module.i, "\n.styled-checkbox-round + label[data-v-3c5d47b6] {\n    width: 100%;\n    color: #383d3f;\n    margin-top: 8px;\n}\n", ""]);
 
 // exports
 
@@ -62283,9 +62272,9 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "emp-row" }, [
                 _c("input", {
-                  ref: "education_status_2",
+                  ref: "education_status_0",
                   staticClass: "styled-checkbox-round",
-                  attrs: { id: "education_status_2", type: "checkbox" },
+                  attrs: { id: "education_status_0", type: "checkbox" },
                   on: {
                     change: function($event) {
                       return _vm.formatEduStatus(0)
@@ -62293,7 +62282,7 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "education_status_2" } }, [
+                _c("label", { attrs: { for: "education_status_0" } }, [
                   _vm._v("Completed Study")
                 ]),
                 _vm._v(" "),
@@ -62313,9 +62302,9 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("input", {
-                  ref: "education_status_0",
+                  ref: "education_status_2",
                   staticClass: "styled-checkbox-round",
-                  attrs: { id: "education_status_0", type: "checkbox" },
+                  attrs: { id: "education_status_2", type: "checkbox" },
                   on: {
                     change: function($event) {
                       return _vm.formatEduStatus(2)
@@ -62323,7 +62312,7 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "education_status_0" } }, [
+                _c("label", { attrs: { for: "education_status_2" } }, [
                   _vm._v("Incomplete")
                 ])
               ])
@@ -62437,113 +62426,115 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "emp-row" }, [
-              _c("div", { staticClass: "role-col-left" }, [
-                _c("div", { staticClass: "emp-form-label" }, [
-                  _vm._v("End Month")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
+            _vm.education_status != _vm.statuses[1]
+              ? _c("div", { staticClass: "emp-row" }, [
+                  _c("div", { staticClass: "role-col-left" }, [
+                    _c("div", { staticClass: "emp-form-label" }, [
+                      _vm._v("End Month")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
                       {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.end_month,
-                        expression: "end_month"
-                      }
-                    ],
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.end_month = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.months, function(month) {
-                    return _c(
-                      "option",
-                      { key: month.id, domProps: { value: month.id } },
-                      [_vm._v(_vm._s(month.name))]
-                    )
-                  }),
-                  0
-                ),
-                _vm._v(" "),
-                _vm.errors.end_month
-                  ? _c("span", { staticClass: "err-msg" }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(_vm.errors.end_month) +
-                          "\n                    "
-                      )
-                    ])
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "role-col-right" }, [
-                _c("div", { staticClass: "emp-form-label" }, [
-                  _vm._v("End Year")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.end_month,
+                            expression: "end_month"
+                          }
+                        ],
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.end_month = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.months, function(month) {
+                        return _c(
+                          "option",
+                          { key: month.id, domProps: { value: month.id } },
+                          [_vm._v(_vm._s(month.name))]
+                        )
+                      }),
+                      0
+                    ),
+                    _vm._v(" "),
+                    _vm.errors.end_month
+                      ? _c("span", { staticClass: "err-msg" }, [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.errors.end_month) +
+                              "\n                    "
+                          )
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "role-col-right" }, [
+                    _c("div", { staticClass: "emp-form-label" }, [
+                      _vm._v("End Year")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
                       {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.end_year,
-                        expression: "end_year"
-                      }
-                    ],
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.end_year = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.years, function(year, index) {
-                    return _c(
-                      "option",
-                      { key: index, domProps: { value: year } },
-                      [_vm._v(_vm._s(year))]
-                    )
-                  }),
-                  0
-                ),
-                _vm._v(" "),
-                _vm.errors.end_year
-                  ? _c("span", { staticClass: "err-msg" }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(_vm.errors.end_year) +
-                          "\n                    "
-                      )
-                    ])
-                  : _vm._e()
-              ])
-            ])
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.end_year,
+                            expression: "end_year"
+                          }
+                        ],
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.end_year = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.years, function(year, index) {
+                        return _c(
+                          "option",
+                          { key: index, domProps: { value: year } },
+                          [_vm._v(_vm._s(year))]
+                        )
+                      }),
+                      0
+                    ),
+                    _vm._v(" "),
+                    _vm.errors.end_year
+                      ? _c("span", { staticClass: "err-msg" }, [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.errors.end_year) +
+                              "\n                    "
+                          )
+                        ])
+                      : _vm._e()
+                  ])
+                ])
+              : _vm._e()
           ]
         )
       ]),

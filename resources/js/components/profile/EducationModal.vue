@@ -37,17 +37,17 @@
                     </div>
 
                     <div class="emp-row">
-                        <input id="education_status_2" class="styled-checkbox-round" type="checkbox"
-                            ref="education_status_2" @change="formatEduStatus(0)" />
-                        <label for="education_status_2">Completed Study</label>
+                        <input id="education_status_0" class="styled-checkbox-round" type="checkbox"
+                            ref="education_status_0" @change="formatEduStatus(0)" />
+                        <label for="education_status_0">Completed Study</label>
                         
                         <input id="education_status_1" class="styled-checkbox-round" type="checkbox"
                             ref="education_status_1" @change="formatEduStatus(1)" />
                         <label for="education_status_1">Still Studying</label>
 
-                        <input id="education_status_0" class="styled-checkbox-round" type="checkbox"
-                            ref="education_status_0" @change="formatEduStatus(2)" />
-                        <label for="education_status_0">Incomplete</label>
+                        <input id="education_status_2" class="styled-checkbox-round" type="checkbox"
+                            ref="education_status_2" @change="formatEduStatus(2)" />
+                        <label for="education_status_2">Incomplete</label>
                     </div>
                 </div>
 
@@ -71,7 +71,7 @@
                         </span>
                     </div>
                 </div>
-                    <div class="emp-row">
+                <div class="emp-row" v-if="education_status != statuses[1]">
                     <div class="role-col-left">
                         <div class="emp-form-label">End Month</div>
                         <select v-model="end_month">
@@ -163,8 +163,8 @@
                 this.school = details ? details.school : '';
                 this.start_month = details ? details.start_month : '';
                 this.start_year = details ? details.start_year : '';
-                this.end_month = details ? details.end_month : '';
-                this.end_year = details ? details.end_year : '';
+                this.end_month = details && details.education_status != this.statuses[1] ? details.end_month : '';
+                this.end_year = details && details.education_status != this.statuses[1] ? details.end_year : '';
 
                 this.formatEduStatus(this.statuses.indexOf(this.education_status));
             },
@@ -204,30 +204,13 @@
             },
 
             formatEduStatus(value) {
-                let refName = 'education_status';
-
-                if (value == 0) {
-                    this.$refs[refName + '_0'].checked = true;
-                    this.$refs[refName + '_1'].checked = false;
-                    this.$refs[refName + '_2'].checked = false;
-
-                } else if (value == 1) {
-                    this.$refs[refName + '_0'].checked = false;
-                    this.$refs[refName + '_1'].checked = true;
-                    this.$refs[refName + '_2'].checked = false;
-
-                } else if (value == 2) {
-                    this.$refs[refName + '_0'].checked = false;
-                    this.$refs[refName + '_1'].checked = false;
-                    this.$refs[refName + '_2'].checked = true;
-                    
-                } else {
-                    this.$refs[refName + '_2'].checked = false;
-                    this.$refs[refName + '_1'].checked = false;
-                    this.$refs[refName + '_0'].checked = false;
+                for (let i = 0; i < this.statuses.length; i++) {
+                    this.$refs['education_status_' + i].checked = false;    
                 }
 
-                this.education_status = value ? this.statuses[value] : null;
+                this.$refs['education_status_' + value].checked = true;
+
+                this.education_status = this.statuses[value];
             },
 
             async submit() {
@@ -278,7 +261,6 @@
 <style scoped>
     .styled-checkbox-round + label {
         width: 100%;
-        font-size: 15px;
         color: #383d3f;
         margin-top: 8px;
     }

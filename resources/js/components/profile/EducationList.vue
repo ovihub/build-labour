@@ -55,7 +55,7 @@
                 } else {
                     component.educations[index] = details;
 
-                    component.$refs['eduCourse-' + index][0].textContent = details.course;
+                    component.$refs['eduCourse-' + index][0].textContent = details.course ? details.course.course_name : details.course_name;
                     component.$refs['eduSchool-' + index][0].textContent = details.school;
                     component.$refs['eduPeriod-' + index][0].textContent = component.formatPeriod(details);
                 }
@@ -69,6 +69,10 @@
         methods: {
 
             formatPeriod(edu) {
+                if (! edu.end_month || ! edu.end_year) {
+                    return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - Present (Currently Studying)';
+                }
+
                 return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + 
                        Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
             },
