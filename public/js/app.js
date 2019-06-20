@@ -4905,6 +4905,10 @@ __webpack_require__.r(__webpack_exports__);
     dataTarget: {
       type: String,
       required: true
+    },
+    iconName: {
+      type: String,
+      default: 'editbutton'
     }
   },
   created: function created() {
@@ -7978,7 +7982,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -8246,13 +8249,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -54839,12 +54835,13 @@ var render = function() {
         [
           _c("img", {
             attrs: {
-              src: "/img/icons/editbutton.png",
+              src: "/img/icons/" + _vm.iconName + ".png",
               srcset:
-                "/img/icons/editbutton@2x.png" +
-                " 2x, " +
-                "/img/icons/editbutton@3x.png" +
-                " 3x"
+                "/img/icons/" +
+                _vm.iconName +
+                "@2x.png 2x, /img/icons/" +
+                _vm.iconName +
+                "@3x.png 3x"
             }
           })
         ]
@@ -58756,15 +58753,8 @@ var render = function() {
         _c("education-modal"),
         _vm._v(" "),
         _c(
-          "span",
+          "div",
           {
-            staticClass: "add-icon",
-            attrs: {
-              "data-toggle": "modal",
-              "data-backdrop": "static",
-              "data-keyboard": "false",
-              "data-target": "#modalEducation"
-            },
             on: {
               click: function($event) {
                 return _vm.action(-1)
@@ -58772,17 +58762,15 @@ var render = function() {
             }
           },
           [
-            _c("img", {
+            _c("edit-icon", {
               attrs: {
-                src: "/img/icons/plus.png",
-                srcset:
-                  "/img/icons/plus@2x.png" +
-                  " 2x, " +
-                  "/img/icons/plus@3x.png" +
-                  " 3x"
+                cls: "add-icon",
+                "data-target": "#modalEducation",
+                "icon-name": "plus"
               }
             })
-          ]
+          ],
+          1
         ),
         _vm._v(" "),
         _vm._m(0),
@@ -59318,15 +59306,8 @@ var render = function() {
         _c("employment-modal"),
         _vm._v(" "),
         _c(
-          "span",
+          "div",
           {
-            staticClass: "add-icon",
-            attrs: {
-              "data-toggle": "modal",
-              "data-backdrop": "static",
-              "data-keyboard": "false",
-              "data-target": "#modalEmployment"
-            },
             on: {
               click: function($event) {
                 return _vm.action(-1)
@@ -59334,17 +59315,15 @@ var render = function() {
             }
           },
           [
-            _c("img", {
+            _c("edit-icon", {
               attrs: {
-                src: "/img/icons/plus.png",
-                srcset:
-                  "/img/icons/plus@2x.png" +
-                  " 2x, " +
-                  "/img/icons/plus@3x.png" +
-                  " 3x"
+                cls: "add-icon",
+                "data-target": "#modalEmployment",
+                "icon-name": "plus"
               }
             })
-          ]
+          ],
+          1
         ),
         _vm._v(" "),
         _vm._m(0),

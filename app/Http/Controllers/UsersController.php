@@ -50,9 +50,7 @@ class UsersController extends Controller
         }
 
         if ($page == 'profile') {
-            $profile = User::find($id)->first();
-
-            if ($user->role_id == 1 && $profile && $profile->id == $id) {
+            if ($user->role_id == 1 && $user->id == $id) {
                 return redirect('/user/profile');
             }
 
