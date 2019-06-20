@@ -2,6 +2,7 @@
 
 namespace App\Models\Users;
 
+use App\Course;
 use App\Models\BaseModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,8 +15,9 @@ class Education extends BaseModel
     protected $table = 'educations';
     protected $primaryKey = 'id';
 
-    protected $fillable = [ 'course', 'school', 'description', 'start_month', 'start_year', 'end_month', 'end_year', 'user_id' ];
+    protected $fillable = [ 'course', 'school', 'description', 'start_month', 'start_year', 'end_month', 'end_year', 'user_id', 'course_id', 'education_status' ];
 
+    protected $appends = ['course_name'];
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
@@ -29,8 +31,8 @@ class Education extends BaseModel
             'school'        => 'required|min:5',
             'start_month'   => 'required|integer',
             'start_year'    => 'required|integer',
-            'end_month'     => 'required|integer',
-            'end_year'      => 'required|integer',
+            'end_month'     => 'nullable|integer',
+            'end_year'      => 'nullable|integer',
             'user_id'       => 'required|integer'
         ];
     }
@@ -71,6 +73,21 @@ class Education extends BaseModel
             }
         }
 
+        if (isset($data['education_status']) && !empty($data['education_status'])) {
+
+            $status = ['completed study', 'still studying', 'incomplete'];
+
+            if (!in_array(strtolower($data['education_status']), $status)) {
+
+                $validator->errors()->add( 'education_status', 'Education Status must be (Completed Study or Still Studying or Incomplete');
+
+                $this->errors = $validator->errors()->all();
+                $this->errorsDetail = $validator->errors()->toArray();
+
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -79,9 +96,25 @@ class Education extends BaseModel
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function Course () {
+
+        return $this->belongsTo(Course::class, 'course_id', 'id');
+    }
+
     public function setUserId($userId) {
 
         $this->userId = $userId;
+    }
+
+    public function getCourseNameAttribute() {
+
+        if ($this->Course) {
+
+            return $this->Course->course_name;
+        }
+
+
+        return $this->course;
     }
 
     public function store(Request $r) {
@@ -94,7 +127,6 @@ class Education extends BaseModel
             return false;
         }
 
-        $this->fill( $data );
 
         $pk = $this->primaryKey;
 
@@ -108,6 +140,18 @@ class Education extends BaseModel
             $data['created_at'] = Carbon::now();
             $data['updated_at'] = Carbon::now();
         }
+
+        if (!empty($data['course_id'])) {
+
+            $thereAreCourse = Course::where('id', $data['course_id'])->exists();
+
+            if ($thereAreCourse) {
+
+                $data['course'] = NULL;
+            }
+        }
+
+        $this->fill( $data );
 
         try{
 

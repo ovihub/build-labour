@@ -41,7 +41,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             });
 
             Route::prefix('education')->group(function() {
-                Route::post('/', 'ApiUserEducationsController@add');
+                Route::post('/', 'ApiUserEducationsController@add'); // onboarding step 3
                 Route::put('/{id}', 'ApiUserEducationsController@update');
                 Route::post('/{id}', 'ApiUserEducationsController@update');
                 Route::delete('/{id}', 'ApiUserEducationsController@delete');

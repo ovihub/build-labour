@@ -23,7 +23,7 @@ class ApiUserEducationsController extends ApiBaseController
      * @OA\Post(
      *      path="/user/education",
      *      tags={"User Education"},
-     *      summary="Add a user education",
+     *      summary="Add a user education or Step 3",
      *      security={{"BearerAuth":{}}},
      *      @OA\RequestBody(
      *          required=true,
@@ -47,19 +47,31 @@ class ApiUserEducationsController extends ApiBaseController
      *                      property="start_year",
      *                      description="<b>Required</b> Start Year",
      *                      type="integer",
-     *                      example="11"
+     *                      example="2016"
      *                  ),
      *                  @OA\Property(
-     *                      property="end_year",
-     *                      description="<b>Required</b> End Year",
+     *                      property="start_month",
+     *                      description="<b>Required</b> Start Month",
      *                      type="integer",
-     *                      example="12"
+     *                      example="5"
      *                  ),
      *                  @OA\Property(
      *                      property="description",
      *                      description="<b>Required</b> Company",
      *                      type="string",
      *                      example="Where I study 4 years on this course."
+     *                  ),
+     *                  @OA\Property(
+     *                      property="course_id",
+     *                      description="Existing course",
+     *                      type="integer",
+     *                      example=1
+     *                  ),
+     *                  @OA\Property(
+     *                      property="education_status",
+     *                      description="Education Status",
+     *                      type="string",
+     *                      example="Completed S"
      *                  ),
      *              ),
      *          ),
