@@ -644,6 +644,9 @@ class ApiAuthController extends ApiBaseController
             if ($user->workerDetail) {
 
                 $user->workerDetail->education;
+                $user->workerDetail->sectors;
+                $user->workerDetail->tiers;
+
             }
 
         } catch (\Exception $e) {

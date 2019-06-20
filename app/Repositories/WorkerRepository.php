@@ -359,6 +359,8 @@ class WorkerRepository extends AbstractRepository
         if ($user->workerDetail) {
 
             $user->workerDetail->education;
+            $user->workerDetail->sectors;
+            $user->workerDetail->tiers;
         }
 
         return $user;
