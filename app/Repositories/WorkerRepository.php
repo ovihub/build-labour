@@ -13,6 +13,7 @@ use App\Models\Users\WorkerDetail;
 use App\Models\Users\WorkerTier;
 use App\Models\Users\WorkExperience;
 use App\Models\Users\WorkExperienceResponsibility;
+use Carbon\Carbon;
 use JWTAuth;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,7 @@ class WorkerRepository extends AbstractRepository
     protected $model = WorkerDetail::class;
 
     public $workExp = null;
+    public $workerDetail = null;
 
     public function addExperience(Request $request) {
 
@@ -253,7 +255,6 @@ class WorkerRepository extends AbstractRepository
         return true;
     }
 
-
     public function updateAffirmations(Request $request) {
 
         $user = JWTAuth::toUser();
@@ -322,4 +323,51 @@ class WorkerRepository extends AbstractRepository
         return true;
     }
 
+    public function updatePersonalDetails(Request $request) {
+
+        $user = JWTAuth::toUser();
+
+        if (!$user->workerDetail) {
+
+            return false;
+        }
+
+        $this->workerDetail = $user->workerDetail;
+
+        $rules = [
+            'country_birth' => 'nullable|min:3',
+            'gender' => 'nullable|in:Male,male,Female,female,Other,other',
+            'date_of_birth' => 'nullable|date|before:-18 years'
+        ];
+
+        $validator = \Validator::make($request->all(), $rules);
+
+        if ( $validator->fails() ) {
+
+            $this->workerDetail->errors = $validator->errors()->all();
+            $this->workerDetail->errorsDetail = $validator->errors()->toArray();
+
+            return false;
+        }
+
+        if ($request->country_birth) {
+
+            $user->country_birth = $request->country_birth;
+        }
+
+        if ($request->gender) {
+
+            $user->gender = $request->gender;
+        }
+
+        if ($request->date_of_birth) {
+
+            $user->date_of_birth = Carbon::parse($request->date_of_birth);
+        }
+
+        $user->save();
+
+        return true;
+
+    }
 }

@@ -25,7 +25,7 @@ class ApiWorkerController extends ApiBaseController
      * @OA\Post(
      *      path="/worker/next-role",
      *      tags={"Worker"},
-     *      summary="Update worker next role",
+     *      summary="Update worker next role or Step 6",
      *      security={{"BearerAuth":{}}},
      *      @OA\RequestBody(
      *          required=true,
@@ -524,4 +524,86 @@ class ApiWorkerController extends ApiBaseController
         $levels = Level::all();
         return $this->apiSuccessResponse( compact('skills', 'levels'), true, 'Success', self::HTTP_STATUS_REQUEST_OK);
     }
+
+    /**
+     * @OA\Post(
+     *      path="/worker/personal-details",
+     *      tags={"Work"},
+     *      summary="Step 8: Worker Personal Details",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *             mediaType="application/json",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="gender",
+     *                      type="string",
+     *                      example="male"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="date_of_birth",
+     *                      type="string",
+     *                      example="08-10-1988"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="country_birth",
+     *                      type="string",
+     *                      example="australia"
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+
+    public function updatePersonalDetails( Request $request )
+    {
+
+        try {
+
+            if( ! $result = $this->workerRepo->updatePersonalDetails($request) ) {
+
+                return $this->apiErrorResponse(
+                    false,
+                    $this->workerRepo->workerDetail->getErrors( true ),
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    $this->workerRepo->workerDetail->getErrorsDetail()
+                );
+            }
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( compact('result'), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
+    }
+
 }

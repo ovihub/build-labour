@@ -261,6 +261,64 @@ class ApiUserTicketsController extends ApiBaseController
     }
 
 
+    /**
+     * @OA\Post(
+     *      path="/worker/tickets",
+     *      tags={"Work"},
+     *      summary="Step 4: Worker Tickets",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *             mediaType="application/json",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="tickets",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          @OA\Property(
+     *                              property="ticket_id",
+     *                              type="integer",
+     *                              example=1
+     *                          ),
+     *                      ),
+     *                  ),
+     *                  @OA\Property(
+     *                      property="has_whitecard",
+     *                      type="boolean",
+     *                      example=true
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+
     public function updateTickets(Request $request) {
 
         try {

@@ -425,7 +425,7 @@ class ApiWorksController extends ApiBaseController
      * @OA\Post(
      *      path="/worker/affirmations",
      *      tags={"Work"},
-     *      summary="Step 3: Yes or No",
+     *      summary="Step 7: Affirmations Yes or No",
      *      security={{"BearerAuth":{}}},
      *      @OA\RequestBody(
      *          required=true,
