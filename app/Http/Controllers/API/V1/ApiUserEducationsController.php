@@ -32,7 +32,7 @@ class ApiUserEducationsController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="course",
+     *                      property="course_name",
      *                      description="<b>Required</b> Course",
      *                      type="string",
      *                      example="Bachelor of Psychology"
@@ -54,6 +54,18 @@ class ApiUserEducationsController extends ApiBaseController
      *                      description="<b>Required</b> Start Month",
      *                      type="integer",
      *                      example="5"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="end_year",
+     *                      description="End Year",
+     *                      type="integer",
+     *                      example=2018
+     *                  ),
+     *                  @OA\Property(
+     *                      property="end_month",
+     *                      description="End Month",
+     *                      type="integer",
+     *                      example=3
      *                  ),
      *                  @OA\Property(
      *                      property="description",
