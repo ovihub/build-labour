@@ -14,7 +14,7 @@
                 },
                 profile: {
                     profile_description: '', profile_photo_url: '', first_name: '', last_name: '', email: '', is_verified: '',
-                    address: '', education_id: '',
+                    sectors: [], tiers: [], address: '', education_id: '',
                     company_id: '', company_photo: '', company_name: '', job_role: '',
                     start_month: '', start_year: '', end_month: '', end_year: '',
                 },
@@ -30,7 +30,21 @@
                 industry_skills: [],
                 endpoints: {
                     get: '/api/v1/auth/user',
+                    get_user: '/api/v1/worker/view/'
                 },
+            }
+        },
+
+        props: {
+            userId: {
+                type: String,
+                required: false
+            },
+        },
+
+        computed: {
+            endpointGet() {
+                return this.userId ? this.endpoints.get_user + this.userId : this.endpoints.get;
             }
         },
 
@@ -43,7 +57,7 @@
             getUser() {
                 let component = this;
 
-                axios.get(component.endpoints.get, Utils.getBearerAuth())
+                axios.get(component.endpointGet, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         let user = response.data.data.user;
@@ -58,6 +72,8 @@
                         component.profile.address = user.address;
                         component.profile.education_id = user.worker_detail.education_id;
                         component.profile.education = user.worker_detail.education;
+                        component.profile.sectors = user.worker_detail.sectors;
+                        component.profile.tiers = user.worker_detail.tiers;
                         component.profile.job_role = (user.experiences[0] && user.experiences[0].job) ?
                                                         user.experiences[0].job.title :
                                                         (user.experiences[0]) ? user.experiences[0].job_role : '';

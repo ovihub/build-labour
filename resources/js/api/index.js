@@ -32,6 +32,7 @@ class BuildLabourApi {
             tickets: '/api/v1/tickets/search',
             locations: '/api/v1/locations',
             companies: '/api/v1/company/search',
+            employees: '/api/v1/company/',
             company_options: '/api/v1/company/options',
             responsibilities: '/api/v1/job/',
             savedJobPosts: '/api/v1/bookmarks/posts/jobs/ids',
@@ -183,6 +184,10 @@ class BuildLabourApi {
 
     getCourses(keyword) {
         return this._get(this.endpoints.courses + '?keyword=' + keyword);
+    }
+    
+    getEmployees(id) {
+        return this._get(this.endpoints.employees + id + '/people');
     }
 }
 

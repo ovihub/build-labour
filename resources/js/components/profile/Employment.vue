@@ -3,17 +3,10 @@
         <div class="profile-content">
             
             <employment-modal></employment-modal>
-
-            <span class="add-icon"
-                data-toggle="modal"
-                data-backdrop="static"
-                data-keyboard="false"
-                data-target="#modalEmployment"
-                @click="action(-1)">
-
-                <img src="/img/icons/plus.png"
-                    srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x">
-            </span>
+            
+            <div @click="action(-1)">
+                <edit-icon cls="add-icon" data-target="#modalEmployment" icon-name="plus"></edit-icon>
+            </div>
             
             <div class="profile-title">
                 <img src="/img/icons/employmenthistory.png"

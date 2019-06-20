@@ -1,5 +1,5 @@
 <template>
-    <div class="profile-item-1">
+    <div class="profile-item-1" v-if="! userId">
         <div class="profile-content">
             <div class="profile-content-p20 pt-3 pb-4">
                 
@@ -94,10 +94,7 @@
 
                 </main-modal>
 
-                <span class="edit-icon" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalIdealRole">
-                    <img src="/img/icons/editbutton.png"
-                        srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
-                </span>
+                <edit-icon cls="edit-icon" data-target="#modalIdealRole"></edit-icon>
 
                 <div class="profile-title">Your Ideal Next Role</div>        
                 <span class="bl-label-14">(Visible only to you)</span>
@@ -163,21 +160,30 @@
             }
         },
 
+        props: {
+            userId: {
+                type: String,
+                default: null
+            }
+        },
+
         created() {
-            let component = this;
-            
-            Bus.$on('idealRoleDetails', function(details) {
-                if (details) {
-                    component.setValues(component, details);
-                    component.setValues(component.input, details);
-                }
-            });
+            if (! this.userId) {
+                let component = this;
+                
+                Bus.$on('idealRoleDetails', function(details) {
+                    if (details) {
+                        component.setValues(component, details);
+                        component.setValues(component.input, details);
+                    }
+                });
 
-            Bus.$on('removeIdealRole', function() {
-                Utils.setObjectValues(component.input, null);
+                Bus.$on('removeIdealRole', function() {
+                    Utils.setObjectValues(component.input, null);
 
-                component.submit('clear');
-            });
+                    component.submit('clear');
+                });
+            }
         },
 
         computed: {

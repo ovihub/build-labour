@@ -37,7 +37,9 @@ class WorkExperience extends BaseModel
         return [
             'job_role'      => 'required',
             'company_name'  => 'required',
-            'project_size'  => 'nullable|regex:/\b\d{1,3}(?:,?\d{3})*(?:\.\d{2})?\b/', /* monetary validation */
+            //'project_size'  => 'nullable|regex:/\b\d{1,3}(?:,?\d{3})*(?:\.\d{2})?\b/', /* monetary validation */
+            'project_size'  => 'nullable|min:2', /* monetary validation */
+
             'location'      => 'nullable|string',
             'start_month'   => 'required|integer',
             'start_year'    => 'required|integer',
@@ -139,6 +141,7 @@ class WorkExperience extends BaseModel
         return $responsibilities;
     }
 
+    /*
     public function setProjectSizeAttribute($value) {
 
         if ( ! empty( $value ) ) {
@@ -146,11 +149,12 @@ class WorkExperience extends BaseModel
             $format = preg_replace("/[^0-9.]/","",$value);
             $format = number_format($format,0);
             $this->attributes['project_size'] = $format;
-        
+
         } else {
             $this->attributes['project_size'] = null;
         }
     }
+    */
 
     public function setIsCurrentAttribute($value) {
 

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Events\Users\DeleteEducation;
+use App\Http\Resources\PeoplesResource;
 use App\Models\Companies\Company;
 use App\Models\Companies\Job;
 use App\Models\Options\BusinessType;
@@ -14,6 +15,7 @@ use App\Models\Users\WorkerTier;
 use App\Models\Users\WorkExperience;
 use App\Models\Users\WorkExperienceResponsibility;
 use Carbon\Carbon;
+use App\User;
 use JWTAuth;
 use Illuminate\Http\Request;
 
@@ -328,11 +330,8 @@ class WorkerRepository extends AbstractRepository
         $user = JWTAuth::toUser();
 
         if (!$user->workerDetail) {
-
-            return false;
+            $this->workerDetail = $user->workerDetail;
         }
-
-        $this->workerDetail = $user->workerDetail;
 
         $rules = [
             'country_birth' => 'nullable|min:3',
@@ -370,4 +369,46 @@ class WorkerRepository extends AbstractRepository
         return true;
 
     }
+
+    public function getWorker(Request $request) {
+
+        $user = User::find($request->userid);
+
+        if (!$user || !$user->workerDetail) {
+
+            return false;
+        }
+
+        $exp = null;
+        $jobRole = '';
+
+        if ($user->workerDetail) {
+
+            $exp = $user->workerDetail->getLatestExperience();
+        }
+
+        if ($exp) {
+
+            $jobRole = $exp->job_role;
+        }
+
+        $user->job_role = $jobRole;
+
+        $user->experiences;
+        $user->role;
+        $user->skills;
+        $user->educations;
+        $user->workerDetail;
+        $user->tickets;
+
+        if ($user->workerDetail) {
+
+            $user->workerDetail->education;
+            $user->workerDetail->sectors;
+            $user->workerDetail->tiers;
+        }
+
+        return $user;
+    }
+
 }

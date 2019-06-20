@@ -10726,6 +10726,13 @@ a.text-dark:focus {
   margin-top: 20px;
 }
 
+.bl-ellipsis {
+  height: 24px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .bl-label-17 {
   font-size: 17px;
   color: #484c4e;
@@ -11005,6 +11012,15 @@ ul.list-job-items li.job-items {
 
 .bl-display {
   display: inline-block;
+}
+
+.bl-image-80 {
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+  box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.08), 0 0 10px 0 rgba(57, 86, 101, 0.08);
+  background-color: #fcfeff;
+  cursor: pointer;
 }
 
 .bl-image-56 {

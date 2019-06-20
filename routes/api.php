@@ -81,6 +81,8 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             Route::get('experiences', 'ApiWorkerController@experiences');
             Route::get('educations', 'ApiWorkerController@educations');
             Route::get('skill-options', 'ApiWorkerController@skillOptions');
+
+            Route::get('view/{userid}', 'ApiWorkerController@getWorker');
         });
     });
 
