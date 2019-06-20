@@ -41,7 +41,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             });
 
             Route::prefix('education')->group(function() {
-                Route::post('/', 'ApiUserEducationsController@add');
+                Route::post('/', 'ApiUserEducationsController@add'); // onboarding step 3
                 Route::put('/{id}', 'ApiUserEducationsController@update');
                 Route::post('/{id}', 'ApiUserEducationsController@update');
                 Route::delete('/{id}', 'ApiUserEducationsController@delete');
@@ -145,7 +145,9 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
         });
     });
 
-    Route::get('locations', 'ApiUsersController@searchLocation');
+    Route::get('locations', 'ApiGeneralController@searchLocation');
+    Route::get('countries', 'ApiGeneralController@getCountries');
+    Route::get('courses', 'ApiGeneralController@getCourses');
 
     Route::get('roles', 'ApiRolesController@index');
     Route::get('roles/job/search', 'ApiRolesController@searchJobRoles');
