@@ -29,6 +29,16 @@
                 <li class="comp-card-list"><work-information></work-information></li>
                 <li class="comp-card-list"><personal-details></personal-details></li>
             </ul>
+            
+            <div class="modal-footer">
+                <div class="btn btn-link btn-delete" @click="submit">
+                    Save and Finish later
+                </div>
+
+                <button class="pull-right" type="button" @click="next">
+                    {{ nextButton }}
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -46,6 +56,7 @@
                 orientation: '',
                 subHeader: 'Employment History',
                 progressCls: [],
+                currentSection: '',
                 subHeaders: [
                     'Starting your profile',
                     'Employment History',
@@ -56,6 +67,16 @@
                     'Work Information',
                     'Personal Details'
                 ],
+                nextButtons: [
+                    'To Employment History',
+                    'To Education',
+                    'To Tickets',
+                    'To Industry Skills',
+                    'To Work Preferences',
+                    'To Work Information',
+                    'To Personal Details',
+                    'Complete Profile'
+                ],
                 endpoints: {
 
                 },
@@ -63,12 +84,16 @@
         },
 
         computed: {
-            isFirstStep: function(){
-                return (this.step === 1);
+            isFirstStep() {
+                return this.step === 1;
             },
 
-            isLastStep: function(){
-                return (this.step === this.max);
+            isLastStep() {
+                return this.step === this.max;
+            },
+
+            nextButton() {
+                return this.nextButtons[this.step - 1];
             },
         },
 
@@ -91,6 +116,14 @@
         },
 
         methods: {
+
+            next() {
+                this.goToStep(this.step + 1);
+            },
+
+            submit() {
+
+            },
 
             setCssVars() {
                 this.$refs['compCardWrapper'].style.setProperty('--x', (((this.step * 100) - 100) * -1) + '%')
@@ -134,5 +167,8 @@
 <style scoped>
     li {
         width: 565px;
+    }
+    button {
+        width: 200px;
     }
 </style>

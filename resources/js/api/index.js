@@ -35,6 +35,8 @@ class BuildLabourApi {
             company_options: '/api/v1/company/options',
             responsibilities: '/api/v1/job/',
             savedJobPosts: '/api/v1/bookmarks/posts/jobs/ids',
+            countries: '/api/v1/countries',
+            courses: '/api/v1/courses',
         };
         
         //  this._headers()
@@ -173,6 +175,14 @@ class BuildLabourApi {
 
     getJobRoles(keyword) {
         return this._get(this.endpoints.job_roles + '?keyword=' + keyword);
+    }
+
+    getCountries() {
+        return this._get(this.endpoints.countries);
+    }
+
+    getCourses(keyword) {
+        return this._get(this.endpoints.courses + '?keyword=' + keyword);
     }
 }
 

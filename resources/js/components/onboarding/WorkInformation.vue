@@ -4,7 +4,7 @@
             I have the right to work in Australia
         </div>
         <div class="skill-label-3">
-            <a href="">See legal requirements</a>
+            <a href="#">See legal requirements</a>
         </div>
         <div class="bl-inline">
             <input id="right_to_work_1" class="styled-checkbox-round" type="checkbox"
@@ -84,16 +84,6 @@
         <div class="me-label-2">
             Note: Some jobs may require the use of your own registered vehicle.
         </div>
-
-        <div class="bl-btn-group">
-            <div class="btn btn-link btn-delete" @click="submit">
-                Save and Finish later
-            </div>
-
-            <button type="button" @click="next">
-                To Personal Details
-            </button>
-        </div>
     </form>
 </template>
 
@@ -129,23 +119,9 @@
                 Utils.formatCheckbox(this, refName, value);
             },
 
-            next() {
-                Bus.$emit('onboardingNext', 8);
-            },
-
             async submit() {
 
             },
         }
     }
 </script>
-
-<style scoped>
-    button {
-        width: 200px;
-        margin-left: 130px;
-    }
-    .btn-link {
-        padding-top: 0px;
-    }
-</style>

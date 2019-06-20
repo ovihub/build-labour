@@ -41,27 +41,15 @@
 
         <div class="me-label">Country of Birth</div>
         <div class="me-row">
-            <!-- <div class="role-col-left"> -->
-                <select v-model="input.country">
-                    <option key="1" value="Single">Single</option>
-                    <option key="2" value="Married">Married</option>
-                    <option key="3" value="Other">Other</option>
-                </select>
-            <!-- </div> -->
+            <select v-model="input.country">
+                <option key="1" value="Single">Single</option>
+                <option key="2" value="Married">Married</option>
+                <option key="3" value="Other">Other</option>
+            </select>
         </div>
         <span class="err-msg" v-if="errors.country">
             {{ errors.country }}
         </span>
-
-        <div class="bl-btn-group">
-            <div class="btn btn-link btn-delete" @click="submit">
-                Save and Finish later
-            </div>
-
-            <button type="button" @click="next">
-                Complete Profile
-            </button>
-        </div>
     </form>
 </template>
 
@@ -103,23 +91,9 @@
                 this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
             },
 
-            next() {
-
-            },
-
             async submit() {
 
             },
         }
     }
 </script>
-
-<style scoped>
-    button {
-        width: 200px;
-        margin-left: 130px;
-    }
-    .btn-link {
-        padding-top: 0px;
-    }
-</style>

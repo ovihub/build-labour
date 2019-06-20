@@ -9,7 +9,8 @@
         </div>
         <div class="bl-inline" v-for="(sector, index) in sectors" :key="index">
             <input :id="'sector-styled-checkbox-'+index" class="styled-checkbox" type="checkbox"
-                v-bind:value="sector.name" v-model="input.sectors" />
+                :value="sector.id" v-model="input.sectors" />
+
             <label :for="'sector-styled-checkbox-'+index" style="width:125px">{{ sector.name }}</label>
         </div>
 
@@ -18,11 +19,12 @@
         </div>
         <div class="bl-inline" v-for="(tier, index) in tiers" :key="index + sectors.length">
             <input :id="'tier-styled-checkbox-'+index" class="styled-checkbox" type="checkbox"
-                v-bind:value="tier.name" v-model="input.tiers" />
+                :value="tier.id" v-model="input.tiers" />
+
             <label :for="'tier-styled-checkbox-'+index">{{ tier.name }}</label>
         </div>
 
-        <div class="btn btn-link btn-delete"
+        <div class="btn btn-link btn-delete mt-3"
             data-toggle="modal"
             data-backdrop="static"
             data-keyboard="false"
@@ -34,15 +36,6 @@
         
         <employment-list></employment-list>
 
-        <div class="bl-btn-group">
-            <div class="btn btn-link btn-delete" @click="submit">
-                Save and Finish later
-            </div>
-
-            <button type="button" @click="next">
-                To Education
-            </button>
-        </div>
     </form>
 </template>
 
@@ -53,6 +46,7 @@
 
         data() {
             return {
+                disabled: false,
                 sectors: [
                     { id: 1, name: 'Residential' },
                     { id: 2, name: 'Civil' },
@@ -67,6 +61,9 @@
                 input: {
                     tiers: [], sectors: [],
                 },
+                endpoints: {
+                    save: '/api/v1/worker/sectors',
+                },
             }
         },
 
@@ -80,23 +77,27 @@
                 Bus.$emit('showEmployment', index, null);
             },
 
-            next() {
-                Bus.$emit('onboardingNext', 3);
-            },
-
             async submit() {
+                let component = this;
 
+                Utils.setObjectValues(this.errors, '');
+
+                this.disabled = true;
+
+                await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
+
+                    .then(function(response) {
+                        let data = response.data;
+
+                        Bus.$emit('alertSuccess', data.message);
+                    })
+                    .catch(function(error) {
+
+                        Utils.handleError(error);
+                    });
+
+                this.disabled = false;
             },
         }
     }
 </script>
-
-<style scoped>
-    button {
-        width: 200px;
-        margin-left: 130px;
-    }
-    .btn-link {
-        padding-top: 0px;
-    }
-</style>

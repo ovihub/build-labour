@@ -53,16 +53,6 @@
                 </span>
             </div>
         </div>
-
-        <div class="bl-btn-group">
-            <div class="btn btn-link btn-delete" @click="submit">
-                Save and Finish later
-            </div>
-
-            <button type="button" @click="next">
-                To Work Information
-            </button>
-        </div>
     </form>
 </template>
 
@@ -108,23 +98,9 @@
                 Utils.textAreaAdjust(this.$refs[refName]);
             },
 
-            next() {
-                Bus.$emit('onboardingNext', 7);
-            },
-
             async submit() {
 
             },
         }
     }
 </script>
-
-<style scoped>
-    button {
-        width: 200px;
-        margin-left: 130px;
-    }
-    .btn-link {
-        padding-top: 0px;
-    }
-</style>

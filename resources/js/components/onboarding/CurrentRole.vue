@@ -49,16 +49,6 @@
                 <input class="form-control" type="text" placeholder="Months" v-model="input.months" />
             </div>
         </div>
-
-        <div class="bl-btn-group">
-            <div class="btn btn-link btn-delete" @click="submit">
-                Save and Finish later
-            </div>
-
-            <button type="button" @click="next">
-                To Employment History
-            </button>
-        </div>
     </form>
 </template>
 
@@ -106,23 +96,9 @@
                 this.job_roles = [];
             },
 
-            next() {
-                Bus.$emit('onboardingNext', 2);
-            },
-
             async submit() {
 
             },
         }
     }
 </script>
-
-<style scoped>
-    button {
-        width: 200px;
-        margin-left: 130px;
-    }
-    .btn-link {
-        padding-top: 0px;
-    }
-</style>
