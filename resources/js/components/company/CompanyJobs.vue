@@ -1,8 +1,11 @@
 <template>
     <div class="profile-item-2" v-if="show">
         <div class="job-action">
-            <div class="job-filter">
+            <div class="job-filter" v-if="showButton">
                 <a :href="'/job/new?cid=' + companyId" style="font-weight:500">+ Post new job</a>
+            </div>
+            <div class="job-filter" v-else>
+                Filter
             </div>
             <div class="job-sort">
                 Sort by: <span class="job-recent">Most Recent</span>
@@ -34,7 +37,11 @@
         computed: {
             endpointGet() {
                 return this.endpoints.get + this.companyId + '/posts/jobs';
-            }
+            },
+            
+            showButton() {
+                return location.pathname === '/user/profile';
+            },
         },
 
         created() {

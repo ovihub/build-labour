@@ -175,7 +175,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="job-title mb-2">Reports To</div>
+                        <div class="job-title" style="margin-bottom:-18px">Reports To</div>
 
                         <div class="form-group emp-row row-center"
                             v-for="(to, index) in input.reports_to"

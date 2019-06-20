@@ -103,6 +103,28 @@
                         Studied <b>{{ course }}</b> <div class="text-style-1">- {{ school }}</div>
                     </div>
                 </div>
+
+                <div class="row bl-label-15" v-if="sectors.length > 0 || tiers.length > 0">
+                    <div class="bl-col-3">
+                        <img class="text-icon-5" src="/img/icons/industrysegment.png"
+                            srcset="/img/icons/industrysegment@2x.png 2x, /img/icons/industrysegment@3x.png 3x">
+                    </div>
+                    <div class="bl-col-4">
+                        <div class="bl-display" v-for="(sector, si) in sectors" :key="si">
+                            {{ sector.business_type }}
+                            <div class="bl-inline" v-if="si != sectors.length-1"> •&nbsp;</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row bl-label-15" style="margin-left:34px;color:#6b7172" v-if="tiers.length > 0">
+                    <div class="bl-col-4">
+                        <div class="bl-display" v-for="(tier, ti) in tiers" :key="ti">
+                            {{ tier.tier_name }}
+                            <div class="bl-inline" v-if="ti != tiers.length-1"> •&nbsp;</div>
+                        </div>
+                    </div>
+                </div>
                 
                 <div class="bl-display">
                     <div class="bl-label-15-style-2 bl-mb20" style="margin-top:24px">
@@ -154,6 +176,8 @@
                 last_name: '',
                 email: '',
                 is_verified: '',
+                sectors: [],
+                tiers: [],
                 address: '',
                 education_id: '',
                 course: '',
@@ -251,6 +275,8 @@
                 this.last_name = details.last_name;
                 this.email = details.email;
                 this.is_verified = details.is_verified;
+                this.sectors = details.sectors;
+                this.tiers = details.tiers;
                 this.address = details.address;
                 this.education_id = details.education_id;
                 this.course = details.education ? details.education.course : '';
@@ -269,6 +295,8 @@
                 val.profile_description = details.profile_description;
                 val.first_name = details.first_name;
                 val.last_name = details.last_name;
+                val.sectors = details.sectors;
+                val.tiers = details.tiers;
                 val.address = details.address;
                 val.education_id = details.education_id;
                 val.course = details.education ? details.education.course : '';

@@ -1,5 +1,5 @@
 <template>
-    <div class="profile-item-1">
+    <div class="profile-item-1" v-if="! userId">
         <div class="profile-content">
             <div class="profile-content-p20 pt-3 pb-4">
                 
@@ -160,21 +160,30 @@
             }
         },
 
+        props: {
+            userId: {
+                type: String,
+                default: null
+            }
+        },
+
         created() {
-            let component = this;
-            
-            Bus.$on('idealRoleDetails', function(details) {
-                if (details) {
-                    component.setValues(component, details);
-                    component.setValues(component.input, details);
-                }
-            });
+            if (! this.userId) {
+                let component = this;
+                
+                Bus.$on('idealRoleDetails', function(details) {
+                    if (details) {
+                        component.setValues(component, details);
+                        component.setValues(component.input, details);
+                    }
+                });
 
-            Bus.$on('removeIdealRole', function() {
-                Utils.setObjectValues(component.input, null);
+                Bus.$on('removeIdealRole', function() {
+                    Utils.setObjectValues(component.input, null);
 
-                component.submit('clear');
-            });
+                    component.submit('clear');
+                });
+            }
         },
 
         computed: {
