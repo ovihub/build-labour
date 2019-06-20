@@ -228,23 +228,4 @@ class ApiUsersController extends ApiBaseController
         return $this->apiSuccessResponse([ 'user'=>$user ], true, 'Profile Photo Uploaded Successfully ', self::HTTP_STATUS_REQUEST_OK);
     }
 
-
-    public function searchLocation( Request $request ) {
-
-        $keyword = trim($request->keyword);
-        $curl_handle=curl_init();
-
-        curl_setopt($curl_handle,CURLOPT_URL,"https://api.mapbox.com/geocoding/v5/mapbox.places/{$keyword}.json?country=au&access_token=" . env('MAPBOX_KEY'));
-
-        curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
-        curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
-
-        $buffer = curl_exec($curl_handle);
-
-        curl_close($curl_handle);
-
-        $buffer = json_decode($buffer);
-
-        return $this->apiSuccessResponse([ 'locations' => $buffer ], true, 'Success', self::HTTP_STATUS_REQUEST_OK);
-    }
 }

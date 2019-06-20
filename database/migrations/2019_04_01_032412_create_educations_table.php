@@ -21,6 +21,7 @@ class CreateEducationsTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('user_id')->unsigned();
+            $table->integer('course_id')->unsigned();
             $table->timestamps();
         });
     }
