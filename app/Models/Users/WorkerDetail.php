@@ -26,7 +26,9 @@ class WorkerDetail extends BaseModel
         'nrole_right_to_work_au',
         'user_id',
         'has_registered_vehicle',
-        'education_id'
+        'education_id',
+        'suburb',
+        'most_recent_role'
     ];
 
     private $userId = null;

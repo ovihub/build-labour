@@ -164,6 +164,18 @@ class ApiAuthController extends ApiBaseController
      *                      type="string",
      *                      example="85 Dover Street Melbourne VIC"
      *                  ),
+     *                  @OA\Property(
+     *                      property="most_recent_role",
+     *                      description="Plumber",
+     *                      type="string",
+     *                      example="Electrician"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="suburb",
+     *                      description="suburb",
+     *                      type="string",
+     *                      example="1st District"
+     *                  ),
      *              ),
      *          ),
      *      ),
@@ -185,16 +197,22 @@ class ApiAuthController extends ApiBaseController
     {
         $user = new Users;
 
+        DB::beginTransaction();
+
         try {
 
-            if( ! $user->store( $request ) ){
+            if( ! $user->store( $request ) ) {
+
+                DB::rollBack();
                 return $this->apiErrorResponse( false, $user->getErrors( true ), self::HTTP_STATUS_INVALID_INPUT, 'invalidInput', $user->getErrorsDetail());
             }
-
+            
         } catch(\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
+
+        DB::commit();
 
         $token = $user->getJwtToken();
 
