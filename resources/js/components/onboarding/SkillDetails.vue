@@ -79,7 +79,11 @@
         },
 
         created() {
+            let component = this;
 
+            Bus.$on('onboardingSubmitIndustrySkills', function() {
+                Api.submit(component.endpoints.save, component.$data.input);
+            });
         },
 
         methods: {
@@ -128,10 +132,6 @@
 
             removeSkill(index) {
                 this.input.skills.splice(index, 1);
-            },
-
-            async submit() {
-
             },
         }
     }

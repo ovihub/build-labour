@@ -3434,7 +3434,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       endpoints: {
         login: '/login',
         profile: '/user/profile',
-        register: '/api/v1/auth/register'
+        register: '/api/v1/auth/register',
+        onboarding: '/user/onboarding'
       }
     };
   },
@@ -3465,7 +3466,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.post(component.endpoints.register, component.$data.input).then(function (response) {
                   var data = response.data;
                   _api__WEBPACK_IMPORTED_MODULE_1__["default"].setToken(data.data.token);
-                  window.location.href = component.endpoints.profile;
+                  window.location.href = component.endpoints.onboarding;
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -7635,11 +7636,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         months: ''
       },
       endpoints: {
-        save: ''
+        save: '/api/v1/worker/current-role'
       }
     };
   },
-  created: function created() {},
+  created: function created() {
+    var component = this;
+    Bus.$on('onboardingSubmitCurrentRole', function () {
+      _api__WEBPACK_IMPORTED_MODULE_1__["default"].submit(component.endpoints.save, component.$data.input);
+    });
+  },
   methods: {
     onSearchJob: function onSearchJob(keyword) {
       // this.job_id = '';
@@ -7688,15 +7694,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
@@ -7721,37 +7719,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
-      input: {},
-      errors: {}
-    };
+    return {};
   },
-  created: function created() {},
+  created: function created() {
+    var component = this;
+    Bus.$on('onboardingSubmitEducation', function () {
+      Bus.$emit('alertSuccess', 'Successfully saved education');
+    });
+  },
   methods: {
     action: function action(index) {
       Bus.$emit('showEducation', index, null);
-    },
-    submit: function () {
-      var _submit = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      function submit() {
-        return _submit.apply(this, arguments);
-      }
-
-      return submit;
-    }()
+    }
   }
 });
 
@@ -7929,7 +7908,9 @@ __webpack_require__.r(__webpack_exports__);
       subHeaders: ['Starting your profile', 'Employment History', 'Education', 'Tickets', 'Main Industry Skills & Achievements', 'Work Preferences', 'Work Information', 'Personal Details'],
       nextButtons: ['To Employment History', 'To Education', 'To Tickets', 'To Industry Skills', 'To Work Preferences', 'To Work Information', 'To Personal Details', 'Complete Profile'],
       submitForms: ['CurrentRole', 'EmploymentHistory', 'Education', 'Tickets', 'IndustrySkills', 'WorkPreferences', 'WorkInformation', 'PersonalDetails', 'Complete Profile'],
-      endpoints: {}
+      endpoints: {
+        profile: '/user/profile'
+      }
     };
   },
   computed: {
@@ -7960,7 +7941,12 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     next: function next() {
       Bus.$emit('alertHide');
-      this.goToStep(this.step + 1);
+
+      if (this.step == this.nextButtons.length) {
+        window.location.href = this.endpoints.profile;
+      } else {
+        this.goToStep(this.step + 1);
+      }
     },
     submit: function submit() {
       Bus.$emit('onboardingSubmit' + this.submitForms[this.step - 1]);
@@ -8008,15 +7994,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
@@ -8091,39 +8069,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         gender: '',
         date_of_birth: '',
         country: ''
+      },
+      endpoints: {
+        save: ''
       }
     };
   },
   created: function created() {
     var component = this;
-    Bus.$on('', function () {});
+    Bus.$on('onboardingSubmitPersonalDetails', function () {
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
+    });
     this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
   },
   methods: {
     onChangeBirthMonthYear: function onChangeBirthMonthYear() {
       this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
-    },
-    submit: function () {
-      var _submit = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      function submit() {
-        return _submit.apply(this, arguments);
-      }
-
-      return submit;
-    }()
+    }
   }
 });
 
@@ -8138,15 +8100,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
@@ -8229,7 +8183,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     };
   },
-  created: function created() {},
+  created: function created() {
+    var component = this;
+    Bus.$on('onboardingSubmitIndustrySkills', function () {
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
+    });
+  },
   methods: {
     display: function display() {
       var len = this.user_skills.length;
@@ -8267,28 +8226,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     removeSkill: function removeSkill(index) {
       this.input.skills.splice(index, 1);
-    },
-    submit: function () {
-      var _submit = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      function submit() {
-        return _submit.apply(this, arguments);
-      }
-
-      return submit;
-    }()
+    }
   }
 });
 
@@ -8303,15 +8241,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -8369,11 +8299,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return _defineProperty({
+    var _ref;
+
+    return _ref = {
       keyword: '',
       disabled: false,
       initTickets: [],
       tickets: [],
+      has_whitecard: '',
       searchedTickets: [],
       selectedTicket: false,
       timeOut: false,
@@ -8381,16 +8314,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         ticket: ''
       },
       input: {}
-    }, "errors", {});
+    }, _defineProperty(_ref, "errors", {}), _defineProperty(_ref, "endpoints", {
+      save: '/api/v1/worker/tickets'
+    }), _ref;
   },
   created: function created() {
     var component = this;
-    Bus.$on('', function () {});
+    Bus.$on('onboardingSubmitTickets', function () {
+      var saveInput = {
+        tickets: component.tickets.map(function (ticket) {
+          return {
+            ticket_id: ticket.id
+          };
+        }),
+        has_whitecard: component.has_whitecard
+      };
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, saveInput);
+    });
   },
   methods: {
     onSearch: function onSearch(keyword) {
       var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getTickets(keyword)).then(function (data) {
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_0__["default"].getTickets(keyword)).then(function (data) {
         component.searchedTickets = component.keyword != '' ? data.data.tickets : [];
       });
     },
@@ -8428,28 +8373,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     formatCheckbox: function formatCheckbox(refName, value) {
       Utils.formatCheckbox(this, refName, value);
-    },
-    submit: function () {
-      var _submit = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
+      this.has_whitecard = value;
 
-      function submit() {
-        return _submit.apply(this, arguments);
+      if (value == 0) {
+        this.tickets = [];
       }
-
-      return submit;
-    }()
+    }
   }
 });
 
@@ -8464,15 +8393,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
@@ -8568,51 +8489,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       input: {
         right_to_work: '',
-        tax_file_number: '',
-        business_number: '',
+        has_tfn: '',
+        has_abn: '',
         english_skill: '',
         drivers_license: '',
         has_registered_vehicle: ''
       },
       errors: {
         right_to_work: '',
-        tax_file_number: '',
-        business_number: '',
+        has_tfn: '',
+        has_abn: '',
         english_skill: '',
         drivers_license: '',
         has_registered_vehicle: ''
+      },
+      endpoints: {
+        save: '/api/v1/worker/affirmations'
       }
     };
   },
   created: function created() {
     var component = this;
-    Bus.$on('', function () {});
+    Bus.$on('onboardingSubmitWorkInformation', function () {
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
+    });
   },
   methods: {
     formatCheckbox: function formatCheckbox(refName, value) {
       Utils.formatCheckbox(this, refName, value);
-    },
-    submit: function () {
-      var _submit = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      function submit() {
-        return _submit.apply(this, arguments);
-      }
-
-      return submit;
-    }()
+    }
   }
 });
 
@@ -8627,15 +8532,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
@@ -8700,7 +8597,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       states: ['QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT'],
       input: {
-        max_distance: '',
+        max_distance: 0,
+        state: '',
         selected: [],
         introduction: '',
         when: ''
@@ -8710,12 +8608,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         selected: '',
         introduction: '',
         when: ''
+      },
+      endpoints: {
+        save: '/api/v1/worker/next-role'
       }
     };
   },
   created: function created() {
     var component = this;
-    Bus.$on('', function () {});
+    Bus.$on('onboardingSubmitWorkPreferences', function () {
+      component.input.state = component.input.selected.toString();
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
+    });
   },
   computed: {
     maxDistance: function maxDistance() {
@@ -8727,28 +8631,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   methods: {
     textAreaAdjust: function textAreaAdjust(refName) {
       Utils.textAreaAdjust(this.$refs[refName]);
-    },
-    submit: function () {
-      var _submit = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      function submit() {
-        return _submit.apply(this, arguments);
-      }
-
-      return submit;
-    }()
+    }
   }
 });
 
@@ -9472,8 +9355,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.$refs['education_status_' + i].checked = false;
       }
 
-      this.$refs['education_status_' + value].checked = true;
-      this.education_status = this.statuses[value];
+      if (value >= 0) {
+        this.$refs['education_status_' + value].checked = true;
+        this.education_status = this.statuses[value];
+      }
     },
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -9693,7 +9578,8 @@ __webpack_require__.r(__webpack_exports__);
       imgSrc: '/img/icons/expand.png',
       imgSrcSet: '/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x',
       endpoints: {
-        profile: '/user/profile'
+        profile: '/user/profile',
+        onboarding: '/user/onboarding'
       }
     };
   },
@@ -9711,7 +9597,9 @@ __webpack_require__.r(__webpack_exports__);
         var emps = component.employments;
 
         if (emps[index] && (emps.length > 1 && details.isCurrent == 1 && component.formatPeriod(details) != component.formatPeriod(emps[index]) || details.responsibilities.length > emps[index].responsibilities.length)) {
-          window.location.href = component.endpoints.profile;
+          if (window.location.pathname == component.endpoints.profile) {
+            window.location.href = component.endpoints.profile;
+          }
         }
 
         if (index == -1) {
@@ -10060,22 +9948,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     setValues: function setValues(details) {
-      if (details) {
-        this.id = details.id;
-        this.company_id = details.company_id;
-        this.job_role = details.job_role;
-        this.company_name = details.company_id ? details.company.name : details.company_name;
-        this.location = details.location ? details.location : details.company.address;
-        this.project_size = details.project_size;
-        this.isCurrent = details.isCurrent;
-        this.start_month = details.start_month;
-        this.start_year = details.start_year;
-        this.end_month = details.end_month;
-        this.end_year = details.end_year;
-        this.responsibilities = details.responsibilities; // if (this.company_id) {
-        //     this.$refs['locationRef'].disabled = true;
-        // }
-      }
+      this.id = details ? details.id : '';
+      this.company_id = details ? details.company_id : '';
+      this.job_role = details ? details.job_role : '';
+      this.company_name = details ? details.company_id ? details.company.name : details.company_name : '';
+      this.location = details ? details.location ? details.location : details.company.address : '';
+      this.project_size = details ? details.project_size : '';
+      this.isCurrent = details ? details.isCurrent : '';
+      this.start_month = details ? details.start_month : '';
+      this.start_year = details ? details.start_year : '';
+      this.end_month = details ? details.end_month : '';
+      this.end_year = details ? details.end_year : '';
+      this.responsibilities = details ? details.responsibilities : []; // if (this.company_id) {
+      //     this.$refs['locationRef'].disabled = true;
+      // }
 
       this.responsibilities = this.responsibilities.filter(function (r) {
         return r !== '';
@@ -60049,9 +59935,7 @@ var render = function() {
       }
     },
     [
-      _c("div", { staticClass: "skill-label" }, [
-        _vm._v("\n        What formal qualifications have you completed?\n    ")
-      ]),
+      _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "skill-label-3" }, [
         _vm._v("\n        e.g. Certificate II in Construction\n    ")
@@ -60081,7 +59965,17 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "skill-label" }, [
+      _vm._v("\n        List any formal qualifications you have started or "),
+      _c("b", [_vm._v("completed")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -60961,91 +60855,102 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "bl-inline" }, [
         _c("input", {
-          ref: "white_card_1",
+          ref: "has_whitecard_1",
           staticClass: "styled-checkbox-round",
-          attrs: { id: "white_card_1", type: "checkbox" },
+          attrs: { id: "has_whitecard_1", type: "checkbox" },
           on: {
             change: function($event) {
-              return _vm.formatCheckbox("white_card", 1)
+              return _vm.formatCheckbox("has_whitecard", 1)
             }
           }
         }),
         _vm._v(" "),
-        _c("label", { attrs: { for: "white_card_1" } }, [_vm._v("Yes")]),
+        _c("label", { attrs: { for: "has_whitecard_1" } }, [_vm._v("Yes")]),
         _vm._v(" "),
         _c("input", {
-          ref: "white_card_0",
+          ref: "has_whitecard_0",
           staticClass: "styled-checkbox-round",
-          attrs: { id: "white_card_0", type: "checkbox" },
+          attrs: { id: "has_whitecard_0", type: "checkbox" },
           on: {
             change: function($event) {
-              return _vm.formatCheckbox("white_card", 0)
+              return _vm.formatCheckbox("has_whitecard", 0)
             }
           }
         }),
         _vm._v(" "),
-        _c("label", { attrs: { for: "white_card_0" } }, [_vm._v("No")])
+        _c("label", { attrs: { for: "has_whitecard_0" } }, [_vm._v("No")])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "me-label" }, [
-        _vm._v(
-          "\n        I have current valid licenses and/or tickets in\n    "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "emp-row" }, [
-        _c("div", { staticClass: "ticket-col-left" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.keyword,
-                expression: "keyword"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text", placeholder: "Search" },
-            domProps: { value: _vm.keyword },
-            on: {
-              keyup: function($event) {
-                return _vm.onSearch(_vm.keyword)
-              },
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.keyword = $event.target.value
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "ticket-col-right" }, [
-          _c(
-            "button",
+      _vm.has_whitecard
+        ? _c(
+            "div",
             {
-              staticClass: "add-button",
-              staticStyle: { "margin-left": "0px", width: "100%" },
-              attrs: { type: "button" },
-              on: {
-                click: function($event) {
-                  return _vm.onAdd()
-                }
-              }
+              staticClass: "me-label",
+              staticStyle: { "margin-bottom": "-15px" }
             },
-            [_vm._v("Add")]
-          )
-        ]),
-        _vm._v(" "),
-        _vm.errors.ticket
-          ? _c("span", { staticClass: "err-msg" }, [
+            [
               _vm._v(
-                "\n            " + _vm._s(_vm.errors.ticket) + "\n        "
+                "\n        I have current valid licenses and/or tickets in\n    "
               )
-            ])
-          : _vm._e()
-      ]),
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.has_whitecard
+        ? _c("div", { staticClass: "emp-row" }, [
+            _c("div", { staticClass: "ticket-col-left" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.keyword,
+                    expression: "keyword"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Search" },
+                domProps: { value: _vm.keyword },
+                on: {
+                  keyup: function($event) {
+                    return _vm.onSearch(_vm.keyword)
+                  },
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.keyword = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "ticket-col-right" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "add-button",
+                  staticStyle: { "margin-left": "0px", width: "100%" },
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      return _vm.onAdd()
+                    }
+                  }
+                },
+                [_vm._v("Add")]
+              )
+            ]),
+            _vm._v(" "),
+            _vm.errors.ticket
+              ? _c("span", { staticClass: "err-msg" }, [
+                  _vm._v(
+                    "\n            " + _vm._s(_vm.errors.ticket) + "\n        "
+                  )
+                ])
+              : _vm._e()
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _vm.searchedTickets.length > 0
         ? _c(
@@ -61194,30 +61099,30 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "bl-inline" }, [
         _c("input", {
-          ref: "tax_file_number_1",
+          ref: "has_tfn_1",
           staticClass: "styled-checkbox-round",
-          attrs: { id: "tax_file_number_1", type: "checkbox" },
+          attrs: { id: "has_tfn_1", type: "checkbox" },
           on: {
             change: function($event) {
-              return _vm.formatCheckbox("tax_file_number", 1)
+              return _vm.formatCheckbox("has_tfn", 1)
             }
           }
         }),
         _vm._v(" "),
-        _c("label", { attrs: { for: "tax_file_number_1" } }, [_vm._v("Yes")]),
+        _c("label", { attrs: { for: "has_tfn_1" } }, [_vm._v("Yes")]),
         _vm._v(" "),
         _c("input", {
-          ref: "tax_file_number_0",
+          ref: "has_tfn_0",
           staticClass: "styled-checkbox-round",
-          attrs: { id: "tax_file_number_0", type: "checkbox" },
+          attrs: { id: "has_tfn_0", type: "checkbox" },
           on: {
             change: function($event) {
-              return _vm.formatCheckbox("tax_file_number", 0)
+              return _vm.formatCheckbox("has_tfn", 0)
             }
           }
         }),
         _vm._v(" "),
-        _c("label", { attrs: { for: "tax_file_number_0" } }, [_vm._v("No")])
+        _c("label", { attrs: { for: "has_tfn_0" } }, [_vm._v("No")])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "me-label" }, [
@@ -61226,30 +61131,30 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "bl-inline" }, [
         _c("input", {
-          ref: "business_number_1",
+          ref: "has_abn_1",
           staticClass: "styled-checkbox-round",
-          attrs: { id: "business_number_1", type: "checkbox" },
+          attrs: { id: "has_abn_1", type: "checkbox" },
           on: {
             change: function($event) {
-              return _vm.formatCheckbox("business_number", 1)
+              return _vm.formatCheckbox("has_abn", 1)
             }
           }
         }),
         _vm._v(" "),
-        _c("label", { attrs: { for: "business_number_1" } }, [_vm._v("Yes")]),
+        _c("label", { attrs: { for: "has_abn_1" } }, [_vm._v("Yes")]),
         _vm._v(" "),
         _c("input", {
-          ref: "business_number_0",
+          ref: "has_abn_0",
           staticClass: "styled-checkbox-round",
-          attrs: { id: "business_number_0", type: "checkbox" },
+          attrs: { id: "has_abn_0", type: "checkbox" },
           on: {
             change: function($event) {
-              return _vm.formatCheckbox("business_number", 0)
+              return _vm.formatCheckbox("has_abn", 0)
             }
           }
         }),
         _vm._v(" "),
-        _c("label", { attrs: { for: "business_number_0" } }, [_vm._v("No")])
+        _c("label", { attrs: { for: "has_abn_0" } }, [_vm._v("No")])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "me-label" }, [
@@ -61565,7 +61470,7 @@ var render = function() {
                   expression: "input.when"
                 }
               ],
-              staticStyle: { "background-position": "210px" },
+              staticStyle: { "background-position": "195px" },
               on: {
                 change: function($event) {
                   var $$selectedVal = Array.prototype.filter
@@ -61601,7 +61506,7 @@ var render = function() {
                 _vm._v("12 months")
               ]),
               _vm._v(" "),
-              _c("option", { key: "5", attrs: { value: "Other" } }, [
+              _c("option", { key: "5", attrs: { value: "" } }, [
                 _vm._v("Rather not say")
               ])
             ]
@@ -78230,6 +78135,7 @@ function () {
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(endpoint, input, Utils.getBearerAuth()).then(function (response) {
                   Bus.$emit('alertSuccess', response.data.message);
                 }).catch(function (error) {
+                  Bus.$emit('alertError', error.response.data.message);
                   Utils.handleError(error);
                 });
 

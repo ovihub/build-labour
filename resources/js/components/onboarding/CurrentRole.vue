@@ -68,13 +68,17 @@
                     job_role: '', location: '', years: '', months: '',
                 },
                 endpoints: {
-                    save: '',
+                    save: '/api/v1/worker/current-role',
                 },
             }
         },
 
         created() {
+            let component = this;
 
+            Bus.$on('onboardingSubmitCurrentRole', function() {
+                Api.submit(component.endpoints.save, component.$data.input);
+            });
         },
 
         methods: {

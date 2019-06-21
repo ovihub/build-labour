@@ -11397,7 +11397,7 @@ span.ticket-delete:hover {
   transition: -webkit-transform 300ms ease-out;
   transition: transform 300ms ease-out;
   transition: transform 300ms ease-out, -webkit-transform 300ms ease-out;
-  overflow: scroll;
+  overflow: auto;
   height: 500px;
 }
 

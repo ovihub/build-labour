@@ -4,21 +4,21 @@
             I have a current valid White Card
         </div>
         <div class="bl-inline">
-            <input id="white_card_1" class="styled-checkbox-round" type="checkbox"
-                ref="white_card_1"
-                @change="formatCheckbox('white_card', 1)" />
-            <label for="white_card_1">Yes</label>
+            <input id="has_whitecard_1" class="styled-checkbox-round" type="checkbox"
+                ref="has_whitecard_1"
+                @change="formatCheckbox('has_whitecard', 1)" />
+            <label for="has_whitecard_1">Yes</label>
             
-            <input id="white_card_0" class="styled-checkbox-round" type="checkbox"
-                ref="white_card_0"
-                @change="formatCheckbox('white_card', 0)" />
-            <label for="white_card_0">No</label>
+            <input id="has_whitecard_0" class="styled-checkbox-round" type="checkbox"
+                ref="has_whitecard_0"
+                @change="formatCheckbox('has_whitecard', 0)" />
+            <label for="has_whitecard_0">No</label>
         </div>
 
-        <div class="me-label">
+        <div class="me-label" style="margin-bottom:-15px" v-if="has_whitecard">
             I have current valid licenses and/or tickets in
         </div>
-        <div class="emp-row">
+        <div class="emp-row" v-if="has_whitecard">
             <div class="ticket-col-left">
                 <input class="form-control" type="text"  placeholder="Search" v-model="keyword" @keyup="onSearch(keyword)" />
             </div>
@@ -61,6 +61,7 @@
                 disabled: false,
                 initTickets: [],
                 tickets: [],
+                has_whitecard: '',
                 searchedTickets: [],
                 selectedTicket: false,
                 timeOut: false,
@@ -73,14 +74,23 @@
                 errors: {
 
                 },
+                endpoints: {
+                    save: '/api/v1/worker/tickets',
+                },
             }
         },
 
         created() {
             let component = this;
 
-            Bus.$on('', function() {
-            
+            Bus.$on('onboardingSubmitTickets', function() {
+                let saveInput = {
+                    tickets: component.tickets.map(function (ticket) {
+                                    return { ticket_id: ticket.id };
+                                }),
+                    has_whitecard: component.has_whitecard
+                };
+                Api.submit(component.endpoints.save, saveInput);
             });
         },
 
@@ -133,11 +143,14 @@
 
             formatCheckbox(refName, value) {
                 Utils.formatCheckbox(this, refName, value);
+
+                this.has_whitecard = value;
+
+                if (value == 0) {
+                    this.tickets = [];
+                }
             },
 
-            async submit() {
-
-            },
         }
     }
 </script>

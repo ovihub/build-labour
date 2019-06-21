@@ -330,7 +330,7 @@ class ApiUserTicketsController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'tickets' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'tickets' ), true, 'Successfully saved tickets', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**

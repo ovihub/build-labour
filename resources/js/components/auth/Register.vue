@@ -102,6 +102,7 @@
                     login: '/login',
                     profile: '/user/profile',
                     register: '/api/v1/auth/register',
+                    onboarding: '/user/onboarding',
                 }
             }
         },
@@ -135,7 +136,7 @@
 
                         Api.setToken(data.data.token);
 
-                        window.location.href = component.endpoints.profile;
+                        window.location.href = component.endpoints.onboarding;
                     })
                     .catch(function(error) {
                         if (error.response) {

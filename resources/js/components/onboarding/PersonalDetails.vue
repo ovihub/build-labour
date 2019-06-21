@@ -72,14 +72,17 @@
                 errors: {
                     gender: '', date_of_birth: '', country: '',
                 },
+                endpoints: {
+                    save: '',
+                },
             }
         },
 
         created() {
             let component = this;
 
-            Bus.$on('', function() {
-            
+            Bus.$on('onboardingSubmitPersonalDetails', function() {
+                Api.submit(component.endpoints.save, component.$data.input);
             });
 
             this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
@@ -91,9 +94,6 @@
                 this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
             },
 
-            async submit() {
-
-            },
         }
     }
 </script>

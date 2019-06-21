@@ -207,10 +207,12 @@
                 for (let i = 0; i < this.statuses.length; i++) {
                     this.$refs['education_status_' + i].checked = false;    
                 }
+                
+                if (value >= 0) {
+                    this.$refs['education_status_' + value].checked = true;
 
-                this.$refs['education_status_' + value].checked = true;
-
-                this.education_status = this.statuses[value];
+                    this.education_status = this.statuses[value];
+                }
             },
 
             async submit() {

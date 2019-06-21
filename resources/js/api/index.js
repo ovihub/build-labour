@@ -147,6 +147,8 @@ class BuildLabourApi {
             })
             .catch(function(error) {
 
+                Bus.$emit('alertError', error.response.data.message);
+
                 Utils.handleError(error);
             });
     }

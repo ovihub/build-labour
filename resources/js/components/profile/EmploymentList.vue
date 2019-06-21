@@ -101,7 +101,8 @@
                 imgSrc: '/img/icons/expand.png',
                 imgSrcSet: '/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x',
                 endpoints: {
-                    profile: '/user/profile'
+                    profile: '/user/profile',
+                    onboarding: '/user/onboarding',
                 }
             }
         },
@@ -125,7 +126,9 @@
                         component.formatPeriod(details) != component.formatPeriod(emps[index])) || 
                         (details.responsibilities.length > emps[index].responsibilities.length))) {
                         
-                        window.location.href = component.endpoints.profile;
+                        if (window.location.pathname == component.endpoints.profile) {
+                            window.location.href = component.endpoints.profile;
+                        }
                     }
 
                     if (index == -1) {

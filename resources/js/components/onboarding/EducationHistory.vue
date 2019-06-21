@@ -1,7 +1,7 @@
 <template>
     <form class="modal-form" method="POST" @submit.prevent="submit">
         <div class="skill-label">
-            What formal qualifications have you completed?
+            List any formal qualifications you have started or <b>completed</b>
         </div>
         <div class="skill-label-3">
             e.g. Certificate II in Construction
@@ -26,17 +26,16 @@
 
         data() {
             return {
-                input: {
-                
-                },
-                errors: {
 
-                },
             }
         },
 
         created() {
-            
+            let component = this;
+
+            Bus.$on('onboardingSubmitEducation', function() {
+                Bus.$emit('alertSuccess', 'Successfully saved education');
+            });
         },
 
         methods: {
@@ -45,9 +44,6 @@
                 Bus.$emit('showEducation', index, null);
             },
 
-            async submit() {
-
-            },
         }
     }
 </script>

@@ -226,24 +226,22 @@
         methods: {
 
             setValues(details) {
-                if (details) {
-                    this.id = details.id;
-                    this.company_id = details.company_id;
-                    this.job_role = details.job_role;
-                    this.company_name = details.company_id ? details.company.name : details.company_name;
-                    this.location = details.location ? details.location : details.company.address;
-                    this.project_size = details.project_size;
-                    this.isCurrent = details.isCurrent;
-                    this.start_month = details.start_month;
-                    this.start_year = details.start_year;
-                    this.end_month = details.end_month;
-                    this.end_year = details.end_year;
-                    this.responsibilities = details.responsibilities;
+                this.id = details ? details.id : '';
+                this.company_id = details ? details.company_id: '';
+                this.job_role = details ? details.job_role : '';
+                this.company_name = details ? (details.company_id ? details.company.name : details.company_name) : '';
+                this.location = details ? (details.location ? details.location : details.company.address) : '';
+                this.project_size = details ? details.project_size : '';
+                this.isCurrent = details ? details.isCurrent : '';
+                this.start_month = details ? details.start_month : '';
+                this.start_year = details ? details.start_year : '';
+                this.end_month = details ? details.end_month : '';
+                this.end_year = details ? details.end_year : '';
+                this.responsibilities = details ? details.responsibilities : [];
 
-                    // if (this.company_id) {
-                    //     this.$refs['locationRef'].disabled = true;
-                    // }
-                }
+                // if (this.company_id) {
+                //     this.$refs['locationRef'].disabled = true;
+                // }
                 
                 this.responsibilities = this.responsibilities.filter(r => r!=='');
                 this.responsibilities.push('');

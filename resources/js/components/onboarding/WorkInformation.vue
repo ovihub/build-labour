@@ -20,26 +20,26 @@
             I have an Australian Tax File Number (TFN)
         </div>
         <div class="bl-inline">
-            <input id="tax_file_number_1" class="styled-checkbox-round" type="checkbox"
-                ref="tax_file_number_1" @change="formatCheckbox('tax_file_number', 1)" />
-            <label for="tax_file_number_1">Yes</label>
+            <input id="has_tfn_1" class="styled-checkbox-round" type="checkbox"
+                ref="has_tfn_1" @change="formatCheckbox('has_tfn', 1)" />
+            <label for="has_tfn_1">Yes</label>
             
-            <input id="tax_file_number_0" class="styled-checkbox-round" type="checkbox"
-                ref="tax_file_number_0" @change="formatCheckbox('tax_file_number', 0)" />
-            <label for="tax_file_number_0">No</label>
+            <input id="has_tfn_0" class="styled-checkbox-round" type="checkbox"
+                ref="has_tfn_0" @change="formatCheckbox('has_tfn', 0)" />
+            <label for="has_tfn_0">No</label>
         </div>
 
         <div class="me-label">
             I have an Australian Business Number (ABN)
         </div>
         <div class="bl-inline">
-            <input id="business_number_1" class="styled-checkbox-round" type="checkbox"
-                ref="business_number_1" @change="formatCheckbox('business_number', 1)" />
-            <label for="business_number_1">Yes</label>
+            <input id="has_abn_1" class="styled-checkbox-round" type="checkbox"
+                ref="has_abn_1" @change="formatCheckbox('has_abn', 1)" />
+            <label for="has_abn_1">Yes</label>
             
-            <input id="business_number_0" class="styled-checkbox-round" type="checkbox"
-                ref="business_number_0" @change="formatCheckbox('business_number', 0)" />
-            <label for="business_number_0">No</label>
+            <input id="has_abn_0" class="styled-checkbox-round" type="checkbox"
+                ref="has_abn_0" @change="formatCheckbox('has_abn', 0)" />
+            <label for="has_abn_0">No</label>
         </div>
 
         <div class="me-label">
@@ -95,12 +95,15 @@
         data() {
             return {
                 input: {
-                    right_to_work: '', tax_file_number: '', business_number: '',
+                    right_to_work: '', has_tfn: '', has_abn: '',
                     english_skill: '', drivers_license: '', has_registered_vehicle: '',
                 },
                 errors: {
-                    right_to_work: '', tax_file_number: '', business_number: '',
+                    right_to_work: '', has_tfn: '', has_abn: '',
                     english_skill: '', drivers_license: '', has_registered_vehicle: '',
+                },
+                endpoints: {
+                    save: '/api/v1/worker/affirmations',
                 },
             }
         },
@@ -108,8 +111,8 @@
         created() {
             let component = this;
 
-            Bus.$on('', function() {
-            
+            Bus.$on('onboardingSubmitWorkInformation', function() {
+                Api.submit(component.endpoints.save, component.$data.input);
             });
         },
 
@@ -119,9 +122,6 @@
                 Utils.formatCheckbox(this, refName, value);
             },
 
-            async submit() {
-
-            },
         }
     }
 </script>

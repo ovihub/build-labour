@@ -89,7 +89,7 @@
                     'Complete Profile'
                 ],
                 endpoints: {
-
+                    profile: '/user/profile',
                 },
             }
         },
@@ -131,7 +131,12 @@
             next() {
                 Bus.$emit('alertHide');
 
-                this.goToStep(this.step + 1);
+                if (this.step == this.nextButtons.length) {
+                    window.location.href = this.endpoints.profile;
+
+                } else {
+                    this.goToStep(this.step + 1);
+                }
             },
 
             submit() {

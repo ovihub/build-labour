@@ -41,12 +41,12 @@
         </div>
         <div class="me-row">
             <div class="role-col-left">
-                <select v-model="input.when" style="background-position:210px">
+                <select v-model="input.when" style="background-position:195px">
                     <option key="1" value="3">3 months</option>
                     <option key="2" value="6">6 months</option>
                     <option key="3" value="9">9 months</option>
                     <option key="4" value="12">12 months</option>
-                    <option key="5" value="Other">Rather not say</option>
+                    <option key="5" value="">Rather not say</option>
                 </select>
                 <span class="err-msg" v-if="errors.when">
                     {{ errors.when }}
@@ -67,10 +67,13 @@
                     'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
                 ],
                 input: {
-                    max_distance: '', selected: [], introduction: '', when: '',
+                    max_distance: 0, state: '', selected: [], introduction: '', when: '',
                 },
                 errors: {
                     max_distance: '', selected: '', introduction: '', when: '',
+                },
+                endpoints: {
+                    save: '/api/v1/worker/next-role',
                 },
             }
         },
@@ -78,8 +81,10 @@
         created() {
             let component = this;
 
-            Bus.$on('', function() {
-            
+            Bus.$on('onboardingSubmitWorkPreferences', function() {
+                component.input.state = component.input.selected.toString();
+
+                Api.submit(component.endpoints.save, component.$data.input);
             });
         },
 
@@ -98,9 +103,6 @@
                 Utils.textAreaAdjust(this.$refs[refName]);
             },
 
-            async submit() {
-
-            },
         }
     }
 </script>
