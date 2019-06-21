@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Models\Skills\Level;
+use App\Models\Users\Education;
 use App\Models\Users\WorkExperience;
 use App\Repositories\SkillRepository;
 use App\Repositories\WorkerRepository;
@@ -476,6 +477,35 @@ class ApiWorkerController extends ApiBaseController
         return $this->apiSuccessResponse( compact('experiences'), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
     }
 
+    /**
+     * @OA\Get(
+     *      path="/worker/educations",
+     *      tags={"Worker"},
+     *      summary="Educations",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Experiences"
+     *      )
+     * )
+     */
+
     public function educations() {
 
         $user = JWTAuth::toUser();
@@ -485,7 +515,12 @@ class ApiWorkerController extends ApiBaseController
             return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
         }
 
-        $educations = $user->educations;
+
+        $educations = Education::where('user_id', $user->id)
+                    ->orderBy('end_year', 'asc')
+                    ->get();
+
+        $user->educations = $educations;
 
         return $this->apiSuccessResponse( compact('educations'), true, 'Successfully retrieved worker educations', self::HTTP_STATUS_REQUEST_OK);
     }
@@ -597,7 +632,7 @@ class ApiWorkerController extends ApiBaseController
                     $this->workerRepo->workerDetail->getErrorsDetail()
                 );
             }
-
+        
         } catch(\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
@@ -606,7 +641,9 @@ class ApiWorkerController extends ApiBaseController
         return $this->apiSuccessResponse( compact('result'), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
     }
 
-    /** @OA\Get(
+
+    /**
+     * @OA\Get(
      *      path="/worker/view/{userid}",
      *      tags={"Worker"},
      *      summary="Get user as worker",
@@ -633,16 +670,12 @@ class ApiWorkerController extends ApiBaseController
      *          description="Token Not Found"
      *      ),
      *      @OA\Response(
-     *          response=422,
-     *          description="Bad Request"
-     *      ),
-     *      @OA\Response(
      *          response=500,
      *          description="Internal Server Error"
      *      ),
      *      @OA\Response(
      *          response=200,
-     *          description="Request OK"
+     *          description="Authenticated User"
      *      )
      * )
      */

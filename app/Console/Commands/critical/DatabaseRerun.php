@@ -51,6 +51,7 @@ class DatabaseRerun extends Command
         }
 
         print_r($tables);
+
         foreach($tables as $table){
 
             if (Schema::hasTable($table->{$tableName})) {
@@ -69,6 +70,7 @@ class DatabaseRerun extends Command
 
             echo shell_exec('php artisan db:seed');
         }
+
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

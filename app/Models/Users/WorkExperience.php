@@ -29,11 +29,20 @@ class WorkExperience extends BaseModel
     protected $appends = ['responsibilities', 'company_photo', 'job_responsibilities'];
 
     protected $hidden = ['ResponsibilitiesDetail'];
+
+    public $isOnboarding = false;
+
     /**
      * @return array
      */
     private function rules()
     {
+
+        if ($this->isOnboarding) {
+
+            return [];
+        }
+
         return [
             'job_role'      => 'required',
             'company_name'  => 'required',
@@ -85,6 +94,7 @@ class WorkExperience extends BaseModel
                 return false;
             }
         }
+
 
         return true;
     }
@@ -196,6 +206,11 @@ class WorkExperience extends BaseModel
         if (!$this->validate($data)) {
 
             return false;
+        }
+
+        if ($r->most_recent_role) {
+
+            $data['job_role'] = $r->most_recent_role;
         }
 
         $this->fill( $data );

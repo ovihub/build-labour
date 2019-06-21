@@ -12,7 +12,24 @@ class WorkerDetail extends BaseModel
 {
     protected $table = 'worker_details';
 
-    protected $fillable = ['profile_description', 'english_skill', 'drivers_license', 'right_to_work', 'main_skill', 'introduction', 'when', 'max_distance', 'address', 'state', 'nrole_right_to_work_au', 'user_id', 'has_registered_vehicle', 'education_id'];
+    protected $fillable = [
+        'profile_description',
+        'english_skill',
+        'drivers_license',
+        'right_to_work',
+        'main_skill',
+        'introduction',
+        'when',
+        'max_distance',
+        'address',
+        'state',
+        'nrole_right_to_work_au',
+        'user_id',
+        'has_registered_vehicle',
+        'education_id',
+        'suburb',
+        'most_recent_role'
+    ];
 
     private $userId = null;
 
