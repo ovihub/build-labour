@@ -6,6 +6,7 @@ use App\Models\Users\WorkExperience;
 use App\Models\Users\WorkExperienceResponsibility;
 use App\Repositories\WorkerRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use JWTAuth;
 
 class ApiWorksController extends ApiBaseController
@@ -252,35 +253,23 @@ class ApiWorksController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="job_role",
-     *                      description="<b>Required</b> Job Role",
+     *                      property="most_recent_role",
+     *                      description="Recent role",
      *                      type="string",
      *                      example="Developer"
      *                  ),
      *                  @OA\Property(
-     *                      property="company_name",
-     *                      description="Company",
-     *                      type="string",
-     *                      example="Appetiser"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="start_year",
-     *                      description="<b>Required</b>",
+     *                      property="exp_year",
+     *                      description="years of exp by year",
      *                      type="integer",
-     *                      example="2014"
+     *                      example=3
      *                  ),
      *                  @OA\Property(
-     *                      property="start_month",
-     *                      description="<b>Required</b> Start Month",
+     *                      property="exp_month",
+     *                      description="years of exp by month",
      *                      type="integer",
-     *                      example="11"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="isCurrent",
-     *                      description="Current Role for employment history",
-     *                      type="boolean",
-     *                      example=true
-     *                  ),
+     *                      example=2
+     *                  )
      *              ),
      *          ),
      *      ),
@@ -313,12 +302,15 @@ class ApiWorksController extends ApiBaseController
     public function updateCurrentRole( Request $request )
     {
 
+        DB::beginTransaction();
+
         try {
 
             $workerRepo = new WorkerRepository();
 
             if( ! $work_experience = $workerRepo->updateCurrentRole($request) ){
 
+                DB::rollBack();
                 return $this->apiErrorResponse(
                     false,
                     $workerRepo->workExp->getErrors( true ),
@@ -330,9 +322,12 @@ class ApiWorksController extends ApiBaseController
 
         } catch(\Exception $e) {
 
+            DB::rollBack();
+
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
+        DB::commit();
 
         return $this->apiSuccessResponse( compact( 'work_experience' ), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
     }
@@ -449,12 +444,12 @@ class ApiWorksController extends ApiBaseController
      *                      example=true
      *                  ),
      *                  @OA\Property(
-     *                      property="can_spoke_english",
+     *                      property="english_skill",
      *                      type="boolean",
-     *                      example=false
+     *                      example=true
      *                  ),
      *                  @OA\Property(
-     *                      property="has_drivers_license",
+     *                      property="drivers_license",
      *                      type="boolean",
      *                      example=false
      *                  ),

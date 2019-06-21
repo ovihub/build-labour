@@ -174,8 +174,49 @@ class WorkerRepository extends AbstractRepository
 
         $user = JWTAuth::toUser();
 
+        if (!$user->workerDetail) {
+
+            return false;
+        }
+
         $this->workExp = new WorkExperience();
         $this->workExp->setUserId($user->id);
+        $this->workExp->isOnboarding = true;
+
+        $rules = [
+            'most_recent_role'  => 'required|min:5',
+            'industry_area'  => 'nullable|min:5',
+            'exp_year'       => 'nullable|integer',
+            'exp_month'      => 'nullable|integer'
+        ];
+
+        $validator = \Validator::make($request->all(), $rules);
+
+        if ( $validator->fails() ) {
+
+            $this->workExp->errors = $validator->errors()->all();
+            $this->workExp->errorsDetail = $validator->errors()->toArray();
+
+            return false;
+        }
+
+        if (isset($request->exp_year) && isset($request->exp_month)) {
+
+            if (empty($request->exp_year) || empty($request->exp_month)) {
+
+                $validator->errors()->add( 'years_of_experienced', 'Experience year and Experience month are required.' );
+
+                $this->workExp->errors = $validator->errors()->all();
+                $this->workExp->errorsDetail = $validator->errors()->toArray();
+
+                return false;
+            }
+
+            $user->workerDetail->exp_year = $request->exp_year;
+            $user->workerDetail->exp_month = $request->exp_month;
+
+            $user->workerDetail->save();
+        }
 
         WorkExperience::where('user_id', $user->id)->update(['isCurrent' => 0]);
 
@@ -294,7 +335,7 @@ class WorkerRepository extends AbstractRepository
             $user->workerDetail->has_abn = false;
         }
 
-        if ($request->can_spoke_english) {
+        if ($request->english_skill) {
 
             $user->workerDetail->english_skill = true;
 
@@ -303,7 +344,7 @@ class WorkerRepository extends AbstractRepository
             $user->workerDetail->english_skill = false;
         }
 
-        if ($request->has_drivers_license) {
+        if ($request->drivers_license) {
 
             $user->workerDetail->drivers_license = true;
 

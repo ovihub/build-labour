@@ -18,7 +18,9 @@ class AddColumnsToWorkerDetailsTable extends Migration
             $table->boolean('has_tfn')->unsigned()->default(false);
             $table->boolean('has_abn')->unsigned()->default(false);
             $table->boolean('has_whitecard')->unsigned()->default(false);
-
+            $table->string('industry_area')->nullable();
+            $table->integer('exp_year')->unsigned()->nullable();
+            $table->integer('exp_month')->unsigned()->nullable();
 
         });
     }

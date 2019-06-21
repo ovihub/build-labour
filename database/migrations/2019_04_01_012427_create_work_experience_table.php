@@ -24,7 +24,8 @@ class CreateWorkExperienceTable extends Migration
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->integer('user_id')->unsigned();
-           $table->timestamps();
+
+            $table->timestamps();
         });
     }
 
