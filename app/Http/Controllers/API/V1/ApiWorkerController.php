@@ -476,6 +476,35 @@ class ApiWorkerController extends ApiBaseController
         return $this->apiSuccessResponse( compact('experiences'), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
     }
 
+    /**
+     * @OA\Get(
+     *      path="/worker/educations",
+     *      tags={"Worker"},
+     *      summary="Educations",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Experiences"
+     *      )
+     * )
+     */
+
     public function educations() {
 
         $user = JWTAuth::toUser();
@@ -597,13 +626,75 @@ class ApiWorkerController extends ApiBaseController
                     $this->workerRepo->workerDetail->getErrorsDetail()
                 );
             }
+        
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+            
+        return $this->apiSuccessResponse( compact('result'), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+
+    /**
+     * @OA\Get(
+     *      path="/worker/view/{userid}",
+     *      tags={"Worker"},
+     *      summary="Get user as worker",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Parameter(
+     *          in="path",
+     *          name="userid",
+     *          description="user id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Authenticated User"
+     *      )
+     * )
+     */
+    public function getWorker( Request $request )
+    {
+        try {
+
+            $user = $this->workerRepo->getWorker($request);
+
+            if (!$user) {
+
+                return $this->apiErrorResponse(
+                    false,
+                    'invalid input',
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput'
+                );
+            }
+
 
         } catch(\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact('result'), true, 'Successfully updated worker details', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'user' ), true, '', self::HTTP_STATUS_REQUEST_OK);
     }
-
 }

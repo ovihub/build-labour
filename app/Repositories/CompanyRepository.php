@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Http\Resources\PeoplesResource;
 use App\Models\Companies\Company;
 use App\Models\Companies\CompanyPost;
 use App\Models\Companies\CompanySpecialized;
@@ -109,9 +110,9 @@ class CompanyRepository extends AbstractRepository
 
         if ($company) {
 
-            $workers = $company->workers;
-            
-            return $company->workers;
+            $workers = $company->getWorkers();
+
+            return PeoplesResource::collection($workers);
         }
 
         return [];

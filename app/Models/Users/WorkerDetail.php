@@ -87,7 +87,7 @@ class WorkerDetail extends BaseModel
     }
 
     /**
-     * Return a collection relates to Tickets
+     * Return a collection relates to Sectors
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function Areas() {
@@ -96,7 +96,16 @@ class WorkerDetail extends BaseModel
     }
 
     /**
-     * Return a collection relates to Tickets
+     * Return a collection relates to Sectors
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function Sectors() {
+
+        return $this->belongsToMany(BusinessType::class, 'worker_areas', 'worker_id', 'business_type_id');
+    }
+
+    /**
+     * Return a collection relates to Tiers
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function Tiers() {
@@ -107,6 +116,20 @@ class WorkerDetail extends BaseModel
     public function setUserId($userId) {
 
         $this->userId = $userId;
+    }
+
+    public function getLatestExperience() {
+
+        $exp = $this->user->experiences->where('isCurrent', true)->first();
+
+        if (!$exp) {
+
+            $expId = $this->user->experiences->max('id');
+
+            $exp = WorkExperience::find($expId);
+        }
+
+        return $exp;
     }
 
     public function store(Request $r) {
