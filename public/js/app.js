@@ -7624,16 +7624,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       disabled: false,
       job_roles: [],
       input: {
-        job_role: '',
+        most_recent_role: '',
         location: '',
-        years: '',
-        months: ''
+        exp_year: '',
+        exp_month: ''
       },
       errors: {
-        job_role: '',
+        most_recent_role: '',
         location: '',
-        years: '',
-        months: ''
+        exp_year: '',
+        exp_month: ''
       },
       endpoints: {
         save: '/api/v1/worker/current-role'
@@ -7656,7 +7656,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onSelectJob: function onSelectJob(job) {
       // this.input.job_id = job.id;
-      this.input.job_role = job.job_role_name;
+      this.input.most_recent_role = job.job_role_name;
       this.job_roles = [];
     },
     submit: function () {
@@ -59729,7 +59729,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "emp-row" }, [
-        _vm.input.job_role
+        _vm.input.most_recent_role
           ? _c("div", { staticClass: "emp-form-label" }, [
               _vm._v("Most Recent Role")
             ])
@@ -59740,30 +59740,32 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.input.job_role,
-              expression: "input.job_role"
+              value: _vm.input.most_recent_role,
+              expression: "input.most_recent_role"
             }
           ],
           staticClass: "form-control",
           attrs: { type: "text", placeholder: "Most Recent Role" },
-          domProps: { value: _vm.input.job_role },
+          domProps: { value: _vm.input.most_recent_role },
           on: {
             keyup: function($event) {
-              return _vm.onSearchJob(_vm.input.job_role)
+              return _vm.onSearchJob(_vm.input.most_recent_role)
             },
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.$set(_vm.input, "job_role", $event.target.value)
+              _vm.$set(_vm.input, "most_recent_role", $event.target.value)
             }
           }
         }),
         _vm._v(" "),
-        _vm.errors.job_role
+        _vm.errors.most_recent_role
           ? _c("span", { staticClass: "err-msg" }, [
               _vm._v(
-                "\n            " + _vm._s(_vm.errors.job_role) + "\n        "
+                "\n            " +
+                  _vm._s(_vm.errors.most_recent_role) +
+                  "\n        "
               )
             ])
           : _vm._e()
@@ -59842,7 +59844,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "me-row" }, [
         _c("div", { staticClass: "role-col-left" }, [
-          _vm.input.years
+          _vm.input.exp_year
             ? _c("div", { staticClass: "emp-form-label" }, [_vm._v("Years")])
             : _vm._e(),
           _vm._v(" "),
@@ -59851,26 +59853,26 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.input.years,
-                expression: "input.years"
+                value: _vm.input.exp_year,
+                expression: "input.exp_year"
               }
             ],
             staticClass: "form-control",
             attrs: { type: "text", placeholder: "Years" },
-            domProps: { value: _vm.input.years },
+            domProps: { value: _vm.input.exp_year },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.input, "years", $event.target.value)
+                _vm.$set(_vm.input, "exp_year", $event.target.value)
               }
             }
           })
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "role-col-right" }, [
-          _vm.input.months
+          _vm.input.exp_month
             ? _c("div", { staticClass: "emp-form-label" }, [_vm._v("Months")])
             : _vm._e(),
           _vm._v(" "),
@@ -59879,19 +59881,19 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.input.months,
-                expression: "input.months"
+                value: _vm.input.exp_month,
+                expression: "input.exp_month"
               }
             ],
             staticClass: "form-control",
             attrs: { type: "text", placeholder: "Months" },
-            domProps: { value: _vm.input.months },
+            domProps: { value: _vm.input.exp_month },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.input, "months", $event.target.value)
+                _vm.$set(_vm.input, "exp_month", $event.target.value)
               }
             }
           })

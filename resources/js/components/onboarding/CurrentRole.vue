@@ -9,13 +9,13 @@
             What is your current or most recent role/title?
         </div>
         <div class="emp-row">
-            <div class="emp-form-label" v-if="input.job_role">Most Recent Role</div>
+            <div class="emp-form-label" v-if="input.most_recent_role">Most Recent Role</div>
 
-            <input class="form-control" type="text" placeholder="Most Recent Role" v-model="input.job_role"
-                @keyup="onSearchJob(input.job_role)" />
+            <input class="form-control" type="text" placeholder="Most Recent Role" v-model="input.most_recent_role"
+                @keyup="onSearchJob(input.most_recent_role)" />
             
-            <span class="err-msg" v-if="errors.job_role">
-                {{ errors.job_role }}
+            <span class="err-msg" v-if="errors.most_recent_role">
+                {{ errors.most_recent_role }}
             </span>
         </div>
 
@@ -38,15 +38,15 @@
         <div class="me-label" style="margin-bottom:17px">Years Experience</div>
         <div class="me-row">
             <div class="role-col-left">
-                <div class="emp-form-label" v-if="input.years">Years</div>
+                <div class="emp-form-label" v-if="input.exp_year">Years</div>
                 
-                <input class="form-control" type="text" placeholder="Years" v-model="input.years" />
+                <input class="form-control" type="text" placeholder="Years" v-model="input.exp_year" />
             </div>
 
             <div class="role-col-right">
-                <div class="emp-form-label" v-if="input.months">Months</div>
+                <div class="emp-form-label" v-if="input.exp_month">Months</div>
                 
-                <input class="form-control" type="text" placeholder="Months" v-model="input.months" />
+                <input class="form-control" type="text" placeholder="Months" v-model="input.exp_month" />
             </div>
         </div>
     </form>
@@ -62,10 +62,10 @@
                 disabled: false,
                 job_roles: [],
                 input: {
-                    job_role: '', location: '', years: '', months: '',
+                    most_recent_role: '', location: '', exp_year: '', exp_month: '',
                 },
                 errors: {
-                    job_role: '', location: '', years: '', months: '',
+                    most_recent_role: '', location: '', exp_year: '', exp_month: '',
                 },
                 endpoints: {
                     save: '/api/v1/worker/current-role',
@@ -95,7 +95,7 @@
 
             onSelectJob(job) {
                 // this.input.job_id = job.id;
-                this.input.job_role = job.job_role_name;
+                this.input.most_recent_role = job.job_role_name;
 
                 this.job_roles = [];
             },
