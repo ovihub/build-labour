@@ -7625,13 +7625,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       job_roles: [],
       input: {
         most_recent_role: '',
-        location: '',
+        industry_area: '',
         exp_year: '',
         exp_month: ''
       },
       errors: {
         most_recent_role: '',
-        location: '',
+        industry_area: '',
         exp_year: '',
         exp_month: ''
       },
@@ -19767,7 +19767,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nli[data-v-3e4eb5c4] {\n    max-width: 495px;\n}\n", ""]);
+exports.push([module.i, "\nli[data-v-3e4eb5c4] {\n    width: 495px;\n}\n", ""]);
 
 // exports
 
@@ -59807,7 +59807,7 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "emp-row" }, [
-        _vm.input.location
+        _vm.input.industry_area
           ? _c("div", { staticClass: "emp-form-label" }, [
               _vm._v("Industry Area")
             ])
@@ -59818,19 +59818,19 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.input.location,
-              expression: "input.location"
+              value: _vm.input.industry_area,
+              expression: "input.industry_area"
             }
           ],
           staticClass: "form-control",
           attrs: { type: "text", placeholder: "Industry Area" },
-          domProps: { value: _vm.input.location },
+          domProps: { value: _vm.input.industry_area },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.$set(_vm.input, "location", $event.target.value)
+              _vm.$set(_vm.input, "industry_area", $event.target.value)
             }
           }
         })
