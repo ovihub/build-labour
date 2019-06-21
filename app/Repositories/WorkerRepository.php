@@ -399,10 +399,8 @@ class WorkerRepository extends AbstractRepository
 
         $user->job_role = $jobRole;
 
-        $user->experiences;
         $user->role;
         $user->skills;
-        $user->educations;
         $user->workerDetail;
         $user->tickets;
 
@@ -412,6 +410,13 @@ class WorkerRepository extends AbstractRepository
             $user->workerDetail->sectors;
             $user->workerDetail->tiers;
         }
+
+        $educations = Education::where('user_id', $user->id)
+            ->orderBy('end_year', 'asc')
+            ->get();
+
+        $user->educations = $educations;
+
 
         return $user;
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Models\Skills\Level;
+use App\Models\Users\Education;
 use App\Models\Users\WorkExperience;
 use App\Repositories\SkillRepository;
 use App\Repositories\WorkerRepository;
@@ -514,7 +515,12 @@ class ApiWorkerController extends ApiBaseController
             return $this->apiErrorResponse( false, 'Something wrong.', 400 , 'internalServerError' );
         }
 
-        $educations = $user->educations;
+
+        $educations = Education::where('user_id', $user->id)
+                    ->orderBy('end_year', 'asc')
+                    ->get();
+
+        $user->educations = $educations;
 
         return $this->apiSuccessResponse( compact('educations'), true, 'Successfully retrieved worker educations', self::HTTP_STATUS_REQUEST_OK);
     }

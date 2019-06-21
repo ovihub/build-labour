@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Models\Users\Education;
 use App\Models\Users\Users;
 use App\Models\Users\WorkerDetail;
 use App\Models\Users\WorkExperienceResponsibility;
@@ -632,7 +633,6 @@ class ApiAuthController extends ApiBaseController
             $user->experiences;
             $user->role;
             $user->skills;
-            $user->educations;
             $user->workerDetail;
             $user->tickets;
 
@@ -643,9 +643,14 @@ class ApiAuthController extends ApiBaseController
 
             if ($user->workerDetail) {
 
-                $user->workerDetail->education;
                 $user->workerDetail->sectors;
                 $user->workerDetail->tiers;
+
+                $educations = Education::where('user_id', $user->id)
+                    ->orderBy('end_year', 'asc')
+                    ->get();
+
+                $user->educations = $educations;
 
             }
 
