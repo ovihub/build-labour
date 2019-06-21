@@ -62140,7 +62140,7 @@ var staticRenderFns = [
       _c("img", {
         staticClass: "bl-image-56",
         staticStyle: { "margin-top": "0px" },
-        attrs: { src: "/img/logo/1.jpg" }
+        attrs: { src: "/img/logo/2.jpg" }
       })
     ])
   }

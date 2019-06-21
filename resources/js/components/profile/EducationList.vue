@@ -13,7 +13,7 @@
             </span>
             <div class="jobads-row mt-4">
                 <div class="bl-col-1">
-                    <img class="bl-image-56" style="margin-top:0px" src="/img/logo/1.jpg">
+                    <img class="bl-image-56" style="margin-top:0px" src="/img/logo/2.jpg">
                 </div>
                 <div class="bl-col-2" style="margin-top:-4px">
                     <div class="bl-display">
