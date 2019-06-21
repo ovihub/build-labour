@@ -213,7 +213,7 @@ class WorkerRepository extends AbstractRepository
 
             $user->workerDetail->exp_year = $request->exp_year;
             $user->workerDetail->exp_month = $request->exp_month;
-
+            $user->workerDetail->most_recent_role = $request->most_recent_role;
             $user->workerDetail->save();
         }
 
@@ -236,11 +236,11 @@ class WorkerRepository extends AbstractRepository
             return false;
         }
 
-        if (!empty($request->business_types)) {
+        if (!empty($request->sectors)) {
 
             WorkerArea::where('worker_id', $user->workerDetail->id)->delete();
 
-            $businessTypes = $request->business_types;
+            $businessTypes = $request->sectors;
 
             $businessTypes = array_filter($businessTypes, function($id) {
 

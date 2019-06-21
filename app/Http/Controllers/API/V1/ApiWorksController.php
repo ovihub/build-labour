@@ -345,7 +345,7 @@ class ApiWorksController extends ApiBaseController
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
-     *                      property="business_types",
+     *                      property="sectors",
      *                      type="array",
      *                      @OA\Items(
      *                          type="integer",

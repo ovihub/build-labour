@@ -211,6 +211,7 @@ class WorkExperience extends BaseModel
         if ($r->most_recent_role) {
 
             $data['job_role'] = $r->most_recent_role;
+            $data['isCurrent'] = true;
         }
 
         $this->fill( $data );
