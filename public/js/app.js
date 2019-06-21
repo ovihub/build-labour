@@ -8063,21 +8063,22 @@ __webpack_require__.r(__webpack_exports__);
       input: {
         gender: '',
         date_of_birth: '',
-        country: ''
+        country_birth: ''
       },
       errors: {
         gender: '',
         date_of_birth: '',
-        country: ''
+        country_birth: ''
       },
       endpoints: {
-        save: ''
+        save: '/api/v1/worker/personal-details'
       }
     };
   },
   created: function created() {
     var component = this;
     Bus.$on('onboardingSubmitPersonalDetails', function () {
+      component.input.date_of_birth = component.birthYear + '-' + component.birthMonth + '-' + component.birthDay;
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
     });
     this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
@@ -60368,7 +60369,7 @@ var render = function() {
                   expression: "input.gender"
                 }
               ],
-              staticStyle: { "background-position": "210px" },
+              staticStyle: { "background-position": "205px" },
               on: {
                 change: function($event) {
                   var $$selectedVal = Array.prototype.filter
@@ -60396,7 +60397,7 @@ var render = function() {
                 _vm._v("Female")
               ]),
               _vm._v(" "),
-              _c("option", { key: "3", attrs: { value: "Other" } }, [
+              _c("option", { key: "3", attrs: { value: "" } }, [
                 _vm._v("Rather not say")
               ])
             ]
@@ -60563,10 +60564,11 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.input.country,
-                expression: "input.country"
+                value: _vm.input.country_birth,
+                expression: "input.country_birth"
               }
             ],
+            staticStyle: { "background-position": "465px" },
             on: {
               change: function($event) {
                 var $$selectedVal = Array.prototype.filter
@@ -60579,7 +60581,7 @@ var render = function() {
                   })
                 _vm.$set(
                   _vm.input,
-                  "country",
+                  "country_birth",
                   $event.target.multiple ? $$selectedVal : $$selectedVal[0]
                 )
               }
@@ -60601,9 +60603,9 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _vm.errors.country
+      _vm.errors.country_birth
         ? _c("span", { staticClass: "err-msg" }, [
-            _vm._v("\n        " + _vm._s(_vm.errors.country) + "\n    ")
+            _vm._v("\n        " + _vm._s(_vm.errors.country_birth) + "\n    ")
           ])
         : _vm._e()
     ]
