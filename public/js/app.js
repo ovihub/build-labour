@@ -9097,12 +9097,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -9477,12 +9471,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -62034,15 +62022,8 @@ var render = function() {
     _vm._l(_vm.educations, function(education, idx) {
       return _c("div", { key: idx }, [
         _c(
-          "span",
+          "div",
           {
-            staticClass: "edit-icon edit-icon-3",
-            attrs: {
-              "data-toggle": "modal",
-              "data-backdrop": "static",
-              "data-keyboard": "false",
-              "data-target": "#modalEducation"
-            },
             on: {
               click: function($event) {
                 return _vm.action(idx)
@@ -62050,17 +62031,14 @@ var render = function() {
             }
           },
           [
-            _c("img", {
+            _c("edit-icon", {
               attrs: {
-                src: "/img/icons/editbutton.png",
-                srcset:
-                  "/img/icons/editbutton@2x.png" +
-                  " 2x, " +
-                  "/img/icons/editbutton@3x.png" +
-                  " 3x"
+                cls: "edit-icon edit-icon-3",
+                "data-target": "#modalEducation"
               }
             })
-          ]
+          ],
+          1
         ),
         _vm._v(" "),
         _c("div", { staticClass: "jobads-row mt-4" }, [
@@ -62720,15 +62698,8 @@ var render = function() {
         _vm._l(_vm.employments, function(employment, index) {
           return _c("li", { key: index, staticClass: "main-items" }, [
             _c(
-              "span",
+              "div",
               {
-                staticClass: "edit-icon edit-icon-3",
-                attrs: {
-                  "data-toggle": "modal",
-                  "data-backdrop": "static",
-                  "data-keyboard": "false",
-                  "data-target": "#modalEmployment"
-                },
                 on: {
                   click: function($event) {
                     return _vm.action(index)
@@ -62736,17 +62707,14 @@ var render = function() {
                 }
               },
               [
-                _c("img", {
+                _c("edit-icon", {
                   attrs: {
-                    src: "/img/icons/editbutton.png",
-                    srcset:
-                      "/img/icons/editbutton@2x.png" +
-                      " 2x, " +
-                      "/img/icons/editbutton@3x.png" +
-                      " 3x"
+                    cls: "edit-icon edit-icon-3",
+                    "data-target": "#modalEmployment"
                   }
                 })
-              ]
+              ],
+              1
             ),
             _vm._v(" "),
             _c("span", { staticClass: "text-icon-2" }, [

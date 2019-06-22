@@ -4,16 +4,10 @@
             v-for="(employment, index) in employments"
             v-bind:key="index">
 
-            <span class="edit-icon edit-icon-3"
-                data-toggle="modal"
-                data-backdrop="static"
-                data-keyboard="false"
-                data-target="#modalEmployment"
-                @click="action(index)">
+            <div @click="action(index)">
+                <edit-icon cls="edit-icon edit-icon-3" data-target="#modalEmployment"></edit-icon>
+            </div>
 
-                <img src="/img/icons/editbutton.png"
-                    srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
-            </span>
             <span class="text-icon-2">
                 <img :src="imgSrc" :srcset="imgSrcSet" :ref="'toggleImg-' + index" @click="toggle(index)">
             </span>
