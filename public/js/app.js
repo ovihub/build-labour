@@ -5559,9 +5559,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5581,9 +5578,6 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     endpointGet: function endpointGet() {
       return this.endpoints.get + this.companyId + '/posts/jobs';
-    },
-    showButton: function showButton() {
-      return location.pathname === '/user/profile';
     }
   },
   created: function created() {
@@ -6090,6 +6084,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -6162,6 +6160,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     if (!parseInt(window.location.pathname.split('/').pop(), 10)) {
       this.editable = true;
+    }
+  },
+  props: {
+    companyId: {
+      type: String,
+      required: false
+    }
+  },
+  computed: {
+    showButton: function showButton() {
+      return location.pathname === '/user/profile';
     }
   },
   methods: {
@@ -6337,7 +6346,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return submit;
-    }()
+    }(),
+    postNewJob: function postNewJob() {
+      window.location.href = '/job/new?cid=' + this.companyId;
+    }
   }
 });
 
@@ -56950,24 +56962,7 @@ var render = function() {
         "div",
         { staticClass: "profile-item-2" },
         [
-          _c("div", { staticClass: "job-action" }, [
-            _vm.showButton
-              ? _c("div", { staticClass: "job-filter" }, [
-                  _c(
-                    "a",
-                    {
-                      staticStyle: { "font-weight": "500" },
-                      attrs: { href: "/job/new?cid=" + _vm.companyId }
-                    },
-                    [_vm._v("+ Post new job")]
-                  )
-                ])
-              : _c("div", { staticClass: "job-filter" }, [
-                  _vm._v("\n            Filter\n        ")
-                ]),
-            _vm._v(" "),
-            _vm._m(0)
-          ]),
+          _vm._m(0),
           _vm._v(" "),
           _c("job-posts", { attrs: { "company-id": _vm.companyId } })
         ],
@@ -56980,9 +56975,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "job-sort" }, [
-      _vm._v("\n            Sort by: "),
-      _c("span", { staticClass: "job-recent" }, [_vm._v("Most Recent")])
+    return _c("div", { staticClass: "job-action" }, [
+      _c("div", { staticClass: "job-filter" }, [
+        _vm._v("\n            Filter\n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-sort" }, [
+        _vm._v("\n            Sort by: "),
+        _c("span", { staticClass: "job-recent" }, [_vm._v("Most Recent")])
+      ])
     ])
   }
 ]
@@ -58085,7 +58086,23 @@ var render = function() {
         ])
       ],
       1
-    )
+    ),
+    _vm._v(" "),
+    _vm.showButton
+      ? _c(
+          "button",
+          {
+            staticStyle: { width: "100%" },
+            attrs: { disabled: _vm.disabled },
+            on: {
+              click: function($event) {
+                return _vm.postNewJob(0)
+              }
+            }
+          },
+          [_vm._v("\n        Post New Job\n    ")]
+        )
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -58268,20 +58285,6 @@ var render = function() {
           _vm._v("\n        Apply\n    ")
         ])
       : _c("div", [
-          _c(
-            "button",
-            {
-              staticStyle: { width: "100%" },
-              attrs: { disabled: _vm.disabled },
-              on: {
-                click: function($event) {
-                  return _vm.postJob(1)
-                }
-              }
-            },
-            [_vm._v("\n            Save as template\n        ")]
-          ),
-          _vm._v(" "),
           _c(
             "button",
             {

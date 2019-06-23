@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
         <load-company company-id="{{ $company_id }}"></load-company>
         <div class="col-md-3">
-            <company-profile></company-profile>
+            <company-profile company-id="{{ $company_id }}"></company-profile>
         </div>
         <div class="col-md-6">
             <company-browse></company-browse>

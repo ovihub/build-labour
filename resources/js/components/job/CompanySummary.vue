@@ -33,9 +33,9 @@
         </button>
 
         <div v-else>
-            <button style="width:100%" :disabled="disabled" @click="postJob(1)">
+            <!-- <button style="width:100%" :disabled="disabled" @click="postJob(1)">
                 Save as template
-            </button>
+            </button> -->
 
             <button style="width:100%" :disabled="disabled" @click="postJob(0)">
                 Post Job

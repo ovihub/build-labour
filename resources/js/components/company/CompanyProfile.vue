@@ -243,6 +243,10 @@
                 </div>
             </div>
         </div>
+
+        <button style="width:100%" :disabled="disabled" v-if="showButton" @click="postNewJob(0)">
+            Post New Job
+        </button>
     </div>
 </template>
 
@@ -302,6 +306,19 @@
             if (! parseInt(window.location.pathname.split('/').pop(), 10)) {
                 this.editable = true;
             }
+        },
+
+        props: {
+            companyId: {
+                type: String,
+                required: false
+            },
+        },
+        
+        computed: {
+            showButton() {
+                return location.pathname === '/user/profile';
+            },
         },
 
         methods: {
@@ -478,6 +495,10 @@
                     });
                 
                 this.disabled = false;
+            },
+
+            postNewJob() {
+                window.location.href = '/job/new?cid=' + this.companyId;
             },
         }
     }
