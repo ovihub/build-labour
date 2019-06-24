@@ -53171,7 +53171,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control record-input",
-                staticStyle: { margin: "0" },
+                staticStyle: { margin: "0", "background-position": "345px" },
                 on: {
                   change: [
                     function($event) {
