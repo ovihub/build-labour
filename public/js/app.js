@@ -2702,7 +2702,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       job_roles: [],
       endpoints: {
         get: '/api/v1/admin/job/roles/',
-        save: '/api/v1/admin/job/roles/'
+        save: '/api/v1/admin/job/roles'
       }
     };
   },
@@ -53248,7 +53248,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control record-input",
-                staticStyle: { margin: "0" },
+                staticStyle: { margin: "0", "background-position": "345px" },
                 on: {
                   change: [
                     function($event) {
@@ -83385,8 +83385,8 @@ window.Helper = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! F:\appetiser\build-labour-backend\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! F:\appetiser\build-labour-backend\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
