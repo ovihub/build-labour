@@ -59,7 +59,6 @@
 
         data() {
             return {
-                disabled: false,
                 job_roles: [],
                 input: {
                     most_recent_role: '', industry_area: '', exp_year: '', exp_month: '',
@@ -84,8 +83,6 @@
         methods: {
 
             onSearchJob(keyword) {
-                // this.job_id = '';
-
                 let component = this;
                 
                 Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
@@ -94,15 +91,11 @@
             },
 
             onSelectJob(job) {
-                // this.input.job_id = job.id;
                 this.input.most_recent_role = job.job_role_name;
 
                 this.job_roles = [];
             },
-
-            async submit() {
-
-            },
+            
         }
     }
 </script>

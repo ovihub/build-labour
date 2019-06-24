@@ -3409,17 +3409,66 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       roles: [],
+      job_roles: [],
       loading: false,
       disabled: false,
       input: {
         first_name: '',
         last_name: '',
         mobile_number: '',
+        most_recent_role: '',
+        suburb: '',
         email: '',
         password: '',
         password_confirmation: ''
@@ -3428,6 +3477,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         first_name: '',
         last_name: '',
         mobile_number: '',
+        most_recent_role: '',
+        suburb: '',
         email: '',
         password: ''
       },
@@ -3449,6 +3500,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
   },
   methods: {
+    onSearchJob: function onSearchJob(keyword) {
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
+        component.job_roles = data.data.job_roles;
+      });
+    },
+    onSelectJob: function onSelectJob(job) {
+      this.input.most_recent_role = job.job_role_name;
+      this.job_roles = [];
+    },
     registerUser: function () {
       var _registerUser = _asyncToGenerator(
       /*#__PURE__*/
@@ -7566,15 +7627,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
@@ -7633,7 +7686,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      disabled: false,
       job_roles: [],
       input: {
         most_recent_role: '',
@@ -7655,43 +7707,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   created: function created() {
     var component = this;
     Bus.$on('onboardingSubmitCurrentRole', function () {
-      _api__WEBPACK_IMPORTED_MODULE_1__["default"].submit(component.endpoints.save, component.$data.input);
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
     });
   },
   methods: {
     onSearchJob: function onSearchJob(keyword) {
-      // this.job_id = '';
       var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_0__["default"].getJobRoles(keyword)).then(function (data) {
         component.job_roles = data.data.job_roles;
       });
     },
     onSelectJob: function onSelectJob(job) {
-      // this.input.job_id = job.id;
       this.input.most_recent_role = job.job_role_name;
       this.job_roles = [];
-    },
-    submit: function () {
-      var _submit = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      function submit() {
-        return _submit.apply(this, arguments);
-      }
-
-      return submit;
-    }()
+    }
   }
 });
 
@@ -8667,7 +8696,7 @@ __webpack_require__.r(__webpack_exports__);
         introduction: '',
         when: '',
         willing_to_relocate: '',
-        countries: []
+        selected_countries: []
       },
       errors: {
         max_distance: '',
@@ -8675,7 +8704,7 @@ __webpack_require__.r(__webpack_exports__);
         introduction: '',
         when: '',
         willing_to_relocate: '',
-        countries: []
+        countries: ''
       },
       endpoints: {
         save: '/api/v1/worker/next-role'
@@ -54294,84 +54323,90 @@ var render = function() {
     [
       _c("div", { staticClass: "form-text-header" }, [_vm._v("Registration")]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.input.first_name,
-              expression: "input.first_name"
-            }
-          ],
-          staticClass: "form-control",
-          staticStyle: { "padding-left": "24px" },
-          attrs: {
-            id: "first_name",
-            type: "text",
-            name: "first_name",
-            placeholder: "First Name",
-            required: "",
-            autofocus: ""
-          },
-          domProps: { value: _vm.input.first_name },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+      _c("div", { staticClass: "me-row" }, [
+        _c("div", { staticClass: "role-col-left" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.input.first_name,
+                expression: "input.first_name"
               }
-              _vm.$set(_vm.input, "first_name", $event.target.value)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _vm.errors.first_name
-          ? _c("span", { staticClass: "err-msg" }, [
-              _vm._v(
-                "\n            " + _vm._s(_vm.errors.first_name) + "\n        "
-              )
-            ])
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.input.last_name,
-              expression: "input.last_name"
-            }
-          ],
-          staticClass: "form-control",
-          staticStyle: { "padding-left": "24px" },
-          attrs: {
-            id: "last_name",
-            type: "text",
-            name: "last_name",
-            placeholder: "Last Name",
-            required: "",
-            autofocus: ""
-          },
-          domProps: { value: _vm.input.last_name },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+            ],
+            staticClass: "form-control",
+            staticStyle: { "padding-left": "24px" },
+            attrs: {
+              id: "first_name",
+              type: "text",
+              name: "first_name",
+              placeholder: "First Name",
+              required: "",
+              autofocus: ""
+            },
+            domProps: { value: _vm.input.first_name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.input, "first_name", $event.target.value)
               }
-              _vm.$set(_vm.input, "last_name", $event.target.value)
             }
-          }
-        }),
+          }),
+          _vm._v(" "),
+          _vm.errors.first_name
+            ? _c("span", { staticClass: "err-msg" }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.errors.first_name) +
+                    "\n            "
+                )
+              ])
+            : _vm._e()
+        ]),
         _vm._v(" "),
-        _vm.errors.last_name
-          ? _c("span", { staticClass: "err-msg" }, [
-              _vm._v(
-                "\n            " + _vm._s(_vm.errors.last_name) + "\n        "
-              )
-            ])
-          : _vm._e()
+        _c("div", { staticClass: "role-col-right" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.input.last_name,
+                expression: "input.last_name"
+              }
+            ],
+            staticClass: "form-control",
+            staticStyle: { "padding-left": "24px" },
+            attrs: {
+              id: "last_name",
+              type: "text",
+              name: "last_name",
+              placeholder: "Last Name",
+              required: "",
+              autofocus: ""
+            },
+            domProps: { value: _vm.input.last_name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.input, "last_name", $event.target.value)
+              }
+            }
+          }),
+          _vm._v(" "),
+          _vm.errors.last_name
+            ? _c("span", { staticClass: "err-msg" }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.errors.last_name) +
+                    "\n            "
+                )
+              ])
+            : _vm._e()
+        ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group disp-flex" }, [
@@ -54417,6 +54452,117 @@ var render = function() {
               ])
             : _vm._e()
         ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "emp-row" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.input.most_recent_role,
+              expression: "input.most_recent_role"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", placeholder: "Most Recent Role" },
+          domProps: { value: _vm.input.most_recent_role },
+          on: {
+            keyup: function($event) {
+              return _vm.onSearchJob(_vm.input.most_recent_role)
+            },
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.input, "most_recent_role", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _vm.errors.most_recent_role
+          ? _c("span", { staticClass: "err-msg" }, [
+              _vm._v(
+                "\n            " +
+                  _vm._s(_vm.errors.most_recent_role) +
+                  "\n        "
+              )
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _vm.job_roles.length > 0
+        ? _c(
+            "div",
+            { staticClass: "emp-row", staticStyle: { "margin-top": "0" } },
+            [
+              _c(
+                "ul",
+                { staticClass: "list-group" },
+                _vm._l(_vm.job_roles, function(job, idx) {
+                  return _c(
+                    "li",
+                    {
+                      key: idx,
+                      staticClass: "list-group-item",
+                      on: {
+                        click: function($event) {
+                          return _vm.onSelectJob(job)
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                \n                " +
+                          _vm._s(job.job_role_name) +
+                          "\n            "
+                      )
+                    ]
+                  )
+                }),
+                0
+              )
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.input.suburb,
+              expression: "input.suburb"
+            }
+          ],
+          staticClass: "form-control",
+          staticStyle: { "padding-left": "24px" },
+          attrs: {
+            id: "suburb",
+            type: "text",
+            name: "suburb",
+            placeholder: "Suburb",
+            required: ""
+          },
+          domProps: { value: _vm.input.suburb },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.input, "suburb", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _vm.errors.suburb
+          ? _c("span", { staticClass: "err-msg" }, [
+              _vm._v(
+                "\n            " + _vm._s(_vm.errors.suburb) + "\n        "
+              )
+            ])
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
@@ -61660,54 +61806,155 @@ var render = function() {
         _c("label", { attrs: { for: "willing_to_relocate_0" } }, [_vm._v("No")])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "me-label" }, [
-        _vm._v("Select up to three countries:")
-      ]),
+      _vm.input.willing_to_relocate
+        ? _c("div", { staticClass: "me-label" }, [
+            _vm._v("Select up to three countries:")
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "me-row mb-3" }, [
-        _c(
-          "select",
-          { staticStyle: { "background-position": "465px" } },
-          _vm._l(_vm.countries, function(country) {
-            return _c(
-              "option",
-              { key: country, domProps: { value: country } },
-              [_vm._v(_vm._s(country))]
-            )
-          }),
-          0
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "me-row mb-3" }, [
-        _c(
-          "select",
-          { staticStyle: { "background-position": "465px" } },
-          _vm._l(_vm.countries, function(country) {
-            return _c(
-              "option",
-              { key: country, domProps: { value: country } },
-              [_vm._v(_vm._s(country))]
-            )
-          }),
-          0
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "me-row mb-3" }, [
-        _c(
-          "select",
-          { staticStyle: { "background-position": "465px" } },
-          _vm._l(_vm.countries, function(country) {
-            return _c(
-              "option",
-              { key: country, domProps: { value: country } },
-              [_vm._v(_vm._s(country))]
-            )
-          }),
-          0
-        )
-      ])
+      _vm.input.willing_to_relocate
+        ? _c("div", { staticClass: "me-row mb-3" }, [
+            _c("div", { staticClass: "role-col-left" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.input.selected_countries[0],
+                      expression: "input.selected_countries[0]"
+                    }
+                  ],
+                  staticClass: "mb-3",
+                  staticStyle: {
+                    width: "350px",
+                    "background-position": "310px"
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.input.selected_countries,
+                        0,
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                _vm._l(_vm.countries, function(country) {
+                  return _c(
+                    "option",
+                    { key: country, domProps: { value: country } },
+                    [_vm._v(_vm._s(country))]
+                  )
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.input.selected_countries[1],
+                      expression: "input.selected_countries[1]"
+                    }
+                  ],
+                  staticClass: "mb-3",
+                  staticStyle: {
+                    width: "350px",
+                    "background-position": "310px"
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.input.selected_countries,
+                        1,
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                _vm._l(_vm.countries, function(country) {
+                  return _c(
+                    "option",
+                    { key: country, domProps: { value: country } },
+                    [_vm._v(_vm._s(country))]
+                  )
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.input.selected_countries[2],
+                      expression: "input.selected_countries[2]"
+                    }
+                  ],
+                  staticClass: "mb-3",
+                  staticStyle: {
+                    width: "350px",
+                    "background-position": "310px"
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.input.selected_countries,
+                        2,
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                _vm._l(_vm.countries, function(country) {
+                  return _c(
+                    "option",
+                    { key: country, domProps: { value: country } },
+                    [_vm._v(_vm._s(country))]
+                  )
+                }),
+                0
+              )
+            ])
+          ])
+        : _vm._e()
     ],
     2
   )

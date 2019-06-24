@@ -2,22 +2,28 @@
     <form method="POST" @submit.prevent="registerUser">
         <div class="form-text-header">Registration</div>
 
-        <div class="form-group">
-            <input id="first_name" type="text" name="first_name" class="form-control" style="padding-left:24px"
-                v-model="input.first_name" placeholder="First Name" required autofocus />
+        <div class="me-row">
+            <div class="role-col-left">
+                <!-- <div class="emp-form-label" v-if="input.first_name">First Name</div> -->
 
-            <span class="err-msg" v-if="errors.first_name">
-                {{ errors.first_name }}
-            </span>
-        </div>
+                <input id="first_name" type="text" name="first_name" class="form-control" style="padding-left:24px"
+                    v-model="input.first_name" placeholder="First Name" required autofocus />
 
-        <div class="form-group">
-            <input id="last_name" type="text" name="last_name" class="form-control" style="padding-left:24px"
-                v-model="input.last_name" placeholder="Last Name" required autofocus />
+                <span class="err-msg" v-if="errors.first_name">
+                    {{ errors.first_name }}
+                </span>
+            </div>
 
-            <span class="err-msg" v-if="errors.last_name">
-                {{ errors.last_name }}
-            </span>
+            <div class="role-col-right">
+                <!-- <div class="emp-form-label" v-if="input.last_name">Last Name</div> -->
+
+                <input id="last_name" type="text" name="last_name" class="form-control" style="padding-left:24px"
+                    v-model="input.last_name" placeholder="Last Name" required autofocus />
+
+                <span class="err-msg" v-if="errors.last_name">
+                    {{ errors.last_name }}
+                </span>
+            </div>
         </div>
 
         <div class="form-group disp-flex">
@@ -29,6 +35,8 @@
             </div>
             
             <div class="form-col-2">
+                <!-- <div class="emp-form-label" v-if="input.mobile_number">Mobile Number</div> -->
+
                 <input id="mobile_number" type="text" name="mobile_number" class="form-control" style="padding-left:24px"
                     v-model="input.mobile_number" placeholder="Mobile Number" required />
 
@@ -38,7 +46,41 @@
             </div>
         </div>
 
+        <div class="emp-row">
+            <!-- <div class="emp-form-label" v-if="input.most_recent_role">Most Recent Role</div> -->
+
+            <input class="form-control" type="text" placeholder="Most Recent Role" v-model="input.most_recent_role"
+                @keyup="onSearchJob(input.most_recent_role)" />
+            
+            <span class="err-msg" v-if="errors.most_recent_role">
+                {{ errors.most_recent_role }}
+            </span>
+        </div>
+
+        <div class="emp-row" style="margin-top:0" v-if="job_roles.length > 0">
+            <ul class="list-group">
+                <li class="list-group-item" v-for="(job, idx) in job_roles" :key="idx"
+                    @click="onSelectJob(job)">
+                    
+                    {{ job.job_role_name }}
+                </li>
+            </ul>
+        </div>
+
         <div class="form-group">
+            <!-- <div class="emp-form-label" v-if="input.suburb">Suburb</div> -->
+
+            <input id="suburb" type="text" name="suburb" class="form-control" style="padding-left:24px"
+                v-model="input.suburb" placeholder="Suburb" required />
+
+            <span class="err-msg" v-if="errors.suburb">
+                {{ errors.suburb }}
+            </span>
+        </div>
+
+        <div class="form-group">
+            <!-- <div class="emp-form-label" v-if="input.email">Email Address</div> -->
+
             <input id="email" type="email" name="email" class="form-control" style="padding-left:24px"
                 v-model="input.email" placeholder="Email Address" required />
 
@@ -50,6 +92,8 @@
         <div class="form-group">
             <password-eye ref-name="regTogglePassword"></password-eye>
             
+            <!-- <div class="emp-form-label" v-if="input.password">Password</div> -->
+            
             <input id="password" ref="regTogglePassword" type="password" name="password" class="form-control" 
                 style="padding-left:24px" v-model="input.password" placeholder="Password" required />
 
@@ -60,6 +104,8 @@
 
         <div class="form-group">
             <password-eye ref-name="regToggleConfirm"></password-eye>
+            
+            <!-- <div class="emp-form-label" v-if="input.password_confirmation">Confirm Password</div> -->
 
             <input id="password-confirm" ref="regToggleConfirm" type="password" class="form-control"
                 style="padding-left:24px" name="password_confirmation" v-model="input.password_confirmation"
@@ -90,13 +136,16 @@
         data() {
             return {
                 roles: [],
+                job_roles: [],
                 loading: false,
                 disabled: false,
                 input: {
-                    first_name: '', last_name: '', mobile_number: '', email: '', password: '', password_confirmation: ''
+                    first_name: '', last_name: '', mobile_number: '', most_recent_role: '', suburb: '',
+                    email: '', password: '', password_confirmation: ''
                 },
                 errors: {
-                    first_name: '', last_name: '', mobile_number: '', email: '', password: '',
+                    first_name: '', last_name: '', mobile_number: '', most_recent_role: '', suburb: '',
+                    email: '', password: '',
                 },
                 endpoints: {
                     login: '/login',
@@ -121,6 +170,20 @@
 
         methods: {
             
+            onSearchJob(keyword) {
+                let component = this;
+                
+                Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
+                    component.job_roles = data.data.job_roles;
+                });
+            },
+
+            onSelectJob(job) {
+                this.input.most_recent_role = job.job_role_name;
+
+                this.job_roles = [];
+            },
+
             async registerUser() {
                 let component = this;
                 
