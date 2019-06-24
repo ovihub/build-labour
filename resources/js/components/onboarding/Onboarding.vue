@@ -135,16 +135,16 @@
                 if (this.step == this.nextButtons.length) {
                     window.location.href = this.endpoints.profile;
 
-                } else if (this.saved) {
+                } else { // if (this.saved) {
                     this.saved = false;
 
                     this.goToStep(this.step + 1);
                 
-                } else {
+                } // else {
                     // TODO: Add modal here to confirm to continue without saving changes
                     // If Yes, saved = true
                     // If No/Cancel, saved = false
-                }
+                // }
             },
 
             submit() {

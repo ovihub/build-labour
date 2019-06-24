@@ -83,6 +83,10 @@
             Bus.$on('onboardingSubmitPersonalDetails', function() {
                 component.input.date_of_birth = component.birthYear + '-' + component.birthMonth + '-' + component.birthDay;
 
+                if (! component.birthYear && ! component.birthMonth && ! component.birthDay) {
+                    component.input.date_of_birth = '';
+                }
+
                 Api.submit(component.endpoints.save, component.$data.input);
             });
 

@@ -7988,13 +7988,16 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.step == this.nextButtons.length) {
         window.location.href = this.endpoints.profile;
-      } else if (this.saved) {
+      } else {
+        // if (this.saved) {
         this.saved = false;
         this.goToStep(this.step + 1);
-      } else {// TODO: Add modal here to confirm to continue without saving changes
-        // If Yes, saved = true
-        // If No/Cancel, saved = false
-      }
+      } // else {
+      // TODO: Add modal here to confirm to continue without saving changes
+      // If Yes, saved = true
+      // If No/Cancel, saved = false
+      // }
+
     },
     submit: function submit() {
       this.saved = true;
@@ -8127,6 +8130,11 @@ __webpack_require__.r(__webpack_exports__);
     var component = this;
     Bus.$on('onboardingSubmitPersonalDetails', function () {
       component.input.date_of_birth = component.birthYear + '-' + component.birthMonth + '-' + component.birthDay;
+
+      if (!component.birthYear && !component.birthMonth && !component.birthDay) {
+        component.input.date_of_birth = '';
+      }
+
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
     });
     this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
@@ -8702,7 +8710,7 @@ __webpack_require__.r(__webpack_exports__);
         introduction: '',
         when: '',
         willing_to_relocate: '',
-        selected_countries: []
+        countries: []
       },
       errors: {
         max_distance: '',
@@ -61808,8 +61816,8 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.input.selected_countries[0],
-                      expression: "input.selected_countries[0]"
+                      value: _vm.input.countries[0],
+                      expression: "input.countries[0]"
                     }
                   ],
                   staticClass: "mb-3",
@@ -61828,7 +61836,7 @@ var render = function() {
                           return val
                         })
                       _vm.$set(
-                        _vm.input.selected_countries,
+                        _vm.input.countries,
                         0,
                         $event.target.multiple
                           ? $$selectedVal
@@ -61854,8 +61862,8 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.input.selected_countries[1],
-                      expression: "input.selected_countries[1]"
+                      value: _vm.input.countries[1],
+                      expression: "input.countries[1]"
                     }
                   ],
                   staticClass: "mb-3",
@@ -61874,7 +61882,7 @@ var render = function() {
                           return val
                         })
                       _vm.$set(
-                        _vm.input.selected_countries,
+                        _vm.input.countries,
                         1,
                         $event.target.multiple
                           ? $$selectedVal
@@ -61900,8 +61908,8 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.input.selected_countries[2],
-                      expression: "input.selected_countries[2]"
+                      value: _vm.input.countries[2],
+                      expression: "input.countries[2]"
                     }
                   ],
                   staticClass: "mb-3",
@@ -61920,7 +61928,7 @@ var render = function() {
                           return val
                         })
                       _vm.$set(
-                        _vm.input.selected_countries,
+                        _vm.input.countries,
                         2,
                         $event.target.multiple
                           ? $$selectedVal
