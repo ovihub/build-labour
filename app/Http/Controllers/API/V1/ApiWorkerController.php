@@ -31,7 +31,7 @@ class ApiWorkerController extends ApiBaseController
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
-     *              mediaType="application/x-www-form-urlencoded",
+     *              mediaType="application/json",
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
@@ -43,14 +43,14 @@ class ApiWorkerController extends ApiBaseController
      *                  @OA\Property(
      *                      property="when",
      *                      description="When or what date",
-     *                      type="string",
-     *                      example="Next 2 years"
+     *                      type="integer",
+     *                      example=1
      *                  ),
      *                  @OA\Property(
      *                      property="max_distance",
      *                      description="Distance from home",
-     *                      type="string",
-     *                      example="100km"
+     *                      type="integer",
+     *                      example=20
      *                  ),
      *                  @OA\Property(
      *                      property="address",
@@ -67,8 +67,8 @@ class ApiWorkerController extends ApiBaseController
      *                  @OA\Property(
      *                      property="right_to_work",
      *                      description="right to work in Australia?",
-     *                      type="string",
-     *                      example="yes, i have right to work"
+     *                      type="integer",
+     *                      example=true
      *                  ),
      *              ),
      *          ),
@@ -120,6 +120,13 @@ class ApiWorkerController extends ApiBaseController
                     'invalidInput',
                     $user->workerDetail->getErrorsDetail()
                 );
+            }
+
+
+            if ($request->countries) {
+
+                $user->country = implode(",", $request->countries);
+                $user->save();
             }
 
         } catch(\Exception $e) {
@@ -300,6 +307,14 @@ class ApiWorkerController extends ApiBaseController
      *                      description="english_skill",
      *                      type="string",
      *                      example="Excellent in English"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="countries",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="china"
+     *                      ),
      *                  ),
      *                  @OA\Property(
      *                      property="drivers_license",
