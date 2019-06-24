@@ -59,7 +59,25 @@ class UsersController extends Controller
     }
 
     public function showOnboarding() {
-        return view('users.onboarding');
+        $token = isset($_COOKIE['bl_token']) ? $_COOKIE['bl_token'] : null;
+
+        if ( !$token ) {
+            $user = JWTAuth::parseToken()->authenticate();
+
+        } else {
+            $rawToken = substr($token, 1, -1);
+            $token = new Token($rawToken);
+            $payload = JWTAuth::decode($token);
+
+            $user = Auth::loginUsingId($payload['sub']);
+        }
+
+        if ($user->role_id == 1) {
+            return view('users.onboarding');
+        
+        } else {
+            return redirect('/user/profile');
+        }
     }
 
     public function showVerifyForm(Request $r)

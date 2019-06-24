@@ -3180,23 +3180,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 this.disabled = true;
                 _context.next = 6;
                 return axios.post(component.endpoints.login, component.$data.input).then(function (response) {
-                  var name,
+                  var initials,
                       profile_photo_url,
-                      data = response.data.data;
+                      data = response.data.data,
+                      user = data.user;
                   _api__WEBPACK_IMPORTED_MODULE_1__["default"].setToken(data.token);
 
-                  if (data.user.role_id == 1) {
-                    name = data.user.full_name;
-                    profile_photo_url = data.user.profile_photo_url;
-                  } else if (data.user.role_id == 2) {
-                    name = data.user.company_name;
-                    profile_photo_url = data.user.company_photo;
+                  if (user.role_id == 1) {
+                    initials = user.first_name.charAt(0) + user.last_name.charAt(0);
+                    profile_photo_url = user.profile_photo_url;
+                  } else if (user.role_id == 2) {
+                    initials = Utils.getInitials(user.company_name);
+                    profile_photo_url = user.company_photo;
                   }
 
                   if (profile_photo_url) {
                     _api__WEBPACK_IMPORTED_MODULE_1__["default"].setNavAvatar('', profile_photo_url);
                   } else {
-                    _api__WEBPACK_IMPORTED_MODULE_1__["default"].setNavAvatar(Utils.getInitials(name), '');
+                    _api__WEBPACK_IMPORTED_MODULE_1__["default"].setNavAvatar(initials, '');
                   }
 
                   window.location.href = component.endpoints.user_profile;
@@ -3527,6 +3528,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.post(component.endpoints.register, component.$data.input).then(function (response) {
                   var data = response.data;
                   _api__WEBPACK_IMPORTED_MODULE_1__["default"].setToken(data.data.token);
+                  _api__WEBPACK_IMPORTED_MODULE_1__["default"].setNavAvatar(data.data.user.first_name.charAt(0) + data.data.user.last_name.charAt(0), '');
                   window.location.href = component.endpoints.onboarding;
                 }).catch(function (error) {
                   if (error.response) {
@@ -4711,7 +4713,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var component = this;
-    component.input.initials = component.initials;
+    this.input.initials = this.initials;
 
     if (!this.isLogout) {
       Bus.$on('profileAvatarDetails', function (initials) {
@@ -7707,7 +7709,8 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var component = this;
     Bus.$on('onboardingSubmitCurrentRole', function () {
-      _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
+      // if (! Utils.checkIfObjectIsEmpty(component.input)) {
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input); // }
     });
   },
   methods: {
@@ -7941,6 +7944,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      saved: false,
       sections: null,
       step: 1,
       max: 1,
@@ -7977,9 +7981,6 @@ __webpack_require__.r(__webpack_exports__);
       component.max = component.$sections.length;
       component.goToStep(1);
     }, 1);
-    Bus.$on('onboardingNext', function (step) {
-      component.goToStep(step);
-    });
   },
   methods: {
     next: function next() {
@@ -7987,11 +7988,16 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.step == this.nextButtons.length) {
         window.location.href = this.endpoints.profile;
-      } else {
+      } else if (this.saved) {
+        this.saved = false;
         this.goToStep(this.step + 1);
+      } else {// TODO: Add modal here to confirm to continue without saving changes
+        // If Yes, saved = true
+        // If No/Cancel, saved = false
       }
     },
     submit: function submit() {
+      this.saved = true;
       Bus.$emit('onboardingSubmit' + this.submitForms[this.step - 1]);
     },
     setCssVars: function setCssVars() {
@@ -10922,7 +10928,7 @@ __webpack_require__.r(__webpack_exports__);
         component.educations = user.educations;
         component.tickets = user.tickets;
         component.industry_skills = user.skills;
-        Bus.$emit('profileAvatarDetails', Utils.getInitials(user.full_name));
+        Bus.$emit('profileAvatarDetails', user.first_name.charAt(0) + user.last_name.charAt(0));
         Bus.$emit('userProfileDetails', component.profile);
         Bus.$emit('aboutMeDetails', component.about_me);
         Bus.$emit('idealRoleDetails', component.ideal_role);
@@ -59932,12 +59938,6 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "emp-row" }, [
-        _vm.input.most_recent_role
-          ? _c("div", { staticClass: "emp-form-label" }, [
-              _vm._v("Most Recent Role")
-            ])
-          : _vm._e(),
-        _vm._v(" "),
         _c("input", {
           directives: [
             {
@@ -60010,12 +60010,6 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "emp-row" }, [
-        _vm.input.industry_area
-          ? _c("div", { staticClass: "emp-form-label" }, [
-              _vm._v("Industry Area")
-            ])
-          : _vm._e(),
-        _vm._v(" "),
         _c("input", {
           directives: [
             {
@@ -60047,10 +60041,6 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "me-row" }, [
         _c("div", { staticClass: "role-col-left" }, [
-          _vm.input.exp_year
-            ? _c("div", { staticClass: "emp-form-label" }, [_vm._v("Years")])
-            : _vm._e(),
-          _vm._v(" "),
           _c("input", {
             directives: [
               {
@@ -60075,10 +60065,6 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "role-col-right" }, [
-          _vm.input.exp_month
-            ? _c("div", { staticClass: "emp-form-label" }, [_vm._v("Months")])
-            : _vm._e(),
-          _vm._v(" "),
           _c("input", {
             directives: [
               {
@@ -83455,6 +83441,15 @@ window.Helper = {
       for (var key in obj) {
         obj[key] = val;
       }
+    },
+    checkIfObjectIsEmpty: function checkIfObjectIsEmpty(obj) {
+      for (var key in obj) {
+        if (obj[key] != '') {
+          return false;
+        }
+      }
+
+      return true;
     },
     isNullOrEmpty: function isNullOrEmpty(value) {
       return value === false || value === null || value === undefined || value === '' || value.length === 0;

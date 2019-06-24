@@ -83,7 +83,7 @@
 		created() {
 			let component = this;
 
-			component.input.initials = component.initials;
+			this.input.initials = this.initials;
 
 			if (! this.isLogout) {
 				Bus.$on('profileAvatarDetails', function(initials) {
@@ -96,7 +96,6 @@
 			
 			} else if (this.isLogout) {
 				this.input.initials = Api.getNavAvatar().initials;
-			
 			}
 		},
 

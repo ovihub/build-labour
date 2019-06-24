@@ -104,7 +104,7 @@
                         component.tickets = user.tickets;
                         component.industry_skills = user.skills;
 
-                        Bus.$emit('profileAvatarDetails', Utils.getInitials(user.full_name));
+                        Bus.$emit('profileAvatarDetails', user.first_name.charAt(0) + user.last_name.charAt(0));
                         Bus.$emit('userProfileDetails', component.profile);
                         Bus.$emit('aboutMeDetails', component.about_me);
                         Bus.$emit('idealRoleDetails', component.ideal_role);

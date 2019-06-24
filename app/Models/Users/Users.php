@@ -208,7 +208,7 @@ class Users extends BaseModel implements
     {
         if ( ! empty( $name ) ) {
 
-            $this->attributes['first_name'] = $name;
+            $this->attributes['first_name'] = ucfirst($name);
         }
     }
 
@@ -216,7 +216,7 @@ class Users extends BaseModel implements
     {
         if ( ! empty( $name ) ) {
 
-            $this->attributes['last_name'] = $name;
+            $this->attributes['last_name'] = ucfirst($name);
         }
     }
 

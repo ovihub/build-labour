@@ -199,6 +199,8 @@
 
                         Api.setToken(data.data.token);
 
+                        Api.setNavAvatar(data.data.user.first_name.charAt(0) + data.data.user.last_name.charAt(0), '');
+
                         window.location.href = component.endpoints.onboarding;
                     })
                     .catch(function(error) {

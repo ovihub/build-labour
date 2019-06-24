@@ -52,6 +52,7 @@
 
         data() {
             return {
+                saved: false,
                 sections: null,
                 step: 1,
                 max: 1,
@@ -124,10 +125,6 @@
                 component.max = component.$sections.length;
                 component.goToStep(1);
             }, 1);
-
-            Bus.$on('onboardingNext', function(step) {
-                component.goToStep(step);
-            });
         },
 
         methods: {
@@ -138,12 +135,21 @@
                 if (this.step == this.nextButtons.length) {
                     window.location.href = this.endpoints.profile;
 
-                } else {
+                } else if (this.saved) {
+                    this.saved = false;
+
                     this.goToStep(this.step + 1);
+                
+                } else {
+                    // TODO: Add modal here to confirm to continue without saving changes
+                    // If Yes, saved = true
+                    // If No/Cancel, saved = false
                 }
             },
 
             submit() {
+                this.saved = true;
+
                 Bus.$emit('onboardingSubmit' + this.submitForms[this.step - 1]);
             },
 

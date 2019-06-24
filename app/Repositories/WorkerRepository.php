@@ -183,7 +183,7 @@ class WorkerRepository extends AbstractRepository
         $this->workExp->isOnboarding = true;
 
         $rules = [
-            'most_recent_role'  => 'required|min:5',
+            'most_recent_role'  => 'nullable|min:5',
             'industry_area'  => 'nullable|min:5',
             'exp_year'       => 'nullable|integer',
             'exp_month'      => 'nullable|integer'
