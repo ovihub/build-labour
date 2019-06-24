@@ -48,7 +48,7 @@
                 job_roles: [],
 				endpoints: {
                     get: '/api/v1/admin/job/roles/',
-                    save: '/api/v1/admin/job/roles/'
+                    save: '/api/v1/admin/job/roles'
 				}
 			}
 		},
