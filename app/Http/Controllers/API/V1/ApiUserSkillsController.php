@@ -82,7 +82,7 @@ class ApiUserSkillsController extends ApiBaseController
 
         try {
 
-            if (!$main_skill = $this->userRepo->saveMainSkill($request)) {
+            if (!$data = $this->userRepo->saveMainSkill($request)) {
 
                 return $this->apiErrorResponse(
                     false,
@@ -93,16 +93,12 @@ class ApiUserSkillsController extends ApiBaseController
                 );
             }
 
-            if (!$skills = $this->userRepo->saveSkills($request)) {
-
-            }
-
         } catch(\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'skills', 'main_skill' ), true, 'Successfully updated worker skills', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( $data , true, 'Successfully updated worker skills', self::HTTP_STATUS_REQUEST_OK);
     }
 
 

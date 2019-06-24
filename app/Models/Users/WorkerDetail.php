@@ -48,7 +48,7 @@ class WorkerDetail extends BaseModel
         if ($this->isMainSkillUpdate) {
 
             return [
-                'main_skill' => 'required|min:5'
+                'main_skill' => 'nullable|min:5'
             ];
         }
 

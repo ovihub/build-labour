@@ -49,13 +49,24 @@ class UserRepository extends AbstractRepository
             $this->workerDetail = $user->workerDetail;
             $user->workerDetail->isMainSkillUpdate = true;
 
-            if (!$user->workerDetail->store($request)) {
+            if ($request->main_skill && !$user->workerDetail->store($request)) {
 
                 return false;
             }
+
+
+            if ($request->skills && !$this->saveSkills($request)) {
+
+                return false;
+            }
+
+            return [
+                'main_skill' => $user->workerDetail->main_skill,
+                'skills' => $user->skills
+            ];
         }
 
-        return $request->main_skill;
+        return false;
     }
 
     public function saveSkills(Request $request) {
