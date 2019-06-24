@@ -113,6 +113,7 @@ Vue.component('employment-history', require('./components/onboarding/EmploymentH
 Vue.component('education-history', require('./components/onboarding/EducationHistory.vue').default);
 Vue.component('ticket-details', require('./components/onboarding/TicketDetails.vue').default);
 Vue.component('skill-details', require('./components/onboarding/SkillDetails.vue').default);
+Vue.component('skill-achievements', require('./components/onboarding/SkillAchievements.vue').default);
 Vue.component('work-preferences', require('./components/onboarding/WorkPreferences.vue').default);
 Vue.component('work-information', require('./components/onboarding/WorkInformation.vue').default);
 Vue.component('personal-details', require('./components/onboarding/PersonalDetails.vue').default);

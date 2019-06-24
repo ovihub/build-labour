@@ -40,11 +40,9 @@
         </span>
 
         <div class="me-label">Country of Birth</div>
-        <div class="me-row">
-            <select v-model="input.country_birth" style="background-position:465px">
-                <option key="1" value="Single">Single</option>
-                <option key="2" value="Married">Married</option>
-                <option key="3" value="Other">Other</option>
+        <div class="me-row mb-3">
+            <select style="background-position:465px" v-model="input.country_birth">
+                <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
             </select>
         </div>
         <span class="err-msg" v-if="errors.country_birth">
@@ -66,6 +64,7 @@
                 birthDay: '',
                 birthMonth: '',
                 birthYear: '',
+                countries: [],
                 input: {
                     gender: '', date_of_birth: '', country_birth: '',
                 },
@@ -88,12 +87,22 @@
             });
 
             this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
+            
+            this.getCountries();
         },
 
         methods: {
 
             onChangeBirthMonthYear() {
                 this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
+            },
+
+            getCountries() {
+                let component = this;
+
+                Promise.resolve(Api.getCountries()).then(function(data) {
+                    component.countries = data.data.countries;
+                });
             },
 
         }
