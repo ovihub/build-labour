@@ -7625,13 +7625,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       job_roles: [],
       input: {
         most_recent_role: '',
-        location: '',
+        industry_area: '',
         exp_year: '',
         exp_month: ''
       },
       errors: {
         most_recent_role: '',
-        location: '',
+        industry_area: '',
         exp_year: '',
         exp_month: ''
       },
@@ -8063,21 +8063,22 @@ __webpack_require__.r(__webpack_exports__);
       input: {
         gender: '',
         date_of_birth: '',
-        country: ''
+        country_birth: ''
       },
       errors: {
         gender: '',
         date_of_birth: '',
-        country: ''
+        country_birth: ''
       },
       endpoints: {
-        save: ''
+        save: '/api/v1/worker/personal-details'
       }
     };
   },
   created: function created() {
     var component = this;
     Bus.$on('onboardingSubmitPersonalDetails', function () {
+      component.input.date_of_birth = component.birthYear + '-' + component.birthMonth + '-' + component.birthDay;
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
     });
     this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
@@ -9096,12 +9097,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -9476,12 +9471,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -19767,7 +19756,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nli[data-v-3e4eb5c4] {\n    max-width: 495px;\n}\n", ""]);
+exports.push([module.i, "\nli[data-v-3e4eb5c4] {\n    width: 495px;\n}\n", ""]);
 
 // exports
 
@@ -59807,7 +59796,7 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "emp-row" }, [
-        _vm.input.location
+        _vm.input.industry_area
           ? _c("div", { staticClass: "emp-form-label" }, [
               _vm._v("Industry Area")
             ])
@@ -59818,19 +59807,19 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.input.location,
-              expression: "input.location"
+              value: _vm.input.industry_area,
+              expression: "input.industry_area"
             }
           ],
           staticClass: "form-control",
           attrs: { type: "text", placeholder: "Industry Area" },
-          domProps: { value: _vm.input.location },
+          domProps: { value: _vm.input.industry_area },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.$set(_vm.input, "location", $event.target.value)
+              _vm.$set(_vm.input, "industry_area", $event.target.value)
             }
           }
         })
@@ -60368,7 +60357,7 @@ var render = function() {
                   expression: "input.gender"
                 }
               ],
-              staticStyle: { "background-position": "210px" },
+              staticStyle: { "background-position": "205px" },
               on: {
                 change: function($event) {
                   var $$selectedVal = Array.prototype.filter
@@ -60396,7 +60385,7 @@ var render = function() {
                 _vm._v("Female")
               ]),
               _vm._v(" "),
-              _c("option", { key: "3", attrs: { value: "Other" } }, [
+              _c("option", { key: "3", attrs: { value: "" } }, [
                 _vm._v("Rather not say")
               ])
             ]
@@ -60563,10 +60552,11 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.input.country,
-                expression: "input.country"
+                value: _vm.input.country_birth,
+                expression: "input.country_birth"
               }
             ],
+            staticStyle: { "background-position": "465px" },
             on: {
               change: function($event) {
                 var $$selectedVal = Array.prototype.filter
@@ -60579,7 +60569,7 @@ var render = function() {
                   })
                 _vm.$set(
                   _vm.input,
-                  "country",
+                  "country_birth",
                   $event.target.multiple ? $$selectedVal : $$selectedVal[0]
                 )
               }
@@ -60601,9 +60591,9 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _vm.errors.country
+      _vm.errors.country_birth
         ? _c("span", { staticClass: "err-msg" }, [
-            _vm._v("\n        " + _vm._s(_vm.errors.country) + "\n    ")
+            _vm._v("\n        " + _vm._s(_vm.errors.country_birth) + "\n    ")
           ])
         : _vm._e()
     ]
@@ -62032,15 +62022,8 @@ var render = function() {
     _vm._l(_vm.educations, function(education, idx) {
       return _c("div", { key: idx }, [
         _c(
-          "span",
+          "div",
           {
-            staticClass: "edit-icon edit-icon-3",
-            attrs: {
-              "data-toggle": "modal",
-              "data-backdrop": "static",
-              "data-keyboard": "false",
-              "data-target": "#modalEducation"
-            },
             on: {
               click: function($event) {
                 return _vm.action(idx)
@@ -62048,17 +62031,14 @@ var render = function() {
             }
           },
           [
-            _c("img", {
+            _c("edit-icon", {
               attrs: {
-                src: "/img/icons/editbutton.png",
-                srcset:
-                  "/img/icons/editbutton@2x.png" +
-                  " 2x, " +
-                  "/img/icons/editbutton@3x.png" +
-                  " 3x"
+                cls: "edit-icon edit-icon-3",
+                "data-target": "#modalEducation"
               }
             })
-          ]
+          ],
+          1
         ),
         _vm._v(" "),
         _c("div", { staticClass: "jobads-row mt-4" }, [
@@ -62138,7 +62118,7 @@ var staticRenderFns = [
       _c("img", {
         staticClass: "bl-image-56",
         staticStyle: { "margin-top": "0px" },
-        attrs: { src: "/img/logo/1.jpg" }
+        attrs: { src: "/img/logo/2.jpg" }
       })
     ])
   }
@@ -62718,15 +62698,8 @@ var render = function() {
         _vm._l(_vm.employments, function(employment, index) {
           return _c("li", { key: index, staticClass: "main-items" }, [
             _c(
-              "span",
+              "div",
               {
-                staticClass: "edit-icon edit-icon-3",
-                attrs: {
-                  "data-toggle": "modal",
-                  "data-backdrop": "static",
-                  "data-keyboard": "false",
-                  "data-target": "#modalEmployment"
-                },
                 on: {
                   click: function($event) {
                     return _vm.action(index)
@@ -62734,17 +62707,14 @@ var render = function() {
                 }
               },
               [
-                _c("img", {
+                _c("edit-icon", {
                   attrs: {
-                    src: "/img/icons/editbutton.png",
-                    srcset:
-                      "/img/icons/editbutton@2x.png" +
-                      " 2x, " +
-                      "/img/icons/editbutton@3x.png" +
-                      " 3x"
+                    cls: "edit-icon edit-icon-3",
+                    "data-target": "#modalEmployment"
                   }
                 })
-              ]
+              ],
+              1
             ),
             _vm._v(" "),
             _c("span", { staticClass: "text-icon-2" }, [

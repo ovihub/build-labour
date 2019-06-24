@@ -3,10 +3,10 @@
         <div class="me-label">Gender</div>
         <div class="me-row">
             <div class="role-col-left">
-                <select v-model="input.gender" style="background-position:210px">
+                <select v-model="input.gender" style="background-position:205px">
                     <option key="1" value="Male">Male</option>
                     <option key="2" value="Female">Female</option>
-                    <option key="3" value="Other">Rather not say</option>
+                    <option key="3" value="">Rather not say</option>
                 </select>
                 <span class="err-msg" v-if="errors.gender">
                     {{ errors.gender }}
@@ -41,14 +41,14 @@
 
         <div class="me-label">Country of Birth</div>
         <div class="me-row">
-            <select v-model="input.country">
+            <select v-model="input.country_birth" style="background-position:465px">
                 <option key="1" value="Single">Single</option>
                 <option key="2" value="Married">Married</option>
                 <option key="3" value="Other">Other</option>
             </select>
         </div>
-        <span class="err-msg" v-if="errors.country">
-            {{ errors.country }}
+        <span class="err-msg" v-if="errors.country_birth">
+            {{ errors.country_birth }}
         </span>
     </form>
 </template>
@@ -67,13 +67,13 @@
                 birthMonth: '',
                 birthYear: '',
                 input: {
-                    gender: '', date_of_birth: '', country: '',
+                    gender: '', date_of_birth: '', country_birth: '',
                 },
                 errors: {
-                    gender: '', date_of_birth: '', country: '',
+                    gender: '', date_of_birth: '', country_birth: '',
                 },
                 endpoints: {
-                    save: '',
+                    save: '/api/v1/worker/personal-details',
                 },
             }
         },
@@ -82,6 +82,8 @@
             let component = this;
 
             Bus.$on('onboardingSubmitPersonalDetails', function() {
+                component.input.date_of_birth = component.birthYear + '-' + component.birthMonth + '-' + component.birthDay;
+
                 Api.submit(component.endpoints.save, component.$data.input);
             });
 

@@ -30,9 +30,9 @@
         </div>
 
         <div class="emp-row">
-            <div class="emp-form-label" v-if="input.location">Industry Area</div>
+            <div class="emp-form-label" v-if="input.industry_area">Industry Area</div>
 
-            <input class="form-control" type="text" placeholder="Industry Area" v-model="input.location" />
+            <input class="form-control" type="text" placeholder="Industry Area" v-model="input.industry_area" />
         </div>
 
         <div class="me-label" style="margin-bottom:17px">Years Experience</div>
@@ -62,10 +62,10 @@
                 disabled: false,
                 job_roles: [],
                 input: {
-                    most_recent_role: '', location: '', exp_year: '', exp_month: '',
+                    most_recent_role: '', industry_area: '', exp_year: '', exp_month: '',
                 },
                 errors: {
-                    most_recent_role: '', location: '', exp_year: '', exp_month: '',
+                    most_recent_role: '', industry_area: '', exp_year: '', exp_month: '',
                 },
                 endpoints: {
                     save: '/api/v1/worker/current-role',

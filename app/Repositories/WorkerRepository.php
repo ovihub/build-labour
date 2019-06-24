@@ -439,6 +439,7 @@ class WorkerRepository extends AbstractRepository
 
         $user->job_role = $jobRole;
 
+        $user->experiences;
         $user->role;
         $user->skills;
         $user->workerDetail;

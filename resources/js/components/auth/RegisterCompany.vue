@@ -649,6 +649,6 @@
 
 <style scoped>
     li {
-        max-width: 495px;
+        width: 495px;
     }
 </style>
