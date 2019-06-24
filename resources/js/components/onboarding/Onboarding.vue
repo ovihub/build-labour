@@ -12,7 +12,8 @@
                 <div class="form-progress-2 bl-mr10" :class="progressCls[4]"></div>
                 <div class="form-progress-2 bl-mr10" :class="progressCls[5]"></div>
                 <div class="form-progress-2 bl-mr10" :class="progressCls[6]"></div>
-                <div class="form-progress-2" :class="progressCls[7]"></div>
+                <div class="form-progress-2 bl-mr10" :class="progressCls[7]"></div>
+                <div class="form-progress-2" :class="progressCls[8]"></div>
             </div>
             
             <employment-modal></employment-modal>
@@ -25,6 +26,7 @@
                 <li class="comp-card-list"><education-history></education-history></li>
                 <li class="comp-card-list"><ticket-details></ticket-details></li>
                 <li class="comp-card-list"><skill-details></skill-details></li>
+                <li class="comp-card-list"><skill-achievements></skill-achievements></li>
                 <li class="comp-card-list"><work-preferences></work-preferences></li>
                 <li class="comp-card-list"><work-information></work-information></li>
                 <li class="comp-card-list"><personal-details></personal-details></li>
@@ -62,7 +64,8 @@
                     'Employment History',
                     'Education',
                     'Tickets',
-                    'Main Industry Skills & Achievements',
+                    'Main Industry Skills',
+                    'Main Industry Achievements',
                     'Work Preferences',
                     'Work Information',
                     'Personal Details'
@@ -72,6 +75,7 @@
                     'To Education',
                     'To Tickets',
                     'To Industry Skills',
+                    'To Achievements',
                     'To Work Preferences',
                     'To Work Information',
                     'To Personal Details',
@@ -83,10 +87,10 @@
                     'Education',
                     'Tickets',
                     'IndustrySkills',
+                    'Achievements',
                     'WorkPreferences',
                     'WorkInformation',
                     'PersonalDetails',
-                    'Complete Profile'
                 ],
                 endpoints: {
                     profile: '/user/profile',

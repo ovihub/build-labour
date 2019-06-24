@@ -5559,9 +5559,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5581,9 +5578,6 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     endpointGet: function endpointGet() {
       return this.endpoints.get + this.companyId + '/posts/jobs';
-    },
-    showButton: function showButton() {
-      return location.pathname === '/user/profile';
     }
   },
   created: function created() {
@@ -6090,6 +6084,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -6162,6 +6160,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     if (!parseInt(window.location.pathname.split('/').pop(), 10)) {
       this.editable = true;
+    }
+  },
+  props: {
+    companyId: {
+      type: String,
+      required: false
+    }
+  },
+  computed: {
+    showButton: function showButton() {
+      return location.pathname === '/user/profile';
     }
   },
   methods: {
@@ -6337,7 +6346,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return submit;
-    }()
+    }(),
+    postNewJob: function postNewJob() {
+      window.location.href = '/job/new?cid=' + this.companyId;
+    }
   }
 });
 
@@ -7894,6 +7906,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -7905,9 +7919,9 @@ __webpack_require__.r(__webpack_exports__);
       subHeader: 'Employment History',
       progressCls: [],
       currentSection: '',
-      subHeaders: ['Starting your profile', 'Employment History', 'Education', 'Tickets', 'Main Industry Skills & Achievements', 'Work Preferences', 'Work Information', 'Personal Details'],
-      nextButtons: ['To Employment History', 'To Education', 'To Tickets', 'To Industry Skills', 'To Work Preferences', 'To Work Information', 'To Personal Details', 'Complete Profile'],
-      submitForms: ['CurrentRole', 'EmploymentHistory', 'Education', 'Tickets', 'IndustrySkills', 'WorkPreferences', 'WorkInformation', 'PersonalDetails', 'Complete Profile'],
+      subHeaders: ['Starting your profile', 'Employment History', 'Education', 'Tickets', 'Main Industry Skills', 'Main Industry Achievements', 'Work Preferences', 'Work Information', 'Personal Details'],
+      nextButtons: ['To Employment History', 'To Education', 'To Tickets', 'To Industry Skills', 'To Achievements', 'To Work Preferences', 'To Work Information', 'To Personal Details', 'Complete Profile'],
+      submitForms: ['CurrentRole', 'EmploymentHistory', 'Education', 'Tickets', 'IndustrySkills', 'Achievements', 'WorkPreferences', 'WorkInformation', 'PersonalDetails'],
       endpoints: {
         profile: '/user/profile'
       }
@@ -8048,8 +8062,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -8060,6 +8072,7 @@ __webpack_require__.r(__webpack_exports__);
       birthDay: '',
       birthMonth: '',
       birthYear: '',
+      countries: [],
       input: {
         gender: '',
         date_of_birth: '',
@@ -8082,10 +8095,75 @@ __webpack_require__.r(__webpack_exports__);
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
     });
     this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
+    this.getCountries();
   },
   methods: {
     onChangeBirthMonthYear: function onChangeBirthMonthYear() {
       this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
+    },
+    getCountries: function getCountries() {
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_0__["default"].getCountries()).then(function (data) {
+        component.countries = data.data.countries;
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/onboarding/SkillAchievements.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/onboarding/SkillAchievements.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      is_empty: false,
+      main_skill: '',
+      input: {
+        main_skill: ''
+      },
+      errors: {
+        main_skill: ''
+      },
+      endpoints: {
+        save: '/api/v1/user/skills'
+      }
+    };
+  },
+  created: function created() {
+    var component = this;
+    Bus.$on('onboardingSubmitAchievements', function () {
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
+    });
+  },
+  methods: {
+    textAreaAdjust: function textAreaAdjust(refName) {
+      Utils.textAreaAdjust(this.$refs[refName]);
     }
   }
 });
@@ -8140,27 +8218,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       is_empty: false,
-      main_skill: '',
-      user_skills: [],
-      firstColumn: [],
-      secondColumn: [],
       levels: [{
         id: 1,
         name: 'Beginner'
@@ -8172,15 +8234,10 @@ __webpack_require__.r(__webpack_exports__);
         name: 'Expert'
       }],
       input: {
-        main_skill: '',
         skills: []
       },
-      errors: {
-        main_skill: ''
-      },
       endpoints: {
-        save: '/api/v1/user/skills',
-        delete: '/api/v1/user/skills'
+        save: '/api/v1/user/skills'
       }
     };
   },
@@ -8191,31 +8248,6 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    display: function display() {
-      var len = this.user_skills.length;
-      var half = Math.ceil(len / 2);
-      this.firstColumn = this.user_skills.slice(0, half);
-      this.secondColumn = this.user_skills.slice(half, len);
-    },
-    textAreaAdjust: function textAreaAdjust(refName) {
-      Utils.textAreaAdjust(this.$refs[refName]);
-    },
-    close: function close() {
-      this.input.main_skill = this.main_skill;
-      this.input.skills = this.user_skills.map(function (skill) {
-        return {
-          skill_id: skill.sid,
-          skill_name: skill.sname,
-          level_id: skill.lid,
-          level_name: skill.lname
-        };
-      });
-      Utils.setObjectValues(this.errors, '');
-    },
-    deleteRecord: function deleteRecord() {
-      $('#deleteRecordModal').modal('show');
-      Bus.$emit('deleteIndustrySkill', this.endpoints.delete);
-    },
     addNewSkill: function addNewSkill() {
       if (this.input.skills.length == 0 || this.input.skills.slice(-1)[0].skill_name !== '') {
         this.input.skills.push({
@@ -8592,23 +8624,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      countries: [],
       states: ['QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT'],
       input: {
         max_distance: 0,
         state: '',
         selected: [],
         introduction: '',
-        when: ''
+        when: '',
+        willing_to_relocate: '',
+        countries: []
       },
       errors: {
         max_distance: '',
         selected: '',
         introduction: '',
-        when: ''
+        when: '',
+        willing_to_relocate: '',
+        countries: []
       },
       endpoints: {
         save: '/api/v1/worker/next-role'
@@ -8621,6 +8688,7 @@ __webpack_require__.r(__webpack_exports__);
       component.input.state = component.input.selected.toString();
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
     });
+    this.getCountries();
   },
   computed: {
     maxDistance: function maxDistance() {
@@ -8632,6 +8700,15 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     textAreaAdjust: function textAreaAdjust(refName) {
       Utils.textAreaAdjust(this.$refs[refName]);
+    },
+    formatCheckbox: function formatCheckbox(refName, value) {
+      Utils.formatCheckbox(this, refName, value);
+    },
+    getCountries: function getCountries() {
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_0__["default"].getCountries()).then(function (data) {
+        component.countries = data.data.countries;
+      });
     }
   }
 });
@@ -56950,24 +57027,7 @@ var render = function() {
         "div",
         { staticClass: "profile-item-2" },
         [
-          _c("div", { staticClass: "job-action" }, [
-            _vm.showButton
-              ? _c("div", { staticClass: "job-filter" }, [
-                  _c(
-                    "a",
-                    {
-                      staticStyle: { "font-weight": "500" },
-                      attrs: { href: "/job/new?cid=" + _vm.companyId }
-                    },
-                    [_vm._v("+ Post new job")]
-                  )
-                ])
-              : _c("div", { staticClass: "job-filter" }, [
-                  _vm._v("\n            Filter\n        ")
-                ]),
-            _vm._v(" "),
-            _vm._m(0)
-          ]),
+          _vm._m(0),
           _vm._v(" "),
           _c("job-posts", { attrs: { "company-id": _vm.companyId } })
         ],
@@ -56980,9 +57040,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "job-sort" }, [
-      _vm._v("\n            Sort by: "),
-      _c("span", { staticClass: "job-recent" }, [_vm._v("Most Recent")])
+    return _c("div", { staticClass: "job-action" }, [
+      _c("div", { staticClass: "job-filter" }, [
+        _vm._v("\n            Filter\n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "job-sort" }, [
+        _vm._v("\n            Sort by: "),
+        _c("span", { staticClass: "job-recent" }, [_vm._v("Most Recent")])
+      ])
     ])
   }
 ]
@@ -58085,7 +58151,23 @@ var render = function() {
         ])
       ],
       1
-    )
+    ),
+    _vm._v(" "),
+    _vm.showButton
+      ? _c(
+          "button",
+          {
+            staticStyle: { width: "100%" },
+            attrs: { disabled: _vm.disabled },
+            on: {
+              click: function($event) {
+                return _vm.postNewJob(0)
+              }
+            }
+          },
+          [_vm._v("\n        Post New Job\n    ")]
+        )
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -58268,20 +58350,6 @@ var render = function() {
           _vm._v("\n        Apply\n    ")
         ])
       : _c("div", [
-          _c(
-            "button",
-            {
-              staticStyle: { width: "100%" },
-              attrs: { disabled: _vm.disabled },
-              on: {
-                click: function($event) {
-                  return _vm.postJob(1)
-                }
-              }
-            },
-            [_vm._v("\n            Save as template\n        ")]
-          ),
-          _vm._v(" "),
           _c(
             "button",
             {
@@ -60221,8 +60289,13 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("div", {
-            staticClass: "form-progress-2",
+            staticClass: "form-progress-2 bl-mr10",
             class: _vm.progressCls[7]
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "form-progress-2",
+            class: _vm.progressCls[8]
           })
         ]),
         _vm._v(" "),
@@ -60255,6 +60328,13 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("li", { staticClass: "comp-card-list" }, [_c("skill-details")], 1),
+          _vm._v(" "),
+          _c(
+            "li",
+            { staticClass: "comp-card-list" },
+            [_c("skill-achievements")],
+            1
+          ),
           _vm._v(" "),
           _c(
             "li",
@@ -60544,7 +60624,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "me-label" }, [_vm._v("Country of Birth")]),
       _vm._v(" "),
-      _c("div", { staticClass: "me-row" }, [
+      _c("div", { staticClass: "me-row mb-3" }, [
         _c(
           "select",
           {
@@ -60575,25 +60655,98 @@ var render = function() {
               }
             }
           },
-          [
-            _c("option", { key: "1", attrs: { value: "Single" } }, [
-              _vm._v("Single")
-            ]),
-            _vm._v(" "),
-            _c("option", { key: "2", attrs: { value: "Married" } }, [
-              _vm._v("Married")
-            ]),
-            _vm._v(" "),
-            _c("option", { key: "3", attrs: { value: "Other" } }, [
-              _vm._v("Other")
-            ])
-          ]
+          _vm._l(_vm.countries, function(country) {
+            return _c(
+              "option",
+              { key: country, domProps: { value: country } },
+              [_vm._v(_vm._s(country))]
+            )
+          }),
+          0
         )
       ]),
       _vm._v(" "),
       _vm.errors.country_birth
         ? _c("span", { staticClass: "err-msg" }, [
             _vm._v("\n        " + _vm._s(_vm.errors.country_birth) + "\n    ")
+          ])
+        : _vm._e()
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/onboarding/SkillAchievements.vue?vue&type=template&id=9bfd6368&":
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/onboarding/SkillAchievements.vue?vue&type=template&id=9bfd6368& ***!
+  \*******************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "form",
+    {
+      staticClass: "modal-form",
+      attrs: { method: "POST" },
+      on: {
+        submit: function($event) {
+          $event.preventDefault()
+          return _vm.submit($event)
+        }
+      }
+    },
+    [
+      _c("div", { staticClass: "skill-label" }, [
+        _vm._v("\n        What are your main industry work achievements?\n    ")
+      ]),
+      _vm._v(" "),
+      _c("textarea", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.input.main_skill,
+            expression: "input.main_skill"
+          }
+        ],
+        ref: "skillsIntro",
+        staticClass: "form-control",
+        staticStyle: { overflow: "hidden" },
+        attrs: {
+          rows: "2",
+          placeholder:
+            "Example: Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline."
+        },
+        domProps: { value: _vm.input.main_skill },
+        on: {
+          keyup: function($event) {
+            return _vm.textAreaAdjust("skillsIntro")
+          },
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.input, "main_skill", $event.target.value)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _vm.errors.main_skill
+        ? _c("span", { staticClass: "err-msg" }, [
+            _vm._v("\n        " + _vm._s(_vm.errors.main_skill) + "\n    ")
           ])
         : _vm._e()
     ]
@@ -60634,49 +60787,6 @@ var render = function() {
       }
     },
     [
-      _c("div", { staticClass: "skill-label" }, [
-        _vm._v(
-          "\n        What skills have you learnt in your profession?\n    "
-        )
-      ]),
-      _vm._v(" "),
-      _c("textarea", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.input.main_skill,
-            expression: "input.main_skill"
-          }
-        ],
-        ref: "skillsIntro",
-        staticClass: "form-control",
-        staticStyle: { overflow: "hidden" },
-        attrs: {
-          rows: "2",
-          placeholder:
-            "Example: Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline."
-        },
-        domProps: { value: _vm.input.main_skill },
-        on: {
-          keyup: function($event) {
-            return _vm.textAreaAdjust("skillsIntro")
-          },
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.input, "main_skill", $event.target.value)
-          }
-        }
-      }),
-      _vm._v(" "),
-      _vm.errors.main_skill
-        ? _c("span", { staticClass: "err-msg" }, [
-            _vm._v("\n        " + _vm._s(_vm.errors.main_skill) + "\n    ")
-          ])
-        : _vm._e(),
-      _vm._v(" "),
       _c("div", { staticClass: "skill-label" }, [
         _vm._v("\n        What are your main industry skills?\n    ")
       ]),
@@ -61514,6 +61624,89 @@ var render = function() {
               ])
             : _vm._e()
         ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "me-label" }, [
+        _vm._v("\n        Would you relocate overseas?\n    ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "bl-inline" }, [
+        _c("input", {
+          ref: "willing_to_relocate_1",
+          staticClass: "styled-checkbox-round",
+          attrs: { id: "willing_to_relocate_1", type: "checkbox" },
+          on: {
+            change: function($event) {
+              return _vm.formatCheckbox("willing_to_relocate", 1)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "willing_to_relocate_1" } }, [
+          _vm._v("Yes")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          ref: "willing_to_relocate_0",
+          staticClass: "styled-checkbox-round",
+          attrs: { id: "willing_to_relocate_0", type: "checkbox" },
+          on: {
+            change: function($event) {
+              return _vm.formatCheckbox("willing_to_relocate", 0)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "willing_to_relocate_0" } }, [_vm._v("No")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "me-label" }, [
+        _vm._v("Select up to three countries:")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "me-row mb-3" }, [
+        _c(
+          "select",
+          { staticStyle: { "background-position": "465px" } },
+          _vm._l(_vm.countries, function(country) {
+            return _c(
+              "option",
+              { key: country, domProps: { value: country } },
+              [_vm._v(_vm._s(country))]
+            )
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "me-row mb-3" }, [
+        _c(
+          "select",
+          { staticStyle: { "background-position": "465px" } },
+          _vm._l(_vm.countries, function(country) {
+            return _c(
+              "option",
+              { key: country, domProps: { value: country } },
+              [_vm._v(_vm._s(country))]
+            )
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "me-row mb-3" }, [
+        _c(
+          "select",
+          { staticStyle: { "background-position": "465px" } },
+          _vm._l(_vm.countries, function(country) {
+            return _c(
+              "option",
+              { key: country, domProps: { value: country } },
+              [_vm._v(_vm._s(country))]
+            )
+          }),
+          0
+        )
       ])
     ],
     2
@@ -78317,6 +78510,7 @@ Vue.component('employment-history', __webpack_require__(/*! ./components/onboard
 Vue.component('education-history', __webpack_require__(/*! ./components/onboarding/EducationHistory.vue */ "./resources/js/components/onboarding/EducationHistory.vue").default);
 Vue.component('ticket-details', __webpack_require__(/*! ./components/onboarding/TicketDetails.vue */ "./resources/js/components/onboarding/TicketDetails.vue").default);
 Vue.component('skill-details', __webpack_require__(/*! ./components/onboarding/SkillDetails.vue */ "./resources/js/components/onboarding/SkillDetails.vue").default);
+Vue.component('skill-achievements', __webpack_require__(/*! ./components/onboarding/SkillAchievements.vue */ "./resources/js/components/onboarding/SkillAchievements.vue").default);
 Vue.component('work-preferences', __webpack_require__(/*! ./components/onboarding/WorkPreferences.vue */ "./resources/js/components/onboarding/WorkPreferences.vue").default);
 Vue.component('work-information', __webpack_require__(/*! ./components/onboarding/WorkInformation.vue */ "./resources/js/components/onboarding/WorkInformation.vue").default);
 Vue.component('personal-details', __webpack_require__(/*! ./components/onboarding/PersonalDetails.vue */ "./resources/js/components/onboarding/PersonalDetails.vue").default); // Load components
@@ -81501,6 +81695,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/onboarding/SkillAchievements.vue":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/onboarding/SkillAchievements.vue ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SkillAchievements_vue_vue_type_template_id_9bfd6368___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SkillAchievements.vue?vue&type=template&id=9bfd6368& */ "./resources/js/components/onboarding/SkillAchievements.vue?vue&type=template&id=9bfd6368&");
+/* harmony import */ var _SkillAchievements_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SkillAchievements.vue?vue&type=script&lang=js& */ "./resources/js/components/onboarding/SkillAchievements.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SkillAchievements_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SkillAchievements_vue_vue_type_template_id_9bfd6368___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _SkillAchievements_vue_vue_type_template_id_9bfd6368___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/onboarding/SkillAchievements.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/onboarding/SkillAchievements.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/onboarding/SkillAchievements.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SkillAchievements_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./SkillAchievements.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/onboarding/SkillAchievements.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SkillAchievements_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/onboarding/SkillAchievements.vue?vue&type=template&id=9bfd6368&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/components/onboarding/SkillAchievements.vue?vue&type=template&id=9bfd6368& ***!
+  \*************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SkillAchievements_vue_vue_type_template_id_9bfd6368___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./SkillAchievements.vue?vue&type=template&id=9bfd6368& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/onboarding/SkillAchievements.vue?vue&type=template&id=9bfd6368&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SkillAchievements_vue_vue_type_template_id_9bfd6368___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SkillAchievements_vue_vue_type_template_id_9bfd6368___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/onboarding/SkillDetails.vue":
 /*!*************************************************************!*\
   !*** ./resources/js/components/onboarding/SkillDetails.vue ***!
@@ -83122,8 +83385,8 @@ window.Helper = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! F:\appetiser\build-labour-backend\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! F:\appetiser\build-labour-backend\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/jamie/Documents/MyApps/appetiser/build-labour-backend/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

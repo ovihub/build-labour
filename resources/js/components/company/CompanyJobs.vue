@@ -1,10 +1,7 @@
 <template>
     <div class="profile-item-2" v-if="show">
         <div class="job-action">
-            <div class="job-filter" v-if="showButton">
-                <a :href="'/job/new?cid=' + companyId" style="font-weight:500">+ Post new job</a>
-            </div>
-            <div class="job-filter" v-else>
+            <div class="job-filter">
                 Filter
             </div>
             <div class="job-sort">
@@ -37,10 +34,6 @@
         computed: {
             endpointGet() {
                 return this.endpoints.get + this.companyId + '/posts/jobs';
-            },
-            
-            showButton() {
-                return location.pathname === '/user/profile';
             },
         },
 

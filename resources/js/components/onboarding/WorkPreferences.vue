@@ -53,6 +53,36 @@
                 </span>
             </div>
         </div>
+
+        <div class="me-label">
+            Would you relocate overseas?
+        </div>
+        <div class="bl-inline">
+            <input id="willing_to_relocate_1" class="styled-checkbox-round" type="checkbox"
+                ref="willing_to_relocate_1" @change="formatCheckbox('willing_to_relocate', 1)" />
+            <label for="willing_to_relocate_1">Yes</label>
+            
+            <input id="willing_to_relocate_0" class="styled-checkbox-round" type="checkbox"
+                ref="willing_to_relocate_0" @change="formatCheckbox('willing_to_relocate', 0)" />
+            <label for="willing_to_relocate_0">No</label>
+        </div>
+
+        <div class="me-label">Select up to three countries:</div>
+        <div class="me-row mb-3">
+            <select style="background-position:465px">
+                <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
+            </select>
+        </div>
+        <div class="me-row mb-3">
+            <select style="background-position:465px">
+                <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
+            </select>
+        </div>
+        <div class="me-row mb-3">
+            <select style="background-position:465px">
+                <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
+            </select>
+        </div>
     </form>
 </template>
 
@@ -63,14 +93,17 @@
 
         data() {
             return {
+                countries: [],
                 states: [
                     'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
                 ],
                 input: {
                     max_distance: 0, state: '', selected: [], introduction: '', when: '',
+                    willing_to_relocate: '', countries: [],
                 },
                 errors: {
                     max_distance: '', selected: '', introduction: '', when: '',
+                    willing_to_relocate: '', countries: [],
                 },
                 endpoints: {
                     save: '/api/v1/worker/next-role',
@@ -86,6 +119,8 @@
 
                 Api.submit(component.endpoints.save, component.$data.input);
             });
+
+            this.getCountries();
         },
 
         computed: {
@@ -101,6 +136,18 @@
 
             textAreaAdjust(refName) {
                 Utils.textAreaAdjust(this.$refs[refName]);
+            },
+
+            formatCheckbox(refName, value) {
+                Utils.formatCheckbox(this, refName, value);
+            },
+
+            getCountries() {
+                let component = this;
+
+                Promise.resolve(Api.getCountries()).then(function(data) {
+                    component.countries = data.data.countries;
+                });
             },
 
         }
