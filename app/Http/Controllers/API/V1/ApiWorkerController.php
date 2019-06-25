@@ -70,6 +70,11 @@ class ApiWorkerController extends ApiBaseController
      *                      type="integer",
      *                      example=true
      *                  ),
+     *                  @OA\Property(
+     *                      property="willing_to_relocate",
+     *                      type="boolean",
+     *                      example=true
+     *                  ),
      *              ),
      *          ),
      *      ),
@@ -423,6 +428,7 @@ class ApiWorkerController extends ApiBaseController
             }
 
             $user->isForIntroduction = true;
+            $request->request->add(['id' => $user->id]);
 
             if( !$user->store($request)){
 

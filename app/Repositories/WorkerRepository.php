@@ -184,7 +184,6 @@ class WorkerRepository extends AbstractRepository
 
         $rules = [
             'most_recent_role'  => 'nullable',
-            'industry_area'  => 'nullable',
             'exp_year'       => 'nullable|integer',
             'exp_month'      => 'nullable|integer'
         ];
