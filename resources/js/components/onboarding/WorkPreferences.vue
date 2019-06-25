@@ -139,7 +139,7 @@
             },
 
             formatCheckbox(refName, value) {
-                Utils.formatCheckbox(this, refName, value);
+                Utils.formatCheckbox(this.$refs, this.input, refName, value);
             },
 
             getCountries() {

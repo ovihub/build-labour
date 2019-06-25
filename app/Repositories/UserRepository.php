@@ -49,13 +49,13 @@ class UserRepository extends AbstractRepository
             $this->workerDetail = $user->workerDetail;
             $user->workerDetail->isMainSkillUpdate = true;
 
-            if ($request->main_skill && !$user->workerDetail->store($request)) {
+            if (!$user->workerDetail->store($request)) {
 
                 return false;
             }
 
 
-            if ($request->skills && !$this->saveSkills($request)) {
+            if (!$this->saveSkills($request)) {
 
                 return false;
             }
@@ -73,9 +73,9 @@ class UserRepository extends AbstractRepository
 
         $user = JWTAuth::toUser();
 
-        UserSkill::where('user_id', '=', $user->id)->delete();
+        if (isset($request->skills)) {
 
-        if ($request->skills) {
+            UserSkill::where('user_id', '=', $user->id)->delete();
 
             $skills = $request->skills;
 

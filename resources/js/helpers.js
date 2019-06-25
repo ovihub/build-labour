@@ -220,23 +220,24 @@ window.Helper = {
             o.style.height = (2 + o.scrollHeight) + 'px';
         },
 
-        formatCheckbox(t, refName, value) {
-            // let val = value ? value : null;
+        formatCheckbox(refs, input, refName, value) {
 
             if (value == 1) {
-                t.$refs[refName + '_1'].checked = true;
-                t.$refs[refName + '_0'].checked = false;
+                refs[refName + '_1'].checked = true;
+                refs[refName + '_0'].checked = false;
 
             } else if (value == 0) {
-                t.$refs[refName + '_1'].checked = false;
-                t.$refs[refName + '_0'].checked = true;
+                refs[refName + '_1'].checked = false;
+                refs[refName + '_0'].checked = true;
                 
             } else {
-                t.$refs[refName + '_1'].checked = false;
-                t.$refs[refName + '_0'].checked = false;
+                refs[refName + '_1'].checked = false;
+                refs[refName + '_0'].checked = false;
             }
 
-            t.input[refName] = value;
+            if (input) {
+                input[refName] = value;
+            }
         }
     }
 }

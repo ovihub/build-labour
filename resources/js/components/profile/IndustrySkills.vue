@@ -28,6 +28,9 @@
                         <div class="skill-label">
                             What are your main industry skills?
                         </div>
+                        <div class="skill-label-3">
+                            e.g. Time Management, Communication Skills
+                        </div>
 
                         <div class="emp-row row-center"
                             :ref="'skillItem-' + index" 
@@ -84,8 +87,8 @@
                 Main Industry Skills & Achievements
             </div>
             
-            <div class="row" v-if="! is_empty">
-                <div class="col-md-12 col-sm-12 profile-intro">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 profile-intro" v-if="main_skill">
                     {{ main_skill }}
                 </div>
                 <div class="col-md-6 col-sm-6" v-for="first in firstColumn" v-bind:key="first.sid">
@@ -156,9 +159,10 @@
                     component.is_empty = true;
 
                 } else {
-                    component.input.main_skill = component.main_skill;
                     component.input.skills = detailsArray;
                 }
+
+                component.input.main_skill = component.main_skill;
 
                 component.display();
             });

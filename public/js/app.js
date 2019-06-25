@@ -8310,8 +8310,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -8367,9 +8365,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    var _ref;
-
-    return _ref = {
+    return {
       keyword: '',
       has_whitecard: '',
       tickets: [],
@@ -8378,10 +8374,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       errors: {
         ticket: ''
       },
-      input: {}
-    }, _defineProperty(_ref, "errors", {}), _defineProperty(_ref, "endpoints", {
-      save: '/api/v1/worker/tickets'
-    }), _ref;
+      endpoints: {
+        save: '/api/v1/worker/tickets'
+      }
+    };
   },
   created: function created() {
     var component = this;
@@ -8389,7 +8385,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       component.tickets = detailsArray;
       component.formatCheckbox('has_whitecard', detail);
     });
-    Bus.$on('onboardingSubmitTickets', function () {
+    Bus.$on('submitTickets', function () {
       var saveInput = {
         tickets: component.tickets.map(function (ticket) {
           return {
@@ -8416,7 +8412,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     onSelect: function onSelect(ticket) {
       this.selectedTicket = ticket;
-      this.keyword = ticket.ticket + "-" + ticket.description;
+      this.keyword = ticket.ticket + ' - ' + ticket.description;
       this.searchedTickets = [];
     },
     onDelete: function onDelete(index) {
@@ -8447,7 +8443,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     formatCheckbox: function formatCheckbox(refName, value) {
-      Utils.formatCheckbox(this, refName, value);
+      Utils.formatCheckbox(this.$refs, null, refName, value);
       this.has_whitecard = value; // if (value == 0) {
       //     this.tickets = [];
       // }
@@ -8589,7 +8585,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     formatCheckbox: function formatCheckbox(refName, value) {
-      Utils.formatCheckbox(this, refName, value);
+      Utils.formatCheckbox(this.$refs, this.input, refName, value);
     }
   }
 });
@@ -8742,7 +8738,7 @@ __webpack_require__.r(__webpack_exports__);
       Utils.textAreaAdjust(this.$refs[refName]);
     },
     formatCheckbox: function formatCheckbox(refName, value) {
-      Utils.formatCheckbox(this, refName, value);
+      Utils.formatCheckbox(this.$refs, this.input, refName, value);
     },
     getCountries: function getCountries() {
       var component = this;
@@ -8943,6 +8939,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -8956,6 +8986,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       gender: '',
       date_of_birth: '',
       marital_status: '',
+      has_tfn: '',
+      has_abn: '',
       english_skill: '',
       drivers_license: '',
       has_registered_vehicle: '',
@@ -8963,6 +8995,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         gender: '',
         date_of_birth: '',
         marital_status: '',
+        has_tfn: '',
+        has_abn: '',
         english_skill: '',
         drivers_license: '',
         has_registered_vehicle: ''
@@ -8971,6 +9005,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         gender: '',
         date_of_birth: '',
         marital_status: '',
+        has_tfn: '',
+        has_abn: '',
         english_skill: '',
         drivers_license: '',
         has_registered_vehicle: ''
@@ -8999,8 +9035,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       val.date_of_birth = details.date_of_birth;
       val.marital_status = details.marital_status;
 
+      if (!Utils.isNullOrEmpty(details.has_tfn)) {
+        val.has_tfn = details.has_tfn == 1 ? 'Has Australian Tax File Number (TFN)' : 'Does not have Australian Tax File Number (TFN)';
+      } else {
+        val.has_tfn = null;
+      }
+
+      if (!Utils.isNullOrEmpty(details.has_abn)) {
+        val.has_abn = details.has_abn == 1 ? 'Has Australian Business Number (ABN)' : 'Does not have Australian Business Number (ABN)';
+      } else {
+        val.has_abn = null;
+      }
+
       if (!Utils.isNullOrEmpty(details.english_skill)) {
-        val.english_skill = details.english_skill == 1 ? 'Proficient in written and spoken' : 'Not proficient in written and spoken';
+        val.english_skill = details.english_skill == 1 ? 'Competent in written and spoken' : 'Not competent in written and spoken';
       } else {
         val.english_skill = null;
       }
@@ -9017,6 +9065,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         val.has_registered_vehicle = null;
       }
 
+      this.formatCheckbox('has_tfn', details.has_tfn);
+      this.formatCheckbox('has_abn', details.has_abn);
       this.formatCheckbox('english_skill', details.english_skill);
       this.formatCheckbox('drivers_license', details.drivers_license);
       this.formatCheckbox('has_registered_vehicle', details.has_registered_vehicle);
@@ -9042,20 +9092,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
       }
     },
-    formatCheckbox: function formatCheckbox(fld, index) {
-      if (index == 1) {
-        this.$refs[fld + '-checkbox-1'].checked = true;
-        this.$refs[fld + '-checkbox-0'].checked = false;
-        this.input[fld] = 1;
-      } else if (index == 0) {
-        this.$refs[fld + '-checkbox-1'].checked = false;
-        this.$refs[fld + '-checkbox-0'].checked = true;
-        this.input[fld] = 0;
-      } else {
-        this.$refs[fld + '-checkbox-1'].checked = false;
-        this.$refs[fld + '-checkbox-0'].checked = false;
-        this.input[fld] = null;
-      }
+    formatCheckbox: function formatCheckbox(refName, value) {
+      Utils.formatCheckbox(this.$refs, this.input, refName, value);
     },
     onChangeBirthMonthYear: function onChangeBirthMonthYear() {
       this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
@@ -10655,6 +10693,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -10703,10 +10744,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (detailsArray.length == 0) {
         component.is_empty = true;
       } else {
-        component.input.main_skill = component.main_skill;
         component.input.skills = detailsArray;
       }
 
+      component.input.main_skill = component.main_skill;
       component.display();
     });
     Bus.$on('removeIndustrySkill', function () {
@@ -10857,6 +10898,8 @@ __webpack_require__.r(__webpack_exports__);
         gender: '',
         date_of_birth: '',
         marital_status: '',
+        has_tfn: '',
+        has_abn: '',
         english_skill: '',
         drivers_license: '',
         has_registered_vehicle: ''
@@ -10918,6 +10961,8 @@ __webpack_require__.r(__webpack_exports__);
         component.about_me.gender = user.gender;
         component.about_me.date_of_birth = user.date_of_birth;
         component.about_me.marital_status = user.marital_status;
+        component.about_me.has_tfn = user.worker_detail.has_tfn;
+        component.about_me.has_abn = user.worker_detail.has_abn;
         component.about_me.english_skill = user.worker_detail.english_skill;
         component.about_me.drivers_license = user.worker_detail.drivers_license;
         component.about_me.has_registered_vehicle = user.worker_detail.has_registered_vehicle;
@@ -11082,7 +11127,7 @@ __webpack_require__.r(__webpack_exports__);
       Bus.$emit('refreshTicketDetails');
     },
     submit: function submit() {
-      Bus.$emit('onboardingSubmitTickets');
+      Bus.$emit('submitTickets');
       this.close();
     }
   }
@@ -61131,7 +61176,7 @@ var render = function() {
     },
     [
       _c("div", { staticClass: "skill-label" }, [
-        _vm._v("\n        I have the right to work in Australia\n    ")
+        _vm._v("\n        I have the right to legally work in Australia\n    ")
       ]),
       _vm._v(" "),
       _vm._m(0),
@@ -61923,13 +61968,89 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "me-label" }, [
                       _vm._v(
-                        "\n                            I am proficient in WRITTEN and SPOKEN English\n                        "
+                        "\n                            I have an Australian Tax File Number (TFN)\n                        "
                       )
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "bl-inline" }, [
                       _c("input", {
-                        ref: "english_skill-checkbox-1",
+                        ref: "has_tfn_1",
+                        staticClass: "styled-checkbox-round",
+                        attrs: { id: "has_tfn_1", type: "checkbox" },
+                        on: {
+                          change: function($event) {
+                            return _vm.formatCheckbox("has_tfn", 1)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "has_tfn_1" } }, [
+                        _vm._v("Yes")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        ref: "has_tfn_0",
+                        staticClass: "styled-checkbox-round",
+                        attrs: { id: "has_tfn_0", type: "checkbox" },
+                        on: {
+                          change: function($event) {
+                            return _vm.formatCheckbox("has_tfn", 0)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "has_tfn_0" } }, [
+                        _vm._v("No")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "me-label" }, [
+                      _vm._v(
+                        "\n                            I have an Australian Business Number (ABN)\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "bl-inline" }, [
+                      _c("input", {
+                        ref: "has_abn_1",
+                        staticClass: "styled-checkbox-round",
+                        attrs: { id: "has_abn_1", type: "checkbox" },
+                        on: {
+                          change: function($event) {
+                            return _vm.formatCheckbox("has_abn", 1)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "has_abn_1" } }, [
+                        _vm._v("Yes")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        ref: "has_abn_0",
+                        staticClass: "styled-checkbox-round",
+                        attrs: { id: "has_abn_0", type: "checkbox" },
+                        on: {
+                          change: function($event) {
+                            return _vm.formatCheckbox("has_abn", 0)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "has_abn_0" } }, [
+                        _vm._v("No")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "me-label" }, [
+                      _vm._v(
+                        "\n                            I am competent in WRITTEN and SPOKEN English\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "bl-inline" }, [
+                      _c("input", {
+                        ref: "english_skill_1",
                         staticClass: "styled-checkbox-round",
                         attrs: {
                           id: "english_skill-checkbox-yes",
@@ -61949,7 +62070,7 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _c("input", {
-                        ref: "english_skill-checkbox-0",
+                        ref: "english_skill_0",
                         staticClass: "styled-checkbox-round",
                         attrs: {
                           id: "english_skill-checkbox-no",
@@ -61977,7 +62098,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "bl-inline" }, [
                       _c("input", {
-                        ref: "drivers_license-checkbox-1",
+                        ref: "drivers_license_1",
                         staticClass: "styled-checkbox-round",
                         attrs: {
                           id: "drivers_license-checkbox-yes",
@@ -61997,7 +62118,7 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _c("input", {
-                        ref: "drivers_license-checkbox-0",
+                        ref: "drivers_license_0",
                         staticClass: "styled-checkbox-round",
                         attrs: {
                           id: "drivers_license-checkbox-no",
@@ -62025,7 +62146,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "bl-inline" }, [
                       _c("input", {
-                        ref: "has_registered_vehicle-checkbox-1",
+                        ref: "has_registered_vehicle_1",
                         staticClass: "styled-checkbox-round",
                         attrs: {
                           id: "has_registered_vehicle-checkbox-yes",
@@ -62050,7 +62171,7 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _c("input", {
-                        ref: "has_registered_vehicle-checkbox-0",
+                        ref: "has_registered_vehicle_0",
                         staticClass: "styled-checkbox-round",
                         attrs: {
                           id: "has_registered_vehicle-checkbox-no",
@@ -62080,6 +62201,8 @@ var render = function() {
               _vm._v(" "),
               _c("template", { slot: "custom-modal-footer" }, [
                 _vm.gender ||
+                _vm.has_tfn ||
+                _vm.has_abn ||
                 _vm.english_skill ||
                 _vm.drivers_license ||
                 _vm.has_registered_vehicle
@@ -62139,6 +62262,24 @@ var render = function() {
           false
             ? undefined
             : _vm._e(),
+          _vm._v(" "),
+          _vm.has_tfn
+            ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
+                _vm._v("Australian ID")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("span", { staticClass: "bl-label-14" }, [
+            _vm._v(
+              "\n                " + _vm._s(_vm.has_tfn) + "\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c("span", { staticClass: "bl-label-14" }, [
+            _vm._v(
+              "\n                " + _vm._s(_vm.has_abn) + "\n            "
+            )
+          ]),
           _vm._v(" "),
           _vm.english_skill
             ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
@@ -64286,7 +64427,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "skill-label" }, [
                           _vm._v(
-                            "\n                            I have the right to work in Australia\n                        "
+                            "\n                            I have the right to legally work in Australia\n                        "
                           )
                         ]),
                         _vm._v(" "),
@@ -64604,6 +64745,12 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
+                  _c("div", { staticClass: "skill-label-3" }, [
+                    _vm._v(
+                      "\n                        e.g. Time Management, Communication Skills\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
                   _vm._l(_vm.input.skills, function(skill, index) {
                     return _c(
                       "div",
@@ -64773,12 +64920,12 @@ var render = function() {
         _vm._v(" "),
         _vm._m(0),
         _vm._v(" "),
-        !_vm.is_empty
-          ? _c(
-              "div",
-              { staticClass: "row" },
-              [
-                _c(
+        _c(
+          "div",
+          { staticClass: "row" },
+          [
+            _vm.main_skill
+              ? _c(
                   "div",
                   { staticClass: "col-md-12 col-sm-12 profile-intro" },
                   [
@@ -64788,59 +64935,59 @@ var render = function() {
                         "\n            "
                     )
                   ]
-                ),
-                _vm._v(" "),
-                _vm._l(_vm.firstColumn, function(first) {
-                  return _c(
-                    "div",
-                    { key: first.sid, staticClass: "col-md-6 col-sm-6" },
-                    [
-                      _c("span", { staticClass: "bl-label-15" }, [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(first.sname) +
-                            "\n                "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "bl-label-14" }, [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(first.lname) +
-                            "\n                "
-                        )
-                      ])
-                    ]
-                  )
-                }),
-                _vm._v(" "),
-                _vm._l(_vm.secondColumn, function(second) {
-                  return _c(
-                    "div",
-                    { key: second.sid, staticClass: "col-md-6 col-sm-6" },
-                    [
-                      _c("span", { staticClass: "bl-label-15" }, [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(second.sname) +
-                            "\n                "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "bl-label-14" }, [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(second.lname) +
-                            "\n                "
-                        )
-                      ])
-                    ]
-                  )
-                })
-              ],
-              2
-            )
-          : _vm._e()
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._l(_vm.firstColumn, function(first) {
+              return _c(
+                "div",
+                { key: first.sid, staticClass: "col-md-6 col-sm-6" },
+                [
+                  _c("span", { staticClass: "bl-label-15" }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(first.sname) +
+                        "\n                "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "bl-label-14" }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(first.lname) +
+                        "\n                "
+                    )
+                  ])
+                ]
+              )
+            }),
+            _vm._v(" "),
+            _vm._l(_vm.secondColumn, function(second) {
+              return _c(
+                "div",
+                { key: second.sid, staticClass: "col-md-6 col-sm-6" },
+                [
+                  _c("span", { staticClass: "bl-label-15" }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(second.sname) +
+                        "\n                "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "bl-label-14" }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(second.lname) +
+                        "\n                "
+                    )
+                  ])
+                ]
+              )
+            })
+          ],
+          2
+        )
       ],
       1
     )
@@ -83435,20 +83582,21 @@ window.Helper = {
       o.style.height = '1px';
       o.style.height = 2 + o.scrollHeight + 'px';
     },
-    formatCheckbox: function formatCheckbox(t, refName, value) {
-      // let val = value ? value : null;
+    formatCheckbox: function formatCheckbox(refs, input, refName, value) {
       if (value == 1) {
-        t.$refs[refName + '_1'].checked = true;
-        t.$refs[refName + '_0'].checked = false;
+        refs[refName + '_1'].checked = true;
+        refs[refName + '_0'].checked = false;
       } else if (value == 0) {
-        t.$refs[refName + '_1'].checked = false;
-        t.$refs[refName + '_0'].checked = true;
+        refs[refName + '_1'].checked = false;
+        refs[refName + '_0'].checked = true;
       } else {
-        t.$refs[refName + '_1'].checked = false;
-        t.$refs[refName + '_0'].checked = false;
+        refs[refName + '_1'].checked = false;
+        refs[refName + '_0'].checked = false;
       }
 
-      t.input[refName] = value;
+      if (input) {
+        input[refName] = value;
+      }
     }
   }
 };

@@ -1,7 +1,7 @@
 <template>
     <form class="modal-form" method="POST" @submit.prevent="submit">
         <div class="skill-label">
-            I have the right to work in Australia
+            I have the right to legally work in Australia
         </div>
         <div class="skill-label-3">
             <a href="#">See legal requirements</a>
@@ -119,7 +119,7 @@
         methods: {
 
             formatCheckbox(refName, value) {
-                Utils.formatCheckbox(this, refName, value);
+                Utils.formatCheckbox(this.$refs, this.input, refName, value);
             },
 
         }

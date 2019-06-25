@@ -65,12 +65,6 @@
                 errors: { 
                     ticket: ''
                 },
-                input: {
-
-                },
-                errors: {
-
-                },
                 endpoints: {
                     save: '/api/v1/worker/tickets',
                 },
@@ -86,7 +80,7 @@
                 component.formatCheckbox('has_whitecard', detail);
             });
 
-            Bus.$on('onboardingSubmitTickets', function() {
+            Bus.$on('submitTickets', function() {
                 let saveInput = {
                     tickets: component.tickets.map(function (ticket) {
                                 return { ticket_id: ticket.id };
@@ -118,7 +112,7 @@
 
             onSelect(ticket) {
                 this.selectedTicket = ticket;
-                this.keyword = ticket.ticket + "-" + ticket.description;
+                this.keyword = ticket.ticket + ' - ' + ticket.description;
                 this.searchedTickets = [];
             },
 
@@ -153,10 +147,10 @@
             },
 
             formatCheckbox(refName, value) {
-                Utils.formatCheckbox(this, refName, value);
+                Utils.formatCheckbox(this.$refs, null, refName, value);
 
                 this.has_whitecard = value;
-
+                
                 // if (value == 0) {
                 //     this.tickets = [];
                 // }

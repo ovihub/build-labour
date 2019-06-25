@@ -70,16 +70,42 @@
                             </div>
 
                             <div class="me-label">
-                                I am proficient in WRITTEN and SPOKEN English
+                                I have an Australian Tax File Number (TFN)
+                            </div>
+                            <div class="bl-inline">
+                                <input id="has_tfn_1" class="styled-checkbox-round" type="checkbox"
+                                    ref="has_tfn_1" @change="formatCheckbox('has_tfn', 1)" />
+                                <label for="has_tfn_1">Yes</label>
+                                
+                                <input id="has_tfn_0" class="styled-checkbox-round" type="checkbox"
+                                    ref="has_tfn_0" @change="formatCheckbox('has_tfn', 0)" />
+                                <label for="has_tfn_0">No</label>
+                            </div>
+
+                            <div class="me-label">
+                                I have an Australian Business Number (ABN)
+                            </div>
+                            <div class="bl-inline">
+                                <input id="has_abn_1" class="styled-checkbox-round" type="checkbox"
+                                    ref="has_abn_1" @change="formatCheckbox('has_abn', 1)" />
+                                <label for="has_abn_1">Yes</label>
+                                
+                                <input id="has_abn_0" class="styled-checkbox-round" type="checkbox"
+                                    ref="has_abn_0" @change="formatCheckbox('has_abn', 0)" />
+                                <label for="has_abn_0">No</label>
+                            </div>
+
+                            <div class="me-label">
+                                I am competent in WRITTEN and SPOKEN English
                             </div>
                             <div class="bl-inline">
                                 <input class="styled-checkbox-round" id="english_skill-checkbox-yes" type="checkbox"
-                                    ref="english_skill-checkbox-1"
+                                    ref="english_skill_1"
                                     @change="formatCheckbox('english_skill', 1)" />
                                 <label for="english_skill-checkbox-yes">Yes</label>
                                 
                                 <input class="styled-checkbox-round" id="english_skill-checkbox-no" type="checkbox"
-                                    ref="english_skill-checkbox-0"
+                                    ref="english_skill_0"
                                     @change="formatCheckbox('english_skill', 0)" />
                                 <label for="english_skill-checkbox-no">No</label>
                             </div>
@@ -89,12 +115,12 @@
                             </div>
                             <div class="bl-inline">
                                 <input class="styled-checkbox-round" id="drivers_license-checkbox-yes" type="checkbox"
-                                    ref="drivers_license-checkbox-1"
+                                    ref="drivers_license_1"
                                     @change="formatCheckbox('drivers_license', 1)" />
                                 <label for="drivers_license-checkbox-yes">Yes</label>
                                 
                                 <input class="styled-checkbox-round" id="drivers_license-checkbox-no" type="checkbox"
-                                    ref="drivers_license-checkbox-0"
+                                    ref="drivers_license_0"
                                     @change="formatCheckbox('drivers_license', 0)" />
                                 <label for="drivers_license-checkbox-no">No</label>
                             </div>
@@ -104,12 +130,12 @@
                             </div>
                             <div class="bl-inline">
                                 <input class="styled-checkbox-round" id="has_registered_vehicle-checkbox-yes" type="checkbox"
-                                    ref="has_registered_vehicle-checkbox-1"
+                                    ref="has_registered_vehicle_1"
                                     @change="formatCheckbox('has_registered_vehicle', 1)" />
                                 <label for="has_registered_vehicle-checkbox-yes">Yes</label>
                                 
                                 <input class="styled-checkbox-round" id="has_registered_vehicle-checkbox-no" type="checkbox"
-                                    ref="has_registered_vehicle-checkbox-0"
+                                    ref="has_registered_vehicle_0"
                                     @change="formatCheckbox('has_registered_vehicle', 0)" />
                                 <label for="has_registered_vehicle-checkbox-no">No</label>
                             </div>
@@ -118,7 +144,7 @@
 
                     <template slot="custom-modal-footer">
                         <div class="btn btn-link btn-delete" data-dismiss="modal" @click="deleteRecord"
-                            v-if="gender || english_skill || drivers_license || has_registered_vehicle">
+                            v-if="gender || has_tfn || has_abn || english_skill || drivers_license || has_registered_vehicle">
                             Delete
                         </div>
 
@@ -152,6 +178,14 @@
                     </span>
                 </div>
 
+                <span class="bl-label-15 mt-2 pt-1" v-if="has_tfn">Australian ID</span>
+                <span class="bl-label-14">
+                    {{ has_tfn }}
+                </span>
+                <span class="bl-label-14">
+                    {{ has_abn }}
+                </span>
+
                 <span class="bl-label-15 mt-2 pt-1" v-if="english_skill">English Skill</span>
                 <span class="bl-label-14">
                     {{ english_skill }}
@@ -183,14 +217,18 @@
                 gender: '',
                 date_of_birth: '',
                 marital_status: '',
+                has_tfn: '',
+                has_abn: '',
                 english_skill: '',
                 drivers_license: '',
                 has_registered_vehicle: '',
                 input: {
-                    gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: '', has_registered_vehicle: '',
+                    gender: '', date_of_birth: '', marital_status: '', has_tfn: '', has_abn: '',
+                    english_skill: '', drivers_license: '', has_registered_vehicle: '',
                 },
                 errors: {
-                    gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: '', has_registered_vehicle: '',
+                    gender: '', date_of_birth: '', marital_status: '', has_tfn: '', has_abn: '',
+                    english_skill: '', drivers_license: '', has_registered_vehicle: '',
                 },
                 endpoints: {
                     save: '/api/v1/worker/optional'
@@ -222,9 +260,23 @@
                 val.date_of_birth = details.date_of_birth;
                 val.marital_status = details.marital_status;
                 
+                if (! Utils.isNullOrEmpty(details.has_tfn)) {
+                    val.has_tfn = details.has_tfn == 1 ? 
+                        'Has Australian Tax File Number (TFN)' : 'Does not have Australian Tax File Number (TFN)';
+                } else {
+                    val.has_tfn = null;
+                }
+
+                if (! Utils.isNullOrEmpty(details.has_abn)) {
+                    val.has_abn = details.has_abn == 1 ? 
+                        'Has Australian Business Number (ABN)' : 'Does not have Australian Business Number (ABN)';
+                } else {
+                    val.has_abn = null;
+                }
+
                 if (! Utils.isNullOrEmpty(details.english_skill)) {
                     val.english_skill = details.english_skill == 1 ? 
-                        'Proficient in written and spoken' : 'Not proficient in written and spoken';
+                        'Competent in written and spoken' : 'Not competent in written and spoken';
                 } else {
                     val.english_skill = null;
                 }
@@ -238,11 +290,14 @@
                 
                 if (! Utils.isNullOrEmpty(details.has_registered_vehicle)) {
                     val.has_registered_vehicle = details.has_registered_vehicle == 1 ?
-                        'Owns/has access to personal registered vehicle' : 'Does not own/have access to personal registered vehicle';
+                        'Owns/has access to personal registered vehicle' : 
+                        'Does not own/have access to personal registered vehicle';
                 } else {
                     val.has_registered_vehicle = null;
                 }
 
+                this.formatCheckbox('has_tfn', details.has_tfn);
+                this.formatCheckbox('has_abn', details.has_abn);
                 this.formatCheckbox('english_skill', details.english_skill);
                 this.formatCheckbox('drivers_license', details.drivers_license);
                 this.formatCheckbox('has_registered_vehicle', details.has_registered_vehicle);
@@ -275,21 +330,8 @@
                 }
             },
                     
-            formatCheckbox(fld, index) {
-                if (index == 1) {
-                    this.$refs[fld + '-checkbox-1'].checked = true;
-                    this.$refs[fld + '-checkbox-0'].checked = false;
-                    this.input[fld] = 1;
-
-                } else if (index == 0) {
-                    this.$refs[fld + '-checkbox-1'].checked = false;
-                    this.$refs[fld + '-checkbox-0'].checked = true;
-                    this.input[fld] = 0;
-                } else {
-                    this.$refs[fld + '-checkbox-1'].checked = false;
-                    this.$refs[fld + '-checkbox-0'].checked = false;
-                    this.input[fld] = null;
-                }
+            formatCheckbox(refName, value) {
+                Utils.formatCheckbox(this.$refs, this.input, refName, value);
             },
 
             onChangeBirthMonthYear() {

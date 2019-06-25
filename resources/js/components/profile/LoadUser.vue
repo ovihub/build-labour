@@ -18,7 +18,8 @@
                     most_recent_role: '', exp_year: '', exp_month: '',
                 },
                 about_me: {
-                    gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: '', has_registered_vehicle: '',
+                    gender: '', date_of_birth: '', marital_status: '', 
+                    has_tfn: '', has_abn: '', english_skill: '', drivers_license: '', has_registered_vehicle: '',
                 },
                 ideal_role: { 
                     introduction: '', when: '', max_distance: '', state: '', right_to_work: '',
@@ -87,6 +88,8 @@
                         component.about_me.gender = user.gender;
                         component.about_me.date_of_birth = user.date_of_birth;
                         component.about_me.marital_status = user.marital_status;
+                        component.about_me.has_tfn = user.worker_detail.has_tfn;
+                        component.about_me.has_abn = user.worker_detail.has_abn;
                         component.about_me.english_skill = user.worker_detail.english_skill;
                         component.about_me.drivers_license = user.worker_detail.drivers_license;
                         component.about_me.has_registered_vehicle = user.worker_detail.has_registered_vehicle;

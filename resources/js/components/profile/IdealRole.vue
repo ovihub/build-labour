@@ -62,7 +62,7 @@
                             </div>
 
                             <div class="skill-label">
-                                I have the right to work in Australia
+                                I have the right to legally work in Australia
                             </div>
                             <div class="skill-label-3">
                                 See legal requirements

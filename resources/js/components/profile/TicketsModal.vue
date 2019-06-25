@@ -40,7 +40,7 @@
             },
             
             submit() {
-                Bus.$emit('onboardingSubmitTickets');
+                Bus.$emit('submitTickets');
 
                 this.close();
             },
