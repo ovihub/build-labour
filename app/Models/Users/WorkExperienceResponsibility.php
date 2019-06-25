@@ -25,7 +25,7 @@ class WorkExperienceResponsibility extends BaseModel
     private function rules()
     {
         return [
-            'responsibility'  => 'required|min:10'
+            'responsibility'  => 'required'
         ];
     }
 

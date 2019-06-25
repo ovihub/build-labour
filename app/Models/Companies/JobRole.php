@@ -23,7 +23,7 @@ class JobRole extends BaseModel
     private function rules()
     {
         return [
-            'job_role_name' => 'required|min:5'
+            'job_role_name' => 'required'
         ];
     }
 

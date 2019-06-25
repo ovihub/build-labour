@@ -59,7 +59,7 @@ class Users extends BaseModel implements
 
             return [
                 'gender' => 'nullable|in:Male,male,Female,female,Other,other',
-                'marital_status' => 'nullable|min:2',
+                'marital_status' => 'nullable',
                 'date_of_birth' => 'nullable|date|before:-18 years',
             ];
         }
@@ -67,8 +67,8 @@ class Users extends BaseModel implements
         if ($this->isForIntroduction) {
 
             return [
-                'first_name'    => 'required|min:2',
-                'last_name'     => 'required|min:2',
+                'first_name'    => 'required',
+                'last_name'     => 'required',
             ];
         }
 
@@ -84,8 +84,8 @@ class Users extends BaseModel implements
 
             // validation rules for updated users
             return [
-                'first_name'    => 'required|min:2',
-                'last_name'     => 'required|min:2',
+                'first_name'    => 'required',
+                'last_name'     => 'required',
                 'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|digits_between:9,10'
             ];
         }
@@ -94,8 +94,8 @@ class Users extends BaseModel implements
         return [
             'email'         => 'required|string|email|max:50|unique:users',
             'password'      => 'required|string|min:6|max:24|confirmed',
-            'first_name'    => 'required|min:2',
-            'last_name'     => 'required|min:2',
+            'first_name'    => 'required',
+            'last_name'     => 'required',
             'mobile_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|digits_between:9,10'
         ];
     }

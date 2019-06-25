@@ -145,16 +145,16 @@ class UserRepository extends AbstractRepository
         $this->company = new Company();
 
         $rules = [
-            'company_name'  => 'required|min:5',
+            'company_name'  => 'required',
             'company_main_company_id'  => 'required|integer',
             'company_secondary_functions' => 'required|array',
             'company_business_type_id' => 'required|integer',
             'company_tier_id' => 'required|integer',
             'company_photo' => 'required|image64:jpeg,jpg,png',
-            'company_address'  => 'required|min:5',
-            'company_contact_number' => 'required|min:5',
+            'company_address'  => 'required',
+            'company_contact_number' => 'required',
             'company_operate_outside_states' => 'required|boolean',
-            'company_website' => 'required|min:5|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+            'company_website' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
             'email'     => 'required|string|email|max:50|unique:users',
             'password'  => 'required|string|min:6|max:24|confirmed'
         ];
