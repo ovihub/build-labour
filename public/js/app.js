@@ -8371,13 +8371,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     return _ref = {
       keyword: '',
-      disabled: false,
-      initTickets: [],
-      tickets: [],
       has_whitecard: '',
+      tickets: [],
       searchedTickets: [],
       selectedTicket: false,
-      timeOut: false,
       errors: {
         ticket: ''
       },
@@ -8388,6 +8385,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   created: function created() {
     var component = this;
+    Bus.$on('ticketsDetails', function (detailsArray, detail) {
+      component.tickets = detailsArray;
+      component.formatCheckbox('has_whitecard', detail);
+    });
     Bus.$on('onboardingSubmitTickets', function () {
       var saveInput = {
         tickets: component.tickets.map(function (ticket) {
@@ -8398,6 +8399,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         has_whitecard: component.has_whitecard
       };
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, saveInput);
+      Bus.$emit('ticketsDetails', component.tickets, component.has_whitecard);
+    });
+    Bus.$on('refreshTicketDetails', function () {
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_0__["default"].getWorkerTickets()).then(function (data) {
+        component.tickets = data.data.tickets;
+      });
     });
   },
   methods: {
@@ -8441,11 +8448,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     formatCheckbox: function formatCheckbox(refName, value) {
       Utils.formatCheckbox(this, refName, value);
-      this.has_whitecard = value;
-
-      if (value == 0) {
-        this.tickets = [];
-      }
+      this.has_whitecard = value; // if (value == 0) {
+      //     this.tickets = [];
+      // }
     }
   }
 });
@@ -10928,7 +10933,7 @@ __webpack_require__.r(__webpack_exports__);
         Bus.$emit('idealRoleDetails', component.ideal_role);
         Bus.$emit('employmentDetails', component.employments);
         Bus.$emit('educationDetails', component.educations);
-        Bus.$emit('ticketsDetails', component.tickets);
+        Bus.$emit('ticketsDetails', component.tickets, user.worker_detail.has_whitecard);
         Bus.$emit('industrySkillsDetails', component.industry_skills, user.worker_detail ? user.worker_detail.main_skill : '');
       }).catch(function (error) {
         /** 
@@ -10991,13 +10996,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      input: {
-        ticket: '',
-        description: ''
-      },
+      mark_icon: '',
+      has_whitecard: '',
       tickets: [],
       firstColumn: [],
       secondColumn: []
@@ -11005,16 +11014,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var component = this;
-    Bus.$on('ticketsDetails', function (detailsArray) {
+    Bus.$on('ticketsDetails', function (detailsArray, detail) {
       component.tickets = detailsArray;
-      component.display();
-    });
-    Bus.$on('AddTicket', function (details) {
-      component.tickets.push(details);
-      component.display();
-    });
-    Bus.$on('passTickets', function (tickets) {
-      component.tickets = tickets;
+
+      if (detail == 1) {
+        component.mark_icon = 'check';
+        component.has_whitecard = 'Has a valid and current White Card';
+      } else {
+        component.mark_icon = 'cross';
+        component.has_whitecard = 'No valid and current White Card';
+      }
+
       component.display();
     });
   },
@@ -11039,198 +11049,42 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
-      keyword: '',
-      disabled: false,
-      initTickets: [],
-      tickets: [],
-      searchedTickets: [],
-      selectedTicket: false,
-      timeOut: false,
-      errors: {
-        ticket: ''
-      },
-      endpoints: {
-        save: '/api/v1/worker/tickets',
-        tickets: '/api/v1/worker/tickets',
-        search: '/api/v1/tickets/search'
-      }
-    };
+    return {};
   },
-  created: function created() {
-    this.getTickets();
-  },
+  created: function created() {},
   methods: {
-    getTickets: function getTickets() {
-      var component = this;
-      axios.get(component.endpoints.tickets, Utils.getBearerAuth()).then(function (res) {
-        component.initTickets = res.data.data.tickets;
-        component.tickets = res.data.data.tickets;
-      });
-    },
     close: function close() {
-      this.errors.ticket = '';
-      this.keyword = '';
-      this.tickets = this.initTickets;
+      Bus.$emit('refreshTicketDetails');
     },
-    onSearch: function onSearch() {
-      var component = this;
-
-      if (component.keyword.length <= 0) {
-        component.searchedTickets = [];
-      }
-
-      if (component.time_out) {
-        clearTimeout(component.time_out);
-      }
-
-      component.time_out = setTimeout(function () {
-        axios.get(this.endpoints.search + "?keyword=" + this.keyword, Utils.getBearerAuth()).then(function (response) {
-          component.searchedTickets = component.keyword != '' ? response.data.data.tickets : [];
-        }).catch(function (error) {
-          Utils.handleError(error);
-        });
-      }.bind(this), 300);
-    },
-    onSelect: function onSelect(ticket) {
-      this.selectedTicket = ticket;
-      this.keyword = ticket.ticket + "-" + ticket.description;
-      this.searchedTickets = [];
-    },
-    onDelete: function onDelete(index) {
-      this.tickets.splice(index, 1);
-    },
-    onAdd: function onAdd() {
-      if (!this.selectedTicket) {
-        return false;
-      }
-
-      var isFound = false;
-
-      for (var i in this.tickets) {
-        var ticket = this.tickets[i];
-
-        if (ticket.id == this.selectedTicket.id) {
-          isFound = true;
-        }
-      }
-
-      if (!isFound) {
-        this.tickets.push(this.selectedTicket);
-        this.keyword = '';
-        this.selectedTicket = false;
-        this.errors.ticket = '';
-      } else {
-        this.errors.ticket = 'Ticket already exists on selected list';
-      }
-    },
-    submit: function () {
-      var _submit = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var component, tickets, saveInput;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                component = this;
-                tickets = component.tickets.map(function (ticket) {
-                  return {
-                    ticket_id: ticket.id
-                  };
-                });
-                saveInput = {
-                  tickets: tickets
-                };
-                this.disabled = true;
-                _context.next = 6;
-                return axios.post(component.endpoints.save, saveInput, Utils.getBearerAuth()).then(function (response) {
-                  var tickets = response.data.data.tickets;
-                  $('#modalTickets').modal('hide');
-                  Bus.$emit('passTickets', tickets);
-                }).catch(function (error) {
-                  Utils.handleError(error);
-                });
-
-              case 6:
-                this.disabled = false;
-
-              case 7:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function submit() {
-        return _submit.apply(this, arguments);
-      }
-
-      return submit;
-    }()
+    submit: function submit() {
+      Bus.$emit('onboardingSubmitTickets');
+      this.close();
+    }
   }
 });
 
@@ -61105,76 +60959,69 @@ var render = function() {
         _c("label", { attrs: { for: "has_whitecard_0" } }, [_vm._v("No")])
       ]),
       _vm._v(" "),
-      _vm.has_whitecard
-        ? _c(
-            "div",
-            {
-              staticClass: "me-label",
-              staticStyle: { "margin-bottom": "-15px" }
-            },
-            [
-              _vm._v(
-                "\n        I have current valid licenses and/or tickets in\n    "
-              )
-            ]
+      _c(
+        "div",
+        { staticClass: "me-label", staticStyle: { "margin-bottom": "-15px" } },
+        [
+          _vm._v(
+            "\n        I have current valid licenses and/or tickets in\n    "
           )
-        : _vm._e(),
+        ]
+      ),
       _vm._v(" "),
-      _vm.has_whitecard
-        ? _c("div", { staticClass: "emp-row" }, [
-            _c("div", { staticClass: "ticket-col-left" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.keyword,
-                    expression: "keyword"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Search" },
-                domProps: { value: _vm.keyword },
-                on: {
-                  keyup: function($event) {
-                    return _vm.onSearch(_vm.keyword)
-                  },
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.keyword = $event.target.value
-                  }
+      _c("div", { staticClass: "emp-row" }, [
+        _c("div", { staticClass: "ticket-col-left" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.keyword,
+                expression: "keyword"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", placeholder: "Search" },
+            domProps: { value: _vm.keyword },
+            on: {
+              keyup: function($event) {
+                return _vm.onSearch(_vm.keyword)
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
                 }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "ticket-col-right" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "add-button",
-                  staticStyle: { "margin-left": "0px", width: "100%" },
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      return _vm.onAdd()
-                    }
-                  }
-                },
-                [_vm._v("Add")]
+                _vm.keyword = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "ticket-col-right" }, [
+          _c(
+            "button",
+            {
+              staticClass: "add-button",
+              staticStyle: { "margin-left": "0px", width: "100%" },
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.onAdd()
+                }
+              }
+            },
+            [_vm._v("Add")]
+          )
+        ]),
+        _vm._v(" "),
+        _vm.errors.ticket
+          ? _c("span", { staticClass: "err-msg" }, [
+              _vm._v(
+                "\n            " + _vm._s(_vm.errors.ticket) + "\n        "
               )
-            ]),
-            _vm._v(" "),
-            _vm.errors.ticket
-              ? _c("span", { staticClass: "err-msg" }, [
-                  _vm._v(
-                    "\n            " + _vm._s(_vm.errors.ticket) + "\n        "
-                  )
-                ])
-              : _vm._e()
-          ])
-        : _vm._e(),
+            ])
+          : _vm._e()
+      ]),
       _vm._v(" "),
       _vm.searchedTickets.length > 0
         ? _c(
@@ -65077,6 +64924,35 @@ var render = function() {
         _vm._v(" "),
         _vm._m(0),
         _vm._v(" "),
+        _vm.has_whitecard
+          ? _c("div", { staticClass: "bl-label-16-style-2 mb-3" }, [
+              _vm.mark_icon == "check"
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "cross-check-mark",
+                      staticStyle: { "font-size": "1.2rem" }
+                    },
+                    [_vm._v("✓")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.mark_icon == "cross"
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "cross-check-mark",
+                      staticStyle: { "font-size": "1rem" }
+                    },
+                    [_vm._v("✕")]
+                  )
+                : _vm._e(),
+              _vm._v(
+                "\n            " + _vm._s(_vm.has_whitecard) + "\n        "
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
         _c(
           "div",
           { staticClass: "row" },
@@ -65195,159 +65071,19 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("template", { slot: "custom-modal-content" }, [
-        _c(
-          "form",
-          {
-            staticClass: "modal-form",
-            attrs: { method: "POST" },
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.submit($event)
-              }
-            }
-          },
-          [
-            _c("div", { staticClass: "emp-row" }, [
-              _c("div", { staticClass: "ticket-col-left" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.keyword,
-                      expression: "keyword"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Search tickets" },
-                  domProps: { value: _vm.keyword },
-                  on: {
-                    input: [
-                      function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.keyword = $event.target.value
-                      },
-                      _vm.onSearch
-                    ]
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "ticket-col-right" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "add-button",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        return _vm.onAdd()
-                      }
-                    }
-                  },
-                  [_vm._v("Add")]
-                )
-              ]),
-              _vm._v(" "),
-              _vm.errors.ticket.length > 0
-                ? _c("span", { staticClass: "err-msg" }, [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(_vm.errors.ticket) +
-                        "\n                "
-                    )
-                  ])
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _vm.searchedTickets.length > 0
-              ? _c(
-                  "div",
-                  {
-                    staticClass: "emp-row",
-                    staticStyle: { "margin-top": "0" }
-                  },
-                  [
-                    _c(
-                      "ul",
-                      { staticClass: "list-group" },
-                      _vm._l(_vm.searchedTickets, function(ticket, idx) {
-                        return _c(
-                          "li",
-                          {
-                            key: idx,
-                            staticClass: "list-group-item",
-                            on: {
-                              click: function($event) {
-                                return _vm.onSelect(ticket)
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(ticket.ticket) +
-                                " - " +
-                                _vm._s(ticket.description) +
-                                "\n                    "
-                            )
-                          ]
-                        )
-                      }),
-                      0
-                    )
-                  ]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm._l(_vm.tickets, function(ticket, idx) {
-              return _c("div", { key: idx, staticClass: "emp-row" }, [
-                _c("span", [
-                  _vm._v(
-                    _vm._s(ticket.ticket) + " - " + _vm._s(ticket.description)
-                  )
-                ]),
-                _vm._v(" "),
-                _c(
-                  "span",
-                  {
-                    staticClass: "remove-ticket-icon",
-                    on: {
-                      click: function($event) {
-                        return _vm.onDelete(idx)
-                      }
-                    }
-                  },
-                  [
-                    _c("img", {
-                      attrs: {
-                        src: "/img/icons/remove.png",
-                        srcset:
-                          "/img/icons/remove@2x.png" +
-                          " 2x, " +
-                          "/img/icons/remove@3x.png" +
-                          " 3x"
-                      }
-                    })
-                  ]
-                )
-              ])
-            })
-          ],
-          2
-        )
-      ]),
+      _c(
+        "template",
+        { slot: "custom-modal-content" },
+        [_c("ticket-details")],
+        1
+      ),
       _vm._v(" "),
       _c("template", { slot: "custom-modal-footer" }, [
         _c(
           "button",
           {
             staticClass: "pull-right",
-            attrs: { type: "submit", disabled: _vm.disabled },
+            attrs: { type: "button", "data-dismiss": "modal" },
             on: { click: _vm.submit }
           },
           [_vm._v("\n            Save Changes\n        ")]
@@ -78482,7 +78218,8 @@ function () {
       responsibilities: '/api/v1/job/',
       savedJobPosts: '/api/v1/bookmarks/posts/jobs/ids',
       countries: '/api/v1/countries',
-      courses: '/api/v1/courses'
+      courses: '/api/v1/courses',
+      worker_tickets: '/api/v1/worker/tickets'
     }; //  this._headers()
   }
 
@@ -78659,6 +78396,11 @@ function () {
     key: "getTickets",
     value: function getTickets(keyword) {
       return this._get(this.endpoints.tickets + '?keyword=' + keyword);
+    }
+  }, {
+    key: "getWorkerTickets",
+    value: function getWorkerTickets() {
+      return this._get(this.endpoints.worker_tickets);
     }
   }, {
     key: "getLocations",

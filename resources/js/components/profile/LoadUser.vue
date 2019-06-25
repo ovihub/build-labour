@@ -104,7 +104,7 @@
                         Bus.$emit('idealRoleDetails', component.ideal_role);
                         Bus.$emit('employmentDetails', component.employments);
                         Bus.$emit('educationDetails', component.educations);
-                        Bus.$emit('ticketsDetails', component.tickets);
+                        Bus.$emit('ticketsDetails', component.tickets, user.worker_detail.has_whitecard);
                         Bus.$emit('industrySkillsDetails', component.industry_skills, user.worker_detail ? user.worker_detail.main_skill : '');
                     })
                     .catch(function(error) {

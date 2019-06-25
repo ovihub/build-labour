@@ -12,6 +12,12 @@
 
                 Tickets
             </div>
+
+            <div class="bl-label-16-style-2 mb-3" v-if="has_whitecard">
+                <div class="cross-check-mark" style="font-size:1.2rem" v-if="mark_icon == 'check'">&#10003;</div>
+                <div class="cross-check-mark" style="font-size:1rem" v-if="mark_icon == 'cross'">&#10005;</div>
+                {{ has_whitecard }}
+            </div>
             
             <div class="row">
                 <div class="col-md-6 col-sm-6" v-for="first in firstColumn" v-bind:key="first.id">
@@ -40,9 +46,8 @@
     export default {
         data() {
             return {
-                input: {
-                    ticket: '', description: ''
-                },
+                mark_icon: '',
+                has_whitecard: '',
                 tickets: [],
                 firstColumn: [],
                 secondColumn: [],
@@ -52,20 +57,17 @@
         created() {
             let component = this;
 
-            Bus.$on('ticketsDetails', function(detailsArray) {
+            Bus.$on('ticketsDetails', function(detailsArray, detail) {
                 component.tickets = detailsArray;
+
+                if (detail == 1) {
+                    component.mark_icon = 'check';
+                    component.has_whitecard = 'Has a valid and current White Card';
                 
-                component.display();
-            });
-
-            Bus.$on('AddTicket', function(details) {
-                component.tickets.push(details);
-
-                component.display();
-            });
-
-            Bus.$on('passTickets', function(tickets) {
-                component.tickets = tickets;
+                } else {
+                    component.mark_icon = 'cross';
+                    component.has_whitecard = 'No valid and current White Card';
+                }
                 
                 component.display();
             });

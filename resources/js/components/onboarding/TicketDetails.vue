@@ -15,10 +15,10 @@
             <label for="has_whitecard_0">No</label>
         </div>
 
-        <div class="me-label" style="margin-bottom:-15px" v-if="has_whitecard">
+        <div class="me-label" style="margin-bottom:-15px">
             I have current valid licenses and/or tickets in
         </div>
-        <div class="emp-row" v-if="has_whitecard">
+        <div class="emp-row">
             <div class="ticket-col-left">
                 <input class="form-control" type="text"  placeholder="Search" v-model="keyword" @keyup="onSearch(keyword)" />
             </div>
@@ -58,13 +58,10 @@
         data() {
             return {
                 keyword: '',
-                disabled: false,
-                initTickets: [],
-                tickets: [],
                 has_whitecard: '',
+                tickets: [],
                 searchedTickets: [],
                 selectedTicket: false,
-                timeOut: false,
                 errors: { 
                     ticket: ''
                 },
@@ -83,14 +80,29 @@
         created() {
             let component = this;
 
+            Bus.$on('ticketsDetails', function(detailsArray, detail) {
+                component.tickets = detailsArray;
+                
+                component.formatCheckbox('has_whitecard', detail);
+            });
+
             Bus.$on('onboardingSubmitTickets', function() {
                 let saveInput = {
                     tickets: component.tickets.map(function (ticket) {
-                                    return { ticket_id: ticket.id };
-                                }),
+                                return { ticket_id: ticket.id };
+                             }),
                     has_whitecard: component.has_whitecard
                 };
+
                 Api.submit(component.endpoints.save, saveInput);
+
+                Bus.$emit('ticketsDetails', component.tickets, component.has_whitecard);
+            });
+
+            Bus.$on('refreshTicketDetails', function() {
+                Promise.resolve(Api.getWorkerTickets()).then(function(data) {
+                    component.tickets = data.data.tickets;
+                });
             });
         },
 
@@ -138,7 +150,6 @@
                 } else {
                     this.errors.ticket = 'Ticket already exists on selected list';
                 }
-
             },
 
             formatCheckbox(refName, value) {
@@ -146,9 +157,9 @@
 
                 this.has_whitecard = value;
 
-                if (value == 0) {
-                    this.tickets = [];
-                }
+                // if (value == 0) {
+                //     this.tickets = [];
+                // }
             },
 
         }

@@ -7,42 +7,11 @@
         </template>
 
         <template slot="custom-modal-content">
-            <form class="modal-form" method="POST" @submit.prevent="submit">
-                <div class="emp-row">
-                    <div class="ticket-col-left">
-                        <input class="form-control" type="text" v-model="keyword" v-on:input="onSearch" placeholder="Search tickets"/>
-                    </div>
-                    <div class="ticket-col-right">
-                        <button class="add-button" type="button" @click="onAdd()">Add</button>
-                    </div>
-                    <span class="err-msg" v-if="errors.ticket.length > 0">
-                        {{ errors.ticket }}
-                    </span>
-                </div>
-
-                <div class="emp-row" style="margin-top:0" v-if="searchedTickets.length > 0">
-                    <ul class="list-group">
-                        <li class="list-group-item" v-for="(ticket, idx) in searchedTickets" :key="idx"
-                            @click="onSelect(ticket)">
-                            {{ ticket.ticket }} - {{ ticket.description }}
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="emp-row" v-for="(ticket, idx) in tickets" :key="idx">
-                    <span>{{ ticket.ticket }} - {{ ticket.description }}</span>
-
-                    <!-- <span class="delete-icon" @click="onDelete(idx)">X</span> -->
-                    <span class="remove-ticket-icon" @click="onDelete(idx)">
-                        <img src="/img/icons/remove.png"
-                            srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x">
-                    </span>
-                </div>
-            </form>
+            <ticket-details></ticket-details>
         </template>
 
         <template slot="custom-modal-footer">
-            <button class="pull-right" type="submit" @click="submit" :disabled="disabled">
+            <button class="pull-right" type="button" data-dismiss="modal" @click="submit">
                 Save Changes
             </button>
         </template>
@@ -51,141 +20,29 @@
 </template>
 
 <script>
+    import Api from '@/api';
+
     export default {
         data() {
             return {
-                keyword: '',
-                disabled: false,
-                initTickets: [],
-                tickets: [],
-                searchedTickets: [],
-                selectedTicket: false,
-                timeOut: false,
-                errors: { 
-                    ticket: ''
-                },
-                endpoints: {
-                    save: '/api/v1/worker/tickets',
-                    tickets: '/api/v1/worker/tickets',
-                    search: '/api/v1/tickets/search'
-                },
+
             }
         },
 
         created() {
-            this.getTickets();
+
         },
 
         methods: {
 
-            getTickets() {
-                let component = this;
-
-                axios.get(component.endpoints.tickets, Utils.getBearerAuth())
-                    
-                    .then( res => {
-                        component.initTickets = res.data.data.tickets;
-                        component.tickets = res.data.data.tickets;
-                    });
-            },
-
             close() {
-                this.errors.ticket = '';
-                this.keyword = '';
-                this.tickets = this.initTickets;
-            },
-
-            onSearch() {
-                let component = this;
-
-                if (component.keyword.length <= 0) {
-                    component.searchedTickets = [];
-                }
-
-                if (component.time_out) {
-                    clearTimeout(component.time_out);
-                }
-
-                component.time_out = setTimeout(function() {
-
-                    axios.get(this.endpoints.search + "?keyword=" + this.keyword, Utils.getBearerAuth())
-
-                        .then(function(response) {
-
-                            component.searchedTickets = (component.keyword != '') ? response.data.data.tickets : []
-                        })
-                        .catch(function(error) {
-
-                            Utils.handleError(error);
-                        });
-
-                }.bind(this), 300);
-            },
-
-            onSelect(ticket) {
-                this.selectedTicket = ticket;
-                this.keyword = ticket.ticket + "-" + ticket.description;
-                this.searchedTickets = [];
-            },
-
-            onDelete(index) {
-                this.tickets.splice(index, 1);
-            },
-
-            onAdd() {
-                if (!this.selectedTicket) {
-                    return false;
-                }
-
-                let isFound = false;
-
-                for (let i in this.tickets) {
-                    let ticket = this.tickets[i];
-
-                    if (ticket.id == this.selectedTicket.id) {
-                        isFound = true;
-                    }
-                }
-
-                if (!isFound) {
-                    this.tickets.push(this.selectedTicket);
-                    this.keyword = '';
-                    this.selectedTicket = false;
-                    this.errors.ticket = '';
-
-                } else {
-                    this.errors.ticket = 'Ticket already exists on selected list';
-                }
-
+                Bus.$emit('refreshTicketDetails');
             },
             
-            async submit() {
-                let component = this;
+            submit() {
+                Bus.$emit('onboardingSubmitTickets');
 
-                let tickets = component.tickets.map(function (ticket) {
-                    return { ticket_id: ticket.id };
-                });
-
-                let saveInput = { tickets: tickets };
-
-                this.disabled = true;
-
-                await axios.post(component.endpoints.save, saveInput, Utils.getBearerAuth())
-
-                    .then(function(response) {
-
-                        let tickets = response.data.data.tickets;
-
-                        $('#modalTickets').modal('hide');
-
-                        Bus.$emit('passTickets', tickets);
-                    })
-                    .catch(function(error) {
-                        
-                        Utils.handleError(error);
-                    });
-
-                this.disabled = false;
+                this.close();
             },
         }
     }

@@ -38,6 +38,7 @@ class BuildLabourApi {
             savedJobPosts: '/api/v1/bookmarks/posts/jobs/ids',
             countries: '/api/v1/countries',
             courses: '/api/v1/courses',
+            worker_tickets: '/api/v1/worker/tickets',
         };
         
         //  this._headers()
@@ -155,6 +156,10 @@ class BuildLabourApi {
 
     getTickets(keyword) {
         return this._get(this.endpoints.tickets + '?keyword=' + keyword);
+    }
+
+    getWorkerTickets() {
+        return this._get(this.endpoints.worker_tickets);
     }
 
     getLocations(keyword) {
