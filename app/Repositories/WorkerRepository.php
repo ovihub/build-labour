@@ -217,13 +217,6 @@ class WorkerRepository extends AbstractRepository
             $user->workerDetail->save();
         }
 
-        WorkExperience::where('user_id', $user->id)->update(['isCurrent' => 0]);
-
-        if (!$this->workExp->store($request)) {
-
-            return false;
-        }
-
         return true;
     }
 
