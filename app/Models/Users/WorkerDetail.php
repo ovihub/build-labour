@@ -28,7 +28,8 @@ class WorkerDetail extends BaseModel
         'has_registered_vehicle',
         'education_id',
         'suburb',
-        'most_recent_role'
+        'most_recent_role',
+        'willing_to_relocate'
     ];
 
     private $userId = null;

@@ -180,8 +180,8 @@ class Users extends BaseModel implements
         } else {
 
             // do stuff for new users here
-            $this->is_verified          =   null;
-            $this->verification_code    =   $this->generateVerificationCode();
+            $this->is_verified = null;
+            $this->verification_code = $this->generateVerificationCode();
 
         }
 
