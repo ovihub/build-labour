@@ -10844,7 +10844,9 @@ __webpack_require__.r(__webpack_exports__);
         tiers: [],
         address: '',
         education_id: '',
-        most_recent_role: ''
+        most_recent_role: '',
+        exp_year: '',
+        exp_month: ''
       },
       about_me: {
         gender: '',
@@ -10903,6 +10905,8 @@ __webpack_require__.r(__webpack_exports__);
         component.profile.sectors = user.worker_detail.sectors;
         component.profile.tiers = user.worker_detail.tiers;
         component.profile.most_recent_role = user.worker_detail.most_recent_role;
+        component.profile.exp_year = user.worker_detail.exp_year;
+        component.profile.exp_month = user.worker_detail.exp_month;
         component.profile.job_role = user.experiences[0] && user.experiences[0].job ? user.experiences[0].job.title : user.experiences[0] ? user.experiences[0].job_role : '';
         component.profile.company_name = user.experiences[0] && user.experiences[0].company ? user.experiences[0].company.name : user.experiences[0] ? user.experiences[0].company_name : '';
         component.about_me = {};
@@ -11397,6 +11401,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -11406,6 +11449,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       time_out: false,
       educations: [],
       locations: [],
+      job_roles: [],
       profile_photo_url: '',
       profile_description: '',
       first_name: '',
@@ -11417,6 +11461,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       company_name: '',
       job_role: '',
       most_recent_role: '',
+      exp_year: '',
+      exp_month: '',
       address: '',
       education_id: '',
       course: '',
@@ -11426,14 +11472,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         first_name: '',
         last_name: '',
         address: '',
-        education_id: ''
+        education_id: '',
+        most_recent_role: '',
+        exp_year: '',
+        exp_month: ''
       },
       errors: {
         profile_description: '',
         first_name: '',
         last_name: '',
         address: '',
-        education_id: ''
+        education_id: '',
+        most_recent_role: '',
+        exp_year: '',
+        exp_month: ''
       },
       endpoints: {
         save: '/api/v1/worker/introduction',
@@ -11494,9 +11546,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.company_name = details.company_name;
       this.job_role = details.job_role;
       this.most_recent_role = details.most_recent_role;
+      this.exp_year = details.exp_year;
+      this.exp_month = details.exp_month;
       this.address = details.address;
       this.education_id = details.education_id;
-      this.course = details.education ? details.education.course : '';
+      this.course = details.education ? details.education.course ? details.education.course.course_name : details.education.course_name : '';
       this.school = details.education ? details.education.school : '';
     },
     setDisplayValues: function setDisplayValues(val, details) {
@@ -11506,10 +11560,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       val.sectors = details.sectors;
       val.tiers = details.tiers;
       val.most_recent_role = details.most_recent_role;
+      val.exp_year = details.exp_year;
+      val.exp_month = details.exp_month;
       val.address = details.address;
       val.education_id = details.education_id;
-      val.course = details.education ? details.education.course : '';
+      val.course = details.education ? details.education.course ? details.education.course.course_name : details.education.course_name : '';
       val.school = details.education ? details.education.school : '';
+    },
+    formatYearsExperience: function formatYearsExperience() {
+      return (this.exp_year ? this.exp_year + (this.exp_year > 1 ? ' years' : ' year') : '') + (this.exp_year && this.exp_month ? ' and ' : '') + (this.exp_month ? this.exp_month + (this.exp_month > 1 ? ' months' : ' month') : '');
     },
     onClickProfilePhoto: function onClickProfilePhoto() {
       if (this.editable) {
@@ -11561,6 +11620,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onSelectLocation: function onSelectLocation(location) {
       this.input.address = location;
       this.locations = [];
+    },
+    onSearchJob: function onSearchJob(keyword) {
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
+        component.job_roles = data.data.job_roles;
+      });
+    },
+    onSelectJob: function onSelectJob(job) {
+      this.input.most_recent_role = job.job_role_name;
+      this.job_roles = [];
     },
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -65552,6 +65621,7 @@ var render = function() {
                             expression: "input.education_id"
                           }
                         ],
+                        staticStyle: { "background-position": "470px" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -65590,7 +65660,11 @@ var render = function() {
                             [
                               _vm._v(
                                 "\n                                " +
-                                  _vm._s(education.course) +
+                                  _vm._s(
+                                    education.course
+                                      ? education.course.course_name
+                                      : education.course_name
+                                  ) +
                                   "\n                            "
                               )
                             ]
@@ -65599,6 +65673,154 @@ var render = function() {
                       ],
                       2
                     )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "me-label" }, [
+                    _vm._v(
+                      "\n                        What is your current or most recent role/title?\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row mt-3" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.input.most_recent_role,
+                          expression: "input.most_recent_role"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", placeholder: "Most Recent Role" },
+                      domProps: { value: _vm.input.most_recent_role },
+                      on: {
+                        keyup: function($event) {
+                          return _vm.onSearchJob(_vm.input.most_recent_role)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.input,
+                            "most_recent_role",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.most_recent_role
+                      ? _c("span", { staticClass: "err-msg" }, [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(_vm.errors.most_recent_role) +
+                              "\n                        "
+                          )
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _vm.job_roles.length > 0
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "emp-row",
+                          staticStyle: { "margin-top": "0" }
+                        },
+                        [
+                          _c(
+                            "ul",
+                            { staticClass: "list-group" },
+                            _vm._l(_vm.job_roles, function(job, idx) {
+                              return _c(
+                                "li",
+                                {
+                                  key: idx,
+                                  staticClass: "list-group-item",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.onSelectJob(job)
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                \n                                " +
+                                      _vm._s(job.job_role_name) +
+                                      "\n                            "
+                                  )
+                                ]
+                              )
+                            }),
+                            0
+                          )
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "me-label",
+                      staticStyle: { "margin-bottom": "17px" }
+                    },
+                    [_vm._v("Years Experience")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "me-row" }, [
+                    _c("div", { staticClass: "role-col-left" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.exp_year,
+                            expression: "input.exp_year"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "Years" },
+                        domProps: { value: _vm.input.exp_year },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.input, "exp_year", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "role-col-right" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.exp_month,
+                            expression: "input.exp_month"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "Months" },
+                        domProps: { value: _vm.input.exp_month },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input,
+                              "exp_month",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
                   ])
                 ]
               )
@@ -65788,10 +66010,22 @@ var render = function() {
           _vm._v(" "),
           _vm.most_recent_role
             ? _c("div", { staticClass: "bl-display" }, [
-                _c("div", { staticClass: "bl-label-15-style-2" }, [
+                _c("div", { staticClass: "bl-label-15" }, [
                   _vm._v(
                     "\n                    " +
                       _vm._s(_vm.most_recent_role) +
+                      "\n                "
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.exp_year || _vm.exp_month
+            ? _c("div", { staticClass: "bl-display" }, [
+                _c("div", { staticClass: "bl-label-14" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.formatYearsExperience()) +
                       "\n                "
                   )
                 ])

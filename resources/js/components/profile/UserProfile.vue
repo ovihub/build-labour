@@ -47,12 +47,45 @@
                         
                         <div class="skill-label">Education</div>
                         <div class="me-row">
-                            <select v-model="input.education_id">
+                            <select v-model="input.education_id" style="background-position:470px">
                                 <option value="" disabled selected v-if="educations.length == 0">No education added yet</option>
                                 <option v-for="(education, index) in educations" :key="index" v-bind:value="education.id">
-                                    {{ education.course }}
+                                    {{ education.course ? education.course.course_name: education.course_name }}
                                 </option>
                             </select> 
+                        </div>
+
+                        <div class="me-label">
+                            What is your current or most recent role/title?
+                        </div>
+                        <div class="emp-row mt-3">
+                            <input class="form-control" type="text" placeholder="Most Recent Role" v-model="input.most_recent_role"
+                                @keyup="onSearchJob(input.most_recent_role)" />
+                            
+                            <span class="err-msg" v-if="errors.most_recent_role">
+                                {{ errors.most_recent_role }}
+                            </span>
+                        </div>
+
+                        <div class="emp-row" style="margin-top:0" v-if="job_roles.length > 0">
+                            <ul class="list-group">
+                                <li class="list-group-item" v-for="(job, idx) in job_roles" :key="idx"
+                                    @click="onSelectJob(job)">
+                                    
+                                    {{ job.job_role_name }}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="me-label" style="margin-bottom:17px">Years Experience</div>
+                        <div class="me-row">
+                            <div class="role-col-left">
+                                <input class="form-control" type="text" placeholder="Years" v-model="input.exp_year" />
+                            </div>
+
+                            <div class="role-col-right">
+                                <input class="form-control" type="text" placeholder="Months" v-model="input.exp_month" />
+                            </div>
                         </div>
                     </form>
                 </template>
@@ -135,8 +168,14 @@
                 <span class="profile-role-header mb-0" v-if="most_recent_role">Most Recent Role</span>
 
                 <div class="bl-display" v-if="most_recent_role">
-                    <div class="bl-label-15-style-2">
+                    <div class="bl-label-15">
                         {{ most_recent_role }}
+                    </div>
+                </div>
+
+                <div class="bl-display" v-if="exp_year || exp_month">
+                    <div class="bl-label-14">
+                        {{ formatYearsExperience() }}
                     </div>
                 </div>
 
@@ -156,6 +195,7 @@
                 time_out: false,
                 educations: [],
                 locations: [],
+                job_roles: [],
                 profile_photo_url: '',
                 profile_description: '',
                 first_name: '',
@@ -167,15 +207,19 @@
                 company_name: '',
                 job_role: '',
                 most_recent_role: '',
+                exp_year: '',
+                exp_month: '',
                 address: '',
                 education_id: '',
                 course: '',
                 school: '',
                 input: {
                     profile_description: '', first_name: '', last_name: '', address: '', education_id: '',
+                    most_recent_role: '', exp_year: '', exp_month: '',
                 },
                 errors: {
                     profile_description: '', first_name: '', last_name: '', address: '', education_id: '',
+                    most_recent_role: '', exp_year: '', exp_month: '',
                 },
                 endpoints: {
                     save: '/api/v1/worker/introduction',
@@ -245,9 +289,11 @@
                 this.company_name = details.company_name;
                 this.job_role = details.job_role;
                 this.most_recent_role = details.most_recent_role;
+                this.exp_year = details.exp_year;
+                this.exp_month = details.exp_month;
                 this.address = details.address;
                 this.education_id = details.education_id;
-                this.course = details.education ? details.education.course : '';
+                this.course = details.education ? (details.education.course ? details.education.course.course_name: details.education.course_name) : '';
                 this.school = details.education ? details.education.school : '';
             },
 
@@ -258,12 +304,20 @@
                 val.sectors = details.sectors;
                 val.tiers = details.tiers;
                 val.most_recent_role = details.most_recent_role;
+                val.exp_year = details.exp_year;
+                val.exp_month = details.exp_month;
                 val.address = details.address;
                 val.education_id = details.education_id;
-                val.course = details.education ? details.education.course : '';
+                val.course = details.education ? (details.education.course ? details.education.course.course_name: details.education.course_name) : '';
                 val.school = details.education ? details.education.school : '';
             },
             
+            formatYearsExperience() {
+                return (this.exp_year ? (this.exp_year + (this.exp_year > 1 ? ' years' : ' year')) : '') +
+                        ((this.exp_year && this.exp_month) ? ' and ' : '') + 
+                        (this.exp_month ? (this.exp_month + (this.exp_month > 1 ? ' months' : ' month')) : '');
+            },
+
             onClickProfilePhoto() {
                 if (this.editable) {
                     upload.click();
@@ -337,10 +391,25 @@
                 this.locations = [];
             },
 
+            onSearchJob(keyword) {
+                let component = this;
+                
+                Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
+                    component.job_roles = data.data.job_roles;
+                });
+            },
+
+            onSelectJob(job) {
+                this.input.most_recent_role = job.job_role_name;
+
+                this.job_roles = [];
+            },
+
             async submit() {
                 let component = this;
 
                 Utils.setObjectValues(this.errors, '');
+                
                 this.disabled = true;
                 
                 await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
