@@ -14,7 +14,7 @@
                 },
                 profile: {
                     profile_description: '', profile_photo_url: '', first_name: '', last_name: '', email: '', is_verified: '',
-                    sectors: [], tiers: [], address: '', education_id: '', most_recent_role: '',
+                    company_name: '', job_role: '', sectors: [], tiers: [], address: '', education_id: '', most_recent_role: '',
                 },
                 about_me: {
                     gender: '', date_of_birth: '', marital_status: '', english_skill: '', drivers_license: '', has_registered_vehicle: '',
@@ -73,6 +73,12 @@
                         component.profile.sectors = user.worker_detail.sectors;
                         component.profile.tiers = user.worker_detail.tiers;
                         component.profile.most_recent_role = user.worker_detail.most_recent_role;
+                        component.profile.job_role = (user.experiences[0] && user.experiences[0].job) ?
+                                                        user.experiences[0].job.title :
+                                                        (user.experiences[0]) ? user.experiences[0].job_role : '';
+                        component.profile.company_name = (user.experiences[0] && user.experiences[0].company) ? 
+                                                            user.experiences[0].company.name : 
+                                                            (user.experiences[0]) ? user.experiences[0].company_name : '';
 
                         component.about_me = {};
                         component.about_me.gender = user.gender;

@@ -10838,6 +10838,8 @@ __webpack_require__.r(__webpack_exports__);
         last_name: '',
         email: '',
         is_verified: '',
+        company_name: '',
+        job_role: '',
         sectors: [],
         tiers: [],
         address: '',
@@ -10901,6 +10903,8 @@ __webpack_require__.r(__webpack_exports__);
         component.profile.sectors = user.worker_detail.sectors;
         component.profile.tiers = user.worker_detail.tiers;
         component.profile.most_recent_role = user.worker_detail.most_recent_role;
+        component.profile.job_role = user.experiences[0] && user.experiences[0].job ? user.experiences[0].job.title : user.experiences[0] ? user.experiences[0].job_role : '';
+        component.profile.company_name = user.experiences[0] && user.experiences[0].company ? user.experiences[0].company.name : user.experiences[0] ? user.experiences[0].company_name : '';
         component.about_me = {};
         component.about_me.gender = user.gender;
         component.about_me.date_of_birth = user.date_of_birth;
@@ -11410,6 +11414,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       is_verified: '',
       sectors: [],
       tiers: [],
+      company_name: '',
+      job_role: '',
       most_recent_role: '',
       address: '',
       education_id: '',
@@ -11451,6 +11457,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         component.school = '';
         component.education_id = '';
       }
+    });
+    Bus.$on('updateEmployment', function (index, details) {
+      if (index == 0 || !component.company_name && index == -1) {
+        component.company_name = details.company ? details.company.name : details.company_name;
+        component.job_role = details.job ? details.job.title : details.job_role;
+      }
+    });
+    Bus.$on('removeEmployment', function (index) {
+      if (index == 0) {
+        component.company_name = '';
+        component.job_role = '';
+      }
     }); // Bus.$on('croppedPhoto', function(photo_url) {
     //     component.profile_photo_url = photo_url;
     // });
@@ -11473,6 +11491,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.is_verified = details.is_verified;
       this.sectors = details.sectors;
       this.tiers = details.tiers;
+      this.company_name = details.company_name;
+      this.job_role = details.job_role;
       this.most_recent_role = details.most_recent_role;
       this.address = details.address;
       this.education_id = details.education_id;

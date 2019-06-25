@@ -164,6 +164,8 @@
                 is_verified: '',
                 sectors: [],
                 tiers: [],
+                company_name: '',
+                job_role: '',
                 most_recent_role: '',
                 address: '',
                 education_id: '',
@@ -202,6 +204,20 @@
                 }
             });
 
+            Bus.$on('updateEmployment', function(index, details) {
+                if (index == 0 || (!component.company_name && index == -1)) {
+                    component.company_name = (details.company) ? details.company.name : details.company_name;
+                    component.job_role = (details.job) ? details.job.title : details.job_role;
+                }
+            });
+
+            Bus.$on('removeEmployment', function(index) {
+                if (index == 0) {
+                    component.company_name = '';
+                    component.job_role = '';
+                }
+            });
+
             // Bus.$on('croppedPhoto', function(photo_url) {
             //     component.profile_photo_url = photo_url;
             // });
@@ -226,6 +242,8 @@
                 this.is_verified = details.is_verified;
                 this.sectors = details.sectors;
                 this.tiers = details.tiers;
+                this.company_name = details.company_name;
+                this.job_role = details.job_role;
                 this.most_recent_role = details.most_recent_role;
                 this.address = details.address;
                 this.education_id = details.education_id;
