@@ -7678,12 +7678,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -7691,13 +7685,11 @@ __webpack_require__.r(__webpack_exports__);
       job_roles: [],
       input: {
         most_recent_role: '',
-        industry_area: '',
         exp_year: '',
         exp_month: ''
       },
       errors: {
         most_recent_role: '',
-        industry_area: '',
         exp_year: '',
         exp_month: ''
       },
@@ -60016,30 +60008,6 @@ var render = function() {
             ]
           )
         : _vm._e(),
-      _vm._v(" "),
-      _c("div", { staticClass: "emp-row" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.input.industry_area,
-              expression: "input.industry_area"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { type: "text", placeholder: "Industry Area" },
-          domProps: { value: _vm.input.industry_area },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.input, "industry_area", $event.target.value)
-            }
-          }
-        })
-      ]),
       _vm._v(" "),
       _c(
         "div",
