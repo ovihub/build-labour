@@ -55197,6 +55197,7 @@ var render = function() {
                         staticClass: "bl-image-100",
                         staticStyle: { padding: "15px" },
                         attrs: {
+                          alt: "' logo.jpg",
                           src: "/img/icons/uploadlogo.jpg",
                           srcset:
                             "/img/icons/uploadlogo@2x.png" +
