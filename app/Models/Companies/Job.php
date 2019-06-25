@@ -42,12 +42,12 @@ class Job extends BaseModel
     private function rules()
     {
         return [
-            'title'         => 'required|min:5',
-            'description'   => 'required|min:5',
-            'exp_level'     => 'required|min:5',
-            'contract_type' => 'required|min:5',
+            'title'         => 'required',
+            'description'   => 'required',
+            'exp_level'     => 'required',
+            'contract_type' => 'required',
             'salary'        => 'nullable|regex:/\b\d{1,3}(?:,?\d{3})*(?:\.\d{2})?\b/', /* monetary validation */
-            'location'      => 'required|min:5'
+            'location'      => 'required'
         ];
     }
 

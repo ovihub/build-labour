@@ -27,8 +27,8 @@ class Education extends BaseModel
     private function rules()
     {
         return [
-            'course_name'   => 'nullable|min:5',
-            'school'        => 'required|min:5',
+            'course_name'   => 'nullable',
+            'school'        => 'required',
             'start_month'   => 'required|integer',
             'start_year'    => 'required|integer',
             'end_month'     => 'nullable|integer',

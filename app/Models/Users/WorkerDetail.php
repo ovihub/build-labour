@@ -48,7 +48,7 @@ class WorkerDetail extends BaseModel
         if ($this->isMainSkillUpdate) {
 
             return [
-                'main_skill' => 'nullable|min:5'
+                'main_skill' => 'nullable'
             ];
         }
 
@@ -64,7 +64,7 @@ class WorkerDetail extends BaseModel
             'drivers_license' => 'nullable|boolean',
             'right_to_work' => 'nullable|boolean',
             'has_registered_vehicle' => 'nullable|boolean',
-            'introduction'  => 'nullable|min:5',
+            'introduction'  => 'nullable',
             'profile_description' => 'nullable|min:10',
             'when' => 'nullable|integer',
             'max_distance' => 'nullable|integer'

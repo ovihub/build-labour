@@ -46,16 +46,13 @@ class Company extends BaseModel
     private function rules()
     {
         return [
-            'name'          => 'required|min:5',
-            'address'       => 'nullable|min:5',
-         //   'contact_email' => 'nullable|min:5',
-         //   'contact_name'  => 'nullable|min:5',
-            'phone'         => 'nullable|min:5',
-            'sector'        => 'nullable|min:4',
-            // 'tier'          => 'nullable|min:4',
-            'introduction'  => 'nullable|min:5',
+            'name'          => 'required',
+            'address'       => 'nullable',
+            'phone'         => 'nullable',
+            'sector'        => 'nullable',
+            'introduction'  => 'nullable',
             'operate_outside_states' => 'nullable|boolean',
-            'website'       => 'nullable|min:5|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+            'website'       => 'nullable|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
         ];
     }
 

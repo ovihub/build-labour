@@ -47,7 +47,7 @@ class WorkExperience extends BaseModel
             'job_role'      => 'required',
             'company_name'  => 'required',
             //'project_size'  => 'nullable|regex:/\b\d{1,3}(?:,?\d{3})*(?:\.\d{2})?\b/', /* monetary validation */
-            'project_size'  => 'nullable|min:2', /* monetary validation */
+            'project_size'  => 'nullable', /* monetary validation */
 
             'location'      => 'nullable|string',
             'start_month'   => 'required|integer',

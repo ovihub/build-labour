@@ -183,8 +183,8 @@ class WorkerRepository extends AbstractRepository
         $this->workExp->isOnboarding = true;
 
         $rules = [
-            'most_recent_role'  => 'nullable|min:5',
-            'industry_area'  => 'nullable|min:5',
+            'most_recent_role'  => 'nullable',
+            'industry_area'  => 'nullable',
             'exp_year'       => 'nullable|integer',
             'exp_month'      => 'nullable|integer'
         ];
@@ -378,7 +378,7 @@ class WorkerRepository extends AbstractRepository
         $this->workerDetail = $user->workerDetail;
 
         $rules = [
-            'country_birth' => 'nullable|min:3',
+            'country_birth' => 'nullable',
             'gender' => 'nullable|in:Male,male,Female,female,Other,other',
             'date_of_birth' => 'nullable|date|before:-18 years'
         ];
