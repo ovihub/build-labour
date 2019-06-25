@@ -32,7 +32,7 @@ class Users extends BaseModel implements
     public $timestamps = true;
 
     protected $fillable = [ 'id', 'email' , 'first_name' , 'last_name', 'password',
-        'date_of_birth' , 'country', 'address', 'mobile_number', 'role_id', 'gender', 'marital_status' ];
+        'date_of_birth' , 'country', 'address', 'mobile_number', 'role_id', 'gender', 'marital_status', 'country_birth' ];
 
     protected $hidden =[ 'password' , 'remember_token','updated_at' , 'created_at', 'verification_code', 'firebase' ];
 

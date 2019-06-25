@@ -381,7 +381,7 @@ class ApiWorkerController extends ApiBaseController
 
             $user->isOptionalTransaction = true;
             $request->request->add(['id' => $user->id]);
-            
+
             if( !$user->store($request)){
 
                 return $this->apiErrorResponse(
