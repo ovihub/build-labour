@@ -10838,18 +10838,15 @@ __webpack_require__.r(__webpack_exports__);
         last_name: '',
         email: '',
         is_verified: '',
+        company_name: '',
+        job_role: '',
         sectors: [],
         tiers: [],
         address: '',
         education_id: '',
-        company_id: '',
-        company_photo: '',
-        company_name: '',
-        job_role: '',
-        start_month: '',
-        start_year: '',
-        end_month: '',
-        end_year: ''
+        most_recent_role: '',
+        exp_year: '',
+        exp_month: ''
       },
       about_me: {
         gender: '',
@@ -10907,14 +10904,11 @@ __webpack_require__.r(__webpack_exports__);
         component.profile.education = user.worker_detail.education;
         component.profile.sectors = user.worker_detail.sectors;
         component.profile.tiers = user.worker_detail.tiers;
+        component.profile.most_recent_role = user.worker_detail.most_recent_role;
+        component.profile.exp_year = user.worker_detail.exp_year;
+        component.profile.exp_month = user.worker_detail.exp_month;
         component.profile.job_role = user.experiences[0] && user.experiences[0].job ? user.experiences[0].job.title : user.experiences[0] ? user.experiences[0].job_role : '';
-        component.profile.company_id = user.experiences[0] && user.experiences[0].company ? user.experiences[0].company.id : '';
-        component.profile.company_photo = user.experiences[0] && user.experiences[0].company ? user.experiences[0].company.photo_url : '';
         component.profile.company_name = user.experiences[0] && user.experiences[0].company ? user.experiences[0].company.name : user.experiences[0] ? user.experiences[0].company_name : '';
-        component.profile.start_month = user.experiences[0] ? user.experiences[0].start_month : '';
-        component.profile.start_year = user.experiences[0] ? user.experiences[0].start_year : '';
-        component.profile.end_month = user.experiences[0] ? user.experiences[0].end_month : '';
-        component.profile.end_year = user.experiences[0] ? user.experiences[0].end_year : '';
         component.about_me = {};
         component.about_me.gender = user.gender;
         component.about_me.date_of_birth = user.date_of_birth;
@@ -11421,6 +11415,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -11430,6 +11449,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       time_out: false,
       educations: [],
       locations: [],
+      job_roles: [],
       profile_photo_url: '',
       profile_description: '',
       first_name: '',
@@ -11438,31 +11458,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       is_verified: '',
       sectors: [],
       tiers: [],
+      company_name: '',
+      job_role: '',
+      most_recent_role: '',
+      exp_year: '',
+      exp_month: '',
       address: '',
       education_id: '',
       course: '',
       school: '',
-      company_id: '',
-      company_photo: '',
-      company_name: '',
-      job_role: '',
-      start_month: '',
-      start_year: '',
-      end_month: '',
-      end_year: '',
       input: {
         profile_description: '',
         first_name: '',
         last_name: '',
         address: '',
-        education_id: ''
+        education_id: '',
+        most_recent_role: '',
+        exp_year: '',
+        exp_month: ''
       },
       errors: {
         profile_description: '',
         first_name: '',
         last_name: '',
         address: '',
-        education_id: ''
+        education_id: '',
+        most_recent_role: '',
+        exp_year: '',
+        exp_month: ''
       },
       endpoints: {
         save: '/api/v1/worker/introduction',
@@ -11480,18 +11503,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         Bus.$emit('alertVerify', component.email);
       }
     });
-    Bus.$on('updateEmployment', function (index, details) {
-      if (index == 0 || !component.company_name && index == -1) {
-        component.company_id = details.company ? details.company.id : '';
-        component.company_photo = details.company ? details.company.photo_url : '';
-        component.company_name = details.company ? details.company.name : details.company_name;
-        component.job_role = details.job ? details.job.title : details.job_role;
-        component.start_month = details.start_month;
-        component.start_year = details.start_year;
-        component.end_month = details.end_month;
-        component.end_year = details.end_year;
-      }
-    });
     Bus.$on('removeEducation', function (index, id) {
       if (component.education_id == id) {
         component.course = '';
@@ -11499,16 +11510,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         component.education_id = '';
       }
     });
+    Bus.$on('updateEmployment', function (index, details) {
+      if (index == 0 || !component.company_name && index == -1) {
+        component.company_name = details.company ? details.company.name : details.company_name;
+        component.job_role = details.job ? details.job.title : details.job_role;
+      }
+    });
     Bus.$on('removeEmployment', function (index) {
       if (index == 0) {
-        component.company_id = '';
-        component.company_photo = '';
         component.company_name = '';
         component.job_role = '';
-        component.start_month = '';
-        component.start_year = '';
-        component.end_month = '';
-        component.end_year = '';
       }
     }); // Bus.$on('croppedPhoto', function(photo_url) {
     //     component.profile_photo_url = photo_url;
@@ -11523,9 +11534,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
-    getInitials: function getInitials(name) {
-      return Utils.getInitials(name);
-    },
     setValues: function setValues(details) {
       this.profile_description = details.profile_description;
       this.profile_photo_url = details.profile_photo_url;
@@ -11535,18 +11543,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.is_verified = details.is_verified;
       this.sectors = details.sectors;
       this.tiers = details.tiers;
-      this.address = details.address;
-      this.education_id = details.education_id;
-      this.course = details.education ? details.education.course : '';
-      this.school = details.education ? details.education.school : '';
-      this.company_id = details.company_id;
-      this.company_photo = details.company_photo;
       this.company_name = details.company_name;
       this.job_role = details.job_role;
-      this.start_month = details.start_month;
-      this.start_year = details.start_year;
-      this.end_month = details.end_month;
-      this.end_year = details.end_year;
+      this.most_recent_role = details.most_recent_role;
+      this.exp_year = details.exp_year;
+      this.exp_month = details.exp_month;
+      this.address = details.address;
+      this.education_id = details.education_id;
+      this.course = details.education ? details.education.course ? details.education.course.course_name : details.education.course_name : '';
+      this.school = details.education ? details.education.school : '';
     },
     setDisplayValues: function setDisplayValues(val, details) {
       val.profile_description = details.profile_description;
@@ -11554,14 +11559,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       val.last_name = details.last_name;
       val.sectors = details.sectors;
       val.tiers = details.tiers;
+      val.most_recent_role = details.most_recent_role;
+      val.exp_year = details.exp_year;
+      val.exp_month = details.exp_month;
       val.address = details.address;
       val.education_id = details.education_id;
-      val.course = details.education ? details.education.course : '';
+      val.course = details.education ? details.education.course ? details.education.course.course_name : details.education.course_name : '';
       val.school = details.education ? details.education.school : '';
     },
-    formatPeriod: function formatPeriod(sm, sy, em, ey) {
-      var endDate = em && ey ? new Date(ey, em - 1, 1) : new Date();
-      return Utils.formatPeriod(new Date(sy, sm - 1, 1), endDate);
+    formatYearsExperience: function formatYearsExperience() {
+      return (this.exp_year ? this.exp_year + (this.exp_year > 1 ? ' years' : ' year') : '') + (this.exp_year && this.exp_month ? ' and ' : '') + (this.exp_month ? this.exp_month + (this.exp_month > 1 ? ' months' : ' month') : '');
     },
     onClickProfilePhoto: function onClickProfilePhoto() {
       if (this.editable) {
@@ -11604,9 +11611,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         Utils.handleError(error);
       });
     },
-    onClickCompanyPhoto: function onClickCompanyPhoto() {
-      Utils.redirectToCompanyProfile(this.company_id);
-    },
     onChangeLocation: function onChangeLocation(keyword) {
       var component = this;
       Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
@@ -11616,6 +11620,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onSelectLocation: function onSelectLocation(location) {
       this.input.address = location;
       this.locations = [];
+    },
+    onSearchJob: function onSearchJob(keyword) {
+      var component = this;
+      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
+        component.job_roles = data.data.job_roles;
+      });
+    },
+    onSelectJob: function onSelectJob(job) {
+      this.input.most_recent_role = job.job_role_name;
+      this.job_roles = [];
     },
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -65607,6 +65621,7 @@ var render = function() {
                             expression: "input.education_id"
                           }
                         ],
+                        staticStyle: { "background-position": "470px" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -65645,7 +65660,11 @@ var render = function() {
                             [
                               _vm._v(
                                 "\n                                " +
-                                  _vm._s(education.course) +
+                                  _vm._s(
+                                    education.course
+                                      ? education.course.course_name
+                                      : education.course_name
+                                  ) +
                                   "\n                            "
                               )
                             ]
@@ -65654,6 +65673,154 @@ var render = function() {
                       ],
                       2
                     )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "me-label" }, [
+                    _vm._v(
+                      "\n                        What is your current or most recent role/title?\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emp-row mt-3" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.input.most_recent_role,
+                          expression: "input.most_recent_role"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", placeholder: "Most Recent Role" },
+                      domProps: { value: _vm.input.most_recent_role },
+                      on: {
+                        keyup: function($event) {
+                          return _vm.onSearchJob(_vm.input.most_recent_role)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.input,
+                            "most_recent_role",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.most_recent_role
+                      ? _c("span", { staticClass: "err-msg" }, [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(_vm.errors.most_recent_role) +
+                              "\n                        "
+                          )
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _vm.job_roles.length > 0
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "emp-row",
+                          staticStyle: { "margin-top": "0" }
+                        },
+                        [
+                          _c(
+                            "ul",
+                            { staticClass: "list-group" },
+                            _vm._l(_vm.job_roles, function(job, idx) {
+                              return _c(
+                                "li",
+                                {
+                                  key: idx,
+                                  staticClass: "list-group-item",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.onSelectJob(job)
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                \n                                " +
+                                      _vm._s(job.job_role_name) +
+                                      "\n                            "
+                                  )
+                                ]
+                              )
+                            }),
+                            0
+                          )
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "me-label",
+                      staticStyle: { "margin-bottom": "17px" }
+                    },
+                    [_vm._v("Years Experience")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "me-row" }, [
+                    _c("div", { staticClass: "role-col-left" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.exp_year,
+                            expression: "input.exp_year"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "Years" },
+                        domProps: { value: _vm.input.exp_year },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.input, "exp_year", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "role-col-right" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.exp_month,
+                            expression: "input.exp_month"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "Months" },
+                        domProps: { value: _vm.input.exp_month },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.input,
+                              "exp_month",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
                   ])
                 ]
               )
@@ -65835,73 +66002,34 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm.job_role
-            ? _c("span", { staticClass: "profile-role-header" }, [
-                _vm._v("Current Role")
+          _vm.most_recent_role
+            ? _c("span", { staticClass: "profile-role-header mb-0" }, [
+                _vm._v("Most Recent Role")
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.job_role
-            ? _c(
-                "div",
-                { staticClass: "jobads-row" },
-                [
-                  _vm.company_photo
-                    ? _c("img", {
-                        staticClass: "bl-image-56",
-                        attrs: { src: _vm.company_photo },
-                        on: { click: _vm.onClickCompanyPhoto }
-                      })
-                    : _c("avatar", {
-                        attrs: {
-                          cls: "bl-image-56",
-                          size: "56",
-                          border: "0",
-                          "border-radius": "8px",
-                          initials: _vm.getInitials(_vm.company_name),
-                          "company-id": _vm.company_id + ""
-                        }
-                      }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "bl-display" }, [
-                    _c("span", { staticClass: "bl-label-16 bl-ml15" }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(_vm.job_role) +
-                          "\n                    "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "span",
-                      { staticClass: "bl-label-15 bl-ml15 mt-0 pt-0" },
-                      [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(_vm.company_name) +
-                            "\n                    "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "bl-label-14 bl-ml15" }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(
-                            _vm.formatPeriod(
-                              _vm.start_month,
-                              _vm.start_year,
-                              _vm.end_month,
-                              _vm.end_year
-                            )
-                          ) +
-                          "\n                    "
-                      )
-                    ])
-                  ])
-                ],
-                1
-              )
+          _vm.most_recent_role
+            ? _c("div", { staticClass: "bl-display" }, [
+                _c("div", { staticClass: "bl-label-15" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.most_recent_role) +
+                      "\n                "
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.exp_year || _vm.exp_month
+            ? _c("div", { staticClass: "bl-display" }, [
+                _c("div", { staticClass: "bl-label-14" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.formatYearsExperience()) +
+                      "\n                "
+                  )
+                ])
+              ])
             : _vm._e()
         ])
       ],
