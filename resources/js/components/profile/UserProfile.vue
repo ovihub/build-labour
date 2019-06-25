@@ -132,28 +132,14 @@
                     </div>
                 </div>
                 
-                <span class="profile-role-header" v-if="job_role">Current Role</span>
+                <span class="profile-role-header mb-0" v-if="most_recent_role">Most Recent Role</span>
 
-                <div class="jobads-row" v-if="job_role">
-                    <img class="bl-image-56" v-if="company_photo" :src="company_photo"
-                        @click="onClickCompanyPhoto">
-
-                    <avatar v-else cls="bl-image-56" size="56" border="0" border-radius="8px"
-                        :initials="getInitials(company_name)"
-                        :company-id="company_id + ''">
-                    </avatar>
-                    <div class="bl-display">
-                        <span class="bl-label-16 bl-ml15">
-                            {{ job_role }}
-                        </span>
-                        <span class="bl-label-15 bl-ml15 mt-0 pt-0">
-                            {{ company_name }}
-                        </span>
-                        <span class="bl-label-14 bl-ml15">
-                            {{ formatPeriod(start_month, start_year, end_month, end_year) }}
-                        </span>
+                <div class="bl-display" v-if="most_recent_role">
+                    <div class="bl-label-15-style-2">
+                        {{ most_recent_role }}
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -178,18 +164,11 @@
                 is_verified: '',
                 sectors: [],
                 tiers: [],
+                most_recent_role: '',
                 address: '',
                 education_id: '',
                 course: '',
                 school: '',
-                company_id: '',
-                company_photo: '',
-                company_name: '',
-                job_role: '',
-                start_month: '',
-                start_year: '',
-                end_month: '',
-                end_year: '',
                 input: {
                     profile_description: '', first_name: '', last_name: '', address: '', education_id: '',
                 },
@@ -215,37 +194,11 @@
                 }
             });
 
-            Bus.$on('updateEmployment', function(index, details) {
-                if (index == 0 || (!component.company_name && index == -1)) {
-                    component.company_id = (details.company) ? details.company.id : '';
-                    component.company_photo = (details.company) ? details.company.photo_url : '';
-                    component.company_name = (details.company) ? details.company.name : details.company_name;
-                    component.job_role = (details.job) ? details.job.title : details.job_role;
-                    component.start_month = details.start_month;
-                    component.start_year = details.start_year;
-                    component.end_month = details.end_month;
-                    component.end_year = details.end_year;
-                }
-            });
-
             Bus.$on('removeEducation', function(index, id) {
                 if (component.education_id == id) {
                     component.course = '';
                     component.school = '';
                     component.education_id = '';
-                }
-            });
-
-            Bus.$on('removeEmployment', function(index) {
-                if (index == 0) {
-                    component.company_id = '';
-                    component.company_photo = '';
-                    component.company_name = '';
-                    component.job_role = '';
-                    component.start_month = '';
-                    component.start_year = '';
-                    component.end_month = '';
-                    component.end_year = '';
                 }
             });
 
@@ -263,10 +216,6 @@
         },
 
         methods: {
-
-            getInitials(name) {
-                return Utils.getInitials(name);
-            },
             
             setValues(details) {
                 this.profile_description = details.profile_description;
@@ -277,18 +226,11 @@
                 this.is_verified = details.is_verified;
                 this.sectors = details.sectors;
                 this.tiers = details.tiers;
+                this.most_recent_role = details.most_recent_role;
                 this.address = details.address;
                 this.education_id = details.education_id;
                 this.course = details.education ? details.education.course : '';
                 this.school = details.education ? details.education.school : '';
-                this.company_id = details.company_id;
-                this.company_photo = details.company_photo;
-                this.company_name = details.company_name;
-                this.job_role = details.job_role;
-                this.start_month = details.start_month;
-                this.start_year = details.start_year;
-                this.end_month = details.end_month;
-                this.end_year = details.end_year;
             },
 
             setDisplayValues(val, details) {
@@ -297,16 +239,11 @@
                 val.last_name = details.last_name;
                 val.sectors = details.sectors;
                 val.tiers = details.tiers;
+                val.most_recent_role = details.most_recent_role;
                 val.address = details.address;
                 val.education_id = details.education_id;
                 val.course = details.education ? details.education.course : '';
                 val.school = details.education ? details.education.school : '';
-            },
-
-            formatPeriod(sm, sy, em, ey) {
-                let endDate = (em && ey) ? new Date(ey, em-1, 1) : new Date();
-
-                return Utils.formatPeriod(new Date(sy, sm-1, 1), endDate);
             },
             
             onClickProfilePhoto() {
@@ -364,10 +301,6 @@
 
                         Utils.handleError(error);
                     });
-            },
-
-            onClickCompanyPhoto() {
-                Utils.redirectToCompanyProfile(this.company_id);
             },
 
             onChangeLocation(keyword) {
