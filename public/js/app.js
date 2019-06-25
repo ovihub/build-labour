@@ -8130,17 +8130,13 @@ __webpack_require__.r(__webpack_exports__);
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
     });
     this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
-    this.getCountries();
+    Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_0__["default"].getCountries()).then(function (data) {
+      component.countries = data.data.countries;
+    });
   },
   methods: {
     onChangeBirthMonthYear: function onChangeBirthMonthYear() {
       this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
-    },
-    getCountries: function getCountries() {
-      var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_0__["default"].getCountries()).then(function (data) {
-        component.countries = data.data.countries;
-      });
     }
   }
 });
@@ -8762,6 +8758,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -8973,6 +8970,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -8983,8 +8992,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       birthDay: '',
       birthMonth: '',
       birthYear: '',
+      countries: [],
       gender: '',
       date_of_birth: '',
+      country_birth: '',
       marital_status: '',
       has_tfn: '',
       has_abn: '',
@@ -8994,6 +9005,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       input: {
         gender: '',
         date_of_birth: '',
+        country_birth: '',
         marital_status: '',
         has_tfn: '',
         has_abn: '',
@@ -9004,6 +9016,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       errors: {
         gender: '',
         date_of_birth: '',
+        country_birth: '',
         marital_status: '',
         has_tfn: '',
         has_abn: '',
@@ -9028,11 +9041,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       Utils.setObjectValues(component.input, null);
       component.submit('clear');
     });
+    Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCountries()).then(function (data) {
+      component.countries = data.data.countries;
+    });
   },
   methods: {
     setValues: function setValues(val, details) {
       val.gender = details.gender;
       val.date_of_birth = details.date_of_birth;
+      val.country_birth = details.country_birth;
       val.marital_status = details.marital_status;
 
       if (!Utils.isNullOrEmpty(details.has_tfn)) {
@@ -10897,6 +10914,7 @@ __webpack_require__.r(__webpack_exports__);
       about_me: {
         gender: '',
         date_of_birth: '',
+        country_birth: '',
         marital_status: '',
         has_tfn: '',
         has_abn: '',
@@ -10960,6 +10978,7 @@ __webpack_require__.r(__webpack_exports__);
         component.about_me = {};
         component.about_me.gender = user.gender;
         component.about_me.date_of_birth = user.date_of_birth;
+        component.about_me.country_birth = user.country_birth;
         component.about_me.marital_status = user.marital_status;
         component.about_me.has_tfn = user.worker_detail.has_tfn;
         component.about_me.has_abn = user.worker_detail.has_abn;
@@ -61958,12 +61977,224 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    false
-                      ? undefined
+                    _c(
+                      "div",
+                      {
+                        staticClass: "me-label",
+                        staticStyle: { "margin-bottom": "17px" }
+                      },
+                      [_vm._v("Date of Birth")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "me-row" }, [
+                      _c("div", { staticClass: "me-col-left" }, [
+                        _c("div", { staticClass: "emp-form-label" }, [
+                          _vm._v("Day")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.birthDay,
+                                expression: "birthDay"
+                              }
+                            ],
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.birthDay = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          _vm._l(_vm.days, function(day, index) {
+                            return _c(
+                              "option",
+                              { key: index, domProps: { value: day } },
+                              [_vm._v(_vm._s(day))]
+                            )
+                          }),
+                          0
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "me-col-mid" }, [
+                        _c("div", { staticClass: "emp-form-label" }, [
+                          _vm._v("Month")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.birthMonth,
+                                expression: "birthMonth"
+                              }
+                            ],
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.birthMonth = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                },
+                                _vm.onChangeBirthMonthYear
+                              ]
+                            }
+                          },
+                          _vm._l(_vm.months, function(month, index) {
+                            return _c(
+                              "option",
+                              { key: index, domProps: { value: month.id } },
+                              [_vm._v(_vm._s(month.name))]
+                            )
+                          }),
+                          0
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "me-col-right" }, [
+                        _c("div", { staticClass: "emp-form-label" }, [
+                          _vm._v("Year")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.birthYear,
+                                expression: "birthYear"
+                              }
+                            ],
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.birthYear = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                },
+                                _vm.onChangeBirthMonthYear
+                              ]
+                            }
+                          },
+                          _vm._l(_vm.years, function(year, index) {
+                            return _c(
+                              "option",
+                              { key: index, domProps: { value: year } },
+                              [_vm._v(_vm._s(year))]
+                            )
+                          }),
+                          0
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.errors.date_of_birth
+                      ? _c("span", { staticClass: "err-msg" }, [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(_vm.errors.date_of_birth) +
+                              "\n                        "
+                          )
+                        ])
                       : _vm._e(),
                     _vm._v(" "),
                     false
                       ? undefined
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "me-label" }, [
+                      _vm._v("Country of Birth")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "me-row mb-3" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.country_birth,
+                              expression: "input.country_birth"
+                            }
+                          ],
+                          staticStyle: { "background-position": "465px" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.input,
+                                "country_birth",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.countries, function(country) {
+                          return _c(
+                            "option",
+                            { key: country, domProps: { value: country } },
+                            [_vm._v(_vm._s(country))]
+                          )
+                        }),
+                        0
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm.errors.country_birth
+                      ? _c("span", { staticClass: "err-msg" }, [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(_vm.errors.country_birth) +
+                              "\n                        "
+                          )
+                        ])
                       : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "me-label" }, [
@@ -62193,6 +62424,12 @@ var render = function() {
                           attrs: { for: "has_registered_vehicle-checkbox-no" }
                         },
                         [_vm._v("No")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "me-label-2" }, [
+                      _vm._v(
+                        "\n                            Note: Some jobs may require the use of your own registered vehicle.\n                        "
                       )
                     ])
                   ]

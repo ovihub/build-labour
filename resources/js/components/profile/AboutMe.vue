@@ -26,32 +26,30 @@
                                 </div>
                             </div>
 
-                            <div v-if="false">
-                                <div class="me-label" style="margin-bottom:17px">Date of Birth</div>
-                                <div class="me-row">
-                                    <div class="me-col-left">
-                                        <div class="emp-form-label">Day</div>
-                                        <select v-model="birthDay">
-                                            <option v-for="(day, index) in days" :key="index" v-bind:value="day">{{ day }}</option>
-                                        </select>
-                                    </div>
-                                    <div class="me-col-mid">
-                                        <div class="emp-form-label">Month</div>
-                                        <select v-model="birthMonth" @change="onChangeBirthMonthYear">
-                                            <option v-for="(month, index) in months" :key="index" v-bind:value="month.id">{{ month.name }}</option>
-                                        </select>
-                                    </div>
-                                    <div class="me-col-right">
-                                        <div class="emp-form-label">Year</div>
-                                        <select v-model="birthYear" @change="onChangeBirthMonthYear">
-                                            <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
-                                        </select>
-                                    </div>
+                            <div class="me-label" style="margin-bottom:17px">Date of Birth</div>
+                            <div class="me-row">
+                                <div class="me-col-left">
+                                    <div class="emp-form-label">Day</div>
+                                    <select v-model="birthDay">
+                                        <option v-for="(day, index) in days" :key="index" v-bind:value="day">{{ day }}</option>
+                                    </select>
                                 </div>
-                                <span class="err-msg" v-if="errors.date_of_birth">
-                                    {{ errors.date_of_birth }}
-                                </span>
+                                <div class="me-col-mid">
+                                    <div class="emp-form-label">Month</div>
+                                    <select v-model="birthMonth" @change="onChangeBirthMonthYear">
+                                        <option v-for="(month, index) in months" :key="index" v-bind:value="month.id">{{ month.name }}</option>
+                                    </select>
+                                </div>
+                                <div class="me-col-right">
+                                    <div class="emp-form-label">Year</div>
+                                    <select v-model="birthYear" @change="onChangeBirthMonthYear">
+                                        <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
+                                    </select>
+                                </div>
                             </div>
+                            <span class="err-msg" v-if="errors.date_of_birth">
+                                {{ errors.date_of_birth }}
+                            </span>
 
                             <div v-if="false">
                                 <div class="me-label">Marital Status</div>
@@ -68,6 +66,16 @@
                                 {{ errors.marital_status }}
                                 </span>
                             </div>
+
+                            <div class="me-label">Country of Birth</div>
+                            <div class="me-row mb-3">
+                                <select style="background-position:465px" v-model="input.country_birth">
+                                    <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
+                                </select>
+                            </div>
+                            <span class="err-msg" v-if="errors.country_birth">
+                                {{ errors.country_birth }}
+                            </span>
 
                             <div class="me-label">
                                 I have an Australian Tax File Number (TFN)
@@ -139,6 +147,9 @@
                                     @change="formatCheckbox('has_registered_vehicle', 0)" />
                                 <label for="has_registered_vehicle-checkbox-no">No</label>
                             </div>
+                            <div class="me-label-2">
+                                Note: Some jobs may require the use of your own registered vehicle.
+                            </div>
                         </form>
                     </template>
 
@@ -204,6 +215,8 @@
 </template>
 
 <script>
+    import Api from '@/api';
+    
     export default {
         data() {
             return {
@@ -214,8 +227,10 @@
                 birthDay: '',
                 birthMonth: '',
                 birthYear: '',
+                countries: [],
                 gender: '',
                 date_of_birth: '',
+                country_birth: '',
                 marital_status: '',
                 has_tfn: '',
                 has_abn: '',
@@ -223,11 +238,11 @@
                 drivers_license: '',
                 has_registered_vehicle: '',
                 input: {
-                    gender: '', date_of_birth: '', marital_status: '', has_tfn: '', has_abn: '',
+                    gender: '', date_of_birth: '', country_birth: '',marital_status: '', has_tfn: '', has_abn: '',
                     english_skill: '', drivers_license: '', has_registered_vehicle: '',
                 },
                 errors: {
-                    gender: '', date_of_birth: '', marital_status: '', has_tfn: '', has_abn: '',
+                    gender: '', date_of_birth: '', country_birth: '', marital_status: '', has_tfn: '', has_abn: '',
                     english_skill: '', drivers_license: '', has_registered_vehicle: '',
                 },
                 endpoints: {
@@ -251,6 +266,10 @@
 
                 component.submit('clear');
             });
+
+            Promise.resolve(Api.getCountries()).then(function(data) {
+                component.countries = data.data.countries;
+            });
         },
 
         methods: {
@@ -258,6 +277,7 @@
             setValues(val, details) {
                 val.gender = details.gender;
                 val.date_of_birth = details.date_of_birth;
+                val.country_birth = details.country_birth;
                 val.marital_status = details.marital_status;
                 
                 if (! Utils.isNullOrEmpty(details.has_tfn)) {

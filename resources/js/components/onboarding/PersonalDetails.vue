@@ -92,21 +92,15 @@
 
             this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
             
-            this.getCountries();
+            Promise.resolve(Api.getCountries()).then(function(data) {
+                component.countries = data.data.countries;
+            });
         },
 
         methods: {
 
             onChangeBirthMonthYear() {
                 this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
-            },
-
-            getCountries() {
-                let component = this;
-
-                Promise.resolve(Api.getCountries()).then(function(data) {
-                    component.countries = data.data.countries;
-                });
             },
 
         }
