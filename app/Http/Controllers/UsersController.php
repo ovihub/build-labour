@@ -29,32 +29,39 @@ class UsersController extends Controller
             $user = Auth::loginUsingId($payload['sub']);
         }
 
-        if ($id == null) {
-            if ($user->role_id == 1) {
-                return view('users.profile')->with('user_id', null);
-            
-            } else if ($user->role_id == 2) {
-                return view('companies.profile')->with('company_id',
-                            (Company::where('created_by', $user->id)->first())->id);
-            }
-        }
-
-        if ($page == 'company_profile') {
-            $company = Company::where('created_by', $user->id)->first();
-
-            if ($user->role_id == 2 && $company && $company->id == $id) {
-                return redirect('/user/profile');
+        if ($user) {
+            if ($id == null) {
+                if ($user->role_id == 1) {
+                    return view('users.profile')->with('user_id', null);
+                
+                } else if ($user->role_id == 2) {
+                    return view('companies.profile')->with('company_id',
+                                (Company::where('created_by', $user->id)->first())->id);
+                }
             }
 
-            return view('companies.profile')->with('company_id', $id);
-        }
+            if ($page == 'company_profile') {
+                $company = Company::where('created_by', $user->id)->first();
 
-        if ($page == 'profile') {
-            if ($user->role_id == 1 && $user->id == $id) {
-                return redirect('/user/profile');
+                if ($user->role_id == 2 && $company && $company->id == $id) {
+                    return redirect('/user/profile');
+                }
+
+                return view('companies.profile')->with('company_id', $id);
             }
 
-            return view('users.profile')->with('user_id', $id);
+            if ($page == 'profile') {
+                if ($user->role_id == 1 && $user->id == $id) {
+                    return redirect('/user/profile');
+                }
+
+                return view('users.profile')->with('user_id', $id);
+            }
+        
+        } else {
+            setcookie('bl_token', null, time() + (86400 * 30), '/');
+
+            return redirect(route('login'));
         }
     }
 
