@@ -16,6 +16,8 @@
                 <div class="form-progress-2" :class="progressCls[8]"></div>
             </div>
             
+            <confirm-modal></confirm-modal>
+
             <employment-modal></employment-modal>
 
             <education-modal></education-modal>
@@ -132,6 +134,14 @@
                 component.max = component.$sections.length;
                 component.goToStep(1);
             }, 1);
+
+            Bus.$on('goToNext', function() {
+                if (component.step == component.nextButtons.length) {
+                    window.location.href = component.endpoints.profile;
+                }
+
+                component.goToStep(component.step + 1);
+            });
         },
 
         methods: {
@@ -139,19 +149,13 @@
             next() {
                 Bus.$emit('alertHide');
 
-                if (this.step == this.nextButtons.length) {
-                    window.location.href = this.endpoints.profile;
-
-                } else { // if (this.saved) {
+                if (this.saved) {
                     this.saved = false;
-
                     this.goToStep(this.step + 1);
                 
-                } // else {
-                    // TODO: Add modal here to confirm to continue without saving changes
-                    // If Yes, saved = true
-                    // If No/Cancel, saved = false
-                // }
+                } else {
+                    $('#confirmModal').modal('show');
+                }
             },
 
             submit() {

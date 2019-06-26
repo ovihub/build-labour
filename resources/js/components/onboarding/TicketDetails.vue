@@ -149,7 +149,7 @@
             formatCheckbox(refName, value) {
                 Utils.formatCheckbox(this.$refs, null, refName, value);
 
-                this.has_whitecard = value;
+                this.has_whitecard = (value == 1 || value == 0) ? value : null;
                 
                 // if (value == 0) {
                 //     this.tickets = [];
