@@ -17,9 +17,12 @@
                     company_name: '', job_role: '', sectors: [], tiers: [], address: '', education_id: '', 
                     most_recent_role: '', exp_year: '', exp_month: '',
                 },
-                about_me: {
+                about_me_general: {
                     gender: '', date_of_birth: '', country_birth: '', marital_status: '', 
-                    has_tfn: '', has_abn: '', english_skill: '', drivers_license: '', has_registered_vehicle: '',
+                },
+                about_me_technical: {
+                    right_to_work: '', has_tfn: '', has_abn: '',
+                    english_skill: '', drivers_license: '', has_registered_vehicle: '',
                 },
                 ideal_role: { 
                     introduction: '', when: '', max_distance: '', state: '', right_to_work: '',
@@ -85,18 +88,21 @@
                                                             (user.experiences[0]) ? user.experiences[0].company_name : '';
 
                         component.about_me = {};
-                        component.about_me.gender = user.gender;
-                        component.about_me.date_of_birth = user.date_of_birth;
-                        component.about_me.country_birth = user.country_birth;
-                        component.about_me.marital_status = user.marital_status;
-                        component.about_me.has_tfn = user.worker_detail.has_tfn;
-                        component.about_me.has_abn = user.worker_detail.has_abn;
-                        component.about_me.english_skill = user.worker_detail.english_skill;
-                        component.about_me.drivers_license = user.worker_detail.drivers_license;
-                        component.about_me.has_registered_vehicle = user.worker_detail.has_registered_vehicle;
+                        component.about_me_general.gender = user.gender;
+                        component.about_me_general.date_of_birth = user.date_of_birth;
+                        component.about_me_general.country_birth = user.country_birth;
+                        // component.about_me_general.marital_status = user.marital_status;
+
+                        component.about_me_technical.right_to_work = user.worker_detail.right_to_work;
+                        component.about_me_technical.has_tfn = user.worker_detail.has_tfn;
+                        component.about_me_technical.has_abn = user.worker_detail.has_abn;
+                        component.about_me_technical.english_skill = user.worker_detail.english_skill;
+                        component.about_me_technical.drivers_license = user.worker_detail.drivers_license;
+                        component.about_me_technical.has_registered_vehicle = user.worker_detail.has_registered_vehicle;
 
                         component.ideal_role = user.worker_detail;
-                        component.ideal_role.right_to_work = user.worker_detail.right_to_work;
+                        component.ideal_role.countries = user.country;
+                        
                         component.employments = user.experiences;
                         component.educations = user.educations;
                         component.tickets = user.tickets;
@@ -104,7 +110,8 @@
 
                         Bus.$emit('profileAvatarDetails', user.first_name.charAt(0) + user.last_name.charAt(0));
                         Bus.$emit('userProfileDetails', component.profile);
-                        Bus.$emit('aboutMeDetails', component.about_me);
+                        Bus.$emit('aboutMeGeneralDetails', component.about_me_general);
+                        Bus.$emit('aboutMeTechnicalDetails', component.about_me_technical);
                         Bus.$emit('idealRoleDetails', component.ideal_role);
                         Bus.$emit('employmentDetails', component.employments);
                         Bus.$emit('educationDetails', component.educations);

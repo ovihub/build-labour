@@ -21,7 +21,7 @@
             <education-modal></education-modal>
 
             <ul class="comp-card-wrapper" ref="compCardWrapper">
-                <li class="comp-card-list"><current-role></current-role></li>
+                <li class="comp-card-list"><current-role :most-recent-role="mostRecentRole"></current-role></li>
                 <li class="comp-card-list"><employment-history></employment-history></li>
                 <li class="comp-card-list"><education-history></education-history></li>
                 <li class="comp-card-list"><ticket-details></ticket-details></li>
@@ -97,6 +97,13 @@
                     profile: '/user/profile',
                 },
             }
+        },
+
+        props: {
+            mostRecentRole: {
+                type: String,
+                required: false,
+            },
         },
 
         computed: {

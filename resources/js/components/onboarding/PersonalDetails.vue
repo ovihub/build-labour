@@ -80,14 +80,48 @@
         created() {
             let component = this;
 
-            Bus.$on('onboardingSubmitPersonalDetails', function() {
-                component.input.date_of_birth = component.birthYear + '-' + component.birthMonth + '-' + component.birthDay;
+            Bus.$on('aboutMeGeneralDetails', function(details) {
+                if (details) {
+                    component.input.gender = details.gender;
+                    component.input.date_of_birth = details.date_of_birth;
+                    component.input.country_birth = details.country_birth;
 
-                if (! component.birthYear && ! component.birthMonth && ! component.birthDay) {
-                    component.input.date_of_birth = '';
+                    if (! Utils.isNullOrEmpty(details.date_of_birth)) {
+                        let d = new Date(details.date_of_birth);
+
+                        component.birthDay = d.getDate();
+                        component.birthMonth = d.getMonth() + 1;
+                        component.birthYear = d.getFullYear();
+
+                        component.days = Utils.getDaysInMonth(component.birthMonth, component.birthYear);
+                    
+                    } else {
+                        let d = new Date();
+
+                        component.birthDay = d.getDate();
+                        component.birthMonth = d.getMonth() + 1;
+                        component.birthYear = d.getFullYear() - 18;
+
+                        component.days = Utils.getDaysInMonth(component.birthMonth, component.birthYear);
+                    }
+                }
+            });
+
+            Bus.$on('onboardingSubmitPersonalDetails', function(action) {
+                if (action == 'clear') {
+                    Utils.setObjectValues(component.input, null);
+                
+                } else {
+                    component.input.date_of_birth = component.birthYear + '-' + component.birthMonth + '-' + component.birthDay;
+
+                    if (! component.birthYear && ! component.birthMonth && ! component.birthDay) {
+                        component.input.date_of_birth = '';
+                    }
                 }
 
                 Api.submit(component.endpoints.save, component.$data.input);
+
+                Bus.$emit('aboutMeGeneralDetails', component.input);
             });
 
             this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);

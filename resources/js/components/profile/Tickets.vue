@@ -64,7 +64,7 @@
                     component.mark_icon = 'check';
                     component.has_whitecard = 'Has a valid and current White Card';
                 
-                } else {
+                } else if (detail == 0) {
                     component.mark_icon = 'cross';
                     component.has_whitecard = 'No valid and current White Card';
                 }

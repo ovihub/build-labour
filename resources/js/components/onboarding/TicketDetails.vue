@@ -80,7 +80,7 @@
                 component.formatCheckbox('has_whitecard', detail);
             });
 
-            Bus.$on('submitTickets', function() {
+            Bus.$on('onboardingSubmitTickets', function() {
                 let saveInput = {
                     tickets: component.tickets.map(function (ticket) {
                                 return { ticket_id: ticket.id };
