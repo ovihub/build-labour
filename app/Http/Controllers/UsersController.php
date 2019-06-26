@@ -57,12 +57,11 @@ class UsersController extends Controller
 
                 return view('users.profile')->with('user_id', $id);
             }
-        
-        } else {
-            setcookie('bl_token', null, time() + (86400 * 30), '/');
-
-            return redirect(route('login'));
         }
+        
+        setcookie('bl_token', null, time() + (86400 * 30), '/');
+
+        return redirect(route('login'));
     }
 
     public function showOnboarding() {
@@ -79,12 +78,18 @@ class UsersController extends Controller
             $user = Auth::loginUsingId($payload['sub']);
         }
 
-        if ($user->role_id == 1) {
-            return view('users.onboarding')->with('most_recent_role', $user->workerDetail->most_recent_role);
-        
-        } else {
-            return redirect('/user/profile');
+        if ($user) {
+            if ($user->role_id == 1) {
+                return view('users.onboarding')->with('most_recent_role', $user->workerDetail->most_recent_role);
+            
+            } else {
+                return redirect('/user/profile');
+            }
         }
+
+        setcookie('bl_token', null, time() + (86400 * 30), '/');
+
+        return redirect(route('login'));
     }
 
     public function showVerifyForm(Request $r)
