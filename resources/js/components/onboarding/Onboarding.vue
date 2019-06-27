@@ -35,11 +35,11 @@
             </ul>
             
             <div class="modal-footer">
-                <div class="btn btn-link btn-delete" @click="submit">
+                <div class="btn btn-link btn-delete" @click="save">
                     Save and Finish later
                 </div>
 
-                <button class="pull-right" type="button" @click="next">
+                <button class="pull-right" type="button" @click="submit">
                     {{ nextButton }}
                 </button>
             </div>
@@ -146,6 +146,12 @@
 
         methods: {
 
+            save() {
+                this.submit();
+
+                window.location.href = '/user/profile';
+            },
+
             next() {
                 Bus.$emit('alertHide');
 
@@ -166,6 +172,8 @@
                 this.saved = true;
 
                 Bus.$emit('onboardingSubmit' + this.submitForms[this.step - 1]);
+
+                this.next();
             },
 
             setCssVars() {

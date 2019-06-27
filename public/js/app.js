@@ -8061,6 +8061,10 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    save: function save() {
+      this.submit();
+      window.location.href = '/user/profile';
+    },
     next: function next() {
       Bus.$emit('alertHide');
 
@@ -8078,6 +8082,7 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       this.saved = true;
       Bus.$emit('onboardingSubmit' + this.submitForms[this.step - 1]);
+      this.next();
     },
     setCssVars: function setCssVars() {
       this.$refs['compCardWrapper'].style.setProperty('--x', (this.step * 100 - 100) * -1 + '%');
@@ -60433,10 +60438,7 @@ var render = function() {
         _c("div", { staticClass: "modal-footer" }, [
           _c(
             "div",
-            {
-              staticClass: "btn btn-link btn-delete",
-              on: { click: _vm.submit }
-            },
+            { staticClass: "btn btn-link btn-delete", on: { click: _vm.save } },
             [_vm._v("\n                Save and Finish later\n            ")]
           ),
           _vm._v(" "),
@@ -60445,7 +60447,7 @@ var render = function() {
             {
               staticClass: "pull-right",
               attrs: { type: "button" },
-              on: { click: _vm.next }
+              on: { click: _vm.submit }
             },
             [
               _vm._v(
