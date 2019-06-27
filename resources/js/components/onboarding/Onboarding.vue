@@ -15,8 +15,6 @@
                 <div class="form-progress-2 bl-mr10" :class="progressCls[7]"></div>
                 <div class="form-progress-2" :class="progressCls[8]"></div>
             </div>
-            
-            <confirm-modal></confirm-modal>
 
             <employment-modal></employment-modal>
 
@@ -54,7 +52,6 @@
 
         data() {
             return {
-                saved: false,
                 sections: null,
                 step: 1,
                 max: 1,
@@ -155,22 +152,14 @@
             next() {
                 Bus.$emit('alertHide');
 
-                if (this.saved) {
-                    if (this.step == this.nextButtons.length) {
-                        window.location.href = this.endpoints.profile;
-                    }
-
-                    this.saved = false;
-                    this.goToStep(this.step + 1);
-                
-                } else {
-                    $('#confirmModal').modal('show');
+                if (this.step == this.nextButtons.length) {
+                    window.location.href = this.endpoints.profile;
                 }
+
+                this.goToStep(this.step + 1);
             },
 
             submit() {
-                this.saved = true;
-
                 Bus.$emit('onboardingSubmit' + this.submitForms[this.step - 1]);
 
                 this.next();

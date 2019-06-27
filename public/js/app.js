@@ -8003,13 +8003,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      saved: false,
       sections: null,
       step: 1,
       max: 1,
@@ -8068,19 +8065,13 @@ __webpack_require__.r(__webpack_exports__);
     next: function next() {
       Bus.$emit('alertHide');
 
-      if (this.saved) {
-        if (this.step == this.nextButtons.length) {
-          window.location.href = this.endpoints.profile;
-        }
-
-        this.saved = false;
-        this.goToStep(this.step + 1);
-      } else {
-        $('#confirmModal').modal('show');
+      if (this.step == this.nextButtons.length) {
+        window.location.href = this.endpoints.profile;
       }
+
+      this.goToStep(this.step + 1);
     },
     submit: function submit() {
-      this.saved = true;
       Bus.$emit('onboardingSubmit' + this.submitForms[this.step - 1]);
       this.next();
     },
@@ -60364,8 +60355,6 @@ var render = function() {
             class: _vm.progressCls[8]
           })
         ]),
-        _vm._v(" "),
-        _c("confirm-modal"),
         _vm._v(" "),
         _c("employment-modal"),
         _vm._v(" "),
