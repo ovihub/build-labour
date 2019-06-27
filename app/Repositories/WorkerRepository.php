@@ -228,6 +228,16 @@ class WorkerRepository extends AbstractRepository
             return false;
         }
 
+        if (isset($request->sectors) && empty($request->sectors)) {
+
+            WorkerArea::where('worker_id', $user->workerDetail->id)->delete();
+        }
+
+        if (isset($request->tiers) && empty($request->tiers)) {
+            
+            WorkerTier::where('worker_id', $user->workerDetail->id)->delete();
+        }
+
         if (!empty($request->sectors)) {
 
             WorkerArea::where('worker_id', $user->workerDetail->id)->delete();
