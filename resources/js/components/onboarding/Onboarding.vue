@@ -150,6 +150,10 @@
                 Bus.$emit('alertHide');
 
                 if (this.saved) {
+                    if (this.step == this.nextButtons.length) {
+                        window.location.href = this.endpoints.profile;
+                    }
+
                     this.saved = false;
                     this.goToStep(this.step + 1);
                 
