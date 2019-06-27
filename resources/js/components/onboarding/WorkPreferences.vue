@@ -70,16 +70,16 @@
         <div class="me-label" v-if="input.willing_to_relocate">Select up to three countries:</div>
         <div class="me-row mb-3" v-if="input.willing_to_relocate">
             <div class="role-col-left">
-                <select v-model="input.countries[0]" class="mb-3" style="width:350px;background-position:310px">
-                    <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
+                <select v-model="input.selected_countries[0]" class="mb-3" style="width:350px;background-position:310px">
+                    <option v-for="(country, index) in countries" :key="index" :value="country">{{ country }}</option>
                 </select>
                 
-                <select v-model="input.countries[1]" class="mb-3" style="width:350px;background-position:310px">
-                    <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
+                <select v-model="input.selected_countries[1]" class="mb-3" style="width:350px;background-position:310px">
+                    <option v-for="(country, index) in countries" :key="index" :value="country">{{ country }}</option>
                 </select>
 
-                <select v-model="input.countries[2]" class="mb-3" style="width:350px;background-position:310px">
-                    <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
+                <select v-model="input.selected_countries[2]" class="mb-3" style="width:350px;background-position:310px">
+                    <option v-for="(country, index) in countries" :key="index" :value="country">{{ country }}</option>
                 </select>
             </div>
         </div>
@@ -99,7 +99,7 @@
                 ],
                 input: {
                     max_distance: 0, state: '', selected: [], introduction: '', when: '',
-                    willing_to_relocate: '', countries: [],
+                    willing_to_relocate: '', countries: '', selected_countries: [],
                 },
                 errors: {
                     max_distance: '', selected: '', introduction: '', when: '',
@@ -114,10 +114,34 @@
         created() {
             let component = this;
 
-            Bus.$on('onboardingSubmitWorkPreferences', function() {
-                component.input.state = component.input.selected.toString();
+            Bus.$on('idealRoleDetails', function(details) {
+                if (details) {
+                    component.input.introduction = details.introduction;
+                    component.input.when = details.when;
+                    component.input.max_distance = details.max_distance && details.max_distance != '' ? details.max_distance : 0;
+                    component.input.willing_to_relocate = details.willing_to_relocate;
+                    component.input.state = details.state;
+                    component.input.countries = details.countries;
+                    component.input.selected = component.input.state ? component.input.state.split(',') : [];
+                    component.input.selected_countries = component.input.countries ? component.input.countries.split(',') : [];
+                    
+                    component.formatCheckbox('willing_to_relocate', details.willing_to_relocate);
+                }
+            });
+
+            Bus.$on('onboardingSubmitWorkPreferences', function(action) {
+                if (action == 'clear') {
+                    Utils.setObjectValues(component.input, null);
+                
+                } else {
+                    component.input.state = component.input.selected.toString();
+                    component.input.countries = component.input.selected_countries.length > 0 ?
+                                                component.input.selected_countries.toString() : null;
+                }
 
                 Api.submit(component.endpoints.save, component.$data.input);
+
+                Bus.$emit('idealRoleDetails', component.input);
             });
 
             this.getCountries();
@@ -140,6 +164,10 @@
 
             formatCheckbox(refName, value) {
                 Utils.formatCheckbox(this.$refs, this.input, refName, value);
+
+                if (! value) {
+                    this.input.selected_countries = [];
+                }
             },
 
             getCountries() {

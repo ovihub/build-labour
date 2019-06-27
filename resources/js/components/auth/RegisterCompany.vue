@@ -126,7 +126,7 @@
                         <div class="bl-col-1">
                             <div class="comp-logo">
                                 <img v-if="input.company_photo" class="bl-image-100" :src="input.company_photo">
-                                <img v-else class="bl-image-100" style="padding:15px"
+                                <img v-else class="bl-image-100" style="padding:15px" alt="' logo.jpg"
                                     src="/img/icons/uploadlogo.jpg"
                                     srcset="/img/icons/uploadlogo@2x.png 2x, /img/icons/uploadlogo@3x.png 3x">
                             </div>

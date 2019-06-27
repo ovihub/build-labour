@@ -56,7 +56,7 @@
                         </div>
 
                         <div class="me-label">
-                            What is your current or most recent role/title?
+                            Most Recent Role
                         </div>
                         <div class="emp-row mt-3">
                             <input class="form-control" type="text" placeholder="Most Recent Role" v-model="input.most_recent_role"
@@ -86,6 +86,26 @@
                             <div class="role-col-right">
                                 <input class="form-control" type="text" placeholder="Months" v-model="input.exp_month" />
                             </div>
+                        </div>
+
+                        <div class="skill-label">
+                            I have worked in the following areas of construction
+                        </div>
+                        <div class="bl-inline" v-for="(sector, index) in sectors_list" :key="index">
+                            <input :id="'sector-styled-checkbox-'+index" class="styled-checkbox" type="checkbox"
+                                :value="sector.id" v-model="input.sectors" />
+
+                            <label :for="'sector-styled-checkbox-'+index" style="width:125px">{{ sector.business_type }}</label>
+                        </div>
+
+                        <div class="skill-label">
+                            In the following Tiers
+                        </div>
+                        <div class="bl-inline" v-for="(tier, index) in tiers_list" :key="index + sectors_list.length">
+                            <input :id="'tier-styled-checkbox-'+index" class="styled-checkbox" type="checkbox"
+                                :value="tier.id" v-model="input.tiers" />
+
+                            <label :for="'tier-styled-checkbox-'+index">{{ tier.tier_name }}</label>
                         </div>
                     </form>
                 </template>
@@ -213,13 +233,24 @@
                 education_id: '',
                 course: '',
                 school: '',
+                sectors_list: [
+                    { id: 1, business_type: 'Residential' },
+                    { id: 2, business_type: 'Commercial' },
+                    { id: 3, business_type: 'Civil' },
+                ],
+                tiers_list: [
+                    { id: 1, tier_name: 'Tier 1' },
+                    { id: 2, tier_name: 'Tier 2' },
+                    { id: 3, tier_name: 'Tier 3' },
+                    { id: 4, tier_name: 'Tier 4' },
+                ],
                 input: {
                     profile_description: '', first_name: '', last_name: '', address: '', education_id: '',
-                    most_recent_role: '', exp_year: '', exp_month: '',
+                    most_recent_role: '', exp_year: '', exp_month: '', tiers: [], sectors: [],
                 },
                 errors: {
                     profile_description: '', first_name: '', last_name: '', address: '', education_id: '',
-                    most_recent_role: '', exp_year: '', exp_month: '',
+                    most_recent_role: '', exp_year: '', exp_month: '', tiers: '', sectors: '',
                 },
                 endpoints: {
                     save: '/api/v1/worker/introduction',
@@ -301,8 +332,6 @@
                 val.profile_description = details.profile_description;
                 val.first_name = details.first_name;
                 val.last_name = details.last_name;
-                val.sectors = details.sectors;
-                val.tiers = details.tiers;
                 val.most_recent_role = details.most_recent_role;
                 val.exp_year = details.exp_year;
                 val.exp_month = details.exp_month;
@@ -310,6 +339,14 @@
                 val.education_id = details.education_id;
                 val.course = details.education ? (details.education.course ? details.education.course.course_name: details.education.course_name) : '';
                 val.school = details.education ? details.education.school : '';
+
+                for (let i = 0; i < details.sectors.length; i++) {
+                    val.sectors.push(details.sectors[i].id);
+                }
+                
+                for (let i = 0; i < details.tiers.length; i++) {
+                    val.tiers.push(details.tiers[i].id);
+                }
             },
             
             formatYearsExperience() {
@@ -411,6 +448,8 @@
                 Utils.setObjectValues(this.errors, '');
                 
                 this.disabled = true;
+
+                Api.submit('/api/v1/worker/sectors', { sectors: this.input.sectors, tiers: this.input.tiers });
                 
                 await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
                     
@@ -420,6 +459,17 @@
                         $('#modalUserProfile').modal('hide');
 
                         component.setDisplayValues(component, data.data.introduction);
+
+                        component.sectors = [];
+                        component.tiers = [];
+
+                        for (let i = 0; i < component.input.sectors.length; i++) {
+                            component.sectors.push(component.sectors_list.find(obj => obj['id'] == component.input.sectors[i]));
+                        }
+                        
+                        for (let i = 0; i < component.input.tiers.length; i++) {
+                            component.tiers.push(component.tiers_list.find(obj => obj['id'] == component.input.tiers[i]));
+                        }
                     })
                     .catch(function(error) {
                         if (error.response) {

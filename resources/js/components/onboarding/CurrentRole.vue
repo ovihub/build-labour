@@ -66,6 +66,13 @@
             }
         },
 
+        props: {
+            mostRecentRole: {
+                type: String,
+                required: false,
+            },
+        },
+
         created() {
             let component = this;
 
@@ -74,6 +81,8 @@
                     Api.submit(component.endpoints.save, component.$data.input);
                 // }
             });
+
+            this.input.most_recent_role = this.mostRecentRole;
         },
 
         methods: {

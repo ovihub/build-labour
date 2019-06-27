@@ -128,11 +128,11 @@ class ApiWorkerController extends ApiBaseController
             }
 
 
-            if ($request->countries) {
+            // if (isset($request->countries)) {
 
-                $user->country = implode(",", $request->countries);
+                $user->country = $request->countries;
                 $user->save();
-            }
+            // }
 
         } catch(\Exception $e) {
 

@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email', 150)->unique();
             $table->string('password');
             $table->date('dob')->nullable();
-            $table->string( 'country', 150 )->default('AU');
+            $table->string( 'country', 150 )->nullable();
             $table->string( 'mobile_number', 150 )->nullable();
             $table->string( 'address' , 150)->nullable();
             $table->string( 'profile_photo_url', 150 )->nullable();

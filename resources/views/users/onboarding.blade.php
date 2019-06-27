@@ -10,7 +10,7 @@
             <industry-skills></industry-skills>
             <education></education>
             <tickets></tickets> -->
-            <onboarding></onboarding>
+            <onboarding most-recent-role="{{ $most_recent_role }}"></onboarding>
         </div>
     </div>
 @endsection
