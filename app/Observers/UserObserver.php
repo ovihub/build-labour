@@ -16,7 +16,7 @@ class UserObserver {
 
         if (!$user->isEmployerSignup) {
 
-            if (!$user->WorkerDetail) {
+            if (!$user->workerDetail) {
 
                 $request = Request::capture();
 
