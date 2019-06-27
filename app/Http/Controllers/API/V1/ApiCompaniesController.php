@@ -601,69 +601,6 @@ class ApiCompaniesController extends ApiBaseController
         return $this->apiSuccessResponse( compact( 'jobs' ), true, '', self::HTTP_STATUS_REQUEST_OK);
     }
 
-    /**
-     * @OA\Get(
-     *      path="/company/{id}/jobs/{jid}",
-     *      tags={"Company"},
-     *      summary="View a job",
-     *      security={{"BearerAuth":{}}},
-     *      @OA\Parameter(
-     *          in="path",
-     *          name="id",
-     *          description="company id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer",
-     *          ),
-     *      ),
-     *      @OA\Parameter(
-     *          in="path",
-     *          name="jid",
-     *          description="job id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer",
-     *          ),
-     *      ),
-     *      @OA\Response(
-     *          response=400,
-     *          description="Invalid Token"
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Token Expired"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Token Not Found"
-     *      ),
-     *      @OA\Response(
-     *          response=422,
-     *          description="Bad Request"
-     *      ),
-     *      @OA\Response(
-     *          response=500,
-     *          description="Internal Server Error"
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Request OK"
-     *      )
-     * )
-     */
-    public function viewJob( Request $request ) {
-
-        try {
-
-            $job = $this->repository->getJob($request);
-
-        } catch(\Exception $e) {
-
-            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
-        }
-
-        return $this->apiSuccessResponse( compact( 'job' ), true, '', self::HTTP_STATUS_REQUEST_OK);
-    }
 
     /**
      * @OA\Get(
@@ -775,4 +712,335 @@ class ApiCompaniesController extends ApiBaseController
         return $this->apiSuccessResponse( compact( 'jobs' ), true, '', self::HTTP_STATUS_REQUEST_OK);
     }
 
+    /**
+     * @OA\Get(
+     *      path="/company/{id}/templates/{jid}",
+     *      tags={"Company"},
+     *      summary="View a job",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Parameter(
+     *          in="path",
+     *          name="id",
+     *          description="company id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *      @OA\Parameter(
+     *          in="path",
+     *          name="jid",
+     *          description="job id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function viewJob( Request $request ) {
+
+        try {
+
+            $job = $this->repository->getJob($request);
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( compact( 'job' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/company/{id}/templates",
+     *      tags={"Company"},
+     *      summary="Get company Job templates",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Parameter(
+     *          in="path",
+     *          name="id",
+     *          description="company id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function jobTemplates( Request $request ) {
+
+        try {
+
+            $templates = $this->repository->getJobTemplates($request);
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( compact( 'templates' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/company/{id}/templates",
+     *      tags={"Company"},
+     *      summary="Create a company Job Template",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Parameter(
+     *          in="path",
+     *          name="id",
+     *          description="company id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="title",
+     *                      description="<b>Required</b> Title",
+     *                      type="string",
+     *                      example="Supervisor"
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function createJobTemplate( Request $request )
+    {
+        DB::beginTransaction();
+
+
+        if ( !$job_template = $this->repository->createJobTemplate( $request ) ) {
+
+            DB::rollBack();
+            return $this->apiErrorResponse(
+                false,
+                $this->repository->job->getErrors( true ),
+                self::HTTP_STATUS_INVALID_INPUT,
+                'invalidInput',
+                $this->repository->job->getErrorsDetail()
+            );
+        }
+
+        DB::commit();
+
+        return $this->apiSuccessResponse( compact('job_template'), true, 'Successfully created job template', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/company/{id}/templates/{tid}",
+     *      tags={"Company"},
+     *      summary="View a company job template",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Parameter(
+     *          in="path",
+     *          name="id",
+     *          description="company id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *      @OA\Parameter(
+     *          in="path",
+     *          name="tid",
+     *          description="template id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function viewJobTemplate( Request $request ) {
+
+        try {
+
+            $job_template = $this->repository->viewJobTemplate($request);
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( compact( 'job_template' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Delete(
+     *      path="/company/{id}/templates/{tid}",
+     *      tags={"Company"},
+     *      summary="Delete a company job template",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Parameter(
+     *          in="path",
+     *          name="id",
+     *          description="company id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *      @OA\Parameter(
+     *          in="path",
+     *          name="tid",
+     *          description="template id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function deleteJobTemplate( Request $request ) {
+
+        DB::beginTransaction();
+
+        if ( !$job_template = $this->repository->deleteTemplate( $request ) ) {
+
+            DB::rollBack();
+            return $this->apiErrorResponse(
+                false,
+                $this->repository->job->getErrors( true ),
+                self::HTTP_STATUS_INVALID_INPUT,
+                'invalidInput',
+                $this->repository->job->getErrorsDetail()
+            );
+        }
+
+        DB::commit();
+
+        return $this->apiSuccessResponse( compact('job_template'), true, 'Successfully deleted job template', self::HTTP_STATUS_REQUEST_OK);
+    }
 }

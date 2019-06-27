@@ -107,6 +107,12 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             Route::post('photo', 'ApiCompaniesController@uploadPhoto');
 
             Route::get('{id}', 'ApiCompaniesController@view');
+
+            Route::get('{id}/templates', 'ApiCompaniesController@jobTemplates');
+            Route::post('{id}/templates', 'ApiCompaniesController@createJobTemplate');
+            Route::get('{id}/templates/{tid}', 'ApiCompaniesController@viewJobTemplate');
+            Route::delete('{id}/templates/{tid}', 'ApiCompaniesController@deleteJobTemplate');
+
             Route::get('{id}/specialization', 'ApiCompaniesController@specialization');
             Route::get('{id}/workers', 'ApiCompaniesController@workers');
             Route::get('{id}/people', 'ApiCompaniesController@workers');

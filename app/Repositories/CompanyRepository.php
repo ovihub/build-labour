@@ -208,4 +208,84 @@ class CompanyRepository extends AbstractRepository
         return $jobRoles;
     }
 
+    public function getJobTemplates( Request $request ) {
+
+        $templates = Job::where('company_id', $request->id)
+            ->where('is_template', true)
+            ->get();
+
+        return $templates;
+    }
+
+    public function createJobTemplate( Request $request ) {
+
+        $company = Company::find($request->id);
+        $user = JWTAuth::toUser();
+
+        $this->job = new Job();
+
+        if (!$company) {
+
+            return false;
+        }
+
+        if (empty($request->title)) {
+
+            $errMessage = 'Title is required.';
+
+            $this->job->addError($errMessage);
+            $this->job->errorsDetail = ['title' => $errMessage];
+
+            return false;
+        }
+
+        $this->job->title = $request->title;
+        $this->job->created_by = $user->id;
+        $this->job->company_id = $request->id;
+        $this->job->is_template = true;
+
+        $this->job->save();
+
+        return $this->job;
+    }
+
+    public function viewJobTemplate( Request $request ) {
+
+        $company = Company::find($request->id);
+        $template = Job::where('id', $request->tid)
+            ->where('is_template', true)
+            ->first();
+
+        $this->job = new Job();
+
+        if (!$template || !$company) {
+
+            return false;
+        }
+
+        $this->job = $template;
+
+        return $this->job;
+    }
+
+    public function deleteTemplate( Request $request ) {
+        
+        $company = Company::find($request->id);
+        $template = Job::where('id', $request->tid)
+            ->where('is_template', true)
+            ->first();
+
+        $this->job = new Job();
+
+        if (!$template || !$company) {
+
+            return false;
+        }
+
+        $this->job = $template;
+
+        $this->job->delete();
+
+        return $this->job;
+    }
 }
