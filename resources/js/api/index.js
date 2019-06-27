@@ -143,12 +143,12 @@ class BuildLabourApi {
         await Axios.post(endpoint, input, Utils.getBearerAuth())
 
             .then(function(response) {
-                
-                Bus.$emit('alertSuccess', response.data.message);
+                console.log(response.data.message);
+                // Bus.$emit('alertSuccess', response.data.message);
             })
             .catch(function(error) {
-
-                Bus.$emit('alertError', error.response.data.message);
+                console.log(error.response.data.message);
+                // Bus.$emit('alertError', error.response.data.message);
 
                 Utils.handleError(error);
             });

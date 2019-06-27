@@ -78153,9 +78153,10 @@ function () {
                 component = this;
                 _context3.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(endpoint, input, Utils.getBearerAuth()).then(function (response) {
-                  Bus.$emit('alertSuccess', response.data.message);
+                  console.log(response.data.message); // Bus.$emit('alertSuccess', response.data.message);
                 }).catch(function (error) {
-                  Bus.$emit('alertError', error.response.data.message);
+                  console.log(error.response.data.message); // Bus.$emit('alertError', error.response.data.message);
+
                   Utils.handleError(error);
                 });
 
