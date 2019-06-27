@@ -131,14 +131,6 @@
                 component.max = component.$sections.length;
                 component.goToStep(1);
             }, 1);
-
-            Bus.$on('goToNext', function() {
-                if (component.step == component.nextButtons.length) {
-                    window.location.href = component.endpoints.profile;
-                }
-
-                component.goToStep(component.step + 1);
-            });
         },
 
         methods: {
