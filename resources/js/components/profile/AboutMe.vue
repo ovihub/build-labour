@@ -40,10 +40,15 @@
                     {{ gender }}
                 </span>
 
-                <div v-if="false">
+                <div v-if="editable">
                     <span class="bl-label-15 mt-2 pt-1" v-if="date_of_birth">Date of Birth</span>
                     <span class="bl-label-14">
                         {{ formatDate(date_of_birth) }}
+                    </span>
+
+                    <span class="bl-label-15 mt-2 pt-1" v-if="country_birth">Country of Birth</span>
+                    <span class="bl-label-14">
+                        {{ country_birth }}
                     </span>
                 </div>
 
@@ -90,6 +95,7 @@
     export default {
         data() {
             return {
+                editable: false,
                 disabled: false,
                 days: [],
                 months: Utils.getMonths(),
@@ -128,6 +134,10 @@
             Bus.$on('removeAboutMe', function() {
                 component.submit('clear');
             });
+
+            if (! parseInt(window.location.pathname.split('/').pop(), 10)) {
+                this.editable = true;
+            }
         },
 
         methods: {

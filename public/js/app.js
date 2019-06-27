@@ -9000,10 +9000,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      editable: false,
       disabled: false,
       days: [],
       months: Utils.getMonths(),
@@ -9038,6 +9044,10 @@ __webpack_require__.r(__webpack_exports__);
     Bus.$on('removeAboutMe', function () {
       component.submit('clear');
     });
+
+    if (!parseInt(window.location.pathname.split('/').pop(), 10)) {
+      this.editable = true;
+    }
   },
   methods: {
     setGeneralValues: function setGeneralValues(val, details) {
@@ -61979,8 +61989,36 @@ var render = function() {
             _vm._v("\n                " + _vm._s(_vm.gender) + "\n            ")
           ]),
           _vm._v(" "),
-          false
-            ? undefined
+          _vm.editable
+            ? _c("div", [
+                _vm.date_of_birth
+                  ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
+                      _vm._v("Date of Birth")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("span", { staticClass: "bl-label-14" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.formatDate(_vm.date_of_birth)) +
+                      "\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _vm.country_birth
+                  ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
+                      _vm._v("Country of Birth")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("span", { staticClass: "bl-label-14" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.country_birth) +
+                      "\n                "
+                  )
+                ])
+              ])
             : _vm._e(),
           _vm._v(" "),
           false
