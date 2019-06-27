@@ -717,6 +717,18 @@ class ApiWorkerController extends ApiBaseController
                 );
             }
 
+            if (!$user->workerDetail) {
+
+                $notAWorkerMsg = 'This user profile is not a worker';
+
+                return $this->apiErrorResponse(
+                    false,
+                    $notAWorkerMsg,
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    ['not_worker' => $notAWorkerMsg]
+                );
+            }
 
         } catch(\Exception $e) {
 
