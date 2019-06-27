@@ -230,7 +230,6 @@ class UserRepository extends AbstractRepository
             'no_of_workers',
             'operate_outside_states',
             'phone',
-            'photo_url',
             'states',
             'tier_id',
             'updated_at',
