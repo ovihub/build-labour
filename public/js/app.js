@@ -61158,7 +61158,7 @@ var render = function() {
       _vm._v(" "),
       _vm._l(_vm.tickets, function(ticket, idx) {
         return _c("div", { key: idx, staticClass: "emp-row" }, [
-          _c("span", [
+          _c("span", { staticClass: "ticket-label" }, [
             _vm._v(_vm._s(ticket.ticket) + " - " + _vm._s(ticket.description))
           ]),
           _vm._v(" "),
@@ -65524,7 +65524,7 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _vm.most_recent_role
-            ? _c("div", { staticClass: "bl-display" }, [
+            ? _c("div", [
                 _c("div", { staticClass: "bl-label-15" }, [
                   _vm._v(
                     "\n                    " +

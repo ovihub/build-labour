@@ -40,7 +40,7 @@
         </div>
 
         <div class="emp-row" v-for="(ticket, idx) in tickets" :key="idx">
-            <span>{{ ticket.ticket }} - {{ ticket.description }}</span>
+            <span class="ticket-label">{{ ticket.ticket }} - {{ ticket.description }}</span>
 
             <span class="remove-ticket-icon" @click="onDelete(idx)">
                 <img src="/img/icons/remove.png"

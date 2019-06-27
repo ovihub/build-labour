@@ -187,7 +187,7 @@
                 
                 <span class="profile-role-header mb-0" v-if="most_recent_role">Most Recent Role</span>
 
-                <div class="bl-display" v-if="most_recent_role">
+                <div v-if="most_recent_role">
                     <div class="bl-label-15">
                         {{ most_recent_role }}
                     </div>
