@@ -554,12 +554,12 @@
                         
                         Api.setToken(data.token);
 
-                        // if (data.user.company_photo) {
-                        //     Api.setNavAvatar('', data.user.company_photo);
+                        if (data.company.photo_url) {
+                            Api.setNavAvatar('', data.company.photo_url);
                             
-                        // } else {
-                        //     Api.setNavAvatar(Utils.getInitials(data.user.company_name), '');
-                        // }
+                        } else {
+                            Api.setNavAvatar(Utils.getInitials(data.company.name), '');
+                        }
 
                         window.location.href = component.endpoints.company_profile;
                     })

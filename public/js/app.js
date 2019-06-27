@@ -4107,11 +4107,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 6;
                 return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data.data;
-                  _api__WEBPACK_IMPORTED_MODULE_1__["default"].setToken(data.token); // if (data.user.company_photo) {
-                  //     Api.setNavAvatar('', data.user.company_photo);
-                  // } else {
-                  //     Api.setNavAvatar(Utils.getInitials(data.user.company_name), '');
-                  // }
+                  _api__WEBPACK_IMPORTED_MODULE_1__["default"].setToken(data.token);
+
+                  if (data.company.photo_url) {
+                    _api__WEBPACK_IMPORTED_MODULE_1__["default"].setNavAvatar('', data.company.photo_url);
+                  } else {
+                    _api__WEBPACK_IMPORTED_MODULE_1__["default"].setNavAvatar(Utils.getInitials(data.company.name), '');
+                  }
 
                   window.location.href = component.endpoints.company_profile;
                 }).catch(function (error) {
