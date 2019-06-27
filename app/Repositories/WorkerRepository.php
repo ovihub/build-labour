@@ -433,9 +433,14 @@ class WorkerRepository extends AbstractRepository
 
         $user = User::find($request->userid);
 
-        if (!$user || !$user->workerDetail) {
+        if (!$user) {
 
             return false;
+        }
+
+        if (!$user->workerDetail) {
+
+            return $user;
         }
 
         $exp = null;
