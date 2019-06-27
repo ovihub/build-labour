@@ -9,7 +9,7 @@
 				
 				<div class="modal-body mb-2">
                     <center>
-                        <div class="bl-label-16 mt-3" style="width:500px">
+                        <div class="mt-3" style="width:500px;font-size:16px;color:#000">
                             If you choose not to save, any changes you made
                             will be discarded. Are you sure you want to continue?
                         </div>

@@ -7899,26 +7899,26 @@ __webpack_require__.r(__webpack_exports__);
       disabled: false,
       sectors: [{
         id: 1,
-        name: 'Residential'
+        business_type: 'Residential'
       }, {
         id: 2,
-        name: 'Civil'
+        business_type: 'Commercial'
       }, {
         id: 3,
-        name: 'Commercial'
+        business_type: 'Civil'
       }],
       tiers: [{
         id: 1,
-        name: 'Tier 1'
+        tier_name: 'Tier 1'
       }, {
         id: 2,
-        name: 'Tier 2'
+        tier_name: 'Tier 2'
       }, {
         id: 3,
-        name: 'Tier 3'
+        tier_name: 'Tier 3'
       }, {
         id: 4,
-        name: 'Tier 4'
+        tier_name: 'Tier 4'
       }],
       input: {
         tiers: [],
@@ -7931,8 +7931,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var component = this;
-    Bus.$on('onboardingSubmitEmploymentHistory', function () {
-      _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
+    Bus.$on('onboardingSubmitEmploymentHistory', function (saveInput) {
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, saveInput ? saveInput : component.$data.input);
     });
   },
   methods: {
@@ -11114,6 +11114,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -11141,6 +11161,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       education_id: '',
       course: '',
       school: '',
+      sectors_list: [{
+        id: 1,
+        business_type: 'Residential'
+      }, {
+        id: 2,
+        business_type: 'Commercial'
+      }, {
+        id: 3,
+        business_type: 'Civil'
+      }],
+      tiers_list: [{
+        id: 1,
+        tier_name: 'Tier 1'
+      }, {
+        id: 2,
+        tier_name: 'Tier 2'
+      }, {
+        id: 3,
+        tier_name: 'Tier 3'
+      }, {
+        id: 4,
+        tier_name: 'Tier 4'
+      }],
       input: {
         profile_description: '',
         first_name: '',
@@ -11149,7 +11192,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         education_id: '',
         most_recent_role: '',
         exp_year: '',
-        exp_month: ''
+        exp_month: '',
+        tiers: [],
+        sectors: []
       },
       errors: {
         profile_description: '',
@@ -11159,7 +11204,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         education_id: '',
         most_recent_role: '',
         exp_year: '',
-        exp_month: ''
+        exp_month: '',
+        tiers: '',
+        sectors: ''
       },
       endpoints: {
         save: '/api/v1/worker/introduction',
@@ -11231,8 +11278,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       val.profile_description = details.profile_description;
       val.first_name = details.first_name;
       val.last_name = details.last_name;
-      val.sectors = details.sectors;
-      val.tiers = details.tiers;
       val.most_recent_role = details.most_recent_role;
       val.exp_year = details.exp_year;
       val.exp_month = details.exp_month;
@@ -11240,6 +11285,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       val.education_id = details.education_id;
       val.course = details.education ? details.education.course ? details.education.course.course_name : details.education.course_name : '';
       val.school = details.education ? details.education.school : '';
+
+      for (var i = 0; i < details.sectors.length; i++) {
+        val.sectors.push(details.sectors[i].id);
+      }
+
+      for (var _i = 0; _i < details.tiers.length; _i++) {
+        val.tiers.push(details.tiers[_i].id);
+      }
     },
     formatYearsExperience: function formatYearsExperience() {
       return (this.exp_year ? this.exp_year + (this.exp_year > 1 ? ' years' : ' year') : '') + (this.exp_year && this.exp_month ? ' and ' : '') + (this.exp_month ? this.exp_month + (this.exp_month > 1 ? ' months' : ' month') : '');
@@ -11317,11 +11370,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 component = this;
                 Utils.setObjectValues(this.errors, '');
                 this.disabled = true;
-                _context.next = 5;
+                _api__WEBPACK_IMPORTED_MODULE_1__["default"].submit('/api/v1/worker/sectors', {
+                  sectors: this.input.sectors,
+                  tiers: this.input.tiers
+                });
+                _context.next = 6;
                 return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalUserProfile').modal('hide');
                   component.setDisplayValues(component, data.data.introduction);
+                  component.sectors = [];
+                  component.tiers = [];
+
+                  var _loop = function _loop(i) {
+                    component.sectors.push(component.sectors_list.find(function (obj) {
+                      return obj['id'] == component.input.sectors[i];
+                    }));
+                  };
+
+                  for (var i = 0; i < component.input.sectors.length; i++) {
+                    _loop(i);
+                  }
+
+                  var _loop2 = function _loop2(i) {
+                    component.tiers.push(component.tiers_list.find(function (obj) {
+                      return obj['id'] == component.input.tiers[i];
+                    }));
+                  };
+
+                  for (var i = 0; i < component.input.tiers.length; i++) {
+                    _loop2(i);
+                  }
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -11334,10 +11413,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Utils.handleError(error);
                 });
 
-              case 5:
+              case 6:
                 this.disabled = false;
 
-              case 6:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -56027,8 +56106,12 @@ var render = function() {
                 _c(
                   "div",
                   {
-                    staticClass: "bl-label-16 mt-3",
-                    staticStyle: { width: "500px" }
+                    staticClass: "mt-3",
+                    staticStyle: {
+                      width: "500px",
+                      "font-size": "16px",
+                      color: "#000"
+                    }
                   },
                   [
                     _vm._v(
@@ -60093,7 +60176,7 @@ var render = function() {
               staticStyle: { width: "125px" },
               attrs: { for: "sector-styled-checkbox-" + index }
             },
-            [_vm._v(_vm._s(sector.name))]
+            [_vm._v(_vm._s(sector.business_type))]
           )
         ])
       }),
@@ -60150,7 +60233,7 @@ var render = function() {
             }),
             _vm._v(" "),
             _c("label", { attrs: { for: "tier-styled-checkbox-" + index } }, [
-              _vm._v(_vm._s(tier.name))
+              _vm._v(_vm._s(tier.tier_name))
             ])
           ]
         )
@@ -64920,7 +65003,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "me-label" }, [
                     _vm._v(
-                      "\n                        What is your current or most recent role/title?\n                    "
+                      "\n                        Most Recent Role\n                    "
                     )
                   ]),
                   _vm._v(" "),
@@ -65064,8 +65147,153 @@ var render = function() {
                         }
                       })
                     ])
-                  ])
-                ]
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "skill-label" }, [
+                    _vm._v(
+                      "\n                        I have worked in the following areas of construction\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.sectors_list, function(sector, index) {
+                    return _c("div", { key: index, staticClass: "bl-inline" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.sectors,
+                            expression: "input.sectors"
+                          }
+                        ],
+                        staticClass: "styled-checkbox",
+                        attrs: {
+                          id: "sector-styled-checkbox-" + index,
+                          type: "checkbox"
+                        },
+                        domProps: {
+                          value: sector.id,
+                          checked: Array.isArray(_vm.input.sectors)
+                            ? _vm._i(_vm.input.sectors, sector.id) > -1
+                            : _vm.input.sectors
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.input.sectors,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = sector.id,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(
+                                    _vm.input,
+                                    "sectors",
+                                    $$a.concat([$$v])
+                                  )
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    _vm.input,
+                                    "sectors",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
+                            } else {
+                              _vm.$set(_vm.input, "sectors", $$c)
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticStyle: { width: "125px" },
+                          attrs: { for: "sector-styled-checkbox-" + index }
+                        },
+                        [_vm._v(_vm._s(sector.business_type))]
+                      )
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "skill-label" }, [
+                    _vm._v(
+                      "\n                        In the following Tiers\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.tiers_list, function(tier, index) {
+                    return _c(
+                      "div",
+                      {
+                        key: index + _vm.sectors_list.length,
+                        staticClass: "bl-inline"
+                      },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.tiers,
+                              expression: "input.tiers"
+                            }
+                          ],
+                          staticClass: "styled-checkbox",
+                          attrs: {
+                            id: "tier-styled-checkbox-" + index,
+                            type: "checkbox"
+                          },
+                          domProps: {
+                            value: tier.id,
+                            checked: Array.isArray(_vm.input.tiers)
+                              ? _vm._i(_vm.input.tiers, tier.id) > -1
+                              : _vm.input.tiers
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$a = _vm.input.tiers,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = tier.id,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 &&
+                                    _vm.$set(
+                                      _vm.input,
+                                      "tiers",
+                                      $$a.concat([$$v])
+                                    )
+                                } else {
+                                  $$i > -1 &&
+                                    _vm.$set(
+                                      _vm.input,
+                                      "tiers",
+                                      $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1))
+                                    )
+                                }
+                              } else {
+                                _vm.$set(_vm.input, "tiers", $$c)
+                              }
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          { attrs: { for: "tier-styled-checkbox-" + index } },
+                          [_vm._v(_vm._s(tier.tier_name))]
+                        )
+                      ]
+                    )
+                  })
+                ],
+                2
               )
             ]),
             _vm._v(" "),
