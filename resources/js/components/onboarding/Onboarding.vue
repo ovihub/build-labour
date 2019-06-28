@@ -203,4 +203,38 @@
     button {
         width: 200px;
     }
+    @media (max-width: 460px) {
+        .modal-footer {
+            text-align: center;
+        }
+        button {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+    }
+    @media (width: 320px) {
+        li {
+            width: 280px;
+        }
+    }
+    @media (width: 360px) {
+        li {
+            width: 320px;
+        }
+    }
+    @media (width: 375px) {
+        li {
+            width: 335px;
+        }
+    }
+    @media (width: 411px) {
+        li {
+            width: 371px;
+        }
+    }
+    @media (width: 414px) {
+        li {
+            width: 374px;
+        }
+    }
 </style>

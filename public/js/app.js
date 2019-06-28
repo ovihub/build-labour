@@ -19735,7 +19735,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nli[data-v-d6666418] {\n    width: 565px;\n}\nbutton[data-v-d6666418] {\n    width: 200px;\n}\n", ""]);
+exports.push([module.i, "\nli[data-v-d6666418] {\n    width: 565px;\n}\nbutton[data-v-d6666418] {\n    width: 200px;\n}\n@media (max-width: 460px) {\n.modal-footer[data-v-d6666418] {\n        text-align: center;\n}\nbutton[data-v-d6666418] {\n        width: 100%;\n        margin-bottom: 20px;\n}\n}\n@media (width: 320px) {\nli[data-v-d6666418] {\n        width: 280px;\n}\n}\n@media (width: 360px) {\nli[data-v-d6666418] {\n        width: 320px;\n}\n}\n@media (width: 375px) {\nli[data-v-d6666418] {\n        width: 335px;\n}\n}\n@media (width: 411px) {\nli[data-v-d6666418] {\n        width: 371px;\n}\n}\n@media (width: 414px) {\nli[data-v-d6666418] {\n        width: 374px;\n}\n}\n", ""]);
 
 // exports
 
@@ -83273,6 +83273,9 @@ window.Helper = {
       }
 
       return years;
+    },
+    redirectToProfile: function redirectToProfile() {
+      window.location = '/user/profile';
     },
     redirectToUserProfile: function redirectToUserProfile(user_id) {
       window.location = '/user/profile/' + user_id;

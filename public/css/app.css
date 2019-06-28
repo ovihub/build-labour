@@ -16801,7 +16801,7 @@ p.bl-nav-tab-label {
 .ticket-col-left {
   flex: 0 0 77.5%;
   max-width: 77.5%;
-  margin-right: 12px;
+  margin-right: 2%;
 }
 
 .ticket-col-right {

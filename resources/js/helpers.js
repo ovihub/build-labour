@@ -203,6 +203,10 @@ window.Helper = {
             return years;
         },
 
+        redirectToProfile() {
+            window.location = '/user/profile';
+        },
+
         redirectToUserProfile(user_id) {
             window.location = '/user/profile/' + user_id;
         },
