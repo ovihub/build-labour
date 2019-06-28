@@ -15,10 +15,10 @@ class AddColumnsToWorkerDetailsTable extends Migration
     {
         Schema::table('worker_details', function (Blueprint $table) {
 
-            $table->boolean('has_tfn')->unsigned()->default(false);
-            $table->boolean('has_abn')->unsigned()->default(false);
-            $table->boolean('has_whitecard')->unsigned()->default(false);
-            $table->boolean('willing_to_relocate')->default(0);
+            $table->boolean('has_tfn')->unsigned()->nullable();
+            $table->boolean('has_abn')->unsigned()->nullable();
+            $table->boolean('has_whitecard')->unsigned()->nullable();
+            $table->boolean('willing_to_relocate')->unsigned()->nullable();
 
             $table->string('most_recent_role')->nullable();
             $table->string('suburb')->nullable();

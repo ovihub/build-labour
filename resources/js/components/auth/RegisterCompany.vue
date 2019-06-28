@@ -126,7 +126,7 @@
                         <div class="bl-col-1">
                             <div class="comp-logo">
                                 <img v-if="input.company_photo" class="bl-image-100" :src="input.company_photo">
-                                <img v-else class="bl-image-100" style="padding:15px"
+                                <img v-else class="bl-image-100" style="padding:15px" alt="' logo.jpg"
                                     src="/img/icons/uploadlogo.jpg"
                                     srcset="/img/icons/uploadlogo@2x.png 2x, /img/icons/uploadlogo@3x.png 3x">
                             </div>
@@ -554,12 +554,12 @@
                         
                         Api.setToken(data.token);
 
-                        // if (data.user.company_photo) {
-                        //     Api.setNavAvatar('', data.user.company_photo);
+                        if (data.company.photo_url) {
+                            Api.setNavAvatar('', data.company.photo_url);
                             
-                        // } else {
-                        //     Api.setNavAvatar(Utils.getInitials(data.user.company_name), '');
-                        // }
+                        } else {
+                            Api.setNavAvatar(Utils.getInitials(data.company.name), '');
+                        }
 
                         window.location.href = component.endpoints.company_profile;
                     })

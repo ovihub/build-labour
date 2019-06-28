@@ -228,6 +228,16 @@ class WorkerRepository extends AbstractRepository
             return false;
         }
 
+        if (isset($request->sectors) && empty($request->sectors)) {
+
+            WorkerArea::where('worker_id', $user->workerDetail->id)->delete();
+        }
+
+        if (isset($request->tiers) && empty($request->tiers)) {
+            
+            WorkerTier::where('worker_id', $user->workerDetail->id)->delete();
+        }
+
         if (!empty($request->sectors)) {
 
             WorkerArea::where('worker_id', $user->workerDetail->id)->delete();
@@ -299,58 +309,58 @@ class WorkerRepository extends AbstractRepository
             return false;
         }
 
-        if ($request->right_to_work) {
+        if (isset($request->right_to_work)) {
 
-            $user->workerDetail->right_to_work = true;
+            $user->workerDetail->right_to_work = $request->right_to_work;
 
         } else {
 
-            $user->workerDetail->right_to_work = false;
+            $user->workerDetail->right_to_work = NULL;
         }
 
-        if ($request->has_tfn) {
+        if (isset($request->has_tfn)) {
 
-            $user->workerDetail->has_tfn = true;
+            $user->workerDetail->has_tfn = $request->has_tfn;
 
         } else {
 
-            $user->workerDetail->has_tfn = false;
+            $user->workerDetail->has_tfn = NULL;
         }
 
-        if ($request->has_abn) {
+        if (isset($request->has_abn)) {
 
-            $user->workerDetail->has_abn = true;
+            $user->workerDetail->has_abn = $request->has_abn;
 
         } else {
 
-            $user->workerDetail->has_abn = false;
+            $user->workerDetail->has_abn = NULL;
         }
 
-        if ($request->english_skill) {
+        if (isset($request->english_skill)) {
 
-            $user->workerDetail->english_skill = true;
+            $user->workerDetail->english_skill = $request->english_skill;
 
         } else {
 
-            $user->workerDetail->english_skill = false;
+            $user->workerDetail->english_skill = NULL;
         }
 
-        if ($request->drivers_license) {
+        if (isset($request->drivers_license)) {
 
-            $user->workerDetail->drivers_license = true;
+            $user->workerDetail->drivers_license = $request->drivers_license;
 
         } else {
 
-            $user->workerDetail->drivers_license = false;
+            $user->workerDetail->drivers_license = NULL;
         }
 
-        if ($request->has_registered_vehicle) {
+        if (isset($request->has_registered_vehicle)) {
 
-            $user->workerDetail->has_registered_vehicle = true;
+            $user->workerDetail->has_registered_vehicle = $request->has_registered_vehicle;
 
         } else {
 
-            $user->workerDetail->has_registered_vehicle = false;
+            $user->workerDetail->has_registered_vehicle = NULL;
         }
 
         $user->workerDetail->save();
@@ -385,19 +395,31 @@ class WorkerRepository extends AbstractRepository
             return false;
         }
 
-        if ($request->country_birth) {
+        if (isset($request->country_birth)) {
 
             $user->country_birth = $request->country_birth;
+        
+        } else {
+
+            $user->country_birth = NULL;
         }
 
-        if ($request->gender) {
+        if (isset($request->gender)) {
 
             $user->gender = $request->gender;
+        
+        } else {
+
+            $user->gender = NULL;
         }
 
-        if ($request->date_of_birth) {
+        if (isset($request->date_of_birth)) {
 
             $user->date_of_birth = Carbon::parse($request->date_of_birth);
+        
+        } else {
+
+            $user->date_of_birth = NULL;
         }
 
         $user->save();
@@ -411,9 +433,14 @@ class WorkerRepository extends AbstractRepository
 
         $user = User::find($request->userid);
 
-        if (!$user || !$user->workerDetail) {
+        if (!$user) {
 
             return false;
+        }
+
+        if (!$user->workerDetail) {
+
+            return $user;
         }
 
         $exp = null;

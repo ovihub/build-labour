@@ -11,7 +11,7 @@
             <input :id="'sector-styled-checkbox-'+index" class="styled-checkbox" type="checkbox"
                 :value="sector.id" v-model="input.sectors" />
 
-            <label :for="'sector-styled-checkbox-'+index" style="width:125px">{{ sector.name }}</label>
+            <label :for="'sector-styled-checkbox-'+index" style="width:125px">{{ sector.business_type }}</label>
         </div>
 
         <div class="skill-label">
@@ -21,7 +21,7 @@
             <input :id="'tier-styled-checkbox-'+index" class="styled-checkbox" type="checkbox"
                 :value="tier.id" v-model="input.tiers" />
 
-            <label :for="'tier-styled-checkbox-'+index">{{ tier.name }}</label>
+            <label :for="'tier-styled-checkbox-'+index">{{ tier.tier_name }}</label>
         </div>
 
         <div class="btn btn-link btn-delete mt-3"
@@ -48,15 +48,15 @@
             return {
                 disabled: false,
                 sectors: [
-                    { id: 1, name: 'Residential' },
-                    { id: 2, name: 'Civil' },
-                    { id: 3, name: 'Commercial' },
+                    { id: 1, business_type: 'Residential' },
+                    { id: 2, business_type: 'Commercial' },
+                    { id: 3, business_type: 'Civil' },
                 ],
                 tiers: [
-                    { id: 1, name: 'Tier 1' },
-                    { id: 2, name: 'Tier 2' },
-                    { id: 3, name: 'Tier 3' },
-                    { id: 4, name: 'Tier 4' },
+                    { id: 1, tier_name: 'Tier 1' },
+                    { id: 2, tier_name: 'Tier 2' },
+                    { id: 3, tier_name: 'Tier 3' },
+                    { id: 4, tier_name: 'Tier 4' },
                 ],
                 input: {
                     tiers: [], sectors: [],
@@ -70,8 +70,8 @@
         created() {
             let component = this;
 
-            Bus.$on('onboardingSubmitEmploymentHistory', function() {
-                Api.submit(component.endpoints.save, component.$data.input);
+            Bus.$on('onboardingSubmitEmploymentHistory', function(saveInput) {
+                Api.submit(component.endpoints.save, saveInput ? saveInput : component.$data.input);
             });
         },
 

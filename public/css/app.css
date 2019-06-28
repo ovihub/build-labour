@@ -16810,6 +16810,11 @@ p.bl-nav-tab-label {
   max-width: 20%;
 }
 
+.ticket-label {
+  color: #000;
+  width: 95%;
+}
+
 .role-col-left {
   flex: 0 0 47.5%;
   max-width: 47.5%;

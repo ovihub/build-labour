@@ -11,83 +11,19 @@
                     </template>
 
                     <template slot="custom-modal-content">
-                        <form class="modal-form" method="POST" @submit.prevent="submit">
-                            <div class="skill-label">
-                                What is your ideal next role?
-                            </div>
-                            
-                            <textarea rows="3" ref="idealIntro" class="form-control" style="overflow:hidden"
-                                placeholder="Example: My ideal next role would be as a qualified plumber working on high-end residential jobs with an awesome team."
-                                @keyup="textAreaAdjust('idealIntro')" v-model="input.introduction"></textarea>
-                            
-                            <div class="skill-label" style="margin-bottom:0">
-                                When could this happen?
-                            </div>
-                            <div class="emp-row row-center" style="margin-top:17px">
-                                <div class="role-col-left">
-                                    <input class="form-control" type="text" placeholder="Enter number of Months" v-model="input.when" />
-                                </div>
-                                <div class="role-col-right">
-                                    <label style="margin-bottom:0">{{ formatWhenMonth(input.when) }}</label>
-                                </div>
-                            </div>
 
-                            <div class="skill-label">
-                                Maximum Distance from home
-                            </div>
-                            <div class="emp-row-2 row-center">
-                                <div class="emp-col-left-2">
-                                    <div class="bl-slider">
-                                        <input type="range" min="0" max="500" step="5" class="slider" :style="maxDistance" v-model="input.max_distance">
-                                    </div>
-                                </div>
-                                <div class="emp-col-right-2">
-                                    <label>
-                                        {{ input.max_distance }} km
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="skill-label">
-                                Would you work/relocate to another state? If Yes, tick states that apply.
-                            </div>
-                            <div class="skill-label-2">
-                                Relocation may be at own expense.
-                            </div>
-
-                            <div class="bl-inline" v-for="(state, index) in states" :key="index">
-                                <input class="styled-checkbox" :id="'styled-checkbox-'+index" type="checkbox"
-                                    v-bind:value="state" v-model="input.selected" />
-                                <label :for="'styled-checkbox-'+index">{{ state }}</label>
-                            </div>
-
-                            <div class="skill-label">
-                                I have the right to legally work in Australia
-                            </div>
-                            <div class="skill-label-3">
-                                See legal requirements
-                            </div>
-                            <div class="bl-inline">
-                                <input class="styled-checkbox-round" id="styled-checkbox-yes" type="checkbox"
-                                    ref="styled-checkbox-1"
-                                    @change="formatRightToWork(1)" />
-                                <label for="styled-checkbox-yes">Yes</label>
-                                
-                                <input class="styled-checkbox-round" id="styled-checkbox-no" type="checkbox"
-                                    ref="styled-checkbox-0"
-                                    @change="formatRightToWork(0)" />
-                                <label for="styled-checkbox-no">No</label>
-                            </div>
-                        </form>
+                        <work-preferences></work-preferences>
+                        
                     </template>
 
                     <template slot="custom-modal-footer">
                         <div class="btn btn-link btn-delete" data-dismiss="modal" @click="deleteRecord"
-                            v-if="introduction || when || max_distance || state || right_to_work || selected.length != 0">
+                            v-if="introduction || when || max_distance || state || countries || 
+                                  selected.length != 0 || selected_countries.length != 0">
                             Delete
                         </div>
 
-                        <button class="pull-right" type="submit" @click="submit" :disabled="disabled">
+                        <button class="pull-right" type="submit" @click="submit">
                             Save Changes
                         </button>
                     </template>
@@ -126,10 +62,10 @@
                     </span>
                 </div>
 
-                <div v-if="right_to_work">
-                    <span class="bl-label-15">Right to Work</span>
-                    <span class="bl-label-14">
-                        {{ right_to_work }}
+                <div v-if="countries">
+                    <span class="bl-label-15">Willing to relocate overseas</span>
+                    <span v-for="(c, index) in selected_countries" :key="index" class="bl-label-14">
+                        {{ c }}
                     </span>
                 </div>
             </div>
@@ -141,22 +77,16 @@
     export default {
         data() {
             return {
-                disabled: false,
                 introduction: '',
                 when: '',
                 max_distance: '',
                 state: '',
-                right_to_work: '',
+                countries: '',
                 selected: [],
+                selected_countries: [],
                 states: [
                     'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
                 ],
-                input: { 
-                    introduction: '', when: '', max_distance: '', state: '', right_to_work: '', selected: [],
-                },
-                endpoints: {
-                    save: '/api/v1/worker/next-role',
-                },
             }
         },
 
@@ -173,45 +103,24 @@
                 
                 Bus.$on('idealRoleDetails', function(details) {
                     if (details) {
-                        component.setValues(component, details);
-                        component.setValues(component.input, details);
+                        component.introduction = details.introduction;
+                        component.when = details.when;
+                        component.max_distance = details.max_distance && details.max_distance != '' ? details.max_distance : 0;
+                        component.willing_to_relocate = details.willing_to_relocate;
+                        component.state = details.state;
+                        component.countries = details.countries;
+                        component.selected = component.state ? component.state.split(',') : [];
+                        component.selected_countries = component.countries ? component.countries.split(',') : [];
                     }
                 });
 
                 Bus.$on('removeIdealRole', function() {
-                    Utils.setObjectValues(component.input, null);
-
                     component.submit('clear');
                 });
             }
         },
 
-        computed: {
-            maxDistance() {
-                return {
-                    background: `linear-gradient(to right, #ff7705 ${(this.input.max_distance / 500) * 100}%, #ff7705 ${(this.input.max_distance / 500) * 100}%, #fff 00%, #fff 100%)`
-                }
-            },
-        },
-
         methods: {
-
-            setValues(val, details) {
-                val.introduction = details.introduction;
-                val.when = details.when;
-                val.max_distance = details.max_distance && details.max_distance != '' ? details.max_distance : 0;
-                val.state = details.state;
-                val.selected = val.state ? val.state.split(',') : [];
-
-                if (! Utils.isNullOrEmpty(details.right_to_work)) {
-                    val.right_to_work = details.right_to_work == 1 ? 
-                        'Yes, I have right to work in Australia' : 'No, I don\'t have right to work in Australia';
-                } else {
-                    val.right_to_work = null;
-                }
-
-                this.formatRightToWork(details.right_to_work);
-            },
 
             formatWhen(m) {
                 return (m == 1) ? 'In 1 month' : 'In ' + m + ' months';
@@ -226,25 +135,8 @@
                 }
             },
 
-            formatRightToWork(index) {
-                if (index == 1) {
-                    this.$refs['styled-checkbox-1'].checked = true;
-                    this.$refs['styled-checkbox-0'].checked = false;
-                    this.input.right_to_work = 1;
-
-                } else if (index == 0) {
-                    this.$refs['styled-checkbox-1'].checked = false;
-                    this.$refs['styled-checkbox-0'].checked = true;
-                    this.input.right_to_work = 0;
-                } else {
-                    this.$refs['styled-checkbox-1'].checked = false;
-                    this.$refs['styled-checkbox-0'].checked = false;
-                    this.input.right_to_work = null;
-                }
-            },
-
             close() {
-                this.setValues(this.input, this);
+
             },
             
             textAreaAdjust(refName) {
@@ -257,34 +149,10 @@
                 Bus.$emit('deleteIdealRole');
             },
 
-            async submit(action = 0) {
-                let component = this;
+            submit(action = 0) {
+                $('#modalIdealRole').modal('hide');
 
-                if (action !== 'clear') {
-                    component.input.state = component.input.selected.toString();
-                }
-                
-                this.disabled = true;
-
-                await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
-                    
-                    .then(function(response) {
-                        let data = response.data;
-                        
-                        $('#modalIdealRole').modal('hide');
-                        
-                        component.setValues(component, data.data.worker_detail);
-
-                        if (action === 'clear') {
-                            component.setValues(component.input, data.data.worker_detail);
-                        }
-                    })
-                    .catch(function(error) {
-
-                        Utils.handleError(error);
-                    });
-                
-                this.disabled = false;
+                Bus.$emit('onboardingSubmitWorkPreferences', action);
             },
         }
     }

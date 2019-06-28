@@ -164,7 +164,7 @@ class UsersTableSeeder extends Seeder
                 'right_to_work' => true,
                 'main_skill' => 'Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline.',
                 'introduction' => 'My ideal next role would be as a qualified plumber working on high-end residential jobs with an awesome team. ',
-                'when' => 5,
+                'when' => 6,
                 'max_distance' => 100,
                 'state' => 'VIC,NSW,TAS',
                 'nrole_right_to_work_au' => true,

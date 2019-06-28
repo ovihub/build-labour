@@ -4107,11 +4107,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 6;
                 return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data.data;
-                  _api__WEBPACK_IMPORTED_MODULE_1__["default"].setToken(data.token); // if (data.user.company_photo) {
-                  //     Api.setNavAvatar('', data.user.company_photo);
-                  // } else {
-                  //     Api.setNavAvatar(Utils.getInitials(data.user.company_name), '');
-                  // }
+                  _api__WEBPACK_IMPORTED_MODULE_1__["default"].setToken(data.token);
+
+                  if (data.company.photo_url) {
+                    _api__WEBPACK_IMPORTED_MODULE_1__["default"].setNavAvatar('', data.company.photo_url);
+                  } else {
+                    _api__WEBPACK_IMPORTED_MODULE_1__["default"].setNavAvatar(Utils.getInitials(data.company.name), '');
+                  }
 
                   window.location.href = component.endpoints.company_profile;
                 }).catch(function (error) {
@@ -4732,6 +4734,68 @@ __webpack_require__.r(__webpack_exports__);
       if (this.companyId) {
         Utils.redirectToCompanyProfile(this.companyId);
       }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/ConfirmModal.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/ConfirmModal.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {};
+  },
+  created: function created() {
+    var component = this;
+    Bus.$on('', function () {});
+  },
+  methods: {
+    proceed: function proceed() {
+      $('#confirmModal').modal('hide');
+      Bus.$emit('goToNext');
+    },
+    cancel: function cancel() {
+      $('#confirmModal').modal('hide');
     }
   }
 });
@@ -7698,12 +7762,19 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
+  props: {
+    mostRecentRole: {
+      type: String,
+      required: false
+    }
+  },
   created: function created() {
     var component = this;
     Bus.$on('onboardingSubmitCurrentRole', function () {
       // if (! Utils.checkIfObjectIsEmpty(component.input)) {
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input); // }
     });
+    this.input.most_recent_role = this.mostRecentRole;
   },
   methods: {
     onSearchJob: function onSearchJob(keyword) {
@@ -7830,26 +7901,26 @@ __webpack_require__.r(__webpack_exports__);
       disabled: false,
       sectors: [{
         id: 1,
-        name: 'Residential'
+        business_type: 'Residential'
       }, {
         id: 2,
-        name: 'Civil'
+        business_type: 'Commercial'
       }, {
         id: 3,
-        name: 'Commercial'
+        business_type: 'Civil'
       }],
       tiers: [{
         id: 1,
-        name: 'Tier 1'
+        tier_name: 'Tier 1'
       }, {
         id: 2,
-        name: 'Tier 2'
+        tier_name: 'Tier 2'
       }, {
         id: 3,
-        name: 'Tier 3'
+        tier_name: 'Tier 3'
       }, {
         id: 4,
-        name: 'Tier 4'
+        tier_name: 'Tier 4'
       }],
       input: {
         tiers: [],
@@ -7862,8 +7933,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var component = this;
-    Bus.$on('onboardingSubmitEmploymentHistory', function () {
-      _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
+    Bus.$on('onboardingSubmitEmploymentHistory', function (saveInput) {
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, saveInput ? saveInput : component.$data.input);
     });
   },
   methods: {
@@ -7932,6 +8003,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -7951,6 +8024,12 @@ __webpack_require__.r(__webpack_exports__);
         profile: '/user/profile'
       }
     };
+  },
+  props: {
+    mostRecentRole: {
+      type: String,
+      required: false
+    }
   },
   computed: {
     isFirstStep: function isFirstStep() {
@@ -7973,23 +8052,28 @@ __webpack_require__.r(__webpack_exports__);
       component.max = component.$sections.length;
       component.goToStep(1);
     }, 1);
+    Bus.$on('goToNext', function () {
+      if (component.step == component.nextButtons.length) {
+        window.location.href = component.endpoints.profile;
+      }
+
+      component.goToStep(component.step + 1);
+    });
   },
   methods: {
     next: function next() {
       Bus.$emit('alertHide');
 
-      if (this.step == this.nextButtons.length) {
-        window.location.href = this.endpoints.profile;
-      } else {
-        // if (this.saved) {
+      if (this.saved) {
+        if (this.step == this.nextButtons.length) {
+          window.location.href = this.endpoints.profile;
+        }
+
         this.saved = false;
         this.goToStep(this.step + 1);
-      } // else {
-      // TODO: Add modal here to confirm to continue without saving changes
-      // If Yes, saved = true
-      // If No/Cancel, saved = false
-      // }
-
+      } else {
+        $('#confirmModal').modal('show');
+      }
     },
     submit: function submit() {
       this.saved = true;
@@ -8120,14 +8204,41 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var component = this;
-    Bus.$on('onboardingSubmitPersonalDetails', function () {
-      component.input.date_of_birth = component.birthYear + '-' + component.birthMonth + '-' + component.birthDay;
+    Bus.$on('aboutMeGeneralDetails', function (details) {
+      if (details) {
+        component.input.gender = details.gender;
+        component.input.date_of_birth = details.date_of_birth;
+        component.input.country_birth = details.country_birth;
 
-      if (!component.birthYear && !component.birthMonth && !component.birthDay) {
-        component.input.date_of_birth = '';
+        if (!Utils.isNullOrEmpty(details.date_of_birth)) {
+          var d = new Date(details.date_of_birth);
+          component.birthDay = d.getDate();
+          component.birthMonth = d.getMonth() + 1;
+          component.birthYear = d.getFullYear();
+          component.days = Utils.getDaysInMonth(component.birthMonth, component.birthYear);
+        } else {
+          var _d = new Date();
+
+          component.birthDay = _d.getDate();
+          component.birthMonth = _d.getMonth() + 1;
+          component.birthYear = _d.getFullYear() - 18;
+          component.days = Utils.getDaysInMonth(component.birthMonth, component.birthYear);
+        }
+      }
+    });
+    Bus.$on('onboardingSubmitPersonalDetails', function (action) {
+      if (action == 'clear') {
+        Utils.setObjectValues(component.input, null);
+      } else {
+        component.input.date_of_birth = component.birthYear + '-' + component.birthMonth + '-' + component.birthDay;
+
+        if (!component.birthYear && !component.birthMonth && !component.birthDay) {
+          component.input.date_of_birth = '';
+        }
       }
 
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
+      Bus.$emit('aboutMeGeneralDetails', component.input);
     });
     this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
     Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_0__["default"].getCountries()).then(function (data) {
@@ -8381,7 +8492,7 @@ __webpack_require__.r(__webpack_exports__);
       component.tickets = detailsArray;
       component.formatCheckbox('has_whitecard', detail);
     });
-    Bus.$on('submitTickets', function () {
+    Bus.$on('onboardingSubmitTickets', function () {
       var saveInput = {
         tickets: component.tickets.map(function (ticket) {
           return {
@@ -8440,7 +8551,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     formatCheckbox: function formatCheckbox(refName, value) {
       Utils.formatCheckbox(this.$refs, null, refName, value);
-      this.has_whitecard = value; // if (value == 0) {
+      this.has_whitecard = value == 1 || value == 0 ? value : null; // if (value == 0) {
       //     this.tickets = [];
       // }
     }
@@ -8575,8 +8686,29 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var component = this;
-    Bus.$on('onboardingSubmitWorkInformation', function () {
+    Bus.$on('aboutMeTechnicalDetails', function (details) {
+      if (details) {
+        component.input.right_to_work = details.right_to_work;
+        component.input.has_tfn = details.has_tfn;
+        component.input.has_abn = details.has_abn;
+        component.input.english_skill = details.english_skill;
+        component.input.drivers_license = details.drivers_license;
+        component.input.has_registered_vehicle = details.has_registered_vehicle;
+        component.formatCheckbox('right_to_work', details.right_to_work);
+        component.formatCheckbox('has_tfn', details.has_tfn);
+        component.formatCheckbox('has_abn', details.has_abn);
+        component.formatCheckbox('english_skill', details.english_skill);
+        component.formatCheckbox('drivers_license', details.drivers_license);
+        component.formatCheckbox('has_registered_vehicle', details.has_registered_vehicle);
+      }
+    });
+    Bus.$on('onboardingSubmitWorkInformation', function (action) {
+      if (action == 'clear') {
+        Utils.setObjectValues(component.input, null);
+      }
+
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
+      Bus.$emit('aboutMeTechnicalDetails', component.input);
     });
   },
   methods: {
@@ -8699,7 +8831,8 @@ __webpack_require__.r(__webpack_exports__);
         introduction: '',
         when: '',
         willing_to_relocate: '',
-        countries: []
+        countries: '',
+        selected_countries: []
       },
       errors: {
         max_distance: '',
@@ -8716,9 +8849,29 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var component = this;
-    Bus.$on('onboardingSubmitWorkPreferences', function () {
-      component.input.state = component.input.selected.toString();
+    Bus.$on('idealRoleDetails', function (details) {
+      if (details) {
+        component.input.introduction = details.introduction;
+        component.input.when = details.when;
+        component.input.max_distance = details.max_distance && details.max_distance != '' ? details.max_distance : 0;
+        component.input.willing_to_relocate = details.willing_to_relocate;
+        component.input.state = details.state;
+        component.input.countries = details.countries;
+        component.input.selected = component.input.state ? component.input.state.split(',') : [];
+        component.input.selected_countries = component.input.countries ? component.input.countries.split(',') : [];
+        component.formatCheckbox('willing_to_relocate', details.willing_to_relocate);
+      }
+    });
+    Bus.$on('onboardingSubmitWorkPreferences', function (action) {
+      if (action == 'clear') {
+        Utils.setObjectValues(component.input, null);
+      } else {
+        component.input.state = component.input.selected.toString();
+        component.input.countries = component.input.selected_countries.length > 0 ? component.input.selected_countries.toString() : null;
+      }
+
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].submit(component.endpoints.save, component.$data.input);
+      Bus.$emit('idealRoleDetails', component.input);
     });
     this.getCountries();
   },
@@ -8735,6 +8888,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     formatCheckbox: function formatCheckbox(refName, value) {
       Utils.formatCheckbox(this.$refs, this.input, refName, value);
+
+      if (!value) {
+        this.input.selected_countries = [];
+      }
     },
     getCountries: function getCountries() {
       var component = this;
@@ -8756,140 +8913,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
@@ -8985,6 +9009,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      editable: false,
       disabled: false,
       days: [],
       months: Utils.getMonths(),
@@ -8992,65 +9017,50 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       birthDay: '',
       birthMonth: '',
       birthYear: '',
-      countries: [],
       gender: '',
       date_of_birth: '',
       country_birth: '',
       marital_status: '',
+      right_to_work: '',
       has_tfn: '',
       has_abn: '',
       english_skill: '',
       drivers_license: '',
-      has_registered_vehicle: '',
-      input: {
-        gender: '',
-        date_of_birth: '',
-        country_birth: '',
-        marital_status: '',
-        has_tfn: '',
-        has_abn: '',
-        english_skill: '',
-        drivers_license: '',
-        has_registered_vehicle: ''
-      },
-      errors: {
-        gender: '',
-        date_of_birth: '',
-        country_birth: '',
-        marital_status: '',
-        has_tfn: '',
-        has_abn: '',
-        english_skill: '',
-        drivers_license: '',
-        has_registered_vehicle: ''
-      },
-      endpoints: {
-        save: '/api/v1/worker/optional'
-      }
+      has_registered_vehicle: ''
     };
   },
   created: function created() {
     var component = this;
-    Bus.$on('aboutMeDetails', function (details) {
+    Bus.$on('aboutMeGeneralDetails', function (details) {
       if (details) {
-        component.setValues(component, details);
-        component.setValues(component.input, details);
+        component.setGeneralValues(component, details);
+      }
+    });
+    Bus.$on('aboutMeTechnicalDetails', function (details) {
+      if (details) {
+        component.setTechnicalValues(component, details);
       }
     });
     Bus.$on('removeAboutMe', function () {
-      Utils.setObjectValues(component.input, null);
       component.submit('clear');
     });
-    Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCountries()).then(function (data) {
-      component.countries = data.data.countries;
-    });
+
+    if (!parseInt(window.location.pathname.split('/').pop(), 10)) {
+      this.editable = true;
+    }
   },
   methods: {
-    setValues: function setValues(val, details) {
+    setGeneralValues: function setGeneralValues(val, details) {
       val.gender = details.gender;
       val.date_of_birth = details.date_of_birth;
       val.country_birth = details.country_birth;
-      val.marital_status = details.marital_status;
+    },
+    setTechnicalValues: function setTechnicalValues(val, details) {
+      if (!Utils.isNullOrEmpty(details.right_to_work)) {
+        val.right_to_work = details.right_to_work == 1 ? 'Yes, I have right to work in Australia' : 'No, I don\'t have right to work in Australia';
+      } else {
+        val.right_to_work = null;
+      }
 
       if (!Utils.isNullOrEmpty(details.has_tfn)) {
         val.has_tfn = details.has_tfn == 1 ? 'Has Australian Tax File Number (TFN)' : 'Does not have Australian Tax File Number (TFN)';
@@ -9081,27 +9091,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         val.has_registered_vehicle = null;
       }
-
-      this.formatCheckbox('has_tfn', details.has_tfn);
-      this.formatCheckbox('has_abn', details.has_abn);
-      this.formatCheckbox('english_skill', details.english_skill);
-      this.formatCheckbox('drivers_license', details.drivers_license);
-      this.formatCheckbox('has_registered_vehicle', details.has_registered_vehicle);
-
-      if (!Utils.isNullOrEmpty(details.date_of_birth)) {
-        var d = new Date(details.date_of_birth);
-        this.birthDay = d.getDate();
-        this.birthMonth = d.getMonth() + 1;
-        this.birthYear = d.getFullYear();
-        this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
-      } else {
-        var _d = new Date();
-
-        this.birthDay = _d.getDate();
-        this.birthMonth = _d.getMonth() + 1;
-        this.birthYear = _d.getFullYear() - 18;
-        this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
-      }
     },
     formatDate: function formatDate(d) {
       if (d) {
@@ -9109,78 +9098,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
       }
     },
-    formatCheckbox: function formatCheckbox(refName, value) {
-      Utils.formatCheckbox(this.$refs, this.input, refName, value);
-    },
-    onChangeBirthMonthYear: function onChangeBirthMonthYear() {
-      this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
-    },
-    close: function close() {
-      this.setValues(this.input, this);
-      Utils.setObjectValues(this.errors, '');
-    },
+    close: function close() {},
     deleteRecord: function deleteRecord() {
       $('#deleteRecordModal').modal('show');
       Bus.$emit('deleteAboutMe');
     },
-    submit: function () {
-      var _submit = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var action,
-            component,
-            _args = arguments;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                action = _args.length > 0 && _args[0] !== undefined ? _args[0] : 0;
-                component = this;
-
-                if (action !== 'clear') {
-                  this.input.date_of_birth = this.birthYear + '-' + this.birthMonth + '-' + this.birthDay;
-                }
-
-                Utils.setObjectValues(this.errors, '');
-                this.disabled = true;
-                _context.next = 7;
-                return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
-                  var data = response.data;
-                  $('#modalAboutMe').modal('hide');
-                  component.setValues(component, data.data.optional);
-
-                  if (action === 'clear') {
-                    component.setValues(component.input, data.data.optional);
-                  }
-                }).catch(function (error) {
-                  if (error.response) {
-                    var data = error.response.data;
-
-                    for (var key in data.errors) {
-                      component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                    }
-                  }
-
-                  Utils.handleError(error);
-                });
-
-              case 7:
-                this.disabled = false;
-
-              case 8:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function submit() {
-        return _submit.apply(this, arguments);
-      }
-
-      return submit;
-    }()
+    submit: function submit() {
+      var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      $('#modalAboutMe').modal('hide');
+      Bus.$emit('onboardingSubmitWorkInformation', action);
+      Bus.$emit('onboardingSubmitPersonalDetails', action);
+    }
   }
 });
 
@@ -10277,78 +10205,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -10427,25 +10283,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      disabled: false,
       introduction: '',
       when: '',
       max_distance: '',
       state: '',
-      right_to_work: '',
+      countries: '',
       selected: [],
-      states: ['QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT'],
-      input: {
-        introduction: '',
-        when: '',
-        max_distance: '',
-        state: '',
-        right_to_work: '',
-        selected: []
-      },
-      endpoints: {
-        save: '/api/v1/worker/next-role'
-      }
+      selected_countries: [],
+      states: ['QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT']
     };
   },
   props: {
@@ -10459,39 +10304,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var component = this;
       Bus.$on('idealRoleDetails', function (details) {
         if (details) {
-          component.setValues(component, details);
-          component.setValues(component.input, details);
+          component.introduction = details.introduction;
+          component.when = details.when;
+          component.max_distance = details.max_distance && details.max_distance != '' ? details.max_distance : 0;
+          component.willing_to_relocate = details.willing_to_relocate;
+          component.state = details.state;
+          component.countries = details.countries;
+          component.selected = component.state ? component.state.split(',') : [];
+          component.selected_countries = component.countries ? component.countries.split(',') : [];
         }
       });
       Bus.$on('removeIdealRole', function () {
-        Utils.setObjectValues(component.input, null);
         component.submit('clear');
       });
     }
   },
-  computed: {
-    maxDistance: function maxDistance() {
-      return {
-        background: "linear-gradient(to right, #ff7705 ".concat(this.input.max_distance / 500 * 100, "%, #ff7705 ").concat(this.input.max_distance / 500 * 100, "%, #fff 00%, #fff 100%)")
-      };
-    }
-  },
   methods: {
-    setValues: function setValues(val, details) {
-      val.introduction = details.introduction;
-      val.when = details.when;
-      val.max_distance = details.max_distance && details.max_distance != '' ? details.max_distance : 0;
-      val.state = details.state;
-      val.selected = val.state ? val.state.split(',') : [];
-
-      if (!Utils.isNullOrEmpty(details.right_to_work)) {
-        val.right_to_work = details.right_to_work == 1 ? 'Yes, I have right to work in Australia' : 'No, I don\'t have right to work in Australia';
-      } else {
-        val.right_to_work = null;
-      }
-
-      this.formatRightToWork(details.right_to_work);
-    },
     formatWhen: function formatWhen(m) {
       return m == 1 ? 'In 1 month' : 'In ' + m + ' months';
     },
@@ -10502,24 +10330,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return Utils.getMonth(d.getMonth()) + ' ' + d.getFullYear();
       }
     },
-    formatRightToWork: function formatRightToWork(index) {
-      if (index == 1) {
-        this.$refs['styled-checkbox-1'].checked = true;
-        this.$refs['styled-checkbox-0'].checked = false;
-        this.input.right_to_work = 1;
-      } else if (index == 0) {
-        this.$refs['styled-checkbox-1'].checked = false;
-        this.$refs['styled-checkbox-0'].checked = true;
-        this.input.right_to_work = 0;
-      } else {
-        this.$refs['styled-checkbox-1'].checked = false;
-        this.$refs['styled-checkbox-0'].checked = false;
-        this.input.right_to_work = null;
-      }
-    },
-    close: function close() {
-      this.setValues(this.input, this);
-    },
+    close: function close() {},
     textAreaAdjust: function textAreaAdjust(refName) {
       Utils.textAreaAdjust(this.$refs[refName]);
     },
@@ -10527,55 +10338,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       $('#deleteRecordModal').modal('show');
       Bus.$emit('deleteIdealRole');
     },
-    submit: function () {
-      var _submit = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var action,
-            component,
-            _args = arguments;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                action = _args.length > 0 && _args[0] !== undefined ? _args[0] : 0;
-                component = this;
-
-                if (action !== 'clear') {
-                  component.input.state = component.input.selected.toString();
-                }
-
-                this.disabled = true;
-                _context.next = 6;
-                return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
-                  var data = response.data;
-                  $('#modalIdealRole').modal('hide');
-                  component.setValues(component, data.data.worker_detail);
-
-                  if (action === 'clear') {
-                    component.setValues(component.input, data.data.worker_detail);
-                  }
-                }).catch(function (error) {
-                  Utils.handleError(error);
-                });
-
-              case 6:
-                this.disabled = false;
-
-              case 7:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function submit() {
-        return _submit.apply(this, arguments);
-      }
-
-      return submit;
-    }()
+    submit: function submit() {
+      var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      $('#modalIdealRole').modal('hide');
+      Bus.$emit('onboardingSubmitWorkPreferences', action);
+    }
   }
 });
 
@@ -10911,11 +10678,14 @@ __webpack_require__.r(__webpack_exports__);
         exp_year: '',
         exp_month: ''
       },
-      about_me: {
+      about_me_general: {
         gender: '',
         date_of_birth: '',
         country_birth: '',
-        marital_status: '',
+        marital_status: ''
+      },
+      about_me_technical: {
+        right_to_work: '',
         has_tfn: '',
         has_abn: '',
         english_skill: '',
@@ -10976,24 +10746,26 @@ __webpack_require__.r(__webpack_exports__);
         component.profile.job_role = user.experiences[0] && user.experiences[0].job ? user.experiences[0].job.title : user.experiences[0] ? user.experiences[0].job_role : '';
         component.profile.company_name = user.experiences[0] && user.experiences[0].company ? user.experiences[0].company.name : user.experiences[0] ? user.experiences[0].company_name : '';
         component.about_me = {};
-        component.about_me.gender = user.gender;
-        component.about_me.date_of_birth = user.date_of_birth;
-        component.about_me.country_birth = user.country_birth;
-        component.about_me.marital_status = user.marital_status;
-        component.about_me.has_tfn = user.worker_detail.has_tfn;
-        component.about_me.has_abn = user.worker_detail.has_abn;
-        component.about_me.english_skill = user.worker_detail.english_skill;
-        component.about_me.drivers_license = user.worker_detail.drivers_license;
-        component.about_me.has_registered_vehicle = user.worker_detail.has_registered_vehicle;
+        component.about_me_general.gender = user.gender;
+        component.about_me_general.date_of_birth = user.date_of_birth;
+        component.about_me_general.country_birth = user.country_birth; // component.about_me_general.marital_status = user.marital_status;
+
+        component.about_me_technical.right_to_work = user.worker_detail.right_to_work;
+        component.about_me_technical.has_tfn = user.worker_detail.has_tfn;
+        component.about_me_technical.has_abn = user.worker_detail.has_abn;
+        component.about_me_technical.english_skill = user.worker_detail.english_skill;
+        component.about_me_technical.drivers_license = user.worker_detail.drivers_license;
+        component.about_me_technical.has_registered_vehicle = user.worker_detail.has_registered_vehicle;
         component.ideal_role = user.worker_detail;
-        component.ideal_role.right_to_work = user.worker_detail.right_to_work;
+        component.ideal_role.countries = user.country;
         component.employments = user.experiences;
         component.educations = user.educations;
         component.tickets = user.tickets;
         component.industry_skills = user.skills;
         Bus.$emit('profileAvatarDetails', user.first_name.charAt(0) + user.last_name.charAt(0));
         Bus.$emit('userProfileDetails', component.profile);
-        Bus.$emit('aboutMeDetails', component.about_me);
+        Bus.$emit('aboutMeGeneralDetails', component.about_me_general);
+        Bus.$emit('aboutMeTechnicalDetails', component.about_me_technical);
         Bus.$emit('idealRoleDetails', component.ideal_role);
         Bus.$emit('employmentDetails', component.employments);
         Bus.$emit('educationDetails', component.educations);
@@ -11084,7 +10856,7 @@ __webpack_require__.r(__webpack_exports__);
       if (detail == 1) {
         component.mark_icon = 'check';
         component.has_whitecard = 'Has a valid and current White Card';
-      } else {
+      } else if (detail == 0) {
         component.mark_icon = 'cross';
         component.has_whitecard = 'No valid and current White Card';
       }
@@ -11146,7 +10918,7 @@ __webpack_require__.r(__webpack_exports__);
       Bus.$emit('refreshTicketDetails');
     },
     submit: function submit() {
-      Bus.$emit('submitTickets');
+      Bus.$emit('onboardingSubmitTickets');
       this.close();
     }
   }
@@ -11172,6 +10944,26 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -11385,6 +11177,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       education_id: '',
       course: '',
       school: '',
+      sectors_list: [{
+        id: 1,
+        business_type: 'Residential'
+      }, {
+        id: 2,
+        business_type: 'Commercial'
+      }, {
+        id: 3,
+        business_type: 'Civil'
+      }],
+      tiers_list: [{
+        id: 1,
+        tier_name: 'Tier 1'
+      }, {
+        id: 2,
+        tier_name: 'Tier 2'
+      }, {
+        id: 3,
+        tier_name: 'Tier 3'
+      }, {
+        id: 4,
+        tier_name: 'Tier 4'
+      }],
       input: {
         profile_description: '',
         first_name: '',
@@ -11393,7 +11208,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         education_id: '',
         most_recent_role: '',
         exp_year: '',
-        exp_month: ''
+        exp_month: '',
+        tiers: [],
+        sectors: []
       },
       errors: {
         profile_description: '',
@@ -11403,7 +11220,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         education_id: '',
         most_recent_role: '',
         exp_year: '',
-        exp_month: ''
+        exp_month: '',
+        tiers: '',
+        sectors: ''
       },
       endpoints: {
         save: '/api/v1/worker/introduction',
@@ -11475,8 +11294,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       val.profile_description = details.profile_description;
       val.first_name = details.first_name;
       val.last_name = details.last_name;
-      val.sectors = details.sectors;
-      val.tiers = details.tiers;
       val.most_recent_role = details.most_recent_role;
       val.exp_year = details.exp_year;
       val.exp_month = details.exp_month;
@@ -11484,6 +11301,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       val.education_id = details.education_id;
       val.course = details.education ? details.education.course ? details.education.course.course_name : details.education.course_name : '';
       val.school = details.education ? details.education.school : '';
+
+      for (var i = 0; i < details.sectors.length; i++) {
+        val.sectors.push(details.sectors[i].id);
+      }
+
+      for (var _i = 0; _i < details.tiers.length; _i++) {
+        val.tiers.push(details.tiers[_i].id);
+      }
     },
     formatYearsExperience: function formatYearsExperience() {
       return (this.exp_year ? this.exp_year + (this.exp_year > 1 ? ' years' : ' year') : '') + (this.exp_year && this.exp_month ? ' and ' : '') + (this.exp_month ? this.exp_month + (this.exp_month > 1 ? ' months' : ' month') : '');
@@ -11561,11 +11386,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 component = this;
                 Utils.setObjectValues(this.errors, '');
                 this.disabled = true;
-                _context.next = 5;
+                _api__WEBPACK_IMPORTED_MODULE_1__["default"].submit('/api/v1/worker/sectors', {
+                  sectors: this.input.sectors,
+                  tiers: this.input.tiers
+                });
+                _context.next = 6;
                 return axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth()).then(function (response) {
                   var data = response.data;
                   $('#modalUserProfile').modal('hide');
                   component.setDisplayValues(component, data.data.introduction);
+                  component.sectors = [];
+                  component.tiers = [];
+
+                  var _loop = function _loop(i) {
+                    component.sectors.push(component.sectors_list.find(function (obj) {
+                      return obj['id'] == component.input.sectors[i];
+                    }));
+                  };
+
+                  for (var i = 0; i < component.input.sectors.length; i++) {
+                    _loop(i);
+                  }
+
+                  var _loop2 = function _loop2(i) {
+                    component.tiers.push(component.tiers_list.find(function (obj) {
+                      return obj['id'] == component.input.tiers[i];
+                    }));
+                  };
+
+                  for (var i = 0; i < component.input.tiers.length; i++) {
+                    _loop2(i);
+                  }
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -11578,10 +11429,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   Utils.handleError(error);
                 });
 
-              case 5:
+              case 6:
                 this.disabled = false;
 
-              case 6:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -19801,6 +19652,25 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 // module
 exports.push([module.i, "\nli[data-v-3e4eb5c4] {\n    width: 495px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/ConfirmModal.vue?vue&type=style&index=0&id=cfc079d4&scoped=true&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/ConfirmModal.vue?vue&type=style&index=0&id=cfc079d4&scoped=true&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.modal-ku[data-v-cfc079d4] {\n    width: 100%;\n}\n", ""]);
 
 // exports
 
@@ -51312,6 +51182,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/ConfirmModal.vue?vue&type=style&index=0&id=cfc079d4&scoped=true&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/ConfirmModal.vue?vue&type=style&index=0&id=cfc079d4&scoped=true&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./ConfirmModal.vue?vue&type=style&index=0&id=cfc079d4&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/ConfirmModal.vue?vue&type=style&index=0&id=cfc079d4&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/DeleteModal.vue?vue&type=style&index=0&id=604367ee&scoped=true&lang=css&":
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/DeleteModal.vue?vue&type=style&index=0&id=604367ee&scoped=true&lang=css& ***!
@@ -55197,6 +55097,7 @@ var render = function() {
                         staticClass: "bl-image-100",
                         staticStyle: { padding: "15px" },
                         attrs: {
+                          alt: "' logo.jpg",
                           src: "/img/icons/uploadlogo.jpg",
                           srcset:
                             "/img/icons/uploadlogo@2x.png" +
@@ -56181,6 +56082,126 @@ var render = function() {
   ])
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/ConfirmModal.vue?vue&type=template&id=cfc079d4&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/ConfirmModal.vue?vue&type=template&id=cfc079d4&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "modal fade",
+      attrs: { id: "confirmModal", role: "dialog" }
+    },
+    [
+      _c("div", { staticClass: "modal-dialog" }, [
+        _c("div", { staticClass: "modal-content modal-ku" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "modal-body mb-2" },
+            [
+              _c("center", [
+                _c(
+                  "div",
+                  {
+                    staticClass: "mt-3",
+                    staticStyle: {
+                      width: "500px",
+                      "font-size": "16px",
+                      color: "#000"
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                            If you choose not to save, any changes you made\n                            will be discarded. Are you sure you want to continue?\n                        "
+                    )
+                  ]
+                )
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "modal-footer",
+              staticStyle: { "border-top": "none" }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "btn btn-link btn-delete",
+                  on: { click: _vm.proceed }
+                },
+                [
+                  _vm._v(
+                    "\n                        Yes, proceed to next form\n                    "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "pull-right",
+                  attrs: { type: "button" },
+                  on: { click: _vm.cancel }
+                },
+                [
+                  _vm._v(
+                    "\n                        Cancel\n                    "
+                  )
+                ]
+              )
+            ]
+          )
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "modal-header", staticStyle: { "border-bottom": "none" } },
+      [
+        _c("h4", { staticClass: "modal-title" }, [
+          _vm._v("⚠ Warning! Empty or unsaved changes")
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "close", attrs: { "data-dismiss": "modal" } },
+          [_vm._v("×")]
+        )
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -60171,7 +60192,7 @@ var render = function() {
               staticStyle: { width: "125px" },
               attrs: { for: "sector-styled-checkbox-" + index }
             },
-            [_vm._v(_vm._s(sector.name))]
+            [_vm._v(_vm._s(sector.business_type))]
           )
         ])
       }),
@@ -60228,7 +60249,7 @@ var render = function() {
             }),
             _vm._v(" "),
             _c("label", { attrs: { for: "tier-styled-checkbox-" + index } }, [
-              _vm._v(_vm._s(tier.name))
+              _vm._v(_vm._s(tier.tier_name))
             ])
           ]
         )
@@ -60339,12 +60360,23 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
+        _c("confirm-modal"),
+        _vm._v(" "),
         _c("employment-modal"),
         _vm._v(" "),
         _c("education-modal"),
         _vm._v(" "),
         _c("ul", { ref: "compCardWrapper", staticClass: "comp-card-wrapper" }, [
-          _c("li", { staticClass: "comp-card-list" }, [_c("current-role")], 1),
+          _c(
+            "li",
+            { staticClass: "comp-card-list" },
+            [
+              _c("current-role", {
+                attrs: { "most-recent-role": _vm.mostRecentRole }
+              })
+            ],
+            1
+          ),
           _vm._v(" "),
           _c(
             "li",
@@ -61126,7 +61158,7 @@ var render = function() {
       _vm._v(" "),
       _vm._l(_vm.tickets, function(ticket, idx) {
         return _c("div", { key: idx, staticClass: "emp-row" }, [
-          _c("span", [
+          _c("span", { staticClass: "ticket-label" }, [
             _vm._v(_vm._s(ticket.ticket) + " - " + _vm._s(ticket.description))
           ]),
           _vm._v(" "),
@@ -61709,8 +61741,8 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.input.countries[0],
-                      expression: "input.countries[0]"
+                      value: _vm.input.selected_countries[0],
+                      expression: "input.selected_countries[0]"
                     }
                   ],
                   staticClass: "mb-3",
@@ -61729,7 +61761,7 @@ var render = function() {
                           return val
                         })
                       _vm.$set(
-                        _vm.input.countries,
+                        _vm.input.selected_countries,
                         0,
                         $event.target.multiple
                           ? $$selectedVal
@@ -61738,10 +61770,10 @@ var render = function() {
                     }
                   }
                 },
-                _vm._l(_vm.countries, function(country) {
+                _vm._l(_vm.countries, function(country, index) {
                   return _c(
                     "option",
-                    { key: country, domProps: { value: country } },
+                    { key: index, domProps: { value: country } },
                     [_vm._v(_vm._s(country))]
                   )
                 }),
@@ -61755,8 +61787,8 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.input.countries[1],
-                      expression: "input.countries[1]"
+                      value: _vm.input.selected_countries[1],
+                      expression: "input.selected_countries[1]"
                     }
                   ],
                   staticClass: "mb-3",
@@ -61775,7 +61807,7 @@ var render = function() {
                           return val
                         })
                       _vm.$set(
-                        _vm.input.countries,
+                        _vm.input.selected_countries,
                         1,
                         $event.target.multiple
                           ? $$selectedVal
@@ -61784,10 +61816,10 @@ var render = function() {
                     }
                   }
                 },
-                _vm._l(_vm.countries, function(country) {
+                _vm._l(_vm.countries, function(country, index) {
                   return _c(
                     "option",
-                    { key: country, domProps: { value: country } },
+                    { key: index, domProps: { value: country } },
                     [_vm._v(_vm._s(country))]
                   )
                 }),
@@ -61801,8 +61833,8 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.input.countries[2],
-                      expression: "input.countries[2]"
+                      value: _vm.input.selected_countries[2],
+                      expression: "input.selected_countries[2]"
                     }
                   ],
                   staticClass: "mb-3",
@@ -61821,7 +61853,7 @@ var render = function() {
                           return val
                         })
                       _vm.$set(
-                        _vm.input.countries,
+                        _vm.input.selected_countries,
                         2,
                         $event.target.multiple
                           ? $$selectedVal
@@ -61830,10 +61862,10 @@ var render = function() {
                     }
                   }
                 },
-                _vm._l(_vm.countries, function(country) {
+                _vm._l(_vm.countries, function(country, index) {
                   return _c(
                     "option",
-                    { key: country, domProps: { value: country } },
+                    { key: index, domProps: { value: country } },
                     [_vm._v(_vm._s(country))]
                   )
                 }),
@@ -61894,547 +61926,12 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("template", { slot: "custom-modal-content" }, [
-                _c(
-                  "form",
-                  {
-                    staticClass: "modal-form",
-                    attrs: { method: "POST" },
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.submit($event)
-                      }
-                    }
-                  },
-                  [
-                    _c("div", { staticClass: "me-label" }, [_vm._v("Gender")]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "me-row" }, [
-                      _c("div", { staticClass: "role-col-left" }, [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.input.gender,
-                                expression: "input.gender"
-                              }
-                            ],
-                            staticStyle: { "background-position": "210px" },
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.input,
-                                  "gender",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
-                          [
-                            _c(
-                              "option",
-                              { key: "1", attrs: { value: "Male" } },
-                              [_vm._v("Male")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "option",
-                              { key: "2", attrs: { value: "Female" } },
-                              [_vm._v("Female")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "option",
-                              { key: "3", attrs: { value: "Other" } },
-                              [_vm._v("Other")]
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _vm.errors.gender
-                          ? _c("span", { staticClass: "err-msg" }, [
-                              _vm._v(
-                                "\n                                    " +
-                                  _vm._s(_vm.errors.gender) +
-                                  "\n                                "
-                              )
-                            ])
-                          : _vm._e()
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "me-label",
-                        staticStyle: { "margin-bottom": "17px" }
-                      },
-                      [_vm._v("Date of Birth")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "me-row" }, [
-                      _c("div", { staticClass: "me-col-left" }, [
-                        _c("div", { staticClass: "emp-form-label" }, [
-                          _vm._v("Day")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.birthDay,
-                                expression: "birthDay"
-                              }
-                            ],
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.birthDay = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              }
-                            }
-                          },
-                          _vm._l(_vm.days, function(day, index) {
-                            return _c(
-                              "option",
-                              { key: index, domProps: { value: day } },
-                              [_vm._v(_vm._s(day))]
-                            )
-                          }),
-                          0
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "me-col-mid" }, [
-                        _c("div", { staticClass: "emp-form-label" }, [
-                          _vm._v("Month")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.birthMonth,
-                                expression: "birthMonth"
-                              }
-                            ],
-                            on: {
-                              change: [
-                                function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.birthMonth = $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                },
-                                _vm.onChangeBirthMonthYear
-                              ]
-                            }
-                          },
-                          _vm._l(_vm.months, function(month, index) {
-                            return _c(
-                              "option",
-                              { key: index, domProps: { value: month.id } },
-                              [_vm._v(_vm._s(month.name))]
-                            )
-                          }),
-                          0
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "me-col-right" }, [
-                        _c("div", { staticClass: "emp-form-label" }, [
-                          _vm._v("Year")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.birthYear,
-                                expression: "birthYear"
-                              }
-                            ],
-                            on: {
-                              change: [
-                                function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.birthYear = $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                },
-                                _vm.onChangeBirthMonthYear
-                              ]
-                            }
-                          },
-                          _vm._l(_vm.years, function(year, index) {
-                            return _c(
-                              "option",
-                              { key: index, domProps: { value: year } },
-                              [_vm._v(_vm._s(year))]
-                            )
-                          }),
-                          0
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _vm.errors.date_of_birth
-                      ? _c("span", { staticClass: "err-msg" }, [
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(_vm.errors.date_of_birth) +
-                              "\n                        "
-                          )
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    false
-                      ? undefined
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "me-label" }, [
-                      _vm._v("Country of Birth")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "me-row mb-3" }, [
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.input.country_birth,
-                              expression: "input.country_birth"
-                            }
-                          ],
-                          staticStyle: { "background-position": "465px" },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.input,
-                                "country_birth",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            }
-                          }
-                        },
-                        _vm._l(_vm.countries, function(country) {
-                          return _c(
-                            "option",
-                            { key: country, domProps: { value: country } },
-                            [_vm._v(_vm._s(country))]
-                          )
-                        }),
-                        0
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _vm.errors.country_birth
-                      ? _c("span", { staticClass: "err-msg" }, [
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(_vm.errors.country_birth) +
-                              "\n                        "
-                          )
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "me-label" }, [
-                      _vm._v(
-                        "\n                            I have an Australian Tax File Number (TFN)\n                        "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "bl-inline" }, [
-                      _c("input", {
-                        ref: "has_tfn_1",
-                        staticClass: "styled-checkbox-round",
-                        attrs: { id: "has_tfn_1", type: "checkbox" },
-                        on: {
-                          change: function($event) {
-                            return _vm.formatCheckbox("has_tfn", 1)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("label", { attrs: { for: "has_tfn_1" } }, [
-                        _vm._v("Yes")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        ref: "has_tfn_0",
-                        staticClass: "styled-checkbox-round",
-                        attrs: { id: "has_tfn_0", type: "checkbox" },
-                        on: {
-                          change: function($event) {
-                            return _vm.formatCheckbox("has_tfn", 0)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("label", { attrs: { for: "has_tfn_0" } }, [
-                        _vm._v("No")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "me-label" }, [
-                      _vm._v(
-                        "\n                            I have an Australian Business Number (ABN)\n                        "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "bl-inline" }, [
-                      _c("input", {
-                        ref: "has_abn_1",
-                        staticClass: "styled-checkbox-round",
-                        attrs: { id: "has_abn_1", type: "checkbox" },
-                        on: {
-                          change: function($event) {
-                            return _vm.formatCheckbox("has_abn", 1)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("label", { attrs: { for: "has_abn_1" } }, [
-                        _vm._v("Yes")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        ref: "has_abn_0",
-                        staticClass: "styled-checkbox-round",
-                        attrs: { id: "has_abn_0", type: "checkbox" },
-                        on: {
-                          change: function($event) {
-                            return _vm.formatCheckbox("has_abn", 0)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("label", { attrs: { for: "has_abn_0" } }, [
-                        _vm._v("No")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "me-label" }, [
-                      _vm._v(
-                        "\n                            I am competent in WRITTEN and SPOKEN English\n                        "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "bl-inline" }, [
-                      _c("input", {
-                        ref: "english_skill_1",
-                        staticClass: "styled-checkbox-round",
-                        attrs: {
-                          id: "english_skill-checkbox-yes",
-                          type: "checkbox"
-                        },
-                        on: {
-                          change: function($event) {
-                            return _vm.formatCheckbox("english_skill", 1)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        { attrs: { for: "english_skill-checkbox-yes" } },
-                        [_vm._v("Yes")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        ref: "english_skill_0",
-                        staticClass: "styled-checkbox-round",
-                        attrs: {
-                          id: "english_skill-checkbox-no",
-                          type: "checkbox"
-                        },
-                        on: {
-                          change: function($event) {
-                            return _vm.formatCheckbox("english_skill", 0)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        { attrs: { for: "english_skill-checkbox-no" } },
-                        [_vm._v("No")]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "me-label" }, [
-                      _vm._v(
-                        "\n                            I have a valid driver's license\n                        "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "bl-inline" }, [
-                      _c("input", {
-                        ref: "drivers_license_1",
-                        staticClass: "styled-checkbox-round",
-                        attrs: {
-                          id: "drivers_license-checkbox-yes",
-                          type: "checkbox"
-                        },
-                        on: {
-                          change: function($event) {
-                            return _vm.formatCheckbox("drivers_license", 1)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        { attrs: { for: "drivers_license-checkbox-yes" } },
-                        [_vm._v("Yes")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        ref: "drivers_license_0",
-                        staticClass: "styled-checkbox-round",
-                        attrs: {
-                          id: "drivers_license-checkbox-no",
-                          type: "checkbox"
-                        },
-                        on: {
-                          change: function($event) {
-                            return _vm.formatCheckbox("drivers_license", 0)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        { attrs: { for: "drivers_license-checkbox-no" } },
-                        [_vm._v("No")]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "me-label" }, [
-                      _vm._v(
-                        "\n                            I own/have access to a registered vehicle on a permanent basis\n                        "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "bl-inline" }, [
-                      _c("input", {
-                        ref: "has_registered_vehicle_1",
-                        staticClass: "styled-checkbox-round",
-                        attrs: {
-                          id: "has_registered_vehicle-checkbox-yes",
-                          type: "checkbox"
-                        },
-                        on: {
-                          change: function($event) {
-                            return _vm.formatCheckbox(
-                              "has_registered_vehicle",
-                              1
-                            )
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          attrs: { for: "has_registered_vehicle-checkbox-yes" }
-                        },
-                        [_vm._v("Yes")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        ref: "has_registered_vehicle_0",
-                        staticClass: "styled-checkbox-round",
-                        attrs: {
-                          id: "has_registered_vehicle-checkbox-no",
-                          type: "checkbox"
-                        },
-                        on: {
-                          change: function($event) {
-                            return _vm.formatCheckbox(
-                              "has_registered_vehicle",
-                              0
-                            )
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          attrs: { for: "has_registered_vehicle-checkbox-no" }
-                        },
-                        [_vm._v("No")]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "me-label-2" }, [
-                      _vm._v(
-                        "\n                            Note: Some jobs may require the use of your own registered vehicle.\n                        "
-                      )
-                    ])
-                  ]
-                )
-              ]),
+              _c(
+                "template",
+                { slot: "custom-modal-content" },
+                [_c("personal-details"), _vm._v(" "), _c("work-information")],
+                1
+              ),
               _vm._v(" "),
               _c("template", { slot: "custom-modal-footer" }, [
                 _vm.gender ||
@@ -62492,31 +61989,41 @@ var render = function() {
             _vm._v("\n                " + _vm._s(_vm.gender) + "\n            ")
           ]),
           _vm._v(" "),
-          false
-            ? undefined
-            : _vm._e(),
-          _vm._v(" "),
-          false
-            ? undefined
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.has_tfn
-            ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
-                _vm._v("Australian ID")
+          _vm.editable
+            ? _c("div", [
+                _vm.date_of_birth
+                  ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
+                      _vm._v("Date of Birth")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("span", { staticClass: "bl-label-14" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.formatDate(_vm.date_of_birth)) +
+                      "\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _vm.country_birth
+                  ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
+                      _vm._v("Country of Birth")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("span", { staticClass: "bl-label-14" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.country_birth) +
+                      "\n                "
+                  )
+                ])
               ])
             : _vm._e(),
           _vm._v(" "),
-          _c("span", { staticClass: "bl-label-14" }, [
-            _vm._v(
-              "\n                " + _vm._s(_vm.has_tfn) + "\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "bl-label-14" }, [
-            _vm._v(
-              "\n                " + _vm._s(_vm.has_abn) + "\n            "
-            )
-          ]),
+          false
+            ? undefined
+            : _vm._e(),
           _vm._v(" "),
           _vm.english_skill
             ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
@@ -62550,6 +62057,38 @@ var render = function() {
             _vm._v(
               "\n                " +
                 _vm._s(_vm.has_registered_vehicle) +
+                "\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _vm.has_tfn
+            ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
+                _vm._v("Australian ID")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("span", { staticClass: "bl-label-14" }, [
+            _vm._v(
+              "\n                " + _vm._s(_vm.has_tfn) + "\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c("span", { staticClass: "bl-label-14" }, [
+            _vm._v(
+              "\n                " + _vm._s(_vm.has_abn) + "\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _vm.right_to_work
+            ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
+                _vm._v("Right To Work")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("span", { staticClass: "bl-label-14" }, [
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.right_to_work) +
                 "\n            "
             )
           ])
@@ -64413,320 +63952,21 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("template", { slot: "custom-modal-content" }, [
-                    _c(
-                      "form",
-                      {
-                        staticClass: "modal-form",
-                        attrs: { method: "POST" },
-                        on: {
-                          submit: function($event) {
-                            $event.preventDefault()
-                            return _vm.submit($event)
-                          }
-                        }
-                      },
-                      [
-                        _c("div", { staticClass: "skill-label" }, [
-                          _vm._v(
-                            "\n                            What is your ideal next role?\n                        "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("textarea", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.input.introduction,
-                              expression: "input.introduction"
-                            }
-                          ],
-                          ref: "idealIntro",
-                          staticClass: "form-control",
-                          staticStyle: { overflow: "hidden" },
-                          attrs: {
-                            rows: "3",
-                            placeholder:
-                              "Example: My ideal next role would be as a qualified plumber working on high-end residential jobs with an awesome team."
-                          },
-                          domProps: { value: _vm.input.introduction },
-                          on: {
-                            keyup: function($event) {
-                              return _vm.textAreaAdjust("idealIntro")
-                            },
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.input,
-                                "introduction",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            staticClass: "skill-label",
-                            staticStyle: { "margin-bottom": "0" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            When could this happen?\n                        "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            staticClass: "emp-row row-center",
-                            staticStyle: { "margin-top": "17px" }
-                          },
-                          [
-                            _c("div", { staticClass: "role-col-left" }, [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.input.when,
-                                    expression: "input.when"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  type: "text",
-                                  placeholder: "Enter number of Months"
-                                },
-                                domProps: { value: _vm.input.when },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.input,
-                                      "when",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              })
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "role-col-right" }, [
-                              _c(
-                                "label",
-                                { staticStyle: { "margin-bottom": "0" } },
-                                [
-                                  _vm._v(
-                                    _vm._s(_vm.formatWhenMonth(_vm.input.when))
-                                  )
-                                ]
-                              )
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "skill-label" }, [
-                          _vm._v(
-                            "\n                            Maximum Distance from home\n                        "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "emp-row-2 row-center" }, [
-                          _c("div", { staticClass: "emp-col-left-2" }, [
-                            _c("div", { staticClass: "bl-slider" }, [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.input.max_distance,
-                                    expression: "input.max_distance"
-                                  }
-                                ],
-                                staticClass: "slider",
-                                style: _vm.maxDistance,
-                                attrs: {
-                                  type: "range",
-                                  min: "0",
-                                  max: "500",
-                                  step: "5"
-                                },
-                                domProps: { value: _vm.input.max_distance },
-                                on: {
-                                  __r: function($event) {
-                                    return _vm.$set(
-                                      _vm.input,
-                                      "max_distance",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              })
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "emp-col-right-2" }, [
-                            _c("label", [
-                              _vm._v(
-                                "\n                                    " +
-                                  _vm._s(_vm.input.max_distance) +
-                                  " km\n                                "
-                              )
-                            ])
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "skill-label" }, [
-                          _vm._v(
-                            "\n                            Would you work/relocate to another state? If Yes, tick states that apply.\n                        "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "skill-label-2" }, [
-                          _vm._v(
-                            "\n                            Relocation may be at own expense.\n                        "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.states, function(state, index) {
-                          return _c(
-                            "div",
-                            { key: index, staticClass: "bl-inline" },
-                            [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.input.selected,
-                                    expression: "input.selected"
-                                  }
-                                ],
-                                staticClass: "styled-checkbox",
-                                attrs: {
-                                  id: "styled-checkbox-" + index,
-                                  type: "checkbox"
-                                },
-                                domProps: {
-                                  value: state,
-                                  checked: Array.isArray(_vm.input.selected)
-                                    ? _vm._i(_vm.input.selected, state) > -1
-                                    : _vm.input.selected
-                                },
-                                on: {
-                                  change: function($event) {
-                                    var $$a = _vm.input.selected,
-                                      $$el = $event.target,
-                                      $$c = $$el.checked ? true : false
-                                    if (Array.isArray($$a)) {
-                                      var $$v = state,
-                                        $$i = _vm._i($$a, $$v)
-                                      if ($$el.checked) {
-                                        $$i < 0 &&
-                                          _vm.$set(
-                                            _vm.input,
-                                            "selected",
-                                            $$a.concat([$$v])
-                                          )
-                                      } else {
-                                        $$i > -1 &&
-                                          _vm.$set(
-                                            _vm.input,
-                                            "selected",
-                                            $$a
-                                              .slice(0, $$i)
-                                              .concat($$a.slice($$i + 1))
-                                          )
-                                      }
-                                    } else {
-                                      _vm.$set(_vm.input, "selected", $$c)
-                                    }
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "label",
-                                { attrs: { for: "styled-checkbox-" + index } },
-                                [_vm._v(_vm._s(state))]
-                              )
-                            ]
-                          )
-                        }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "skill-label" }, [
-                          _vm._v(
-                            "\n                            I have the right to legally work in Australia\n                        "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "skill-label-3" }, [
-                          _vm._v(
-                            "\n                            See legal requirements\n                        "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "bl-inline" }, [
-                          _c("input", {
-                            ref: "styled-checkbox-1",
-                            staticClass: "styled-checkbox-round",
-                            attrs: {
-                              id: "styled-checkbox-yes",
-                              type: "checkbox"
-                            },
-                            on: {
-                              change: function($event) {
-                                return _vm.formatRightToWork(1)
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "label",
-                            { attrs: { for: "styled-checkbox-yes" } },
-                            [_vm._v("Yes")]
-                          ),
-                          _vm._v(" "),
-                          _c("input", {
-                            ref: "styled-checkbox-0",
-                            staticClass: "styled-checkbox-round",
-                            attrs: {
-                              id: "styled-checkbox-no",
-                              type: "checkbox"
-                            },
-                            on: {
-                              change: function($event) {
-                                return _vm.formatRightToWork(0)
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "label",
-                            { attrs: { for: "styled-checkbox-no" } },
-                            [_vm._v("No")]
-                          )
-                        ])
-                      ],
-                      2
-                    )
-                  ]),
+                  _c(
+                    "template",
+                    { slot: "custom-modal-content" },
+                    [_c("work-preferences")],
+                    1
+                  ),
                   _vm._v(" "),
                   _c("template", { slot: "custom-modal-footer" }, [
                     _vm.introduction ||
                     _vm.when ||
                     _vm.max_distance ||
                     _vm.state ||
-                    _vm.right_to_work ||
-                    _vm.selected.length != 0
+                    _vm.countries ||
+                    _vm.selected.length != 0 ||
+                    _vm.selected_countries.length != 0
                       ? _c(
                           "div",
                           {
@@ -64746,7 +63986,7 @@ var render = function() {
                       "button",
                       {
                         staticClass: "pull-right",
-                        attrs: { type: "submit", disabled: _vm.disabled },
+                        attrs: { type: "submit" },
                         on: { click: _vm.submit }
                       },
                       [
@@ -64844,20 +64084,30 @@ var render = function() {
                   )
                 : _vm._e(),
               _vm._v(" "),
-              _vm.right_to_work
-                ? _c("div", [
-                    _c("span", { staticClass: "bl-label-15" }, [
-                      _vm._v("Right to Work")
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "bl-label-14" }, [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(_vm.right_to_work) +
-                          "\n                "
-                      )
-                    ])
-                  ])
+              _vm.countries
+                ? _c(
+                    "div",
+                    [
+                      _c("span", { staticClass: "bl-label-15" }, [
+                        _vm._v("Willing to relocate overseas")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.selected_countries, function(c, index) {
+                        return _c(
+                          "span",
+                          { key: index, staticClass: "bl-label-14" },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(c) +
+                                "\n                "
+                            )
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  )
                 : _vm._e()
             ],
             1
@@ -65797,7 +65047,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "me-label" }, [
                     _vm._v(
-                      "\n                        What is your current or most recent role/title?\n                    "
+                      "\n                        Most Recent Role\n                    "
                     )
                   ]),
                   _vm._v(" "),
@@ -65941,8 +65191,153 @@ var render = function() {
                         }
                       })
                     ])
-                  ])
-                ]
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "skill-label" }, [
+                    _vm._v(
+                      "\n                        I have worked in the following areas of construction\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.sectors_list, function(sector, index) {
+                    return _c("div", { key: index, staticClass: "bl-inline" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.input.sectors,
+                            expression: "input.sectors"
+                          }
+                        ],
+                        staticClass: "styled-checkbox",
+                        attrs: {
+                          id: "sector-styled-checkbox-" + index,
+                          type: "checkbox"
+                        },
+                        domProps: {
+                          value: sector.id,
+                          checked: Array.isArray(_vm.input.sectors)
+                            ? _vm._i(_vm.input.sectors, sector.id) > -1
+                            : _vm.input.sectors
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.input.sectors,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = sector.id,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(
+                                    _vm.input,
+                                    "sectors",
+                                    $$a.concat([$$v])
+                                  )
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    _vm.input,
+                                    "sectors",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
+                            } else {
+                              _vm.$set(_vm.input, "sectors", $$c)
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticStyle: { width: "125px" },
+                          attrs: { for: "sector-styled-checkbox-" + index }
+                        },
+                        [_vm._v(_vm._s(sector.business_type))]
+                      )
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "skill-label" }, [
+                    _vm._v(
+                      "\n                        In the following Tiers\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.tiers_list, function(tier, index) {
+                    return _c(
+                      "div",
+                      {
+                        key: index + _vm.sectors_list.length,
+                        staticClass: "bl-inline"
+                      },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.tiers,
+                              expression: "input.tiers"
+                            }
+                          ],
+                          staticClass: "styled-checkbox",
+                          attrs: {
+                            id: "tier-styled-checkbox-" + index,
+                            type: "checkbox"
+                          },
+                          domProps: {
+                            value: tier.id,
+                            checked: Array.isArray(_vm.input.tiers)
+                              ? _vm._i(_vm.input.tiers, tier.id) > -1
+                              : _vm.input.tiers
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$a = _vm.input.tiers,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = tier.id,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 &&
+                                    _vm.$set(
+                                      _vm.input,
+                                      "tiers",
+                                      $$a.concat([$$v])
+                                    )
+                                } else {
+                                  $$i > -1 &&
+                                    _vm.$set(
+                                      _vm.input,
+                                      "tiers",
+                                      $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1))
+                                    )
+                                }
+                              } else {
+                                _vm.$set(_vm.input, "tiers", $$c)
+                              }
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          { attrs: { for: "tier-styled-checkbox-" + index } },
+                          [_vm._v(_vm._s(tier.tier_name))]
+                        )
+                      ]
+                    )
+                  })
+                ],
+                2
               )
             ]),
             _vm._v(" "),
@@ -66129,7 +65524,7 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _vm.most_recent_role
-            ? _c("div", { staticClass: "bl-display" }, [
+            ? _c("div", [
                 _c("div", { staticClass: "bl-label-15" }, [
                   _vm._v(
                     "\n                    " +
@@ -78922,6 +78317,7 @@ Vue.component('edit-icon', __webpack_require__(/*! ./components/common/EditIcon.
 Vue.component('main-modal', __webpack_require__(/*! ./components/common/MainModal.vue */ "./resources/js/components/common/MainModal.vue").default);
 Vue.component('photo-modal', __webpack_require__(/*! ./components/common/PhotoModal.vue */ "./resources/js/components/common/PhotoModal.vue").default);
 Vue.component('delete-modal', __webpack_require__(/*! ./components/common/DeleteModal.vue */ "./resources/js/components/common/DeleteModal.vue").default);
+Vue.component('confirm-modal', __webpack_require__(/*! ./components/common/ConfirmModal.vue */ "./resources/js/components/common/ConfirmModal.vue").default);
 Vue.component('navigation', __webpack_require__(/*! ./components/common/Navigation.vue */ "./resources/js/components/common/Navigation.vue").default);
 Vue.component('password-eye', __webpack_require__(/*! ./components/common/PasswordEye.vue */ "./resources/js/components/common/PasswordEye.vue").default);
 Vue.component('record-form', __webpack_require__(/*! ./components/common/RecordForm.vue */ "./resources/js/components/common/RecordForm.vue").default);
@@ -80234,6 +79630,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Avatar_vue_vue_type_template_id_3cc6093c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Avatar_vue_vue_type_template_id_3cc6093c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/common/ConfirmModal.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/common/ConfirmModal.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ConfirmModal_vue_vue_type_template_id_cfc079d4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ConfirmModal.vue?vue&type=template&id=cfc079d4&scoped=true& */ "./resources/js/components/common/ConfirmModal.vue?vue&type=template&id=cfc079d4&scoped=true&");
+/* harmony import */ var _ConfirmModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfirmModal.vue?vue&type=script&lang=js& */ "./resources/js/components/common/ConfirmModal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _ConfirmModal_vue_vue_type_style_index_0_id_cfc079d4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ConfirmModal.vue?vue&type=style&index=0&id=cfc079d4&scoped=true&lang=css& */ "./resources/js/components/common/ConfirmModal.vue?vue&type=style&index=0&id=cfc079d4&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _ConfirmModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ConfirmModal_vue_vue_type_template_id_cfc079d4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ConfirmModal_vue_vue_type_template_id_cfc079d4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "cfc079d4",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/common/ConfirmModal.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/common/ConfirmModal.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/common/ConfirmModal.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfirmModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ConfirmModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/ConfirmModal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfirmModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/common/ConfirmModal.vue?vue&type=style&index=0&id=cfc079d4&scoped=true&lang=css&":
+/*!******************************************************************************************************************!*\
+  !*** ./resources/js/components/common/ConfirmModal.vue?vue&type=style&index=0&id=cfc079d4&scoped=true&lang=css& ***!
+  \******************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfirmModal_vue_vue_type_style_index_0_id_cfc079d4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./ConfirmModal.vue?vue&type=style&index=0&id=cfc079d4&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/ConfirmModal.vue?vue&type=style&index=0&id=cfc079d4&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfirmModal_vue_vue_type_style_index_0_id_cfc079d4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfirmModal_vue_vue_type_style_index_0_id_cfc079d4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfirmModal_vue_vue_type_style_index_0_id_cfc079d4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfirmModal_vue_vue_type_style_index_0_id_cfc079d4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfirmModal_vue_vue_type_style_index_0_id_cfc079d4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/common/ConfirmModal.vue?vue&type=template&id=cfc079d4&scoped=true&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/common/ConfirmModal.vue?vue&type=template&id=cfc079d4&scoped=true& ***!
+  \****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfirmModal_vue_vue_type_template_id_cfc079d4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ConfirmModal.vue?vue&type=template&id=cfc079d4&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/ConfirmModal.vue?vue&type=template&id=cfc079d4&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfirmModal_vue_vue_type_template_id_cfc079d4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfirmModal_vue_vue_type_template_id_cfc079d4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

@@ -40,7 +40,7 @@
         </div>
 
         <div class="emp-row" v-for="(ticket, idx) in tickets" :key="idx">
-            <span>{{ ticket.ticket }} - {{ ticket.description }}</span>
+            <span class="ticket-label">{{ ticket.ticket }} - {{ ticket.description }}</span>
 
             <span class="remove-ticket-icon" @click="onDelete(idx)">
                 <img src="/img/icons/remove.png"
@@ -80,7 +80,7 @@
                 component.formatCheckbox('has_whitecard', detail);
             });
 
-            Bus.$on('submitTickets', function() {
+            Bus.$on('onboardingSubmitTickets', function() {
                 let saveInput = {
                     tickets: component.tickets.map(function (ticket) {
                                 return { ticket_id: ticket.id };
@@ -149,7 +149,7 @@
             formatCheckbox(refName, value) {
                 Utils.formatCheckbox(this.$refs, null, refName, value);
 
-                this.has_whitecard = value;
+                this.has_whitecard = (value == 1 || value == 0) ? value : null;
                 
                 // if (value == 0) {
                 //     this.tickets = [];

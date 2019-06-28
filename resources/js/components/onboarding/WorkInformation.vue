@@ -111,8 +111,32 @@
         created() {
             let component = this;
 
-            Bus.$on('onboardingSubmitWorkInformation', function() {
+            Bus.$on('aboutMeTechnicalDetails', function(details) {
+                if (details) {
+                    component.input.right_to_work = details.right_to_work;
+                    component.input.has_tfn = details.has_tfn;
+                    component.input.has_abn = details.has_abn;
+                    component.input.english_skill = details.english_skill;
+                    component.input.drivers_license = details.drivers_license;
+                    component.input.has_registered_vehicle = details.has_registered_vehicle;
+
+                    component.formatCheckbox('right_to_work', details.right_to_work);
+                    component.formatCheckbox('has_tfn', details.has_tfn);
+                    component.formatCheckbox('has_abn', details.has_abn);
+                    component.formatCheckbox('english_skill', details.english_skill);
+                    component.formatCheckbox('drivers_license', details.drivers_license);
+                    component.formatCheckbox('has_registered_vehicle', details.has_registered_vehicle);
+                }
+            });
+
+            Bus.$on('onboardingSubmitWorkInformation', function(action) {
+                if (action == 'clear') {
+                    Utils.setObjectValues(component.input, null);
+                }
+
                 Api.submit(component.endpoints.save, component.$data.input);
+
+                Bus.$emit('aboutMeTechnicalDetails', component.input);
             });
         },
 
