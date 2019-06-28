@@ -576,7 +576,7 @@ p.bl-nav-tab-label {
 }
 .form-card {
   width: 588px;
-  padding: 29px 50px 30px 50px;
+  padding: 29px 40px 30px 40px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -1072,15 +1072,16 @@ p.bl-nav-tab-label {
   max-width: 7%;
 }
 .comp-col-left {
-  flex: 0 0 90.5%;
-  max-width: 90.5%;
-  margin-right: 20px;
+  flex: 0 0 92%;
+  max-width: 92%;
+  margin-right: 3%;
 
   select {
     background-position: 420px;
   }
 }
 .comp-col-right {
+  text-align: right;
   flex: 0 0 5%;
   max-width: 5%;
 }

@@ -1,18 +1,19 @@
 <template>
     <div class="form-card-body">
-        <photo-modal></photo-modal>
-
-        <div class="form-text-header" style="margin-bottom:12px">Company Registration</div>
-        
-        <div class="form-sub-header">{{ subHeader }}</div>
-        
-        <div class="comp-progress">
-            <div class="form-progress bl-mr24" :class="progressCls[0]"></div>
-            <div class="form-progress bl-mr24" :class="progressCls[1]"></div>
-            <div class="form-progress bl-mr24" :class="progressCls[2]"></div>
-            <div class="form-progress" :class="progressCls[3]"></div>
-        </div>
         <form>
+            <photo-modal></photo-modal>
+
+            <div class="form-text-header" style="margin-bottom:12px">Company Registration</div>
+            
+            <div class="form-sub-header">{{ subHeader }}</div>
+            
+            <div class="comp-progress">
+                <div class="form-progress" style="width:18%;margin-right:5%" :class="progressCls[0]"></div>
+                <div class="form-progress" style="width:18%;margin-right:5%" :class="progressCls[1]"></div>
+                <div class="form-progress" style="width:18%;margin-right:5%" :class="progressCls[2]"></div>
+                <div class="form-progress" style="width:18%;margin-right:5%" :class="progressCls[3]"></div>
+            </div>
+            
             <ul class="comp-card-wrapper" ref="compCardWrapper">
                 <li class="comp-card-list">
                     <div class="emp-row">
@@ -58,8 +59,7 @@
                         :key="index">
 
                         <div class="comp-col-left">
-                            <select v-model="input.company_secondary_functions[index]" style="background-position:405px"
-                                @change="setNextDisabled(1)">
+                            <select v-model="input.company_secondary_functions[index]" @change="setNextDisabled(1)">
 
                                 <option value="" disabled selected style="display:none">Company Specialisation</option>
                                 <option v-for="(type, idx) in secondary_company_functions" 
@@ -649,6 +649,31 @@
 
 <style scoped>
     li {
-        width: 495px;
+        width: 510px;
+    }
+    @media (width: 320px) {
+        li {
+            width: 200px;
+        }
+    }
+    @media (width: 360px) {
+        li {
+            width: 240px;
+        }
+    }
+    @media (width: 375px) {
+        li {
+            width: 255px;
+        }
+    }
+    @media (width: 411px) {
+        li {
+            width: 291px;
+        }
+    }
+    @media (width: 414px) {
+        li {
+            width: 294px;
+        }
     }
 </style>

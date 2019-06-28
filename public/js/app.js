@@ -19642,7 +19642,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nli[data-v-3e4eb5c4] {\n    width: 495px;\n}\n", ""]);
+exports.push([module.i, "\nli[data-v-3e4eb5c4] {\n    width: 510px;\n}\n@media (width: 320px) {\nli[data-v-3e4eb5c4] {\n        width: 200px;\n}\n}\n@media (width: 360px) {\nli[data-v-3e4eb5c4] {\n        width: 240px;\n}\n}\n@media (width: 375px) {\nli[data-v-3e4eb5c4] {\n        width: 255px;\n}\n}\n@media (width: 411px) {\nli[data-v-3e4eb5c4] {\n        width: 291px;\n}\n}\n@media (width: 414px) {\nli[data-v-3e4eb5c4] {\n        width: 294px;\n}\n}\n", ""]);
 
 // exports
 
@@ -54591,45 +54591,51 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "form-card-body" },
-    [
-      _c("photo-modal"),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "form-text-header",
-          staticStyle: { "margin-bottom": "12px" }
-        },
-        [_vm._v("Company Registration")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-sub-header" }, [
-        _vm._v(_vm._s(_vm.subHeader))
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "comp-progress" }, [
-        _c("div", {
-          staticClass: "form-progress bl-mr24",
-          class: _vm.progressCls[0]
-        }),
+  return _c("div", { staticClass: "form-card-body" }, [
+    _c(
+      "form",
+      [
+        _c("photo-modal"),
         _vm._v(" "),
-        _c("div", {
-          staticClass: "form-progress bl-mr24",
-          class: _vm.progressCls[1]
-        }),
+        _c(
+          "div",
+          {
+            staticClass: "form-text-header",
+            staticStyle: { "margin-bottom": "12px" }
+          },
+          [_vm._v("Company Registration")]
+        ),
         _vm._v(" "),
-        _c("div", {
-          staticClass: "form-progress bl-mr24",
-          class: _vm.progressCls[2]
-        }),
+        _c("div", { staticClass: "form-sub-header" }, [
+          _vm._v(_vm._s(_vm.subHeader))
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "form-progress", class: _vm.progressCls[3] })
-      ]),
-      _vm._v(" "),
-      _c("form", [
+        _c("div", { staticClass: "comp-progress" }, [
+          _c("div", {
+            staticClass: "form-progress",
+            class: _vm.progressCls[0],
+            staticStyle: { width: "18%", "margin-right": "5%" }
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "form-progress",
+            class: _vm.progressCls[1],
+            staticStyle: { width: "18%", "margin-right": "5%" }
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "form-progress",
+            class: _vm.progressCls[2],
+            staticStyle: { width: "18%", "margin-right": "5%" }
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "form-progress",
+            class: _vm.progressCls[3],
+            staticStyle: { width: "18%", "margin-right": "5%" }
+          })
+        ]),
+        _vm._v(" "),
         _c("ul", { ref: "compCardWrapper", staticClass: "comp-card-wrapper" }, [
           _c(
             "li",
@@ -54799,7 +54805,6 @@ var render = function() {
                                 "input.company_secondary_functions[index]"
                             }
                           ],
-                          staticStyle: { "background-position": "405px" },
                           on: {
                             change: [
                               function($event) {
@@ -55637,10 +55642,10 @@ var render = function() {
             1
           )
         ])
-      ])
-    ],
-    1
-  )
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
