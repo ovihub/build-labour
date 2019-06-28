@@ -16959,7 +16959,7 @@ p.bl-nav-tab-label {
 .me-col-left {
   flex: 0 0 27.5%;
   max-width: 27.5%;
-  margin-right: 18px;
+  margin-right: 3.5%;
 }
 
 .me-col-left select {
@@ -16969,7 +16969,7 @@ p.bl-nav-tab-label {
 .me-col-mid {
   flex: 0 0 37.5%;
   max-width: 37.5%;
-  margin-right: 18px;
+  margin-right: 3.5%;
 }
 
 .me-col-mid select {
