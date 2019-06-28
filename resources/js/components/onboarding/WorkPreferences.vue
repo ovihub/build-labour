@@ -41,7 +41,7 @@
         </div>
         <div class="me-row">
             <div class="role-col-left">
-                <select v-model="input.when" style="background-position:195px">
+                <select v-model="input.when">
                     <option key="1" value="3">3 months</option>
                     <option key="2" value="6">6 months</option>
                     <option key="3" value="9">9 months</option>
@@ -70,15 +70,15 @@
         <div class="me-label" v-if="input.willing_to_relocate">Select up to three countries:</div>
         <div class="me-row mb-3" v-if="input.willing_to_relocate">
             <div class="role-col-left">
-                <select v-model="input.selected_countries[0]" class="mb-3" style="width:350px;background-position:310px">
+                <select v-model="input.selected_countries[0]" class="mb-3" style="width:140%">
                     <option v-for="(country, index) in countries" :key="index" :value="country">{{ country }}</option>
                 </select>
                 
-                <select v-model="input.selected_countries[1]" class="mb-3" style="width:350px;background-position:310px">
+                <select v-model="input.selected_countries[1]" class="mb-3" style="width:140%">
                     <option v-for="(country, index) in countries" :key="index" :value="country">{{ country }}</option>
                 </select>
 
-                <select v-model="input.selected_countries[2]" class="mb-3" style="width:350px;background-position:310px">
+                <select v-model="input.selected_countries[2]" class="mb-3" style="width:140%">
                     <option v-for="(country, index) in countries" :key="index" :value="country">{{ country }}</option>
                 </select>
             </div>

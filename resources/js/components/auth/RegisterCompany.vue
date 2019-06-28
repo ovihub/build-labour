@@ -30,8 +30,7 @@
                         What is your main company function?
                     </div>
                     <div class="emp-row">
-                        <select v-model="input.company_main_company_id" style="background-position:450px"
-                            @change="onChangeMainCompanyFunctions">
+                        <select v-model="input.company_main_company_id" @change="onChangeMainCompanyFunctions">
 
                             <option value="" disabled selected style="display:none">Company Specialisation</option>
                             <option v-for="(main, index) in main_company_functions" :key="index" v-bind:value="main.id">
@@ -90,8 +89,7 @@
 
                 <li class="comp-card-list">
                     <div class="emp-row">
-                        <select v-model="input.company_business_type_id" style="background-position:450px"
-                            @change="setNextDisabled(2)">
+                        <select v-model="input.company_business_type_id" @change="setNextDisabled(2)">
 
                             <option value="" disabled selected style="display:none">Business Entity Type</option>
                             <option v-for="(type, index) in business_types" :key="index" v-bind:value="type.id">
@@ -104,8 +102,7 @@
                     </span>
 
                     <div class="emp-row">
-                        <select v-model="input.company_tier_id" style="background-position:450px"
-                            @change="setNextDisabled(2)">
+                        <select v-model="input.company_tier_id" @change="setNextDisabled(2)">
 
                             <option value="" disabled selected style="display:none">Entity Type Specialisation</option>
                             <option v-for="(tier, index) in tiers" :key="index" v-bind:value="tier.id">

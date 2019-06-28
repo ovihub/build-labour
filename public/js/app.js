@@ -3855,9 +3855,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -5963,7 +5960,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
 //
 //
 //
@@ -53106,7 +53102,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control record-input",
-                staticStyle: { margin: "0", "background-position": "345px" },
+                staticStyle: { margin: "0" },
                 on: {
                   change: [
                     function($event) {
@@ -54694,7 +54690,6 @@ var render = function() {
                         expression: "input.company_main_company_id"
                       }
                     ],
-                    staticStyle: { "background-position": "450px" },
                     on: {
                       change: [
                         function($event) {
@@ -54926,7 +54921,6 @@ var render = function() {
                       expression: "input.company_business_type_id"
                     }
                   ],
-                  staticStyle: { "background-position": "450px" },
                   on: {
                     change: [
                       function($event) {
@@ -55002,7 +54996,6 @@ var render = function() {
                       expression: "input.company_tier_id"
                     }
                   ],
-                  staticStyle: { "background-position": "450px" },
                   on: {
                     change: [
                       function($event) {
@@ -57738,7 +57731,6 @@ var render = function() {
                             expression: "input.business_type.id"
                           }
                         ],
-                        staticStyle: { "background-position": "470px" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -57802,7 +57794,6 @@ var render = function() {
                             expression: "input.tier.id"
                           }
                         ],
-                        staticStyle: { "background-position": "470px" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -57868,7 +57859,6 @@ var render = function() {
                             expression: "input.main_function.id"
                           }
                         ],
-                        staticStyle: { "background-position": "470px" },
                         on: {
                           change: [
                             function($event) {
@@ -60520,7 +60510,6 @@ var render = function() {
                   expression: "input.gender"
                 }
               ],
-              staticStyle: { "background-position": "205px" },
               on: {
                 change: function($event) {
                   var $$selectedVal = Array.prototype.filter
@@ -60719,7 +60708,6 @@ var render = function() {
                 expression: "input.country_birth"
               }
             ],
-            staticStyle: { "background-position": "465px" },
             on: {
               change: function($event) {
                 var $$selectedVal = Array.prototype.filter
@@ -61648,7 +61636,6 @@ var render = function() {
                   expression: "input.when"
                 }
               ],
-              staticStyle: { "background-position": "195px" },
               on: {
                 change: function($event) {
                   var $$selectedVal = Array.prototype.filter
@@ -61757,10 +61744,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "mb-3",
-                  staticStyle: {
-                    width: "350px",
-                    "background-position": "310px"
-                  },
+                  staticStyle: { width: "140%" },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -61803,10 +61787,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "mb-3",
-                  staticStyle: {
-                    width: "350px",
-                    "background-position": "310px"
-                  },
+                  staticStyle: { width: "140%" },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -61849,10 +61830,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "mb-3",
-                  staticStyle: {
-                    width: "350px",
-                    "background-position": "310px"
-                  },
+                  staticStyle: { width: "140%" },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -65002,7 +64980,6 @@ var render = function() {
                             expression: "input.education_id"
                           }
                         ],
-                        staticStyle: { "background-position": "470px" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter

@@ -3,7 +3,7 @@
         <div class="me-label">Gender</div>
         <div class="me-row">
             <div class="role-col-left">
-                <select v-model="input.gender" style="background-position:205px">
+                <select v-model="input.gender">
                     <option key="1" value="Male">Male</option>
                     <option key="2" value="Female">Female</option>
                     <option key="3" value="">Rather not say</option>
@@ -41,7 +41,7 @@
 
         <div class="me-label">Country of Birth</div>
         <div class="me-row mb-3">
-            <select style="background-position:465px" v-model="input.country_birth">
+            <select v-model="input.country_birth">
                 <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
             </select>
         </div>

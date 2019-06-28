@@ -11304,10 +11304,6 @@ span.ticket-delete:hover {
   margin-top: 28px;
 }
 
-.comp-row select {
-  background-position: 450px;
-}
-
 .comp-logo {
   width: 100px;
   height: 100px;
@@ -15741,7 +15737,7 @@ select {
   background-color: #ffffff;
   background-image: url(/img/icons/caret-down.png);
   background-image: -webkit-image-set(url("/img/icons/caret-down@2x.png") 2x, url("/img/icons/caret-down@3x.png") 3x);
-  background-position: 210px;
+  background-position: 95%;
   background-repeat: no-repeat;
   cursor: pointer;
 }
@@ -16836,10 +16832,6 @@ p.bl-nav-tab-label {
   margin-left: 12px;
 }
 
-.emp-col-mid select {
-  background-position: 185px;
-}
-
 .emp-col-right {
   flex: 0 0 7%;
   max-width: 7%;
@@ -16849,10 +16841,6 @@ p.bl-nav-tab-label {
   flex: 0 0 92%;
   max-width: 92%;
   margin-right: 3%;
-}
-
-.comp-col-left select {
-  background-position: 420px;
 }
 
 .comp-col-right {
@@ -16947,22 +16935,10 @@ p.bl-nav-tab-label {
   flex-wrap: wrap;
 }
 
-.me-row .emp-col-left select {
-  background-position: 205px;
-}
-
-.me-row select {
-  background-position: 480px;
-}
-
 .me-col-left {
   flex: 0 0 27.5%;
   max-width: 27.5%;
   margin-right: 3.5%;
-}
-
-.me-col-left select {
-  background-position: 105px;
 }
 
 .me-col-mid {
@@ -16971,17 +16947,9 @@ p.bl-nav-tab-label {
   margin-right: 3.5%;
 }
 
-.me-col-mid select {
-  background-position: 155px;
-}
-
 .me-col-right {
   flex: 0 0 27.5%;
   max-width: 27.5%;
-}
-
-.me-col-right select {
-  background-position: 105px;
 }
 
 .bl-slider {

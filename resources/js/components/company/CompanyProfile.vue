@@ -73,7 +73,7 @@
 
                         <div class="emp-row">
                             <div class="modal-form-label">Business Entity Type</div>
-                            <select v-model="input.business_type.id" style="background-position:470px">
+                            <select v-model="input.business_type.id">
                                 <option v-for="(type, index) in business_types" :key="index" v-bind:value="type.id">
                                     {{ type.business_type }}
                                 </option>
@@ -85,7 +85,7 @@
 
                         <div class="emp-row">
                             <div class="modal-form-label">Entity Type Specialisation</div>
-                            <select v-model="input.tier.id" style="background-position:470px">
+                            <select v-model="input.tier.id">
                                 <option v-for="(tier, index) in tiers" :key="index" v-bind:value="tier.id">
                                     {{ tier.tier_name }}
                                 </option>
@@ -99,8 +99,7 @@
                             What is your main company function?
                         </div>
                         <div class="emp-row">
-                            <select v-model="input.main_function.id" style="background-position:470px"
-                                @change="onChangeMainCompanyFunctions">
+                            <select v-model="input.main_function.id" @change="onChangeMainCompanyFunctions">
                                 
                                 <option value="" disabled selected style="display:none">Company Specialisation</option>
                                 <option v-for="(main, index) in main_functions" :key="index" v-bind:value="main.id">
