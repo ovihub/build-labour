@@ -8003,13 +8003,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      saved: false,
       sections: null,
       step: 1,
       max: 1,
@@ -8052,32 +8049,24 @@ __webpack_require__.r(__webpack_exports__);
       component.max = component.$sections.length;
       component.goToStep(1);
     }, 1);
-    Bus.$on('goToNext', function () {
-      if (component.step == component.nextButtons.length) {
-        window.location.href = component.endpoints.profile;
-      }
-
-      component.goToStep(component.step + 1);
-    });
   },
   methods: {
+    save: function save() {
+      this.submit();
+      window.location.href = '/user/profile';
+    },
     next: function next() {
       Bus.$emit('alertHide');
 
-      if (this.saved) {
-        if (this.step == this.nextButtons.length) {
-          window.location.href = this.endpoints.profile;
-        }
-
-        this.saved = false;
-        this.goToStep(this.step + 1);
-      } else {
-        $('#confirmModal').modal('show');
+      if (this.step == this.nextButtons.length) {
+        window.location.href = this.endpoints.profile;
       }
+
+      this.goToStep(this.step + 1);
     },
     submit: function submit() {
-      this.saved = true;
       Bus.$emit('onboardingSubmit' + this.submitForms[this.step - 1]);
+      this.next();
     },
     setCssVars: function setCssVars() {
       this.$refs['compCardWrapper'].style.setProperty('--x', (this.step * 100 - 100) * -1 + '%');
@@ -60360,8 +60349,6 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
-        _c("confirm-modal"),
-        _vm._v(" "),
         _c("employment-modal"),
         _vm._v(" "),
         _c("education-modal"),
@@ -60433,10 +60420,7 @@ var render = function() {
         _c("div", { staticClass: "modal-footer" }, [
           _c(
             "div",
-            {
-              staticClass: "btn btn-link btn-delete",
-              on: { click: _vm.submit }
-            },
+            { staticClass: "btn btn-link btn-delete", on: { click: _vm.save } },
             [_vm._v("\n                Save and Finish later\n            ")]
           ),
           _vm._v(" "),
@@ -60445,7 +60429,7 @@ var render = function() {
             {
               staticClass: "pull-right",
               attrs: { type: "button" },
-              on: { click: _vm.next }
+              on: { click: _vm.submit }
             },
             [
               _vm._v(
@@ -78151,9 +78135,10 @@ function () {
                 component = this;
                 _context3.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(endpoint, input, Utils.getBearerAuth()).then(function (response) {
-                  Bus.$emit('alertSuccess', response.data.message);
+                  console.log(response.data.message); // Bus.$emit('alertSuccess', response.data.message);
                 }).catch(function (error) {
-                  Bus.$emit('alertError', error.response.data.message);
+                  console.log(error.response.data.message); // Bus.$emit('alertError', error.response.data.message);
+
                   Utils.handleError(error);
                 });
 

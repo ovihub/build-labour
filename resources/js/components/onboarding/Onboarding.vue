@@ -15,8 +15,6 @@
                 <div class="form-progress-2 bl-mr10" :class="progressCls[7]"></div>
                 <div class="form-progress-2" :class="progressCls[8]"></div>
             </div>
-            
-            <confirm-modal></confirm-modal>
 
             <employment-modal></employment-modal>
 
@@ -35,11 +33,11 @@
             </ul>
             
             <div class="modal-footer">
-                <div class="btn btn-link btn-delete" @click="submit">
+                <div class="btn btn-link btn-delete" @click="save">
                     Save and Finish later
                 </div>
 
-                <button class="pull-right" type="button" @click="next">
+                <button class="pull-right" type="button" @click="submit">
                     {{ nextButton }}
                 </button>
             </div>
@@ -54,7 +52,6 @@
 
         data() {
             return {
-                saved: false,
                 sections: null,
                 step: 1,
                 max: 1,
@@ -134,38 +131,30 @@
                 component.max = component.$sections.length;
                 component.goToStep(1);
             }, 1);
-
-            Bus.$on('goToNext', function() {
-                if (component.step == component.nextButtons.length) {
-                    window.location.href = component.endpoints.profile;
-                }
-
-                component.goToStep(component.step + 1);
-            });
         },
 
         methods: {
 
+            save() {
+                this.submit();
+
+                window.location.href = '/user/profile';
+            },
+
             next() {
                 Bus.$emit('alertHide');
 
-                if (this.saved) {
-                    if (this.step == this.nextButtons.length) {
-                        window.location.href = this.endpoints.profile;
-                    }
-
-                    this.saved = false;
-                    this.goToStep(this.step + 1);
-                
-                } else {
-                    $('#confirmModal').modal('show');
+                if (this.step == this.nextButtons.length) {
+                    window.location.href = this.endpoints.profile;
                 }
+
+                this.goToStep(this.step + 1);
             },
 
             submit() {
-                this.saved = true;
-
                 Bus.$emit('onboardingSubmit' + this.submitForms[this.step - 1]);
+
+                this.next();
             },
 
             setCssVars() {
