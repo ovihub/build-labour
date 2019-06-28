@@ -16789,14 +16789,13 @@ p.bl-nav-tab-label {
 .emp-col-right-2 {
   flex: 0 0 33.5%;
   max-width: 33.5%;
-  margin-left: 12px;
   margin-top: 4px;
 }
 
 .emp-col-left-2 {
   flex: 0 0 58.5%;
   max-width: 58.5%;
-  margin-right: 26px;
+  margin-right: 8%;
 }
 
 .ticket-col-left {
@@ -16994,7 +16993,7 @@ p.bl-nav-tab-label {
   border: solid 1px #ff7705;
   border-radius: 8px;
   height: 4px;
-  width: 310px;
+  width: 100%;
   outline: none;
   transition: background 450ms ease-in;
   -webkit-appearance: none;
