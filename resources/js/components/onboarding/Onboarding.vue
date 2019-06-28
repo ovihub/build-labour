@@ -205,7 +205,7 @@
     button {
         width: 200px;
     }
-    @media (max-width: 568px) {
+    @media (max-width: 600px) {
         li {
             width: 90vw;
         }

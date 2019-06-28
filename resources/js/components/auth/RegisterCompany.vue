@@ -648,6 +648,11 @@
     li {
         width: 510px;
     }
+    @media (max-width: 630px) {
+        li {
+            width: 70vw;
+        }
+    }
     @media (width: 320px) {
         li {
             width: 200px;

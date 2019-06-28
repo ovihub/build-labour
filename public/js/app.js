@@ -19638,7 +19638,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nli[data-v-3e4eb5c4] {\n    width: 510px;\n}\n@media (width: 320px) {\nli[data-v-3e4eb5c4] {\n        width: 200px;\n}\n}\n@media (width: 360px) {\nli[data-v-3e4eb5c4] {\n        width: 240px;\n}\n}\n@media (width: 375px) {\nli[data-v-3e4eb5c4] {\n        width: 255px;\n}\n}\n@media (width: 411px) {\nli[data-v-3e4eb5c4] {\n        width: 291px;\n}\n}\n@media (width: 414px) {\nli[data-v-3e4eb5c4] {\n        width: 294px;\n}\n}\n", ""]);
+exports.push([module.i, "\nli[data-v-3e4eb5c4] {\n    width: 510px;\n}\n@media (max-width: 630px) {\nli[data-v-3e4eb5c4] {\n        width: 70vw;\n}\n}\n@media (width: 320px) {\nli[data-v-3e4eb5c4] {\n        width: 200px;\n}\n}\n@media (width: 360px) {\nli[data-v-3e4eb5c4] {\n        width: 240px;\n}\n}\n@media (width: 375px) {\nli[data-v-3e4eb5c4] {\n        width: 255px;\n}\n}\n@media (width: 411px) {\nli[data-v-3e4eb5c4] {\n        width: 291px;\n}\n}\n@media (width: 414px) {\nli[data-v-3e4eb5c4] {\n        width: 294px;\n}\n}\n", ""]);
 
 // exports
 
@@ -19733,7 +19733,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nli[data-v-d6666418] {\n    width: 565px;\n}\nbutton[data-v-d6666418] {\n    width: 200px;\n}\n@media (max-width: 568px) {\nli[data-v-d6666418] {\n        width: 90vw;\n}\n}\n@media (max-width: 460px) {\n.modal-footer[data-v-d6666418] {\n        padding-left: 16px;\n        text-align: center;\n}\nbutton[data-v-d6666418] {\n        width: 100%;\n        margin-bottom: 20px;\n}\n}\n/*@media (width: 320px) {\n    li {\n        width: 280px;\n    }\n}\n@media (width: 360px) {\n    li {\n        width: 320px;\n    }\n}\n@media (width: 375px) {\n    li {\n        width: 335px;\n    }\n}\n@media (width: 411px) {\n    li {\n        width: 371px;\n    }\n}\n@media (width: 414px) {\n    li {\n        width: 374px;\n    }\n}*/\n@media (min-width: 768px) {\n.col-md-6[data-v-d6666418], .col-sm-6[data-v-d6666418] {\n        flex: 0 0 74%;\n        max-width: 74%;\n}\n}\n@media (min-width: 960px), (max-width: 1024) {\n.col-md-6[data-v-d6666418], .col-sm-6[data-v-d6666418] {\n        flex: 0 0 59%;\n        max-width: 59%;\n}\n}\n", ""]);
+exports.push([module.i, "\nli[data-v-d6666418] {\n    width: 565px;\n}\nbutton[data-v-d6666418] {\n    width: 200px;\n}\n@media (max-width: 600px) {\nli[data-v-d6666418] {\n        width: 90vw;\n}\n}\n@media (max-width: 460px) {\n.modal-footer[data-v-d6666418] {\n        padding-left: 16px;\n        text-align: center;\n}\nbutton[data-v-d6666418] {\n        width: 100%;\n        margin-bottom: 20px;\n}\n}\n/*@media (width: 320px) {\n    li {\n        width: 280px;\n    }\n}\n@media (width: 360px) {\n    li {\n        width: 320px;\n    }\n}\n@media (width: 375px) {\n    li {\n        width: 335px;\n    }\n}\n@media (width: 411px) {\n    li {\n        width: 371px;\n    }\n}\n@media (width: 414px) {\n    li {\n        width: 374px;\n    }\n}*/\n@media (min-width: 768px) {\n.col-md-6[data-v-d6666418], .col-sm-6[data-v-d6666418] {\n        flex: 0 0 74%;\n        max-width: 74%;\n}\n}\n@media (min-width: 960px), (max-width: 1024) {\n.col-md-6[data-v-d6666418], .col-sm-6[data-v-d6666418] {\n        flex: 0 0 59%;\n        max-width: 59%;\n}\n}\n", ""]);
 
 // exports
 
