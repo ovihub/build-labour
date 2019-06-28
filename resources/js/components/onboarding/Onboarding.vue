@@ -205,6 +205,11 @@
     button {
         width: 200px;
     }
+    @media (max-width: 568px) {
+        li {
+            width: 90vw;
+        }
+    }
     @media (max-width: 460px) {
         .modal-footer {
             padding-left: 16px;
@@ -215,7 +220,7 @@
             margin-bottom: 20px;
         }
     }
-    @media (width: 320px) {
+    /*@media (width: 320px) {
         li {
             width: 280px;
         }
@@ -239,7 +244,7 @@
         li {
             width: 374px;
         }
-    }
+    }*/
     @media (min-width: 768px) {
         .col-md-6, .col-sm-6 {
             flex: 0 0 74%;
