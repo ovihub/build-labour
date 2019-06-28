@@ -11379,8 +11379,7 @@ span.ticket-delete:hover {
 
 .comp-progress {
   text-align: center;
-  margin-top: 20px;
-  margin-bottom: 4px;
+  margin: 20px 50px 4px 50px;
 }
 
 .comp-card-wrapper {

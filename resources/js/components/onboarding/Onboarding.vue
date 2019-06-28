@@ -1,45 +1,47 @@
 <template>
-    <div class="profile-item-2">
-        <div class="profile-content" style="padding: 20px 0px 0px 0px">
-            <!-- ; max-height: 650px; overflow: scroll; -->
-            <div class="form-sub-header">{{ subHeader }}</div>
-            
-            <div class="comp-progress">
-                <div class="form-progress-2 bl-mr10" :class="progressCls[0]"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[1]"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[2]"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[3]"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[4]"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[5]"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[6]"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[7]"></div>
-                <div class="form-progress-2" :class="progressCls[8]"></div>
-            </div>
-
-            <employment-modal></employment-modal>
-
-            <education-modal></education-modal>
-
-            <ul class="comp-card-wrapper" ref="compCardWrapper">
-                <li class="comp-card-list"><current-role :most-recent-role="mostRecentRole"></current-role></li>
-                <li class="comp-card-list"><employment-history></employment-history></li>
-                <li class="comp-card-list"><education-history></education-history></li>
-                <li class="comp-card-list"><ticket-details></ticket-details></li>
-                <li class="comp-card-list"><skill-details></skill-details></li>
-                <li class="comp-card-list"><skill-achievements></skill-achievements></li>
-                <li class="comp-card-list"><work-preferences></work-preferences></li>
-                <li class="comp-card-list"><work-information></work-information></li>
-                <li class="comp-card-list"><personal-details></personal-details></li>
-            </ul>
-            
-            <div class="modal-footer">
-                <div class="btn btn-link btn-delete" @click="save">
-                    Save and Finish later
+    <div class="col-md-6">
+        <div class="profile-item-2">
+            <div class="profile-content" style="padding: 20px 0px 0px 0px">
+                <!-- ; max-height: 650px; overflow: scroll; -->
+                <div class="form-sub-header">{{ subHeader }}</div>
+                
+                <div class="comp-progress">
+                    <div class="form-progress-2 bl-mr10" :class="progressCls[0]"></div>
+                    <div class="form-progress-2 bl-mr10" :class="progressCls[1]"></div>
+                    <div class="form-progress-2 bl-mr10" :class="progressCls[2]"></div>
+                    <div class="form-progress-2 bl-mr10" :class="progressCls[3]"></div>
+                    <div class="form-progress-2 bl-mr10" :class="progressCls[4]"></div>
+                    <div class="form-progress-2 bl-mr10" :class="progressCls[5]"></div>
+                    <div class="form-progress-2 bl-mr10" :class="progressCls[6]"></div>
+                    <div class="form-progress-2 bl-mr10" :class="progressCls[7]"></div>
+                    <div class="form-progress-2" :class="progressCls[8]"></div>
                 </div>
 
-                <button class="pull-right" type="button" @click="submit">
-                    {{ nextButton }}
-                </button>
+                <employment-modal></employment-modal>
+
+                <education-modal></education-modal>
+
+                <ul class="comp-card-wrapper" ref="compCardWrapper">
+                    <li class="comp-card-list"><current-role :most-recent-role="mostRecentRole"></current-role></li>
+                    <li class="comp-card-list"><employment-history></employment-history></li>
+                    <li class="comp-card-list"><education-history></education-history></li>
+                    <li class="comp-card-list"><ticket-details></ticket-details></li>
+                    <li class="comp-card-list"><skill-details></skill-details></li>
+                    <li class="comp-card-list"><skill-achievements></skill-achievements></li>
+                    <li class="comp-card-list"><work-preferences></work-preferences></li>
+                    <li class="comp-card-list"><work-information></work-information></li>
+                    <li class="comp-card-list"><personal-details></personal-details></li>
+                </ul>
+                
+                <div class="modal-footer">
+                    <div class="btn btn-link btn-delete" @click="save">
+                        Save and Finish later
+                    </div>
+
+                    <button class="pull-right" type="button" @click="submit">
+                        {{ nextButton }}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -205,6 +207,7 @@
     }
     @media (max-width: 460px) {
         .modal-footer {
+            padding-left: 16px;
             text-align: center;
         }
         button {
@@ -235,6 +238,18 @@
     @media (width: 414px) {
         li {
             width: 374px;
+        }
+    }
+    @media (min-width: 768px) {
+        .col-md-6, .col-sm-6 {
+            flex: 0 0 74%;
+            max-width: 74%;
+        }
+    }
+    @media (min-width: 960px), (max-width: 1024) {
+        .col-md-6, .col-sm-6 {
+            flex: 0 0 59%;
+            max-width: 59%;
         }
     }
 </style>

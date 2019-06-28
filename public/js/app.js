@@ -8003,6 +8003,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -19735,7 +19737,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nli[data-v-d6666418] {\n    width: 565px;\n}\nbutton[data-v-d6666418] {\n    width: 200px;\n}\n@media (max-width: 460px) {\n.modal-footer[data-v-d6666418] {\n        text-align: center;\n}\nbutton[data-v-d6666418] {\n        width: 100%;\n        margin-bottom: 20px;\n}\n}\n@media (width: 320px) {\nli[data-v-d6666418] {\n        width: 280px;\n}\n}\n@media (width: 360px) {\nli[data-v-d6666418] {\n        width: 320px;\n}\n}\n@media (width: 375px) {\nli[data-v-d6666418] {\n        width: 335px;\n}\n}\n@media (width: 411px) {\nli[data-v-d6666418] {\n        width: 371px;\n}\n}\n@media (width: 414px) {\nli[data-v-d6666418] {\n        width: 374px;\n}\n}\n", ""]);
+exports.push([module.i, "\nli[data-v-d6666418] {\n    width: 565px;\n}\nbutton[data-v-d6666418] {\n    width: 200px;\n}\n@media (max-width: 460px) {\n.modal-footer[data-v-d6666418] {\n        padding-left: 16px;\n        text-align: center;\n}\nbutton[data-v-d6666418] {\n        width: 100%;\n        margin-bottom: 20px;\n}\n}\n@media (width: 320px) {\nli[data-v-d6666418] {\n        width: 280px;\n}\n}\n@media (width: 360px) {\nli[data-v-d6666418] {\n        width: 320px;\n}\n}\n@media (width: 375px) {\nli[data-v-d6666418] {\n        width: 335px;\n}\n}\n@media (width: 411px) {\nli[data-v-d6666418] {\n        width: 371px;\n}\n}\n@media (width: 414px) {\nli[data-v-d6666418] {\n        width: 374px;\n}\n}\n@media (min-width: 768px) {\n.col-md-6[data-v-d6666418], .col-sm-6[data-v-d6666418] {\n        flex: 0 0 74%;\n        max-width: 74%;\n}\n}\n@media (min-width: 960px), (max-width: 1024) {\n.col-md-6[data-v-d6666418], .col-sm-6[data-v-d6666418] {\n        flex: 0 0 59%;\n        max-width: 59%;\n}\n}\n", ""]);
 
 // exports
 
@@ -60290,157 +60292,177 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "profile-item-2" }, [
-    _c(
-      "div",
-      {
-        staticClass: "profile-content",
-        staticStyle: { padding: "20px 0px 0px 0px" }
-      },
-      [
-        _c("div", { staticClass: "form-sub-header" }, [
-          _vm._v(_vm._s(_vm.subHeader))
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "comp-progress" }, [
-          _c("div", {
-            staticClass: "form-progress-2 bl-mr10",
-            class: _vm.progressCls[0]
-          }),
+  return _c("div", { staticClass: "col-md-6" }, [
+    _c("div", { staticClass: "profile-item-2" }, [
+      _c(
+        "div",
+        {
+          staticClass: "profile-content",
+          staticStyle: { padding: "20px 0px 0px 0px" }
+        },
+        [
+          _c("div", { staticClass: "form-sub-header" }, [
+            _vm._v(_vm._s(_vm.subHeader))
+          ]),
           _vm._v(" "),
-          _c("div", {
-            staticClass: "form-progress-2 bl-mr10",
-            class: _vm.progressCls[1]
-          }),
+          _c("div", { staticClass: "comp-progress" }, [
+            _c("div", {
+              staticClass: "form-progress-2 bl-mr10",
+              class: _vm.progressCls[0]
+            }),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "form-progress-2 bl-mr10",
+              class: _vm.progressCls[1]
+            }),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "form-progress-2 bl-mr10",
+              class: _vm.progressCls[2]
+            }),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "form-progress-2 bl-mr10",
+              class: _vm.progressCls[3]
+            }),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "form-progress-2 bl-mr10",
+              class: _vm.progressCls[4]
+            }),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "form-progress-2 bl-mr10",
+              class: _vm.progressCls[5]
+            }),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "form-progress-2 bl-mr10",
+              class: _vm.progressCls[6]
+            }),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "form-progress-2 bl-mr10",
+              class: _vm.progressCls[7]
+            }),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "form-progress-2",
+              class: _vm.progressCls[8]
+            })
+          ]),
           _vm._v(" "),
-          _c("div", {
-            staticClass: "form-progress-2 bl-mr10",
-            class: _vm.progressCls[2]
-          }),
+          _c("employment-modal"),
           _vm._v(" "),
-          _c("div", {
-            staticClass: "form-progress-2 bl-mr10",
-            class: _vm.progressCls[3]
-          }),
+          _c("education-modal"),
           _vm._v(" "),
-          _c("div", {
-            staticClass: "form-progress-2 bl-mr10",
-            class: _vm.progressCls[4]
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "form-progress-2 bl-mr10",
-            class: _vm.progressCls[5]
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "form-progress-2 bl-mr10",
-            class: _vm.progressCls[6]
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "form-progress-2 bl-mr10",
-            class: _vm.progressCls[7]
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "form-progress-2",
-            class: _vm.progressCls[8]
-          })
-        ]),
-        _vm._v(" "),
-        _c("employment-modal"),
-        _vm._v(" "),
-        _c("education-modal"),
-        _vm._v(" "),
-        _c("ul", { ref: "compCardWrapper", staticClass: "comp-card-wrapper" }, [
           _c(
-            "li",
-            { staticClass: "comp-card-list" },
+            "ul",
+            { ref: "compCardWrapper", staticClass: "comp-card-wrapper" },
             [
-              _c("current-role", {
-                attrs: { "most-recent-role": _vm.mostRecentRole }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "comp-card-list" },
-            [_c("employment-history")],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "comp-card-list" },
-            [_c("education-history")],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "comp-card-list" },
-            [_c("ticket-details")],
-            1
-          ),
-          _vm._v(" "),
-          _c("li", { staticClass: "comp-card-list" }, [_c("skill-details")], 1),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "comp-card-list" },
-            [_c("skill-achievements")],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "comp-card-list" },
-            [_c("work-preferences")],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "comp-card-list" },
-            [_c("work-information")],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "comp-card-list" },
-            [_c("personal-details")],
-            1
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "modal-footer" }, [
-          _c(
-            "div",
-            { staticClass: "btn btn-link btn-delete", on: { click: _vm.save } },
-            [_vm._v("\n                Save and Finish later\n            ")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "pull-right",
-              attrs: { type: "button" },
-              on: { click: _vm.submit }
-            },
-            [
-              _vm._v(
-                "\n                " + _vm._s(_vm.nextButton) + "\n            "
+              _c(
+                "li",
+                { staticClass: "comp-card-list" },
+                [
+                  _c("current-role", {
+                    attrs: { "most-recent-role": _vm.mostRecentRole }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                { staticClass: "comp-card-list" },
+                [_c("employment-history")],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                { staticClass: "comp-card-list" },
+                [_c("education-history")],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                { staticClass: "comp-card-list" },
+                [_c("ticket-details")],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                { staticClass: "comp-card-list" },
+                [_c("skill-details")],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                { staticClass: "comp-card-list" },
+                [_c("skill-achievements")],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                { staticClass: "comp-card-list" },
+                [_c("work-preferences")],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                { staticClass: "comp-card-list" },
+                [_c("work-information")],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                { staticClass: "comp-card-list" },
+                [_c("personal-details")],
+                1
               )
             ]
-          )
-        ])
-      ],
-      1
-    )
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-footer" }, [
+            _c(
+              "div",
+              {
+                staticClass: "btn btn-link btn-delete",
+                on: { click: _vm.save }
+              },
+              [
+                _vm._v(
+                  "\n                    Save and Finish later\n                "
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "pull-right",
+                attrs: { type: "button" },
+                on: { click: _vm.submit }
+              },
+              [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.nextButton) +
+                    "\n                "
+                )
+              ]
+            )
+          ])
+        ],
+        1
+      )
+    ])
   ])
 }
 var staticRenderFns = []
