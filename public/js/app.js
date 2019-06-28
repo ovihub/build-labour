@@ -60896,10 +60896,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  placeholder: "Enter your Industry Skill"
-                },
+                attrs: { type: "text" },
                 domProps: { value: skill.skill_name },
                 on: {
                   input: function($event) {
@@ -64248,10 +64245,7 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control",
-                            attrs: {
-                              type: "text",
-                              placeholder: "Enter your Industry Skill"
-                            },
+                            attrs: { type: "text" },
                             domProps: { value: skill.skill_name },
                             on: {
                               input: function($event) {
