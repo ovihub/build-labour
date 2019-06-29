@@ -86,11 +86,11 @@
             },
 
             onClickCompanyPhoto(company_id) {
-                Utils.redirectToCompanyProfile(company_id);
+                Api.redirectToCompanyProfile(company_id);
             },
 
             onClickJobPost(company_id, job_id) {
-                Utils.redirectToJobPost(company_id, job_id);
+                Api.redirectToJobPost(company_id, job_id);
             },
 
         }

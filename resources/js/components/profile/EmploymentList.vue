@@ -85,6 +85,9 @@
 </template>
 
 <script>
+
+    import Api from '@/api';
+
     export default {
         data() {
             return {
@@ -96,7 +99,6 @@
                 imgSrcSet: '/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x',
                 endpoints: {
                     profile: '/user/profile',
-                    onboarding: '/user/onboarding',
                 }
             }
         },
@@ -121,7 +123,7 @@
                         (details.responsibilities.length > emps[index].responsibilities.length))) {
                         
                         if (window.location.pathname == component.endpoints.profile) {
-                            window.location.href = component.endpoints.profile;
+                            Api.redirectToProfile();
                         }
                     }
 
@@ -234,7 +236,7 @@
             },
 
             onClickCompanyPhoto(company_id) {
-                Utils.redirectToCompanyProfile(company_id);
+                Api.redirectToCompanyProfile(company_id);
             },
 
             action(index) {

@@ -55,8 +55,6 @@
                 },
                 endpoints: {
                     login: '/api/v1/auth/login',
-                    user_profile: '/user/profile',
-                    company_profile: '/user/profile',
                     reset: '/password/request',
                 }
             }
@@ -106,7 +104,7 @@
                             Api.setNavAvatar(initials, '');
                         }
 
-                        window.location.href = component.endpoints.user_profile;
+                        Api.redirectToProfile();
                     })
                     .catch(function(error) {
                         

@@ -57,7 +57,7 @@
         methods: {
 
             showProfile() {
-                window.location.href = '/user/profile';
+                Api.redirectToProfile();
             },
             
             logoutUser() {

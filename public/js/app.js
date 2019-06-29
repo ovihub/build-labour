@@ -3152,8 +3152,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       endpoints: {
         login: '/api/v1/auth/login',
-        user_profile: '/user/profile',
-        company_profile: '/user/profile',
         reset: '/password/request'
       }
     };
@@ -3200,7 +3198,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _api__WEBPACK_IMPORTED_MODULE_1__["default"].setNavAvatar(initials, '');
                   }
 
-                  window.location.href = component.endpoints.user_profile;
+                  _api__WEBPACK_IMPORTED_MODULE_1__["default"].redirectToProfile();
                 }).catch(function (error) {
                   Utils.setObjectValues(component.input, '');
                   Utils.handleError(error);
@@ -3290,7 +3288,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     showProfile: function showProfile() {
-      window.location.href = '/user/profile';
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].redirectToProfile();
     },
     logoutUser: function logoutUser() {
       var component = this;
@@ -3485,7 +3483,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       endpoints: {
         login: '/login',
-        profile: '/user/profile',
         register: '/api/v1/auth/register',
         onboarding: '/user/onboarding'
       }
@@ -3915,7 +3912,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       endpoints: {
         login: '/login',
         save: '/api/v1/auth/company/register',
-        company_profile: '/user/profile',
         company_options: '/api/v1/company/options'
       }
     };
@@ -4112,7 +4108,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _api__WEBPACK_IMPORTED_MODULE_1__["default"].setNavAvatar(Utils.getInitials(data.company.name), '');
                   }
 
-                  window.location.href = component.endpoints.company_profile;
+                  _api__WEBPACK_IMPORTED_MODULE_1__["default"].redirectToProfile();
                 }).catch(function (error) {
                   if (error.response) {
                     var data = error.response.data;
@@ -4729,7 +4725,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     onClickCompanyPhoto: function onClickCompanyPhoto() {
       if (this.companyId) {
-        Utils.redirectToCompanyProfile(this.companyId);
+        _api__WEBPACK_IMPORTED_MODULE_0__["default"].redirectToCompanyProfile(this.companyId);
       }
     }
   }
@@ -5414,10 +5410,10 @@ var cropper = null;
 
                     if (component.type == 'User') {
                       _api__WEBPACK_IMPORTED_MODULE_1__["default"].setNavAvatar('', data.data.user.profile_photo_url);
-                      window.location.href = '/user/profile';
+                      _api__WEBPACK_IMPORTED_MODULE_1__["default"].redirectToProfile();
                     } else if (component.type == 'Company') {
                       _api__WEBPACK_IMPORTED_MODULE_1__["default"].setNavAvatar('', data.data.photo_url.photo_url);
-                      window.location.href = '/user/profile';
+                      _api__WEBPACK_IMPORTED_MODULE_1__["default"].redirectToProfile();
                     } else {
                       Bus.$emit('alertSuccess', data.message);
                       Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
@@ -5818,7 +5814,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     onClickProfilePhoto: function onClickProfilePhoto(id) {
-      Utils.redirectToUserProfile(id);
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].redirectToUserProfile(id);
     }
   }
 });
@@ -7225,7 +7221,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return Utils.formatTimeDiffNow(created_at);
     },
     onClickCompanyPhoto: function onClickCompanyPhoto(company_id) {
-      Utils.redirectToCompanyProfile(company_id);
+      _api__WEBPACK_IMPORTED_MODULE_1__["default"].redirectToCompanyProfile(company_id);
     },
     save: function () {
       var _save = _asyncToGenerator(
@@ -7522,10 +7518,10 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     onClickCompanyPhoto: function onClickCompanyPhoto(company_id) {
-      Utils.redirectToCompanyProfile(company_id);
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].redirectToCompanyProfile(company_id);
     },
     onClickJobPost: function onClickJobPost(company_id, job_id) {
-      Utils.redirectToJobPost(company_id, job_id);
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].redirectToJobPost(company_id, job_id);
     }
   }
 });
@@ -8021,10 +8017,7 @@ __webpack_require__.r(__webpack_exports__);
       currentSection: '',
       subHeaders: ['Starting your profile', 'Employment History', 'Education', 'Tickets', 'Main Industry Skills', 'Main Industry Achievements', 'Work Preferences', 'Work Information', 'Personal Details'],
       nextButtons: ['To Employment History', 'To Education', 'To Tickets', 'To Industry Skills', 'To Achievements', 'To Work Preferences', 'To Work Information', 'To Personal Details', 'Complete Profile'],
-      submitForms: ['CurrentRole', 'EmploymentHistory', 'Education', 'Tickets', 'IndustrySkills', 'Achievements', 'WorkPreferences', 'WorkInformation', 'PersonalDetails'],
-      endpoints: {
-        profile: '/user/profile'
-      }
+      submitForms: ['CurrentRole', 'EmploymentHistory', 'Education', 'Tickets', 'IndustrySkills', 'Achievements', 'WorkPreferences', 'WorkInformation', 'PersonalDetails']
     };
   },
   props: {
@@ -8058,13 +8051,13 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     save: function save() {
       this.submit();
-      window.location.href = '/user/profile';
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].redirectToProfile();
     },
     next: function next() {
       Bus.$emit('alertHide');
 
       if (this.step == this.nextButtons.length) {
-        window.location.href = this.endpoints.profile;
+        _api__WEBPACK_IMPORTED_MODULE_0__["default"].redirectToProfile();
       }
 
       this.goToStep(this.step + 1);
@@ -9571,6 +9564,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
@@ -9657,6 +9651,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -9667,8 +9662,7 @@ __webpack_require__.r(__webpack_exports__);
       imgSrc: '/img/icons/expand.png',
       imgSrcSet: '/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x',
       endpoints: {
-        profile: '/user/profile',
-        onboarding: '/user/onboarding'
+        profile: '/user/profile'
       }
     };
   },
@@ -9687,7 +9681,7 @@ __webpack_require__.r(__webpack_exports__);
 
         if (emps[index] && (emps.length > 1 && details.isCurrent == 1 && component.formatPeriod(details) != component.formatPeriod(emps[index]) || details.responsibilities.length > emps[index].responsibilities.length)) {
           if (window.location.pathname == component.endpoints.profile) {
-            window.location.href = component.endpoints.profile;
+            _api__WEBPACK_IMPORTED_MODULE_0__["default"].redirectToProfile();
           }
         }
 
@@ -9778,7 +9772,7 @@ __webpack_require__.r(__webpack_exports__);
       return Utils.formatPeriod(new Date(emp.start_year, emp.start_month - 1, 1), endDate);
     },
     onClickCompanyPhoto: function onClickCompanyPhoto(company_id) {
-      Utils.redirectToCompanyProfile(company_id);
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].redirectToCompanyProfile(company_id);
     },
     action: function action(index) {
       Bus.$emit('showEmployment', index, index != -1 ? this.employments[index] : null);
@@ -78085,6 +78079,26 @@ function () {
       window.location.href = '/login';
     }
   }, {
+    key: "redirectToProfile",
+    value: function redirectToProfile() {
+      window.location = '/user/profile';
+    }
+  }, {
+    key: "redirectToUserProfile",
+    value: function redirectToUserProfile(user_id) {
+      window.location = '/user/profile/' + user_id;
+    }
+  }, {
+    key: "redirectToCompanyProfile",
+    value: function redirectToCompanyProfile(company_id) {
+      window.location = '/company/profile/' + company_id;
+    }
+  }, {
+    key: "redirectToJobPost",
+    value: function redirectToJobPost(company_id, job_id) {
+      window.location = '/job/view/?cid=' + company_id + '&jid=' + job_id;
+    }
+  }, {
     key: "_get",
     value: function () {
       var _get2 = _asyncToGenerator(
@@ -78166,13 +78180,11 @@ function () {
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(endpoint, input) {
-        var component;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                component = this;
-                _context3.next = 3;
+                _context3.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(endpoint, input, Utils.getBearerAuth()).then(function (response) {
                   console.log(response.data.message); // Bus.$emit('alertSuccess', response.data.message);
                 }).catch(function (error) {
@@ -78181,12 +78193,12 @@ function () {
                   Utils.handleError(error);
                 });
 
-              case 3:
+              case 2:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee3);
       }));
 
       function submit(_x4, _x5) {
@@ -83213,7 +83225,8 @@ window.Helper = {
       if (error.response) {
         var data = error.response.data;
 
-        if (data.http_status == 422) {// Bus.$emit('alertError', 'Invalid input! Please see errors below.');
+        if (data.http_status == 422) {
+          console.log('Invalid input!'); // Bus.$emit('alertError', 'Invalid input! Please see errors below.');
         } else {
           window.scrollTo(0, 0);
           Bus.$emit('alertError', data.message);
@@ -83330,18 +83343,6 @@ window.Helper = {
       }
 
       return years;
-    },
-    redirectToProfile: function redirectToProfile() {
-      window.location = '/user/profile';
-    },
-    redirectToUserProfile: function redirectToUserProfile(user_id) {
-      window.location = '/user/profile/' + user_id;
-    },
-    redirectToCompanyProfile: function redirectToCompanyProfile(company_id) {
-      window.location = '/company/profile/' + company_id;
-    },
-    redirectToJobPost: function redirectToJobPost(company_id, job_id) {
-      window.location = '/job/view/?cid=' + company_id + '&jid=' + job_id;
     },
     textAreaAdjust: function textAreaAdjust(o) {
       o.style.height = '1px';

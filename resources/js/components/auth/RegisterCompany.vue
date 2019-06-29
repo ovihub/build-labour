@@ -320,7 +320,6 @@
                 endpoints: {
                     login: '/login',
                     save: '/api/v1/auth/company/register',
-                    company_profile: '/user/profile',
                     company_options: '/api/v1/company/options',
                 }
             }
@@ -558,7 +557,7 @@
                             Api.setNavAvatar(Utils.getInitials(data.company.name), '');
                         }
 
-                        window.location.href = component.endpoints.company_profile;
+                        Api.redirectToProfile();
                     })
                     .catch(function(error) {
                         if (error.response) {

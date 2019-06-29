@@ -133,11 +133,11 @@
 
 								if (component.type == 'User') {
 									Api.setNavAvatar('', data.data.user.profile_photo_url);
-									window.location.href = '/user/profile';
+									Api.redirectToProfile();
 								
 								} else if (component.type == 'Company') {
 									Api.setNavAvatar('', data.data.photo_url.photo_url);
-									window.location.href = '/user/profile';
+									Api.redirectToProfile();
 									
 								} else {
 									Bus.$emit('alertSuccess', data.message);

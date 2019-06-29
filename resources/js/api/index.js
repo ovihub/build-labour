@@ -93,6 +93,22 @@ class BuildLabourApi {
         window.location.href = '/login';
     }
 
+    redirectToProfile() {
+        window.location = '/user/profile';
+    }
+
+    redirectToUserProfile(user_id) {
+        window.location = '/user/profile/' + user_id;
+    }
+
+    redirectToCompanyProfile(company_id) {
+        window.location = '/company/profile/' + company_id;
+    }
+
+    redirectToJobPost(company_id, job_id) {
+        window.location = '/job/view/?cid=' + company_id + '&jid=' + job_id;
+    }
+
     async _get(endpoint) {
         let component = this;
 
@@ -138,8 +154,6 @@ class BuildLabourApi {
 
     async submit(endpoint, input) {
         
-        let component = this;
-
         await Axios.post(endpoint, input, Utils.getBearerAuth())
 
             .then(function(response) {

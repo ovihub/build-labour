@@ -133,7 +133,7 @@
             },
 
             onClickCompanyPhoto(company_id) {
-                Utils.redirectToCompanyProfile(company_id);
+                Api.redirectToCompanyProfile(company_id);
             },
 
             async save(post) {

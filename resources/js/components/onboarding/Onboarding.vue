@@ -94,9 +94,6 @@
                     'WorkInformation',
                     'PersonalDetails',
                 ],
-                endpoints: {
-                    profile: '/user/profile',
-                },
             }
         },
 
@@ -140,14 +137,14 @@
             save() {
                 this.submit();
 
-                window.location.href = '/user/profile';
+                Api.redirectToProfile();
             },
 
             next() {
                 Bus.$emit('alertHide');
 
                 if (this.step == this.nextButtons.length) {
-                    window.location.href = this.endpoints.profile;
+                    Api.redirectToProfile();
                 }
 
                 this.goToStep(this.step + 1);
