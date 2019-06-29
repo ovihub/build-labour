@@ -5362,7 +5362,9 @@ var cropper = null;
         cropper.destroy();
       }
 
-      var image = document.getElementById('crop_photo');
+      var image = document.getElementById('crop_photo'),
+          modalWidth = $('#photoModal').width(),
+          containerWidth = modalWidth > 465 || modalWidth < 280 ? 465 : modalWidth;
       cropper = new cropperjs__WEBPACK_IMPORTED_MODULE_2___default.a(image, {
         viewMode: '1',
         dragMode: 'move',
@@ -5372,8 +5374,8 @@ var cropper = null;
         guides: false,
         center: false,
         highlight: false,
-        minContainerWidth: 465,
-        minContainerHeight: 465
+        minContainerWidth: containerWidth,
+        minContainerHeight: containerWidth
       });
     },
     close: function close() {
@@ -56867,13 +56869,7 @@ var render = function() {
         _c(
           "div",
           { staticClass: "row row-center", staticStyle: { margin: "0 auto" } },
-          [
-            _c(
-              "div",
-              { staticStyle: { flex: "0 0 79%", "max-width": "79%" } },
-              [_c("img", { attrs: { src: "", id: "crop_photo" } })]
-            )
-          ]
+          [_c("div", [_c("img", { attrs: { src: "", id: "crop_photo" } })])]
         )
       ]),
       _vm._v(" "),
