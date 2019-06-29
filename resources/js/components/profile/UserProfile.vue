@@ -304,9 +304,7 @@
                 $('#upload').val('');
             });
 
-            if (! parseInt(window.location.pathname.split('/').pop(), 10)) {
-                this.editable = true;
-            }
+            this.editable = Api.checkAuthUser();
         },
 
         methods: {

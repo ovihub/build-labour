@@ -93,6 +93,14 @@ class BuildLabourApi {
         window.location.href = '/login';
     }
 
+    checkAuthUser() {
+        if (! parseInt(window.location.pathname.split('/').pop(), 10)) {
+            return true;
+        }
+        
+        return false;
+    }
+
     redirectToProfile() {
         window.location = '/user/profile';
     }

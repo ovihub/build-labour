@@ -4985,6 +4985,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
@@ -4998,6 +4999,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5019,9 +5021,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    if (!parseInt(window.location.pathname.split('/').pop(), 10)) {
-      this.editable = true;
-    }
+    this.editable = _api__WEBPACK_IMPORTED_MODULE_0__["default"].checkAuthUser();
   },
   methods: {}
 });
@@ -6281,10 +6281,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       component.setDisplayValues(component.input, details);
     });
     this.getCompanyOptions();
-
-    if (!parseInt(window.location.pathname.split('/').pop(), 10)) {
-      this.editable = true;
-    }
+    this.editable = _api__WEBPACK_IMPORTED_MODULE_1__["default"].checkAuthUser();
   },
   props: {
     companyId: {
@@ -9037,10 +9034,7 @@ __webpack_require__.r(__webpack_exports__);
     Bus.$on('removeAboutMe', function () {
       component.submit('clear');
     });
-
-    if (!parseInt(window.location.pathname.split('/').pop(), 10)) {
-      this.editable = true;
-    }
+    this.editable = _api__WEBPACK_IMPORTED_MODULE_0__["default"].checkAuthUser();
   },
   methods: {
     setGeneralValues: function setGeneralValues(val, details) {
@@ -10189,6 +10183,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
@@ -10264,9 +10259,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      editable: false,
       introduction: '',
       when: '',
       max_distance: '',
@@ -10277,14 +10274,10 @@ __webpack_require__.r(__webpack_exports__);
       states: ['QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT']
     };
   },
-  props: {
-    userId: {
-      type: String,
-      default: null
-    }
-  },
   created: function created() {
-    if (!this.userId) {
+    this.editable = _api__WEBPACK_IMPORTED_MODULE_0__["default"].checkAuthUser();
+
+    if (this.editable) {
       var component = this;
       Bus.$on('idealRoleDetails', function (details) {
         if (details) {
@@ -11255,10 +11248,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     Bus.$on('closePhotoModal', function () {
       $('#upload').val('');
     });
-
-    if (!parseInt(window.location.pathname.split('/').pop(), 10)) {
-      this.editable = true;
-    }
+    this.editable = _api__WEBPACK_IMPORTED_MODULE_1__["default"].checkAuthUser();
   },
   methods: {
     setValues: function setValues(details) {
@@ -63940,7 +63930,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return !_vm.userId
+  return _vm.editable
     ? _c("div", { staticClass: "profile-item-1" }, [
         _c("div", { staticClass: "profile-content" }, [
           _c(
@@ -78077,6 +78067,15 @@ function () {
       vue_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.delete(this.initials);
       vue_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.delete(this.profile_photo_url);
       window.location.href = '/login';
+    }
+  }, {
+    key: "checkAuthUser",
+    value: function checkAuthUser() {
+      if (!parseInt(window.location.pathname.split('/').pop(), 10)) {
+        return true;
+      }
+
+      return false;
     }
   }, {
     key: "redirectToProfile",

@@ -12,6 +12,8 @@
 </template>
 
 <script>
+    import Api from '@/api';
+
     export default {
         data() {
             return {
@@ -35,9 +37,7 @@
         },
 
         created() {
-            if (! parseInt(window.location.pathname.split('/').pop(), 10)) {
-                this.editable = true;
-            }
+            this.editable = Api.checkAuthUser();
         },
 
         methods: {
