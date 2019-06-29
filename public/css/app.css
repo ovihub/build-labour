@@ -16831,15 +16831,15 @@ p.bl-nav-tab-label {
 }
 
 .comp-col-left {
-  flex: 0 0 92%;
-  max-width: 92%;
+  flex: 0 0 88%;
+  max-width: 88%;
   margin-right: 3%;
 }
 
 .comp-col-right {
-  text-align: right;
-  flex: 0 0 5%;
-  max-width: 5%;
+  text-align: center;
+  flex: 0 0 8.5%;
+  max-width: 8.5%;
 }
 
 .emp-label {
