@@ -11174,8 +11174,8 @@ span.ticket-delete:hover {
 .company-header {
   display: inline;
   font-weight: 500;
-  margin-left: 40px;
-  margin-right: 30px;
+  margin-left: 5%;
+  margin-right: 5%;
   padding: 10px 15px 10px 15px;
   cursor: pointer;
 }
