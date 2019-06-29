@@ -6211,6 +6211,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -6665,6 +6668,8 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
 //
 //
 //
@@ -8267,6 +8272,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -8717,6 +8725,9 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
+//
+//
+//
 //
 //
 //
@@ -9958,15 +9969,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -9996,7 +9998,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       end_month: '',
       end_year: '',
       responsibilities: [],
-      job_responsibilities: [],
       errors: {
         job_role: '',
         company_name: '',
@@ -10352,6 +10353,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
 //
 //
 //
@@ -10931,6 +10935,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
 //
 //
 //
@@ -57483,6 +57490,9 @@ var render = function() {
                     },
                     domProps: { value: _vm.input.introduction },
                     on: {
+                      focus: function($event) {
+                        return _vm.textAreaAdjust("companyIntro")
+                      },
                       keyup: function($event) {
                         return _vm.textAreaAdjust("companyIntro")
                       },
@@ -58714,6 +58724,9 @@ var render = function() {
                   },
                   domProps: { value: _vm.input.description },
                   on: {
+                    focus: function($event) {
+                      return _vm.textAreaAdjust("jobDesc")
+                    },
                     keyup: function($event) {
                       return _vm.textAreaAdjust("jobDesc")
                     },
@@ -58761,6 +58774,9 @@ var render = function() {
                   },
                   domProps: { value: _vm.input.about },
                   on: {
+                    focus: function($event) {
+                      return _vm.textAreaAdjust("jobAbout")
+                    },
                     keyup: function($event) {
                       return _vm.textAreaAdjust("jobAbout")
                     },
@@ -60803,6 +60819,9 @@ var render = function() {
         },
         domProps: { value: _vm.input.main_skill },
         on: {
+          focus: function($event) {
+            return _vm.textAreaAdjust("skillsIntro")
+          },
           keyup: function($event) {
             return _vm.textAreaAdjust("skillsIntro")
           },
@@ -61604,6 +61623,9 @@ var render = function() {
         },
         domProps: { value: _vm.input.introduction },
         on: {
+          focus: function($event) {
+            return _vm.textAreaAdjust("idealIntro")
+          },
           keyup: function($event) {
             return _vm.textAreaAdjust("idealIntro")
           },
@@ -63789,38 +63811,6 @@ var render = function() {
               [_vm._v("Responsibilities")]
             ),
             _vm._v(" "),
-            _vm._l(_vm.job_responsibilities, function(res, idx) {
-              return _c("textarea", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.job_responsibilities[idx],
-                    expression: "job_responsibilities[idx]"
-                  }
-                ],
-                key: idx,
-                staticClass: "form-control",
-                staticStyle: { overflow: "hidden" },
-                attrs: {
-                  rows: _vm.job_responsibilities[idx].length < 68 ? 1 : 2,
-                  disabled: ""
-                },
-                domProps: { value: _vm.job_responsibilities[idx] },
-                on: {
-                  focus: function($event) {
-                    return _vm.textAreaAdjust(idx)
-                  },
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.job_responsibilities, idx, $event.target.value)
-                  }
-                }
-              })
-            }),
-            _vm._v(" "),
             _vm._l(_vm.responsibilities, function(res, index) {
               return _c("textarea", {
                 directives: [
@@ -63831,7 +63821,7 @@ var render = function() {
                     expression: "responsibilities[index]"
                   }
                 ],
-                key: index + _vm.job_responsibilities.length,
+                key: index,
                 ref: "respItem-" + index,
                 refInFor: true,
                 staticClass: "form-control",
@@ -64190,6 +64180,9 @@ var render = function() {
                     },
                     domProps: { value: _vm.input.main_skill },
                     on: {
+                      focus: function($event) {
+                        return _vm.textAreaAdjust("skillsIntro")
+                      },
                       keyup: function($event) {
                         return _vm.textAreaAdjust("skillsIntro")
                       },
@@ -64942,6 +64935,9 @@ var render = function() {
                     },
                     domProps: { value: _vm.input.profile_description },
                     on: {
+                      focus: function($event) {
+                        return _vm.textAreaAdjust("userIntro")
+                      },
                       keyup: function($event) {
                         return _vm.textAreaAdjust("userIntro")
                       },

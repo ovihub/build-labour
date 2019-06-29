@@ -34,7 +34,10 @@
         </div>
         <textarea rows="3" ref="idealIntro" class="form-control" style="overflow:hidden"
             placeholder="Example: My ideal next role would be as a qualified plumber working on high-end residential jobs with an awesome team."
-            @keyup="textAreaAdjust('idealIntro')" v-model="input.introduction"></textarea>
+            @focus="textAreaAdjust('idealIntro')"
+            @keyup="textAreaAdjust('idealIntro')"
+            v-model="input.introduction">
+        </textarea>
         
         <div class="me-label">
             Ideally this would happen in:

@@ -43,7 +43,10 @@
                         <div class="skill-label">Summary of career</div>
                         <textarea rows="3" ref="userIntro" class="form-control" style="overflow:hidden"
                             placeholder="Example: Experienced Senior Project Manager; demonstrated history of working on a wide range of construction projects for leading companies."
-                            @keyup="textAreaAdjust('userIntro')" v-model="input.profile_description"></textarea>
+                            @focus="textAreaAdjust('userIntro')"
+                            @keyup="textAreaAdjust('userIntro')"
+                            v-model="input.profile_description">
+                        </textarea>
                         
                         <div class="skill-label">Education</div>
                         <div class="me-row">

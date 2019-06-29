@@ -16,7 +16,10 @@
                         <div class="skill-label">Company Overview</div>
                         <textarea rows="4" ref="companyIntro" class="form-control" style="overflow:hidden"
                             placeholder="Example: We are a modern, professional and sophisticated surveying firm specialising in land development, construction and engineering surveying. We provide quality, cost-effective and efficient surveying service."
-                            @keyup="textAreaAdjust('companyIntro')" v-model="input.introduction"></textarea>
+                            @focus="textAreaAdjust('companyIntro')"
+                            @keyup="textAreaAdjust('companyIntro')"
+                            v-model="input.introduction">
+                        </textarea>
                         
                         <span class="err-msg" v-if="errors.introduction">
                             {{ errors.introduction }}

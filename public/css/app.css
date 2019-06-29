@@ -15847,13 +15847,6 @@ button:focus {
 
 /* Change the white to any color ;) */
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  box-shadow: 0 0 0 30px white inset !important;
-}
-
 form input[type=text],
 form input[type=email],
 form input[type=number],
@@ -15864,6 +15857,7 @@ form input[type=password] {
   padding: 16px;
   margin: 0 auto;
   background: #fff;
+  text-overflow: ellipsis;
 }
 
 form input[type=text]:focus,
