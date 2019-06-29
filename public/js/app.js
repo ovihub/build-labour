@@ -9654,10 +9654,7 @@ __webpack_require__.r(__webpack_exports__);
       getBox: 'bl-box-2 hidden',
       getCls: 'responsibilities hidden',
       imgSrc: '/img/icons/expand.png',
-      imgSrcSet: '/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x',
-      endpoints: {
-        profile: '/user/profile'
-      }
+      imgSrcSet: '/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x'
     };
   },
   created: function created() {
@@ -9674,7 +9671,8 @@ __webpack_require__.r(__webpack_exports__);
         var emps = component.employments;
 
         if (emps[index] && (emps.length > 1 && details.isCurrent == 1 && component.formatPeriod(details) != component.formatPeriod(emps[index]) || details.responsibilities.length > emps[index].responsibilities.length)) {
-          if (window.location.pathname == component.endpoints.profile) {
+          if (window.location.pathname == '/user/profile') {
+            // for onboarding, need to revise
             _api__WEBPACK_IMPORTED_MODULE_0__["default"].redirectToProfile();
           }
         }
@@ -56804,19 +56802,7 @@ var render = function() {
               ])
             ]
           )
-        ]),
-        _vm._v(" "),
-        _c("img", {
-          staticClass: "bl-nav-tab-search",
-          attrs: {
-            src: "/img/icons/search.png",
-            srcset:
-              "/img/icons/search@2x.png" +
-              " 2x, " +
-              "/img/icons/search@3x.png" +
-              " 3x"
-          }
-        })
+        ])
       ],
       1
     )

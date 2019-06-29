@@ -97,9 +97,6 @@
                 getCls: 'responsibilities hidden',
                 imgSrc: '/img/icons/expand.png',
                 imgSrcSet: '/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x',
-                endpoints: {
-                    profile: '/user/profile',
-                }
             }
         },
 
@@ -122,7 +119,7 @@
                         component.formatPeriod(details) != component.formatPeriod(emps[index])) || 
                         (details.responsibilities.length > emps[index].responsibilities.length))) {
                         
-                        if (window.location.pathname == component.endpoints.profile) {
+                        if (window.location.pathname == '/user/profile') { // for onboarding, need to revise
                             Api.redirectToProfile();
                         }
                     }

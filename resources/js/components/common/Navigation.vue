@@ -57,8 +57,8 @@
                 </svg>
             </div>
                 
-            <img class="bl-nav-tab-search" src="/img/icons/search.png"
-                srcset="/img/icons/search@2x.png 2x, /img/icons/search@3x.png 3x">
+            <!-- <img class="bl-nav-tab-search" src="/img/icons/search.png"
+                srcset="/img/icons/search@2x.png 2x, /img/icons/search@3x.png 3x"> -->
         </div>
     </div>
 </template>
