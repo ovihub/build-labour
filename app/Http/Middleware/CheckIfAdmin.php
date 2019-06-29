@@ -19,8 +19,8 @@ class CheckIfAdmin
      */
     public function handle($request, Closure $next)
     {
-
         $page = \Route::current()->getName();
+        
         $token = isset($_COOKIE['bl_token']) ? $_COOKIE['bl_token'] : null;
 
         if (!$token) {

@@ -5,91 +5,74 @@ namespace App\Http\Controllers;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Tymon\JWTAuth\Token;
-use JWTAuth;
 use App\Models\Companies\Company;
 
 class UsersController extends Controller
 {
     public function showProfile($id = null)
     {
-        $page = \Route::current()->getName();
+        try {
+            $page = \Route::current()->getName();
+            
+            $user = $this->getAuthFromToken();
+            
+            if ($user) {
+                if ($id == null) {
+                    if ($user->role_id == 1) {
+                        return view('users.profile')->with('user_id', null);
+                    
+                    } else if ($user->role_id == 2) {
+                        return view('companies.profile')->with('company_id',
+                                    (Company::where('created_by', $user->id)->first())->id);
+                    }
+                }
 
-        $token = isset($_COOKIE['bl_token']) ? $_COOKIE['bl_token'] : null;
+                if ($page == 'company_profile') {
+                    $company = Company::where('created_by', $user->id)->first();
 
-        if ( !$token ) {
-            $user = JWTAuth::parseToken()->authenticate();
+                    if ($user->role_id == 2 && $company && $company->id == $id) {
+                        return redirect('/user/profile');
+                    }
 
-        } else {
-            $rawToken = substr($token, 1, -1);
-            $token = new Token($rawToken);
-            $payload = JWTAuth::decode($token);
+                    return view('companies.profile')->with('company_id', $id);
+                }
 
-            $user = Auth::loginUsingId($payload['sub']);
-        }
+                if ($page == 'profile') {
+                    if ($user->role_id == 1 && $user->id == $id) {
+                        return redirect('/user/profile');
+                    }
 
-        if ($user) {
-            if ($id == null) {
-                if ($user->role_id == 1) {
-                    return view('users.profile')->with('user_id', null);
-                
-                } else if ($user->role_id == 2) {
-                    return view('companies.profile')->with('company_id',
-                                (Company::where('created_by', $user->id)->first())->id);
+                    return view('users.profile')->with('user_id', $id);
                 }
             }
 
-            if ($page == 'company_profile') {
-                $company = Company::where('created_by', $user->id)->first();
-
-                if ($user->role_id == 2 && $company && $company->id == $id) {
-                    return redirect('/user/profile');
-                }
-
-                return view('companies.profile')->with('company_id', $id);
-            }
-
-            if ($page == 'profile') {
-                if ($user->role_id == 1 && $user->id == $id) {
-                    return redirect('/user/profile');
-                }
-
-                return view('users.profile')->with('user_id', $id);
-            }
-        }
+            $this->clearAuthToken();
         
-        setcookie('bl_token', null, time() + (86400 * 30), '/');
-
-        return redirect(route('login'));
+        } catch (\Exception $e) {
+        
+            return view('errors.500');
+        }
     }
 
-    public function showOnboarding() {
-        $token = isset($_COOKIE['bl_token']) ? $_COOKIE['bl_token'] : null;
+    public function showOnboarding()
+    {
+        try {
+            $user = $this->getAuthFromToken();
 
-        if ( !$token ) {
-            $user = JWTAuth::parseToken()->authenticate();
-
-        } else {
-            $rawToken = substr($token, 1, -1);
-            $token = new Token($rawToken);
-            $payload = JWTAuth::decode($token);
-
-            $user = Auth::loginUsingId($payload['sub']);
-        }
-
-        if ($user) {
-            if ($user->role_id == 1) {
-                return view('users.onboarding')->with('most_recent_role', $user->workerDetail->most_recent_role);
-            
-            } else {
+            if ($user) {
+                if ($user->role_id == 1) {
+                    return view('users.onboarding')->with('most_recent_role', $user->workerDetail->most_recent_role);
+                }
+                
                 return redirect('/user/profile');
             }
+
+            $this->clearAuthToken();
+
+        } catch (\Exception $e) {
+
+            return view('errors.500');
         }
-
-        setcookie('bl_token', null, time() + (86400 * 30), '/');
-
-        return redirect(route('login'));
     }
 
     public function showVerifyForm(Request $r)
