@@ -1,5 +1,5 @@
 <template>
-    <div class="profile-item-1" v-if="! userId">
+    <div class="profile-item-1" v-if="editable">
         <div class="profile-content">
             <div class="profile-content-p20 pt-3 pb-4">
                 
@@ -74,9 +74,12 @@
 </template>
 
 <script>
+    import Api from '@/api';
+    
     export default {
         data() {
             return {
+                editable: false,
                 introduction: '',
                 when: '',
                 max_distance: '',
@@ -90,15 +93,10 @@
             }
         },
 
-        props: {
-            userId: {
-                type: String,
-                default: null
-            }
-        },
-
         created() {
-            if (! this.userId) {
+            this.editable = Api.checkAuthUser();
+
+            if (this.editable) {
                 let component = this;
                 
                 Bus.$on('idealRoleDetails', function(details) {

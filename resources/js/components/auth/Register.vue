@@ -149,7 +149,6 @@
                 },
                 endpoints: {
                     login: '/login',
-                    profile: '/user/profile',
                     register: '/api/v1/auth/register',
                     onboarding: '/user/onboarding',
                 }

@@ -5,36 +5,33 @@ namespace App\Http\Controllers;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Tymon\JWTAuth\Token;
-use JWTAuth;
 
 class JobsController extends Controller
 {
     public function view()
     {
-        $page = \Route::current()->getName();
+        try {
+            $page = \Route::current()->getName();
 
-        $token = isset($_COOKIE['bl_token']) ? $_COOKIE['bl_token'] : null;
+            $user = $this->getAuthFromToken();
 
-        if (! $token) {
-            $user = JWTAuth::parseToken()->authenticate();
+            if ($user) {
+                $params = $_GET;
 
-        } else {
-            $rawToken = substr($token, 1, -1);
-            $token = new Token($rawToken);
-            $payload = JWTAuth::decode($token);
+                if ($page == 'view_job' && $params ||
+                   ($page == 'post_job' && $user && $user->role_id == 2 && ! isset($params['jid']))) {
+                    
+                    return view('jobs.view');
+                }
+                
+                return view('errors.404');
+            }
 
-            $user = Auth::loginUsingId($payload['sub']);
-        }
-
-        $params = $_GET;
-
-        if ($page == 'view_job' && $params || ($page == 'post_job' && $user->role_id == 2 && ! isset($params['jid']))) {
-            return view('jobs.view');
+            $this->clearAuthToken();
         
-        } else {
-            return view('errors.404');
+        } catch (\Exception $e) {
+
+            return view('errors.500');
         }
     }
 

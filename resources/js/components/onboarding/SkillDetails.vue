@@ -17,7 +17,7 @@
             :key="index">
             
             <div class="emp-col-left">
-                <input class="form-control" type="text" placeholder="Enter your Industry Skill" v-model="skill.skill_name" />
+                <input class="form-control" type="text" v-model="skill.skill_name" />
             </div>
 
             <div class="emp-col-mid">

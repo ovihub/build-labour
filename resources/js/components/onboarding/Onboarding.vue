@@ -1,47 +1,47 @@
 <template>
-    <div class="profile-item-2">
-        <div class="profile-content" style="padding: 20px 0px 0px 0px">
-            <!-- ; max-height: 650px; overflow: scroll; -->
-            <div class="form-sub-header">{{ subHeader }}</div>
-            
-            <div class="comp-progress">
-                <div class="form-progress-2 bl-mr10" :class="progressCls[0]"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[1]"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[2]"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[3]"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[4]"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[5]"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[6]"></div>
-                <div class="form-progress-2 bl-mr10" :class="progressCls[7]"></div>
-                <div class="form-progress-2" :class="progressCls[8]"></div>
-            </div>
-            
-            <confirm-modal></confirm-modal>
-
-            <employment-modal></employment-modal>
-
-            <education-modal></education-modal>
-
-            <ul class="comp-card-wrapper" ref="compCardWrapper">
-                <li class="comp-card-list"><current-role :most-recent-role="mostRecentRole"></current-role></li>
-                <li class="comp-card-list"><employment-history></employment-history></li>
-                <li class="comp-card-list"><education-history></education-history></li>
-                <li class="comp-card-list"><ticket-details></ticket-details></li>
-                <li class="comp-card-list"><skill-details></skill-details></li>
-                <li class="comp-card-list"><skill-achievements></skill-achievements></li>
-                <li class="comp-card-list"><work-preferences></work-preferences></li>
-                <li class="comp-card-list"><work-information></work-information></li>
-                <li class="comp-card-list"><personal-details></personal-details></li>
-            </ul>
-            
-            <div class="modal-footer">
-                <div class="btn btn-link btn-delete" @click="submit">
-                    Save and Finish later
+    <div class="col-md-6">
+        <div class="profile-item-2">
+            <div class="profile-content" style="padding: 20px 0px 0px 0px">
+                <!-- ; max-height: 650px; overflow: scroll; -->
+                <div class="form-sub-header">{{ subHeader }}</div>
+                
+                <div class="comp-progress">
+                    <div class="form-progress-2 bl-mr10" :class="progressCls[0]"></div>
+                    <div class="form-progress-2 bl-mr10" :class="progressCls[1]"></div>
+                    <div class="form-progress-2 bl-mr10" :class="progressCls[2]"></div>
+                    <div class="form-progress-2 bl-mr10" :class="progressCls[3]"></div>
+                    <div class="form-progress-2 bl-mr10" :class="progressCls[4]"></div>
+                    <div class="form-progress-2 bl-mr10" :class="progressCls[5]"></div>
+                    <div class="form-progress-2 bl-mr10" :class="progressCls[6]"></div>
+                    <div class="form-progress-2 bl-mr10" :class="progressCls[7]"></div>
+                    <div class="form-progress-2" :class="progressCls[8]"></div>
                 </div>
 
-                <button class="pull-right" type="button" @click="next">
-                    {{ nextButton }}
-                </button>
+                <employment-modal></employment-modal>
+
+                <education-modal></education-modal>
+
+                <ul class="comp-card-wrapper" ref="compCardWrapper">
+                    <li class="comp-card-list"><current-role :most-recent-role="mostRecentRole"></current-role></li>
+                    <li class="comp-card-list"><employment-history></employment-history></li>
+                    <li class="comp-card-list"><education-history></education-history></li>
+                    <li class="comp-card-list"><ticket-details></ticket-details></li>
+                    <li class="comp-card-list"><skill-details></skill-details></li>
+                    <li class="comp-card-list"><skill-achievements></skill-achievements></li>
+                    <li class="comp-card-list"><work-preferences></work-preferences></li>
+                    <li class="comp-card-list"><work-information></work-information></li>
+                    <li class="comp-card-list"><personal-details></personal-details></li>
+                </ul>
+                
+                <div class="modal-footer">
+                    <div class="btn btn-link btn-delete" @click="save">
+                        Save and Finish later
+                    </div>
+
+                    <button class="pull-right" type="button" @click="submit">
+                        {{ nextButton }}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -54,7 +54,6 @@
 
         data() {
             return {
-                saved: false,
                 sections: null,
                 step: 1,
                 max: 1,
@@ -95,9 +94,6 @@
                     'WorkInformation',
                     'PersonalDetails',
                 ],
-                endpoints: {
-                    profile: '/user/profile',
-                },
             }
         },
 
@@ -134,38 +130,30 @@
                 component.max = component.$sections.length;
                 component.goToStep(1);
             }, 1);
-
-            Bus.$on('goToNext', function() {
-                if (component.step == component.nextButtons.length) {
-                    window.location.href = component.endpoints.profile;
-                }
-
-                component.goToStep(component.step + 1);
-            });
         },
 
         methods: {
 
+            save() {
+                this.submit();
+
+                Api.redirectToProfile();
+            },
+
             next() {
                 Bus.$emit('alertHide');
 
-                if (this.saved) {
-                    if (this.step == this.nextButtons.length) {
-                        window.location.href = this.endpoints.profile;
-                    }
-
-                    this.saved = false;
-                    this.goToStep(this.step + 1);
-                
-                } else {
-                    $('#confirmModal').modal('show');
+                if (this.step == this.nextButtons.length) {
+                    Api.redirectToProfile();
                 }
+
+                this.goToStep(this.step + 1);
             },
 
             submit() {
-                this.saved = true;
-
                 Bus.$emit('onboardingSubmit' + this.submitForms[this.step - 1]);
+
+                this.next();
             },
 
             setCssVars() {
@@ -213,5 +201,57 @@
     }
     button {
         width: 200px;
+    }
+    @media (max-width: 600px) {
+        li {
+            width: 90vw;
+        }
+    }
+    @media (max-width: 460px) {
+        .modal-footer {
+            padding-left: 16px;
+            text-align: center;
+        }
+        button {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+    }
+    /*@media (width: 320px) {
+        li {
+            width: 280px;
+        }
+    }
+    @media (width: 360px) {
+        li {
+            width: 320px;
+        }
+    }
+    @media (width: 375px) {
+        li {
+            width: 335px;
+        }
+    }
+    @media (width: 411px) {
+        li {
+            width: 371px;
+        }
+    }
+    @media (width: 414px) {
+        li {
+            width: 374px;
+        }
+    }*/
+    @media (min-width: 768px) {
+        .col-md-6, .col-sm-6 {
+            flex: 0 0 74%;
+            max-width: 74%;
+        }
+    }
+    @media (min-width: 960px), (max-width: 1024) {
+        .col-md-6, .col-sm-6 {
+            flex: 0 0 59%;
+            max-width: 59%;
+        }
     }
 </style>

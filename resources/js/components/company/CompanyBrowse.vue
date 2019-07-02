@@ -49,3 +49,18 @@
         }
     }
 </script>
+
+<style>
+    @media (max-width: 380px) {
+        .company-header {
+            margin-right: 2%;
+            margin-left: 2%;
+        }
+    }
+    @media (max-width: 340px) {
+        .company-header {
+            margin-right: 0;
+            margin-left: 0;
+        }
+    }
+</style>

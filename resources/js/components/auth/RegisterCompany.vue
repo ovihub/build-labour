@@ -1,18 +1,19 @@
 <template>
     <div class="form-card-body">
-        <photo-modal></photo-modal>
-
-        <div class="form-text-header" style="margin-bottom:12px">Company Registration</div>
-        
-        <div class="form-sub-header">{{ subHeader }}</div>
-        
-        <div class="comp-progress">
-            <div class="form-progress bl-mr24" :class="progressCls[0]"></div>
-            <div class="form-progress bl-mr24" :class="progressCls[1]"></div>
-            <div class="form-progress bl-mr24" :class="progressCls[2]"></div>
-            <div class="form-progress" :class="progressCls[3]"></div>
-        </div>
         <form>
+            <photo-modal></photo-modal>
+
+            <div class="form-text-header" style="margin-bottom:12px">Company Registration</div>
+            
+            <div class="form-sub-header">{{ subHeader }}</div>
+            
+            <div class="comp-progress">
+                <div class="form-progress" style="width:18%;margin-right:5%" :class="progressCls[0]"></div>
+                <div class="form-progress" style="width:18%;margin-right:5%" :class="progressCls[1]"></div>
+                <div class="form-progress" style="width:18%;margin-right:5%" :class="progressCls[2]"></div>
+                <div class="form-progress" style="width:18%;margin-right:5%" :class="progressCls[3]"></div>
+            </div>
+            
             <ul class="comp-card-wrapper" ref="compCardWrapper">
                 <li class="comp-card-list">
                     <div class="emp-row">
@@ -29,8 +30,7 @@
                         What is your main company function?
                     </div>
                     <div class="emp-row">
-                        <select v-model="input.company_main_company_id" style="background-position:450px"
-                            @change="onChangeMainCompanyFunctions">
+                        <select v-model="input.company_main_company_id" @change="onChangeMainCompanyFunctions">
 
                             <option value="" disabled selected style="display:none">Company Specialisation</option>
                             <option v-for="(main, index) in main_company_functions" :key="index" v-bind:value="main.id">
@@ -58,8 +58,7 @@
                         :key="index">
 
                         <div class="comp-col-left">
-                            <select v-model="input.company_secondary_functions[index]" style="background-position:405px"
-                                @change="setNextDisabled(1)">
+                            <select v-model="input.company_secondary_functions[index]" @change="setNextDisabled(1)">
 
                                 <option value="" disabled selected style="display:none">Company Specialisation</option>
                                 <option v-for="(type, idx) in secondary_company_functions" 
@@ -90,8 +89,7 @@
 
                 <li class="comp-card-list">
                     <div class="emp-row">
-                        <select v-model="input.company_business_type_id" style="background-position:450px"
-                            @change="setNextDisabled(2)">
+                        <select v-model="input.company_business_type_id" @change="setNextDisabled(2)">
 
                             <option value="" disabled selected style="display:none">Business Entity Type</option>
                             <option v-for="(type, index) in business_types" :key="index" v-bind:value="type.id">
@@ -104,8 +102,7 @@
                     </span>
 
                     <div class="emp-row">
-                        <select v-model="input.company_tier_id" style="background-position:450px"
-                            @change="setNextDisabled(2)">
+                        <select v-model="input.company_tier_id" @change="setNextDisabled(2)">
 
                             <option value="" disabled selected style="display:none">Entity Type Specialisation</option>
                             <option v-for="(tier, index) in tiers" :key="index" v-bind:value="tier.id">
@@ -323,7 +320,6 @@
                 endpoints: {
                     login: '/login',
                     save: '/api/v1/auth/company/register',
-                    company_profile: '/user/profile',
                     company_options: '/api/v1/company/options',
                 }
             }
@@ -561,7 +557,7 @@
                             Api.setNavAvatar(Utils.getInitials(data.company.name), '');
                         }
 
-                        window.location.href = component.endpoints.company_profile;
+                        Api.redirectToProfile();
                     })
                     .catch(function(error) {
                         if (error.response) {
@@ -649,6 +645,36 @@
 
 <style scoped>
     li {
-        width: 495px;
+        width: 510px;
+    }
+    @media (max-width: 630px) {
+        li {
+            width: 70vw;
+        }
+    }
+    @media (width: 320px) {
+        li {
+            width: 200px;
+        }
+    }
+    @media (width: 360px) {
+        li {
+            width: 240px;
+        }
+    }
+    @media (width: 375px) {
+        li {
+            width: 255px;
+        }
+    }
+    @media (width: 411px) {
+        li {
+            width: 291px;
+        }
+    }
+    @media (width: 414px) {
+        li {
+            width: 294px;
+        }
     }
 </style>

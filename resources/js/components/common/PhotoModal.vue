@@ -8,7 +8,7 @@
 
 		<template slot="custom-modal-content">
 			<div class="row row-center" style="margin:0 auto">
-                <div style="flex: 0 0 79%;max-width: 79%">
+                <div>
         			<img src="" id="crop_photo" />
 				</div>
       		</div>
@@ -85,7 +85,9 @@
 					cropper.destroy();
 				}
 
-				let image = document.getElementById('crop_photo');
+				let image = document.getElementById('crop_photo'),
+					modalWidth = $('#photoModal').width(),
+					containerWidth = (modalWidth > 465 || (modalWidth < 280)) ? 465 : modalWidth;
 
 				cropper = new Cropper(image, {
 					viewMode: '1',
@@ -96,8 +98,8 @@
 					guides: false,
 					center: false,
 					highlight: false,
-					minContainerWidth: 465,
-					minContainerHeight: 465,
+					minContainerWidth: containerWidth,
+					minContainerHeight: containerWidth,
 				});
 			},
 
@@ -131,11 +133,11 @@
 
 								if (component.type == 'User') {
 									Api.setNavAvatar('', data.data.user.profile_photo_url);
-									window.location.href = '/user/profile';
+									Api.redirectToProfile();
 								
 								} else if (component.type == 'Company') {
 									Api.setNavAvatar('', data.data.photo_url.photo_url);
-									window.location.href = '/user/profile';
+									Api.redirectToProfile();
 									
 								} else {
 									Bus.$emit('alertSuccess', data.message);

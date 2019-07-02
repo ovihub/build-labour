@@ -477,7 +477,6 @@ class WorkerRepository extends AbstractRepository
 
         $user->educations = $educations;
 
-
         return $user;
 
     }

@@ -103,7 +103,7 @@
 
 			onClickCompanyPhoto() {
 				if (this.companyId) {
-					Utils.redirectToCompanyProfile(this.companyId);
+					Api.redirectToCompanyProfile(this.companyId);
 				}
 			},
 			

@@ -93,6 +93,30 @@ class BuildLabourApi {
         window.location.href = '/login';
     }
 
+    checkAuthUser() {
+        if (! parseInt(window.location.pathname.split('/').pop(), 10)) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    redirectToProfile() {
+        window.location = '/user/profile';
+    }
+
+    redirectToUserProfile(user_id) {
+        window.location = '/user/profile/' + user_id;
+    }
+
+    redirectToCompanyProfile(company_id) {
+        window.location = '/company/profile/' + company_id;
+    }
+
+    redirectToJobPost(company_id, job_id) {
+        window.location = '/job/view/?cid=' + company_id + '&jid=' + job_id;
+    }
+
     async _get(endpoint) {
         let component = this;
 
@@ -138,17 +162,15 @@ class BuildLabourApi {
 
     async submit(endpoint, input) {
         
-        let component = this;
-
         await Axios.post(endpoint, input, Utils.getBearerAuth())
 
             .then(function(response) {
-                
-                Bus.$emit('alertSuccess', response.data.message);
+                console.log(response.data.message);
+                // Bus.$emit('alertSuccess', response.data.message);
             })
             .catch(function(error) {
-
-                Bus.$emit('alertError', error.response.data.message);
+                console.log(error.response.data.message);
+                // Bus.$emit('alertError', error.response.data.message);
 
                 Utils.handleError(error);
             });

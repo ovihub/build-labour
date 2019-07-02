@@ -27,7 +27,7 @@
             <div class="col-md-12">
                 <label class="record-label">JOB ROLE</label>
 
-                <select style="margin: 0; background-position: 345px;" class="form-control record-input" @change="onChange($event)" v-model="record.job_role_id">
+                <select style="margin:0" class="form-control record-input" @change="onChange($event)" v-model="record.job_role_id">
                     <option v-for="role in job_roles" :value="role.id">{{ role.job_role_name }}</option>
                 </select>
             </div>

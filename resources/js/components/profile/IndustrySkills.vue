@@ -19,7 +19,10 @@
                         
                         <textarea rows="3" ref="skillsIntro" class="form-control" style="overflow:hidden"
                             placeholder="Example: Worked on Rail link, saved $30,000 on budget, and delivered 2 weeks before project deadline."
-                            @keyup="textAreaAdjust('skillsIntro')" v-model="input.main_skill"></textarea>
+                            @focus="textAreaAdjust('skillsIntro')"
+                            @keyup="textAreaAdjust('skillsIntro')"
+                            v-model="input.main_skill">
+                        </textarea>
                         
                         <span class="err-msg" v-if="errors.main_skill">
                             {{ errors.main_skill }}
@@ -38,7 +41,7 @@
                             :key="index">
                             
                             <div class="emp-col-left">
-                                <input class="form-control" type="text" placeholder="Enter your Industry Skill" v-model="skill.skill_name" />
+                                <input class="form-control" type="text" v-model="skill.skill_name" />
                             </div>
 
                             <div class="emp-col-mid">

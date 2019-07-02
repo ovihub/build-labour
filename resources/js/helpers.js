@@ -81,6 +81,7 @@ window.Helper = {
                 let data = error.response.data;
                 
                 if (data.http_status == 422) {
+                    console.log('Invalid input!');
                     // Bus.$emit('alertError', 'Invalid input! Please see errors below.');
                 
                 } else {
@@ -201,18 +202,6 @@ window.Helper = {
             }
 
             return years;
-        },
-
-        redirectToUserProfile(user_id) {
-            window.location = '/user/profile/' + user_id;
-        },
-
-        redirectToCompanyProfile(company_id) {
-            window.location = '/company/profile/' + company_id;
-        },
-
-        redirectToJobPost(company_id, job_id) {
-            window.location = '/job/view/?cid=' + company_id + '&jid=' + job_id;
         },
 
         textAreaAdjust(o) {

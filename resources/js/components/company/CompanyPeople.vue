@@ -81,7 +81,7 @@
             },
 
             onClickProfilePhoto(id) {
-                Utils.redirectToUserProfile(id);
+                Api.redirectToUserProfile(id);
             },
         }
     }

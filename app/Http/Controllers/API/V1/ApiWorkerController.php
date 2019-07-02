@@ -709,11 +709,13 @@ class ApiWorkerController extends ApiBaseController
 
             if (!$user) {
 
+                $errMessage = 'User not found';
+
                 return $this->apiErrorResponse(
                     false,
-                    'invalid input',
+                    $errMessage,
                     self::HTTP_STATUS_INVALID_INPUT,
-                    'invalidInput'
+                    ['not_worker' => $errMessage]
                 );
             }
 

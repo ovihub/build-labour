@@ -136,15 +136,6 @@
                 </div>
 
                 <div class="emp-label" style="margin-bottom:17px">Responsibilities</div>
-
-                <textarea class="form-control" style="overflow:hidden"
-                    v-for="(res, idx) in job_responsibilities"
-                    :rows="job_responsibilities[idx].length < 68 ? 1 : 2"
-                    :key="idx"
-                    v-model="job_responsibilities[idx]"
-                    @focus="textAreaAdjust(idx)"
-                    disabled>
-                </textarea>
                 
                 <textarea class="form-control" style="overflow:hidden"
                     :rows="responsibilities[index].length < 68 ? 1 : 2"
@@ -152,7 +143,7 @@
                     @focus="textAreaAdjust(index)"
                     @keyup="onChangeResponsibilities(index)"
                     v-for="(res, index) in responsibilities"
-                    :key="index + job_responsibilities.length"
+                    :key="index"
                     v-model="responsibilities[index]"
                     placeholder="Add Another Responsibility">
                 </textarea>
@@ -202,7 +193,6 @@
                 end_month: '',
                 end_year: '',
                 responsibilities: [],
-                job_responsibilities: [],
                 errors: {
                     job_role: '', company_name: '', location: '', project_size: '', isCurrent: '',
                     start_month: '', start_year: '', end_month: '', end_year: '', responsibilities: [],

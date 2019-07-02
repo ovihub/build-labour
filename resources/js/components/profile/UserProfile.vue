@@ -43,11 +43,14 @@
                         <div class="skill-label">Summary of career</div>
                         <textarea rows="3" ref="userIntro" class="form-control" style="overflow:hidden"
                             placeholder="Example: Experienced Senior Project Manager; demonstrated history of working on a wide range of construction projects for leading companies."
-                            @keyup="textAreaAdjust('userIntro')" v-model="input.profile_description"></textarea>
+                            @focus="textAreaAdjust('userIntro')"
+                            @keyup="textAreaAdjust('userIntro')"
+                            v-model="input.profile_description">
+                        </textarea>
                         
                         <div class="skill-label">Education</div>
                         <div class="me-row">
-                            <select v-model="input.education_id" style="background-position:470px">
+                            <select v-model="input.education_id">
                                 <option value="" disabled selected v-if="educations.length == 0">No education added yet</option>
                                 <option v-for="(education, index) in educations" :key="index" v-bind:value="education.id">
                                     {{ education.course ? education.course.course_name: education.course_name }}
@@ -187,7 +190,7 @@
                 
                 <span class="profile-role-header mb-0" v-if="most_recent_role">Most Recent Role</span>
 
-                <div class="bl-display" v-if="most_recent_role">
+                <div v-if="most_recent_role">
                     <div class="bl-label-15">
                         {{ most_recent_role }}
                     </div>
@@ -301,9 +304,7 @@
                 $('#upload').val('');
             });
 
-            if (! parseInt(window.location.pathname.split('/').pop(), 10)) {
-                this.editable = true;
-            }
+            this.editable = Api.checkAuthUser();
         },
 
         methods: {

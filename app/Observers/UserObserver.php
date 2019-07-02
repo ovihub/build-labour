@@ -14,9 +14,11 @@ class UserObserver {
     public function saved($user)
     {
 
+        $user = User::find($user->id);
+        
         if (!$user->isEmployerSignup) {
 
-            if (!$user->WorkerDetail) {
+            if (!isset($user->workerDetail)) {
 
                 $request = Request::capture();
 

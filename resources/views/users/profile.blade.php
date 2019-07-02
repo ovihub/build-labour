@@ -6,7 +6,7 @@
         <div class="col-md-3">
             <user-profile></user-profile>
             <about-me></about-me>
-            <ideal-role user-id="{{ $user_id }}"></ideal-role>
+            <ideal-role></ideal-role>
         </div>
         <div class="col-md-6">
             <employment></employment>

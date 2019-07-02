@@ -107,6 +107,7 @@
 
                         <textarea rows="5" ref="jobDesc" class="form-control" style="overflow:hidden"
                             placeholder="Example: The Project Manager is accountable for the leadership and management of their nominated project including the achievement of safety, quality, commercial and programme objectives and the effective day to day management of the project team."
+                            @focus="textAreaAdjust('jobDesc')"
                             @keyup="textAreaAdjust('jobDesc')"
                             v-model="input.description">
                         </textarea>
@@ -121,6 +122,7 @@
 
                         <textarea rows="3" ref="jobAbout" class="form-control" style="overflow:hidden"
                             placeholder="Example: $730 million Residential Skycraper comprising of 941 residential apartments and 208 serviced apartments across 88 storeys."
+                            @focus="textAreaAdjust('jobAbout')"
                             @keyup="textAreaAdjust('jobAbout')"
                             v-model="input.about">
                         </textarea>

@@ -33,27 +33,10 @@ class CheckToken
             return redirect('login');
         }
 
-
         if ($page == 'login' || $page == 'register' || $page == 'register_company'
             || $page == 'password_request' || $page == 'password_reset') {
 
-            // if ( !$token ) {
-            //     $user = JWTAuth::parseToken()->authenticate();
-
-            // } else {
-            //     $rawToken = substr($token, 1, -1);
-            //     $token = new Token($rawToken);
-            //     $payload = JWTAuth::decode($token);
-
-            //     $user = Auth::loginUsingId($payload['sub']);
-            // }
-
-            // if ($user->role_id == 1) {
-            //     return redirect('/user/profile');
-            
-            // } else if ($user->role_id == 2) {
-                return redirect('/user/profile');
-            // }
+            return redirect('/user/profile');
         }
 
         return $next($request);
