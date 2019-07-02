@@ -266,21 +266,29 @@
             onChangeLocation(keyword) {
                 let component = this;
 
-                Promise.resolve(Api.getLocations(keyword)).then(function(data) {
-                    component.locations = (keyword != '' && (keyword && keyword.length > 0) && 
-                                            data.data && data.data.locations) ? 
-                                            data.data.locations.features : [];
-                });
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    Promise.resolve(Api.getLocations(keyword)).then(function(data) {
+                        component.locations = (data.data && data.data.locations) ? data.data.locations.features : [];
+                    });
+                
+                } else {
+                    this.locations = [];
+                }
             },
 
             onSearchJob(keyword) {
                 this.job_id = '';
 
                 let component = this;
-                
-                Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
-                    component.job_roles = data.data.job_roles;
-                });
+
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
+                        component.job_roles = data.data.job_roles;
+                    });
+
+                } else {
+                    this.job_roles = [];
+                }
             },
 
             onSearchCompany(keyword) {
@@ -290,11 +298,14 @@
                 // this.location = '';
                 // this.$refs['locationRef'].disabled = false;
 
-                Promise.resolve(Api.getCompanies(keyword)).then(function(data) {
-                    component.companies = (keyword != '' && (keyword && keyword.length > 0) && 
-                                            data.data && data.data.companies) ?
-                                            data.data.companies : [];
-                });
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    Promise.resolve(Api.getCompanies(keyword)).then(function(data) {
+                        component.companies = (data.data && data.data.companies) ? data.data.companies : [];
+                    });
+                
+                } else {
+                    this.companies = [];
+                }
             },
 
             onSelectJob(job) {

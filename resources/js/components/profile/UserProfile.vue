@@ -416,11 +416,14 @@
             onChangeLocation(keyword) {
                 let component = this;
                 
-                Promise.resolve(Api.getLocations(keyword)).then(function(data) {
-                    component.locations = (keyword != '' && (keyword && keyword.length > 0) && 
-                                            data.data && data.data.locations) ? 
-                                            data.data.locations.features : [];
-                });
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    Promise.resolve(Api.getLocations(keyword)).then(function(data) {
+                        component.locations = (data.data && data.data.locations) ? data.data.locations.features : [];
+                    });
+                
+                } else {
+                    this.locations = [];
+                }
             },
 
             onSelectLocation(location) {
@@ -432,9 +435,14 @@
             onSearchJob(keyword) {
                 let component = this;
                 
-                Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
-                    component.job_roles = data.data.job_roles;
-                });
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
+                        component.job_roles = data.data.job_roles;
+                    });
+
+                } else {
+                    this.job_roles = [];
+                }
             },
 
             onSelectJob(job) {

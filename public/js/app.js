@@ -3500,9 +3500,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   methods: {
     onSearchJob: function onSearchJob(keyword) {
       var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
-        component.job_roles = data.data.job_roles;
-      });
+
+      if (keyword != '' && keyword && keyword.length > 0) {
+        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
+          component.job_roles = data.data.job_roles;
+        });
+      } else {
+        this.job_roles = [];
+      }
     },
     onSelectJob: function onSelectJob(job) {
       this.input.most_recent_role = job.job_role_name;
@@ -4001,9 +4006,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onChangeLocation: function onChangeLocation(keyword) {
       var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
-        component.locations = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.locations ? data.data.locations.features : [];
-      });
+
+      if (keyword != '' && keyword && keyword.length > 0) {
+        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
+          component.locations = data.data && data.data.locations ? data.data.locations.features : [];
+        });
+      } else {
+        this.locations = [];
+      }
     },
     onSelectLocation: function onSelectLocation(location) {
       this.input.company_address = location;
@@ -6388,9 +6398,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onChangeLocation: function onChangeLocation(keyword) {
       var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
-        component.locations = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.locations ? data.data.locations.features : [];
-      });
+
+      if (keyword != '' && keyword && keyword.length > 0) {
+        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
+          component.locations = data.data && data.data.locations ? data.data.locations.features : [];
+        });
+      } else {
+        this.locations = [];
+      }
     },
     onSelectLocation: function onSelectLocation(location) {
       this.input.address = location;
@@ -6980,9 +6995,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onChangeLocation: function onChangeLocation(keyword) {
       var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
-        component.locations = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.locations && data.data.locations.features ? data.data.locations.features : [];
-      });
+
+      if (keyword != '' && keyword && keyword.length > 0) {
+        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
+          component.locations = data.data && data.data.locations ? data.data.locations.features : [];
+        });
+      } else {
+        this.locations = [];
+      }
     },
     onSelectLocation: function onSelectLocation(location) {
       this.input.location = location;
@@ -6991,15 +7011,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onSearchJob: function onSearchJob(keyword) {
       this.input.job_role_id = '';
       var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
-        component.job_roles = data.data ? data.data.job_roles : [];
-      });
+
+      if (keyword != '' && keyword && keyword.length > 0) {
+        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
+          component.job_roles = data.data.job_roles;
+        });
+      } else {
+        this.job_roles = [];
+      }
     },
     onSearchReportsTo: function onSearchReportsTo(keyword, index) {
       var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
-        component.reports_to_job_roles = data.data ? data.data.job_roles : [];
-      });
+
+      if (keyword != '' && keyword && keyword.length > 0) {
+        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
+          component.reports_to_job_roles = data.data ? data.data.job_roles : [];
+        });
+      } else {
+        this.reports_to_job_roles = [];
+      }
+
       this.reports_to_active_index = index;
     },
     onSelectReportsTo: function onSelectReportsTo(job) {
@@ -7775,9 +7806,14 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     onSearchJob: function onSearchJob(keyword) {
       var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_0__["default"].getJobRoles(keyword)).then(function (data) {
-        component.job_roles = data.data.job_roles;
-      });
+
+      if (keyword != '' && keyword && keyword.length > 0) {
+        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_0__["default"].getJobRoles(keyword)).then(function (data) {
+          component.job_roles = data.data.job_roles;
+        });
+      } else {
+        this.job_roles = [];
+      }
     },
     onSelectJob: function onSelectJob(job) {
       this.input.most_recent_role = job.job_role_name;
@@ -9423,9 +9459,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onSearchCourse: function onSearchCourse(keyword) {
       this.course_id = '';
       var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCourses(keyword)).then(function (data) {
-        component.courses = data.data.courses;
-      });
+
+      if (keyword != '' && keyword && keyword.length > 0) {
+        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCourses(keyword)).then(function (data) {
+          component.courses = data.data.courses;
+        });
+      } else {
+        this.courses = [];
+      }
     },
     onSelectCourse: function onSelectCourse(course) {
       this.course_id = course.id;
@@ -10057,25 +10098,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onChangeLocation: function onChangeLocation(keyword) {
       var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
-        component.locations = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.locations ? data.data.locations.features : [];
-      });
+
+      if (keyword != '' && keyword && keyword.length > 0) {
+        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
+          component.locations = data.data && data.data.locations ? data.data.locations.features : [];
+        });
+      } else {
+        this.locations = [];
+      }
     },
     onSearchJob: function onSearchJob(keyword) {
       this.job_id = '';
       var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
-        component.job_roles = data.data.job_roles;
-      });
+
+      if (keyword != '' && keyword && keyword.length > 0) {
+        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
+          component.job_roles = data.data.job_roles;
+        });
+      } else {
+        this.job_roles = [];
+      }
     },
     onSearchCompany: function onSearchCompany(keyword) {
       var component = this;
       this.company_id = ''; // this.location = '';
       // this.$refs['locationRef'].disabled = false;
 
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCompanies(keyword)).then(function (data) {
-        component.companies = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.companies ? data.data.companies : [];
-      });
+      if (keyword != '' && keyword && keyword.length > 0) {
+        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCompanies(keyword)).then(function (data) {
+          component.companies = data.data && data.data.companies ? data.data.companies : [];
+        });
+      } else {
+        this.companies = [];
+      }
     },
     onSelectJob: function onSelectJob(job) {
       this.job_id = job.id;
@@ -11334,9 +11389,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onChangeLocation: function onChangeLocation(keyword) {
       var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
-        component.locations = keyword != '' && keyword && keyword.length > 0 && data.data && data.data.locations ? data.data.locations.features : [];
-      });
+
+      if (keyword != '' && keyword && keyword.length > 0) {
+        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
+          component.locations = data.data && data.data.locations ? data.data.locations.features : [];
+        });
+      } else {
+        this.locations = [];
+      }
     },
     onSelectLocation: function onSelectLocation(location) {
       this.input.address = location;
@@ -11344,9 +11404,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onSearchJob: function onSearchJob(keyword) {
       var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
-        component.job_roles = data.data.job_roles;
-      });
+
+      if (keyword != '' && keyword && keyword.length > 0) {
+        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
+          component.job_roles = data.data.job_roles;
+        });
+      } else {
+        this.job_roles = [];
+      }
     },
     onSelectJob: function onSelectJob(job) {
       this.input.most_recent_role = job.job_role_name;

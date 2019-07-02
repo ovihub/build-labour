@@ -172,9 +172,14 @@
             onSearchJob(keyword) {
                 let component = this;
                 
-                Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
-                    component.job_roles = data.data.job_roles;
-                });
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
+                        component.job_roles = data.data.job_roles;
+                    });
+
+                } else {
+                    this.job_roles = [];
+                }
             },
 
             onSelectJob(job) {

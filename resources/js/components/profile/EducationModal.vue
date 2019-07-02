@@ -191,9 +191,14 @@
 
                 let component = this;
 
-                Promise.resolve(Api.getCourses(keyword)).then(function(data) {
-                    component.courses = data.data.courses;
-                });
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    Promise.resolve(Api.getCourses(keyword)).then(function(data) {
+                        component.courses = data.data.courses;
+                    });
+                    
+                } else {
+                    this.courses = [];
+                }
             },
 
             onSelectCourse(course) {
