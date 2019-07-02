@@ -9384,10 +9384,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -9410,7 +9406,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       start_year: '',
       end_month: '',
       end_year: '',
-      statuses: ['Completed Study', 'Still Studying', 'Incomplete'],
+      statuses: ['Completed Study', 'Still Studying'],
       errors: {
         course_name: '',
         education_status: '',
@@ -9501,8 +9497,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   school: this.school,
                   start_month: this.start_month,
                   start_year: this.start_year,
-                  end_month: this.end_month,
-                  end_year: this.end_year
+                  end_month: this.education_status != this.statuses[1] ? this.end_month : '',
+                  end_year: this.education_status != this.statuses[1] ? this.end_year : ''
                 };
                 Utils.setObjectValues(this.errors, '');
                 this.disabled = true;
@@ -62593,21 +62589,6 @@ var render = function() {
                 _vm._v(" "),
                 _c("label", { attrs: { for: "education_status_1" } }, [
                   _vm._v("Still Studying")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  ref: "education_status_2",
-                  staticClass: "styled-checkbox-round",
-                  attrs: { id: "education_status_2", type: "checkbox" },
-                  on: {
-                    change: function($event) {
-                      return _vm.formatEduStatus(2)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "education_status_2" } }, [
-                  _vm._v("Incomplete")
                 ])
               ])
             ]),

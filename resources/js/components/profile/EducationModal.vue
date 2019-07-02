@@ -44,10 +44,6 @@
                         <input id="education_status_1" class="styled-checkbox-round" type="checkbox"
                             ref="education_status_1" @change="formatEduStatus(1)" />
                         <label for="education_status_1">Still Studying</label>
-
-                        <input id="education_status_2" class="styled-checkbox-round" type="checkbox"
-                            ref="education_status_2" @change="formatEduStatus(2)" />
-                        <label for="education_status_2">Incomplete</label>
                     </div>
                 </div>
 
@@ -133,7 +129,6 @@
                 statuses: [
                     'Completed Study',
                     'Still Studying',
-                    'Incomplete'
                 ],
                 errors: {
                     course_name: '', education_status: '', school: '', start_month: '', start_year: '', end_month: '', end_year: '',
@@ -231,8 +226,8 @@
                     school: this.school,
                     start_month: this.start_month,
                     start_year: this.start_year,
-                    end_month: this.end_month,
-                    end_year: this.end_year,
+                    end_month: this.education_status != this.statuses[1] ? this.end_month : '',
+                    end_year: this.education_status != this.statuses[1] ? this.end_year : '',
                 };
 
                 Utils.setObjectValues(this.errors, '');
