@@ -15,6 +15,8 @@ class Ticket extends BaseModel
 
     protected $fillable = [ 'ticket', 'description', 'created_by' ];
 
+    protected $hidden = [ 'created_at', 'updated_at' ];
+
     /**
      * @return array
      */

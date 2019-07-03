@@ -34,13 +34,13 @@
             <ul class="list-group">
                 <li class="list-group-item" v-for="(ticket, idx) in searchedTickets" :key="idx"
                     @click="onSelect(ticket)">
-                    {{ ticket.ticket }} - {{ ticket.description }}
+                    {{ ticket.ticket }} {{ ticket.description ? ('-' + ticket.description) : '' }}
                 </li>
             </ul>
         </div>
 
         <div class="emp-row" v-for="(ticket, idx) in tickets" :key="idx">
-            <span class="ticket-label">{{ ticket.ticket }} - {{ ticket.description }}</span>
+            <span class="ticket-label">{{ ticket.ticket }} {{ ticket.description ? ('-' + ticket.description) : '' }}</span>
 
             <span class="remove-ticket-icon" @click="onDelete(idx)">
                 <img src="/img/icons/remove.png"
@@ -83,7 +83,11 @@
             Bus.$on('onboardingSubmitTickets', function() {
                 let saveInput = {
                     tickets: component.tickets.map(function (ticket) {
-                                return { ticket_id: ticket.id };
+                                if (ticket.id) {
+                                    return { ticket_id: ticket.id };
+                                }
+                                
+                                return { ticket: ticket.ticket, description: ticket.description };
                              }),
                     has_whitecard: component.has_whitecard
                 };
@@ -112,7 +116,7 @@
 
             onSelect(ticket) {
                 this.selectedTicket = ticket;
-                this.keyword = ticket.ticket + ' - ' + ticket.description;
+                this.keyword = ticket.ticket + (ticket.description ? (' - ' + ticket.description) : '');
                 this.searchedTickets = [];
             },
 
@@ -121,11 +125,16 @@
             },
 
             onAdd() {
-                if (!this.selectedTicket) {
-                    return false;
-                }
-
                 let isFound = false;
+
+                if (! this.selectedTicket) {
+                    let parts = this.keyword.split('-');
+
+                    this.selectedTicket = {
+                        ticket: parts[0].trim(),
+                        description: parts[1] ? parts[1].trim() : null,
+                    }
+                }
 
                 for (let i in this.tickets) {
                     let ticket = this.tickets[i];
@@ -135,7 +144,7 @@
                     }
                 }
 
-                if (!isFound) {
+                if (! isFound) {
                     this.tickets.push(this.selectedTicket);
                     this.keyword = '';
                     this.selectedTicket = false;

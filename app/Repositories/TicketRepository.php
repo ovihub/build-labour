@@ -7,6 +7,7 @@ use App\Models\Users\UserTicket;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 use JWTAuth;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class TicketRepository extends AbstractRepository
 {
@@ -70,8 +71,18 @@ class TicketRepository extends AbstractRepository
             $tickets = $request->tickets;
 
             $saveTickets = array_map(function($ticket) use($user) {
-
+                if (! isset($ticket['ticket_id'])) {
+                    $ticket['ticket_id'] = Ticket::insertGetId([
+                        'ticket' => $ticket['ticket'],
+                        'description' => $ticket['description'],
+                        'created_by' => $user->id,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now()
+                    ]);
+                }
+                
                 return array('ticket_id' => $ticket['ticket_id'], 'user_id' => $user->id);
+
             }, $tickets);
 
             UserTicket::insert($saveTickets);

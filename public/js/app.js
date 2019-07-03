@@ -8518,8 +8518,15 @@ __webpack_require__.r(__webpack_exports__);
     Bus.$on('onboardingSubmitTickets', function () {
       var saveInput = {
         tickets: component.tickets.map(function (ticket) {
+          if (ticket.id) {
+            return {
+              ticket_id: ticket.id
+            };
+          }
+
           return {
-            ticket_id: ticket.id
+            ticket: ticket.ticket,
+            description: ticket.description
           };
         }),
         has_whitecard: component.has_whitecard
@@ -8542,18 +8549,22 @@ __webpack_require__.r(__webpack_exports__);
     },
     onSelect: function onSelect(ticket) {
       this.selectedTicket = ticket;
-      this.keyword = ticket.ticket + ' - ' + ticket.description;
+      this.keyword = ticket.ticket + (ticket.description ? ' - ' + ticket.description : '');
       this.searchedTickets = [];
     },
     onDelete: function onDelete(index) {
       this.tickets.splice(index, 1);
     },
     onAdd: function onAdd() {
-      if (!this.selectedTicket) {
-        return false;
-      }
-
       var isFound = false;
+
+      if (!this.selectedTicket) {
+        var parts = this.keyword.split('-');
+        this.selectedTicket = {
+          ticket: parts[0].trim(),
+          description: parts[1] ? parts[1].trim() : null
+        };
+      }
 
       for (var i in this.tickets) {
         var ticket = this.tickets[i];
@@ -61234,8 +61245,10 @@ var render = function() {
                       _vm._v(
                         "\n                " +
                           _vm._s(ticket.ticket) +
-                          " - " +
-                          _vm._s(ticket.description) +
+                          " " +
+                          _vm._s(
+                            ticket.description ? "-" + ticket.description : ""
+                          ) +
                           "\n            "
                       )
                     ]
@@ -61250,7 +61263,11 @@ var render = function() {
       _vm._l(_vm.tickets, function(ticket, idx) {
         return _c("div", { key: idx, staticClass: "emp-row" }, [
           _c("span", { staticClass: "ticket-label" }, [
-            _vm._v(_vm._s(ticket.ticket) + " - " + _vm._s(ticket.description))
+            _vm._v(
+              _vm._s(ticket.ticket) +
+                " " +
+                _vm._s(ticket.description ? "-" + ticket.description : "")
+            )
           ]),
           _vm._v(" "),
           _c(
