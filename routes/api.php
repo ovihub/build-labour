@@ -157,6 +157,8 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
     Route::get('countries', 'ApiGeneralController@getCountries');
     Route::get('courses', 'ApiGeneralController@getCourses');
 
+    Route::get('schools', 'ApiGeneralController@getSchools');
+
     Route::get('roles', 'ApiRolesController@index');
     Route::get('roles/job/search', 'ApiRolesController@searchJobRoles');
 

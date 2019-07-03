@@ -4,6 +4,7 @@ namespace App\Models\Users;
 
 use App\Course;
 use App\Models\BaseModel;
+use App\School;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -15,9 +16,28 @@ class Education extends BaseModel
     protected $table = 'educations';
     protected $primaryKey = 'id';
 
-    protected $fillable = [ 'course', 'school', 'description', 'start_month', 'start_year', 'end_month', 'end_year', 'user_id', 'course_id', 'education_status' ];
+    protected $fillable = [
+        'course',
+        'school',
+        'school_id',
+        'description',
+        'start_day',
+        'start_month',
+        'start_year',
+        'end_day',
+        'end_month',
+        'end_year',
+        'user_id',
+        'course_id',
+        'education_status'
+    ];
 
-    protected $appends = ['course_name'];
+    protected $appends = [
+        'course_name',
+        'school_name',
+        'school_logo'
+    ];
+
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
@@ -29,11 +49,16 @@ class Education extends BaseModel
         return [
             'course_name'   => 'nullable',
             'school'        => 'required',
-            'start_month'   => 'required|integer',
-            'start_year'    => 'required|integer',
-            'end_month'     => 'nullable|integer',
-            'end_year'      => 'nullable|integer',
-            'user_id'       => 'required|integer'
+            'user_id'       => 'required|integer',
+            'education_status' => 'required|in:completed study,still studying'
+        ];
+    }
+
+    public function validationMessages()
+    {
+        return [
+            'education_status.in'  => 'Education Status must be (Completed Study or Still Studying',
+            'date_of_birth.before' => 'You must be at least 18 years old.'
         ];
     }
 
@@ -46,7 +71,21 @@ class Education extends BaseModel
 
     private function validate( $data ){
 
-        $validator = \Validator::make($data, $this->rules());
+        $rules = $this->rules();
+
+        if (isset($data['school_id'])) {
+
+            unset($rules['school']);
+
+            $exist = School::where('id', $data['school_id'])->exists();
+
+            if (!$exist) {
+
+                return false;
+            }
+        }
+
+        $validator = \Validator::make($data, $rules, $this->validationMessages());
 
         if ( $validator->fails() ) {
 
@@ -56,13 +95,43 @@ class Education extends BaseModel
             return false;
         }
 
+        if ($data['education_status'] == 'completed study') {
 
-        if (isset($data['end_year']) && isset($data['end_month'])) {
+            $rules = [
+                'end_day'       => 'required|integer',
+                'end_month'     => 'required|integer',
+                'end_year'      => 'required|integer'
+            ];
 
-            $start = date("Y-m",strtotime($data['start_year'] . "-" . $data['start_month']));
-            $end = date("Y-m",strtotime($data['end_year'] . "-" . $data['end_month']));
+        } else if($data['education_status'] == 'still studying') {
 
-            if ($start > $end) { // invalid employment
+            $rules = [
+                'start_day'     => 'required|integer',
+                'start_month'   => 'required|integer',
+                'start_year'    => 'required|integer',
+                'end_day'       => 'required|integer',
+                'end_month'     => 'required|integer',
+                'end_year'      => 'required|integer'
+            ];
+
+        }
+
+        $validator = \Validator::make($data, $rules);
+
+        if ( $validator->fails() ) {
+
+            $this->errors = $validator->errors()->all();
+            $this->errorsDetail = $validator->errors()->toArray();
+
+            return false;
+        }
+
+        if ($data['education_status'] == 'still studying') {
+
+            $start = date("Y-m-d",strtotime($data['start_year'] . "-" . $data['start_month'] . "-" . $data['start_day']));
+            $end = date("Y-m-d",strtotime($data['end_year'] . "-" . $data['end_month'] . "-" . $data['end_day']));
+
+            if ($start > $end) { // invalid education
 
                 $validator->errors()->add( 'end_year', 'Start date should be earlier than end date' );
 
@@ -73,20 +142,6 @@ class Education extends BaseModel
             }
         }
 
-        if (isset($data['education_status']) && !empty($data['education_status'])) {
-
-            $status = ['completed study', 'still studying', 'incomplete'];
-
-            if (!in_array(strtolower($data['education_status']), $status)) {
-
-                $validator->errors()->add( 'education_status', 'Education Status must be (Completed Study or Still Studying or Incomplete');
-
-                $this->errors = $validator->errors()->all();
-                $this->errorsDetail = $validator->errors()->toArray();
-
-                return false;
-            }
-        }
 
         return true;
     }
@@ -106,6 +161,11 @@ class Education extends BaseModel
         $this->userId = $userId;
     }
 
+    public function Academy() {
+
+        return $this->belongsTo(School::class, 'school_id', 'id');
+    }
+
     public function getCourseNameAttribute() {
 
         if ($this->Course) {
@@ -117,17 +177,50 @@ class Education extends BaseModel
         return $this->course;
     }
 
+    public function getSchoolNameAttribute() {
+
+        if ($this->Academy) {
+
+            return $this->Academy->school_name;
+        }
+
+
+        return $this->school;
+    }
+
+    public function getSchoolLogoAttribute() {
+
+        if ($this->Academy && $this->Academy->logo_url) {
+
+            return $this->Academy->logo_url;
+        }
+
+
+        return null;
+    }
+
     public function store(Request $r) {
 
         $data = $r->all();
 
         $data['user_id'] = $this->userId;
 
+        if (isset($data['education_status'])) {
+
+            $data['education_status'] = strtolower($data['education_status']);
+
+            if ($data['education_status'] == 'completed study') {
+
+                $data['start_day'] = null;
+                $data['start_month'] = null;
+                $data['start_year'] = null;
+            }
+        }
+
         if( ! $this->validate( $data )) {
 
             return false;
         }
-
 
         $pk = $this->primaryKey;
 
