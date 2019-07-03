@@ -2853,6 +2853,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2869,7 +2875,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       endpoints: {
         get: '',
-        save: ''
+        save: '',
+        delete: '/api/v1/worker/ticket/'
       }
     };
   },
@@ -2888,6 +2895,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         component.endpoints.save = '/api/v1/user/ticket';
       }
     });
+    Bus.$on('removeTicket', function () {
+      Bus.$emit('adminSaveChanges', component.record.id);
+    });
   },
   methods: {
     viewRecord: function viewRecord() {
@@ -2897,6 +2907,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }).catch(function (error) {
         Utils.handleError(error);
       });
+    },
+    deleteRecord: function deleteRecord() {
+      $('#deleteRecordModal').modal('show');
+      Bus.$emit('deleteTicket', this.endpoints.delete + this.record.id);
     },
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -4889,6 +4903,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       component.action = 'IndustrySkill';
       component.endpoints.delete = endpoint;
     });
+    Bus.$on('deleteTicket', function (endpoint) {
+      component.action = 'Ticket';
+      component.endpoints.delete = endpoint;
+    });
     Bus.$on('deletePhoto', function (id) {
       component.action = 'Photo';
       component.endpoints.delete = '/api/v1/admin/user/photo/delete';
@@ -4908,7 +4926,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 component = this;
                 this.disabled = true;
 
-                if (!(this.action == 'Employment' || this.action == 'Education' || this.action == 'IndustrySkill')) {
+                if (!(this.action == 'Employment' || this.action == 'Education' || this.action == 'IndustrySkill' || this.action == 'Ticket')) {
                   _context.next = 7;
                   break;
                 }
@@ -53700,137 +53718,155 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm.show
-    ? _c("div", { staticClass: "form-group" }, [
-        _c("div", { staticClass: "record-title" }, [
-          _vm._v("\n        " + _vm._s(_vm.record.ticket) + "\n    ")
-        ]),
-        _vm._v(" "),
-        _vm.record.id != 0
-          ? _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-12" }, [
-                _c("label", { staticClass: "record-label" }, [_vm._v("ID")]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.record.id,
-                      expression: "record.id"
-                    }
-                  ],
-                  staticClass: "form-control record-input",
-                  attrs: { type: "text", disabled: "" },
-                  domProps: { value: _vm.record.id },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.record, "id", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("label", { staticClass: "record-label" }, [_vm._v("TICKET")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.record.ticket,
-                  expression: "record.ticket"
-                }
-              ],
-              staticClass: "form-control record-input",
-              attrs: { type: "text" },
-              domProps: { value: _vm.record.ticket },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.record, "ticket", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm.errors.ticket
-              ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.errors.ticket) +
-                      "\n            "
-                  )
-                ])
-              : _vm._e()
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _vm._m(0),
+    ? _c(
+        "div",
+        { staticClass: "form-group" },
+        [
+          _c("delete-modal"),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("textarea", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.record.description,
-                  expression: "record.description"
-                }
-              ],
-              staticClass: "record-textarea",
-              staticStyle: { height: "180px", border: "1px solid #ced4da" },
-              domProps: { value: _vm.record.description },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.record, "description", $event.target.value)
-                }
-              }
-            })
+          _c("div", { staticClass: "record-title" }, [
+            _vm._v("\n        " + _vm._s(_vm.record.ticket) + "\n    ")
           ]),
           _vm._v(" "),
-          _vm.errors.description
-            ? _c(
-                "span",
+          _vm.record.id != 0
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12" }, [
+                  _c("label", { staticClass: "record-label" }, [_vm._v("ID")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.record.id,
+                        expression: "record.id"
+                      }
+                    ],
+                    staticClass: "form-control record-input",
+                    attrs: { type: "text", disabled: "" },
+                    domProps: { value: _vm.record.id },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.record, "id", $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12" }, [
+              _c("label", { staticClass: "record-label" }, [_vm._v("TICKET")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.record.ticket,
+                    expression: "record.ticket"
+                  }
+                ],
+                staticClass: "form-control record-input",
+                attrs: { type: "text" },
+                domProps: { value: _vm.record.ticket },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.record, "ticket", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.ticket
+                ? _c("span", { staticClass: "err-msg bl-ml-20" }, [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.errors.ticket) +
+                        "\n            "
+                    )
+                  ])
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-12" }, [
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.record.description,
+                    expression: "record.description"
+                  }
+                ],
+                staticClass: "record-textarea",
+                staticStyle: { height: "180px", border: "1px solid #ced4da" },
+                domProps: { value: _vm.record.description },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.record, "description", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _vm.errors.description
+              ? _c(
+                  "span",
+                  {
+                    staticClass: "err-msg bl-ml-30",
+                    staticStyle: { "margin-top": "-6px" }
+                  },
+                  [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(_vm.errors.description) +
+                        "\n        "
+                    )
+                  ]
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group row mt-5" }, [
+            _c("div", { staticClass: "col-md-12" }, [
+              _c(
+                "div",
                 {
-                  staticClass: "err-msg bl-ml-30",
-                  staticStyle: { "margin-top": "-6px" }
+                  staticClass: "btn btn-link btn-delete mb-3",
+                  staticStyle: { "margin-right": "180px" },
+                  attrs: { "data-dismiss": "modal" },
+                  on: { click: _vm.deleteRecord }
                 },
-                [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(_vm.errors.description) +
-                      "\n        "
-                  )
-                ]
+                [_vm._v("\n                Delete\n            ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  attrs: { type: "submit", disabled: _vm.disabled },
+                  on: { click: _vm.submit }
+                },
+                [_vm._v("\n                Save Changes\n            ")]
               )
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group row mt-5" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c(
-              "button",
-              {
-                attrs: { type: "submit", disabled: _vm.disabled },
-                on: { click: _vm.submit }
-              },
-              [_vm._v("\n                Save Changes\n            ")]
-            )
+            ])
           ])
-        ])
-      ])
+        ],
+        1
+      )
     : _vm._e()
 }
 var staticRenderFns = [

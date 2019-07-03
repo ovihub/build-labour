@@ -1,5 +1,7 @@
 <template>
     <div class="form-group" v-if="show">
+        <delete-modal></delete-modal>
+
         <div class="record-title">
             {{ record.ticket }}
         </div>
@@ -39,6 +41,10 @@
 
         <div class="form-group row mt-5">
             <div class="col-md-12">
+                <div class="btn btn-link btn-delete mb-3" style="margin-right:180px" data-dismiss="modal" @click="deleteRecord">
+                    Delete
+                </div>
+                
                 <button type="submit" @click="submit" :disabled="disabled">
                     Save Changes
                 </button>
@@ -62,6 +68,7 @@
 				endpoints: {
                     get: '',
                     save: '',
+                    delete: '/api/v1/worker/ticket/',
 				}
 			}
 		},
@@ -83,6 +90,10 @@
                     component.endpoints.save = '/api/v1/user/ticket';
                 }
             });
+
+            Bus.$on('removeTicket', function() {
+                Bus.$emit('adminSaveChanges', component.record.id);
+            });
 		},
 		
 		methods: {
@@ -100,6 +111,12 @@
                         
                         Utils.handleError(error);
                     });
+            },
+
+            deleteRecord() {
+                $('#deleteRecordModal').modal('show');
+
+                Bus.$emit('deleteTicket', this.endpoints.delete + this.record.id);
             },
 
             async submit() {

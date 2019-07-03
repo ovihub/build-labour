@@ -73,6 +73,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 
             Route::get('tickets', 'ApiUserTicketsController@tickets');
             Route::post('tickets', 'ApiUserTicketsController@updateTickets'); // onboarding step 4
+            Route::delete('ticket/{id}', 'ApiUserTicketsController@deleteTicket');
 
             Route::post('personal-details', 'ApiWorkerController@updatePersonalDetails'); // onboarding step 8
 

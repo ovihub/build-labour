@@ -171,10 +171,12 @@ class UsersTableSeeder extends Seeder
                 'user_id' => $user->id
             ]);
 
+            $user2 = User::whereEmail('buildlabouradmin@testmail.com')->first();
+
             Ticket::create([
                 'ticket' => 'RIIWHS202D',
                 'description' => 'Enter and work in confined spaces',
-                'created_by' => $user->id,
+                'created_by' => $user2->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -182,7 +184,7 @@ class UsersTableSeeder extends Seeder
             Ticket::create([
                 'ticket' => 'HLTAID001',
                 'description' => 'Provide cardiopulmonary resuscitation [CPR]',
-                'created_by' => $user->id,
+                'created_by' => $user2->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -190,7 +192,7 @@ class UsersTableSeeder extends Seeder
             Ticket::create([
                 'ticket' => 'CPCCWHS1001',
                 'description' => 'Prepare to work safely in the construction industry',
-                'created_by' => $user->id,
+                'created_by' => $user2->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -198,7 +200,7 @@ class UsersTableSeeder extends Seeder
             Ticket::create([
                 'ticket' => 'RIIMPO320E',
                 'description' => 'Conduct civil construction excavator operations',
-                'created_by' => $user->id,
+                'created_by' => $user2->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -206,7 +208,7 @@ class UsersTableSeeder extends Seeder
             Ticket::create([
                 'ticket' => 'RIIMPO321E',
                 'description' => 'Conduct civil construction wheeled front end loader operations',
-                'created_by' => $user->id,
+                'created_by' => $user2->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -214,7 +216,7 @@ class UsersTableSeeder extends Seeder
             Ticket::create([
                 'ticket' => 'RIIMPO326D',
                 'description' => 'Conduct civil',
-                'created_by' => $user->id,
+                'created_by' => $user2->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -222,7 +224,7 @@ class UsersTableSeeder extends Seeder
             Ticket::create([
                 'ticket' => 'TLILIC20005',
                 'description' => 'Licence to operate a boom-type elevating work platform (boom length 11meters or more)',
-                'created_by' => $user->id,
+                'created_by' => $user2->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -230,7 +232,7 @@ class UsersTableSeeder extends Seeder
             Ticket::create([
                 'ticket' => 'RIIWHS302D',
                 'description' => 'Implement traffic management plan',
-                'created_by' => $user->id,
+                'created_by' => $user2->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -238,7 +240,7 @@ class UsersTableSeeder extends Seeder
             $t1 = Ticket::create([
                 'ticket' => 'CPCCDE3014A',
                 'description' => 'Remove non-friable asbestos',
-                'created_by' => $user->id,
+                'created_by' => $user2->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -246,7 +248,7 @@ class UsersTableSeeder extends Seeder
             $t2 = Ticket::create([
                 'ticket' => 'CPCCDE3015A ',
                 'description' => 'Remove friable asbestos',
-                'created_by' => $user->id,
+                'created_by' => $user2->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -254,7 +256,7 @@ class UsersTableSeeder extends Seeder
             $t3 = Ticket::create([
                 'ticket' => 'FWPCOT2237',
                 'description' => 'Maintain chainsaws',
-                'created_by' => $user->id,
+                'created_by' => $user2->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -262,7 +264,7 @@ class UsersTableSeeder extends Seeder
             $t4 = Ticket::create([
                 'ticket' => 'FWPCOT2238',
                 'description' => 'Cut materials with a hand-held chainsawk',
-                'created_by' => $user->id,
+                'created_by' => $user2->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
@@ -270,7 +272,7 @@ class UsersTableSeeder extends Seeder
             $t5 = Ticket::create([
                 'ticket' => 'FWPCOT2239',
                 'description' => 'Trim and cut felled tree',
-                'created_by' => $user->id,
+                'created_by' => $user2->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);

@@ -73,6 +73,11 @@
 				component.endpoints.delete = endpoint;
 			});
 
+			Bus.$on('deleteTicket', function(endpoint) {
+				component.action = 'Ticket';
+				component.endpoints.delete = endpoint;
+			});
+
 			Bus.$on('deletePhoto', function(id) {
 				component.action = 'Photo';
 				component.endpoints.delete = '/api/v1/admin/user/photo/delete';
@@ -87,7 +92,7 @@
 
 				this.disabled = true;
 				
-				if (this.action == 'Employment' || this.action == 'Education' || this.action == 'IndustrySkill') {
+				if (this.action == 'Employment' || this.action == 'Education' || this.action == 'IndustrySkill' || this.action == 'Ticket') {
 
 					await axios.delete(component.endpoints.delete, Utils.getBearerAuth())
 

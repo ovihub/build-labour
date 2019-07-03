@@ -24,7 +24,7 @@ class Ticket extends BaseModel
     {
         return [
             'ticket'         => 'required',
-            'description'    => 'required',
+            'description'    => 'nullable',
             'created_by'     => 'nullable|integer'
         ];
     }
