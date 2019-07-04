@@ -126,14 +126,15 @@ class UsersTableSeeder extends Seeder
 
             Education::create([
                 'course' => 'Construction & Engineer',
-                'school' => 'Royal Melbourne Institute of Technology',
+                'school' => 'Melbourne Institute of Technology',
+                'school_id' => 41,
                 'start_day' => 1,
                 'start_month' => 6,
                 'start_year' => 2009,
                 'end_day' => 1,
                 'end_month' => 4,
-                'end_year' => 2010,
-                'education_status' => 'still studying',
+                'end_year' => 2020,
+                'education_status' => 'Still Studying',
                 'description' => 'Learning at this school to be become a Psychologist',
                 'user_id' => $user->id
             ]);
@@ -144,7 +145,7 @@ class UsersTableSeeder extends Seeder
                 'end_day' => 1,
                 'end_month' => 6,
                 'end_year' => 2009,
-                'education_status' => 'still studying',
+                'education_status' => 'Completed Study',
                 'description' => 'Learning at this school to be become a Psychologist',
                 'user_id' => $user->id
             ]);
@@ -157,8 +158,8 @@ class UsersTableSeeder extends Seeder
                 'start_year' => 2015,
                 'end_day' => 1,
                 'end_month' => 11,
-                'end_year' => 2018,
-                'education_status' => 'still studying',
+                'end_year' => 2019,
+                'education_status' => 'Still Studying',
                 'description' => 'Learning at this school to be become a Psychologist',
                 'user_id' => $user->id
             ]);

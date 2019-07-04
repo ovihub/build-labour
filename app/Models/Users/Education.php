@@ -47,17 +47,17 @@ class Education extends BaseModel
     private function rules()
     {
         return [
-            'course_name'   => 'nullable',
-            'school'        => 'required',
+            'course_name'   => 'required',
+            'school'        => 'nullable',
             'user_id'       => 'required|integer',
-            'education_status' => 'required|in:completed study,still studying'
+            'education_status' => 'nullable|in:Completed Study,Still Studying'
         ];
     }
 
     public function validationMessages()
     {
         return [
-            'education_status.in'  => 'Education Status must be (Completed Study or Still Studying',
+            'education_status.in'  => 'Education Status must be Completed Study or Still Studying',
             'date_of_birth.before' => 'You must be at least 18 years old.'
         ];
     }
@@ -95,7 +95,7 @@ class Education extends BaseModel
             return false;
         }
 
-        if ($data['education_status'] == 'completed study') {
+        if ($data['education_status'] == 'Completed Study') {
 
             $rules = [
                 'end_day'       => 'required|integer',
@@ -103,7 +103,7 @@ class Education extends BaseModel
                 'end_year'      => 'required|integer'
             ];
 
-        } else if($data['education_status'] == 'still studying') {
+        } else if($data['education_status'] == 'Still Studying') {
 
             $rules = [
                 'start_day'     => 'required|integer',
@@ -126,7 +126,7 @@ class Education extends BaseModel
             return false;
         }
 
-        if ($data['education_status'] == 'still studying') {
+        if ($data['education_status'] == 'Still Studying') {
 
             $start = date("Y-m-d",strtotime($data['start_year'] . "-" . $data['start_month'] . "-" . $data['start_day']));
             $end = date("Y-m-d",strtotime($data['end_year'] . "-" . $data['end_month'] . "-" . $data['end_day']));
@@ -207,9 +207,9 @@ class Education extends BaseModel
 
         if (isset($data['education_status'])) {
 
-            $data['education_status'] = strtolower($data['education_status']);
+            // $data['education_status'] = strtolower($data['education_status']);
 
-            if ($data['education_status'] == 'completed study') {
+            if ($data['education_status'] == 'Completed Study') {
 
                 $data['start_day'] = null;
                 $data['start_month'] = null;

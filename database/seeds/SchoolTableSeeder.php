@@ -54,6 +54,7 @@ class SchoolTableSeeder extends Seeder
         $schools[] = ['name'=> 'University of the Sunshine Coast'];
         $schools[] = ['name'=> 'The University of Notre Dame Australia'];
         $schools[] = ['name'=> 'Torrens University Australia'];
+        $schools[] = ['name'=> 'Melbourne Institute of Technology'];
 
         foreach ($schools as $s) {
 

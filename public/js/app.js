@@ -9191,6 +9191,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api */ "./resources/js/api/index.js");
 //
 //
 //
@@ -9220,10 +9221,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      educations: []
+      educations: [],
+      statuses: ['Completed Study', 'Still Studying']
     };
   },
   created: function created() {
@@ -9235,6 +9243,10 @@ __webpack_require__.r(__webpack_exports__);
       if (index == -1) {
         component.educations.push(details);
       } else {
+        if (details.school_id != component.educations[index].school_id && window.location.pathname == '/user/profile') {
+          _api__WEBPACK_IMPORTED_MODULE_0__["default"].redirectToProfile();
+        }
+
         component.educations[index] = details;
         component.$refs['eduCourse-' + index][0].textContent = details.course ? details.course.course_name : details.course_name;
         component.$refs['eduSchool-' + index][0].textContent = details.school;
@@ -9246,12 +9258,31 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    formatPeriod: function formatPeriod(edu) {
-      if (!edu.end_month || !edu.end_year) {
-        return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - Present (Currently Studying)';
+    getInitials: function getInitials(name, school) {
+      return Utils.getInitials(name != null ? name.replace(' of ', ' ') : school ? school.school_name.replace(' of ', ' ') : '-');
+    },
+    getColorHex: function getColorHex(name) {
+      if (!name) {
+        return '#F0F2F4';
       }
 
-      return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
+      return '#' + Utils.getColorHex('#' + name);
+    },
+    formatPeriod: function formatPeriod(edu) {
+      if (edu.education_status == this.statuses[0]) {
+        // Completed
+        return 'Date of Completion: ' + ('0' + edu.end_month).slice(-2) + '/' + ('0' + edu.end_day).slice(-2) + '/' + edu.end_year;
+      } else if (edu.education_status == this.statuses[1]) {
+        // Still Studying
+        return ('0' + edu.start_month).slice(-2) + '/' + ('0' + edu.start_day).slice(-2) + '/' + edu.start_year + ' start — ' + ('0' + edu.end_month).slice(-2) + '/' + ('0' + edu.end_day).slice(-2) + '/' + edu.end_year + ' end';
+      } else {
+        return 'N/A';
+      } // if (! edu.end_month || ! edu.end_year) {
+      //     return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - Present (Currently Studying)';
+      // }
+      // return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + 
+      //        Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
+
     },
     action: function action(index) {
       Bus.$emit('showEducation', index, index != -1 ? this.educations[index] : null);
@@ -9384,7 +9415,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
+var currentYear = new Date().getFullYear();
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -9393,17 +9436,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       years: Utils.getYears(),
       current: -1,
       courses: [],
+      schools: [],
 
       /**
        * Save Input
        */
       id: '',
       course_id: '',
+      school_id: '',
       course_name: '',
       education_status: '',
       school: '',
+      start_day: '',
       start_month: '',
       start_year: '',
+      end_day: '',
       end_month: '',
       end_year: '',
       statuses: ['Completed Study', 'Still Studying'],
@@ -9434,11 +9481,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.id = details ? details.id : '';
       this.course_name = details ? details.course_name : '';
       this.education_status = details ? details.education_status : '';
-      this.school = details ? details.school : '';
+      this.school_id = details ? details.school_id : '';
+      this.school = details ? details.school_name : '';
+      this.start_day = details ? details.start_day : '';
       this.start_month = details ? details.start_month : '';
       this.start_year = details ? details.start_year : '';
-      this.end_month = details && details.education_status != this.statuses[1] ? details.end_month : '';
-      this.end_year = details && details.education_status != this.statuses[1] ? details.end_year : '';
+      this.end_day = details ? details.end_day : '';
+      this.end_month = details ? details.end_month : '';
+      this.end_year = details ? details.end_year : '';
       this.formatEduStatus(this.statuses.indexOf(this.education_status));
     },
     formatPeriod: function formatPeriod(edu) {
@@ -9469,7 +9519,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.course_name = course.course_name;
       this.courses = [];
     },
+    onSearchSchool: function onSearchSchool(keyword) {
+      this.school_id = '';
+      var component = this;
+
+      if (keyword != '' && keyword && keyword.length > 0) {
+        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getSchools(keyword)).then(function (data) {
+          component.schools = data.data.schools;
+        });
+      } else {
+        this.schools = [];
+      }
+    },
+    onSelectSchool: function onSelectSchool(school) {
+      this.school_id = school.id;
+      this.school = school.school_name;
+      this.schools = [];
+    },
     formatEduStatus: function formatEduStatus(value) {
+      if (this.education_status == this.statuses[1]) {
+        this.years = Utils.getYears(currentYear + 10, currentYear - 10);
+      }
+
       for (var i = 0; i < this.statuses.length; i++) {
         this.$refs['education_status_' + i].checked = false;
       }
@@ -9493,12 +9564,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 saveInput = {
                   course_id: this.course_id,
                   course_name: this.course_name,
-                  education_status: this.education_status,
+                  education_status: this.education_status ? this.education_status : null,
+                  school_id: this.school_id,
                   school: this.school,
+                  start_day: this.start_day,
                   start_month: this.start_month,
                   start_year: this.start_year,
-                  end_month: this.education_status != this.statuses[1] ? this.end_month : '',
-                  end_year: this.education_status != this.statuses[1] ? this.end_year : ''
+                  end_day: this.end_day,
+                  end_month: this.end_month,
+                  end_year: this.end_year
                 };
                 Utils.setObjectValues(this.errors, '');
                 this.disabled = true;
@@ -62306,7 +62380,33 @@ var render = function() {
         ),
         _vm._v(" "),
         _c("div", { staticClass: "jobads-row mt-4" }, [
-          _vm._m(0, true),
+          _c(
+            "div",
+            { staticClass: "bl-col-1" },
+            [
+              education.school_logo
+                ? _c("img", {
+                    staticClass: "bl-image-56",
+                    attrs: { src: education.school_logo }
+                  })
+                : _c("avatar", {
+                    attrs: {
+                      cls: "bl-image-56",
+                      size: "56",
+                      border: "0",
+                      "border-radius": "8px",
+                      "background-color": _vm.getColorHex(
+                        education.school_name
+                      ),
+                      initials: _vm.getInitials(
+                        education.school_name,
+                        education.academy
+                      )
+                    }
+                  })
+            ],
+            1
+          ),
           _vm._v(" "),
           _c(
             "div",
@@ -62343,7 +62443,7 @@ var render = function() {
                   [
                     _vm._v(
                       "\n                        " +
-                        _vm._s(education.school) +
+                        _vm._s(education.school_name) +
                         "\n                    "
                     )
                   ]
@@ -62373,20 +62473,7 @@ var render = function() {
     0
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bl-col-1" }, [
-      _c("img", {
-        staticClass: "bl-image-56",
-        staticStyle: { "margin-top": "0px" },
-        attrs: { src: "/img/logo/2.jpg" }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -62484,7 +62571,7 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _vm.courses.length > 0
+              _vm.courses && _vm.courses.length > 0
                 ? _c(
                     "div",
                     {
@@ -62540,6 +62627,9 @@ var render = function() {
                   attrs: { type: "text" },
                   domProps: { value: _vm.school },
                   on: {
+                    keyup: function($event) {
+                      return _vm.onSearchSchool(_vm.school)
+                    },
                     input: function($event) {
                       if ($event.target.composing) {
                         return
@@ -62559,6 +62649,44 @@ var render = function() {
                     ])
                   : _vm._e()
               ]),
+              _vm._v(" "),
+              _vm.schools && _vm.schools.length > 0
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "emp-row",
+                      staticStyle: { "margin-top": "0" }
+                    },
+                    [
+                      _c(
+                        "ul",
+                        { staticClass: "list-group" },
+                        _vm._l(_vm.schools, function(school, idx) {
+                          return _c(
+                            "li",
+                            {
+                              key: idx,
+                              staticClass: "list-group-item",
+                              on: {
+                                click: function($event) {
+                                  return _vm.onSelectSchool(school)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(school.school_name) +
+                                  "\n                        "
+                              )
+                            ]
+                          )
+                        }),
+                        0
+                      )
+                    ]
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c("div", { staticClass: "emp-row" }, [
                 _c("input", {
@@ -62701,115 +62829,113 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm.education_status != _vm.statuses[1]
-              ? _c("div", { staticClass: "emp-row" }, [
-                  _c("div", { staticClass: "role-col-left" }, [
-                    _c("div", { staticClass: "emp-form-label" }, [
-                      _vm._v("End Month")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
+            _c("div", { staticClass: "emp-row" }, [
+              _c("div", { staticClass: "role-col-left" }, [
+                _c("div", { staticClass: "emp-form-label" }, [
+                  _vm._v("End Month")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
                       {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.end_month,
-                            expression: "end_month"
-                          }
-                        ],
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.end_month = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          }
-                        }
-                      },
-                      _vm._l(_vm.months, function(month) {
-                        return _c(
-                          "option",
-                          { key: month.id, domProps: { value: month.id } },
-                          [_vm._v(_vm._s(month.name))]
-                        )
-                      }),
-                      0
-                    ),
-                    _vm._v(" "),
-                    _vm.errors.end_month
-                      ? _c("span", { staticClass: "err-msg" }, [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(_vm.errors.end_month) +
-                              "\n                    "
-                          )
-                        ])
-                      : _vm._e()
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "role-col-right" }, [
-                    _c("div", { staticClass: "emp-form-label" }, [
-                      _vm._v("End Year")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.end_month,
+                        expression: "end_month"
+                      }
+                    ],
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.end_month = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  _vm._l(_vm.months, function(month) {
+                    return _c(
+                      "option",
+                      { key: month.id, domProps: { value: month.id } },
+                      [_vm._v(_vm._s(month.name))]
+                    )
+                  }),
+                  0
+                ),
+                _vm._v(" "),
+                _vm.errors.end_month
+                  ? _c("span", { staticClass: "err-msg" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.errors.end_month) +
+                          "\n                    "
+                      )
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "role-col-right" }, [
+                _c("div", { staticClass: "emp-form-label" }, [
+                  _vm._v("End Year")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
                       {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.end_year,
-                            expression: "end_year"
-                          }
-                        ],
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.end_year = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          }
-                        }
-                      },
-                      _vm._l(_vm.years, function(year, index) {
-                        return _c(
-                          "option",
-                          { key: index, domProps: { value: year } },
-                          [_vm._v(_vm._s(year))]
-                        )
-                      }),
-                      0
-                    ),
-                    _vm._v(" "),
-                    _vm.errors.end_year
-                      ? _c("span", { staticClass: "err-msg" }, [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(_vm.errors.end_year) +
-                              "\n                    "
-                          )
-                        ])
-                      : _vm._e()
-                  ])
-                ])
-              : _vm._e()
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.end_year,
+                        expression: "end_year"
+                      }
+                    ],
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.end_year = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  _vm._l(_vm.years, function(year, index) {
+                    return _c(
+                      "option",
+                      { key: index, domProps: { value: year } },
+                      [_vm._v(_vm._s(year))]
+                    )
+                  }),
+                  0
+                ),
+                _vm._v(" "),
+                _vm.errors.end_year
+                  ? _c("span", { staticClass: "err-msg" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.errors.end_year) +
+                          "\n                    "
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            ])
           ]
         )
       ]),
@@ -78037,7 +78163,8 @@ function () {
       savedJobPosts: '/api/v1/bookmarks/posts/jobs/ids',
       countries: '/api/v1/countries',
       courses: '/api/v1/courses',
-      worker_tickets: '/api/v1/worker/tickets'
+      worker_tickets: '/api/v1/worker/tickets',
+      schools: '/api/v1/schools'
     }; //  this._headers()
   }
 
@@ -78206,16 +78333,76 @@ function () {
       return _post;
     }()
   }, {
+    key: "_search",
+    value: function () {
+      var _search2 = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(endpoint) {
+        var component;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                component = this;
+
+                if (component.time_out) {
+                  clearTimeout(component.time_out);
+                }
+
+                _context4.next = 4;
+                return setTimeout(
+                /*#__PURE__*/
+                _asyncToGenerator(
+                /*#__PURE__*/
+                _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                      switch (_context3.prev = _context3.next) {
+                        case 0:
+                          _context3.next = 2;
+                          return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endpoint, Utils.getBearerAuth()).then(function (response) {
+                            component.getResults = response.data;
+                          }).catch(function (error) {
+                            Utils.handleError(error);
+                          });
+
+                        case 2:
+                        case "end":
+                          return _context3.stop();
+                      }
+                    }
+                  }, _callee3);
+                })).bind(this), 200);
+
+              case 4:
+                component.time_out = _context4.sent;
+                return _context4.abrupt("return", this.getResults);
+
+              case 6:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function _search(_x4) {
+        return _search2.apply(this, arguments);
+      }
+
+      return _search;
+    }()
+  }, {
     key: "submit",
     value: function () {
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(endpoint, input) {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(endpoint, input) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context3.next = 2;
+                _context5.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(endpoint, input, Utils.getBearerAuth()).then(function (response) {
                   console.log(response.data.message); // Bus.$emit('alertSuccess', response.data.message);
                 }).catch(function (error) {
@@ -78226,13 +78413,13 @@ function () {
 
               case 2:
               case "end":
-                return _context3.stop();
+                return _context5.stop();
             }
           }
-        }, _callee3);
+        }, _callee5);
       }));
 
-      function submit(_x4, _x5) {
+      function submit(_x5, _x6) {
         return _submit.apply(this, arguments);
       }
 
@@ -78241,7 +78428,7 @@ function () {
   }, {
     key: "getTickets",
     value: function getTickets(keyword) {
-      return this._get(this.endpoints.tickets + '?keyword=' + keyword);
+      return this._search(this.endpoints.tickets + '?keyword=' + keyword);
     }
   }, {
     key: "getWorkerTickets",
@@ -78251,12 +78438,12 @@ function () {
   }, {
     key: "getLocations",
     value: function getLocations(keyword) {
-      return this._get(this.endpoints.locations + '?keyword=' + keyword);
+      return this._search(this.endpoints.locations + '?keyword=' + keyword);
     }
   }, {
     key: "getCompanies",
     value: function getCompanies(keyword) {
-      return this._get(this.endpoints.companies + '?keyword=' + keyword);
+      return this._search(this.endpoints.companies + '?keyword=' + keyword);
     }
   }, {
     key: "getCompanyOptions",
@@ -78301,7 +78488,7 @@ function () {
   }, {
     key: "getJobRoles",
     value: function getJobRoles(keyword) {
-      return this._get(this.endpoints.job_roles + '?keyword=' + keyword);
+      return this._search(this.endpoints.job_roles + '?keyword=' + keyword);
     }
   }, {
     key: "getCountries",
@@ -78311,12 +78498,17 @@ function () {
   }, {
     key: "getCourses",
     value: function getCourses(keyword) {
-      return this._get(this.endpoints.courses + '?keyword=' + keyword);
+      return this._search(this.endpoints.courses + '?keyword=' + keyword);
     }
   }, {
     key: "getEmployees",
     value: function getEmployees(id) {
       return this._get(this.endpoints.employees + id + '/people');
+    }
+  }, {
+    key: "getSchools",
+    value: function getSchools(keyword) {
+      return this._search(this.endpoints.schools + '?keyword=' + keyword);
     }
   }]);
 
@@ -83366,8 +83558,8 @@ window.Helper = {
     },
     getYears: function getYears() {
       var startYear = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date().getFullYear();
-      var years = [],
-          endYear = 1950;
+      var endYear = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1950;
+      var years = [];
 
       while (startYear >= endYear) {
         years.push(startYear--);
@@ -83394,6 +83586,22 @@ window.Helper = {
       if (input) {
         input[refName] = value;
       }
+    },
+    hashCode: function hashCode(str) {
+      var hash = 0;
+
+      for (var i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+      }
+
+      return hash;
+    },
+    intToRGB: function intToRGB(i) {
+      var c = (i & 0x00FFFFFF).toString(16).toUpperCase();
+      return "00000".substring(0, 6 - c.length) + c;
+    },
+    getColorHex: function getColorHex(str) {
+      return this.intToRGB(this.hashCode(str));
     }
   }
 };
