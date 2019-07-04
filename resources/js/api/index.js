@@ -39,6 +39,7 @@ class BuildLabourApi {
             countries: '/api/v1/countries',
             courses: '/api/v1/courses',
             worker_tickets: '/api/v1/worker/tickets',
+            schools: '/api/v1/schools'
         };
         
         //  this._headers()
@@ -160,6 +161,31 @@ class BuildLabourApi {
         return this.getResults;
     }
 
+    async _search(endpoint) {
+        let component = this;
+
+        if (component.time_out) {
+            clearTimeout(component.time_out);
+        }
+
+        component.time_out = await setTimeout(async function() {
+            
+            await Axios.get(endpoint, Utils.getBearerAuth())
+
+                .then(function(response) {
+                    
+                    component.getResults = response.data;
+                })
+                .catch(function(error) {
+
+                    Utils.handleError(error);
+                });
+
+        }.bind(this), 200);
+                
+        return this.getResults;
+    }
+
     async submit(endpoint, input) {
         
         await Axios.post(endpoint, input, Utils.getBearerAuth())
@@ -177,7 +203,7 @@ class BuildLabourApi {
     }
 
     getTickets(keyword) {
-        return this._get(this.endpoints.tickets + '?keyword=' + keyword);
+        return this._search(this.endpoints.tickets + '?keyword=' + keyword);
     }
 
     getWorkerTickets() {
@@ -185,11 +211,11 @@ class BuildLabourApi {
     }
 
     getLocations(keyword) {
-        return this._get(this.endpoints.locations + '?keyword=' + keyword);
+        return this._search(this.endpoints.locations + '?keyword=' + keyword);
     }
 
     getCompanies(keyword) {
-        return this._get(this.endpoints.companies + '?keyword=' + keyword);
+        return this._search(this.endpoints.companies + '?keyword=' + keyword);
     }
 
     getCompanyOptions() {
@@ -220,7 +246,7 @@ class BuildLabourApi {
     }
 
     getJobRoles(keyword) {
-        return this._get(this.endpoints.job_roles + '?keyword=' + keyword);
+        return this._search(this.endpoints.job_roles + '?keyword=' + keyword);
     }
 
     getCountries() {
@@ -228,11 +254,15 @@ class BuildLabourApi {
     }
 
     getCourses(keyword) {
-        return this._get(this.endpoints.courses + '?keyword=' + keyword);
+        return this._search(this.endpoints.courses + '?keyword=' + keyword);
     }
     
     getEmployees(id) {
         return this._get(this.endpoints.employees + id + '/people');
+    }
+
+    getSchools(keyword) {
+        return this._search(this.endpoints.schools + '?keyword=' + keyword);
     }
 }
 

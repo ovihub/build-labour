@@ -19,7 +19,7 @@
                         </span>
                     </div>
 
-                    <div class="emp-row" style="margin-top:0" v-if="courses.length > 0">
+                    <div class="emp-row" style="margin-top:0" v-if="courses && courses.length > 0">
                         <ul class="list-group">
                             <li class="list-group-item" v-for="(course, idx) in courses" :key="idx"
                                 @click="onSelectCourse(course)">
@@ -30,10 +30,21 @@
 
                     <div class="emp-row">
                         <div class="modal-form-label">School</div>
-                        <input class="form-control" type="text" v-model="school" />
+
+                        <input class="form-control" type="text" v-model="school" @keyup="onSearchSchool(school)" />
+
                         <span class="err-msg" v-if="errors.school">
                             {{ errors.school }}
                         </span>
+                    </div>
+
+                    <div class="emp-row" style="margin-top:0" v-if="schools && schools.length > 0">
+                        <ul class="list-group">
+                            <li class="list-group-item" v-for="(school, idx) in schools" :key="idx"
+                                @click="onSelectSchool(school)">
+                                {{ school.school_name }}
+                            </li>
+                        </ul>
                     </div>
 
                     <div class="emp-row">
@@ -67,7 +78,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="emp-row" v-if="education_status != statuses[1]">
+                <div class="emp-row">
                     <div class="role-col-left">
                         <div class="emp-form-label">End Month</div>
                         <select v-model="end_month">
@@ -106,6 +117,8 @@
 <script>
     import Api from '@/api';
 
+    var currentYear = new Date().getFullYear();
+
     export default {
         data() {
             return {
@@ -114,16 +127,20 @@
                 years: Utils.getYears(),
                 current: -1,
                 courses: [],
+                schools: [],
                 /**
                  * Save Input
                  */
                 id: '',
                 course_id: '',
+                school_id: '',
                 course_name: '',
                 education_status: '',
                 school: '',
+                start_day: '',
                 start_month: '',
                 start_year: '',
+                end_day: '',
                 end_month: '',
                 end_year: '',
                 statuses: [
@@ -155,11 +172,14 @@
                 this.id = details ? details.id : '';
                 this.course_name = details ? details.course_name : '';
                 this.education_status = details ? details.education_status : '';
-                this.school = details ? details.school : '';
+                this.school_id = details ? details.school_id : '';
+                this.school = details ? details.school_name : '';
+                this.start_day = details ? details.start_day : '';
                 this.start_month = details ? details.start_month : '';
                 this.start_year = details ? details.start_year : '';
-                this.end_month = details && details.education_status != this.statuses[1] ? details.end_month : '';
-                this.end_year = details && details.education_status != this.statuses[1] ? details.end_year : '';
+                this.end_day = details ? details.end_day : '';
+                this.end_month = details ? details.end_month : '';
+                this.end_year = details ? details.end_year : '';
 
                 this.formatEduStatus(this.statuses.indexOf(this.education_status));
             },
@@ -203,7 +223,33 @@
                 this.courses = [];
             },
 
+            onSearchSchool(keyword) {
+                this.school_id = '';
+
+                let component = this;
+
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    Promise.resolve(Api.getSchools(keyword)).then(function(data) {
+                        component.schools = data.data.schools;
+                    });
+                    
+                } else {
+                    this.schools = [];
+                }
+            },
+
+            onSelectSchool(school) {
+                this.school_id = school.id;
+                this.school = school.school_name;
+
+                this.schools = [];
+            },
+
             formatEduStatus(value) {
+                if (this.education_status == this.statuses[1]) {
+                    this.years = Utils.getYears(currentYear + 10, currentYear - 10);
+                }
+
                 for (let i = 0; i < this.statuses.length; i++) {
                     this.$refs['education_status_' + i].checked = false;    
                 }
@@ -222,12 +268,15 @@
                 let saveInput = {
                     course_id: this.course_id,
                     course_name: this.course_name,
-                    education_status: this.education_status,
+                    education_status: this.education_status ? this.education_status : null,
+                    school_id: this.school_id,
                     school: this.school,
+                    start_day: this.start_day,
                     start_month: this.start_month,
                     start_year: this.start_year,
-                    end_month: this.education_status != this.statuses[1] ? this.end_month : '',
-                    end_year: this.education_status != this.statuses[1] ? this.end_year : '',
+                    end_day: this.end_day,
+                    end_month: this.end_month,
+                    end_year: this.end_year,
                 };
 
                 Utils.setObjectValues(this.errors, '');

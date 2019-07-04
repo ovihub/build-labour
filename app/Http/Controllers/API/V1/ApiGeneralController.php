@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Course;
+use App\School;
 use App\User;
 use Illuminate\Http\Request;
 use JWTAuth;
@@ -135,6 +136,45 @@ class ApiGeneralController extends ApiBaseController
                 ->get();
 
         return $this->apiSuccessResponse( compact('courses'), true, 'Success', self::HTTP_STATUS_REQUEST_OK);
+
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/schools?keyword=C",
+     *      tags={"General"},
+     *      summary="Search Schools",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Experiences"
+     *      )
+     * )
+     */
+    public function getSchools(Request $request) {
+
+        $keyword = $request->keyword ? $request->keyword : '';
+
+        $schools = School::where('school_name', 'like', "%{$keyword}%")
+            ->take(25)->get();
+
+        return $this->apiSuccessResponse( compact('schools'), true, 'Success', self::HTTP_STATUS_REQUEST_OK);
 
     }
 }
