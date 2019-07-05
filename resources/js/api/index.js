@@ -170,11 +170,11 @@ class BuildLabourApi {
     async _search(endpoint) {
         let component = this;
 
-        // if (component.time_out) {
-        //     clearTimeout(component.time_out);
-        // }
+        if (component.time_out) {
+            clearTimeout(component.time_out);
+        }
 
-        // component.time_out = await setTimeout(async function() {
+        component.time_out = await setTimeout(async function() {
             
             await Axios.get(endpoint, Utils.getBearerAuth())
 
@@ -187,7 +187,7 @@ class BuildLabourApi {
                     Utils.handleError(error);
                 });
 
-        // }.bind(this), 100);
+        }.bind(this), 200);
                 
         return this.getResults;
     }
@@ -209,7 +209,13 @@ class BuildLabourApi {
     }
 
     getTickets(keyword) {
-        return this._search(this.endpoints.tickets + '?keyword=' + keyword);
+        let self = this;
+
+        Promise.resolve(self._search(this.endpoints.tickets + '?keyword=' + keyword)).then(function(data) {
+            self.returnValue = data.data ? data.data.tickets : [];
+        });
+
+        return self.returnValue;
     }
 
     getWorkerTickets() {

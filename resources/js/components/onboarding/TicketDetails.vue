@@ -107,11 +107,12 @@
         methods: {
 
             onSearch(keyword) {
-                let component = this;
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    this.searchedTickets = Api.getTickets(keyword);
 
-                Promise.resolve(Api.getTickets(keyword)).then(function(data) {
-                    component.searchedTickets = (component.keyword != '') ? data.data.tickets : [];
-                });
+                } else {
+                    this.searchedTickets = [];
+                }
             },
 
             onSelect(ticket) {

@@ -8547,10 +8547,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     onSearch: function onSearch(keyword) {
-      var component = this;
-      Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_0__["default"].getTickets(keyword)).then(function (data) {
-        component.searchedTickets = component.keyword != '' ? data.data.tickets : [];
-      });
+      if (keyword != '' && keyword && keyword.length > 0) {
+        this.searchedTickets = _api__WEBPACK_IMPORTED_MODULE_0__["default"].getTickets(keyword);
+      } else {
+        this.searchedTickets = [];
+      }
     },
     onSelect: function onSelect(ticket) {
       this.selectedTicket = ticket;
@@ -78378,33 +78379,53 @@ function () {
     value: function () {
       var _search2 = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(endpoint) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(endpoint) {
         var component;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                component = this; // if (component.time_out) {
-                //     clearTimeout(component.time_out);
-                // }
-                // component.time_out = await setTimeout(async function() {
+                component = this;
 
-                _context3.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endpoint, Utils.getBearerAuth()).then(function (response) {
-                  component.getResults = response.data;
-                }).catch(function (error) {
-                  Utils.handleError(error);
-                });
+                if (component.time_out) {
+                  clearTimeout(component.time_out);
+                }
 
-              case 3:
-                return _context3.abrupt("return", this.getResults);
+                _context4.next = 4;
+                return setTimeout(
+                /*#__PURE__*/
+                _asyncToGenerator(
+                /*#__PURE__*/
+                _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                      switch (_context3.prev = _context3.next) {
+                        case 0:
+                          _context3.next = 2;
+                          return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endpoint, Utils.getBearerAuth()).then(function (response) {
+                            component.getResults = response.data;
+                          }).catch(function (error) {
+                            Utils.handleError(error);
+                          });
+
+                        case 2:
+                        case "end":
+                          return _context3.stop();
+                      }
+                    }
+                  }, _callee3);
+                })).bind(this), 200);
 
               case 4:
+                component.time_out = _context4.sent;
+                return _context4.abrupt("return", this.getResults);
+
+              case 6:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
       function _search(_x4) {
@@ -78418,12 +78439,12 @@ function () {
     value: function () {
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(endpoint, input) {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(endpoint, input) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context4.next = 2;
+                _context5.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(endpoint, input, Utils.getBearerAuth()).then(function (response) {
                   console.log(response.data.message); // Bus.$emit('alertSuccess', response.data.message);
                 }).catch(function (error) {
@@ -78434,10 +78455,10 @@ function () {
 
               case 2:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4);
+        }, _callee5);
       }));
 
       function submit(_x5, _x6) {
@@ -78449,7 +78470,11 @@ function () {
   }, {
     key: "getTickets",
     value: function getTickets(keyword) {
-      return this._search(this.endpoints.tickets + '?keyword=' + keyword);
+      var self = this;
+      Promise.resolve(self._search(this.endpoints.tickets + '?keyword=' + keyword)).then(function (data) {
+        self.returnValue = data.data ? data.data.tickets : [];
+      });
+      return self.returnValue;
     }
   }, {
     key: "getWorkerTickets",
