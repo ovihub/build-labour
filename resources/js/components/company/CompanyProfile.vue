@@ -45,7 +45,7 @@
                             </span>
                         </div>
 
-                        <div class="emp-row" style="margin-top:0" v-if="locations.length > 0">
+                        <div class="emp-row" style="margin-top:0" v-if="locations && locations.length > 0">
                             <ul class="list-group">
                                 <li class="list-group-item" v-for="(place, idx) in locations" :key="idx"
                                     @click="onSelectLocation(place.place_name)">

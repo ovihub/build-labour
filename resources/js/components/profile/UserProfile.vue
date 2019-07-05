@@ -31,7 +31,7 @@
                                 @keyup="onChangeLocation(input.address)" />
                         </div>
 
-                        <div class="emp-row" style="margin-top:0" v-if="locations.length > 0">
+                        <div class="emp-row" style="margin-top:0" v-if="locations && locations.length > 0">
                             <ul class="list-group">
                                 <li class="list-group-item" v-for="(place, idx) in locations" :key="idx"
                                     @click="onSelectLocation(place.place_name)">
@@ -173,7 +173,7 @@
                     </div>
                 </div>
 
-                <div class="row bl-label-15" style="margin-left:34px;color:#6b7172" v-if="tiers.length > 0">
+                <div class="row bl-label-15" style="margin-left:34px;color:#6b7172" v-if="tiers && tiers.length > 0">
                     <div class="bl-col-4">
                         <div class="bl-display" v-for="(tier, ti) in tiers" :key="ti">
                             {{ tier.tier_name }}

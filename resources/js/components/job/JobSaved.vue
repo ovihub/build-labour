@@ -2,7 +2,7 @@
     <div class="profile-item-3">
         <div class="profile-content">
             <span class="bl-label-16">Saved</span>
-            <ul class="list-items" v-if="bookmarks.length > 0">
+            <ul class="list-items" v-if="bookmarks && bookmarks.length > 0">
                 <li v-for="(bookmark, index) in bookmarks" :key="index">
                     <div class="jobads-row">
                         <div class="bl-col-1">

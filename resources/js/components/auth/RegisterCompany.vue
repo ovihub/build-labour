@@ -165,7 +165,7 @@
                             {{ errors.company_address }}
                         </span>
 
-                        <div class="comp-reg-row" style="margin-top:0" v-if="locations.length > 0">
+                        <div class="comp-reg-row" style="margin-top:0" v-if="locations && locations.length > 0">
                             <div class="locations-wrapper">
                                 <p class="location-item" v-for="(place, idx) in locations" :key="idx"
                                     @click="onSelectLocation(place.place_name)">{{ place.place_name.trim() }}</p>

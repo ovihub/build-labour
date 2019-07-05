@@ -30,7 +30,7 @@
             </span>
         </div>
 
-        <div class="emp-row" style="margin-top:0" v-if="searchedTickets.length > 0">
+        <div class="emp-row" style="margin-top:0" v-if="searchedTickets && searchedTickets.length > 0">
             <ul class="list-group">
                 <li class="list-group-item" v-for="(ticket, idx) in searchedTickets" :key="idx"
                     @click="onSelect(ticket)">

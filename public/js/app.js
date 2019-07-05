@@ -55380,7 +55380,7 @@ var render = function() {
                   ])
                 : _vm._e(),
               _vm._v(" "),
-              _vm.locations.length > 0
+              _vm.locations && _vm.locations.length > 0
                 ? _c(
                     "div",
                     {
@@ -57750,7 +57750,7 @@ var render = function() {
                       : _vm._e()
                   ]),
                   _vm._v(" "),
-                  _vm.locations.length > 0
+                  _vm.locations && _vm.locations.length > 0
                     ? _c(
                         "div",
                         {
@@ -59324,7 +59324,7 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _vm.locations.length > 0
+              _vm.locations && _vm.locations.length > 0
                 ? _c(
                     "div",
                     {
@@ -59810,7 +59810,7 @@ var render = function() {
     _c("div", { staticClass: "profile-content" }, [
       _c("span", { staticClass: "bl-label-16" }, [_vm._v("Saved")]),
       _vm._v(" "),
-      _vm.bookmarks.length > 0
+      _vm.bookmarks && _vm.bookmarks.length > 0
         ? _c(
             "ul",
             { staticClass: "list-items" },
@@ -61285,7 +61285,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _vm.searchedTickets.length > 0
+      _vm.searchedTickets && _vm.searchedTickets.length > 0
         ? _c(
             "div",
             { staticClass: "emp-row", staticStyle: { "margin-top": "0" } },
@@ -63553,7 +63553,7 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _vm.companies.length > 0
+              _vm.companies && _vm.companies.length > 0
                 ? _c(
                     "div",
                     {
@@ -63633,7 +63633,7 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _vm.locations.length > 0
+              _vm.locations && _vm.locations.length > 0
                 ? _c(
                     "div",
                     {
@@ -65067,7 +65067,7 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  _vm.locations.length > 0
+                  _vm.locations && _vm.locations.length > 0
                     ? _c(
                         "div",
                         {
@@ -65642,7 +65642,7 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.tiers.length > 0
+          _vm.tiers && _vm.tiers.length > 0
             ? _c(
                 "div",
                 {
