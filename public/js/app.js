@@ -10199,14 +10199,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     onSearchCompany: function onSearchCompany(keyword) {
-      var component = this;
       this.company_id = ''; // this.location = '';
       // this.$refs['locationRef'].disabled = false;
 
       if (keyword != '' && keyword && keyword.length > 0) {
-        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCompanies(keyword)).then(function (data) {
-          component.companies = data.data && data.data.companies ? data.data.companies : [];
-        });
+        this.companies = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getCompanies(keyword);
       } else {
         this.companies = [];
       }
@@ -78483,7 +78480,11 @@ function () {
   }, {
     key: "getCompanies",
     value: function getCompanies(keyword) {
-      return this._search(this.endpoints.companies + '?keyword=' + keyword);
+      var self = this;
+      Promise.resolve(self._search(this.endpoints.companies + '?keyword=' + keyword)).then(function (data) {
+        self.returnValue = data.data ? data.data.companies : [];
+      });
+      return self.returnValue;
     }
   }, {
     key: "getCompanyOptions",

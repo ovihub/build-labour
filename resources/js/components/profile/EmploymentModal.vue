@@ -288,17 +288,13 @@
             },
 
             onSearchCompany(keyword) {
-                let component = this;
-                
                 this.company_id = '';
                 // this.location = '';
                 // this.$refs['locationRef'].disabled = false;
 
                 if (keyword != '' && (keyword && keyword.length > 0)) {
-                    Promise.resolve(Api.getCompanies(keyword)).then(function(data) {
-                        component.companies = (data.data && data.data.companies) ? data.data.companies : [];
-                    });
-                
+                    this.companies = Api.getCompanies(keyword);
+
                 } else {
                     this.companies = [];
                 }
