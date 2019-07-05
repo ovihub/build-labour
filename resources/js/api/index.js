@@ -103,7 +103,12 @@ class BuildLabourApi {
     }
 
     redirectToProfile() {
-        window.location = '/user/profile';
+        if (window.location.pathname == '/user/profile') {
+            window.location.reload();
+        
+        } else {
+            window.location = '/user/profile';
+        }
     }
 
     redirectToUserProfile(user_id) {

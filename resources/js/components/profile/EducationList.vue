@@ -10,6 +10,7 @@
                     <img class="bl-image-56" v-if="education.school_logo" :src="education.school_logo">
 
                     <avatar v-else cls="bl-image-56" size="56" border="0" border-radius="8px"
+                        text-color="#fff"
                         :background-color="getColorHex(education.school_name)"
                         :initials="getInitials(education.school_name, education.academy)">
                     </avatar>
@@ -58,7 +59,7 @@
                     component.educations.push(details);
                 
                 } else {
-                    if (details.school_id != component.educations[index].school_id &&
+                    if (details.school_name !== component.educations[index].school &&
                         window.location.pathname == '/user/profile') {
                         
                         Api.redirectToProfile();
@@ -80,8 +81,8 @@
         methods: {
 
             getInitials(name, school) {
-                return Utils.getInitials((name != null) ? name.replace(' of ', ' ') :
-                        (school ? school.school_name.replace(' of ', ' ') : '-'));
+                return Utils.getInitials((name != null) ? name.replace(' of ', ' ').replace('The ', '').replace(' the ', ' ') :
+                        (school ? school.school_name.replace(' of ', ' ').replace('The ', '').replace(' the ', ' ') : '-'));
             },
 
             getColorHex(name) {

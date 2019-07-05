@@ -9255,6 +9255,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -9272,7 +9273,7 @@ __webpack_require__.r(__webpack_exports__);
       if (index == -1) {
         component.educations.push(details);
       } else {
-        if (details.school_id != component.educations[index].school_id && window.location.pathname == '/user/profile') {
+        if (details.school_name !== component.educations[index].school && window.location.pathname == '/user/profile') {
           _api__WEBPACK_IMPORTED_MODULE_0__["default"].redirectToProfile();
         }
 
@@ -9288,7 +9289,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getInitials: function getInitials(name, school) {
-      return Utils.getInitials(name != null ? name.replace(' of ', ' ') : school ? school.school_name.replace(' of ', ' ') : '-');
+      return Utils.getInitials(name != null ? name.replace(' of ', ' ').replace('The ', '').replace(' the ', ' ') : school ? school.school_name.replace(' of ', ' ').replace('The ', '').replace(' the ', ' ') : '-');
     },
     getColorHex: function getColorHex(name) {
       if (!name) {
@@ -9595,7 +9596,7 @@ var currentYear = new Date().getFullYear();
                   course_name: this.course_name,
                   education_status: this.education_status ? this.education_status : null,
                   school_id: this.school_id,
-                  school: this.school,
+                  school: this.school != 'n/a' && this.school != 'N/A' ? this.school : null,
                   start_day: this.start_day,
                   start_month: this.start_month,
                   start_year: this.start_year,
@@ -62448,6 +62449,7 @@ var render = function() {
                       size: "56",
                       border: "0",
                       "border-radius": "8px",
+                      "text-color": "#fff",
                       "background-color": _vm.getColorHex(
                         education.school_name
                       ),
@@ -78292,7 +78294,11 @@ function () {
   }, {
     key: "redirectToProfile",
     value: function redirectToProfile() {
-      window.location = '/user/profile';
+      if (window.location.pathname == '/user/profile') {
+        window.location.reload();
+      } else {
+        window.location = '/user/profile';
+      }
     }
   }, {
     key: "redirectToUserProfile",

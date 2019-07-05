@@ -148,7 +148,8 @@
                     'Still Studying',
                 ],
                 errors: {
-                    course_name: '', education_status: '', school: '', start_month: '', start_year: '', end_month: '', end_year: '',
+                    course_name: '', education_status: '', school: '',
+                    start_month: '', start_year: '', end_month: '', end_year: '',
                 },
                 endpoints: {
                     save: '/api/v1/user/education',
@@ -270,7 +271,7 @@
                     course_name: this.course_name,
                     education_status: this.education_status ? this.education_status : null,
                     school_id: this.school_id,
-                    school: this.school,
+                    school: (this.school != 'n/a' && this.school != 'N/A') ? this.school : null,
                     start_day: this.start_day,
                     start_month: this.start_month,
                     start_year: this.start_year,
