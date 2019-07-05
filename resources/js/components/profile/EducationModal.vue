@@ -205,13 +205,9 @@
             onSearchCourse(keyword) {
                 this.course_id = '';
 
-                let component = this;
-
                 if (keyword != '' && (keyword && keyword.length > 0)) {
-                    Promise.resolve(Api.getCourses(keyword)).then(function(data) {
-                        component.courses = data.data.courses;
-                    });
-                    
+                    this.courses = Api.getCourses(keyword);
+
                 } else {
                     this.courses = [];
                 }

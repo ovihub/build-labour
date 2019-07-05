@@ -9522,12 +9522,9 @@ var currentYear = new Date().getFullYear();
     },
     onSearchCourse: function onSearchCourse(keyword) {
       this.course_id = '';
-      var component = this;
 
       if (keyword != '' && keyword && keyword.length > 0) {
-        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCourses(keyword)).then(function (data) {
-          component.courses = data.data.courses;
-        });
+        this.courses = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getCourses(keyword);
       } else {
         this.courses = [];
       }
@@ -78548,7 +78545,11 @@ function () {
   }, {
     key: "getCourses",
     value: function getCourses(keyword) {
-      return this._search(this.endpoints.courses + '?keyword=' + keyword);
+      var self = this;
+      Promise.resolve(self._search(this.endpoints.courses + '?keyword=' + keyword)).then(function (data) {
+        self.returnValue = data.data ? data.data.courses : [];
+      });
+      return self.returnValue;
     }
   }, {
     key: "getEmployees",

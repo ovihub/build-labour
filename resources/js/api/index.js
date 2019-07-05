@@ -272,7 +272,13 @@ class BuildLabourApi {
     }
 
     getCourses(keyword) {
-        return this._search(this.endpoints.courses + '?keyword=' + keyword);
+        let self = this;
+
+        Promise.resolve(self._search(this.endpoints.courses + '?keyword=' + keyword)).then(function(data) {
+            self.returnValue = data.data ? data.data.courses : [];
+        });
+
+        return self.returnValue;
     }
     
     getEmployees(id) {
