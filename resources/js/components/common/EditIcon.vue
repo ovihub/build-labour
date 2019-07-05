@@ -1,5 +1,6 @@
 <template>
     <span v-if="editable"
+        class="clickable"
         :class="cls"
         data-toggle="modal"
         data-backdrop="static"
@@ -45,3 +46,9 @@
         }
     }
 </script>
+
+<style scope>
+    .clickable {
+        cursor: pointer;
+    }
+</style>
