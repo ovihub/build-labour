@@ -22,7 +22,7 @@
                         </span>
                     </div>
 
-                    <div class="emp-row" style="margin-top:0" v-if="job_roles.length > 0">
+                    <div class="emp-row" style="margin-top:0" v-if="job_roles && job_roles.length > 0">
                         <ul class="list-group">
                             <li class="list-group-item" v-for="(job, idx) in job_roles" :key="idx"
                                 @click="onSelectJob(job)">
@@ -279,12 +279,8 @@
             onSearchJob(keyword) {
                 this.job_id = '';
 
-                let component = this;
-
                 if (keyword != '' && (keyword && keyword.length > 0)) {
-                    Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
-                        component.job_roles = data.data.job_roles;
-                    });
+                    this.job_roles = Api.getJobRoles(keyword);
 
                 } else {
                     this.job_roles = [];

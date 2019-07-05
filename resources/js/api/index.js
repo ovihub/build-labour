@@ -24,6 +24,7 @@ class BuildLabourApi {
         this.locations = [];
         this.companies = [];
         this.getResults = [];
+        this.returnValue = [];
 
         this.endpoints = {
             job_roles: '/api/v1/roles/job/search',
@@ -169,11 +170,11 @@ class BuildLabourApi {
     async _search(endpoint) {
         let component = this;
 
-        if (component.time_out) {
-            clearTimeout(component.time_out);
-        }
+        // if (component.time_out) {
+        //     clearTimeout(component.time_out);
+        // }
 
-        component.time_out = await setTimeout(async function() {
+        // component.time_out = await setTimeout(async function() {
             
             await Axios.get(endpoint, Utils.getBearerAuth())
 
@@ -186,7 +187,7 @@ class BuildLabourApi {
                     Utils.handleError(error);
                 });
 
-        }.bind(this), 200);
+        // }.bind(this), 100);
                 
         return this.getResults;
     }
@@ -251,7 +252,13 @@ class BuildLabourApi {
     }
 
     getJobRoles(keyword) {
-        return this._search(this.endpoints.job_roles + '?keyword=' + keyword);
+        let self = this;
+
+        Promise.resolve(self._search(this.endpoints.job_roles + '?keyword=' + keyword)).then(function(data) {
+            self.returnValue = data.data ? data.data.job_roles : [];
+        });
+
+        return self.returnValue;
     }
 
     getCountries() {

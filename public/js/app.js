@@ -3513,12 +3513,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     onSearchJob: function onSearchJob(keyword) {
-      var component = this;
-
       if (keyword != '' && keyword && keyword.length > 0) {
-        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
-          component.job_roles = data.data.job_roles;
-        });
+        this.job_roles = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword);
       } else {
         this.job_roles = [];
       }
@@ -6937,6 +6933,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -7028,23 +7026,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onSearchJob: function onSearchJob(keyword) {
       this.input.job_role_id = '';
-      var component = this;
 
       if (keyword != '' && keyword && keyword.length > 0) {
-        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
-          component.job_roles = data.data.job_roles;
-        });
+        this.job_roles = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword);
       } else {
         this.job_roles = [];
       }
     },
     onSearchReportsTo: function onSearchReportsTo(keyword, index) {
-      var component = this;
-
       if (keyword != '' && keyword && keyword.length > 0) {
-        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
-          component.reports_to_job_roles = data.data ? data.data.job_roles : [];
-        });
+        this.reports_to_job_roles = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword);
       } else {
         this.reports_to_job_roles = [];
       }
@@ -7823,12 +7814,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     onSearchJob: function onSearchJob(keyword) {
-      var component = this;
-
       if (keyword != '' && keyword && keyword.length > 0) {
-        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_0__["default"].getJobRoles(keyword)).then(function (data) {
-          component.job_roles = data.data.job_roles;
-        });
+        this.job_roles = _api__WEBPACK_IMPORTED_MODULE_0__["default"].getJobRoles(keyword);
       } else {
         this.job_roles = [];
       }
@@ -10209,12 +10196,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onSearchJob: function onSearchJob(keyword) {
       this.job_id = '';
-      var component = this;
 
       if (keyword != '' && keyword && keyword.length > 0) {
-        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
-          component.job_roles = data.data.job_roles;
-        });
+        this.job_roles = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword);
       } else {
         this.job_roles = [];
       }
@@ -11503,12 +11487,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.locations = [];
     },
     onSearchJob: function onSearchJob(keyword) {
-      var component = this;
-
       if (keyword != '' && keyword && keyword.length > 0) {
-        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword)).then(function (data) {
-          component.job_roles = data.data.job_roles;
-        });
+        this.job_roles = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword);
       } else {
         this.job_roles = [];
       }
@@ -54539,7 +54519,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _vm.job_roles.length > 0
+      _vm.job_roles && _vm.job_roles.length > 0
         ? _c(
             "div",
             { staticClass: "emp-row", staticStyle: { "margin-top": "0" } },
@@ -58860,7 +58840,7 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _vm.input.title && _vm.job_roles.length > 0
+              _vm.input.title && _vm.job_roles && _vm.job_roles.length > 0
                 ? _c(
                     "div",
                     {
@@ -59263,6 +59243,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _vm.reports_to_active_index == index &&
+                        _vm.reports_to_job_roles &&
                         _vm.reports_to_job_roles.length > 0
                           ? _c(
                               "div",
@@ -60127,7 +60108,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _vm.job_roles.length > 0
+      _vm.job_roles && _vm.job_roles.length > 0
         ? _c(
             "div",
             { staticClass: "emp-row", staticStyle: { "margin-top": "0" } },
@@ -63521,7 +63502,7 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _vm.job_roles.length > 0
+              _vm.job_roles && _vm.job_roles.length > 0
                 ? _c(
                     "div",
                     {
@@ -65312,7 +65293,7 @@ var render = function() {
                       : _vm._e()
                   ]),
                   _vm._v(" "),
-                  _vm.job_roles.length > 0
+                  _vm.job_roles && _vm.job_roles.length > 0
                     ? _c(
                         "div",
                         {
@@ -78205,6 +78186,7 @@ function () {
     this.locations = [];
     this.companies = [];
     this.getResults = [];
+    this.returnValue = [];
     this.endpoints = {
       job_roles: '/api/v1/roles/job/search',
       jobs: '/api/v1/job/search/filter',
@@ -78396,53 +78378,33 @@ function () {
     value: function () {
       var _search2 = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(endpoint) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(endpoint) {
         var component;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                component = this;
+                component = this; // if (component.time_out) {
+                //     clearTimeout(component.time_out);
+                // }
+                // component.time_out = await setTimeout(async function() {
 
-                if (component.time_out) {
-                  clearTimeout(component.time_out);
-                }
+                _context3.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endpoint, Utils.getBearerAuth()).then(function (response) {
+                  component.getResults = response.data;
+                }).catch(function (error) {
+                  Utils.handleError(error);
+                });
 
-                _context4.next = 4;
-                return setTimeout(
-                /*#__PURE__*/
-                _asyncToGenerator(
-                /*#__PURE__*/
-                _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-                    while (1) {
-                      switch (_context3.prev = _context3.next) {
-                        case 0:
-                          _context3.next = 2;
-                          return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endpoint, Utils.getBearerAuth()).then(function (response) {
-                            component.getResults = response.data;
-                          }).catch(function (error) {
-                            Utils.handleError(error);
-                          });
-
-                        case 2:
-                        case "end":
-                          return _context3.stop();
-                      }
-                    }
-                  }, _callee3);
-                })).bind(this), 200);
+              case 3:
+                return _context3.abrupt("return", this.getResults);
 
               case 4:
-                component.time_out = _context4.sent;
-                return _context4.abrupt("return", this.getResults);
-
-              case 6:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee3, this);
       }));
 
       function _search(_x4) {
@@ -78456,12 +78418,12 @@ function () {
     value: function () {
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(endpoint, input) {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(endpoint, input) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context5.next = 2;
+                _context4.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(endpoint, input, Utils.getBearerAuth()).then(function (response) {
                   console.log(response.data.message); // Bus.$emit('alertSuccess', response.data.message);
                 }).catch(function (error) {
@@ -78472,10 +78434,10 @@ function () {
 
               case 2:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
-        }, _callee5);
+        }, _callee4);
       }));
 
       function submit(_x5, _x6) {
@@ -78547,7 +78509,11 @@ function () {
   }, {
     key: "getJobRoles",
     value: function getJobRoles(keyword) {
-      return this._search(this.endpoints.job_roles + '?keyword=' + keyword);
+      var self = this;
+      Promise.resolve(self._search(this.endpoints.job_roles + '?keyword=' + keyword)).then(function (data) {
+        self.returnValue = data.data ? data.data.job_roles : [];
+      });
+      return self.returnValue;
     }
   }, {
     key: "getCountries",

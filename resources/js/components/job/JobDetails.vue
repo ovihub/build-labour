@@ -92,7 +92,7 @@
                         </span>
                     </div>
 
-                    <div class="form-group" style="margin-top:0" v-if="input.title && job_roles.length > 0">
+                    <div class="form-group" style="margin-top:0" v-if="input.title && job_roles && job_roles.length > 0">
                         <ul class="list-group">
                             <li class="list-group-item" v-for="(job, idx) in job_roles" :key="idx"
                                 @click="onSelectJob(job)">
@@ -197,7 +197,9 @@
                                 </span>
                             </div>
 
-                            <div class="comp-col-left" style="margin-top:0;margin-left:-25px" v-if="reports_to_active_index == index && reports_to_job_roles.length > 0">
+                            <div class="comp-col-left" style="margin-top:0;margin-left:-25px"
+                                v-if="reports_to_active_index == index && reports_to_job_roles && reports_to_job_roles.length > 0">
+
                                 <ul class="list-group">
                                     <li class="list-group-item" v-for="(job, idx) in reports_to_job_roles" :key="idx"
                                         @click="onSelectReportsTo(job)">
@@ -333,12 +335,8 @@
             onSearchJob(keyword) {
                 this.input.job_role_id = '';
 
-                let component = this;
-                
                 if (keyword != '' && (keyword && keyword.length > 0)) {
-                    Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
-                        component.job_roles = data.data.job_roles;
-                    });
+                    this.job_roles = Api.getJobRoles(keyword);
 
                 } else {
                     this.job_roles = [];
@@ -346,12 +344,8 @@
             },
 
             onSearchReportsTo(keyword, index) { 
-                let component = this;
-                
                 if (keyword != '' && (keyword && keyword.length > 0)) {
-                    Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
-                        component.reports_to_job_roles = data.data ? data.data.job_roles : [];
-                    });
+                    this.reports_to_job_roles = Api.getJobRoles(keyword);
 
                 } else {
                     this.reports_to_job_roles = [];
