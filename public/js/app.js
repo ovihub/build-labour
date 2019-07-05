@@ -56740,32 +56740,43 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "modal fade", attrs: { role: "dialog" } }, [
-    _c("div", { staticClass: "modal-dialog" }, [
-      _c("div", { staticClass: "modal-content modal-ku" }, [
-        _c(
-          "div",
-          { staticClass: "modal-header" },
-          [_vm._t("custom-modal-title")],
-          2
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "modal-body" },
-          [_vm._t("custom-modal-content")],
-          2
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "modal-footer" },
-          [_vm._t("custom-modal-footer")],
-          2
-        )
+  return _c(
+    "div",
+    {
+      staticClass: "modal fade",
+      attrs: {
+        role: "dialog",
+        "data-backdrop": "static",
+        "data-keyboard": "false"
+      }
+    },
+    [
+      _c("div", { staticClass: "modal-dialog" }, [
+        _c("div", { staticClass: "modal-content modal-ku" }, [
+          _c(
+            "div",
+            { staticClass: "modal-header" },
+            [_vm._t("custom-modal-title")],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "modal-body" },
+            [_vm._t("custom-modal-content")],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "modal-footer" },
+            [_vm._t("custom-modal-footer")],
+            2
+          )
+        ])
       ])
-    ])
-  ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

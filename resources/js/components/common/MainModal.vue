@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" role="dialog">
+    <div class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content modal-ku">
                 <div class="modal-header">
