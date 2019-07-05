@@ -264,10 +264,10 @@
                     education_status: this.education_status ? this.education_status : null,
                     school_id: this.school_id,
                     school: (this.school != 'n/a' && this.school != 'N/A') ? this.school : null,
-                    start_day: this.start_day,
+                    start_day: this.start_day ? this.start_day : 1,
                     start_month: this.start_month,
                     start_year: this.start_year,
-                    end_day: this.end_day,
+                    end_day: this.end_day ? this.end_day : 1,
                     end_month: this.end_month,
                     end_year: this.end_year,
                 };
