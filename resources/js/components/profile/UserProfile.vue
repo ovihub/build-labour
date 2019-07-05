@@ -414,12 +414,8 @@
             },
 
             onChangeLocation(keyword) {
-                let component = this;
-                
                 if (keyword != '' && (keyword && keyword.length > 0)) {
-                    Promise.resolve(Api.getLocations(keyword)).then(function(data) {
-                        component.locations = (data.data && data.data.locations) ? data.data.locations.features : [];
-                    });
+                    this.locations = Api.getLocations(keyword);
                 
                 } else {
                     this.locations = [];

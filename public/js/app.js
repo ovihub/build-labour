@@ -4015,12 +4015,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.setNextDisabled(1);
     },
     onChangeLocation: function onChangeLocation(keyword) {
-      var component = this;
-
       if (keyword != '' && keyword && keyword.length > 0) {
-        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
-          component.locations = data.data && data.data.locations ? data.data.locations.features : [];
-        });
+        this.locations = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword);
       } else {
         this.locations = [];
       }
@@ -6411,12 +6407,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.getSecondaryOptions(e.target.value);
     },
     onChangeLocation: function onChangeLocation(keyword) {
-      var component = this;
-
       if (keyword != '' && keyword && keyword.length > 0) {
-        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
-          component.locations = data.data && data.data.locations ? data.data.locations.features : [];
-        });
+        this.locations = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword);
       } else {
         this.locations = [];
       }
@@ -7010,12 +7002,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       Utils.textAreaAdjust(this.$refs[refName]);
     },
     onChangeLocation: function onChangeLocation(keyword) {
-      var component = this;
-
       if (keyword != '' && keyword && keyword.length > 0) {
-        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
-          component.locations = data.data && data.data.locations ? data.data.locations.features : [];
-        });
+        this.locations = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword);
       } else {
         this.locations = [];
       }
@@ -10179,12 +10167,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.responsibilities.push('');
     },
     onChangeLocation: function onChangeLocation(keyword) {
-      var component = this;
-
       if (keyword != '' && keyword && keyword.length > 0) {
-        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
-          component.locations = data.data && data.data.locations ? data.data.locations.features : [];
-        });
+        this.locations = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword);
       } else {
         this.locations = [];
       }
@@ -11464,12 +11448,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     onChangeLocation: function onChangeLocation(keyword) {
-      var component = this;
-
       if (keyword != '' && keyword && keyword.length > 0) {
-        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword)).then(function (data) {
-          component.locations = data.data && data.data.locations ? data.data.locations.features : [];
-        });
+        this.locations = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getLocations(keyword);
       } else {
         this.locations = [];
       }
@@ -78475,7 +78455,11 @@ function () {
   }, {
     key: "getLocations",
     value: function getLocations(keyword) {
-      return this._search(this.endpoints.locations + '?keyword=' + keyword);
+      var self = this;
+      Promise.resolve(self._search(this.endpoints.locations + '?keyword=' + keyword)).then(function (data) {
+        self.returnValue = data.data && data.data.locations ? data.data.locations.features : [];
+      });
+      return self.returnValue;
     }
   }, {
     key: "getCompanies",
