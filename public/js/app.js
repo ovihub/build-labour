@@ -9536,12 +9536,9 @@ var currentYear = new Date().getFullYear();
     },
     onSearchSchool: function onSearchSchool(keyword) {
       this.school_id = '';
-      var component = this;
 
       if (keyword != '' && keyword && keyword.length > 0) {
-        Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getSchools(keyword)).then(function (data) {
-          component.schools = data.data.schools;
-        });
+        this.schools = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getSchools(keyword);
       } else {
         this.schools = [];
       }
@@ -78559,7 +78556,11 @@ function () {
   }, {
     key: "getSchools",
     value: function getSchools(keyword) {
-      return this._search(this.endpoints.schools + '?keyword=' + keyword);
+      var self = this;
+      Promise.resolve(self._search(this.endpoints.schools + '?keyword=' + keyword)).then(function (data) {
+        self.returnValue = data.data ? data.data.schools : [];
+      });
+      return self.returnValue;
     }
   }]);
 

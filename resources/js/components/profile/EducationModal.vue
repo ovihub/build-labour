@@ -223,13 +223,9 @@
             onSearchSchool(keyword) {
                 this.school_id = '';
 
-                let component = this;
-
                 if (keyword != '' && (keyword && keyword.length > 0)) {
-                    Promise.resolve(Api.getSchools(keyword)).then(function(data) {
-                        component.schools = data.data.schools;
-                    });
-                    
+                    this.schools = Api.getSchools(keyword);
+
                 } else {
                     this.schools = [];
                 }

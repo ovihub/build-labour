@@ -286,7 +286,13 @@ class BuildLabourApi {
     }
 
     getSchools(keyword) {
-        return this._search(this.endpoints.schools + '?keyword=' + keyword);
+        let self = this;
+
+        Promise.resolve(self._search(this.endpoints.schools + '?keyword=' + keyword)).then(function(data) {
+            self.returnValue = data.data ? data.data.schools : [];
+        });
+
+        return self.returnValue;
     }
 }
 
