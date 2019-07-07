@@ -154,7 +154,7 @@
                 }
 
                 if (! isFound) {
-                    this.tickets.push(this.selectedTicket);
+                    this.tickets.unshift(this.selectedTicket);
                     this.keyword = '';
                     this.selectedTicket = false;
                     this.errors.ticket = '';
