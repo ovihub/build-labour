@@ -18,7 +18,10 @@
         <div class="me-label" style="margin-bottom:-15px">
             I have current valid licenses and/or tickets in
         </div>
-        <div class="emp-row">
+        <div class="skill-label-3 mt-3">
+            e.g. RIIMPO317E - Conduct Roller Operations
+        </div>
+        <div class="emp-row mt-3">
             <div class="ticket-col-left">
                 <input class="form-control" type="text"  placeholder="Search" v-model="keyword" @keyup="onSearch(keyword)" />
             </div>
@@ -34,13 +37,13 @@
             <ul class="list-group">
                 <li class="list-group-item" v-for="(ticket, idx) in searchedTickets" :key="idx"
                     @click="onSelect(ticket)">
-                    {{ ticket.ticket }} {{ ticket.description ? ('-' + ticket.description) : '' }}
+                    {{ ticket.ticket }} {{ ticket.description ? ('- ' + ticket.description) : '' }}
                 </li>
             </ul>
         </div>
 
         <div class="emp-row" v-for="(ticket, idx) in tickets" :key="idx">
-            <span class="ticket-label">{{ ticket.ticket }} {{ ticket.description ? ('-' + ticket.description) : '' }}</span>
+            <span class="ticket-label">{{ ticket.ticket }} {{ ticket.description ? ('- ' + ticket.description) : '' }}</span>
 
             <span class="remove-ticket-icon" @click="onDelete(idx)">
                 <img src="/img/icons/remove.png"
@@ -107,6 +110,8 @@
         methods: {
 
             onSearch(keyword) {
+                this.errors.ticket = '';
+
                 if (keyword != '' && (keyword && keyword.length > 0)) {
                     this.searchedTickets = Api.getTickets(keyword);
 
@@ -125,13 +130,14 @@
                 this.tickets.splice(index, 1);
             },
 
-            onAdd() {
+            onAdd() { // TODO: Need to improve algo
                 let isFound = false;
 
                 if (! this.selectedTicket) {
                     let parts = this.keyword.split('-');
 
                     this.selectedTicket = {
+                        id: null,
                         ticket: parts[0].trim(),
                         description: parts[1] ? parts[1].trim() : null,
                     }
@@ -140,7 +146,9 @@
                 for (let i in this.tickets) {
                     let ticket = this.tickets[i];
 
-                    if (ticket.id == this.selectedTicket.id) {
+                    if ((this.selectedTicket.id && (ticket.id == this.selectedTicket.id)) ||
+                        (! this.selectedTicket.id && (ticket.ticket == this.selectedTicket.ticket))) {
+                        
                         isFound = true;
                     }
                 }
@@ -152,6 +160,7 @@
                     this.errors.ticket = '';
 
                 } else {
+                    this.selectedTicket = false;
                     this.errors.ticket = 'Ticket already exists on selected list';
                 }
             },
