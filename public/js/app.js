@@ -8571,7 +8571,7 @@ __webpack_require__.r(__webpack_exports__);
       for (var i in this.tickets) {
         var ticket = this.tickets[i];
 
-        if (this.selectedTicket.id && ticket.id == this.selectedTicket.id || !this.selectedTicket.id && ticket.ticket == this.selectedTicket.ticket) {
+        if (this.selectedTicket.id && ticket.id == this.selectedTicket.id || !this.selectedTicket.id && ticket.ticket == this.selectedTicket.ticket && ticket.description == this.selectedTicket.description) {
           isFound = true;
         }
       }

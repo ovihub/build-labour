@@ -147,7 +147,8 @@
                     let ticket = this.tickets[i];
 
                     if ((this.selectedTicket.id && (ticket.id == this.selectedTicket.id)) ||
-                        (! this.selectedTicket.id && (ticket.ticket == this.selectedTicket.ticket))) {
+                        (! this.selectedTicket.id && (ticket.ticket == this.selectedTicket.ticket)
+                            && (ticket.description == this.selectedTicket.description))) {
                         
                         isFound = true;
                     }
