@@ -8485,6 +8485,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -8535,6 +8538,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     onSearch: function onSearch(keyword) {
+      this.errors.ticket = '';
+
       if (keyword != '' && keyword && keyword.length > 0) {
         this.searchedTickets = _api__WEBPACK_IMPORTED_MODULE_0__["default"].getTickets(keyword);
       } else {
@@ -8550,11 +8555,13 @@ __webpack_require__.r(__webpack_exports__);
       this.tickets.splice(index, 1);
     },
     onAdd: function onAdd() {
+      // TODO: Need to improve algo
       var isFound = false;
 
       if (!this.selectedTicket) {
         var parts = this.keyword.split('-');
         this.selectedTicket = {
+          id: null,
           ticket: parts[0].trim(),
           description: parts[1] ? parts[1].trim() : null
         };
@@ -8563,7 +8570,7 @@ __webpack_require__.r(__webpack_exports__);
       for (var i in this.tickets) {
         var ticket = this.tickets[i];
 
-        if (ticket.id == this.selectedTicket.id) {
+        if (this.selectedTicket.id && ticket.id == this.selectedTicket.id || !this.selectedTicket.id && ticket.ticket == this.selectedTicket.ticket) {
           isFound = true;
         }
       }
@@ -8574,6 +8581,7 @@ __webpack_require__.r(__webpack_exports__);
         this.selectedTicket = false;
         this.errors.ticket = '';
       } else {
+        this.selectedTicket = false;
         this.errors.ticket = 'Ticket already exists on selected list';
       }
     },
@@ -61231,7 +61239,11 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "emp-row" }, [
+      _c("div", { staticClass: "skill-label-3 mt-3" }, [
+        _vm._v("\n        e.g. RIIMPO317E - Conduct Roller Operations\n    ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "emp-row mt-3" }, [
         _c("div", { staticClass: "ticket-col-left" }, [
           _c("input", {
             directives: [
@@ -61311,7 +61323,7 @@ var render = function() {
                           _vm._s(ticket.ticket) +
                           " " +
                           _vm._s(
-                            ticket.description ? "-" + ticket.description : ""
+                            ticket.description ? "- " + ticket.description : ""
                           ) +
                           "\n            "
                       )
@@ -61330,7 +61342,7 @@ var render = function() {
             _vm._v(
               _vm._s(ticket.ticket) +
                 " " +
-                _vm._s(ticket.description ? "-" + ticket.description : "")
+                _vm._s(ticket.description ? "- " + ticket.description : "")
             )
           ]),
           _vm._v(" "),
