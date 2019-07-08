@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Mails\ResendVerificationCodeEmail;
+use App\Models\Companies\Answer;
 use App\Models\Companies\Company;
 use App\Models\Companies\CompanyPost;
 use App\Models\Companies\CompanySpecialized;
@@ -147,7 +148,7 @@ class UserRepository extends AbstractRepository
         $rules = [
             'company_name'  => 'required',
             'company_main_company_id'  => 'required|integer',
-            'company_secondary_functions' => 'required|array',
+          //  'company_secondary_functions' => 'required|array',
             'company_business_type_id' => 'required|integer',
             'company_tier_id' => 'required|integer',
             'company_photo' => 'required|image64:jpeg,jpg,png',
@@ -181,6 +182,20 @@ class UserRepository extends AbstractRepository
         if ( !$this->company->store($request) ) {
 
             return false;
+        }
+
+        // insert new main function answer
+
+        $existingAnswer = Answer::where('answer', $request->company_main_function_answer)
+            ->where('main_function_id', $request->company_main_company_id)
+            ->exists();
+
+        if (!$existingAnswer) {
+
+            Answer::create([
+                'main_function_id' => $request->company_main_company_id,
+                'answer' => $request->company_main_function_answer
+            ]);
         }
 
         // company specialize

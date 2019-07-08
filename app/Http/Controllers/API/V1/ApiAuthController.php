@@ -274,12 +274,10 @@ class ApiAuthController extends ApiBaseController
      *                      example=1
      *                  ),
      *                  @OA\Property(
-     *                      property="company_secondary_functions",
-     *                      type="array",
-     *                      @OA\Items(
-     *                         type="integer",
-     *                         example=1
-     *                      ),
+     *                      property="company_main_function_answer",
+     *                      description="Company Main function Answer",
+     *                      type="string",
+     *                      example="Interior Design"
      *                  ),
      *                  @OA\Property(
      *                      property="company_address",

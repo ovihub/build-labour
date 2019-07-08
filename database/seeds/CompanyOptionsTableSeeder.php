@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Companies\Answer;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -51,6 +52,16 @@ class CompanyOptionsTableSeeder extends Seeder
         $main5 = new \App\Models\Options\MainFunction();
         $main5->main_name = 'Training and Education Provider';
         $main5->save();
+
+        Answer::create([
+            'answer' => 'Wall painting',
+            'main_function_id' => $main1->id
+        ]);
+
+        Answer::create([
+            'answer' => 'Interior Design',
+            'main_function_id' => $main4->id
+        ]);
 
         // main functions
         DB::table('company_secondary_functions')->insert([

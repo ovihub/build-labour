@@ -178,7 +178,7 @@ class UsersTableSeeder extends Seeder
                 'user_id' => $user->id
             ]);
 
-            $user2 = User::whereEmail('buildlabouradmin@testmail.com')->first();
+            $user2 = User::whereEmail(env('APP_EMAIL_SUPPORT'))->first();
 
             Ticket::create([
                 'ticket' => 'RIIWHS202D',
