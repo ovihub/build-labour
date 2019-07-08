@@ -3884,6 +3884,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3910,12 +3916,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       tiers: [],
       main_company_functions: [],
       secondary_company_functions: [],
+      main_function_answers: [],
       states: ['QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT'],
       input: {
         company_name: '',
         company_business_type_id: '',
         company_tier_id: '',
-        specialty: '',
+        main_function_answer: '',
         company_address: '',
         company_contact_number: '',
         company_operate_outside_states: '',
@@ -3932,7 +3939,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         company_name: '',
         company_main_company_id: '',
         company_secondary_functions: '',
-        specialty: '',
+        main_function_answer: '',
         company_business_type_id: '',
         company_tier_id: '',
         company_photo: '',
@@ -3988,9 +3995,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getCompanyOptions();
   },
   methods: {
-    textAreaAdjust: function textAreaAdjust(refName) {
-      Utils.textAreaAdjust(this.$refs[refName]);
-    },
     getCompanyOptions: function getCompanyOptions() {
       var component = this;
       Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCompanyOptions()).then(function (data) {
@@ -4038,7 +4042,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return el.id == e.target.value;
       }).items;
       this.setNextDisabled(1);
-      this.input.specialty = '';
+      this.input.main_function_answer = '';
       this.specialtyLabel = this.specialtyLabels[e.target.value - 2];
     },
     onChangeLocation: function onChangeLocation(keyword) {
@@ -4052,6 +4056,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.input.company_address = location;
       this.locations = [];
       this.setNextDisabled(3);
+    },
+    onSearchMainFunctionAnswer: function onSearchMainFunctionAnswer(keyword, main_id) {
+      if (keyword != '' && keyword && keyword.length > 0) {
+        this.main_function_answers = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getMainFunctionAnswers(keyword, main_id);
+      } else {
+        this.main_function_answers = [];
+      }
+    },
+    onSelectMainFunctionAnswer: function onSelectMainFunctionAnswer(answer) {
+      this.input.main_function_answer = answer;
+      this.main_function_answers = [];
     },
     addNewEntity: function addNewEntity() {
       this.input.company_secondary_functions = this.input.company_secondary_functions.filter(function (r) {
@@ -55067,47 +55082,89 @@ var render = function() {
             _vm._v(" "),
             _vm.input.company_main_company_id &&
             _vm.input.company_main_company_id != 1
-              ? _c("div", { staticClass: "emp-row mt-3" }, [
-                  _c("textarea", {
+              ? _c("div", { staticClass: "emp-row mt-4" }, [
+                  _c("input", {
                     directives: [
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.input.specialty,
-                        expression: "input.specialty"
+                        value: _vm.input.main_function_answer,
+                        expression: "input.main_function_answer"
                       }
                     ],
-                    ref: "specialty",
                     staticClass: "form-control",
-                    staticStyle: { overflow: "hidden" },
-                    attrs: { rows: "1", placeholder: "Start typing..." },
-                    domProps: { value: _vm.input.specialty },
+                    attrs: { type: "text", placeholder: "Start typing..." },
+                    domProps: { value: _vm.input.main_function_answer },
                     on: {
-                      focus: function($event) {
-                        return _vm.textAreaAdjust("specialty")
-                      },
                       keyup: function($event) {
-                        return _vm.textAreaAdjust("specialty")
+                        return _vm.onSearchMainFunctionAnswer(
+                          _vm.input.main_function_answer,
+                          _vm.input.company_main_company_id
+                        )
                       },
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.$set(_vm.input, "specialty", $event.target.value)
+                        _vm.$set(
+                          _vm.input,
+                          "main_function_answer",
+                          $event.target.value
+                        )
                       }
                     }
                   }),
                   _vm._v(" "),
-                  _vm.errors.specialty
+                  _vm.errors.main_function_answer
                     ? _c("span", { staticClass: "err-msg" }, [
                         _vm._v(
                           "\n                        " +
-                            _vm._s(_vm.errors.specialty) +
+                            _vm._s(_vm.errors.main_function_answer) +
                             "\n                    "
                         )
                       ])
                     : _vm._e()
                 ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.main_function_answers && _vm.main_function_answers.length > 0
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "emp-row",
+                    staticStyle: { "margin-top": "0" }
+                  },
+                  [
+                    _c(
+                      "ul",
+                      { staticClass: "list-group" },
+                      _vm._l(_vm.main_function_answers, function(ans, idx) {
+                        return _c(
+                          "li",
+                          {
+                            key: idx,
+                            staticClass: "list-group-item",
+                            on: {
+                              click: function($event) {
+                                return _vm.onSelectMainFunctionAnswer(
+                                  ans.answer
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            \n                            " +
+                                _vm._s(ans.answer) +
+                                "\n                        "
+                            )
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  ]
+                )
               : _vm._e()
           ]),
           _vm._v(" "),
@@ -55787,7 +55844,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "form-group" }, [
+        _c("div", [
           _vm.isFirstStep
             ? _c(
                 "a",
@@ -78153,7 +78210,8 @@ function () {
       countries: '/api/v1/countries',
       courses: '/api/v1/courses',
       worker_tickets: '/api/v1/worker/tickets',
-      schools: '/api/v1/schools'
+      schools: '/api/v1/schools',
+      main_function_answers: '/api/v1/answers/'
     }; //  this._headers()
   }
 
@@ -78524,6 +78582,15 @@ function () {
       var self = this;
       Promise.resolve(self._search(this.endpoints.schools + '?keyword=' + keyword)).then(function (data) {
         self.returnValue = data.data ? data.data.schools : [];
+      });
+      return self.returnValue;
+    }
+  }, {
+    key: "getMainFunctionAnswers",
+    value: function getMainFunctionAnswers(keyword, main_id) {
+      var self = this;
+      Promise.resolve(self._search(this.endpoints.main_function_answers + main_id + '?keyword=' + keyword)).then(function (data) {
+        self.returnValue = data.data ? data.data.answers : [];
       });
       return self.returnValue;
     }

@@ -194,7 +194,7 @@
         transform: translate(var(--x, 0%), var(--y, 0%));
         transition: transform 300ms ease-out;
         overflow: auto;
-        height: 500px;
+        height: 440px;
 
         &.current {
             visibility: visible;

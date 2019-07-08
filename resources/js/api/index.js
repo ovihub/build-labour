@@ -40,7 +40,8 @@ class BuildLabourApi {
             countries: '/api/v1/countries',
             courses: '/api/v1/courses',
             worker_tickets: '/api/v1/worker/tickets',
-            schools: '/api/v1/schools'
+            schools: '/api/v1/schools',
+            main_function_answers: '/api/v1/answers/',
         };
         
         //  this._headers()
@@ -302,6 +303,16 @@ class BuildLabourApi {
 
         Promise.resolve(self._search(this.endpoints.schools + '?keyword=' + keyword)).then(function(data) {
             self.returnValue = data.data ? data.data.schools : [];
+        });
+
+        return self.returnValue;
+    }
+
+    getMainFunctionAnswers(keyword, main_id) {
+        let self = this;
+
+        Promise.resolve(self._search(this.endpoints.main_function_answers + main_id + '?keyword=' + keyword)).then(function(data) {
+            self.returnValue = data.data ? data.data.answers : [];
         });
 
         return self.returnValue;
