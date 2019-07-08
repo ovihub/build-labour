@@ -14,6 +14,8 @@
                         
                         <personal-details></personal-details>
 
+                        <div class="mt-4"></div>
+
                         <work-information></work-information>
                         
                     </template>
@@ -46,10 +48,10 @@
                         {{ formatDate(date_of_birth) }}
                     </span>
 
-                    <span class="bl-label-15 mt-2 pt-1" v-if="country_birth">Country of Birth</span>
+                    <!-- <span class="bl-label-15 mt-2 pt-1" v-if="country_birth">Country of Birth</span>
                     <span class="bl-label-14">
                         {{ country_birth }}
-                    </span>
+                    </span> -->
                 </div>
 
                 <div v-if="false">

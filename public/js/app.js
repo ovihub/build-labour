@@ -9045,6 +9045,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -60895,55 +60897,6 @@ var render = function() {
         ? _c("span", { staticClass: "err-msg" }, [
             _vm._v("\n        " + _vm._s(_vm.errors.date_of_birth) + "\n    ")
           ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c("div", { staticClass: "me-label" }, [_vm._v("Country of Birth")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "me-row mb-3" }, [
-        _c(
-          "select",
-          {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.input.country_birth,
-                expression: "input.country_birth"
-              }
-            ],
-            on: {
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.$set(
-                  _vm.input,
-                  "country_birth",
-                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                )
-              }
-            }
-          },
-          _vm._l(_vm.countries, function(country) {
-            return _c(
-              "option",
-              { key: country, domProps: { value: country } },
-              [_vm._v(_vm._s(country))]
-            )
-          }),
-          0
-        )
-      ]),
-      _vm._v(" "),
-      _vm.errors.country_birth
-        ? _c("span", { staticClass: "err-msg" }, [
-            _vm._v("\n        " + _vm._s(_vm.errors.country_birth) + "\n    ")
-          ])
         : _vm._e()
     ]
   )
@@ -62134,7 +62087,13 @@ var render = function() {
               _c(
                 "template",
                 { slot: "custom-modal-content" },
-                [_c("personal-details"), _vm._v(" "), _c("work-information")],
+                [
+                  _c("personal-details"),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "mt-4" }),
+                  _vm._v(" "),
+                  _c("work-information")
+                ],
                 1
               ),
               _vm._v(" "),
@@ -62206,20 +62165,6 @@ var render = function() {
                   _vm._v(
                     "\n                    " +
                       _vm._s(_vm.formatDate(_vm.date_of_birth)) +
-                      "\n                "
-                  )
-                ]),
-                _vm._v(" "),
-                _vm.country_birth
-                  ? _c("span", { staticClass: "bl-label-15 mt-2 pt-1" }, [
-                      _vm._v("Country of Birth")
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("span", { staticClass: "bl-label-14" }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(_vm.country_birth) +
                       "\n                "
                   )
                 ])
