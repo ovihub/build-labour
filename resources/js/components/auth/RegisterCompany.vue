@@ -179,8 +179,7 @@
                     <div class="form-group">
                         <input id="company_address" type="text" name="company_address" class="form-control"
                             v-model="input.company_address" placeholder="Start typing address..."
-                            @keyup="onChangeLocation(input.company_address)"
-                            required />
+                            @keyup="onChangeLocation(input.company_address)" />
 
                         <span class="err-msg" v-if="errors.company_address">
                             {{ errors.company_address }}
@@ -197,7 +196,7 @@
                     <div class="form-group">
                         <input id="company_contact_number" type="text" name="company_contact_number" class="form-control"
                             v-model="input.company_contact_number" placeholder="Business contact number"
-                            @keyup="setNextDisabled(3)" required />
+                            @keyup="setNextDisabled(3)" />
 
                         <span class="err-msg" v-if="errors.company_contact_number">
                             {{ errors.company_contact_number }}
@@ -207,7 +206,7 @@
                     <div class="form-group">
                         <input id="company_website" type="text" name="company_website" class="form-control"
                             v-model="input.company_website" placeholder="Business Website"
-                            @keyup="setNextDisabled(3)" required />
+                            @keyup="setNextDisabled(3)" />
 
                         <span class="err-msg" v-if="errors.company_website">
                             {{ errors.company_website }}
@@ -244,7 +243,7 @@
                 <li class="comp-card-list">
                     <div class="form-group">
                         <input id="email" type="email" name="email" class="form-control"
-                            v-model="input.email" placeholder="Email Address" required />
+                            v-model="input.email" placeholder="Email Address" />
 
                         <span class="err-msg" v-if="errors.email">
                             {{ errors.email }}
@@ -255,7 +254,7 @@
                         <password-eye ref-name="regTogglePassword" style="margin-right:15px"></password-eye>
                         
                         <input id="password" ref="regTogglePassword" type="password" name="password" class="form-control" 
-                            v-model="input.password" placeholder="Password" required />
+                            v-model="input.password" placeholder="Password" />
 
                         <span class="err-msg" v-if="errors.password">
                             {{ errors.password }}
@@ -267,7 +266,7 @@
 
                         <input id="password-confirm" ref="regToggleConfirm" type="password" class="form-control"
                             name="password_confirmation" v-model="input.password_confirmation"
-                            placeholder="Confirm Password" required>
+                            placeholder="Confirm Password" />
                     </div>
                 </li>
             </ul>
@@ -390,7 +389,7 @@
                 $('#upload').val('');
             });
 
-            this.input.company_secondary_functions.push('');
+            // this.input.company_secondary_functions.push('');
 
             setTimeout(function() {
                 component.$sections = component.$refs['compCardWrapper'].querySelectorAll('li');
@@ -492,17 +491,17 @@
                 this.main_function_answers = [];
             },
 
-            addNewEntity() {
-                this.input.company_secondary_functions = this.input.company_secondary_functions.filter(r => r !== '');
+            // addNewEntity() {
+            //     this.input.company_secondary_functions = this.input.company_secondary_functions.filter(r => r !== '');
 
-                this.input.company_secondary_functions.push('');
-            },
+            //     this.input.company_secondary_functions.push('');
+            // },
 
-            removeEntity(index) {
-                if (this.input.company_secondary_functions.length > 1) {
-                    this.input.company_secondary_functions.splice(index, 1);
-                }
-            },
+            // removeEntity(index) {
+            //     if (this.input.company_secondary_functions.length > 1) {
+            //         this.input.company_secondary_functions.splice(index, 1);
+            //     }
+            // },
 
             formatOperate(index) {
                 if (index == 1) {
@@ -610,7 +609,7 @@
 
                             if (data.errors.company_name || 
                                 data.errors.company_main_company_id || 
-                                data.errors.company_secondary_functions) {
+                                data.errors.company_main_function_answer) {
 
                                 component.skip(-3);
                             }

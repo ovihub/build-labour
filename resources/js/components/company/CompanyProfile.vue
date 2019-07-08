@@ -233,7 +233,13 @@
                         {{ introduction }}
                     </div>
                 </div>
-                <div class="bl-label-16 bl-mt20" v-if="secondary_functions.length != 0">
+                <div class="bl-label-16 bl-mt20" v-if="main_function_answer">
+                    We specialise in
+                </div>
+                <div class="job-body">
+                    {{ main_function_answer }}
+                </div>
+                <!-- <div class="bl-label-16 bl-mt20" v-if="secondary_functions.length != 0">
                     We specialise in
                 </div>
                 <div class="job-body">
@@ -242,7 +248,7 @@
                             {{ spec.secondary_name }}
                         </li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div>
 
@@ -271,6 +277,7 @@
                 phone: '',
                 introduction: '',
                 main_function: '',
+                main_function_answer: '',
                 business_types: [],
                 tiers: [],
                 main_functions: [],
@@ -282,11 +289,11 @@
                     tier: { id: 0, tier_name: '' },
                     main_function: { id: 0, main_name: '' },
                     business_type_id: '', tier_id: '', main_company_id: '',
-                    secondary_functions: [],
+                    secondary_functions: [], main_function_answer: '',
                 },
                 errors: {
                     name: '', business_type: '', tier: '', address: '', website: '', phone: '', introduction: '',
-                    main_function: '', secondary_functions: '',
+                    main_function: '', secondary_functions: '', main_function_answer: '',
                 },
                 endpoints: {
                     save: '/api/v1/company/update',
@@ -344,6 +351,7 @@
                 this.tier = details.tier ? details.tier : { id: 0, tier_name: '' };
                 this.main_function = details.main_function ? details.main_function : { id: 0, main_name: '' };
                 this.secondary_functions = details.specialization;
+                this.main_function_answer = details.main_function_answer;
 
                 this.getSecondaryOptions(details.main_function.id);
             },
@@ -358,6 +366,7 @@
                 val.tier = details.tier ? details.tier : { id: 0, tier_name: '' };
                 val.main_function = details.main_function ? details.main_function : { id: 0, main_name: '' };
                 val.secondary_functions = details.specialization;
+                val.main_function_answer = details.main_function_answer;
             },
 
             getSecondaryOptions(id) {
