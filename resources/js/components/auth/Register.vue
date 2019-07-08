@@ -49,7 +49,9 @@
         <div class="emp-row">
             <!-- <div class="emp-form-label" v-if="input.most_recent_role">Most Recent Role</div> -->
 
-            <input class="form-control" type="text" placeholder="Most Recent Role" v-model="input.most_recent_role"
+            <input class="form-control" type="text" placeholder="Most Recent Role"
+                style="padding-left:24px"
+                v-model="input.most_recent_role"
                 @keyup="onSearchJob(input.most_recent_role)" />
             
             <span class="err-msg" v-if="errors.most_recent_role">

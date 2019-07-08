@@ -3468,6 +3468,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -54612,6 +54614,7 @@ var render = function() {
             }
           ],
           staticClass: "form-control",
+          staticStyle: { "padding-left": "24px" },
           attrs: { type: "text", placeholder: "Most Recent Role" },
           domProps: { value: _vm.input.most_recent_role },
           on: {
