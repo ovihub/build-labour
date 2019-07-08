@@ -58,7 +58,7 @@
                     </div>
                 </div>
 
-                <div class="emp-row">
+                <div class="emp-row" v-if="education_status != statuses[0]">
                     <div class="role-col-left">
                         <div class="emp-form-label">Start Month</div>
                         <select v-model="start_month">
@@ -239,9 +239,9 @@
             },
 
             formatEduStatus(value) {
-                if (this.education_status == this.statuses[1]) {
-                    this.years = Utils.getYears(currentYear + 10, currentYear - 10);
-                }
+                // if (this.education_status == this.statuses[1]) {
+                //     this.years = Utils.getYears(currentYear + 10, currentYear - 10);
+                // }
 
                 for (let i = 0; i < this.statuses.length; i++) {
                     this.$refs['education_status_' + i].checked = false;    

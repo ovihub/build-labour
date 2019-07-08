@@ -26,15 +26,15 @@
             </div>
         </div>
 
-        <div class="form-group disp-flex">
-            <div class="form-col-1">
+        <div class="form-group">
+            <!-- <div class="form-col-1">
                 <img class="form-mobile-icon" src="/img/icons/au.png"
                     srcset="/img/icons/au@2x.png 2x, /img/icons/au@3x.png 3x">
                 
                 <span class="form-col-label">+61</span>
             </div>
             
-            <div class="form-col-2">
+            <div class="form-col-2"> -->
                 <!-- <div class="emp-form-label" v-if="input.mobile_number">Mobile Number</div> -->
 
                 <input id="mobile_number" type="text" name="mobile_number" class="form-control" style="padding-left:24px"
@@ -43,7 +43,7 @@
                 <span class="err-msg" v-if="errors.mobile_number">
                     {{ errors.mobile_number }}
                 </span>
-            </div>
+            <!-- </div> -->
         </div>
 
         <div class="emp-row">
