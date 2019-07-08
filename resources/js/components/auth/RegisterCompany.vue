@@ -48,11 +48,11 @@
 
                     <div class="emp-row mt-4" v-if="input.company_main_company_id && input.company_main_company_id != 1">
                         <input class="form-control" type="text" placeholder="Start typing..."
-                            v-model="input.main_function_answer"
-                            @keyup="onSearchMainFunctionAnswer(input.main_function_answer, input.company_main_company_id)" />
+                            v-model="input.company_main_function_answer"
+                            @keyup="onSearchMainFunctionAnswer(input.company_main_function_answer, input.company_main_company_id)" />
 
-                        <span class="err-msg" v-if="errors.main_function_answer">
-                            {{ errors.main_function_answer }}
+                        <span class="err-msg" v-if="errors.company_main_function_answer">
+                            {{ errors.company_main_function_answer }}
                         </span>
                     </div>
 
@@ -335,13 +335,13 @@
                     'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
                 ],
                 input: {
-                    company_name: '', company_business_type_id: '', company_tier_id: '', main_function_answer: '',
+                    company_name: '', company_business_type_id: '', company_tier_id: '', company_main_function_answer: '',
                     company_address: '', company_contact_number: '', company_operate_outside_states: '', company_website: '',
                     company_states: [], company_main_company_id: '', company_secondary_functions: [], company_photo: '',
                     email: '', password: '', password_confirmation: '',
                 },
                 errors: {
-                    company_name: '', company_main_company_id: '', company_secondary_functions: '', main_function_answer: '',
+                    company_name: '', company_main_company_id: '', company_secondary_functions: '', company_main_function_answer: '',
                     company_business_type_id: '', company_tier_id: '', company_photo: '',
                     company_address: '', company_contact_number: '', company_website: '', company_operate_outside_states: '', company_states: '',  
                     email: '', password: '', password_confirmation: '',
@@ -457,7 +457,7 @@
 
                 this.setNextDisabled(1);
 
-                this.input.main_function_answer = '';
+                this.input.company_main_function_answer = '';
                 this.specialtyLabel = this.specialtyLabels[e.target.value - 2];
             },
 
@@ -487,7 +487,7 @@
             },
 
             onSelectMainFunctionAnswer(answer) {
-                this.input.main_function_answer = answer;
+                this.input.company_main_function_answer = answer;
 
                 this.main_function_answers = [];
             },

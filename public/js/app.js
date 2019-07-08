@@ -3922,7 +3922,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         company_name: '',
         company_business_type_id: '',
         company_tier_id: '',
-        main_function_answer: '',
+        company_main_function_answer: '',
         company_address: '',
         company_contact_number: '',
         company_operate_outside_states: '',
@@ -3939,7 +3939,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         company_name: '',
         company_main_company_id: '',
         company_secondary_functions: '',
-        main_function_answer: '',
+        company_main_function_answer: '',
         company_business_type_id: '',
         company_tier_id: '',
         company_photo: '',
@@ -4042,7 +4042,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return el.id == e.target.value;
       }).items;
       this.setNextDisabled(1);
-      this.input.main_function_answer = '';
+      this.input.company_main_function_answer = '';
       this.specialtyLabel = this.specialtyLabels[e.target.value - 2];
     },
     onChangeLocation: function onChangeLocation(keyword) {
@@ -4065,7 +4065,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     onSelectMainFunctionAnswer: function onSelectMainFunctionAnswer(answer) {
-      this.input.main_function_answer = answer;
+      this.input.company_main_function_answer = answer;
       this.main_function_answers = [];
     },
     addNewEntity: function addNewEntity() {
@@ -55088,17 +55088,17 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.input.main_function_answer,
-                        expression: "input.main_function_answer"
+                        value: _vm.input.company_main_function_answer,
+                        expression: "input.company_main_function_answer"
                       }
                     ],
                     staticClass: "form-control",
                     attrs: { type: "text", placeholder: "Start typing..." },
-                    domProps: { value: _vm.input.main_function_answer },
+                    domProps: { value: _vm.input.company_main_function_answer },
                     on: {
                       keyup: function($event) {
                         return _vm.onSearchMainFunctionAnswer(
-                          _vm.input.main_function_answer,
+                          _vm.input.company_main_function_answer,
                           _vm.input.company_main_company_id
                         )
                       },
@@ -55108,18 +55108,18 @@ var render = function() {
                         }
                         _vm.$set(
                           _vm.input,
-                          "main_function_answer",
+                          "company_main_function_answer",
                           $event.target.value
                         )
                       }
                     }
                   }),
                   _vm._v(" "),
-                  _vm.errors.main_function_answer
+                  _vm.errors.company_main_function_answer
                     ? _c("span", { staticClass: "err-msg" }, [
                         _vm._v(
                           "\n                        " +
-                            _vm._s(_vm.errors.main_function_answer) +
+                            _vm._s(_vm.errors.company_main_function_answer) +
                             "\n                    "
                         )
                       ])
