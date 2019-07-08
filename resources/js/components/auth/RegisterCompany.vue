@@ -42,10 +42,25 @@
                         {{ errors.company_main_company_id }}
                     </span>
 
-                    <div class="comp-label">
-                        What are the secondary functions?
+                    <div class="comp-label" v-if="input.company_main_company_id">
+                        {{ specialtyLabel }}
                     </div>
-                    <div class="comp-label-3">
+                    <div class="emp-row mt-3" v-if="input.company_main_company_id && input.company_main_company_id != 1">
+                        <textarea rows="1" ref="specialty" class="form-control" style="overflow:hidden"
+                            placeholder="Start typing..."
+                            @focus="textAreaAdjust('specialty')"
+                            @keyup="textAreaAdjust('specialty')"
+                            v-model="input.specialty">
+                        </textarea>
+                        <!-- <input class="form-control" type="text" placeholder="Start typing..."
+                            v-model="input.specialty"
+                            @keyup="onKeyupSpecialty" /> -->
+
+                        <span class="err-msg" v-if="errors.specialty">
+                            {{ errors.specialty }}
+                        </span>
+                    </div>
+                    <!-- <div class="comp-label-3">
                         Add as many as applicable
                     </div>
                     <span class="err-msg" v-if="errors.company_secondary_functions">
@@ -84,7 +99,7 @@
                         <div class="btn btn-link btn-delete" @click="addNewEntity">
                             Add Another
                         </div>
-                    </center>
+                    </center> -->
                 </li>
 
                 <li class="comp-card-list">
@@ -290,6 +305,13 @@
                     'Location & Contact',
                     'Login Credentials'
                 ],
+                specialtyLabel: '',
+                specialtyLabels: [
+                    'What is your trade?',
+                    'What do you supply?',
+                    'What type of design?',
+                    'What type of education provider are you?'
+                ],
                 progressCls: [],
                 showStates: false,
                 showProgress: false,
@@ -306,13 +328,13 @@
                     'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
                 ],
                 input: {
-                    company_name: '', company_business_type_id: '', company_tier_id: '',
+                    company_name: '', company_business_type_id: '', company_tier_id: '', specialty: '',
                     company_address: '', company_contact_number: '', company_operate_outside_states: '', company_website: '',
                     company_states: [], company_main_company_id: '', company_secondary_functions: [], company_photo: '',
                     email: '', password: '', password_confirmation: '',
                 },
                 errors: {
-                    company_name: '', company_main_company_id: '', company_secondary_functions: '',
+                    company_name: '', company_main_company_id: '', company_secondary_functions: '', specialty: '',
                     company_business_type_id: '', company_tier_id: '', company_photo: '',
                     company_address: '', company_contact_number: '', company_website: '', company_operate_outside_states: '', company_states: '',  
                     email: '', password: '', password_confirmation: '',
@@ -374,6 +396,10 @@
 
         methods: {
 
+            textAreaAdjust(refName) {
+                Utils.textAreaAdjust(this.$refs[refName]);
+            },
+
             getCompanyOptions() {
                 let component = this;
 
@@ -385,11 +411,10 @@
             },
 
             setNextDisabled(step) {
-                
                 switch (step) {
                     case 1:
-                        if (this.input.company_name && this.input.company_main_company_id && 
-                            this.input.company_secondary_functions && this.input.company_secondary_functions[0] != '') {
+                        if (this.input.company_name && this.input.company_main_company_id) {
+                            // this.input.company_secondary_functions && this.input.company_secondary_functions[0] != '') {
                                 
                             this.disabledNext = false;
                         } else {
@@ -428,6 +453,9 @@
                 this.secondary_company_functions = this.main_company_functions.find(el => el.id == e.target.value).items;
 
                 this.setNextDisabled(1);
+
+                this.input.specialty = '';
+                this.specialtyLabel = this.specialtyLabels[e.target.value - 2];
             },
 
             onChangeLocation(keyword) {
@@ -609,6 +637,11 @@
             skip(step) {
                 this.step += step;
                 this.disabledNext = true;
+                
+                if (this.input.company_main_company_id == 5) {
+                    this.step += step;
+                }
+                
                 this.goToStep(this.step);
             },
 

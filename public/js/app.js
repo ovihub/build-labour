@@ -3867,6 +3867,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3879,6 +3894,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       orientation: '',
       subHeader: 'About the business',
       subHeaders: ['About the business', 'About the business', 'Location & Contact', 'Login Credentials'],
+      specialtyLabel: '',
+      specialtyLabels: ['What is your trade?', 'What do you supply?', 'What type of design?', 'What type of education provider are you?'],
       progressCls: [],
       showStates: false,
       showProgress: false,
@@ -3896,6 +3913,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         company_name: '',
         company_business_type_id: '',
         company_tier_id: '',
+        specialty: '',
         company_address: '',
         company_contact_number: '',
         company_operate_outside_states: '',
@@ -3912,6 +3930,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         company_name: '',
         company_main_company_id: '',
         company_secondary_functions: '',
+        specialty: '',
         company_business_type_id: '',
         company_tier_id: '',
         company_photo: '',
@@ -3967,6 +3986,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getCompanyOptions();
   },
   methods: {
+    textAreaAdjust: function textAreaAdjust(refName) {
+      Utils.textAreaAdjust(this.$refs[refName]);
+    },
     getCompanyOptions: function getCompanyOptions() {
       var component = this;
       Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCompanyOptions()).then(function (data) {
@@ -3978,7 +4000,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setNextDisabled: function setNextDisabled(step) {
       switch (step) {
         case 1:
-          if (this.input.company_name && this.input.company_main_company_id && this.input.company_secondary_functions && this.input.company_secondary_functions[0] != '') {
+          if (this.input.company_name && this.input.company_main_company_id) {
+            // this.input.company_secondary_functions && this.input.company_secondary_functions[0] != '') {
             this.disabledNext = false;
           } else {
             this.disabledNext = true;
@@ -4013,6 +4036,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return el.id == e.target.value;
       }).items;
       this.setNextDisabled(1);
+      this.input.specialty = '';
+      this.specialtyLabel = this.specialtyLabels[e.target.value - 2];
     },
     onChangeLocation: function onChangeLocation(keyword) {
       if (keyword != '' && keyword && keyword.length > 0) {
@@ -4174,6 +4199,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     skip: function skip(step) {
       this.step += step;
       this.disabledNext = true;
+
+      if (this.input.company_main_company_id == 5) {
+        this.step += step;
+      }
+
       this.goToStep(this.step);
     },
     goToStep: function goToStep(step) {
@@ -54866,280 +54896,176 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("ul", { ref: "compCardWrapper", staticClass: "comp-card-wrapper" }, [
-          _c(
-            "li",
-            { staticClass: "comp-card-list" },
-            [
-              _c("div", { staticClass: "emp-row" }, [
-                _c("input", {
+          _c("li", { staticClass: "comp-card-list" }, [
+            _c("div", { staticClass: "emp-row" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.input.company_name,
+                    expression: "input.company_name"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Company Name" },
+                domProps: { value: _vm.input.company_name },
+                on: {
+                  keyup: _vm.onKeyupCompanyName,
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.input, "company_name", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.company_name
+                ? _c("span", { staticClass: "err-msg" }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.errors.company_name) +
+                        "\n                    "
+                    )
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "comp-label" }, [
+              _vm._v(
+                "\n                    What is your main company function?\n                "
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "emp-row" }, [
+              _c(
+                "select",
+                {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.input.company_name,
-                      expression: "input.company_name"
+                      value: _vm.input.company_main_company_id,
+                      expression: "input.company_main_company_id"
                     }
                   ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Company Name" },
-                  domProps: { value: _vm.input.company_name },
                   on: {
-                    keyup: _vm.onKeyupCompanyName,
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.input, "company_name", $event.target.value)
-                    }
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.input,
+                          "company_main_company_id",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      _vm.onChangeMainCompanyFunctions
+                    ]
                   }
-                }),
-                _vm._v(" "),
-                _vm.errors.company_name
-                  ? _c("span", { staticClass: "err-msg" }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(_vm.errors.company_name) +
-                          "\n                    "
-                      )
-                    ])
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "comp-label" }, [
-                _vm._v(
-                  "\n                    What is your main company function?\n                "
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "emp-row" }, [
-                _c(
-                  "select",
-                  {
+                },
+                [
+                  _c(
+                    "option",
+                    {
+                      staticStyle: { display: "none" },
+                      attrs: { value: "", disabled: "", selected: "" }
+                    },
+                    [_vm._v("Company Specialisation")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.main_company_functions, function(main, index) {
+                    return _c(
+                      "option",
+                      { key: index, domProps: { value: main.id } },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(main.main_name) +
+                            "\n                        "
+                        )
+                      ]
+                    )
+                  })
+                ],
+                2
+              )
+            ]),
+            _vm._v(" "),
+            _vm.errors.company_main_company_id
+              ? _c("span", { staticClass: "err-msg" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.errors.company_main_company_id) +
+                      "\n                "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.input.company_main_company_id
+              ? _c("div", { staticClass: "comp-label" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.specialtyLabel) +
+                      "\n                "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.input.company_main_company_id &&
+            _vm.input.company_main_company_id != 1
+              ? _c("div", { staticClass: "emp-row mt-3" }, [
+                  _c("textarea", {
                     directives: [
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.input.company_main_company_id,
-                        expression: "input.company_main_company_id"
+                        value: _vm.input.specialty,
+                        expression: "input.specialty"
                       }
                     ],
+                    ref: "specialty",
+                    staticClass: "form-control",
+                    staticStyle: { overflow: "hidden" },
+                    attrs: { rows: "1", placeholder: "Start typing..." },
+                    domProps: { value: _vm.input.specialty },
                     on: {
-                      change: [
-                        function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.input,
-                            "company_main_company_id",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        },
-                        _vm.onChangeMainCompanyFunctions
-                      ]
-                    }
-                  },
-                  [
-                    _c(
-                      "option",
-                      {
-                        staticStyle: { display: "none" },
-                        attrs: { value: "", disabled: "", selected: "" }
+                      focus: function($event) {
+                        return _vm.textAreaAdjust("specialty")
                       },
-                      [_vm._v("Company Specialisation")]
-                    ),
-                    _vm._v(" "),
-                    _vm._l(_vm.main_company_functions, function(main, index) {
-                      return _c(
-                        "option",
-                        { key: index, domProps: { value: main.id } },
-                        [
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(main.main_name) +
-                              "\n                        "
-                          )
-                        ]
-                      )
-                    })
-                  ],
-                  2
-                )
-              ]),
-              _vm._v(" "),
-              _vm.errors.company_main_company_id
-                ? _c("span", { staticClass: "err-msg" }, [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(_vm.errors.company_main_company_id) +
-                        "\n                "
-                    )
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("div", { staticClass: "comp-label" }, [
-                _vm._v(
-                  "\n                    What are the secondary functions?\n                "
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "comp-label-3" }, [
-                _vm._v(
-                  "\n                    Add as many as applicable\n                "
-                )
-              ]),
-              _vm._v(" "),
-              _vm.errors.company_secondary_functions
-                ? _c("span", { staticClass: "err-msg" }, [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(_vm.errors.company_secondary_functions) +
-                        "\n                "
-                    )
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm._l(_vm.input.company_secondary_functions, function(
-                spec,
-                index
-              ) {
-                return _c(
-                  "div",
-                  {
-                    key: index,
-                    ref: "specItem-" + index,
-                    refInFor: true,
-                    staticClass: "form-group emp-row row-center"
-                  },
-                  [
-                    _c("div", { staticClass: "comp-col-left" }, [
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value:
-                                _vm.input.company_secondary_functions[index],
-                              expression:
-                                "input.company_secondary_functions[index]"
-                            }
-                          ],
-                          on: {
-                            change: [
-                              function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.input.company_secondary_functions,
-                                  index,
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              },
-                              function($event) {
-                                return _vm.setNextDisabled(1)
-                              }
-                            ]
-                          }
-                        },
-                        [
-                          _c(
-                            "option",
-                            {
-                              staticStyle: { display: "none" },
-                              attrs: { value: "", disabled: "", selected: "" }
-                            },
-                            [_vm._v("Company Specialisation")]
-                          ),
-                          _vm._v(" "),
-                          _vm._l(_vm.secondary_company_functions, function(
-                            type,
-                            idx
-                          ) {
-                            return _c(
-                              "option",
-                              {
-                                key: idx + 1,
-                                ref: "specOptItem-" + index + "-" + (idx + 1),
-                                refInFor: true,
-                                domProps: { value: type.id }
-                              },
-                              [
-                                _vm._v(
-                                  "\n\n                                " +
-                                    _vm._s(type.secondary_name) +
-                                    "\n                            "
-                                )
-                              ]
-                            )
-                          })
-                        ],
-                        2
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "comp-col-right" }, [
-                      _c(
-                        "span",
-                        {
-                          on: {
-                            click: function($event) {
-                              return _vm.removeEntity(index)
-                            }
-                          }
-                        },
-                        [
-                          _c("img", {
-                            staticStyle: { cursor: "pointer" },
-                            attrs: {
-                              src: "/img/icons/remove.png",
-                              srcset:
-                                "/img/icons/remove@2x.png" +
-                                " 2x, " +
-                                "/img/icons/remove@3x.png" +
-                                " 3x"
-                            }
-                          })
-                        ]
-                      )
-                    ])
-                  ]
-                )
-              }),
-              _vm._v(" "),
-              _c("center", [
-                _c(
-                  "div",
-                  {
-                    staticClass: "btn btn-link btn-delete",
-                    on: { click: _vm.addNewEntity }
-                  },
-                  [
-                    _vm._v(
-                      "\n                        Add Another\n                    "
-                    )
-                  ]
-                )
-              ])
-            ],
-            2
-          ),
+                      keyup: function($event) {
+                        return _vm.textAreaAdjust("specialty")
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.input, "specialty", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.errors.specialty
+                    ? _c("span", { staticClass: "err-msg" }, [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(_vm.errors.specialty) +
+                            "\n                    "
+                        )
+                      ])
+                    : _vm._e()
+                ])
+              : _vm._e()
+          ]),
           _vm._v(" "),
           _c("li", { staticClass: "comp-card-list" }, [
             _c("div", { staticClass: "emp-row" }, [
