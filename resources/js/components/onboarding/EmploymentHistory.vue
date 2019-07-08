@@ -24,7 +24,19 @@
             <label :for="'tier-styled-checkbox-'+index">{{ tier.tier_name }}</label>
         </div>
 
-        <div class="btn btn-link btn-delete mt-3"
+        <hr>
+
+        <button type="button"
+            data-toggle="modal"
+            data-backdrop="static"
+            data-keyboard="false"
+            data-target="#modalEmployment"
+            @click="action(-1)">
+
+            + Add to employment history
+        </button>
+
+        <!-- <div class="btn btn-link btn-delete mt-3"
             data-toggle="modal"
             data-backdrop="static"
             data-keyboard="false"
@@ -32,7 +44,7 @@
             @click="action(-1)">
             
             Add new position
-        </div>
+        </div> -->
         
         <employment-list></employment-list>
 
@@ -84,3 +96,15 @@
         }
     }
 </script>
+
+<style scoped>
+    hr {
+        border-top: 1px solid #f9f9f9;
+    }
+    button {
+        width: 250px;
+        background-image: none;
+        background-color: #ff7705;
+        margin-top: 0;
+    }
+</style>
