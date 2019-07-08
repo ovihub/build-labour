@@ -3889,7 +3889,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3922,7 +3921,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         company_name: '',
         company_business_type_id: '',
         company_tier_id: '',
-        main_function_answer: '',
+        company_main_function_answer: '',
         company_address: '',
         company_contact_number: '',
         company_operate_outside_states: '',
@@ -3939,7 +3938,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         company_name: '',
         company_main_company_id: '',
         company_secondary_functions: '',
-        main_function_answer: '',
+        company_main_function_answer: '',
         company_business_type_id: '',
         company_tier_id: '',
         company_photo: '',
@@ -3985,8 +3984,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
     Bus.$on('closePhotoModal', function () {
       $('#upload').val('');
-    });
-    this.input.company_secondary_functions.push('');
+    }); // this.input.company_secondary_functions.push('');
+
     setTimeout(function () {
       component.$sections = component.$refs['compCardWrapper'].querySelectorAll('li');
       component.max = component.$sections.length;
@@ -4042,7 +4041,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return el.id == e.target.value;
       }).items;
       this.setNextDisabled(1);
-      this.input.main_function_answer = '';
+      this.input.company_main_function_answer = '';
       this.specialtyLabel = this.specialtyLabels[e.target.value - 2];
     },
     onChangeLocation: function onChangeLocation(keyword) {
@@ -4065,20 +4064,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     onSelectMainFunctionAnswer: function onSelectMainFunctionAnswer(answer) {
-      this.input.main_function_answer = answer;
+      this.input.company_main_function_answer = answer;
       this.main_function_answers = [];
     },
-    addNewEntity: function addNewEntity() {
-      this.input.company_secondary_functions = this.input.company_secondary_functions.filter(function (r) {
-        return r !== '';
-      });
-      this.input.company_secondary_functions.push('');
-    },
-    removeEntity: function removeEntity(index) {
-      if (this.input.company_secondary_functions.length > 1) {
-        this.input.company_secondary_functions.splice(index, 1);
-      }
-    },
+    // addNewEntity() {
+    //     this.input.company_secondary_functions = this.input.company_secondary_functions.filter(r => r !== '');
+    //     this.input.company_secondary_functions.push('');
+    // },
+    // removeEntity(index) {
+    //     if (this.input.company_secondary_functions.length > 1) {
+    //         this.input.company_secondary_functions.splice(index, 1);
+    //     }
+    // },
     formatOperate: function formatOperate(index) {
       if (index == 1) {
         this.$refs['rc-checkbox-1'].checked = true;
@@ -4171,7 +4168,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (error.response) {
                     var data = error.response.data;
 
-                    if (data.errors.company_name || data.errors.company_main_company_id || data.errors.company_secondary_functions) {
+                    if (data.errors.company_name || data.errors.company_main_company_id || data.errors.company_main_function_answer) {
                       component.skip(-3);
                     } else if (data.errors.company_business_type_id || data.errors.company_tier_id || data.errors.company_photo) {
                       component.skip(-2);
@@ -6280,6 +6277,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -6297,6 +6300,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       phone: '',
       introduction: '',
       main_function: '',
+      main_function_answer: '',
       business_types: [],
       tiers: [],
       main_functions: [],
@@ -6323,7 +6327,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         business_type_id: '',
         tier_id: '',
         main_company_id: '',
-        secondary_functions: []
+        secondary_functions: [],
+        main_function_answer: ''
       },
       errors: {
         name: '',
@@ -6334,7 +6339,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         phone: '',
         introduction: '',
         main_function: '',
-        secondary_functions: ''
+        secondary_functions: '',
+        main_function_answer: ''
       },
       endpoints: {
         save: '/api/v1/company/update',
@@ -6391,6 +6397,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         main_name: ''
       };
       this.secondary_functions = details.specialization;
+      this.main_function_answer = details.main_function_answer;
       this.getSecondaryOptions(details.main_function.id);
     },
     setDisplayValues: function setDisplayValues(val, details) {
@@ -6412,6 +6419,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         main_name: ''
       };
       val.secondary_functions = details.specialization;
+      val.main_function_answer = details.main_function_answer;
     },
     getSecondaryOptions: function getSecondaryOptions(id) {
       var component = this;
@@ -6606,6 +6614,7 @@ __webpack_require__.r(__webpack_exports__);
         component.company.phone = company.phone;
         component.company.introduction = company.introduction;
         component.company.main_function = company.main_function;
+        component.company.main_function_answer = company.main_function_answer;
         component.company.specialization = company.specialization;
         Bus.$emit('profileAvatarDetails', Utils.getInitials(company.name));
         Bus.$emit('companyProfileDetails', component.company);
@@ -55088,17 +55097,17 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.input.main_function_answer,
-                        expression: "input.main_function_answer"
+                        value: _vm.input.company_main_function_answer,
+                        expression: "input.company_main_function_answer"
                       }
                     ],
                     staticClass: "form-control",
                     attrs: { type: "text", placeholder: "Start typing..." },
-                    domProps: { value: _vm.input.main_function_answer },
+                    domProps: { value: _vm.input.company_main_function_answer },
                     on: {
                       keyup: function($event) {
                         return _vm.onSearchMainFunctionAnswer(
-                          _vm.input.main_function_answer,
+                          _vm.input.company_main_function_answer,
                           _vm.input.company_main_company_id
                         )
                       },
@@ -55108,18 +55117,18 @@ var render = function() {
                         }
                         _vm.$set(
                           _vm.input,
-                          "main_function_answer",
+                          "company_main_function_answer",
                           $event.target.value
                         )
                       }
                     }
                   }),
                   _vm._v(" "),
-                  _vm.errors.main_function_answer
+                  _vm.errors.company_main_function_answer
                     ? _c("span", { staticClass: "err-msg" }, [
                         _vm._v(
                           "\n                        " +
-                            _vm._s(_vm.errors.main_function_answer) +
+                            _vm._s(_vm.errors.company_main_function_answer) +
                             "\n                    "
                         )
                       ])
@@ -55438,8 +55447,7 @@ var render = function() {
                   id: "company_address",
                   type: "text",
                   name: "company_address",
-                  placeholder: "Start typing address...",
-                  required: ""
+                  placeholder: "Start typing address..."
                 },
                 domProps: { value: _vm.input.company_address },
                 on: {
@@ -55513,8 +55521,7 @@ var render = function() {
                   id: "company_contact_number",
                   type: "text",
                   name: "company_contact_number",
-                  placeholder: "Business contact number",
-                  required: ""
+                  placeholder: "Business contact number"
                 },
                 domProps: { value: _vm.input.company_contact_number },
                 on: {
@@ -55560,8 +55567,7 @@ var render = function() {
                   id: "company_website",
                   type: "text",
                   name: "company_website",
-                  placeholder: "Business Website",
-                  required: ""
+                  placeholder: "Business Website"
                 },
                 domProps: { value: _vm.input.company_website },
                 on: {
@@ -55721,8 +55727,7 @@ var render = function() {
                   id: "email",
                   type: "email",
                   name: "email",
-                  placeholder: "Email Address",
-                  required: ""
+                  placeholder: "Email Address"
                 },
                 domProps: { value: _vm.input.email },
                 on: {
@@ -55770,8 +55775,7 @@ var render = function() {
                     id: "password",
                     type: "password",
                     name: "password",
-                    placeholder: "Password",
-                    required: ""
+                    placeholder: "Password"
                   },
                   domProps: { value: _vm.input.password },
                   on: {
@@ -55821,8 +55825,7 @@ var render = function() {
                     id: "password-confirm",
                     type: "password",
                     name: "password_confirmation",
-                    placeholder: "Confirm Password",
-                    required: ""
+                    placeholder: "Confirm Password"
                   },
                   domProps: { value: _vm.input.password_confirmation },
                   on: {
@@ -57118,7 +57121,7 @@ var render = function() {
           "button",
           {
             staticClass: "pull-right",
-            attrs: { type: "submit", disabled: _vm.disabled },
+            attrs: { type: "button", disabled: _vm.disabled },
             on: { click: _vm.uploadPhoto }
           },
           [_vm._v("Save Photo")]
@@ -58463,26 +58466,17 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.secondary_functions.length != 0
+          _vm.main_function_answer
             ? _c("div", { staticClass: "bl-label-16 bl-mt20" }, [
                 _vm._v("\n                We specialise in\n            ")
               ])
             : _vm._e(),
           _vm._v(" "),
           _c("div", { staticClass: "job-body" }, [
-            _c(
-              "ul",
-              { staticClass: "job-list-items" },
-              _vm._l(_vm.secondary_functions, function(spec, index) {
-                return _c("li", { key: index }, [
-                  _vm._v(
-                    "\n                        " +
-                      _vm._s(spec.secondary_name) +
-                      "\n                    "
-                  )
-                ])
-              }),
-              0
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.main_function_answer) +
+                "\n            "
             )
           ])
         ])

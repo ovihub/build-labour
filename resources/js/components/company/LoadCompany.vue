@@ -53,6 +53,7 @@
                         component.company.phone = company.phone;
                         component.company.introduction = company.introduction;
                         component.company.main_function = company.main_function;
+                        component.company.main_function_answer = company.main_function_answer;
                         component.company.specialization = company.specialization;
 
                         Bus.$emit('profileAvatarDetails', Utils.getInitials(company.name));
