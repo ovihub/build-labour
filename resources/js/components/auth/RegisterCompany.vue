@@ -45,21 +45,27 @@
                     <div class="comp-label" v-if="input.company_main_company_id">
                         {{ specialtyLabel }}
                     </div>
-                    <div class="emp-row mt-3" v-if="input.company_main_company_id && input.company_main_company_id != 1">
-                        <textarea rows="1" ref="specialty" class="form-control" style="overflow:hidden"
-                            placeholder="Start typing..."
-                            @focus="textAreaAdjust('specialty')"
-                            @keyup="textAreaAdjust('specialty')"
-                            v-model="input.specialty">
-                        </textarea>
-                        <!-- <input class="form-control" type="text" placeholder="Start typing..."
-                            v-model="input.specialty"
-                            @keyup="onKeyupSpecialty" /> -->
 
-                        <span class="err-msg" v-if="errors.specialty">
-                            {{ errors.specialty }}
+                    <div class="emp-row mt-4" v-if="input.company_main_company_id && input.company_main_company_id != 1">
+                        <input class="form-control" type="text" placeholder="Start typing..."
+                            v-model="input.main_function_answer"
+                            @keyup="onSearchMainFunctionAnswer(input.main_function_answer, input.company_main_company_id)" />
+
+                        <span class="err-msg" v-if="errors.main_function_answer">
+                            {{ errors.main_function_answer }}
                         </span>
                     </div>
+
+                    <div class="emp-row" style="margin-top:0" v-if="main_function_answers && main_function_answers.length > 0">
+                        <ul class="list-group">
+                            <li class="list-group-item" v-for="(ans, idx) in main_function_answers" :key="idx"
+                                @click="onSelectMainFunctionAnswer(ans.answer)">
+                                
+                                {{ ans.answer }}
+                            </li>
+                        </ul>
+                    </div>
+
                     <!-- <div class="comp-label-3">
                         Add as many as applicable
                     </div>
@@ -266,7 +272,7 @@
                 </li>
             </ul>
 
-            <div class="form-group">
+            <div>
                 <a v-if="isFirstStep" class="btn btn-link" :href="endpoints.login">Back to login</a>
 
                 <button v-if="! isLastStep" class="pull-right" type="button" @click="skip(1)" :disabled="disabledNext">
@@ -324,17 +330,18 @@
                 tiers: [],
                 main_company_functions: [],
                 secondary_company_functions: [],
+                main_function_answers: [],
                 states: [
                     'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
                 ],
                 input: {
-                    company_name: '', company_business_type_id: '', company_tier_id: '', specialty: '',
+                    company_name: '', company_business_type_id: '', company_tier_id: '', main_function_answer: '',
                     company_address: '', company_contact_number: '', company_operate_outside_states: '', company_website: '',
                     company_states: [], company_main_company_id: '', company_secondary_functions: [], company_photo: '',
                     email: '', password: '', password_confirmation: '',
                 },
                 errors: {
-                    company_name: '', company_main_company_id: '', company_secondary_functions: '', specialty: '',
+                    company_name: '', company_main_company_id: '', company_secondary_functions: '', main_function_answer: '',
                     company_business_type_id: '', company_tier_id: '', company_photo: '',
                     company_address: '', company_contact_number: '', company_website: '', company_operate_outside_states: '', company_states: '',  
                     email: '', password: '', password_confirmation: '',
@@ -396,10 +403,6 @@
 
         methods: {
 
-            textAreaAdjust(refName) {
-                Utils.textAreaAdjust(this.$refs[refName]);
-            },
-
             getCompanyOptions() {
                 let component = this;
 
@@ -454,7 +457,7 @@
 
                 this.setNextDisabled(1);
 
-                this.input.specialty = '';
+                this.input.main_function_answer = '';
                 this.specialtyLabel = this.specialtyLabels[e.target.value - 2];
             },
 
@@ -472,6 +475,21 @@
                 this.locations = [];
 
                 this.setNextDisabled(3);
+            },
+
+            onSearchMainFunctionAnswer(keyword, main_id) {
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    this.main_function_answers = Api.getMainFunctionAnswers(keyword, main_id);
+
+                } else {
+                    this.main_function_answers = [];
+                }
+            },
+
+            onSelectMainFunctionAnswer(answer) {
+                this.input.main_function_answer = answer;
+
+                this.main_function_answers = [];
             },
 
             addNewEntity() {
