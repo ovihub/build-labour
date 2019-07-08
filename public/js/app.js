@@ -54467,49 +54467,45 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group disp-flex" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-col-2" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.input.mobile_number,
-                expression: "input.mobile_number"
-              }
-            ],
-            staticClass: "form-control",
-            staticStyle: { "padding-left": "24px" },
-            attrs: {
-              id: "mobile_number",
-              type: "text",
-              name: "mobile_number",
-              placeholder: "Mobile Number",
-              required: ""
-            },
-            domProps: { value: _vm.input.mobile_number },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.input, "mobile_number", $event.target.value)
-              }
+      _c("div", { staticClass: "form-group" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.input.mobile_number,
+              expression: "input.mobile_number"
             }
-          }),
-          _vm._v(" "),
-          _vm.errors.mobile_number
-            ? _c("span", { staticClass: "err-msg" }, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.errors.mobile_number) +
-                    "\n            "
-                )
-              ])
-            : _vm._e()
-        ])
+          ],
+          staticClass: "form-control",
+          staticStyle: { "padding-left": "24px" },
+          attrs: {
+            id: "mobile_number",
+            type: "text",
+            name: "mobile_number",
+            placeholder: "Mobile Number",
+            required: ""
+          },
+          domProps: { value: _vm.input.mobile_number },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.input, "mobile_number", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _vm.errors.mobile_number
+          ? _c("span", { staticClass: "err-msg" }, [
+              _vm._v(
+                "\n                " +
+                  _vm._s(_vm.errors.mobile_number) +
+                  "\n            "
+              )
+            ])
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "emp-row" }, [
@@ -54780,25 +54776,7 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-col-1" }, [
-      _c("img", {
-        staticClass: "form-mobile-icon",
-        attrs: {
-          src: "/img/icons/au.png",
-          srcset:
-            "/img/icons/au@2x.png" + " 2x, " + "/img/icons/au@3x.png" + " 3x"
-        }
-      }),
-      _vm._v(" "),
-      _c("span", { staticClass: "form-col-label" }, [_vm._v("+61")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
