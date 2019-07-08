@@ -190,7 +190,7 @@ class UserRepository extends AbstractRepository
             ->where('main_function_id', $request->company_main_company_id)
             ->exists();
 
-        if (!$existingAnswer) {
+        if (!$existingAnswer && !empty($request->company_main_function_answer)) {
 
             Answer::create([
                 'main_function_id' => $request->company_main_company_id,

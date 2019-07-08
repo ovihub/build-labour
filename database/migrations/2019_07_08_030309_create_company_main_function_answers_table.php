@@ -16,7 +16,7 @@ class CreateCompanyMainFunctionAnswersTable extends Migration
         Schema::create('company_main_function_answers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('main_function_id')->unsigned();
-            $table->string('answer');
+            $table->string('answer')->nullable();
         });
     }
 
