@@ -8560,11 +8560,12 @@ __webpack_require__.r(__webpack_exports__);
       var isFound = false;
 
       if (!this.selectedTicket) {
-        var parts = this.keyword.split('-');
+        this.keyword = this.keyword.trim();
+        var description = this.keyword.substr(this.keyword.indexOf(' ') + 1);
         this.selectedTicket = {
           id: null,
-          ticket: parts[0].trim(),
-          description: parts[1] ? parts[1].trim() : null
+          ticket: this.keyword.split(' ')[0],
+          description: description ? description.replace(/^[^a-zA-Z]+/, '') : null
         };
       }
 

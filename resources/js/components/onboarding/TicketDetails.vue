@@ -134,12 +134,14 @@
                 let isFound = false;
 
                 if (! this.selectedTicket) {
-                    let parts = this.keyword.split('-');
+                    this.keyword = this.keyword.trim();
+
+                    let description = this.keyword.substr(this.keyword.indexOf(' ') + 1);
 
                     this.selectedTicket = {
                         id: null,
-                        ticket: parts[0].trim(),
-                        description: parts[1] ? parts[1].trim() : null,
+                        ticket: this.keyword.split(' ')[0],
+                        description: description ? description.replace(/^[^a-zA-Z]+/, '') : null,
                     }
                 }
 
