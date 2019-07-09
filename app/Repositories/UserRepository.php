@@ -150,8 +150,8 @@ class UserRepository extends AbstractRepository
             'company_main_company_id'  => 'required|integer',
           //  'company_secondary_functions' => 'required|array',
             'company_business_type_id' => 'nullable|integer',
-            'company_tier_id' => 'required|integer',
-            'company_photo' => 'required|image64:jpeg,jpg,png',
+            'company_tier_id' => 'nullable|integer',
+            'company_photo' => 'nullable|image64:jpeg,jpg,png',
             'company_address'  => 'required',
             'company_contact_number' => 'required',
             'company_operate_outside_states' => 'required|boolean',
@@ -216,7 +216,7 @@ class UserRepository extends AbstractRepository
         }
 
         // check company photo validation
-        if (!$this->company->uploadProfilePhoto($request)) {
+        if ($request->company_photo && !$this->company->uploadProfilePhoto($request)) {
 
             return false;
         }
