@@ -19,6 +19,7 @@
                     <div class="emp-row">
                         <input class="form-control" type="text" placeholder="Company Name"
                             v-model="input.company_name"
+                            @focus="hasFocusAnswer(false)"
                             @keyup="onKeyupCompanyName" />
 
                         <span class="err-msg" v-if="errors.company_name">
@@ -30,7 +31,9 @@
                         What is your main company function?
                     </div>
                     <div class="emp-row">
-                        <select v-model="input.company_main_company_id" @change="onChangeMainCompanyFunctions">
+                        <select v-model="input.company_main_company_id"
+                            @focus="hasFocusAnswer(false)"
+                            @change="onChangeMainCompanyFunctions">
 
                             <option value="" disabled selected style="display:none">Company Specialisation</option>
                             <option v-for="(main, index) in main_company_functions" :key="index" v-bind:value="main.id">
@@ -49,6 +52,7 @@
                     <div class="emp-row mt-4" v-if="input.company_main_company_id && input.company_main_company_id != 1">
                         <input class="form-control" type="text" placeholder="Start typing..."
                             v-model="input.company_main_function_answer"
+                            @focus="hasFocusAnswer(true)"
                             @keyup="onSearchMainFunctionAnswer(input.company_main_function_answer, input.company_main_company_id)" />
 
                         <span class="err-msg" v-if="errors.company_main_function_answer">
@@ -56,7 +60,7 @@
                         </span>
                     </div>
 
-                    <div class="emp-row" style="margin-top:0" v-if="main_function_answers && main_function_answers.length > 0">
+                    <div class="emp-row" style="margin-top:0" v-if="has_focus_answer && main_function_answers && main_function_answers.length > 0">
                         <ul class="list-group">
                             <li class="list-group-item" v-for="(ans, idx) in main_function_answers" :key="idx"
                                 @click="onSelectMainFunctionAnswer(ans.answer)">
@@ -179,13 +183,14 @@
                     <div class="form-group">
                         <input id="company_address" type="text" name="company_address" class="form-control"
                             v-model="input.company_address" placeholder="Start typing address..."
+                            @focus="hasFocusLocation(true)"
                             @keyup="onChangeLocation(input.company_address)" />
 
                         <span class="err-msg" v-if="errors.company_address">
                             {{ errors.company_address }}
                         </span>
 
-                        <div class="comp-reg-row" style="margin-top:0" v-if="locations && locations.length > 0">
+                        <div class="comp-reg-row" style="margin-top:0" v-if="has_focus_location && locations && locations.length > 0">
                             <div class="locations-wrapper">
                                 <p class="location-item" v-for="(place, idx) in locations" :key="idx"
                                     @click="onSelectLocation(place.place_name)">{{ place.place_name.trim() }}</p>
@@ -196,6 +201,7 @@
                     <div class="form-group">
                         <input id="company_contact_number" type="text" name="company_contact_number" class="form-control"
                             v-model="input.company_contact_number" placeholder="Business contact number"
+                            @focus="hasFocusLocation(false)"
                             @keyup="setNextDisabled(3)" />
 
                         <span class="err-msg" v-if="errors.company_contact_number">
@@ -206,6 +212,7 @@
                     <div class="form-group">
                         <input id="company_website" type="text" name="company_website" class="form-control"
                             v-model="input.company_website" placeholder="Business Website"
+                            @focus="hasFocusLocation(false)"
                             @keyup="setNextDisabled(3)" />
 
                         <span class="err-msg" v-if="errors.company_website">
@@ -219,11 +226,13 @@
                     <div class="bl-inline">
                         <input class="styled-checkbox-round" id="rc-checkbox-yes" type="checkbox"
                             ref="rc-checkbox-1"
+                            @focus="hasFocusLocation(false)"
                             @change="formatOperate(1)" />
                         <label for="rc-checkbox-yes">Yes</label>
                         
                         <input class="styled-checkbox-round" id="rc-checkbox-no" type="checkbox"
                             ref="rc-checkbox-0"
+                            @focus="hasFocusLocation(false)"
                             @change="formatOperate(0)" />
                         <label for="rc-checkbox-no">No</label>
                     </div>
@@ -297,6 +306,8 @@
 
         data() {
             return {
+                has_focus_answer: false,
+                has_focus_location: false,
                 loading: false,
                 width: 10,
                 sections: null,
@@ -401,6 +412,14 @@
         },
 
         methods: {
+
+            hasFocusAnswer(has_focus) {
+                this.has_focus_answer = has_focus;
+            },
+
+            hasFocusLocation(has_focus) {
+                this.has_focus_location = has_focus;
+            },
 
             getCompanyOptions() {
                 let component = this;

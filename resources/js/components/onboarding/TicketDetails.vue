@@ -6,11 +6,13 @@
         <div class="bl-inline">
             <input id="has_whitecard_1" class="styled-checkbox-round" type="checkbox"
                 ref="has_whitecard_1"
+                @focus="hasFocus(false)"
                 @change="formatCheckbox('has_whitecard', 1)" />
             <label for="has_whitecard_1">Yes</label>
             
             <input id="has_whitecard_0" class="styled-checkbox-round" type="checkbox"
                 ref="has_whitecard_0"
+                @focus="hasFocus(false)"
                 @change="formatCheckbox('has_whitecard', 0)" />
             <label for="has_whitecard_0">No</label>
         </div>
@@ -23,7 +25,9 @@
         </div>
         <div class="emp-row mt-3">
             <div class="ticket-col-left">
-                <input class="form-control" type="text"  placeholder="Search" v-model="keyword" @keyup="onSearch(keyword)" />
+                <input class="form-control" type="text"  placeholder="Search" v-model="keyword"
+                    @focus="hasFocus(true)"
+                    @keyup="onSearch(keyword)" />
             </div>
             <div class="ticket-col-right">
                 <button style="margin-left:0px;width:100%" class="add-button" type="button" @click="onAdd()">Add</button>
@@ -33,7 +37,7 @@
             </span>
         </div>
 
-        <div class="emp-row" style="margin-top:0" v-if="searchedTickets && searchedTickets.length > 0">
+        <div class="emp-row" style="margin-top:0" v-if="has_focus && searchedTickets && searchedTickets.length > 0">
             <ul class="list-group">
                 <li class="list-group-item" v-for="(ticket, idx) in searchedTickets" :key="idx"
                     @click="onSelect(ticket)">
@@ -60,6 +64,7 @@
 
         data() {
             return {
+                has_focus: false,
                 keyword: '',
                 has_whitecard: '',
                 tickets: [],
@@ -108,6 +113,10 @@
         },
 
         methods: {
+
+            hasFocus(has_focus) {
+                this.has_focus = has_focus;
+            },
 
             onSearch(keyword) {
                 this.errors.ticket = '';

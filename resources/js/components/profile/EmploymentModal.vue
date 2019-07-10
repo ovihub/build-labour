@@ -15,6 +15,7 @@
                         <div class="modal-form-label">Your Role</div>
                         
                         <input class="form-control" type="text" v-model="job_role"
+                            @focus="hasFocusRole(true)"
                             @keyup="onSearchJob(job_role)" />
                         
                         <span class="err-msg" v-if="errors.job_role">
@@ -22,7 +23,7 @@
                         </span>
                     </div>
 
-                    <div class="emp-row" style="margin-top:0" v-if="job_roles && job_roles.length > 0">
+                    <div class="emp-row" style="margin-top:0" v-if="has_focus_role && job_roles && job_roles.length > 0">
                         <ul class="list-group">
                             <li class="list-group-item" v-for="(job, idx) in job_roles" :key="idx"
                                 @click="onSelectJob(job)">
@@ -36,6 +37,7 @@
                         <div class="modal-form-label">Company/Project Name</div>
 
                         <input class="form-control" type="text" v-model="company_name"
+                            @focus="hasFocusCompany(true)"
                             @keyup="onSearchCompany(company_name)"/>
 
                         <span class="err-msg" v-if="errors.company_name">
@@ -43,7 +45,7 @@
                         </span>
                     </div>
 
-                    <div class="emp-row" style="margin-top:0" v-if="companies && companies.length > 0">
+                    <div class="emp-row" style="margin-top:0" v-if="has_focus_company && companies && companies.length > 0">
                         <ul class="list-group">
                             <li class="list-group-item" v-for="(company, idx) in companies" :key="idx"
                                 @click="onSelectCompany(company)">
@@ -56,14 +58,16 @@
                         <div class="modal-form-label">Location</div>
 
                         <input class="form-control" type="text" v-model="location"
-                            ref="locationRef" @keyup="onChangeLocation(location)" />
+                            ref="locationRef"
+                            @focus="hasFocusLocation(true)"
+                            @keyup="onChangeLocation(location)" />
                         
                         <span class="err-msg" v-if="errors.location">
                             {{ errors.location }}
                         </span>
                     </div>
 
-                    <div class="emp-row" style="margin-top:0" v-if="locations && locations.length > 0">
+                    <div class="emp-row" style="margin-top:0" v-if="has_focus_location && locations && locations.length > 0">
                         <ul class="list-group">
                             <li class="list-group-item" v-for="(place, idx) in locations" :key="idx"
                                 @click="onSelectLocation(place.place_name)">
@@ -74,7 +78,10 @@
 
                     <div class="emp-row">
                         <div class="modal-form-label">Size of the Project</div>
-                        <input class="form-control" type="text" v-model="project_size"/>
+                        
+                        <input class="form-control" type="text" v-model="project_size"
+                            @focus="hasFocus()" />
+                            
                         <span class="err-msg" v-if="errors.project_size">
                             {{ errors.project_size }}
                         </span>
@@ -85,7 +92,7 @@
                 <div class="emp-row" style="margin-top:36px">
                     <div class="role-col-left">
                         <div class="emp-form-label">Start Month</div>
-                        <select v-model="start_month">
+                        <select v-model="start_month" @focus="hasFocus()">
                             <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
                         </select>
                         <span class="err-msg" v-if="errors.start_month">
@@ -94,7 +101,7 @@
                     </div>
                     <div class="role-col-right">
                         <div class="emp-form-label">Start Year</div>
-                        <select v-model="start_year">
+                        <select v-model="start_year" @focus="hasFocus()">
                             <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
                         </select>
                         <span class="err-msg" v-if="errors.start_year">
@@ -106,7 +113,7 @@
                 <div class="emp-row" v-if="! isCurrent">
                     <div class="role-col-left">
                         <div class="emp-form-label">End Month</div>
-                        <select v-model="end_month">
+                        <select v-model="end_month" @focus="hasFocus()">
                             <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
                         </select>
                         <span class="err-msg" v-if="errors.end_month">
@@ -116,7 +123,7 @@
 
                     <div class="role-col-right">
                         <div class="emp-form-label">End Year</div>
-                        <select v-model="end_year">
+                        <select v-model="end_year" @focus="hasFocus()">
                             <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
                         </select>
                         <span class="err-msg" v-if="errors.end_year">
@@ -130,6 +137,7 @@
                         <input class="styled-checkbox-2" id="styled-checkbox-current-2" type="checkbox"
                             ref="styled-checkbox-2"
                             v-model="isCurrent"
+                            @focus="hasFocus()"
                             @change="onChangeCurrentRole" />
                         <label for="styled-checkbox-current-2">Currently in this Role</label>
                     </div>
@@ -169,6 +177,9 @@
     export default {
         data() {
             return {
+                has_focus_role: false,
+                has_focus_company: false,
+                has_focus_location: false,
                 disabled: false,
                 months: Utils.getMonths(),
                 years: Utils.getYears(),
@@ -215,6 +226,39 @@
 
         methods: {
 
+            hasFocus() {
+                this.has_focus_role = false;
+                this.has_focus_company = false;
+                this.has_focus_location = false;
+            },
+
+            hasFocusRole(has_focus) {
+                this.has_focus_role = has_focus;
+
+                if (has_focus) {
+                    this.has_focus_company = false;
+                    this.has_focus_location = false;
+                }
+            },
+
+            hasFocusCompany(has_focus) {
+                this.has_focus_company = has_focus;
+
+                if (has_focus) {
+                    this.has_focus_role = false;
+                    this.has_focus_location = false;
+                }
+            },
+
+            hasFocusLocation(has_focus) {
+                this.has_focus_location = has_focus;
+
+                if (has_focus) {
+                    this.has_focus_role = false;
+                    this.has_focus_company = false;
+                }
+            },
+
             setValues(details) {
                 this.id = details ? details.id : '';
                 this.company_id = details ? details.company_id: '';
@@ -244,6 +288,8 @@
             },
 
             textAreaAdjust(index) {
+                this.hasFocus();
+                
                 let o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
                 o.style.height = '1px';
                 o.style.height = (2 + o.scrollHeight) + 'px';

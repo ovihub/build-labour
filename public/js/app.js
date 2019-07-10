@@ -3470,12 +3470,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       roles: [],
       job_roles: [],
+      has_focus: false,
       loading: false,
       disabled: false,
       input: {
@@ -3514,6 +3523,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
   },
   methods: {
+    hasFocus: function hasFocus(has_focus) {
+      this.has_focus = has_focus;
+    },
     onSearchJob: function onSearchJob(keyword) {
       if (keyword != '' && keyword && keyword.length > 0) {
         this.job_roles = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getJobRoles(keyword);
@@ -3889,10 +3901,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      has_focus_answer: false,
+      has_focus_location: false,
       loading: false,
       width: 10,
       sections: null,
@@ -3994,6 +4017,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getCompanyOptions();
   },
   methods: {
+    hasFocusAnswer: function hasFocusAnswer(has_focus) {
+      this.has_focus_answer = has_focus;
+    },
+    hasFocusLocation: function hasFocusLocation(has_focus) {
+      this.has_focus_location = has_focus;
+    },
     getCompanyOptions: function getCompanyOptions() {
       var component = this;
       Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCompanyOptions()).then(function (data) {
@@ -7823,10 +7852,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      has_focus: false,
       job_roles: [],
       input: {
         most_recent_role: '',
@@ -7858,6 +7891,9 @@ __webpack_require__.r(__webpack_exports__);
     this.input.most_recent_role = this.mostRecentRole;
   },
   methods: {
+    hasFocus: function hasFocus(has_focus) {
+      this.has_focus = has_focus;
+    },
     onSearchJob: function onSearchJob(keyword) {
       if (keyword != '' && keyword && keyword.length > 0) {
         this.job_roles = _api__WEBPACK_IMPORTED_MODULE_0__["default"].getJobRoles(keyword);
@@ -8557,10 +8593,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      has_focus: false,
       keyword: '',
       has_whitecard: '',
       tickets: [],
@@ -8606,6 +8647,9 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    hasFocus: function hasFocus(has_focus) {
+      this.has_focus = has_focus;
+    },
     onSearch: function onSearch(keyword) {
       this.errors.ticket = '';
 
@@ -9517,11 +9561,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 var currentYear = new Date().getFullYear();
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      has_focus_course: false,
+      has_focus_school: false,
       disabled: false,
       months: Utils.getMonths(),
       years: Utils.getYears(),
@@ -9568,6 +9620,24 @@ var currentYear = new Date().getFullYear();
     });
   },
   methods: {
+    hasFocus: function hasFocus() {
+      this.has_focus_course = false;
+      this.has_focus_school = false;
+    },
+    hasFocusCourse: function hasFocusCourse(has_focus) {
+      this.has_focus_course = has_focus;
+
+      if (has_focus) {
+        this.has_focus_school = false;
+      }
+    },
+    hasFocusSchool: function hasFocusSchool(has_focus) {
+      this.has_focus_school = has_focus;
+
+      if (has_focus) {
+        this.has_focus_course = false;
+      }
+    },
     setValues: function setValues(details) {
       this.id = details ? details.id : '';
       this.course_name = details ? details.course_name : '';
@@ -10152,10 +10222,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      has_focus_role: false,
+      has_focus_company: false,
+      has_focus_location: false,
       disabled: false,
       months: Utils.getMonths(),
       years: Utils.getYears(),
@@ -10207,6 +10288,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
   },
   methods: {
+    hasFocus: function hasFocus() {
+      this.has_focus_role = false;
+      this.has_focus_company = false;
+      this.has_focus_location = false;
+    },
+    hasFocusRole: function hasFocusRole(has_focus) {
+      this.has_focus_role = has_focus;
+
+      if (has_focus) {
+        this.has_focus_company = false;
+        this.has_focus_location = false;
+      }
+    },
+    hasFocusCompany: function hasFocusCompany(has_focus) {
+      this.has_focus_company = has_focus;
+
+      if (has_focus) {
+        this.has_focus_role = false;
+        this.has_focus_location = false;
+      }
+    },
+    hasFocusLocation: function hasFocusLocation(has_focus) {
+      this.has_focus_location = has_focus;
+
+      if (has_focus) {
+        this.has_focus_role = false;
+        this.has_focus_company = false;
+      }
+    },
     setValues: function setValues(details) {
       this.id = details ? details.id : '';
       this.company_id = details ? details.company_id : '';
@@ -10233,6 +10343,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       Utils.setObjectValues(this.errors, '');
     },
     textAreaAdjust: function textAreaAdjust(index) {
+      this.hasFocus();
       var o = index == -1 ? this.$refs['respItem-' + index] : this.$refs['respItem-' + index][0];
       o.style.height = '1px';
       o.style.height = 2 + o.scrollHeight + 'px';
@@ -11330,10 +11441,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      has_focus_role: false,
+      has_focus_location: false,
       editable: false,
       disabled: false,
       time_out: false,
@@ -11448,6 +11569,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.editable = _api__WEBPACK_IMPORTED_MODULE_1__["default"].checkAuthUser();
   },
   methods: {
+    hasFocus: function hasFocus() {
+      this.has_focus_role = false;
+      this.has_focus_location = false;
+    },
+    hasFocusRole: function hasFocusRole(has_focus) {
+      this.has_focus_role = has_focus;
+
+      if (has_focus) {
+        this.has_focus_location = false;
+      }
+    },
+    hasFocusLocation: function hasFocusLocation(has_focus) {
+      this.has_focus_location = has_focus;
+
+      if (has_focus) {
+        this.has_focus_role = false;
+      }
+    },
     setValues: function setValues(details) {
       this.profile_description = details.profile_description;
       this.profile_photo_url = details.profile_photo_url;
@@ -11513,6 +11652,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     textAreaAdjust: function textAreaAdjust(refName) {
+      this.hasFocus();
       Utils.textAreaAdjust(this.$refs[refName]);
     },
     open: function open() {
@@ -54528,6 +54668,9 @@ var render = function() {
             },
             domProps: { value: _vm.input.first_name },
             on: {
+              focus: function($event) {
+                return _vm.hasFocus(false)
+              },
               input: function($event) {
                 if ($event.target.composing) {
                   return
@@ -54570,6 +54713,9 @@ var render = function() {
             },
             domProps: { value: _vm.input.last_name },
             on: {
+              focus: function($event) {
+                return _vm.hasFocus(false)
+              },
               input: function($event) {
                 if ($event.target.composing) {
                   return
@@ -54612,6 +54758,9 @@ var render = function() {
           },
           domProps: { value: _vm.input.mobile_number },
           on: {
+            focus: function($event) {
+              return _vm.hasFocus(false)
+            },
             input: function($event) {
               if ($event.target.composing) {
                 return
@@ -54647,6 +54796,9 @@ var render = function() {
           attrs: { type: "text", placeholder: "Most Recent Role" },
           domProps: { value: _vm.input.most_recent_role },
           on: {
+            focus: function($event) {
+              return _vm.hasFocus(true)
+            },
             keyup: function($event) {
               return _vm.onSearchJob(_vm.input.most_recent_role)
             },
@@ -54670,7 +54822,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _vm.job_roles && _vm.job_roles.length > 0
+      _vm.has_focus && _vm.job_roles && _vm.job_roles.length > 0
         ? _c(
             "div",
             { staticClass: "emp-row", staticStyle: { "margin-top": "0" } },
@@ -54726,6 +54878,9 @@ var render = function() {
           },
           domProps: { value: _vm.input.suburb },
           on: {
+            focus: function($event) {
+              return _vm.hasFocus(false)
+            },
             input: function($event) {
               if ($event.target.composing) {
                 return
@@ -54765,6 +54920,9 @@ var render = function() {
           },
           domProps: { value: _vm.input.email },
           on: {
+            focus: function($event) {
+              return _vm.hasFocus(false)
+            },
             input: function($event) {
               if ($event.target.composing) {
                 return
@@ -54808,6 +54966,9 @@ var render = function() {
             },
             domProps: { value: _vm.input.password },
             on: {
+              focus: function($event) {
+                return _vm.hasFocus(false)
+              },
               input: function($event) {
                 if ($event.target.composing) {
                   return
@@ -54855,6 +55016,9 @@ var render = function() {
             },
             domProps: { value: _vm.input.password_confirmation },
             on: {
+              focus: function($event) {
+                return _vm.hasFocus(false)
+              },
               input: function($event) {
                 if ($event.target.composing) {
                   return
@@ -54984,6 +55148,9 @@ var render = function() {
                 attrs: { type: "text", placeholder: "Company Name" },
                 domProps: { value: _vm.input.company_name },
                 on: {
+                  focus: function($event) {
+                    return _vm.hasFocusAnswer(false)
+                  },
                   keyup: _vm.onKeyupCompanyName,
                   input: function($event) {
                     if ($event.target.composing) {
@@ -55024,6 +55191,9 @@ var render = function() {
                     }
                   ],
                   on: {
+                    focus: function($event) {
+                      return _vm.hasFocusAnswer(false)
+                    },
                     change: [
                       function($event) {
                         var $$selectedVal = Array.prototype.filter
@@ -55110,6 +55280,9 @@ var render = function() {
                     attrs: { type: "text", placeholder: "Start typing..." },
                     domProps: { value: _vm.input.company_main_function_answer },
                     on: {
+                      focus: function($event) {
+                        return _vm.hasFocusAnswer(true)
+                      },
                       keyup: function($event) {
                         return _vm.onSearchMainFunctionAnswer(
                           _vm.input.company_main_function_answer,
@@ -55141,7 +55314,9 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm.main_function_answers && _vm.main_function_answers.length > 0
+            _vm.has_focus_answer &&
+            _vm.main_function_answers &&
+            _vm.main_function_answers.length > 0
               ? _c(
                   "div",
                   {
@@ -55456,6 +55631,9 @@ var render = function() {
                 },
                 domProps: { value: _vm.input.company_address },
                 on: {
+                  focus: function($event) {
+                    return _vm.hasFocusLocation(true)
+                  },
                   keyup: function($event) {
                     return _vm.onChangeLocation(_vm.input.company_address)
                   },
@@ -55478,7 +55656,9 @@ var render = function() {
                   ])
                 : _vm._e(),
               _vm._v(" "),
-              _vm.locations && _vm.locations.length > 0
+              _vm.has_focus_location &&
+              _vm.locations &&
+              _vm.locations.length > 0
                 ? _c(
                     "div",
                     {
@@ -55530,6 +55710,9 @@ var render = function() {
                 },
                 domProps: { value: _vm.input.company_contact_number },
                 on: {
+                  focus: function($event) {
+                    return _vm.hasFocusLocation(false)
+                  },
                   keyup: function($event) {
                     return _vm.setNextDisabled(3)
                   },
@@ -55576,6 +55759,9 @@ var render = function() {
                 },
                 domProps: { value: _vm.input.company_website },
                 on: {
+                  focus: function($event) {
+                    return _vm.hasFocusLocation(false)
+                  },
                   keyup: function($event) {
                     return _vm.setNextDisabled(3)
                   },
@@ -55611,6 +55797,9 @@ var render = function() {
                 staticClass: "styled-checkbox-round",
                 attrs: { id: "rc-checkbox-yes", type: "checkbox" },
                 on: {
+                  focus: function($event) {
+                    return _vm.hasFocusLocation(false)
+                  },
                   change: function($event) {
                     return _vm.formatOperate(1)
                   }
@@ -55626,6 +55815,9 @@ var render = function() {
                 staticClass: "styled-checkbox-round",
                 attrs: { id: "rc-checkbox-no", type: "checkbox" },
                 on: {
+                  focus: function($event) {
+                    return _vm.hasFocusLocation(false)
+                  },
                   change: function($event) {
                     return _vm.formatOperate(0)
                   }
@@ -60142,6 +60334,9 @@ var render = function() {
           attrs: { type: "text", placeholder: "Most Recent Role" },
           domProps: { value: _vm.input.most_recent_role },
           on: {
+            focus: function($event) {
+              return _vm.hasFocus(true)
+            },
             keyup: function($event) {
               return _vm.onSearchJob(_vm.input.most_recent_role)
             },
@@ -60165,7 +60360,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _vm.job_roles && _vm.job_roles.length > 0
+      _vm.has_focus && _vm.job_roles && _vm.job_roles.length > 0
         ? _c(
             "div",
             { staticClass: "emp-row", staticStyle: { "margin-top": "0" } },
@@ -60221,6 +60416,9 @@ var render = function() {
             attrs: { type: "text", placeholder: "Years" },
             domProps: { value: _vm.input.exp_year },
             on: {
+              focus: function($event) {
+                return _vm.hasFocus(false)
+              },
               input: function($event) {
                 if ($event.target.composing) {
                   return
@@ -60245,6 +60443,9 @@ var render = function() {
             attrs: { type: "text", placeholder: "Months" },
             domProps: { value: _vm.input.exp_month },
             on: {
+              focus: function($event) {
+                return _vm.hasFocus(false)
+              },
               input: function($event) {
                 if ($event.target.composing) {
                   return
@@ -61237,6 +61438,9 @@ var render = function() {
           staticClass: "styled-checkbox-round",
           attrs: { id: "has_whitecard_1", type: "checkbox" },
           on: {
+            focus: function($event) {
+              return _vm.hasFocus(false)
+            },
             change: function($event) {
               return _vm.formatCheckbox("has_whitecard", 1)
             }
@@ -61250,6 +61454,9 @@ var render = function() {
           staticClass: "styled-checkbox-round",
           attrs: { id: "has_whitecard_0", type: "checkbox" },
           on: {
+            focus: function($event) {
+              return _vm.hasFocus(false)
+            },
             change: function($event) {
               return _vm.formatCheckbox("has_whitecard", 0)
             }
@@ -61288,6 +61495,9 @@ var render = function() {
             attrs: { type: "text", placeholder: "Search" },
             domProps: { value: _vm.keyword },
             on: {
+              focus: function($event) {
+                return _vm.hasFocus(true)
+              },
               keyup: function($event) {
                 return _vm.onSearch(_vm.keyword)
               },
@@ -61327,7 +61537,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _vm.searchedTickets && _vm.searchedTickets.length > 0
+      _vm.has_focus && _vm.searchedTickets && _vm.searchedTickets.length > 0
         ? _c(
             "div",
             { staticClass: "emp-row", staticStyle: { "margin-top": "0" } },
@@ -62590,6 +62800,9 @@ var render = function() {
                   attrs: { type: "text" },
                   domProps: { value: _vm.course_name },
                   on: {
+                    focus: function($event) {
+                      return _vm.hasFocusCourse(true)
+                    },
                     keyup: function($event) {
                       return _vm.onSearchCourse(_vm.course_name)
                     },
@@ -62613,7 +62826,7 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _vm.courses && _vm.courses.length > 0
+              _vm.has_focus_course && _vm.courses && _vm.courses.length > 0
                 ? _c(
                     "div",
                     {
@@ -62669,6 +62882,9 @@ var render = function() {
                   attrs: { type: "text" },
                   domProps: { value: _vm.school },
                   on: {
+                    focus: function($event) {
+                      return _vm.hasFocusSchool(true)
+                    },
                     keyup: function($event) {
                       return _vm.onSearchSchool(_vm.school)
                     },
@@ -62692,7 +62908,7 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _vm.schools && _vm.schools.length > 0
+              _vm.has_focus_school && _vm.schools && _vm.schools.length > 0
                 ? _c(
                     "div",
                     {
@@ -62738,6 +62954,9 @@ var render = function() {
                   on: {
                     change: function($event) {
                       return _vm.formatEduStatus(0)
+                    },
+                    focus: function($event) {
+                      return _vm.hasFocus()
                     }
                   }
                 }),
@@ -62753,6 +62972,9 @@ var render = function() {
                   on: {
                     change: function($event) {
                       return _vm.formatEduStatus(1)
+                    },
+                    focus: function($event) {
+                      return _vm.hasFocus()
                     }
                   }
                 }),
@@ -62782,6 +63004,9 @@ var render = function() {
                           }
                         ],
                         on: {
+                          focus: function($event) {
+                            return _vm.hasFocus()
+                          },
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
                               .call($event.target.options, function(o) {
@@ -62835,6 +63060,9 @@ var render = function() {
                           }
                         ],
                         on: {
+                          focus: function($event) {
+                            return _vm.hasFocus()
+                          },
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
                               .call($event.target.options, function(o) {
@@ -62891,6 +63119,9 @@ var render = function() {
                       }
                     ],
                     on: {
+                      focus: function($event) {
+                        return _vm.hasFocus()
+                      },
                       change: function($event) {
                         var $$selectedVal = Array.prototype.filter
                           .call($event.target.options, function(o) {
@@ -62944,6 +63175,9 @@ var render = function() {
                       }
                     ],
                     on: {
+                      focus: function($event) {
+                        return _vm.hasFocus()
+                      },
                       change: function($event) {
                         var $$selectedVal = Array.prototype.filter
                           .call($event.target.options, function(o) {
@@ -63487,6 +63721,9 @@ var render = function() {
                   attrs: { type: "text" },
                   domProps: { value: _vm.job_role },
                   on: {
+                    focus: function($event) {
+                      return _vm.hasFocusRole(true)
+                    },
                     keyup: function($event) {
                       return _vm.onSearchJob(_vm.job_role)
                     },
@@ -63510,7 +63747,7 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _vm.job_roles && _vm.job_roles.length > 0
+              _vm.has_focus_role && _vm.job_roles && _vm.job_roles.length > 0
                 ? _c(
                     "div",
                     {
@@ -63566,6 +63803,9 @@ var render = function() {
                   attrs: { type: "text" },
                   domProps: { value: _vm.company_name },
                   on: {
+                    focus: function($event) {
+                      return _vm.hasFocusCompany(true)
+                    },
                     keyup: function($event) {
                       return _vm.onSearchCompany(_vm.company_name)
                     },
@@ -63589,7 +63829,7 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _vm.companies && _vm.companies.length > 0
+              _vm.has_focus_company && _vm.companies && _vm.companies.length > 0
                 ? _c(
                     "div",
                     {
@@ -63646,6 +63886,9 @@ var render = function() {
                   attrs: { type: "text" },
                   domProps: { value: _vm.location },
                   on: {
+                    focus: function($event) {
+                      return _vm.hasFocusLocation(true)
+                    },
                     keyup: function($event) {
                       return _vm.onChangeLocation(_vm.location)
                     },
@@ -63669,7 +63912,9 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _vm.locations && _vm.locations.length > 0
+              _vm.has_focus_location &&
+              _vm.locations &&
+              _vm.locations.length > 0
                 ? _c(
                     "div",
                     {
@@ -63725,6 +63970,9 @@ var render = function() {
                   attrs: { type: "text" },
                   domProps: { value: _vm.project_size },
                   on: {
+                    focus: function($event) {
+                      return _vm.hasFocus()
+                    },
                     input: function($event) {
                       if ($event.target.composing) {
                         return
@@ -63771,6 +64019,9 @@ var render = function() {
                         }
                       ],
                       on: {
+                        focus: function($event) {
+                          return _vm.hasFocus()
+                        },
                         change: function($event) {
                           var $$selectedVal = Array.prototype.filter
                             .call($event.target.options, function(o) {
@@ -63824,6 +64075,9 @@ var render = function() {
                         }
                       ],
                       on: {
+                        focus: function($event) {
+                          return _vm.hasFocus()
+                        },
                         change: function($event) {
                           var $$selectedVal = Array.prototype.filter
                             .call($event.target.options, function(o) {
@@ -63881,6 +64135,9 @@ var render = function() {
                           }
                         ],
                         on: {
+                          focus: function($event) {
+                            return _vm.hasFocus()
+                          },
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
                               .call($event.target.options, function(o) {
@@ -63934,6 +64191,9 @@ var render = function() {
                           }
                         ],
                         on: {
+                          focus: function($event) {
+                            return _vm.hasFocus()
+                          },
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
                               .call($event.target.options, function(o) {
@@ -64001,6 +64261,9 @@ var render = function() {
                         : _vm.isCurrent
                     },
                     on: {
+                      focus: function($event) {
+                        return _vm.hasFocus()
+                      },
                       change: [
                         function($event) {
                           var $$a = _vm.isCurrent,
@@ -65025,6 +65288,9 @@ var render = function() {
                         attrs: { type: "text" },
                         domProps: { value: _vm.input.first_name },
                         on: {
+                          focus: function($event) {
+                            return _vm.hasFocus()
+                          },
                           input: function($event) {
                             if ($event.target.composing) {
                               return
@@ -65057,6 +65323,9 @@ var render = function() {
                         attrs: { type: "text" },
                         domProps: { value: _vm.input.last_name },
                         on: {
+                          focus: function($event) {
+                            return _vm.hasFocus()
+                          },
                           input: function($event) {
                             if ($event.target.composing) {
                               return
@@ -65090,6 +65359,9 @@ var render = function() {
                       attrs: { type: "text" },
                       domProps: { value: _vm.input.address },
                       on: {
+                        focus: function($event) {
+                          return _vm.hasFocusLocation(true)
+                        },
                         keyup: function($event) {
                           return _vm.onChangeLocation(_vm.input.address)
                         },
@@ -65103,7 +65375,9 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  _vm.locations && _vm.locations.length > 0
+                  _vm.has_focus_location &&
+                  _vm.locations &&
+                  _vm.locations.length > 0
                     ? _c(
                         "div",
                         {
@@ -65202,6 +65476,9 @@ var render = function() {
                           }
                         ],
                         on: {
+                          focus: function($event) {
+                            return _vm.hasFocus()
+                          },
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
                               .call($event.target.options, function(o) {
@@ -65274,6 +65551,9 @@ var render = function() {
                       attrs: { type: "text", placeholder: "Most Recent Role" },
                       domProps: { value: _vm.input.most_recent_role },
                       on: {
+                        focus: function($event) {
+                          return _vm.hasFocusRole(true)
+                        },
                         keyup: function($event) {
                           return _vm.onSearchJob(_vm.input.most_recent_role)
                         },
@@ -65301,7 +65581,9 @@ var render = function() {
                       : _vm._e()
                   ]),
                   _vm._v(" "),
-                  _vm.job_roles && _vm.job_roles.length > 0
+                  _vm.has_focus_role &&
+                  _vm.job_roles &&
+                  _vm.job_roles.length > 0
                     ? _c(
                         "div",
                         {
@@ -65363,6 +65645,9 @@ var render = function() {
                         attrs: { type: "text", placeholder: "Years" },
                         domProps: { value: _vm.input.exp_year },
                         on: {
+                          focus: function($event) {
+                            return _vm.hasFocus()
+                          },
                           input: function($event) {
                             if ($event.target.composing) {
                               return
@@ -65387,6 +65672,9 @@ var render = function() {
                         attrs: { type: "text", placeholder: "Months" },
                         domProps: { value: _vm.input.exp_month },
                         on: {
+                          focus: function($event) {
+                            return _vm.hasFocus()
+                          },
                           input: function($event) {
                             if ($event.target.composing) {
                               return
@@ -65431,6 +65719,9 @@ var render = function() {
                             : _vm.input.sectors
                         },
                         on: {
+                          focus: function($event) {
+                            return _vm.hasFocus()
+                          },
                           change: function($event) {
                             var $$a = _vm.input.sectors,
                               $$el = $event.target,
@@ -65506,6 +65797,9 @@ var render = function() {
                               : _vm.input.tiers
                           },
                           on: {
+                            focus: function($event) {
+                              return _vm.hasFocus()
+                            },
                             change: function($event) {
                               var $$a = _vm.input.tiers,
                                 $$el = $event.target,
@@ -78387,53 +78681,33 @@ function () {
     value: function () {
       var _search2 = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(endpoint) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(endpoint) {
         var component;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                component = this;
+                component = this; // if (component.time_out) {
+                //     clearTimeout(component.time_out);
+                // }
+                // component.time_out = await setTimeout(async function() {
 
-                if (component.time_out) {
-                  clearTimeout(component.time_out);
-                }
+                _context3.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endpoint, Utils.getBearerAuth()).then(function (response) {
+                  component.getResults = response.data;
+                }).catch(function (error) {
+                  Utils.handleError(error);
+                });
 
-                _context4.next = 4;
-                return setTimeout(
-                /*#__PURE__*/
-                _asyncToGenerator(
-                /*#__PURE__*/
-                _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-                    while (1) {
-                      switch (_context3.prev = _context3.next) {
-                        case 0:
-                          _context3.next = 2;
-                          return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endpoint, Utils.getBearerAuth()).then(function (response) {
-                            component.getResults = response.data;
-                          }).catch(function (error) {
-                            Utils.handleError(error);
-                          });
-
-                        case 2:
-                        case "end":
-                          return _context3.stop();
-                      }
-                    }
-                  }, _callee3);
-                })).bind(this), 200);
+              case 3:
+                return _context3.abrupt("return", this.getResults);
 
               case 4:
-                component.time_out = _context4.sent;
-                return _context4.abrupt("return", this.getResults);
-
-              case 6:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee3, this);
       }));
 
       function _search(_x4) {
@@ -78447,12 +78721,12 @@ function () {
     value: function () {
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(endpoint, input) {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(endpoint, input) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context5.next = 2;
+                _context4.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(endpoint, input, Utils.getBearerAuth()).then(function (response) {
                   console.log(response.data.message); // Bus.$emit('alertSuccess', response.data.message);
                 }).catch(function (error) {
@@ -78463,10 +78737,10 @@ function () {
 
               case 2:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
-        }, _callee5);
+        }, _callee4);
       }));
 
       function submit(_x5, _x6) {

@@ -171,11 +171,11 @@ class BuildLabourApi {
     async _search(endpoint) {
         let component = this;
 
-        if (component.time_out) {
-            clearTimeout(component.time_out);
-        }
+        // if (component.time_out) {
+        //     clearTimeout(component.time_out);
+        // }
 
-        component.time_out = await setTimeout(async function() {
+        // component.time_out = await setTimeout(async function() {
             
             await Axios.get(endpoint, Utils.getBearerAuth())
 
@@ -188,7 +188,7 @@ class BuildLabourApi {
                     Utils.handleError(error);
                 });
 
-        }.bind(this), 200);
+        // }.bind(this), 200);
                 
         return this.getResults;
     }

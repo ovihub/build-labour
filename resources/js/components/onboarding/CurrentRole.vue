@@ -12,6 +12,7 @@
             <!-- <div class="emp-form-label" v-if="input.most_recent_role">Most Recent Role</div> -->
 
             <input class="form-control" type="text" placeholder="Most Recent Role" v-model="input.most_recent_role"
+                @focus="hasFocus(true)"
                 @keyup="onSearchJob(input.most_recent_role)" />
             
             <span class="err-msg" v-if="errors.most_recent_role">
@@ -19,7 +20,7 @@
             </span>
         </div>
 
-        <div class="emp-row" style="margin-top:0" v-if="job_roles && job_roles.length > 0">
+        <div class="emp-row" style="margin-top:0" v-if="has_focus && job_roles && job_roles.length > 0">
             <ul class="list-group">
                 <li class="list-group-item" v-for="(job, idx) in job_roles" :key="idx"
                     @click="onSelectJob(job)">
@@ -34,13 +35,15 @@
             <div class="role-col-left">
                 <!-- <div class="emp-form-label" v-if="input.exp_year">Years</div> -->
                 
-                <input class="form-control" type="text" placeholder="Years" v-model="input.exp_year" />
+                <input class="form-control" type="text" placeholder="Years" v-model="input.exp_year"
+                    @focus="hasFocus(false)" />
             </div>
 
             <div class="role-col-right">
                 <!-- <div class="emp-form-label" v-if="input.exp_month">Months</div> -->
                 
-                <input class="form-control" type="text" placeholder="Months" v-model="input.exp_month" />
+                <input class="form-control" type="text" placeholder="Months" v-model="input.exp_month"
+                    @focus="hasFocus(false)" />
             </div>
         </div>
     </form>
@@ -53,6 +56,7 @@
 
         data() {
             return {
+                has_focus: false,
                 job_roles: [],
                 input: {
                     most_recent_role: '', exp_year: '', exp_month: '',
@@ -86,6 +90,10 @@
         },
 
         methods: {
+
+            hasFocus(has_focus) {
+                this.has_focus = has_focus;
+            },
 
             onSearchJob(keyword) {
                 if (keyword != '' && (keyword && keyword.length > 0)) {

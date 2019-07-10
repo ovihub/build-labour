@@ -12,14 +12,16 @@
                     <div class="emp-row">
                         <div class="modal-form-label">Course</div>
                         
-                        <input class="form-control" type="text" v-model="course_name" @keyup="onSearchCourse(course_name)"/>
+                        <input class="form-control" type="text" v-model="course_name"
+                            @focus="hasFocusCourse(true)"
+                            @keyup="onSearchCourse(course_name)"/>
 
                         <span class="err-msg" v-if="errors.course_name">
                             {{ errors.course_name }}
                         </span>
                     </div>
 
-                    <div class="emp-row" style="margin-top:0" v-if="courses && courses.length > 0">
+                    <div class="emp-row" style="margin-top:0" v-if="has_focus_course && courses && courses.length > 0">
                         <ul class="list-group">
                             <li class="list-group-item" v-for="(course, idx) in courses" :key="idx"
                                 @click="onSelectCourse(course)">
@@ -31,14 +33,16 @@
                     <div class="emp-row">
                         <div class="modal-form-label">School</div>
 
-                        <input class="form-control" type="text" v-model="school" @keyup="onSearchSchool(school)" />
+                        <input class="form-control" type="text" v-model="school"
+                            @focus="hasFocusSchool(true)"
+                            @keyup="onSearchSchool(school)" />
 
                         <span class="err-msg" v-if="errors.school">
                             {{ errors.school }}
                         </span>
                     </div>
 
-                    <div class="emp-row" style="margin-top:0" v-if="schools && schools.length > 0">
+                    <div class="emp-row" style="margin-top:0" v-if="has_focus_school && schools && schools.length > 0">
                         <ul class="list-group">
                             <li class="list-group-item" v-for="(school, idx) in schools" :key="idx"
                                 @click="onSelectSchool(school)">
@@ -49,11 +53,13 @@
 
                     <div class="emp-row">
                         <input id="education_status_0" class="styled-checkbox-round" type="checkbox"
-                            ref="education_status_0" @change="formatEduStatus(0)" />
+                            ref="education_status_0" @change="formatEduStatus(0)"
+                            @focus="hasFocus()" />
                         <label for="education_status_0">Completed Study</label>
                         
                         <input id="education_status_1" class="styled-checkbox-round" type="checkbox"
-                            ref="education_status_1" @change="formatEduStatus(1)" />
+                            ref="education_status_1" @change="formatEduStatus(1)"
+                            @focus="hasFocus()" />
                         <label for="education_status_1">Still Studying</label>
                     </div>
                 </div>
@@ -61,7 +67,7 @@
                 <div class="emp-row" v-if="education_status != statuses[0]">
                     <div class="role-col-left">
                         <div class="emp-form-label">Start Month</div>
-                        <select v-model="start_month">
+                        <select v-model="start_month" @focus="hasFocus()">
                             <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
                         </select>
                         <span class="err-msg" v-if="errors.start_month">
@@ -70,7 +76,7 @@
                     </div>
                     <div class="role-col-right">
                         <div class="emp-form-label">Start Year</div>
-                        <select v-model="start_year">
+                        <select v-model="start_year" @focus="hasFocus()">
                             <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
                         </select>
                         <span class="err-msg" v-if="errors.start_year">
@@ -81,7 +87,7 @@
                 <div class="emp-row">
                     <div class="role-col-left">
                         <div class="emp-form-label">End Month</div>
-                        <select v-model="end_month">
+                        <select v-model="end_month" @focus="hasFocus()">
                             <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
                         </select>
                         <span class="err-msg" v-if="errors.end_month">
@@ -90,7 +96,7 @@
                     </div>
                     <div class="role-col-right">
                         <div class="emp-form-label">End Year</div>
-                        <select v-model="end_year">
+                        <select v-model="end_year" @focus="hasFocus()">
                             <option v-for="(year, index) in years" :key="index" v-bind:value="year">{{ year }}</option>
                         </select>
                         <span class="err-msg" v-if="errors.end_year">
@@ -122,6 +128,8 @@
     export default {
         data() {
             return {
+                has_focus_course: false,
+                has_focus_school: false,
                 disabled: false,
                 months: Utils.getMonths(),
                 years: Utils.getYears(),
@@ -168,6 +176,27 @@
         },
 
         methods: {
+
+            hasFocus() {
+                this.has_focus_course = false;
+                this.has_focus_school = false;
+            },
+
+            hasFocusCourse(has_focus) {
+                this.has_focus_course = has_focus;
+                
+                if (has_focus) {
+                    this.has_focus_school = false;
+                }
+            },
+
+            hasFocusSchool(has_focus) {
+                this.has_focus_school = has_focus;
+
+                if (has_focus) {
+                    this.has_focus_course = false;
+                }
+            },
 
             setValues(details) {
                 this.id = details ? details.id : '';
