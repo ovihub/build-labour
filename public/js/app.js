@@ -6312,10 +6312,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      has_focus_location: false,
+      has_focus_answer: false,
       editable: false,
       disabled: false,
       time_out: false,
@@ -6335,6 +6367,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       main_functions: [],
       secondary_functions: [],
       specialization: [],
+      main_function_answers: [],
+      specialtyLabel: '',
+      specialtyLabels: ['What is your trade?', 'What do you supply?', 'What type of design?', 'What type of education provider are you?'],
       input: {
         name: '',
         address: '',
@@ -6398,6 +6433,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
+    hasFocus: function hasFocus() {
+      this.has_focus_location = false;
+      this.has_focus_answer = false;
+    },
+    hasFocusAnswer: function hasFocusAnswer(has_focus) {
+      this.has_focus_answer = has_focus;
+
+      if (has_focus) {
+        this.has_focus_location = false;
+      }
+    },
+    hasFocusLocation: function hasFocusLocation(has_focus) {
+      this.has_focus_location = has_focus;
+
+      if (has_focus) {
+        this.has_focus_answer = false;
+      }
+    },
     getCompanyOptions: function getCompanyOptions() {
       var component = this;
       Promise.resolve(_api__WEBPACK_IMPORTED_MODULE_1__["default"].getCompanyOptions()).then(function (data) {
@@ -6428,6 +6481,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.secondary_functions = details.specialization;
       this.main_function_answer = details.main_function_answer;
       this.getSecondaryOptions(details.main_function.id);
+      this.specialtyLabel = this.specialtyLabels[details.main_function.id - 2];
     },
     setDisplayValues: function setDisplayValues(val, details) {
       val.name = details.name;
@@ -6459,6 +6513,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     textAreaAdjust: function textAreaAdjust(refName) {
+      this.hasFocus();
       Utils.textAreaAdjust(this.$refs[refName]);
     },
     open: function open() {},
@@ -6490,6 +6545,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onChangeMainCompanyFunctions: function onChangeMainCompanyFunctions(e) {
       this.input.secondary_functions = [];
       this.getSecondaryOptions(e.target.value);
+      this.specialtyLabel = this.specialtyLabels[e.target.value - 2];
     },
     onChangeLocation: function onChangeLocation(keyword) {
       if (keyword != '' && keyword && keyword.length > 0) {
@@ -6502,19 +6558,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.input.address = location;
       this.locations = [];
     },
-    addNewEntity: function addNewEntity() {
-      var component = this;
-      this.input.secondary_functions.push({
-        id: 0,
-        main_id: component.main_function.id,
-        secondary_name: ''
-      });
-    },
-    removeEntity: function removeEntity(index) {
-      if (this.input.secondary_functions.length > 1) {
-        this.input.secondary_functions.splice(index, 1);
+    onSearchMainFunctionAnswer: function onSearchMainFunctionAnswer(keyword, main_id) {
+      if (keyword != '' && keyword && keyword.length > 0) {
+        this.main_function_answers = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getMainFunctionAnswers(keyword, main_id);
+      } else {
+        this.main_function_answers = [];
       }
     },
+    onSelectMainFunctionAnswer: function onSelectMainFunctionAnswer(answer) {
+      this.input.main_function_answer = answer;
+      this.main_function_answers = [];
+    },
+    // addNewEntity() {
+    //     let component  = this;
+    //     this.input.secondary_functions.push({
+    //         id: 0,
+    //         main_id: component.main_function.id,
+    //         secondary_name: '',
+    //     });
+    // },
+    // removeEntity(index) {
+    //     if (this.input.secondary_functions.length > 1) {
+    //         this.input.secondary_functions.splice(index, 1);
+    //     }
+    // },
     submit: function () {
       var _submit = _asyncToGenerator(
       /*#__PURE__*/
@@ -57975,6 +58042,9 @@ var render = function() {
                       },
                       domProps: { value: _vm.input.name },
                       on: {
+                        focus: function($event) {
+                          return _vm.hasFocus()
+                        },
                         input: function($event) {
                           if ($event.target.composing) {
                             return
@@ -58013,6 +58083,9 @@ var render = function() {
                       attrs: { type: "text" },
                       domProps: { value: _vm.input.address },
                       on: {
+                        focus: function($event) {
+                          return _vm.hasFocusLocation(true)
+                        },
                         keyup: function($event) {
                           return _vm.onChangeLocation(_vm.input.address)
                         },
@@ -58036,7 +58109,9 @@ var render = function() {
                       : _vm._e()
                   ]),
                   _vm._v(" "),
-                  _vm.locations && _vm.locations.length > 0
+                  _vm.has_focus_location &&
+                  _vm.locations &&
+                  _vm.locations.length > 0
                     ? _c(
                         "div",
                         {
@@ -58094,6 +58169,9 @@ var render = function() {
                       attrs: { type: "text" },
                       domProps: { value: _vm.input.website },
                       on: {
+                        focus: function($event) {
+                          return _vm.hasFocus()
+                        },
                         input: function($event) {
                           if ($event.target.composing) {
                             return
@@ -58132,6 +58210,9 @@ var render = function() {
                       attrs: { type: "text" },
                       domProps: { value: _vm.input.phone },
                       on: {
+                        focus: function($event) {
+                          return _vm.hasFocus()
+                        },
                         input: function($event) {
                           if ($event.target.composing) {
                             return
@@ -58178,6 +58259,9 @@ var render = function() {
                           }
                         ],
                         on: {
+                          focus: function($event) {
+                            return _vm.hasFocus()
+                          },
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
                               .call($event.target.options, function(o) {
@@ -58241,6 +58325,9 @@ var render = function() {
                           }
                         ],
                         on: {
+                          focus: function($event) {
+                            return _vm.hasFocus()
+                          },
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
                               .call($event.target.options, function(o) {
@@ -58325,7 +58412,10 @@ var render = function() {
                               )
                             },
                             _vm.onChangeMainCompanyFunctions
-                          ]
+                          ],
+                          focus: function($event) {
+                            return _vm.hasFocus()
+                          }
                         }
                       },
                       [
@@ -58356,141 +58446,113 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "comp-label" }, [
-                    _vm._v(
-                      "\n                        What are the secondary functions?\n                    "
-                    )
-                  ]),
+                  _vm.input.main_function.id
+                    ? _c("div", { staticClass: "comp-label" }, [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(_vm.specialtyLabel) +
+                            "\n                    "
+                        )
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("div", { staticClass: "comp-label-3" }, [
-                    _vm._v(
-                      "\n                        Add as many as applicable\n                    "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.input.secondary_functions, function(spec, index) {
-                    return _c(
-                      "div",
-                      {
-                        key: index,
-                        ref: "specItem-" + index,
-                        refInFor: true,
-                        staticClass: "form-group emp-row row-center"
-                      },
-                      [
-                        _c("div", { staticClass: "comp-col-left" }, [
-                          _c(
-                            "select",
+                  _vm.input.main_function.id && _vm.input.main_function.id != 1
+                    ? _c("div", { staticClass: "emp-row mt-4" }, [
+                        _c("input", {
+                          directives: [
                             {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: spec.id,
-                                  expression: "spec.id"
-                                }
-                              ],
-                              on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    spec,
-                                    "id",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                }
-                              }
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.input.main_function_answer,
+                              expression: "input.main_function_answer"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            placeholder: "Start typing..."
+                          },
+                          domProps: { value: _vm.input.main_function_answer },
+                          on: {
+                            focus: function($event) {
+                              return _vm.hasFocusAnswer(true)
                             },
-                            [
-                              _c(
-                                "option",
+                            keyup: function($event) {
+                              return _vm.onSearchMainFunctionAnswer(
+                                _vm.input.main_function_answer,
+                                _vm.input.main_function.id
+                              )
+                            },
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.input,
+                                "main_function_answer",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.main_function_answer
+                          ? _c("span", { staticClass: "err-msg" }, [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(_vm.errors.main_function_answer) +
+                                  "\n                        "
+                              )
+                            ])
+                          : _vm._e()
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.has_focus_answer &&
+                  _vm.main_function_answers &&
+                  _vm.main_function_answers.length > 0
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "emp-row",
+                          staticStyle: { "margin-top": "0" }
+                        },
+                        [
+                          _c(
+                            "ul",
+                            { staticClass: "list-group" },
+                            _vm._l(_vm.main_function_answers, function(
+                              ans,
+                              idx
+                            ) {
+                              return _c(
+                                "li",
                                 {
-                                  staticStyle: { display: "none" },
-                                  attrs: {
-                                    value: "",
-                                    disabled: "",
-                                    selected: ""
+                                  key: idx,
+                                  staticClass: "list-group-item",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.onSelectMainFunctionAnswer(
+                                        ans.answer
+                                      )
+                                    }
                                   }
                                 },
-                                [_vm._v("Company Specialisation")]
-                              ),
-                              _vm._v(" "),
-                              _vm._l(_vm.specialization, function(type, idx) {
-                                return _c(
-                                  "option",
-                                  {
-                                    key: idx + 1,
-                                    domProps: { value: type.id }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                                    \n                                    " +
-                                        _vm._s(type.secondary_name) +
-                                        "\n                                "
-                                    )
-                                  ]
-                                )
-                              })
-                            ],
-                            2
+                                [
+                                  _vm._v(
+                                    "\n                                \n                                " +
+                                      _vm._s(ans.answer) +
+                                      "\n                            "
+                                  )
+                                ]
+                              )
+                            }),
+                            0
                           )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "comp-col-right" }, [
-                          _c(
-                            "span",
-                            {
-                              on: {
-                                click: function($event) {
-                                  return _vm.removeEntity(index)
-                                }
-                              }
-                            },
-                            [
-                              _c("img", {
-                                staticStyle: { cursor: "pointer" },
-                                attrs: {
-                                  src: "/img/icons/remove.png",
-                                  srcset:
-                                    "/img/icons/remove@2x.png" +
-                                    " 2x, " +
-                                    "/img/icons/remove@3x.png" +
-                                    " 3x"
-                                }
-                              })
-                            ]
-                          )
-                        ])
-                      ]
-                    )
-                  }),
-                  _vm._v(" "),
-                  _c("center", [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "btn btn-link btn-delete",
-                        on: { click: _vm.addNewEntity }
-                      },
-                      [
-                        _vm._v(
-                          "\n                            Add Another\n                        "
-                        )
-                      ]
-                    )
-                  ])
-                ],
-                2
+                        ]
+                      )
+                    : _vm._e()
+                ]
               )
             ]),
             _vm._v(" "),

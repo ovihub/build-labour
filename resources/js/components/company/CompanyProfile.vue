@@ -28,6 +28,7 @@
                         <div class="emp-row">
                             <div class="modal-form-label">Company Name</div>
                             <input id="name" type="text" name="name" class="form-control" style="padding-left:24px"
+                                @focus="hasFocus()"
                                 v-model="input.name" required />
 
                             <span class="err-msg" v-if="errors.name">
@@ -38,6 +39,7 @@
                         <div class="emp-row">
                             <div class="modal-form-label">Location</div>
                             <input class="form-control" type="text" v-model="input.address"
+                                @focus="hasFocusLocation(true)"
                                 @keyup="onChangeLocation(input.address)" />
                             
                             <span class="err-msg" v-if="errors.address">
@@ -45,7 +47,7 @@
                             </span>
                         </div>
 
-                        <div class="emp-row" style="margin-top:0" v-if="locations && locations.length > 0">
+                        <div class="emp-row" style="margin-top:0" v-if="has_focus_location && locations && locations.length > 0">
                             <ul class="list-group">
                                 <li class="list-group-item" v-for="(place, idx) in locations" :key="idx"
                                     @click="onSelectLocation(place.place_name)">
@@ -56,7 +58,8 @@
 
                         <div class="emp-row">
                             <div class="modal-form-label">Website</div>
-                            <input class="form-control" type="text" v-model="input.website" />
+                            <input class="form-control" type="text" v-model="input.website"
+                                @focus="hasFocus()" />
 
                             <span class="err-msg" v-if="errors.website">
                                 {{ errors.website }}
@@ -65,7 +68,8 @@
 
                         <div class="emp-row">
                             <div class="modal-form-label">Phone</div>
-                            <input class="form-control" type="text" v-model="input.phone" />
+                            <input class="form-control" type="text" v-model="input.phone"
+                                @focus="hasFocus()" />
 
                             <span class="err-msg" v-if="errors.phone">
                                 {{ errors.phone }}
@@ -76,7 +80,7 @@
 
                         <div class="emp-row">
                             <div class="modal-form-label">Business Entity Type</div>
-                            <select v-model="input.business_type.id">
+                            <select v-model="input.business_type.id" @focus="hasFocus()">
                                 <option v-for="(type, index) in business_types" :key="index" v-bind:value="type.id">
                                     {{ type.business_type }}
                                 </option>
@@ -88,7 +92,7 @@
 
                         <div class="emp-row">
                             <div class="modal-form-label">Entity Type Specialisation</div>
-                            <select v-model="input.tier.id">
+                            <select v-model="input.tier.id" @focus="hasFocus()">
                                 <option v-for="(tier, index) in tiers" :key="index" v-bind:value="tier.id">
                                     {{ tier.tier_name }}
                                 </option>
@@ -102,7 +106,8 @@
                             What is your main company function?
                         </div>
                         <div class="emp-row">
-                            <select v-model="input.main_function.id" @change="onChangeMainCompanyFunctions">
+                            <select v-model="input.main_function.id" @change="onChangeMainCompanyFunctions"
+                                @focus="hasFocus()">
                                 
                                 <option value="" disabled selected style="display:none">Company Specialisation</option>
                                 <option v-for="(main, index) in main_functions" :key="index" v-bind:value="main.id">
@@ -111,7 +116,32 @@
                             </select> 
                         </div>
                         
-                        <div class="comp-label">
+                        <div class="comp-label" v-if="input.main_function.id">
+                            {{ specialtyLabel }}
+                        </div>
+
+                        <div class="emp-row mt-4" v-if="input.main_function.id && input.main_function.id != 1">
+                            <input class="form-control" type="text" placeholder="Start typing..."
+                                v-model="input.main_function_answer"
+                                @focus="hasFocusAnswer(true)"
+                                @keyup="onSearchMainFunctionAnswer(input.main_function_answer, input.main_function.id)" />
+
+                            <span class="err-msg" v-if="errors.main_function_answer">
+                                {{ errors.main_function_answer }}
+                            </span>
+                        </div>
+
+                        <div class="emp-row" style="margin-top:0" v-if="has_focus_answer && main_function_answers && main_function_answers.length > 0">
+                            <ul class="list-group">
+                                <li class="list-group-item" v-for="(ans, idx) in main_function_answers" :key="idx"
+                                    @click="onSelectMainFunctionAnswer(ans.answer)">
+                                    
+                                    {{ ans.answer }}
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- <div class="comp-label">
                             What are the secondary functions?
                         </div>
                         <div class="comp-label-3">
@@ -148,7 +178,7 @@
                             <div class="btn btn-link btn-delete" @click="addNewEntity">
                                 Add Another
                             </div>
-                        </center>
+                        </center> -->
 
                     </form>
                 </template>
@@ -264,6 +294,8 @@
     export default {
         data() {
             return {
+                has_focus_location: false,
+                has_focus_answer: false,
                 editable: false,
                 disabled: false,
                 time_out: false,
@@ -283,6 +315,14 @@
                 main_functions: [],
                 secondary_functions: [],
                 specialization: [],
+                main_function_answers: [],
+                specialtyLabel: '',
+                specialtyLabels: [
+                    'What is your trade?',
+                    'What do you supply?',
+                    'What type of design?',
+                    'What type of education provider are you?'
+                ],
                 input: {
                     name: '', address: '', website: '', phone: '', introduction: '',
                     business_type: { id: 0, business_type: '' }, 
@@ -330,6 +370,27 @@
 
         methods: {
 
+            hasFocus() {
+                this.has_focus_location = false;
+                this.has_focus_answer = false
+            },
+
+            hasFocusAnswer(has_focus) {
+                this.has_focus_answer = has_focus;
+
+                if (has_focus) {
+                    this.has_focus_location = false;
+                }
+            },
+
+            hasFocusLocation(has_focus) {
+                this.has_focus_location = has_focus;
+
+                if (has_focus) {
+                    this.has_focus_answer = false;
+                }
+            },
+
             getCompanyOptions() {
                 let component = this;
 
@@ -354,6 +415,7 @@
                 this.main_function_answer = details.main_function_answer;
 
                 this.getSecondaryOptions(details.main_function.id);
+                this.specialtyLabel = this.specialtyLabels[details.main_function.id - 2];
             },
 
             setDisplayValues(val, details) {
@@ -385,6 +447,8 @@
             },
 
             textAreaAdjust(refName) {
+                this.hasFocus();
+
                 Utils.textAreaAdjust(this.$refs[refName]);
             },
 
@@ -427,6 +491,7 @@
                 this.input.secondary_functions = [];
                 
                 this.getSecondaryOptions(e.target.value);
+                this.specialtyLabel = this.specialtyLabels[e.target.value - 2];
             },
 
             onChangeLocation(keyword) {
@@ -444,21 +509,36 @@
                 this.locations = [];
             },
 
-            addNewEntity() {
-                let component  = this;
+            onSearchMainFunctionAnswer(keyword, main_id) {
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    this.main_function_answers = Api.getMainFunctionAnswers(keyword, main_id);
 
-                this.input.secondary_functions.push({
-                    id: 0,
-                    main_id: component.main_function.id,
-                    secondary_name: '',
-                });
-            },
-
-            removeEntity(index) {
-                if (this.input.secondary_functions.length > 1) {
-                    this.input.secondary_functions.splice(index, 1);
+                } else {
+                    this.main_function_answers = [];
                 }
             },
+
+            onSelectMainFunctionAnswer(answer) {
+                this.input.main_function_answer = answer;
+
+                this.main_function_answers = [];
+            },
+
+            // addNewEntity() {
+            //     let component  = this;
+
+            //     this.input.secondary_functions.push({
+            //         id: 0,
+            //         main_id: component.main_function.id,
+            //         secondary_name: '',
+            //     });
+            // },
+
+            // removeEntity(index) {
+            //     if (this.input.secondary_functions.length > 1) {
+            //         this.input.secondary_functions.splice(index, 1);
+            //     }
+            // },
 
             async submit() {
                 let component = this;
