@@ -133,7 +133,7 @@ class UsersTableSeeder extends Seeder
                 'start_year' => 2009,
                 'end_day' => 1,
                 'end_month' => 4,
-                'end_year' => 2020,
+                'end_year' => 2019,
                 'education_status' => 'Still Studying',
                 'description' => 'Learning at this school to be become a Psychologist',
                 'user_id' => $user->id

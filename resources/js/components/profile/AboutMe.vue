@@ -143,9 +143,9 @@
         methods: {
             
             setGeneralValues(val, details) {
-                val.gender = details.gender;
-                val.date_of_birth = details.date_of_birth;
-                val.country_birth = details.country_birth;
+                val.gender = details.gender ? details.gender : null;
+                val.date_of_birth = details.date_of_birth ? details.date_of_birth : null;
+                val.country_birth = details.country_birth ? details.country_birth : null;
             },
 
             setTechnicalValues(val, details) {
@@ -202,8 +202,12 @@
                 if (d) {
                     let date = new Date(d);
 
-                    return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
+                    if (date != 'Invalid Date') {
+                        return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
+                    }
                 }
+                    
+                this.date_of_birth = null;
             },
                     
             close() {

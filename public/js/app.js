@@ -9105,9 +9105,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     setGeneralValues: function setGeneralValues(val, details) {
-      val.gender = details.gender;
-      val.date_of_birth = details.date_of_birth;
-      val.country_birth = details.country_birth;
+      val.gender = details.gender ? details.gender : null;
+      val.date_of_birth = details.date_of_birth ? details.date_of_birth : null;
+      val.country_birth = details.country_birth ? details.country_birth : null;
     },
     setTechnicalValues: function setTechnicalValues(val, details) {
       if (!Utils.isNullOrEmpty(details.right_to_work)) {
@@ -9149,8 +9149,13 @@ __webpack_require__.r(__webpack_exports__);
     formatDate: function formatDate(d) {
       if (d) {
         var date = new Date(d);
-        return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
+
+        if (date != 'Invalid Date') {
+          return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
+        }
       }
+
+      this.date_of_birth = null;
     },
     close: function close() {},
     deleteRecord: function deleteRecord() {
