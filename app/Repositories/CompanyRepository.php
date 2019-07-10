@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Http\Resources\PeoplesResource;
+use App\Models\Companies\Answer;
 use App\Models\Companies\Company;
 use App\Models\Companies\CompanyPost;
 use App\Models\Companies\CompanySpecialized;
@@ -74,7 +75,23 @@ class CompanyRepository extends AbstractRepository
 
                 }
             }
-            
+
+            if (!empty($request->main_company_id) && !empty($request->main_function_answer)) {
+
+                $existingAnswer = Answer::where('answer', $request->main_function_answer)
+                    ->where('main_function_id', $request->main_company_id)
+                    ->exists();
+
+
+                if (!$existingAnswer) {
+
+                    Answer::create([
+                        'main_function_id' => $request->main_company_id,
+                        'answer' => $request->main_function_answer
+                    ]);
+                }
+            }
+
             $user->company->BusinessType;
             $user->company->Tier;
             $user->company->MainFunction;
