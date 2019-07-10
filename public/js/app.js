@@ -11193,6 +11193,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -11220,6 +11222,9 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    open: function open() {
+      Bus.$emit('refreshTicketDetails');
+    },
     display: function display() {
       var len = this.tickets.length;
       var half = Math.ceil(len / 2);
@@ -11269,8 +11274,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {},
   methods: {
-    close: function close() {
-      Bus.$emit('refreshTicketDetails');
+    close: function close() {// Bus.$emit('refreshTicketDetails');
     },
     submit: function submit() {
       Bus.$emit('onboardingSubmitTickets');
@@ -65084,9 +65088,16 @@ var render = function() {
       [
         _c("tickets-modal"),
         _vm._v(" "),
-        _c("edit-icon", {
-          attrs: { cls: "edit-icon", "data-target": "#modalTickets" }
-        }),
+        _c(
+          "div",
+          { on: { click: _vm.open } },
+          [
+            _c("edit-icon", {
+              attrs: { cls: "edit-icon", "data-target": "#modalTickets" }
+            })
+          ],
+          1
+        ),
         _vm._v(" "),
         _vm._m(0),
         _vm._v(" "),

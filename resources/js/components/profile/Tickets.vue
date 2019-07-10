@@ -4,7 +4,9 @@
 
             <tickets-modal></tickets-modal>
 
-            <edit-icon cls="edit-icon" data-target="#modalTickets"></edit-icon>
+            <div @click="open">
+                <edit-icon cls="edit-icon" data-target="#modalTickets"></edit-icon>
+            </div>
             
             <div class="profile-title">
                 <img src="/img/icons/ticket.png"
@@ -75,6 +77,10 @@
 
         methods: {
          
+            open() {
+                Bus.$emit('refreshTicketDetails');
+            },
+
             display() {
                 let len = this.tickets.length;
                 let half = Math.ceil(len / 2);

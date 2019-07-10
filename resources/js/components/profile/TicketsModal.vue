@@ -36,7 +36,7 @@
         methods: {
 
             close() {
-                Bus.$emit('refreshTicketDetails');
+                // Bus.$emit('refreshTicketDetails');
             },
             
             submit() {
