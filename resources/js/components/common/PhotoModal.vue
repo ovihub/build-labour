@@ -24,10 +24,12 @@
 <script>
 	import Api from '@/api';
 	import Cropper from 'cropperjs';
+	import MainModal from '../common/MainModal';
 
 	var cropper = null;
 
 	export default {
+		name: "photo-modal",
 		data() {
 			return {
 				disabled: false,
@@ -158,6 +160,9 @@
 				
 				this.disabled = false;
 			},
+		},
+		components: {
+			MainModal,
 		},
 	}
 </script>

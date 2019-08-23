@@ -75,8 +75,12 @@
 
 <script>
     import Api from '@/api';
+    import MainModal from '../common/MainModal';
+    import WorkPreferences from '../onboarding/WorkPreferences';
+    import EditIcon from '../common/EditIcon';
     
     export default {
+        name: "ideal-role",
         data() {
             return {
                 editable: false,
@@ -152,6 +156,11 @@
 
                 Bus.$emit('onboardingSubmitWorkPreferences', action);
             },
-        }
+        },
+        components: {
+            MainModal,
+            WorkPreferences,
+            EditIcon,
+        },
     }
 </script>

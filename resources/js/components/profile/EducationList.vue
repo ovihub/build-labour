@@ -35,8 +35,10 @@
 
 <script>
     import Api from '@/api';
-    
+    import EditIcon from '../common/EditIcon';
+
     export default {
+        name: "education-list",
         data() {
             return {
                 educations: [],
@@ -46,7 +48,6 @@
                 ],
             }
         },
-
         created() {
             let component = this;
 
@@ -77,14 +78,11 @@
                 component.educations.splice(index, 1);
             });
         },
-
         methods: {
-
             getInitials(name, school) {
                 return Utils.getInitials((name != null) ? name.replace(' of ', ' ').replace('The ', '').replace(' the ', ' ') :
                         (school ? school.school_name.replace(' of ', ' ').replace('The ', '').replace(' the ', ' ') : '-'));
             },
-
             getColorHex(name) {
                 if (! name) {
                     return '#F0F2F4';
@@ -92,7 +90,6 @@
                 
                 return '#' + Utils.getColorHex('#' + name);
             },
-
             formatPeriod(edu) {
                 if (edu.education_status == this.statuses[0]) { // Completed
                     return 'Date of Completion: ' + 
@@ -115,10 +112,12 @@
                 // return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + 
                 //        Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
             },
-
             action(index) {
                 Bus.$emit('showEducation', index, index != -1 ?  this.educations[index] : null);
             },
-        }
+        },
+        components: {
+            EditIcon,
+        },
     }
 </script>

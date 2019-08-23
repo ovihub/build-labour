@@ -55,7 +55,7 @@
     import Api from '@/api';
 
     export default {
-
+        name: "personal-details",
         data() {
             return {
                 days: [],

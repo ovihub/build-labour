@@ -32,7 +32,10 @@
 </template>
 
 <script>
+    import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
+
     export default {
+        name: "request-link",
         data() {
             return {
                 loading: false,
@@ -49,9 +52,7 @@
                 }
             }
         },
-
         methods: {
-            
             async sendResetPasswordLink() {
                 let component = this;
                 
@@ -81,7 +82,9 @@
                 this.loading = false;
                 this.disabled = false;
             }
-            
-        }
+        },
+        components: {
+            PulseLoader,
+        },
     }
 </script>

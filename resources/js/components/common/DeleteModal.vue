@@ -29,6 +29,7 @@
 
 <script>
 	export default {
+		name: "delete-modal",
 		data() {
 			return {
 				disabled: false,

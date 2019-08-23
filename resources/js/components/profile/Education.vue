@@ -25,7 +25,12 @@
 </template>
 
 <script>
+    import EducationModal from '../profile/EducationModal';
+    import EducationList from '../profile/EducationList';
+    import EditIcon from '../common/EditIcon';
+
     export default {
+        name: "education",
         data() {
             return {
                 
@@ -41,6 +46,11 @@
             action(index) {
                 Bus.$emit('showEducation', index, null);
             },
-        }
+        },
+        components: {
+            EducationModal,
+            EducationList,
+            EditIcon,
+        },
     }
 </script>

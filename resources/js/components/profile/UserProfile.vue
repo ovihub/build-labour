@@ -217,8 +217,13 @@
 
 <script>
     import Api from '@/api';
+    import Avatar from '../common/Avatar';
+    import MainModal from '../common/MainModal';
+    import PhotoModal from '../common/PhotoModal';
+    import EditIcon from '../common/EditIcon';
 
     export default {
+        name: "user-profile",
         data() {
             return {
                 has_focus_role: false,
@@ -519,6 +524,12 @@
                 
                 this.disabled = false;
             },
-        }
+        },
+        components: {
+            Avatar,
+            MainModal,
+            PhotoModal,
+            EditIcon,
+        },
     }
 </script>

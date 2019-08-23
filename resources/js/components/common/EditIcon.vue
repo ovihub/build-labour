@@ -16,6 +16,7 @@
     import Api from '@/api';
 
     export default {
+        name: "edit-icon",
         data() {
             return {
                 editable: false,

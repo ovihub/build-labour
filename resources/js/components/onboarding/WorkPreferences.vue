@@ -93,7 +93,7 @@
     import Api from '@/api';
 
     export default {
-
+        name: "work-preferences",
         data() {
             return {
                 countries: [],

@@ -64,7 +64,10 @@
 </template>
 
 <script>
+    import Logout from '../auth/Logout';
+    
     export default {
+        name: "navigation",
         data() {
             return {
 
@@ -94,6 +97,9 @@
             onClickMessages() {
                 // this.$refs['nav-messages'].style = 'opacity: 1';
             },
-        }
+        },
+        components: {
+            Logout,
+        },
     }
 </script>

@@ -39,10 +39,12 @@
 </template>
 
 <script>
-
     import Api from '@/api';
+    import PasswordEye from '../common/PasswordEye';
+    import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 
     export default {
+        name: "login",
         data() {
             return {
                 loading: false,
@@ -59,7 +61,6 @@
                 }
             }
         },
-
         created() {
             let component = this;
 
@@ -67,9 +68,7 @@
                 component.$refs['loginTogglePassword'].type = type;
             });
         },
-
         methods: {
-
             async loginUser() {
                 let component = this;
                 
@@ -116,7 +115,10 @@
                 this.loading = false;
                 this.disabled = false;
             },
-            
-        }
+        },
+        components: {
+            PasswordEye,
+            PulseLoader,
+        },
     }
 </script>

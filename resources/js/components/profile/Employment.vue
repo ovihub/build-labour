@@ -25,23 +25,29 @@
 </template>
 
 <script>
+    import EmploymentModal from '../profile/EmploymentModal';
+    import EmploymentList from '../profile/EmploymentList';
+    import EditIcon from '../common/EditIcon';
+
     export default {
+        name: "employment",
         data() {
             return {
 
             }
         },
-
         created() {
 
         },
-
         methods: {
-
             action(index) {
                 Bus.$emit('showEmployment', index, null);
             },
-
-        }
+        },
+        components: {
+            EmploymentModal,
+            EmploymentList,
+            EditIcon,
+        },
     }
 </script>

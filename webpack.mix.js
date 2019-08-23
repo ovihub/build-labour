@@ -21,3 +21,7 @@ mix.webpackConfig({
 })
 .js('resources/js/app.js', 'public/js')
 .sass('resources/sass/app.scss', 'public/css');
+
+mix.js('resources/js/auth/login.js', 'public/js/auth');
+mix.js('resources/js/auth/request_link.js', 'public/js/auth');
+mix.js('resources/js/users/profile.js', 'public/js/users');

@@ -46,7 +46,11 @@
 </template>
 
 <script>
+    import TicketsModal from '../profile/TicketsModal';
+    import EditIcon from '../common/EditIcon';
+
     export default {
+        name: "tickets",
         data() {
             return {
                 mark_icon: '',
@@ -89,6 +93,10 @@
                 this.firstColumn = this.tickets.slice(0, half);
                 this.secondColumn = this.tickets.slice(half, len);
             },
-        }
+        },
+        components: {
+            TicketsModal,
+            EditIcon,
+        },
     }
 </script>

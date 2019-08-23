@@ -121,7 +121,12 @@
 </template>
 
 <script>
+    import MainModal from '../common/MainModal';
+    import DeleteModal from '../common/DeleteModal';
+    import EditIcon from '../common/EditIcon';
+
     export default {
+        name: "industry-skills",
         data() {
             return {
                 disabled: false,
@@ -272,6 +277,11 @@
                 component.disabled = false;
             },
 
-        }
+        },
+        components: {
+            MainModal,
+            DeleteModal,
+            EditIcon,
+        },
     }
 </script>

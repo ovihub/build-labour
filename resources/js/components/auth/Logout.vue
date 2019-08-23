@@ -22,9 +22,10 @@
 <script>
 
     import Api from '@/api';
+    import Avatar from '../common/Avatar';
 
     export default {
-
+        name: "logout",
         data() {
             return {
                 input: {
@@ -81,6 +82,9 @@
                     })
             }
             
-        }
+        },
+        components: {
+            Avatar,
+        },
     }
 </script>
