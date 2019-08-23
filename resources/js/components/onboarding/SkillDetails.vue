@@ -40,7 +40,7 @@
     import Api from '@/api';
 
     export default {
-
+        name: "skill-details",
         data() {
             return {
                 is_empty: false,
@@ -57,7 +57,6 @@
                 },
             }
         },
-
         created() {
             let component = this;
 
@@ -65,9 +64,7 @@
                 Api.submit(component.endpoints.save, component.$data.input);
             });
         },
-
         methods: {
-
             addNewSkill() {
                 if (this.input.skills.length == 0 || this.input.skills.slice(-1)[0].skill_name !== '') {
                     this.input.skills.push({
@@ -77,10 +74,9 @@
                     });
                 }
             },
-
             removeSkill(index) {
                 this.input.skills.splice(index, 1);
             },
-        }
+        },
     }
 </script>

@@ -35,6 +35,7 @@
 
 <script>
     import Api from '@/api';
+    import Avatar from '../common/Avatar';
     import EditIcon from '../common/EditIcon';
 
     export default {
@@ -117,6 +118,7 @@
             },
         },
         components: {
+            Avatar,
             EditIcon,
         },
     }

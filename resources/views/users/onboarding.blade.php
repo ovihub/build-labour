@@ -14,3 +14,7 @@
         <!-- </div> -->
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/users/onboarding.js') }}"></script>
+@endpush

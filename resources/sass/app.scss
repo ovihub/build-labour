@@ -639,10 +639,10 @@ p.bl-nav-tab-label {
   background-color: #d8d8d8;
 
   &.active {
-    background-color: #f5a623;
+    background-color: $brand;
   }
   &.complete {
-    background-color: #ff9934;
+    background-color: $brand-dark;
   }
   &.incomplete {
     background-color: #d8d8d8;
@@ -737,7 +737,7 @@ p.bl-nav-tab-label {
   color: #f2dede;
 }
 .alert-info {
-  background-color: $brand-dark;
+  background-color: $brand;
   border-color: #FF5E00;
   color: #fff;
 }

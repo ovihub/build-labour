@@ -53,9 +53,10 @@
 
 <script>
     import Api from '@/api';
+    import EmploymentList from '../profile/EmploymentList';
 
     export default {
-
+        name: "employment-history",
         data() {
             return {
                 disabled: false,
@@ -78,7 +79,6 @@
                 },
             }
         },
-
         created() {
             let component = this;
 
@@ -86,14 +86,14 @@
                 Api.submit(component.endpoints.save, saveInput ? saveInput : component.$data.input);
             });
         },
-
         methods: {
-
             action(index) {
                 Bus.$emit('showEmployment', index, null);
             },
-
-        }
+        },
+        components: {
+            EmploymentList,
+        },
     }
 </script>
 
