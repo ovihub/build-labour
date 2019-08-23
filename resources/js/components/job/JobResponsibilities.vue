@@ -51,13 +51,13 @@
 
 <script>
     export default {
+        name: "job-responsibilities",
         data() {
             return {
                 qualities: [],
                 nextTitles: [],
             }
         },
-
         created() {
             let component = this;
 
@@ -68,9 +68,8 @@
                 }
             });
         },
-
         methods: {
 
-        }
+        },
     }
 </script>

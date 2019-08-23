@@ -61,6 +61,7 @@
 
 <script>
     export default {
+        name: "job-requirements",
         data() {
             return {
                 qualifications: [],
@@ -68,7 +69,6 @@
                 skills: [],
             }
         },
-
         created() {
             let component = this;
 
@@ -80,9 +80,8 @@
                 }
             });
         },
-
         methods: {
 
-        }
+        },
     }
 </script>

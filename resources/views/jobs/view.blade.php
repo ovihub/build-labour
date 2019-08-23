@@ -17,3 +17,7 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/jobs/view.js') }}"></script>
+@endpush

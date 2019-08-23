@@ -28,3 +28,5 @@ mix.js('resources/js/auth/register.js', 'public/js/auth');
 mix.js('resources/js/auth/register_company.js', 'public/js/auth');
 mix.js('resources/js/users/profile.js', 'public/js/users');
 mix.js('resources/js/companies/profile.js', 'public/js/companies');
+mix.js('resources/js/jobs/view.js', 'public/js/jobs');
+mix.js('resources/js/jobs/search.js', 'public/js/jobs');

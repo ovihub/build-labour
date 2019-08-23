@@ -4,6 +4,7 @@
 
 <script>
     export default {
+        name: "load-job",
         data() {
             return {
                 summary: {
@@ -19,7 +20,6 @@
                 },
             }
         },
-
         created() {
             let component = this;
 
@@ -32,9 +32,7 @@
             
             this.getJob();
         },
-
         methods: {
-            
             getJob() {
                 let component = this;
 
@@ -95,7 +93,6 @@
                         Utils.handleError(error);
                     });
             },
-
         }
     }
 </script>

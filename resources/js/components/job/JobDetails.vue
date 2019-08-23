@@ -249,6 +249,7 @@
     import Api from '@/api';
 
     export default {
+        name: "job-details",
         data() {
             return {
                 show: true,
