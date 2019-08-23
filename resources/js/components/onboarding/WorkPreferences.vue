@@ -153,8 +153,8 @@
         computed: {
             maxDistance() {
                 return {
-                    background: `linear-gradient(to right, #ff7705 ${(this.input.max_distance / 500) * 100}%, 
-                                #ff7705 ${(this.input.max_distance / 500) * 100}%, #fff 00%, #fff 100%)`
+                    background: `linear-gradient(to right, #00aeef ${(this.input.max_distance / 500) * 100}%, 
+                                #00aeef ${(this.input.max_distance / 500) * 100}%, #fff 00%, #fff 100%)`
                 }
             },
         },

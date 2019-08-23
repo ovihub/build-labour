@@ -7080,6 +7080,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -7509,6 +7513,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -7541,6 +7549,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -9098,7 +9110,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     maxDistance: function maxDistance() {
       return {
-        background: "linear-gradient(to right, #ff7705 ".concat(this.input.max_distance / 500 * 100, "%, \n                            #ff7705 ").concat(this.input.max_distance / 500 * 100, "%, #fff 00%, #fff 100%)")
+        background: "linear-gradient(to right, #00aeef ".concat(this.input.max_distance / 500 * 100, "%, \n                            #00aeef ").concat(this.input.max_distance / 500 * 100, "%, #fff 00%, #fff 100%)")
       };
     }
   },
@@ -9347,6 +9359,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -9845,6 +9861,10 @@ var currentYear = new Date().getFullYear();
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -10835,6 +10855,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -11149,6 +11173,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -20174,7 +20199,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nhr[data-v-f5dc2082] {\n    border-top: 1px solid #f9f9f9;\n}\nbutton[data-v-f5dc2082] {\n    width: 250px;\n    background-image: none;\n    background-color: #ff7705;\n    margin-top: 0;\n}\n", ""]);
+exports.push([module.i, "\nhr[data-v-f5dc2082] {\n    border-top: 1px solid #f9f9f9;\n}\nbutton[data-v-f5dc2082] {\n    width: 250px;\n    background-image: none;\n    background-color: #005778;\n    margin-top: 0;\n}\n", ""]);
 
 // exports
 
@@ -54595,7 +54620,7 @@ var render = function() {
           { staticClass: "loading" },
           [
             _c("pulse-loader", {
-              attrs: { loading: _vm.loading, color: "#ff7705", size: "8px" }
+              attrs: { loading: _vm.loading, color: "#00aeef", size: "8px" }
             })
           ],
           1
@@ -55127,7 +55152,7 @@ var render = function() {
           { staticClass: "loading" },
           [
             _c("pulse-loader", {
-              attrs: { loading: _vm.loading, color: "#ff7705", size: "8px" }
+              attrs: { loading: _vm.loading, color: "#00aeef", size: "8px" }
             })
           ],
           1
@@ -56160,7 +56185,7 @@ var render = function() {
             { staticClass: "loading" },
             [
               _c("pulse-loader", {
-                attrs: { loading: _vm.loading, color: "#ff7705", size: "8px" }
+                attrs: { loading: _vm.loading, color: "#00aeef", size: "8px" }
               })
             ],
             1
@@ -56273,7 +56298,7 @@ var render = function() {
           { staticClass: "loading" },
           [
             _c("pulse-loader", {
-              attrs: { loading: _vm.loading, color: "#ff7705", size: "8px" }
+              attrs: { loading: _vm.loading, color: "#00aeef", size: "8px" }
             })
           ],
           1
@@ -56439,7 +56464,7 @@ var render = function() {
           { staticClass: "loading" },
           [
             _c("pulse-loader", {
-              attrs: { loading: _vm.loading, color: "#ff7705", size: "8px" }
+              attrs: { loading: _vm.loading, color: "#00aeef", size: "8px" }
             })
           ],
           1
@@ -58984,7 +59009,33 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "profile-item-2" }, [
     _c("div", { staticClass: "profile-content" }, [
-      _vm._m(0),
+      _c("div", { staticClass: "profile-title" }, [
+        _c(
+          "svg",
+          {
+            attrs: {
+              xmlns: "http://www.w3.org/2000/svg",
+              width: "24",
+              height: "24",
+              viewBox: "0 0 24 24"
+            }
+          },
+          [
+            _c("g", { attrs: { fill: "none", "fill-rule": "evenodd" } }, [
+              _c("path", { attrs: { d: "M0 0h24v24H0z" } }),
+              _vm._v(" "),
+              _c("path", {
+                attrs: {
+                  fill: "#00aeef",
+                  d:
+                    "M7 5V4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4zm1.4 0h7.2v-.9a.7.7 0 0 0-.7-.7H9.1a.7.7 0 0 0-.7.7V5zM19 17h2c.818 0 1.544-.393 2-1v4a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-4c.456.607 1.182 1 2 1h2v1a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-1h6v1a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-1zm-1 0v1h-2v-1h2zM6 17h2v1H6v-1z"
+                }
+              })
+            ])
+          ]
+        ),
+        _vm._v("\n            \n            Job Details\n        ")
+      ]),
       _vm._v(" "),
       _vm.show
         ? _c("div", [
@@ -59709,26 +59760,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-title" }, [
-      _c("img", {
-        attrs: {
-          src: "/img/icons/jobdetails.png",
-          srcset:
-            "/img/icons/jobdetails@2x.png" +
-            " 2x, " +
-            "/img/icons/jobdetails@3x.png" +
-            " 3x"
-        }
-      }),
-      _vm._v("\n            \n            Job Details\n        ")
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -59940,7 +59972,34 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "profile-item-2" }, [
     _c("div", { staticClass: "profile-content" }, [
-      _vm._m(0),
+      _c("div", { staticClass: "profile-title" }, [
+        _c(
+          "svg",
+          {
+            attrs: {
+              xmlns: "http://www.w3.org/2000/svg",
+              width: "23",
+              height: "23",
+              viewBox: "0 0 23 23"
+            }
+          },
+          [
+            _c("g", { attrs: { fill: "none", "fill-rule": "evenodd" } }, [
+              _c("path", { attrs: { d: "M0 0h23v23H0z" } }),
+              _vm._v(" "),
+              _c("path", {
+                attrs: {
+                  fill: "#00aeef",
+                  "fill-rule": "nonzero",
+                  d:
+                    "M10 3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1h2a1 1 0 0 1 0 2H8a1 1 0 1 1 0-2h2zM6.525 4A1.25 1.25 0 0 0 7.75 5.5h7.5A1.25 1.25 0 0 0 16.475 4H17a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h.525zM6.5 7a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1h-1zm0 .5h1A.5.5 0 0 1 8 8v1a.5.5 0 0 1-.5.5h-1A.5.5 0 0 1 6 9V8a.5.5 0 0 1 .5-.5zm0 8.5a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1h-1zm0 .5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1A.5.5 0 0 1 6 18v-1a.5.5 0 0 1 .5-.5zm0-5a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1h-1zm0 .5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm4-4a.5.5 0 1 0 0 1h6a.5.5 0 1 0 0-1h-6zm0 4.5a.5.5 0 1 0 0 1h6a.5.5 0 1 0 0-1h-6zm0 4.5a.5.5 0 1 0 0 1h6a.5.5 0 1 0 0-1h-6z"
+                }
+              })
+            ])
+          ]
+        ),
+        _vm._v("\n\n            Requirements\n        ")
+      ]),
       _vm._v(" "),
       _vm.qualifications.length > 0
         ? _c("div", [
@@ -60013,26 +60072,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-title" }, [
-      _c("img", {
-        attrs: {
-          src: "/img/icons/requirements.png",
-          srcset:
-            "/img/icons/requirements@2x.png" +
-            " 2x, " +
-            "/img/icons/requirements@3x.png" +
-            " 3x"
-        }
-      }),
-      _vm._v("\n            \n            Requirements\n        ")
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -60056,7 +60096,33 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "profile-item-2" }, [
     _c("div", { staticClass: "profile-content" }, [
-      _vm._m(0),
+      _c("div", { staticClass: "profile-title" }, [
+        _c(
+          "svg",
+          {
+            attrs: {
+              xmlns: "http://www.w3.org/2000/svg",
+              width: "24",
+              height: "24",
+              viewBox: "0 0 24 24"
+            }
+          },
+          [
+            _c("g", { attrs: { fill: "none", "fill-rule": "evenodd" } }, [
+              _c("path", { attrs: { d: "M0 0h24v24H0z" } }),
+              _vm._v(" "),
+              _c("path", {
+                attrs: {
+                  fill: "#00aeef",
+                  d:
+                    "M17.818 8.226a2.175 2.175 0 0 1-2.182-2.168c0-1.197.977-2.167 2.182-2.167S20 4.86 20 6.058a2.175 2.175 0 0 1-2.182 2.168zM4 1h10.182v5.95A5.907 5.907 0 0 0 12 8.066a6.142 6.142 0 0 0-1.57 1.924L4 9.671V1zm6.926 9.707c.606-.846 1.206-1.481 1.802-1.907.893-.638 2.515-1.19 3.636 0 .747.794.02 2.89-2.182 6.284l1.797 2.412-1.08 5.322h-2.171v-4.706c-1.681-.76-2.707-1.392-3.08-1.896-.371-.505-.371-1.195 0-2.07h1.594l2.618-1.874a.378.378 0 0 0 .077-.541.415.415 0 0 0-.567-.082l-2.444 1.741c-1.45-.17-2.742-.329-3.876-.479-1.7-.224-1.758-2.848.692-2.557 1.633.195 2.694.313 3.184.353zm-1.62 6.277a4.7 4.7 0 0 0 .876.652c.304.174.91.469 1.818.886l-1.705 4.296H8.364l.942-5.834z"
+                }
+              })
+            ])
+          ]
+        ),
+        _vm._v("\n            \n            Responsibilities\n        ")
+      ]),
       _vm._v(" "),
       _vm.qualities.length > 0
         ? _c("div", [
@@ -60108,26 +60174,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-title" }, [
-      _c("img", {
-        attrs: {
-          src: "/img/icons/responsibilities-orange.png",
-          srcset:
-            "/img/icons/responsibilities-orange@2x.png" +
-            " 2x, " +
-            "/img/icons/responsibilities-orange@3x.png" +
-            " 3x"
-        }
-      }),
-      _vm._v("\n            \n            Responsibilities\n        ")
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -62623,7 +62670,33 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _vm._m(0),
+        _c("span", { staticClass: "profile-title" }, [
+          _c(
+            "svg",
+            {
+              attrs: {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24"
+              }
+            },
+            [
+              _c("g", { attrs: { fill: "none", "fill-rule": "evenodd" } }, [
+                _c("path", { attrs: { d: "M0 0h24v24H0z" } }),
+                _vm._v(" "),
+                _c("path", {
+                  attrs: {
+                    fill: "#00aeef",
+                    d:
+                      "M0 9.5l12-6 12 6-12 6-12-6zm3.429 2.571L12 16.357l8.571-4.286v5.143c-1.714.286-3.428.857-5.142 1.715-1.715.857-2.858 1.714-3.429 2.571-.571-.857-1.714-1.714-3.429-2.571-1.714-.858-3.428-1.429-5.142-1.715v-5.143z"
+                  }
+                })
+              ])
+            ]
+          ),
+          _vm._v("\n\n            Education\n        ")
+        ]),
         _vm._v(" "),
         _c("education-list")
       ],
@@ -62631,26 +62704,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "profile-title" }, [
-      _c("img", {
-        attrs: {
-          src: "/img/icons/education.png",
-          srcset:
-            "/img/icons/education@2x.png" +
-            " 2x, " +
-            "/img/icons/education@3x.png" +
-            " 3x"
-        }
-      }),
-      _vm._v("\n\n            Education\n        ")
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -63361,7 +63415,33 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _vm._m(0),
+        _c("div", { staticClass: "profile-title" }, [
+          _c(
+            "svg",
+            {
+              attrs: {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24"
+              }
+            },
+            [
+              _c("g", { attrs: { fill: "none", "fill-rule": "evenodd" } }, [
+                _c("path", { attrs: { d: "M0 0h24v24H0z" } }),
+                _vm._v(" "),
+                _c("path", {
+                  attrs: {
+                    fill: "#00aeef",
+                    d:
+                      "M23 13.713A6.752 6.752 0 0 0 10.616 16H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4V4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6.713zM10.505 17a6.729 6.729 0 0 0 1.95 5H3a2 2 0 0 1-2-2v-4c.456.607 1.182 1 2 1h2v1a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-1h1.505zM8.4 5h7.2v-.9a.7.7 0 0 0-.7-.7H9.1a.7.7 0 0 0-.7.7V5zM6 17h2v1H6v-1zm11.25 6a5.75 5.75 0 1 1 0-11.5 5.75 5.75 0 0 1 0 11.5zm2.653-2.796L17.8 17.336V13a.5.5 0 1 0-1 0v4.664l2.297 3.132a.5.5 0 1 0 .806-.592z"
+                  }
+                })
+              ])
+            ]
+          ),
+          _vm._v("\n            \n            Employment History\n        ")
+        ]),
         _vm._v(" "),
         _c("employment-list")
       ],
@@ -63369,26 +63449,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-title" }, [
-      _c("img", {
-        attrs: {
-          src: "/img/icons/employmenthistory.png",
-          srcset:
-            "/img/icons/employmenthistory@2x.png" +
-            " 2x, " +
-            "/img/icons/employmenthistory@3x.png" +
-            " 3x"
-        }
-      }),
-      _vm._v("\n            \n            Employment History\n        ")
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -64941,7 +65002,35 @@ var render = function() {
           attrs: { cls: "edit-icon", "data-target": "#modalIndustrySkill" }
         }),
         _vm._v(" "),
-        _vm._m(0),
+        _c("div", { staticClass: "profile-title" }, [
+          _c(
+            "svg",
+            {
+              attrs: {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24"
+              }
+            },
+            [
+              _c("g", { attrs: { fill: "none", "fill-rule": "evenodd" } }, [
+                _c("path", { attrs: { fill: "#FFF", d: "M0 0h24v24H0z" } }),
+                _vm._v(" "),
+                _c("path", {
+                  attrs: {
+                    fill: "#00aeef",
+                    d:
+                      "M17 16.484v6.27l-5-1.5-5 1.5v-6.27A8.958 8.958 0 0 0 12 18c1.85 0 3.57-.558 5-1.516zM12 17a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-5l3.527 1.854-.674-3.927 2.853-2.781-3.943-.573L12 3l-1.763 3.573-3.943.573 2.853 2.781-.674 3.927L12 12z"
+                  }
+                })
+              ])
+            ]
+          ),
+          _vm._v(
+            "\n\n            Main Industry Skills & Achievements\n        "
+          )
+        ]),
         _vm._v(" "),
         _c(
           "div",
@@ -65016,26 +65105,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-title" }, [
-      _c("img", {
-        attrs: {
-          src: "/img/icons/achieve.png",
-          srcset:
-            "/img/icons/achieve@2x.png" +
-            " 2x, " +
-            "/img/icons/achieve@3x.png" +
-            " 3x"
-        }
-      }),
-      _vm._v("\n\n            Main Industry Skills & Achievements\n        ")
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -65099,7 +65169,30 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _vm._m(0),
+        _c("div", { staticClass: "profile-title" }, [
+          _c(
+            "svg",
+            {
+              attrs: {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "26",
+                height: "26",
+                viewBox: "0 0 26 26"
+              }
+            },
+            [
+              _c("path", {
+                attrs: {
+                  fill: "#00aeef",
+                  "fill-rule": "evenodd",
+                  d:
+                    "M23.96 8.404l1.06 1.06a1 1 0 0 1 0 1.415L10.88 25.02a1 1 0 0 1-1.415 0l-1.06-1.06a1.5 1.5 0 0 0-2.122-2.122l-2.12-2.121a1.5 1.5 0 0 0-2.122-2.122l-1.06-1.06a1 1 0 0 1 0-1.415L15.12.98a1 1 0 0 1 1.415 0l1.06 1.06a1.5 1.5 0 0 0 2.122 2.122l2.12 2.121a1.5 1.5 0 0 0 2.122 2.122zM13.707 6.636a1 1 0 0 1 1.414 0l4.243 4.243a1 1 0 0 1 0 1.414l-7.071 7.071a1 1 0 0 1-1.414 0l-4.243-4.243a1 1 0 0 1 0-1.414l7.071-7.071zm1.414-1.414a1 1 0 0 0-1.414 0l-8.485 8.485a1 1 0 0 0 0 1.414l5.657 5.657a1 1 0 0 0 1.414 0l8.485-8.485a1 1 0 0 0 0-1.414l-5.657-5.657z"
+                }
+              })
+            ]
+          ),
+          _vm._v("\n\n            Tickets\n        ")
+        ]),
         _vm._v(" "),
         _vm.has_whitecard
           ? _c("div", { staticClass: "bl-label-16-style-2 mb-3" }, [
@@ -65189,26 +65282,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-title" }, [
-      _c("img", {
-        attrs: {
-          src: "/img/icons/ticket.png",
-          srcset:
-            "/img/icons/ticket@2x.png" +
-            " 2x, " +
-            "/img/icons/ticket@3x.png" +
-            " 3x"
-        }
-      }),
-      _vm._v("\n\n            Tickets\n        ")
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

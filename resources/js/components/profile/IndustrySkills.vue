@@ -84,8 +84,12 @@
             <edit-icon cls="edit-icon" data-target="#modalIndustrySkill"></edit-icon>
 
             <div class="profile-title">
-                <img src="/img/icons/achieve.png"
-                    srcset="/img/icons/achieve@2x.png 2x, /img/icons/achieve@3x.png 3x">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <g fill="none" fill-rule="evenodd">
+                        <path fill="#FFF" d="M0 0h24v24H0z"/>
+                        <path fill="#00aeef" d="M17 16.484v6.27l-5-1.5-5 1.5v-6.27A8.958 8.958 0 0 0 12 18c1.85 0 3.57-.558 5-1.516zM12 17a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-5l3.527 1.854-.674-3.927 2.853-2.781-3.943-.573L12 3l-1.763 3.573-3.943.573 2.853 2.781-.674 3.927L12 12z"/>
+                    </g>
+                </svg>
 
                 Main Industry Skills & Achievements
             </div>

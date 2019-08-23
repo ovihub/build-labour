@@ -104,7 +104,7 @@
     button {
         width: 250px;
         background-image: none;
-        background-color: #ff7705;
+        background-color: #005778;
         margin-top: 0;
     }
 </style>

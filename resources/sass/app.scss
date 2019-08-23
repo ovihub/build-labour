@@ -67,10 +67,11 @@ textarea.form-control {
   color: #000000;
   margin-top: 16px;
 
+  &:hover,
   &:focus {
     color: #000000;
     outline: none !important;
-    border: 1px solid $brand-orange;
+    border: 1px solid $brand;
     box-shadow: 0 0 1px 0 $brand;
   }
 }
@@ -98,8 +99,9 @@ select {
   background-repeat: no-repeat;
   cursor: pointer;
 
+  &:hover,
   &:focus {
-    border: 1px solid $brand-orange;
+    border: 1px solid $brand;
     outline: none;
     box-shadow: none;
   }
@@ -128,14 +130,15 @@ button {
   height: 42px;
   border-radius: 8px;
   border: none;
-  background-image: linear-gradient(43deg, #ffb600, $brand-orange);
+  background-color: $brand;
+  // background-image: linear-gradient(43deg, #ffb600, $brand-dark);
   margin-top: 12px;
   transition: border-color 0.33s ease-in-out, box-shadow 0.33s ease-in-out;
 
   &:hover {
     color: #fff;
-    background: $brand-orange;
-    border: 1px solid $brand-orange;
+    background: $brand-dark;
+    border: 1px solid $brand-dark;
   }
   
   &:focus {
@@ -219,12 +222,16 @@ form input[type="password"]
   background: #fff;
   text-overflow: ellipsis;
 }
+form input[type="text"]:hover,
+form input[type="email"]:hover,
+form input[type="number"]:hover,
+form input[type="password"]:hover,
 form input[type="text"]:focus,
 form input[type="email"]:focus,
 form input[type="number"]:focus,
 form input[type="password"]:focus {
   outline: none !important;
-  border: 1px solid $brand-orange;
+  border: 1px solid $brand;
   box-shadow: 0 0 1px 0 $brand;
 }
 form .button {
@@ -361,7 +368,7 @@ a {
   transition: all 200ms ease-in;
 }
 a:hover {
-  color: $brand-orange;
+  color: $brand-dark;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -383,7 +390,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-right: -7px;
   position: absolute;
   z-index: 6;
-  background-color: $brand-orange;
+  background-color: $brand-dark;
   padding: 0 20px;
   display: none;
   float: right;
@@ -394,7 +401,7 @@ h1, h2, h3, h4, h5, h6 {
   display: block;
 }
 .main-nav {
-  background-color: $brand;
+  background-color: $brand-dark;
   color: white;
   height: 52px;
 }
@@ -615,10 +622,10 @@ p.bl-nav-tab-label {
   background-color: #d8d8d8;
 
   &.active {
-    background-color: #f5a623;
+    background-color: $brand;
   }
   &.complete {
-    background-color: #ff9934;
+    background-color: $brand-dark;
   }
   &.incomplete {
     background-color: #d8d8d8;
@@ -693,7 +700,7 @@ p.bl-nav-tab-label {
   font-size: 1.4em;
 }
 .bl-bottom-footer {
-  background-color: $brand;
+  background-color: $brand-dark;
   padding: 20px 0;
   font-size: 12px;
 }
@@ -712,6 +719,7 @@ p.bl-nav-tab-label {
 .err-msg {
   color: #cc4242;
   font-weight: normal;
+  font-size: 12px;
 }
 .alert-main {
   position: relative;
@@ -729,7 +737,7 @@ p.bl-nav-tab-label {
   color: #f2dede;
 }
 .alert-info {
-  background-color: $brand-orange;
+  background-color: $brand-dark;
   border-color: #FF5E00;
   color: #fff;
 }
@@ -873,12 +881,12 @@ p.bl-nav-tab-label {
 .btn-link {
   font-size: 15px;
   font-weight: 500;
-  color: #ffc658;
+  color: $brand;
   padding-top: 20px;
   padding-left: 0px;
 
   &:hover {
-    color: $brand-orange;
+    color: $brand-dark;
     cursor: pointer; 
     text-decoration: none;   
   }
@@ -989,13 +997,13 @@ p.bl-nav-tab-label {
 .btn-delete {
   font-size: 15px;
   font-weight: 500;
-  color: #ffc658;
+  color: $brand;
   padding-top: 20px;
   padding-left: 0px;
   cursor: pointer;
 
   &:hover {
-    color: $brand-orange;
+    color: $brand-dark;
     text-decoration: none;
   }
 }
@@ -1170,43 +1178,12 @@ p.bl-nav-tab-label {
   max-width: 27.5%;
 }
 
-// input[type="range"] {
-//   display: block;
-//   -webkit-appearance: none;
-//   background-color: #bdc3c7;
-//   width: 300px;
-//   height: 4px;
-//   border-radius: 4px;
-//   margin: 0 auto;
-//   outline: 0;
-// }
-// input[type="range"]::-webkit-slider-runnable-track {
-//   color: $brand-orange;
-// }
-// input[type="range"]::-webkit-slider-thumb {
-//   -webkit-appearance: none;
-//   background-color: $brand-orange;
-//   width: 28px;
-//   height: 28px;
-//   border-radius: 50%;
-//   border: 2px solid white;
-//   cursor: pointer;
-//   transition: .3s ease-in-out;
-// }​
-// input[type="range"]::-webkit-slider-thumb:hover {
-//   background-color: white;
-//   border: 2px solid $brand-orange;
-// }
-// input[type="range"]::-webkit-slider-thumb:active {
-//   transform: scale(1.6);
-// }
-
 .bl-slider {
   margin-top: -10px;
 
   input {
-    background: linear-gradient(to right, $brand-orange 0%, $brand-orange 0%, #bdc3c7 100%, #fff 100%);
-    border: solid 1px $brand-orange;
+    background: linear-gradient(to right, $brand 0%, $brand 0%, #bdc3c7 100%, #fff 100%);
+    border: solid 1px $brand;
     border-radius: 8px;
     height: 4px;
     width: 100%;
@@ -1216,8 +1193,8 @@ p.bl-nav-tab-label {
   }
   
   input::-webkit-slider-thumb {
-    background-color: $brand-orange;
-    border: solid 12px $brand-orange;
+    background-color: $brand;
+    border: solid 12px $brand;
     border-radius: 0;
     height: 28px;
     width: 28px;
@@ -1261,7 +1238,7 @@ p.bl-nav-tab-label {
   }
 
   // &:hover + label:before {
-  //   background: $brand-orange;
+  //   background: $brand-dark;
   // }
   
   &:focus + label:before {
@@ -1277,16 +1254,16 @@ p.bl-nav-tab-label {
     position: absolute;
     left: 4px;
     top: 12px;
-    background: $brand-orange;
+    background: $brand-dark;
     width: 3px;
     height: 3px;
     box-shadow: 
-      2px 0 0 $brand-orange,
-      4px 0 0 $brand-orange,
-      4px -2px 0 $brand-orange,
-      4px -4px 0 $brand-orange,
-      4px -6px 0 $brand-orange,
-      4px -8px 0 $brand-orange;
+      2px 0 0 $brand-dark,
+      4px 0 0 $brand-dark,
+      4px -2px 0 $brand-dark,
+      4px -4px 0 $brand-dark,
+      4px -6px 0 $brand-dark,
+      4px -8px 0 $brand-dark;
     transform: rotate(45deg);
   }
 
@@ -1391,16 +1368,16 @@ p.bl-nav-tab-label {
     position: absolute;
     left: 3px;
     top: 8px;
-    background: $brand-orange;
+    background: $brand-dark;
     width: 3px;
     height: 3px;
     box-shadow: 
-      2px 0 0 $brand-orange,
-      4px 0 0 $brand-orange,
-      4px -2px 0 $brand-orange,
-      4px -4px 0 $brand-orange,
-      4px -6px 0 $brand-orange,
-      4px -8px 0 $brand-orange;
+      2px 0 0 $brand-dark,
+      4px 0 0 $brand-dark,
+      4px -2px 0 $brand-dark,
+      4px -4px 0 $brand-dark,
+      4px -6px 0 $brand-dark,
+      4px -8px 0 $brand-dark;
     transform: rotate(45deg);
   }
 

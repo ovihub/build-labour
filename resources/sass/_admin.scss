@@ -9,12 +9,12 @@ body.admin {
   ========================================================================== */
 .btn-primary {
   color: #fff;
-  background-color: $brand-orange;
-  border-color: $brand-orange;
+  background-color: $brand-dark;
+  border-color: $brand-dark;
 }
 .btn-primary:hover {
-  background-color: $brand-orange;
-  border-color: $brand-orange;
+  background-color: $brand-dark;
+  border-color: $brand-dark;
 }
 .col-xl-10, .col-lg-10, .col-md-10, .col-sm-10, .col-10 {
   padding: 32px 50px;
@@ -27,7 +27,7 @@ body.admin {
     Navbar Styling
   ========================================================================== */
 .navbar-laravel {
-  background-color: $brand-orange;
+  background-color: $brand-dark;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
   color: #fff;
   padding-left: 32px;
@@ -56,7 +56,7 @@ body.admin {
 }
 .nav-link-custom:hover,
 .nav-link-custom:focus {
-  color: $brand-orange;
+  color: $brand-dark;
 }
 
 /* ==========================================================================
@@ -131,15 +131,15 @@ body.admin {
 }
 .data-title {
   &:hover {
-    color: $brand-orange;
+    color: $brand-dark;
     cursor: pointer;
   }
 }
 .data-title-active {
-  color: $brand-orange;
+  color: $brand-dark;
   
   &:hover {
-    color: $brand-orange;
+    color: $brand-dark;
     cursor: pointer;
   }
 }
@@ -176,7 +176,7 @@ body.admin {
 .table-hover tbody tr {
   color: #7a8083;
   &:hover {
-    color: $brand-orange;
+    color: $brand-dark;
     background: none;
     cursor: pointer;
   }
@@ -215,7 +215,7 @@ body.admin {
 .form-control {
   &:hover, &:focus {
     outline: none !important;
-    border: 1px solid $brand-orange;
+    border: 1px solid $brand-dark;
     box-shadow: 0 0 1px 0 $brand;
   }
 }
@@ -265,7 +265,7 @@ body.admin {
   .action-item {
     &:hover {
       cursor: pointer;
-      color: $brand-orange;
+      color: $brand-dark;
     }
   }
 }
@@ -287,13 +287,13 @@ body.admin {
 
   &:hover {
     outline: none !important;
-    border: 1px solid $brand-orange;
+    border: 1px solid $brand-dark;
     box-shadow: 0 0 1px 0 $brand;
   }
   
   &:focus {
     outline: none !important;
-    border: 1px solid $brand-orange;
+    border: 1px solid $brand-dark;
     box-shadow: 0 0 1px 0 $brand;
     background-color: white;
   }
@@ -314,8 +314,8 @@ body.admin {
 .page-item-2.active .page-link-2 {
   z-index: 1;
   color: #fff;
-  background-color: $brand-orange;
-  border-color: $brand-orange;
+  background-color: $brand-dark;
+  border-color: $brand-dark;
 }
 .page-link-2 {
   position: relative;
@@ -323,7 +323,7 @@ body.admin {
   padding: 0.5rem 0.75rem;
   margin-left: -1px;
   line-height: 1.25;
-  color: $brand-orange;
+  color: $brand-dark;
   background-color: #fff;
   border: 1px solid #dee2e6;
 }
