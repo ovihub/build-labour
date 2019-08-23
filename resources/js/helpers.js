@@ -250,5 +250,22 @@ window.Helper = {
         getColorHex(str) {
             return this.intToRGB(this.hashCode(str));
         },
+
+        onFileChange(e, id = null, type = null) {
+            let files = e.target.files || e.dataTransfer.files;
+
+            if (! files.length) return;
+
+            let file = files[0],
+                reader  = new FileReader();
+
+            reader.addEventListener('load', function () {
+                Bus.$emit('imageToCrop', reader.result, id, type, file.type);
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        },
     }
 }

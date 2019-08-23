@@ -456,24 +456,7 @@
                 }
             },
             onFileChange(e) {
-                let files = e.target.files || e.dataTransfer.files;
-                
-                if (! files.length) {
-                    return;
-                }
-
-                let file = files[0],
-                    reader  = new FileReader();
-
-                reader.addEventListener('load', function() {
-                    
-                    Bus.$emit('imageToCrop', reader.result, 0, 'Company');
-
-                }, false);
-
-                if (file) {
-                    reader.readAsDataURL(file);
-                }
+                Utils.onFileChange(e, 0, 'Company');
             },
             onChangeMainCompanyFunctions(e) {
                 this.input.secondary_functions = [];

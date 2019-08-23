@@ -35,6 +35,7 @@
 				disabled: false,
 				type: 'User',
 				imgCrop: '',
+				fileType: 'images/jpeg',
 				input: {
 					id: 0,
 					photo: '',
@@ -54,7 +55,7 @@
 				component.close();
 			});
 
-			Bus.$on('imageToCrop', function (binary, id, type) {
+			Bus.$on('imageToCrop', function (binary, id, type, fileType) {
 				component.type = type;
 				
 				if (type == 'Admin') {
@@ -72,6 +73,7 @@
 				}
 
 				component.imgCrop = binary;
+				component.fileType = fileType;
 				component.enableCropper();
 				
 				$('#photoModal').modal('show');
@@ -119,7 +121,7 @@
 			async uploadPhoto() {
 				let component = this;
 
-				this.input.photo = cropper.getCroppedCanvas().toDataURL('image/jpeg', (20 / 100));
+				this.input.photo = cropper.getCroppedCanvas().toDataURL(this.fileType, (20 / 100));
 				
 				this.disabled = true;
 
