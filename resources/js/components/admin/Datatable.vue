@@ -94,7 +94,14 @@
 </template>
 
 <script>
+	import ViewUser from '../admin/ViewUser';
+	import ViewCompany from '../admin/ViewCompany';
+	import ViewJob from '../admin/ViewJob';
+	import ViewJobRole from '../admin/ViewJobRole';
+	import ViewTicket from '../admin/ViewTicket';
+
 	export default {
+		name: "datatable",
 		data() {
 			return {
 				dataSearch: 'hidden',
@@ -119,7 +126,6 @@
 				order: 'asc',
 			}
 		},
-		
 		props: {
 			title: {
 				type: String, 
@@ -141,7 +147,6 @@
 				required: true 
 			},
 		},
-
 		watch: {
 	 		fetchUrl: {
 				handler: function(fetchUrl) {
@@ -151,7 +156,6 @@
 				immediate: true
 	  		}
 		},
-
 		created() {
 			let component = this;
 
@@ -169,9 +173,7 @@
 
 			this.fetchData();
 		},
-
 		computed: {
-
 			pagesNumber() {
 				if (!this.pagination.meta.to) {
 					return [];
@@ -194,15 +196,11 @@
 
 				return pagesArray;
 			},
-
 			totalData() {
 				return (this.pagination.meta.to - this.pagination.meta.from) + 1;
 			},
-
 		},
-
 		methods: {
-
 			fetchData() {
 				let dataFetchUrl = `${this.url}?page=${this.currentPage}&column=${this.sortedColumn}&order=${this.order}&per_page=${this.perPage}&search_text=${this.searchText}`
 
@@ -217,11 +215,9 @@
 		
 				Bus.$emit('alertHide');
 			},
-			  
 			serialNumber(key) {
 				return (this.currentPage - 1) * this.perPage + 1 + key;
 			},
-			
 			changePage(pageNumber) {
 				if (pageNumber != this.pagination.meta.last_page + 1 && pageNumber >= 1) {
 					this.currentPage = pageNumber;
@@ -229,7 +225,6 @@
 					this.fetchData();
 				}
 			},
-			
 			sortByColumn(column) {
 				if (column === this.sortedColumn) {
 					this.order = (this.order === 'asc') ? 'desc' : 'asc';
@@ -241,21 +236,16 @@
 
 				this.fetchData();
 			},
-			
 			getProfilePic(value) {
 				return value.split(' ')[0];
 			},
-
 			getProfileName(value) {
 				return value.split(' ').slice(1).join(' ');
 			},
-
 			onClickSearch() {
 				this.dataSearch = this.dataSearch == 'hidden' ? 'data-search' : 'hidden';
 			},
-
 			onClickViewRow(data) {
-
 				let id = 0;
 
 				if (data != null) {
@@ -290,7 +280,6 @@
 
 				Bus.$emit('datatableView' + this.modalName, id)
 			},
-
 			onClickTitle() {
 				this.dataTitle = 'data-title';
 				this.dataTable = 'data-table';
@@ -298,16 +287,19 @@
 
 				this.fetchData();
 			},
-			
 		},
-		
 		filters: {
 			columnHead(value) {
 				return value.split('_').join(' ').toUpperCase();
 			}
 		},
-		
-		name: 'DataTable'
+		components: {
+			ViewUser,
+			ViewCompany,
+			ViewJob,
+			ViewJobRole,
+			ViewTicket,
+		},
 	}
 </script>
 

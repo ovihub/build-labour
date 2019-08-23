@@ -54,7 +54,10 @@
 </template>
 
 <script>
+    import DeleteModal from '../common/DeleteModal';
+
     export default {
+        name: "view-ticket",
 		data() {
 			return {
                 disabled: false,
@@ -72,7 +75,6 @@
 				}
 			}
 		},
-		
 		created() {
 			let component = this;
 
@@ -95,9 +97,7 @@
                 Bus.$emit('adminSaveChanges', component.record.id);
             });
 		},
-		
 		methods: {
-			
 		  	viewRecord() {
 				let component = this;
 
@@ -112,13 +112,11 @@
                         Utils.handleError(error);
                     });
             },
-
             deleteRecord() {
                 $('#deleteRecordModal').modal('show');
 
                 Bus.$emit('deleteTicket', this.endpoints.delete + this.record.id);
             },
-
             async submit() {
                 let component = this;
 
@@ -146,7 +144,9 @@
 
                 this.disabled = false;
             },
-            
-        }
+        },
+        components: {
+            DeleteModal,
+        },
 	}
 </script>

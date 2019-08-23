@@ -31,3 +31,4 @@ mix.js('resources/js/users/onboarding.js', 'public/js/users');
 mix.js('resources/js/companies/profile.js', 'public/js/companies');
 mix.js('resources/js/jobs/view.js', 'public/js/jobs');
 mix.js('resources/js/jobs/search.js', 'public/js/jobs');
+mix.js('resources/js/admin/datatable.js', 'public/js/admin');

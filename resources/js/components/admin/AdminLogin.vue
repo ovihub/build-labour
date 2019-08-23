@@ -31,10 +31,10 @@
 </template>
 
 <script>
-
     import Api from '@/api';
 
     export default {
+        name: "admin-login",
         data() {
             return {
                 disabled: false,
@@ -50,7 +50,6 @@
                 }
             }
         },
-
         created() {
             let component = this;
 
@@ -58,9 +57,7 @@
                 component.$refs['loginTogglePassword'].type = type;
             });
         },
-
         methods: {
-
             async loginUser() {
                 let component = this;
 
@@ -86,7 +83,6 @@
 
                 component.disabled = false;
             },
-
-        }
+        },
     }
 </script>

@@ -1,5 +1,4 @@
 <template>
-
     <div class="form-group view-company" v-if="record">
         <div class="record-title">
             {{ record.name }}
@@ -60,6 +59,7 @@
 
 <script>
     export default {
+        name: "view-company",
 		data() {
 			return {
                 record_id: 0,
