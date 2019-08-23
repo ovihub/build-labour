@@ -55,7 +55,10 @@
 </template>
 
 <script>
+    import Avatar from '../common/Avatar';
+
     export default {
+        name: "company-posts",
         data() {
             return {
                 show: true,
@@ -65,20 +68,17 @@
                 },
             }
         },
-
         props: {
             companyId: {
                 type: String,
                 required: false
             },
         },
-
         computed: {
             endpointGet() {
                 return this.endpoints.get + this.companyId + '/posts';
             }
         },
-
         created() {
             let component = this;
 
@@ -96,13 +96,10 @@
 
             this.getPosts();
         },
-
         methods: {
-
             getInitials(name) {
                 return Utils.getInitials(name);
             },
-
             getPosts() {
                 let component = this;
 
@@ -117,10 +114,12 @@
                         Utils.handleError(error);
                     });
             },
-
             getTimeDiffNow(created_at) {
                 return Utils.formatTimeDiffNow(created_at);
             }
-        }
+        },
+        components: {
+            Avatar,
+        },
     }
 </script>

@@ -17,3 +17,5 @@ yarn-error.log
 /public/js/app.js
 /public/js/auth
 /public/js/users
+/public/js/companies
+/public/mix-manifest.json

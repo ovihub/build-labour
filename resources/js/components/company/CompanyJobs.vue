@@ -13,7 +13,10 @@
 </template>
 
 <script>
+    import JobPosts from '../job/JobPosts';
+
     export default {
+        name: "company-jobs",
         data() {
             return {
                 show: false,
@@ -23,20 +26,17 @@
                 },
             }
         },
-
         props: {
             companyId: {
                 type: String,
                 required: false
             },
         },
-
         computed: {
             endpointGet() {
                 return this.endpoints.get + this.companyId + '/posts/jobs';
             },
         },
-
         created() {
             let component = this;
 
@@ -52,13 +52,10 @@
                 component.show = false;
             });
         },
-
         methods: {
-
             getInitials(name) {
                 return Utils.getInitials(name);
             },
-
             getJobs() {
                 let component = this;
 
@@ -73,11 +70,12 @@
                         Utils.handleError(error);
                     });
             },
-
             getTimeDiffNow(created_at) {
                 return Utils.formatTimeDiffNow(created_at);
             },
-
-        }
+        },
+        components: {
+            JobPosts,
+        },
     }
 </script>

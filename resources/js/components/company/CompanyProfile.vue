@@ -290,8 +290,13 @@
 
 <script>
     import Api from '@/api';
+    import Avatar from '../common/Avatar';
+    import MainModal from '../common/MainModal';
+    import PhotoModal from '../common/PhotoModal';
+    import EditIcon from '../common/EditIcon';
 
     export default {
+        name: "company-profile",
         data() {
             return {
                 has_focus_location: false,
@@ -341,7 +346,6 @@
                 },
             }
         },
-
         created() {
             let component = this;
 
@@ -354,27 +358,22 @@
 
             this.editable = Api.checkAuthUser();
         },
-
         props: {
             companyId: {
                 type: String,
                 required: false
             },
-        },
-        
+        }, 
         computed: {
             showButton() {
                 return location.pathname === '/user/profile';
             },
         },
-
         methods: {
-
             hasFocus() {
                 this.has_focus_location = false;
                 this.has_focus_answer = false
             },
-
             hasFocusAnswer(has_focus) {
                 this.has_focus_answer = has_focus;
 
@@ -382,7 +381,6 @@
                     this.has_focus_location = false;
                 }
             },
-
             hasFocusLocation(has_focus) {
                 this.has_focus_location = has_focus;
 
@@ -390,7 +388,6 @@
                     this.has_focus_answer = false;
                 }
             },
-
             getCompanyOptions() {
                 let component = this;
 
@@ -400,7 +397,6 @@
                     component.main_functions = data.main_company_functions;
                 });
             },
-
             setValues(details) {
                 this.photo_url = details.photo_url;
                 this.name = details.name;
@@ -417,7 +413,6 @@
                 this.getSecondaryOptions(details.main_function.id);
                 this.specialtyLabel = this.specialtyLabels[details.main_function.id - 2];
             },
-
             setDisplayValues(val, details) {
                 val.name = details.name;
                 val.address = details.address;
@@ -430,7 +425,6 @@
                 val.secondary_functions = details.specialization;
                 val.main_function_answer = details.main_function_answer;
             },
-
             getSecondaryOptions(id) {
                 let component = this;
 
@@ -445,27 +439,22 @@
                         Utils.handleError(error);
                     });
             },
-
             textAreaAdjust(refName) {
                 this.hasFocus();
 
                 Utils.textAreaAdjust(this.$refs[refName]);
             },
-
             open() {
 
             },
-
             close() {
                 this.setDisplayValues(this.input, this);
             },
-
             onClickProfilePhoto() {
                 if (this.editable) {
                     upload.click(); 
                 }
             },
-
             onFileChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
                 
@@ -486,14 +475,12 @@
                     reader.readAsDataURL(file);
                 }
             },
-
             onChangeMainCompanyFunctions(e) {
                 this.input.secondary_functions = [];
                 
                 this.getSecondaryOptions(e.target.value);
                 this.specialtyLabel = this.specialtyLabels[e.target.value - 2];
             },
-
             onChangeLocation(keyword) {
                 if (keyword != '' && (keyword && keyword.length > 0)) {
                     this.locations = Api.getLocations(keyword);
@@ -502,13 +489,11 @@
                     this.locations = [];
                 }
             },
-
             onSelectLocation(location) {
                 this.input.address = location;
                 
                 this.locations = [];
             },
-
             onSearchMainFunctionAnswer(keyword, main_id) {
                 if (keyword != '' && (keyword && keyword.length > 0)) {
                     this.main_function_answers = Api.getMainFunctionAnswers(keyword, main_id);
@@ -517,13 +502,11 @@
                     this.main_function_answers = [];
                 }
             },
-
             onSelectMainFunctionAnswer(answer) {
                 this.input.main_function_answer = answer;
 
                 this.main_function_answers = [];
             },
-
             // addNewEntity() {
             //     let component  = this;
 
@@ -533,13 +516,11 @@
             //         secondary_name: '',
             //     });
             // },
-
             // removeEntity(index) {
             //     if (this.input.secondary_functions.length > 1) {
             //         this.input.secondary_functions.splice(index, 1);
             //     }
             // },
-
             async submit() {
                 let component = this;
                 let espArray = [];
@@ -584,10 +565,15 @@
                 
                 this.disabled = false;
             },
-
             postNewJob() {
                 window.location.href = '/job/new?cid=' + this.companyId;
             },
-        }
+        },
+        components: {
+            Avatar,
+            MainModal,
+            PhotoModal,
+            EditIcon,
+        },
     }
 </script>

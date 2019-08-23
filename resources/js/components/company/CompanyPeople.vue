@@ -27,6 +27,7 @@
     import Api from '@/api';
 
     export default {
+        name: "company-people",
         data() {
             return {
                 show: false,

@@ -301,9 +301,13 @@
 
 <script>
     import Api from '@/api';
+    import MainModal from '../common/MainModal';
+    import PhotoModal from '../common/PhotoModal';
+    import PasswordEye from '../common/PasswordEye';
+    import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 
     export default {
-
+        name: "register-company",
         data() {
             return {
                 has_focus_answer: false,
@@ -363,7 +367,6 @@
                 }
             }
         },
-
         computed: {
             isFirstStep: function(){
                 return (this.step === 1);
@@ -373,11 +376,9 @@
                 return (this.step === this.max);
             },
         },
-
         watch: {
             orientation: 'setCssVars',
         },
-
         created() {
             let component = this;
 
@@ -410,17 +411,13 @@
             
             this.getCompanyOptions();
         },
-
         methods: {
-
             hasFocusAnswer(has_focus) {
                 this.has_focus_answer = has_focus;
             },
-
             hasFocusLocation(has_focus) {
                 this.has_focus_location = has_focus;
             },
-
             getCompanyOptions() {
                 let component = this;
 
@@ -430,7 +427,6 @@
                     component.main_company_functions = data.main_company_functions;
                 });
             },
-
             setNextDisabled(step) {
                 switch (step) {
                     case 1:
@@ -465,11 +461,9 @@
                         break;
                 }
             },
-
             onKeyupCompanyName(e) {
                 this.setNextDisabled(1);
             },
-
             onChangeMainCompanyFunctions(e) {
                 this.secondary_company_functions = this.main_company_functions.find(el => el.id == e.target.value).items;
 
@@ -478,7 +472,6 @@
                 this.input.company_main_function_answer = '';
                 this.specialtyLabel = this.specialtyLabels[e.target.value - 2];
             },
-
             onChangeLocation(keyword) {
                 if (keyword != '' && (keyword && keyword.length > 0)) {
                     this.locations = Api.getLocations(keyword);
@@ -487,14 +480,12 @@
                     this.locations = [];
                 }
             },
-
             onSelectLocation(location) {
                 this.input.company_address = location;
                 this.locations = [];
 
                 this.setNextDisabled(3);
             },
-
             onSearchMainFunctionAnswer(keyword, main_id) {
                 if (keyword != '' && (keyword && keyword.length > 0)) {
                     this.main_function_answers = Api.getMainFunctionAnswers(keyword, main_id);
@@ -503,25 +494,21 @@
                     this.main_function_answers = [];
                 }
             },
-
             onSelectMainFunctionAnswer(answer) {
                 this.input.company_main_function_answer = answer;
 
                 this.main_function_answers = [];
             },
-
             // addNewEntity() {
             //     this.input.company_secondary_functions = this.input.company_secondary_functions.filter(r => r !== '');
 
             //     this.input.company_secondary_functions.push('');
             // },
-
             // removeEntity(index) {
             //     if (this.input.company_secondary_functions.length > 1) {
             //         this.input.company_secondary_functions.splice(index, 1);
             //     }
             // },
-
             formatOperate(index) {
                 if (index == 1) {
                     this.$refs['rc-checkbox-1'].checked = true;
@@ -548,11 +535,9 @@
 
                 this.setNextDisabled(3);
             },
-
             onClickProfilePhoto() {
                 upload.click();
             },
-
             onFileChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
                 
@@ -573,7 +558,6 @@
                     reader.readAsDataURL(file);
                 }
             },
-
             onClickUpload() {
                 let component = this;
 
@@ -597,7 +581,6 @@
                     }
                 }
             },
-
             async submit() {
                 let component = this;
 
@@ -660,7 +643,6 @@
                 this.loading = false;
                 this.disabled = false;
             },
-
             setCssVars() {
                 this.$refs['compCardWrapper'].style.setProperty('--x', (((this.step * 100) - 100) * -1) + '%')
                 this.$refs['compCardWrapper'].style.setProperty('--y', (((this.step * 100) - 100) * 0) + '%')
@@ -669,7 +651,6 @@
                 this.$refs['compCardWrapper'].style.setProperty('--cross', 'column')
                 this.$refs['compCardWrapper'].style.setProperty('--cross-reverse', 'column-reverse')
             },
-
             skip(step) {
                 this.step += step;
                 this.disabledNext = true;
@@ -680,7 +661,6 @@
                 
                 this.goToStep(this.step);
             },
-
             goToStep(step) {
                 this.step = step > this.max ? this.max : step < 1 ? 1 : step;
                 this.currentSection = this.$sections[this.step-1];
@@ -706,8 +686,13 @@
                     this.progressCls[i] = 'incomplete'
                 }
             },
-
-        }
+        },
+        components: {
+            MainModal,
+            PhotoModal,
+            PasswordEye,
+            PulseLoader,
+        },
     }
 </script>
 
