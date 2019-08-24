@@ -123,7 +123,7 @@
         </div>
 
         <div class="form-group">
-            <a class="btn btn-link" v-bind:href="endpoints.login">
+            <a class="btn btn-link pull-left" v-bind:href="endpoints.login">
                 Back to login
             </a>
             

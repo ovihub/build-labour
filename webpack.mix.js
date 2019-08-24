@@ -24,6 +24,7 @@ mix.webpackConfig({
 
 mix.js('resources/js/auth/login.js', 'public/js/auth');
 mix.js('resources/js/auth/request_link.js', 'public/js/auth');
+mix.js('resources/js/auth/reset_password.js', 'public/js/auth');
 mix.js('resources/js/auth/register.js', 'public/js/auth');
 mix.js('resources/js/auth/register_company.js', 'public/js/auth');
 mix.js('resources/js/users/profile.js', 'public/js/users');

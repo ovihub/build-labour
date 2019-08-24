@@ -281,7 +281,7 @@
             </ul>
 
             <div>
-                <a v-if="isFirstStep" class="btn btn-link" :href="endpoints.login">Back to login</a>
+                <a v-if="isFirstStep" class="btn btn-link pull-left" :href="endpoints.login">Back to login</a>
 
                 <button v-if="! isLastStep" class="pull-right" type="button" @click="skip(1)" :disabled="disabledNext">
                     Next

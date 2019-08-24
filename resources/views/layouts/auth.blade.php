@@ -16,9 +16,8 @@
     <link rel="shortcut icon" href="/buildlabourfavicon.ico" type="image/x-icon">
     <link rel="icon" href="/buildlabourfavicon.ico" type="image/x-icon">
 </head>
-<body style="overflow:hidden">
-    <div id="app">
-        
+<body>
+    <div class="container-fluid center-screen" id="app">
         <alert></alert>
         
         <div class="auth-content-section">
@@ -44,7 +43,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     
     <script src="/js/app.js"></script>

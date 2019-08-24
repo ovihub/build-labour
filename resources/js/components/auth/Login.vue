@@ -23,11 +23,11 @@
         </div>
 
         <div class="form-group">
-            <a class="btn btn-link" v-bind:href="endpoints.reset">
+            <a class="btn btn-link pull-left" v-bind:href="endpoints.reset">
                 Forgot Your Password
             </a>
 
-            <button class="pull-right" type="submit" :disabled="disabled">
+            <button class="pull-right" type="submit" :disabled="loading">
                 Login
             </button>
 
@@ -48,7 +48,6 @@
         data() {
             return {
                 loading: false,
-                disabled: false,
                 input: {
                     email: '', password: '',
                 },
@@ -75,45 +74,42 @@
                 Utils.setObjectValues(component.errors, '');
 
                 this.loading = true;
-                this.disabled = true;
 
                 await axios.post(component.endpoints.login, component.$data.input)
                 
-                    .then(function(response) {
-                        let initials,
-                            profile_photo_url,
-                            data = response.data.data,
-                            user = data.user;
+                .then(function(response) {
+                    let initials,
+                        profile_photo_url,
+                        data = response.data.data,
+                        user = data.user;
 
-                        Api.setToken(data.token);
+                    Api.setToken(data.token);
 
-                        if (user.role_id == 1) {
-                            initials = user.first_name.charAt(0) + user.last_name.charAt(0);
-                            profile_photo_url = user.profile_photo_url;
+                    if (user.role_id == 1) {
+                        initials = user.first_name.charAt(0) + user.last_name.charAt(0);
+                        profile_photo_url = user.profile_photo_url;
 
-                        } else if (user.role_id == 2) {
-                            initials = Utils.getInitials(user.company_name);
-                            profile_photo_url = user.company_photo;
-                        }
+                    } else if (user.role_id == 2) {
+                        initials = Utils.getInitials(user.company_name);
+                        profile_photo_url = user.company_photo;
+                    }
 
-                        if (profile_photo_url) {
-                            Api.setNavAvatar('', profile_photo_url);
-                            
-                        } else {
-                            Api.setNavAvatar(initials, '');
-                        }
-
-                        Api.redirectToProfile();
-                    })
-                    .catch(function(error) {
+                    if (profile_photo_url) {
+                        Api.setNavAvatar('', profile_photo_url);
                         
-                        Utils.setObjectValues(component.input, '');
-                        
-                        Utils.handleError(error);
-                    });
+                    } else {
+                        Api.setNavAvatar(initials, '');
+                    }
+
+                    Api.redirectToProfile();
+                })
+                .catch(function(error) {
+                    
+                    Utils.setObjectValues(component.input, '');
+                    Utils.handleError(error);
+                });
                 
                 this.loading = false;
-                this.disabled = false;
             },
         },
         components: {

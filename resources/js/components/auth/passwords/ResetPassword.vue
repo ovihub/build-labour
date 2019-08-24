@@ -25,11 +25,11 @@
         </div>
         
         <div class="form-group">
-            <a class="btn btn-link" v-bind:href="endpoints.login">
+            <a class="btn btn-link pull-left" v-bind:href="endpoints.login">
                 Back to login
             </a>
             
-            <button class="pull-right" type="submit" :disabled="disabled">
+            <button class="pull-right" type="submit" :disabled="loading">
                 Done
             </button>
 
@@ -41,12 +41,14 @@
 </template>
 
 <script>
-    export default {
+    import PasswordEye from '../../common/PasswordEye';
+    import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 
+    export default {
+        name: "reset-password",
         data() {
             return {
                 loading: false,
-                disabled: false,
                 email_formatted: '',
                 input: {
                     email: '',
@@ -64,7 +66,6 @@
                 }
             }
         },
-
         created() {
             let url_params = Utils.getUrlParams();
 
@@ -90,41 +91,41 @@
                 component.$refs['resetToggleConfirm'].type = type;
             });
         },
-
-        methods: {
-            
+        methods: {  
             async resetPassword() {
                 let component = this;
                 
                 Utils.setObjectValues(component.errors, '');
 
                 this.loading = true;
-                this.disabled = true;
 
                 await axios.post(component.endpoints.reset, component.$data.input)
                     
-                    .then(function(response) {
-                        let data = response.data;
-                        
-                        window.location.href = component.endpoints.login;
+                .then(function(response) {
+                    let data = response.data;
+                    
+                    window.location.href = component.endpoints.login;
 
-                        Bus.$emit('alertSuccess', data.message);
-                    })
-                    .catch(function(error) {
-                        if (error.response) {
-                            let data = error.response.data;
+                    Bus.$emit('alertSuccess', data.message);
+                })
+                .catch(function(error) {
+                    if (error.response) {
+                        let data = error.response.data;
 
-                            for (let key in component.errors) {
-                                component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                            }
+                        for (let key in component.errors) {
+                            component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
                         }
+                    }
 
-                        Utils.handleError(error);
-                    });
+                    Utils.handleError(error);
+                });
                 
                 this.loading = false;
-                this.disabled = false;
             },
-        }
+        },
+        components: {
+            PasswordEye,
+            PulseLoader,
+        },
     }
 </script>
