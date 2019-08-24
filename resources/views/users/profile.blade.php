@@ -20,3 +20,7 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/users/profile.js') }}"></script>
+@endpush

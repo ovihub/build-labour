@@ -66,19 +66,22 @@
 </template>
 
 <script>
+    import Avatar from '../common/Avatar';
+
     export default {
+        name: "job-ads",
         data() {
             return {
 
             }
         },
-
         methods: {
-
             getInitials(name) {
                 return Utils.getInitials(name);
             },
-
-        }
+        },
+        components: {
+            Avatar,
+        },
     }
 </script>

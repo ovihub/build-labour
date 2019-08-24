@@ -24,6 +24,7 @@ class BuildLabourApi {
         this.locations = [];
         this.companies = [];
         this.getResults = [];
+        this.returnValue = [];
 
         this.endpoints = {
             job_roles: '/api/v1/roles/job/search',
@@ -39,6 +40,8 @@ class BuildLabourApi {
             countries: '/api/v1/countries',
             courses: '/api/v1/courses',
             worker_tickets: '/api/v1/worker/tickets',
+            schools: '/api/v1/schools',
+            main_function_answers: '/api/v1/answers/',
         };
         
         //  this._headers()
@@ -102,7 +105,12 @@ class BuildLabourApi {
     }
 
     redirectToProfile() {
-        window.location = '/user/profile';
+        if (window.location.pathname == '/user/profile') {
+            window.location.reload();
+        
+        } else {
+            window.location = '/user/profile';
+        }
     }
 
     redirectToUserProfile(user_id) {
@@ -160,6 +168,31 @@ class BuildLabourApi {
         return this.getResults;
     }
 
+    async _search(endpoint) {
+        let component = this;
+
+        // if (component.time_out) {
+        //     clearTimeout(component.time_out);
+        // }
+
+        // component.time_out = await setTimeout(async function() {
+            
+            await Axios.get(endpoint, Utils.getBearerAuth())
+
+                .then(function(response) {
+                    
+                    component.getResults = response.data;
+                })
+                .catch(function(error) {
+
+                    Utils.handleError(error);
+                });
+
+        // }.bind(this), 200);
+                
+        return this.getResults;
+    }
+
     async submit(endpoint, input) {
         
         await Axios.post(endpoint, input, Utils.getBearerAuth())
@@ -177,7 +210,13 @@ class BuildLabourApi {
     }
 
     getTickets(keyword) {
-        return this._get(this.endpoints.tickets + '?keyword=' + keyword);
+        let self = this;
+
+        Promise.resolve(self._search(this.endpoints.tickets + '?keyword=' + keyword)).then(function(data) {
+            self.returnValue = data.data ? data.data.tickets : [];
+        });
+
+        return self.returnValue;
     }
 
     getWorkerTickets() {
@@ -185,11 +224,23 @@ class BuildLabourApi {
     }
 
     getLocations(keyword) {
-        return this._get(this.endpoints.locations + '?keyword=' + keyword);
+        let self = this;
+
+        Promise.resolve(self._search(this.endpoints.locations + '?keyword=' + keyword)).then(function(data) {
+            self.returnValue = (data.data && data.data.locations) ? data.data.locations.features : [];
+        });
+
+        return self.returnValue;
     }
 
     getCompanies(keyword) {
-        return this._get(this.endpoints.companies + '?keyword=' + keyword);
+        let self = this;
+
+        Promise.resolve(self._search(this.endpoints.companies + '?keyword=' + keyword)).then(function(data) {
+            self.returnValue = data.data ? data.data.companies : [];
+        });
+
+        return self.returnValue;
     }
 
     getCompanyOptions() {
@@ -220,7 +271,13 @@ class BuildLabourApi {
     }
 
     getJobRoles(keyword) {
-        return this._get(this.endpoints.job_roles + '?keyword=' + keyword);
+        let self = this;
+
+        Promise.resolve(self._search(this.endpoints.job_roles + '?keyword=' + keyword)).then(function(data) {
+            self.returnValue = data.data ? data.data.job_roles : [];
+        });
+
+        return self.returnValue;
     }
 
     getCountries() {
@@ -228,11 +285,37 @@ class BuildLabourApi {
     }
 
     getCourses(keyword) {
-        return this._get(this.endpoints.courses + '?keyword=' + keyword);
+        let self = this;
+
+        Promise.resolve(self._search(this.endpoints.courses + '?keyword=' + keyword)).then(function(data) {
+            self.returnValue = data.data ? data.data.courses : [];
+        });
+
+        return self.returnValue;
     }
     
     getEmployees(id) {
         return this._get(this.endpoints.employees + id + '/people');
+    }
+
+    getSchools(keyword) {
+        let self = this;
+
+        Promise.resolve(self._search(this.endpoints.schools + '?keyword=' + keyword)).then(function(data) {
+            self.returnValue = data.data ? data.data.schools : [];
+        });
+
+        return self.returnValue;
+    }
+
+    getMainFunctionAnswers(keyword, main_id) {
+        let self = this;
+
+        Promise.resolve(self._search(this.endpoints.main_function_answers + main_id + '?keyword=' + keyword)).then(function(data) {
+            self.returnValue = data.data ? data.data.answers : [];
+        });
+
+        return self.returnValue;
     }
 }
 

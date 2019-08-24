@@ -89,6 +89,7 @@ ul.list-job-items {
         border-radius: 8px;
         box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.08), 0 0 10px 0 rgba(57, 86, 101, 0.08);
         background-color: #fcfeff;
+        margin-top: 3px;
         cursor: pointer;
       }
 
@@ -165,7 +166,7 @@ ul.list-job-items {
 .profile-header {
   position: relative;
   height: 147px;
-  background: url('/img/icons/headerbg.png');
+  background: url('/img/icons/headerbg-blue.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #ffffff;
@@ -237,7 +238,6 @@ ul.list-job-items {
   box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.08), 0 0 10px 0 rgba(57, 86, 101, 0.08);
   background-color: #fcfeff;
   margin-left: 15px;
-  margin-top: 3px;
   cursor: pointer;
 }
 .bl-image-40 {
@@ -307,12 +307,15 @@ ul.list-job-items {
   font-size: 17px;
   color: #252829;
 
-  img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
+  svg {
     margin-right: 8px;
   }
+  // img {
+  //   width: 24px;
+  //   height: 24px;
+  //   object-fit: contain;
+  //   margin-right: 8px;
+  // }
 }
 
 .profile-intro {

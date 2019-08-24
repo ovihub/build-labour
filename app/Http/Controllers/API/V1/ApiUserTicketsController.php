@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Models\Tickets\Ticket;
+use App\Models\Users\UserTicket;
 use App\Repositories\TicketRepository;
 use Illuminate\Http\Request;
 use JWTAuth;
@@ -387,5 +388,29 @@ class ApiUserTicketsController extends ApiBaseController
         }
 
         return $this->apiSuccessResponse( compact( 'tickets' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /** TODO: API docs */
+    public function deleteTicket( Request $request )
+    {
+        $ticket = Ticket::find($request->id);
+
+        if (! $ticket) {
+            return $this->apiErrorResponse( false, 'Ticket Not Found', 404 , 'ticketNotFound' );
+        }
+
+        try {
+            $user = JWTAuth::toUser();
+
+            UserTicket::where([ 'ticket_id' => $ticket->id ])->delete();
+
+            $ticket->delete();
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( [], true, 'Successfully deleted ticket', self::HTTP_STATUS_REQUEST_OK);
     }
 }

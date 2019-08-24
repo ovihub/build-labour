@@ -45,7 +45,10 @@
 </template>
 
 <script>
+    import Avatar from '../common/Avatar';
+    
     export default {
+        name: "company-summary",
         data() {
             return {
                 show: true,
@@ -57,7 +60,6 @@
                 introduction: '',
             }
         },
-
         created() {
             let component = this;
 
@@ -79,15 +81,15 @@
                 component.disabled = false;
             });
         },
-
         methods: {
-
             postJob(isTemplate) {
                 this.disabled = true;
 
                 Bus.$emit('postJob', isTemplate);
             },
-
-        }
+        },
+        components: {
+            Avatar,
+        },
     }
 </script>

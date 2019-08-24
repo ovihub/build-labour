@@ -19,6 +19,7 @@
                     <div class="emp-row">
                         <input class="form-control" type="text" placeholder="Company Name"
                             v-model="input.company_name"
+                            @focus="hasFocusAnswer(false)"
                             @keyup="onKeyupCompanyName" />
 
                         <span class="err-msg" v-if="errors.company_name">
@@ -30,7 +31,9 @@
                         What is your main company function?
                     </div>
                     <div class="emp-row">
-                        <select v-model="input.company_main_company_id" @change="onChangeMainCompanyFunctions">
+                        <select v-model="input.company_main_company_id"
+                            @focus="hasFocusAnswer(false)"
+                            @change="onChangeMainCompanyFunctions">
 
                             <option value="" disabled selected style="display:none">Company Specialisation</option>
                             <option v-for="(main, index) in main_company_functions" :key="index" v-bind:value="main.id">
@@ -42,10 +45,32 @@
                         {{ errors.company_main_company_id }}
                     </span>
 
-                    <div class="comp-label">
-                        What are the secondary functions?
+                    <div class="comp-label" v-if="input.company_main_company_id">
+                        {{ specialtyLabel }}
                     </div>
-                    <div class="comp-label-3">
+
+                    <div class="emp-row mt-4" v-if="input.company_main_company_id && input.company_main_company_id != 1">
+                        <input class="form-control" type="text" placeholder="Start typing..."
+                            v-model="input.company_main_function_answer"
+                            @focus="hasFocusAnswer(true)"
+                            @keyup="onSearchMainFunctionAnswer(input.company_main_function_answer, input.company_main_company_id)" />
+
+                        <span class="err-msg" v-if="errors.company_main_function_answer">
+                            {{ errors.company_main_function_answer }}
+                        </span>
+                    </div>
+
+                    <div class="emp-row" style="margin-top:0" v-if="has_focus_answer && main_function_answers && main_function_answers.length > 0">
+                        <ul class="list-group">
+                            <li class="list-group-item" v-for="(ans, idx) in main_function_answers" :key="idx"
+                                @click="onSelectMainFunctionAnswer(ans.answer)">
+                                
+                                {{ ans.answer }}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- <div class="comp-label-3">
                         Add as many as applicable
                     </div>
                     <span class="err-msg" v-if="errors.company_secondary_functions">
@@ -84,7 +109,7 @@
                         <div class="btn btn-link btn-delete" @click="addNewEntity">
                             Add Another
                         </div>
-                    </center>
+                    </center> -->
                 </li>
 
                 <li class="comp-card-list">
@@ -158,14 +183,14 @@
                     <div class="form-group">
                         <input id="company_address" type="text" name="company_address" class="form-control"
                             v-model="input.company_address" placeholder="Start typing address..."
-                            @keyup="onChangeLocation(input.company_address)"
-                            required />
+                            @focus="hasFocusLocation(true)"
+                            @keyup="onChangeLocation(input.company_address)" />
 
                         <span class="err-msg" v-if="errors.company_address">
                             {{ errors.company_address }}
                         </span>
 
-                        <div class="comp-reg-row" style="margin-top:0" v-if="locations.length > 0">
+                        <div class="comp-reg-row" style="margin-top:0" v-if="has_focus_location && locations && locations.length > 0">
                             <div class="locations-wrapper">
                                 <p class="location-item" v-for="(place, idx) in locations" :key="idx"
                                     @click="onSelectLocation(place.place_name)">{{ place.place_name.trim() }}</p>
@@ -176,7 +201,8 @@
                     <div class="form-group">
                         <input id="company_contact_number" type="text" name="company_contact_number" class="form-control"
                             v-model="input.company_contact_number" placeholder="Business contact number"
-                            @keyup="setNextDisabled(3)" required />
+                            @focus="hasFocusLocation(false)"
+                            @keyup="setNextDisabled(3)" />
 
                         <span class="err-msg" v-if="errors.company_contact_number">
                             {{ errors.company_contact_number }}
@@ -186,7 +212,8 @@
                     <div class="form-group">
                         <input id="company_website" type="text" name="company_website" class="form-control"
                             v-model="input.company_website" placeholder="Business Website"
-                            @keyup="setNextDisabled(3)" required />
+                            @focus="hasFocusLocation(false)"
+                            @keyup="setNextDisabled(3)" />
 
                         <span class="err-msg" v-if="errors.company_website">
                             {{ errors.company_website }}
@@ -199,11 +226,13 @@
                     <div class="bl-inline">
                         <input class="styled-checkbox-round" id="rc-checkbox-yes" type="checkbox"
                             ref="rc-checkbox-1"
+                            @focus="hasFocusLocation(false)"
                             @change="formatOperate(1)" />
                         <label for="rc-checkbox-yes">Yes</label>
                         
                         <input class="styled-checkbox-round" id="rc-checkbox-no" type="checkbox"
                             ref="rc-checkbox-0"
+                            @focus="hasFocusLocation(false)"
                             @change="formatOperate(0)" />
                         <label for="rc-checkbox-no">No</label>
                     </div>
@@ -223,7 +252,7 @@
                 <li class="comp-card-list">
                     <div class="form-group">
                         <input id="email" type="email" name="email" class="form-control"
-                            v-model="input.email" placeholder="Email Address" required />
+                            v-model="input.email" placeholder="Email Address" />
 
                         <span class="err-msg" v-if="errors.email">
                             {{ errors.email }}
@@ -234,7 +263,7 @@
                         <password-eye ref-name="regTogglePassword" style="margin-right:15px"></password-eye>
                         
                         <input id="password" ref="regTogglePassword" type="password" name="password" class="form-control" 
-                            v-model="input.password" placeholder="Password" required />
+                            v-model="input.password" placeholder="Password" />
 
                         <span class="err-msg" v-if="errors.password">
                             {{ errors.password }}
@@ -246,13 +275,13 @@
 
                         <input id="password-confirm" ref="regToggleConfirm" type="password" class="form-control"
                             name="password_confirmation" v-model="input.password_confirmation"
-                            placeholder="Confirm Password" required>
+                            placeholder="Confirm Password" />
                     </div>
                 </li>
             </ul>
 
-            <div class="form-group">
-                <a v-if="isFirstStep" class="btn btn-link" :href="endpoints.login">Back to login</a>
+            <div>
+                <a v-if="isFirstStep" class="btn btn-link pull-left" :href="endpoints.login">Back to login</a>
 
                 <button v-if="! isLastStep" class="pull-right" type="button" @click="skip(1)" :disabled="disabledNext">
                     Next
@@ -263,7 +292,7 @@
                 </button>
                 
                 <div class="loading">
-                    <pulse-loader :loading="loading" color="#ff7705" size="8px"></pulse-loader>
+                    <pulse-loader :loading="loading" color="#00aeef" size="8px"></pulse-loader>
                 </div>
             </div>
         </form>
@@ -272,11 +301,17 @@
 
 <script>
     import Api from '@/api';
+    import MainModal from '../common/MainModal';
+    import PhotoModal from '../common/PhotoModal';
+    import PasswordEye from '../common/PasswordEye';
+    import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 
     export default {
-
+        name: "register-company",
         data() {
             return {
+                has_focus_answer: false,
+                has_focus_location: false,
                 loading: false,
                 width: 10,
                 sections: null,
@@ -290,6 +325,13 @@
                     'Location & Contact',
                     'Login Credentials'
                 ],
+                specialtyLabel: '',
+                specialtyLabels: [
+                    'What is your trade?',
+                    'What do you supply?',
+                    'What type of design?',
+                    'What type of education provider are you?'
+                ],
                 progressCls: [],
                 showStates: false,
                 showProgress: false,
@@ -302,17 +344,18 @@
                 tiers: [],
                 main_company_functions: [],
                 secondary_company_functions: [],
+                main_function_answers: [],
                 states: [
                     'QLD', 'NSW', 'SA', 'VIC', 'WA', 'ACT', 'TAS', 'NT',
                 ],
                 input: {
-                    company_name: '', company_business_type_id: '', company_tier_id: '',
+                    company_name: '', company_business_type_id: '', company_tier_id: '', company_main_function_answer: '',
                     company_address: '', company_contact_number: '', company_operate_outside_states: '', company_website: '',
                     company_states: [], company_main_company_id: '', company_secondary_functions: [], company_photo: '',
                     email: '', password: '', password_confirmation: '',
                 },
                 errors: {
-                    company_name: '', company_main_company_id: '', company_secondary_functions: '',
+                    company_name: '', company_main_company_id: '', company_secondary_functions: '', company_main_function_answer: '',
                     company_business_type_id: '', company_tier_id: '', company_photo: '',
                     company_address: '', company_contact_number: '', company_website: '', company_operate_outside_states: '', company_states: '',  
                     email: '', password: '', password_confirmation: '',
@@ -324,7 +367,6 @@
                 }
             }
         },
-
         computed: {
             isFirstStep: function(){
                 return (this.step === 1);
@@ -334,11 +376,9 @@
                 return (this.step === this.max);
             },
         },
-
         watch: {
             orientation: 'setCssVars',
         },
-
         created() {
             let component = this;
 
@@ -361,7 +401,7 @@
                 $('#upload').val('');
             });
 
-            this.input.company_secondary_functions.push('');
+            // this.input.company_secondary_functions.push('');
 
             setTimeout(function() {
                 component.$sections = component.$refs['compCardWrapper'].querySelectorAll('li');
@@ -371,9 +411,13 @@
             
             this.getCompanyOptions();
         },
-
         methods: {
-
+            hasFocusAnswer(has_focus) {
+                this.has_focus_answer = has_focus;
+            },
+            hasFocusLocation(has_focus) {
+                this.has_focus_location = has_focus;
+            },
             getCompanyOptions() {
                 let component = this;
 
@@ -383,13 +427,11 @@
                     component.main_company_functions = data.main_company_functions;
                 });
             },
-
             setNextDisabled(step) {
-                
                 switch (step) {
                     case 1:
-                        if (this.input.company_name && this.input.company_main_company_id && 
-                            this.input.company_secondary_functions && this.input.company_secondary_functions[0] != '') {
+                        if (this.input.company_name && this.input.company_main_company_id) {
+                            // this.input.company_secondary_functions && this.input.company_secondary_functions[0] != '') {
                                 
                             this.disabledNext = false;
                         } else {
@@ -419,46 +461,54 @@
                         break;
                 }
             },
-
             onKeyupCompanyName(e) {
                 this.setNextDisabled(1);
             },
-
             onChangeMainCompanyFunctions(e) {
                 this.secondary_company_functions = this.main_company_functions.find(el => el.id == e.target.value).items;
 
                 this.setNextDisabled(1);
-            },
 
+                this.input.company_main_function_answer = '';
+                this.specialtyLabel = this.specialtyLabels[e.target.value - 2];
+            },
             onChangeLocation(keyword) {
-                let component = this;
-
-                Promise.resolve(Api.getLocations(keyword)).then(function(data) {
-                    component.locations = (keyword != '' && (keyword && keyword.length > 0) && 
-                                            data.data && data.data.locations) ? 
-                                            data.data.locations.features : [];
-                });
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    this.locations = Api.getLocations(keyword);
+                
+                } else {
+                    this.locations = [];
+                }
             },
-
             onSelectLocation(location) {
                 this.input.company_address = location;
                 this.locations = [];
 
                 this.setNextDisabled(3);
             },
+            onSearchMainFunctionAnswer(keyword, main_id) {
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    this.main_function_answers = Api.getMainFunctionAnswers(keyword, main_id);
 
-            addNewEntity() {
-                this.input.company_secondary_functions = this.input.company_secondary_functions.filter(r => r !== '');
-
-                this.input.company_secondary_functions.push('');
-            },
-
-            removeEntity(index) {
-                if (this.input.company_secondary_functions.length > 1) {
-                    this.input.company_secondary_functions.splice(index, 1);
+                } else {
+                    this.main_function_answers = [];
                 }
             },
+            onSelectMainFunctionAnswer(answer) {
+                this.input.company_main_function_answer = answer;
 
+                this.main_function_answers = [];
+            },
+            // addNewEntity() {
+            //     this.input.company_secondary_functions = this.input.company_secondary_functions.filter(r => r !== '');
+
+            //     this.input.company_secondary_functions.push('');
+            // },
+            // removeEntity(index) {
+            //     if (this.input.company_secondary_functions.length > 1) {
+            //         this.input.company_secondary_functions.splice(index, 1);
+            //     }
+            // },
             formatOperate(index) {
                 if (index == 1) {
                     this.$refs['rc-checkbox-1'].checked = true;
@@ -485,32 +535,12 @@
 
                 this.setNextDisabled(3);
             },
-
             onClickProfilePhoto() {
                 upload.click();
             },
-
             onFileChange(e) {
-                let files = e.target.files || e.dataTransfer.files;
-                
-                if (! files.length) {
-                    return;
-                }
-
-                let file = files[0],
-                    reader  = new FileReader();
-
-                reader.addEventListener('load', function() {
-                    
-                    Bus.$emit('imageToCrop', reader.result, 0, 'CompanyRegister');
-
-                }, false);
-
-                if (file) {
-                    reader.readAsDataURL(file);
-                }
+                Utils.onFileChange(e, 0, 'CompanyRegister');
             },
-
             onClickUpload() {
                 let component = this;
 
@@ -534,7 +564,6 @@
                     }
                 }
             },
-
             async submit() {
                 let component = this;
 
@@ -565,7 +594,7 @@
 
                             if (data.errors.company_name || 
                                 data.errors.company_main_company_id || 
-                                data.errors.company_secondary_functions) {
+                                data.errors.company_main_function_answer) {
 
                                 component.skip(-3);
                             }
@@ -597,7 +626,6 @@
                 this.loading = false;
                 this.disabled = false;
             },
-
             setCssVars() {
                 this.$refs['compCardWrapper'].style.setProperty('--x', (((this.step * 100) - 100) * -1) + '%')
                 this.$refs['compCardWrapper'].style.setProperty('--y', (((this.step * 100) - 100) * 0) + '%')
@@ -606,13 +634,16 @@
                 this.$refs['compCardWrapper'].style.setProperty('--cross', 'column')
                 this.$refs['compCardWrapper'].style.setProperty('--cross-reverse', 'column-reverse')
             },
-
             skip(step) {
                 this.step += step;
                 this.disabledNext = true;
+                
+                if (this.input.company_main_company_id == 5) {
+                    this.step += step;
+                }
+                
                 this.goToStep(this.step);
             },
-
             goToStep(step) {
                 this.step = step > this.max ? this.max : step < 1 ? 1 : step;
                 this.currentSection = this.$sections[this.step-1];
@@ -638,8 +669,13 @@
                     this.progressCls[i] = 'incomplete'
                 }
             },
-
-        }
+        },
+        components: {
+            MainModal,
+            PhotoModal,
+            PasswordEye,
+            PulseLoader,
+        },
     }
 </script>
 

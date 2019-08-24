@@ -38,8 +38,8 @@
         <span class="err-msg" v-if="errors.date_of_birth">
             {{ errors.date_of_birth }}
         </span>
-
-        <div class="me-label">Country of Birth</div>
+        
+        <!-- <div class="me-label">Country of Birth</div>
         <div class="me-row mb-3">
             <select v-model="input.country_birth">
                 <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
@@ -47,7 +47,7 @@
         </div>
         <span class="err-msg" v-if="errors.country_birth">
             {{ errors.country_birth }}
-        </span>
+        </span> -->
     </form>
 </template>
 
@@ -55,7 +55,7 @@
     import Api from '@/api';
 
     export default {
-
+        name: "personal-details",
         data() {
             return {
                 days: [],

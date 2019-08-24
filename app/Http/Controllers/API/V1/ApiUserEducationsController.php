@@ -33,27 +33,45 @@ class ApiUserEducationsController extends ApiBaseController
      *                  type="object",
      *                  @OA\Property(
      *                      property="course_name",
-     *                      description="<b>Required</b> Course",
+     *                      description="Course",
      *                      type="string",
      *                      example="Bachelor of Psychology"
      *                  ),
      *                  @OA\Property(
      *                      property="school",
-     *                      description="<b>Required</b> School",
+     *                      description="School",
      *                      type="string",
      *                      example="University of Melbourne"
      *                  ),
      *                  @OA\Property(
+     *                      property="school_id",
+     *                      description="School ID",
+     *                      type="integer",
+     *                      example=2
+     *                  ),
+     *                  @OA\Property(
+     *                      property="start_day",
+     *                      description="Start Day",
+     *                      type="integer",
+     *                      example="5"
+     *                  ),
+     *                  @OA\Property(
      *                      property="start_year",
-     *                      description="<b>Required</b> Start Year",
+     *                      description="Start Year",
      *                      type="integer",
      *                      example="2016"
      *                  ),
      *                  @OA\Property(
      *                      property="start_month",
-     *                      description="<b>Required</b> Start Month",
+     *                      description="Start Month",
      *                      type="integer",
      *                      example="5"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="end_day",
+     *                      description="End Day",
+     *                      type="integer",
+     *                      example=2018
      *                  ),
      *                  @OA\Property(
      *                      property="end_year",
@@ -69,7 +87,7 @@ class ApiUserEducationsController extends ApiBaseController
      *                  ),
      *                  @OA\Property(
      *                      property="description",
-     *                      description="<b>Required</b> Company",
+     *                      description="Description",
      *                      type="string",
      *                      example="Where I study 4 years on this course."
      *                  ),

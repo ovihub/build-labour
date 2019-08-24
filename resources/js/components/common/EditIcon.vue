@@ -1,5 +1,6 @@
 <template>
     <span v-if="editable"
+        class="clickable"
         :class="cls"
         data-toggle="modal"
         data-backdrop="static"
@@ -15,6 +16,7 @@
     import Api from '@/api';
 
     export default {
+        name: "edit-icon",
         data() {
             return {
                 editable: false,
@@ -45,3 +47,9 @@
         }
     }
 </script>
+
+<style scope>
+    .clickable {
+        cursor: pointer;
+    }
+</style>

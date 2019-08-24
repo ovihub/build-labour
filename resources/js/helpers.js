@@ -194,8 +194,8 @@ window.Helper = {
             return months;
         },
 
-        getYears(startYear = new Date().getFullYear()) {
-            let years = [], endYear = 1950;
+        getYears(startYear = new Date().getFullYear(), endYear = 1950) {
+            let years = [];
 
             while ( startYear >= endYear ) {
                 years.push(startYear--);
@@ -227,6 +227,45 @@ window.Helper = {
             if (input) {
                 input[refName] = value;
             }
-        }
+        },
+
+        hashCode(str) {
+            let hash = 0;
+
+            for (let i = 0; i < str.length; i++) {
+               hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
+
+            return hash;
+        },
+        
+        intToRGB(i){
+            let c = (i & 0x00FFFFFF)
+                .toString(16)
+                .toUpperCase();
+        
+            return "00000".substring(0, 6 - c.length) + c;
+        },
+
+        getColorHex(str) {
+            return this.intToRGB(this.hashCode(str));
+        },
+
+        onFileChange(e, id = null, type = null) {
+            let files = e.target.files || e.dataTransfer.files;
+
+            if (! files.length) return;
+
+            let file = files[0],
+                reader  = new FileReader();
+
+            reader.addEventListener('load', function () {
+                Bus.$emit('imageToCrop', reader.result, id, type, file.type);
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        },
     }
 }

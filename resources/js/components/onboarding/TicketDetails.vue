@@ -6,11 +6,13 @@
         <div class="bl-inline">
             <input id="has_whitecard_1" class="styled-checkbox-round" type="checkbox"
                 ref="has_whitecard_1"
+                @focus="hasFocus(false)"
                 @change="formatCheckbox('has_whitecard', 1)" />
             <label for="has_whitecard_1">Yes</label>
             
             <input id="has_whitecard_0" class="styled-checkbox-round" type="checkbox"
                 ref="has_whitecard_0"
+                @focus="hasFocus(false)"
                 @change="formatCheckbox('has_whitecard', 0)" />
             <label for="has_whitecard_0">No</label>
         </div>
@@ -18,9 +20,14 @@
         <div class="me-label" style="margin-bottom:-15px">
             I have current valid licenses and/or tickets in
         </div>
-        <div class="emp-row">
+        <div class="skill-label-3 mt-3">
+            e.g. RIIMPO317E - Conduct Roller Operations
+        </div>
+        <div class="emp-row mt-3">
             <div class="ticket-col-left">
-                <input class="form-control" type="text"  placeholder="Search" v-model="keyword" @keyup="onSearch(keyword)" />
+                <input class="form-control" type="text"  placeholder="Search" v-model="keyword"
+                    @focus="hasFocus(true)"
+                    @keyup="onSearch(keyword)" />
             </div>
             <div class="ticket-col-right">
                 <button style="margin-left:0px;width:100%" class="add-button" type="button" @click="onAdd()">Add</button>
@@ -30,17 +37,17 @@
             </span>
         </div>
 
-        <div class="emp-row" style="margin-top:0" v-if="searchedTickets.length > 0">
+        <div class="emp-row" style="margin-top:0" v-if="has_focus && searchedTickets && searchedTickets.length > 0">
             <ul class="list-group">
                 <li class="list-group-item" v-for="(ticket, idx) in searchedTickets" :key="idx"
                     @click="onSelect(ticket)">
-                    {{ ticket.ticket }} - {{ ticket.description }}
+                    {{ ticket.ticket }} {{ ticket.description ? ('- ' + ticket.description) : '' }}
                 </li>
             </ul>
         </div>
 
         <div class="emp-row" v-for="(ticket, idx) in tickets" :key="idx">
-            <span class="ticket-label">{{ ticket.ticket }} - {{ ticket.description }}</span>
+            <span class="ticket-label">{{ ticket.ticket }} {{ ticket.description ? ('- ' + ticket.description) : '' }}</span>
 
             <span class="remove-ticket-icon" @click="onDelete(idx)">
                 <img src="/img/icons/remove.png"
@@ -54,9 +61,10 @@
     import Api from '@/api';
 
     export default {
-
+        name: "ticket-details",
         data() {
             return {
+                has_focus: false,
                 keyword: '',
                 has_whitecard: '',
                 tickets: [],
@@ -83,7 +91,11 @@
             Bus.$on('onboardingSubmitTickets', function() {
                 let saveInput = {
                     tickets: component.tickets.map(function (ticket) {
-                                return { ticket_id: ticket.id };
+                                if (ticket.id) {
+                                    return { ticket_id: ticket.id };
+                                }
+                                
+                                return { ticket: ticket.ticket, description: ticket.description };
                              }),
                     has_whitecard: component.has_whitecard
                 };
@@ -102,17 +114,24 @@
 
         methods: {
 
-            onSearch(keyword) {
-                let component = this;
+            hasFocus(has_focus) {
+                this.has_focus = has_focus;
+            },
 
-                Promise.resolve(Api.getTickets(keyword)).then(function(data) {
-                    component.searchedTickets = (component.keyword != '') ? data.data.tickets : [];
-                });
+            onSearch(keyword) {
+                this.errors.ticket = '';
+
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    this.searchedTickets = Api.getTickets(keyword);
+
+                } else {
+                    this.searchedTickets = [];
+                }
             },
 
             onSelect(ticket) {
                 this.selectedTicket = ticket;
-                this.keyword = ticket.ticket + ' - ' + ticket.description;
+                this.keyword = ticket.ticket + (ticket.description ? (' - ' + ticket.description) : '');
                 this.searchedTickets = [];
             },
 
@@ -120,28 +139,40 @@
                 this.tickets.splice(index, 1);
             },
 
-            onAdd() {
-                if (!this.selectedTicket) {
-                    return false;
-                }
-
+            onAdd() { // TODO: Need to improve algo
                 let isFound = false;
+
+                if (! this.selectedTicket) {
+                    this.keyword = this.keyword.trim();
+
+                    let description = this.keyword.substr(this.keyword.indexOf(' ') + 1);
+
+                    this.selectedTicket = {
+                        id: null,
+                        ticket: this.keyword.split(' ')[0],
+                        description: description ? description.replace(/^[^a-zA-Z]+/, '') : null,
+                    }
+                }
 
                 for (let i in this.tickets) {
                     let ticket = this.tickets[i];
 
-                    if (ticket.id == this.selectedTicket.id) {
+                    if ((this.selectedTicket.id && (ticket.id == this.selectedTicket.id)) ||
+                        (! this.selectedTicket.id && (ticket.ticket == this.selectedTicket.ticket)
+                            && (ticket.description == this.selectedTicket.description))) {
+                        
                         isFound = true;
                     }
                 }
 
-                if (!isFound) {
-                    this.tickets.push(this.selectedTicket);
+                if (! isFound) {
+                    this.tickets.unshift(this.selectedTicket);
                     this.keyword = '';
                     this.selectedTicket = false;
                     this.errors.ticket = '';
 
                 } else {
+                    this.selectedTicket = false;
                     this.errors.ticket = 'Ticket already exists on selected list';
                 }
             },

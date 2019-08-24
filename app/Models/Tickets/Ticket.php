@@ -15,6 +15,8 @@ class Ticket extends BaseModel
 
     protected $fillable = [ 'ticket', 'description', 'created_by' ];
 
+    protected $hidden = [ 'created_at', 'updated_at' ];
+
     /**
      * @return array
      */
@@ -22,7 +24,7 @@ class Ticket extends BaseModel
     {
         return [
             'ticket'         => 'required',
-            'description'    => 'required',
+            'description'    => 'nullable',
             'created_by'     => 'nullable|integer'
         ];
     }

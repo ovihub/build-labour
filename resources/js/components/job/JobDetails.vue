@@ -13,8 +13,12 @@
             </span> -->
             
             <div class="profile-title">
-                <img src="/img/icons/jobdetails.png"
-                    srcset="/img/icons/jobdetails@2x.png 2x, /img/icons/jobdetails@3x.png 3x">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <g fill="none" fill-rule="evenodd">
+                        <path d="M0 0h24v24H0z"/>
+                        <path fill="#00aeef" d="M7 5V4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4zm1.4 0h7.2v-.9a.7.7 0 0 0-.7-.7H9.1a.7.7 0 0 0-.7.7V5zM19 17h2c.818 0 1.544-.393 2-1v4a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-4c.456.607 1.182 1 2 1h2v1a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-1h6v1a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-1zm-1 0v1h-2v-1h2zM6 17h2v1H6v-1z"/>
+                    </g>
+                </svg>
                 
                 Job Details
             </div>
@@ -92,7 +96,7 @@
                         </span>
                     </div>
 
-                    <div class="form-group" style="margin-top:0" v-if="input.title && job_roles.length > 0">
+                    <div class="form-group" style="margin-top:0" v-if="input.title && job_roles && job_roles.length > 0">
                         <ul class="list-group">
                             <li class="list-group-item" v-for="(job, idx) in job_roles" :key="idx"
                                 @click="onSelectJob(job)">
@@ -197,7 +201,9 @@
                                 </span>
                             </div>
 
-                            <div class="comp-col-left" style="margin-top:0;margin-left:-25px" v-if="reports_to_active_index == index && reports_to_job_roles.length > 0">
+                            <div class="comp-col-left" style="margin-top:0;margin-left:-25px"
+                                v-if="reports_to_active_index == index && reports_to_job_roles && reports_to_job_roles.length > 0">
+
                                 <ul class="list-group">
                                     <li class="list-group-item" v-for="(job, idx) in reports_to_job_roles" :key="idx"
                                         @click="onSelectReportsTo(job)">
@@ -225,7 +231,7 @@
                         </span>
                     </div>
 
-                    <div class="emp-row" style="margin-top:0" v-if="locations.length > 0">
+                    <div class="emp-row" style="margin-top:0" v-if="locations && locations.length > 0">
                         <ul class="list-group">
                             <li class="list-group-item" v-for="(place, idx) in locations" :key="idx"
                                 @click="onSelectLocation(place.place_name)">
@@ -243,6 +249,7 @@
     import Api from '@/api';
 
     export default {
+        name: "job-details",
         data() {
             return {
                 show: true,
@@ -312,13 +319,12 @@
             },
 
             onChangeLocation(keyword) {
-                let component = this;
-
-                Promise.resolve(Api.getLocations(keyword)).then(function(data) {
-                    component.locations = (keyword != '' && (keyword && keyword.length > 0) && 
-                                            data.data && data.data.locations && data.data.locations.features) ? 
-                                            data.data.locations.features : [];
-                });
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    this.locations = Api.getLocations(keyword);
+                
+                } else {
+                    this.locations = [];
+                }
             },
 
             onSelectLocation(location) {
@@ -330,19 +336,21 @@
             onSearchJob(keyword) {
                 this.input.job_role_id = '';
 
-                let component = this;
-                
-                Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
-                    component.job_roles = data.data ? data.data.job_roles : [];
-                });
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    this.job_roles = Api.getJobRoles(keyword);
+
+                } else {
+                    this.job_roles = [];
+                }
             },
 
             onSearchReportsTo(keyword, index) { 
-                let component = this;
-                
-                Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
-                    component.reports_to_job_roles = data.data ? data.data.job_roles : [];
-                });
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    this.reports_to_job_roles = Api.getJobRoles(keyword);
+
+                } else {
+                    this.reports_to_job_roles = [];
+                }
 
                 this.reports_to_active_index = index;
             },

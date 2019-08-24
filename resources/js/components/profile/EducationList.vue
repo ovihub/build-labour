@@ -7,7 +7,13 @@
             
             <div class="jobads-row mt-4">
                 <div class="bl-col-1">
-                    <img class="bl-image-56" style="margin-top:0px" src="/img/logo/2.jpg">
+                    <img class="bl-image-56" v-if="education.school_logo" :src="education.school_logo">
+
+                    <avatar v-else cls="bl-image-56" size="56" border="0" border-radius="8px"
+                        text-color="#fff"
+                        :background-color="getColorHex(education.school_name)"
+                        :initials="getInitials(education.school_name, education.academy)">
+                    </avatar>
                 </div>
                 <div class="bl-col-2" style="margin-top:-4px">
                     <div class="bl-display">
@@ -15,7 +21,7 @@
                             {{ education.course ? education.course.course_name : education.course_name }}
                         </span>
                         <span class="bl-label-15 bl-ml15 mt-0 pt-0" :ref="'eduSchool-' + idx">
-                            {{ education.school }}
+                            {{ education.school_name }}
                         </span>
                         <span class="bl-label-14 bl-ml15 mb-0 pb-0" :ref="'eduPeriod-' + idx">
                             {{ formatPeriod(education) }}
@@ -28,13 +34,21 @@
 </template>
 
 <script>
+    import Api from '@/api';
+    import Avatar from '../common/Avatar';
+    import EditIcon from '../common/EditIcon';
+
     export default {
+        name: "education-list",
         data() {
             return {
                 educations: [],
+                statuses: [
+                    'Completed Study',
+                    'Still Studying',
+                ],
             }
         },
-
         created() {
             let component = this;
 
@@ -47,6 +61,12 @@
                     component.educations.push(details);
                 
                 } else {
+                    if (details.school_name !== component.educations[index].school &&
+                        window.location.pathname == '/user/profile') {
+                        
+                        Api.redirectToProfile();
+                    }
+
                     component.educations[index] = details;
 
                     component.$refs['eduCourse-' + index][0].textContent = details.course ? details.course.course_name : details.course_name;
@@ -59,21 +79,47 @@
                 component.educations.splice(index, 1);
             });
         },
-
         methods: {
-
+            getInitials(name, school) {
+                return Utils.getInitials((name != null) ? name.replace(' of ', ' ').replace('The ', '').replace(' the ', ' ') :
+                        (school ? school.school_name.replace(' of ', ' ').replace('The ', '').replace(' the ', ' ') : '-'));
+            },
+            getColorHex(name) {
+                if (! name) {
+                    return '#F0F2F4';
+                }
+                
+                return '#' + Utils.getColorHex('#' + name);
+            },
             formatPeriod(edu) {
-                if (! edu.end_month || ! edu.end_year) {
-                    return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - Present (Currently Studying)';
+                if (edu.education_status == this.statuses[0]) { // Completed
+                    return 'Date of Completion: ' + 
+                            ('0' + edu.end_month).slice(-2) + '/' + ('0' + edu.end_day).slice(-2) + '/' + edu.end_year;
+
+                } else if (edu.education_status == this.statuses[1]) { // Still Studying
+                    return ('0' + edu.start_month).slice(-2) + '/' + ('0' + edu.start_day).slice(-2) + '/' + edu.start_year +
+                            ' start — ' +
+                            ('0' + edu.end_month).slice(-2) + '/' + ('0' + edu.end_day).slice(-2) + '/' + edu.end_year +
+                            ' end';
+
+                } else {
+                    return 'N/A';
                 }
 
-                return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + 
-                       Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
-            },
+                // if (! edu.end_month || ! edu.end_year) {
+                //     return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - Present (Currently Studying)';
+                // }
 
+                // return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + 
+                //        Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
+            },
             action(index) {
                 Bus.$emit('showEducation', index, index != -1 ?  this.educations[index] : null);
             },
-        }
+        },
+        components: {
+            Avatar,
+            EditIcon,
+        },
     }
 </script>

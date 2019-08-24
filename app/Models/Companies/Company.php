@@ -26,6 +26,7 @@ class Company extends BaseModel
         'business_type_id',
         'tier_id',
         'main_company_id',
+        'main_function_answer',
         'photo_url',
         'address',
         'phone',
@@ -92,6 +93,11 @@ class Company extends BaseModel
         if (isset($data['company_main_company_id'])) {
 
             $transformed['main_company_id'] = $data['company_main_company_id'];
+        }
+
+        if (isset($data['company_main_function_answer'])) {
+
+            $transformed['main_function_answer'] = $data['company_main_function_answer'];
         }
 
         if (isset($data['company_address'])) {

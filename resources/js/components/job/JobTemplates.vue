@@ -57,6 +57,7 @@
     import Api from '@/api';
 
     export default {
+        name: "job-templates",
         data() {
             return {
                 disabled: false,
@@ -88,7 +89,6 @@
                 },
             }
         },
-
         created() {
             let component = this;
 
@@ -119,13 +119,10 @@
 
             this.input.reports_to.push('');
         },
-
         methods: {
-
             textAreaAdjust(refName) {
                 Utils.textAreaAdjust(this.$refs[refName]);
             },
-
             onChangeLocation(keyword) {
                 let component = this;
 
@@ -135,13 +132,11 @@
                                             data.data.locations.features : [];
                 });
             },
-
             onSelectLocation(location) {
                 this.input.location = location;
                 
                 this.locations = [];
             },
-
             onSearchJob(keyword) {
                 this.input.job_role_id = '';
 
@@ -151,7 +146,6 @@
                     component.job_roles = data.data ? data.data.job_roles : [];
                 });
             },
-
             onSearchReportsTo(keyword, index) { 
                 let component = this;
                 
@@ -161,32 +155,27 @@
 
                 this.reports_to_active_index = index;
             },
-            
             onSelectReportsTo(job) {
                 this.input.reports_to[this.reports_to_active_index] = job.job_role_name;
 
                 this.reports_to_job_roles = [];
             },
-
             onSelectJob(job) {
                 this.input.job_role_id = job.id;
                 this.input.title = job.job_role_name;
 
                 this.job_roles = [];
             },
-
             addNewEntity() {
                 this.input.reports_to = this.input.reports_to.filter(r => r !== '');
 
                 this.input.reports_to.push('');
             },
-
             removeEntity(index) {
                 if (this.input.reports_to.length > 1) {
                     this.input.reports_to.splice(index, 1);
                 }
             },
-
             async submit(endpoint) {
                 let component = this;
 
@@ -194,34 +183,33 @@
                 
                 await axios.post(endpoint, component.$data.input, Utils.getBearerAuth())
                     
-                    .then(function(response) {
-                        let data = response.data,
-                            job = data.data.job;
+                .then(function(response) {
+                    let data = response.data,
+                        job = data.data.job;
+                    
+                    if (job.is_template) {
+                        Bus.$emit('alertSuccess', data.message);
                         
-                        if (job.is_template) {
-                            Bus.$emit('alertSuccess', data.message);
-                            
-                            Utils.setObjectValues(component.input, '');
+                        Utils.setObjectValues(component.input, '');
 
-                        } else {
-                            window.location.href = '/job/view?cid=' + job.company_id + '&jid=' + job.id;
+                    } else {
+                        window.location.href = '/job/view?cid=' + job.company_id + '&jid=' + job.id;
+                    }
+                })
+                .catch(function(error) {
+                    if (error.response) {
+                        let data = error.response.data;
+
+                        for (let key in data.errors) {
+                            component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
                         }
-                    })
-                    .catch(function(error) {
-                        if (error.response) {
-                            let data = error.response.data;
+                    }
 
-							for (let key in data.errors) {
-								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                            }
-                        }
-
-                        Utils.handleError(error);
-                    });
+                    Utils.handleError(error);
+                });
 
                 Bus.$emit('postedJob');
             },
-
         }
     }
 </script>

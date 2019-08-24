@@ -21,29 +21,32 @@
 
 <script>
     import Api from '@/api';
+    import MainModal from '../common/MainModal';
+    import TicketDetails from '../onboarding/TicketDetails';
 
     export default {
+        name: "tickets-modal",
         data() {
             return {
 
             }
         },
-
         created() {
 
         },
-
         methods: {
-
             close() {
-                Bus.$emit('refreshTicketDetails');
+                // Bus.$emit('refreshTicketDetails');
             },
-            
             submit() {
                 Bus.$emit('onboardingSubmitTickets');
 
                 this.close();
             },
-        }
+        },
+        components: {
+            MainModal,
+            TicketDetails,
+        },
     }
 </script>

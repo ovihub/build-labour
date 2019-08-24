@@ -7,6 +7,7 @@
                 <!-- <div class="emp-form-label" v-if="input.first_name">First Name</div> -->
 
                 <input id="first_name" type="text" name="first_name" class="form-control" style="padding-left:24px"
+                    @focus="hasFocus(false)"
                     v-model="input.first_name" placeholder="First Name" required autofocus />
 
                 <span class="err-msg" v-if="errors.first_name">
@@ -18,6 +19,7 @@
                 <!-- <div class="emp-form-label" v-if="input.last_name">Last Name</div> -->
 
                 <input id="last_name" type="text" name="last_name" class="form-control" style="padding-left:24px"
+                    @focus="hasFocus(false)"
                     v-model="input.last_name" placeholder="Last Name" required autofocus />
 
                 <span class="err-msg" v-if="errors.last_name">
@@ -26,30 +28,34 @@
             </div>
         </div>
 
-        <div class="form-group disp-flex">
-            <div class="form-col-1">
+        <div class="form-group">
+            <!-- <div class="form-col-1">
                 <img class="form-mobile-icon" src="/img/icons/au.png"
                     srcset="/img/icons/au@2x.png 2x, /img/icons/au@3x.png 3x">
                 
                 <span class="form-col-label">+61</span>
             </div>
             
-            <div class="form-col-2">
+            <div class="form-col-2"> -->
                 <!-- <div class="emp-form-label" v-if="input.mobile_number">Mobile Number</div> -->
 
                 <input id="mobile_number" type="text" name="mobile_number" class="form-control" style="padding-left:24px"
+                    @focus="hasFocus(false)"
                     v-model="input.mobile_number" placeholder="Mobile Number" required />
 
                 <span class="err-msg" v-if="errors.mobile_number">
                     {{ errors.mobile_number }}
                 </span>
-            </div>
+            <!-- </div> -->
         </div>
 
         <div class="emp-row">
             <!-- <div class="emp-form-label" v-if="input.most_recent_role">Most Recent Role</div> -->
 
-            <input class="form-control" type="text" placeholder="Most Recent Role" v-model="input.most_recent_role"
+            <input class="form-control" type="text" placeholder="Most Recent Role"
+                style="padding-left:24px"
+                v-model="input.most_recent_role"
+                @focus="hasFocus(true)"
                 @keyup="onSearchJob(input.most_recent_role)" />
             
             <span class="err-msg" v-if="errors.most_recent_role">
@@ -57,7 +63,7 @@
             </span>
         </div>
 
-        <div class="emp-row" style="margin-top:0" v-if="job_roles.length > 0">
+        <div class="emp-row" style="margin-top:0" v-if="has_focus && job_roles && job_roles.length > 0">
             <ul class="list-group">
                 <li class="list-group-item" v-for="(job, idx) in job_roles" :key="idx"
                     @click="onSelectJob(job)">
@@ -71,6 +77,7 @@
             <!-- <div class="emp-form-label" v-if="input.suburb">Suburb</div> -->
 
             <input id="suburb" type="text" name="suburb" class="form-control" style="padding-left:24px"
+                @focus="hasFocus(false)"
                 v-model="input.suburb" placeholder="Suburb" required />
 
             <span class="err-msg" v-if="errors.suburb">
@@ -82,6 +89,7 @@
             <!-- <div class="emp-form-label" v-if="input.email">Email Address</div> -->
 
             <input id="email" type="email" name="email" class="form-control" style="padding-left:24px"
+                @focus="hasFocus(false)"
                 v-model="input.email" placeholder="Email Address" required />
 
             <span class="err-msg" v-if="errors.email">
@@ -95,6 +103,7 @@
             <!-- <div class="emp-form-label" v-if="input.password">Password</div> -->
             
             <input id="password" ref="regTogglePassword" type="password" name="password" class="form-control" 
+                @focus="hasFocus(false)"
                 style="padding-left:24px" v-model="input.password" placeholder="Password" required />
 
             <span class="err-msg" v-if="errors.password">
@@ -108,12 +117,13 @@
             <!-- <div class="emp-form-label" v-if="input.password_confirmation">Confirm Password</div> -->
 
             <input id="password-confirm" ref="regToggleConfirm" type="password" class="form-control"
+                @focus="hasFocus(false)"
                 style="padding-left:24px" name="password_confirmation" v-model="input.password_confirmation"
                 placeholder="Confirm Password" required>
         </div>
 
         <div class="form-group">
-            <a class="btn btn-link" v-bind:href="endpoints.login">
+            <a class="btn btn-link pull-left" v-bind:href="endpoints.login">
                 Back to login
             </a>
             
@@ -122,7 +132,7 @@
             </button>
             
             <div class="loading">
-                <pulse-loader :loading="loading" color="#ff7705" size="8px"></pulse-loader>
+                <pulse-loader :loading="loading" color="#00aeef" size="8px"></pulse-loader>
             </div>
         </div>
     </form>
@@ -130,13 +140,16 @@
 
 <script>
     import Api from '@/api';
+    import PasswordEye from '../common/PasswordEye';
+    import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 
     export default {
-
+        name: "register",
         data() {
             return {
                 roles: [],
                 job_roles: [],
+                has_focus: false,
                 loading: false,
                 disabled: false,
                 input: {
@@ -154,7 +167,6 @@
                 }
             }
         },
-
         created() {
             let component = this;
 
@@ -166,23 +178,23 @@
                 component.$refs['regToggleConfirm'].type = type;
             });
         },
-
         methods: {
-            
-            onSearchJob(keyword) {
-                let component = this;
-                
-                Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
-                    component.job_roles = data.data.job_roles;
-                });
+            hasFocus(has_focus) {
+                this.has_focus = has_focus;
             },
+            onSearchJob(keyword) {
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    this.job_roles = Api.getJobRoles(keyword);
 
+                } else {
+                    this.job_roles = [];
+                }
+            },
             onSelectJob(job) {
                 this.input.most_recent_role = job.job_role_name;
 
                 this.job_roles = [];
             },
-
             async registerUser() {
                 let component = this;
                 
@@ -217,6 +229,10 @@
                 this.loading = false;
                 this.disabled = false;
             },
-        }
+        },
+        components: {
+            PasswordEye,
+            PulseLoader,
+        },
     }
 </script>

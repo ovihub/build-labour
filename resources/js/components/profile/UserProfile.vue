@@ -17,21 +17,24 @@
                         <div class="me-row">
                             <div class="role-col-left">
                                 <div class="emp-form-label">First Name</div>
-                                <input class="form-control" type="text" v-model="input.first_name" />
+                                <input class="form-control" type="text" v-model="input.first_name" 
+                                    @focus="hasFocus()" />
                             </div>
                             <div class="role-col-right">
                                 <div class="emp-form-label">Last Name</div>
-                                <input class="form-control" type="text" v-model="input.last_name" />
+                                <input class="form-control" type="text" v-model="input.last_name"
+                                    @focus="hasFocus()" />
                             </div>
                         </div>
 
                         <div class="emp-row">
                             <div class="modal-form-label">Location</div>
                             <input class="form-control" type="text" v-model="input.address"
+                                @focus="hasFocusLocation(true)"
                                 @keyup="onChangeLocation(input.address)" />
                         </div>
 
-                        <div class="emp-row" style="margin-top:0" v-if="locations.length > 0">
+                        <div class="emp-row" style="margin-top:0" v-if="has_focus_location && locations && locations.length > 0">
                             <ul class="list-group">
                                 <li class="list-group-item" v-for="(place, idx) in locations" :key="idx"
                                     @click="onSelectLocation(place.place_name)">
@@ -50,7 +53,7 @@
                         
                         <div class="skill-label">Education</div>
                         <div class="me-row">
-                            <select v-model="input.education_id">
+                            <select v-model="input.education_id" @focus="hasFocus()">
                                 <option value="" disabled selected v-if="educations.length == 0">No education added yet</option>
                                 <option v-for="(education, index) in educations" :key="index" v-bind:value="education.id">
                                     {{ education.course ? education.course.course_name: education.course_name }}
@@ -63,6 +66,7 @@
                         </div>
                         <div class="emp-row mt-3">
                             <input class="form-control" type="text" placeholder="Most Recent Role" v-model="input.most_recent_role"
+                                @focus="hasFocusRole(true)"
                                 @keyup="onSearchJob(input.most_recent_role)" />
                             
                             <span class="err-msg" v-if="errors.most_recent_role">
@@ -70,7 +74,7 @@
                             </span>
                         </div>
 
-                        <div class="emp-row" style="margin-top:0" v-if="job_roles.length > 0">
+                        <div class="emp-row" style="margin-top:0" v-if="has_focus_role && job_roles && job_roles.length > 0">
                             <ul class="list-group">
                                 <li class="list-group-item" v-for="(job, idx) in job_roles" :key="idx"
                                     @click="onSelectJob(job)">
@@ -83,11 +87,13 @@
                         <div class="me-label" style="margin-bottom:17px">Years Experience</div>
                         <div class="me-row">
                             <div class="role-col-left">
-                                <input class="form-control" type="text" placeholder="Years" v-model="input.exp_year" />
+                                <input class="form-control" type="text" placeholder="Years" v-model="input.exp_year"
+                                    @focus="hasFocus()" />
                             </div>
 
                             <div class="role-col-right">
-                                <input class="form-control" type="text" placeholder="Months" v-model="input.exp_month" />
+                                <input class="form-control" type="text" placeholder="Months" v-model="input.exp_month"
+                                    @focus="hasFocus()" />
                             </div>
                         </div>
 
@@ -96,7 +102,8 @@
                         </div>
                         <div class="bl-inline" v-for="(sector, index) in sectors_list" :key="index">
                             <input :id="'sector-styled-checkbox-'+index" class="styled-checkbox" type="checkbox"
-                                :value="sector.id" v-model="input.sectors" />
+                                :value="sector.id" v-model="input.sectors"
+                                @focus="hasFocus()" />
 
                             <label :for="'sector-styled-checkbox-'+index" style="width:125px">{{ sector.business_type }}</label>
                         </div>
@@ -106,7 +113,8 @@
                         </div>
                         <div class="bl-inline" v-for="(tier, index) in tiers_list" :key="index + sectors_list.length">
                             <input :id="'tier-styled-checkbox-'+index" class="styled-checkbox" type="checkbox"
-                                :value="tier.id" v-model="input.tiers" />
+                                :value="tier.id" v-model="input.tiers"
+                                @focus="hasFocus()" />
 
                             <label :for="'tier-styled-checkbox-'+index">{{ tier.tier_name }}</label>
                         </div>
@@ -173,7 +181,7 @@
                     </div>
                 </div>
 
-                <div class="row bl-label-15" style="margin-left:34px;color:#6b7172" v-if="tiers.length > 0">
+                <div class="row bl-label-15" style="margin-left:34px;color:#6b7172" v-if="tiers && tiers.length > 0">
                     <div class="bl-col-4">
                         <div class="bl-display" v-for="(tier, ti) in tiers" :key="ti">
                             {{ tier.tier_name }}
@@ -209,10 +217,17 @@
 
 <script>
     import Api from '@/api';
+    import Avatar from '../common/Avatar';
+    import MainModal from '../common/MainModal';
+    import PhotoModal from '../common/PhotoModal';
+    import EditIcon from '../common/EditIcon';
 
     export default {
+        name: "user-profile",
         data() {
             return {
+                has_focus_role: false,
+                has_focus_location: false,
                 editable: false,
                 disabled: false,
                 time_out: false,
@@ -261,7 +276,6 @@
                 },
             }
         },
-
         created() {
             let component = this;
 
@@ -306,9 +320,25 @@
 
             this.editable = Api.checkAuthUser();
         },
-
         methods: {
-            
+            hasFocus() {
+                this.has_focus_role = false;
+                this.has_focus_location = false;
+            },
+            hasFocusRole(has_focus) {
+                this.has_focus_role = has_focus;
+
+                if (has_focus) {
+                    this.has_focus_location = false;
+                }
+            },
+            hasFocusLocation(has_focus) {
+                this.has_focus_location = has_focus;
+
+                if (has_focus) {
+                    this.has_focus_role = false;
+                }
+            },
             setValues(details) {
                 this.profile_description = details.profile_description;
                 this.profile_photo_url = details.profile_photo_url;
@@ -328,7 +358,6 @@
                 this.course = details.education ? (details.education.course ? details.education.course.course_name: details.education.course_name) : '';
                 this.school = details.education ? details.education.school : '';
             },
-
             setDisplayValues(val, details) {
                 val.profile_description = details.profile_description;
                 val.first_name = details.first_name;
@@ -349,52 +378,30 @@
                     val.tiers.push(details.tiers[i].id);
                 }
             },
-            
             formatYearsExperience() {
                 return (this.exp_year ? (this.exp_year + (this.exp_year > 1 ? ' years' : ' year')) : '') +
                         ((this.exp_year && this.exp_month) ? ' and ' : '') + 
                         (this.exp_month ? (this.exp_month + (this.exp_month > 1 ? ' months' : ' month')) : '');
             },
-
             onClickProfilePhoto() {
                 if (this.editable) {
                     upload.click();
                 }
             },
-
             onFileChange(e) {
-                let files = e.target.files || e.dataTransfer.files;
-                
-                if (! files.length) {
-                    return;
-                }
-
-                let file = files[0],
-                    reader  = new FileReader();
-
-                reader.addEventListener('load', function() {
-                    
-                    Bus.$emit('imageToCrop', reader.result, 0, 'User');
-
-                }, false);
-
-                if (file) {
-                    reader.readAsDataURL(file);
-                }
+                Utils.onFileChange(e, 0, 'User');
             },
-
             textAreaAdjust(refName) {
+                this.hasFocus();
+
                 Utils.textAreaAdjust(this.$refs[refName]);
             },
-
             open() {
                 this.loadEducations();
             },
-
             close() {
                 this.setDisplayValues(this.input, this);
             },
-
             loadEducations() {
                 let component = this;
 
@@ -412,37 +419,32 @@
                         Utils.handleError(error);
                     });
             },
-
             onChangeLocation(keyword) {
-                let component = this;
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    this.locations = Api.getLocations(keyword);
                 
-                Promise.resolve(Api.getLocations(keyword)).then(function(data) {
-                    component.locations = (keyword != '' && (keyword && keyword.length > 0) && 
-                                            data.data && data.data.locations) ? 
-                                            data.data.locations.features : [];
-                });
+                } else {
+                    this.locations = [];
+                }
             },
-
             onSelectLocation(location) {
                 this.input.address = location;
                 
                 this.locations = [];
             },
-
             onSearchJob(keyword) {
-                let component = this;
-                
-                Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
-                    component.job_roles = data.data.job_roles;
-                });
-            },
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    this.job_roles = Api.getJobRoles(keyword);
 
+                } else {
+                    this.job_roles = [];
+                }
+            },
             onSelectJob(job) {
                 this.input.most_recent_role = job.job_role_name;
 
                 this.job_roles = [];
             },
-
             async submit() {
                 let component = this;
 
@@ -486,6 +488,12 @@
                 
                 this.disabled = false;
             },
-        }
+        },
+        components: {
+            Avatar,
+            MainModal,
+            PhotoModal,
+            EditIcon,
+        },
     }
 </script>

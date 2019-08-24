@@ -19,6 +19,7 @@ class CreateCompaniesTable extends Migration
             $table->integer('business_type_id')->unsigned()->nullable();
             $table->integer('tier_id')->unsigned()->nullable();
             $table->integer('main_company_id')->unsigned()->nullable();
+            $table->string('main_function_answer')->nullable();
             $table->string('photo_url')->nullable();
             $table->string('address')->nullable();
             $table->string('phone')->nullable();

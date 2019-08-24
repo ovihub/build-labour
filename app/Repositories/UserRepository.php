@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Mails\ResendVerificationCodeEmail;
+use App\Models\Companies\Answer;
 use App\Models\Companies\Company;
 use App\Models\Companies\CompanyPost;
 use App\Models\Companies\CompanySpecialized;
@@ -147,10 +148,10 @@ class UserRepository extends AbstractRepository
         $rules = [
             'company_name'  => 'required',
             'company_main_company_id'  => 'required|integer',
-            'company_secondary_functions' => 'required|array',
-            'company_business_type_id' => 'required|integer',
-            'company_tier_id' => 'required|integer',
-            'company_photo' => 'required|image64:jpeg,jpg,png',
+          //  'company_secondary_functions' => 'required|array',
+            'company_business_type_id' => 'nullable|integer',
+            'company_tier_id' => 'nullable|integer',
+            'company_photo' => 'nullable|image64:jpeg,jpg,png',
             'company_address'  => 'required',
             'company_contact_number' => 'required',
             'company_operate_outside_states' => 'required|boolean',
@@ -183,6 +184,20 @@ class UserRepository extends AbstractRepository
             return false;
         }
 
+        // insert new main function answer
+
+        $existingAnswer = Answer::where('answer', $request->company_main_function_answer)
+            ->where('main_function_id', $request->company_main_company_id)
+            ->exists();
+
+        if (!$existingAnswer && !empty($request->company_main_function_answer)) {
+
+            Answer::create([
+                'main_function_id' => $request->company_main_company_id,
+                'answer' => $request->company_main_function_answer
+            ]);
+        }
+
         // company specialize
 
         if ($request->company_secondary_functions && $request->company_main_company_id) {
@@ -201,7 +216,7 @@ class UserRepository extends AbstractRepository
         }
 
         // check company photo validation
-        if (!$this->company->uploadProfilePhoto($request)) {
+        if ($request->company_photo && !$this->company->uploadProfilePhoto($request)) {
 
             return false;
         }
