@@ -2,7 +2,7 @@
     <div class="profile-item-2">
         <div class="profile-content">
             
-            <!-- <span class="edit-icon"
+            <span class="edit-icon"
                 data-toggle="modal"
                 data-backdrop="static"
                 data-keyboard="false"
@@ -10,7 +10,7 @@
 
                 <img src="/img/icons/editbutton.png"
                     srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
-            </span> -->
+            </span>
             
             <div class="profile-title">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

@@ -2,7 +2,7 @@
     <div class="profile-item-2">
         <div class="profile-content">
             
-            <!-- <span class="edit-icon"
+            <span class="edit-icon"
                 data-toggle="modal"
                 data-backdrop="static"
                 data-keyboard="false"
@@ -10,7 +10,7 @@
 
                 <img src="/img/icons/editbutton.png"
                     srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
-            </span> -->
+            </span>
             
             <div class="profile-title">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -23,223 +23,61 @@
                 Job Details
             </div>
 
-            <div v-if="show">
-                <div class="job-header" v-if="title">
-                    {{ title }}
-                </div>
+            <div class="job-header" v-if="title">
+                {{ title }}
+            </div>
 
-                <div v-if="description">
-                    <div class="job-title">Job Description</div>
-                    <div class="job-body">
-                        {{ description }}
-                    </div>
-                </div>
-
-                <div v-if="about">
-                    <div class="job-title">About the Project</div>
-                    <div class="job-body">
-                        {{ about }}
-                    </div>
-                </div>
-
-                <div v-if="exp_level">
-                    <div class="job-title">Experience Level</div>
-                    <div class="job-body">
-                        {{ exp_level }} 
-                    </div>
-                </div>
-
-                <div v-if="contract_type">
-                    <div class="job-title">Contract type</div>
-                    <div class="job-body">
-                        {{ contract_type }}
-                    </div>
-                </div>
-
-                <div v-if="salary">
-                    <div class="job-title">Salary</div>
-                    <div class="job-body">
-                        $ - - - , - - - 
-                    </div>
-                </div>
-
-                <div v-if="reports_to && reports_to.length > 0">
-                    <div class="job-title">Reports to</div>
-                    <div class="job-body">
-                        <ul class="job-list-items-2">
-                            <li v-for="(item, index) in reports_to" :key="index">
-                                {{ item }}
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div v-if="location">
-                    <div class="job-title">Location</div>
-                    <div class="job-body">
-                        {{ location }}
-                    </div>
+            <div v-if="description">
+                <div class="job-title">Job Description</div>
+                <div class="job-body">
+                    {{ description }}
                 </div>
             </div>
 
-            <div v-else>
-                <form method="POST">
-                    <div class="form-group">
-                        <div class="job-title mb-2">Job Title</div>
+            <div v-if="about">
+                <div class="job-title">About the Project</div>
+                <div class="job-body">
+                    {{ about }}
+                </div>
+            </div>
 
-                        <input type="text" class="form-control" style="padding-left:24px" placeholder="Start typing"
-                            v-model="input.title"
-                            @keyup="onSearchJob(input.title)">
+            <div v-if="exp_level">
+                <div class="job-title">Experience Level</div>
+                <div class="job-body">
+                    {{ exp_level }} 
+                </div>
+            </div>
 
-                        <span class="err-msg" v-if="errors.title">
-                            {{ errors.title }}
-                        </span>
-                    </div>
+            <div v-if="contract_type">
+                <div class="job-title">Contract type</div>
+                <div class="job-body">
+                    {{ contract_type }}
+                </div>
+            </div>
 
-                    <div class="form-group" style="margin-top:0" v-if="input.title && job_roles && job_roles.length > 0">
-                        <ul class="list-group">
-                            <li class="list-group-item" v-for="(job, idx) in job_roles" :key="idx"
-                                @click="onSelectJob(job)">
-                                
-                                {{ job.job_role_name }}
-                            </li>
-                        </ul>
-                    </div>
+            <div v-if="salary">
+                <div class="job-title">Salary</div>
+                <div class="job-body">
+                    $ - - - , - - - 
+                </div>
+            </div>
 
-                    <div class="form-group">
-                        <div class="job-title">Job Description</div>
+            <div v-if="reports_to && reports_to.length > 0">
+                <div class="job-title">Reports to</div>
+                <div class="job-body">
+                    <ul class="job-list-items-2">
+                        <li v-for="(item, index) in reports_to" :key="index">
+                            {{ item }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-                        <textarea rows="5" ref="jobDesc" class="form-control" style="overflow:hidden"
-                            placeholder="Example: The Project Manager is accountable for the leadership and management of their nominated project including the achievement of safety, quality, commercial and programme objectives and the effective day to day management of the project team."
-                            @focus="textAreaAdjust('jobDesc')"
-                            @keyup="textAreaAdjust('jobDesc')"
-                            v-model="input.description">
-                        </textarea>
-
-                        <span class="err-msg" v-if="errors.description">
-                            {{ errors.description }}
-                        </span>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="job-title">About the project</div>
-
-                        <textarea rows="3" ref="jobAbout" class="form-control" style="overflow:hidden"
-                            placeholder="Example: $730 million Residential Skycraper comprising of 941 residential apartments and 208 serviced apartments across 88 storeys."
-                            @focus="textAreaAdjust('jobAbout')"
-                            @keyup="textAreaAdjust('jobAbout')"
-                            v-model="input.about">
-                        </textarea>
-
-                        <span class="err-msg" v-if="errors.about">
-                            {{ errors.about }}
-                        </span>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="job-title mb-2">Experience Level</div>
-
-                        <div class="me-row">
-                            <select v-model="input.exp_level">
-                                <option key="1" value="Entry Level">Entry Level</option>
-                                <option key="2" value="Intermediate">Intermediate</option>
-                                <option key="3" value="Junior">Junior</option>
-                                <option key="4" value="Senior">Senior</option>
-                            </select>
-
-                            <span class="err-msg" v-if="errors.exp_level">
-                                {{ errors.exp_level }}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="job-title mb-2">Contract Type</div>
-
-                        <div class="me-row">
-                            <select v-model="input.contract_type">
-                                <option key="1" value="Part-Time">Part-Time</option>
-                                <option key="2" value="Full-Time Permanent">Full-Time Permanent</option>
-                                <option key="3" value="Fixed-Term">Fixed-Term</option>
-                            </select>
-
-                            <span class="err-msg" v-if="errors.contract_type">
-                                {{ errors.contract_type }}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="job-title mb-2">Salary</div>
-
-                        <input type="text" class="form-control" style="padding-left:24px"
-                            v-model="input.salary" placeholder="Enter amount">
-
-                        <span class="err-msg" v-if="errors.salary">
-                            {{ errors.salary }}
-                        </span>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="job-title" style="margin-bottom:-18px">Reports To</div>
-
-                        <div class="form-group emp-row row-center"
-                            v-for="(to, index) in input.reports_to"
-                            :ref="'toItem-' + index"
-                            :key="index">
-
-                            <div class="comp-col-left">
-                                <input class="form-control" type="text" v-model="input.reports_to[index]"
-                                    @keyup="onSearchReportsTo(input.reports_to[index], index)"/>
-                            </div>
-
-                            <div class="comp-col-right">
-                                <span @click="removeEntity(index)">
-                                    <img src="/img/icons/remove.png"
-                                        srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x"
-                                        style="cursor:pointer">
-                                </span>
-                            </div>
-
-                            <div class="comp-col-left" style="margin-top:0;margin-left:-25px"
-                                v-if="reports_to_active_index == index && reports_to_job_roles && reports_to_job_roles.length > 0">
-
-                                <ul class="list-group">
-                                    <li class="list-group-item" v-for="(job, idx) in reports_to_job_roles" :key="idx"
-                                        @click="onSelectReportsTo(job)">
-                                        
-                                        {{ job.job_role_name }}
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="btn btn-link btn-delete"  @click="addNewEntity">
-                            Add new position
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="job-title mb-2">Location</div>
-
-                        <input type="text" class="form-control" style="padding-left:24px"
-                            v-model="input.location" placeholder="Start typing address..."
-                            @keyup="onChangeLocation(input.location)">
-
-                        <span class="err-msg" v-if="errors.location">
-                            {{ errors.location }}
-                        </span>
-                    </div>
-
-                    <div class="emp-row" style="margin-top:0" v-if="locations && locations.length > 0">
-                        <ul class="list-group">
-                            <li class="list-group-item" v-for="(place, idx) in locations" :key="idx"
-                                @click="onSelectLocation(place.place_name)">
-                                {{ place.place_name }}
-                            </li>
-                        </ul>
-                    </div>
-                </form>
+            <div v-if="location">
+                <div class="job-title">Location</div>
+                <div class="job-body">
+                    {{ location }}
+                </div>
             </div>
         </div>
     </div>
@@ -266,21 +104,8 @@
                 salary: '',
                 reports_to: [],
                 location: '',
-                input: {
-                    job_role_id: '', title: '', description: '', about: '', exp_level: '',
-                    contract_type: '', salary: '', reports_to: [], location: '',
-                },
-                errors: {
-                    title: '', description: '', about: '', exp_level: '',
-                    contract_type: '', salary: '', reports_to: '', location: '',
-                },
-                endpoints: {
-                    post: '/api/v1/job',
-                    save: '/api/v1/job/save-template',
-                },
             }
         },
-
         created() {
             let component = this;
 
@@ -295,126 +120,11 @@
                     component.reports_to = details.reports_to;
                     component.location = details.location;
                 
-                } else {
-                    component.show = false;
                 }
             });
-
-            Bus.$on('postJob', function(isTemplate) {
-                if (isTemplate) {
-                    component.submit(component.endpoints.save)
-                
-                } else {
-                    component.submit(component.endpoints.post);
-                }
-            });
-
-            this.input.reports_to.push('');
         },
-
         methods: {
-
-            textAreaAdjust(refName) {
-                Utils.textAreaAdjust(this.$refs[refName]);
-            },
-
-            onChangeLocation(keyword) {
-                if (keyword != '' && (keyword && keyword.length > 0)) {
-                    this.locations = Api.getLocations(keyword);
-                
-                } else {
-                    this.locations = [];
-                }
-            },
-
-            onSelectLocation(location) {
-                this.input.location = location;
-                
-                this.locations = [];
-            },
-
-            onSearchJob(keyword) {
-                this.input.job_role_id = '';
-
-                if (keyword != '' && (keyword && keyword.length > 0)) {
-                    this.job_roles = Api.getJobRoles(keyword);
-
-                } else {
-                    this.job_roles = [];
-                }
-            },
-
-            onSearchReportsTo(keyword, index) { 
-                if (keyword != '' && (keyword && keyword.length > 0)) {
-                    this.reports_to_job_roles = Api.getJobRoles(keyword);
-
-                } else {
-                    this.reports_to_job_roles = [];
-                }
-
-                this.reports_to_active_index = index;
-            },
             
-            onSelectReportsTo(job) {
-                this.input.reports_to[this.reports_to_active_index] = job.job_role_name;
-
-                this.reports_to_job_roles = [];
-            },
-
-            onSelectJob(job) {
-                this.input.job_role_id = job.id;
-                this.input.title = job.job_role_name;
-
-                this.job_roles = [];
-            },
-
-            addNewEntity() {
-                this.input.reports_to = this.input.reports_to.filter(r => r !== '');
-
-                this.input.reports_to.push('');
-            },
-
-            removeEntity(index) {
-                if (this.input.reports_to.length > 1) {
-                    this.input.reports_to.splice(index, 1);
-                }
-            },
-
-            async submit(endpoint) {
-                let component = this;
-
-                Utils.setObjectValues(this.errors, '');
-                
-                await axios.post(endpoint, component.$data.input, Utils.getBearerAuth())
-                    
-                    .then(function(response) {
-                        let data = response.data,
-                            job = data.data.job;
-                        
-                        if (job.is_template) {
-                            Bus.$emit('alertSuccess', data.message);
-                            
-                            Utils.setObjectValues(component.input, '');
-
-                        } else {
-                            window.location.href = '/job/view?cid=' + job.company_id + '&jid=' + job.id;
-                        }
-                    })
-                    .catch(function(error) {
-                        if (error.response) {
-                            let data = error.response.data;
-
-							for (let key in data.errors) {
-								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                            }
-                        }
-
-                        Utils.handleError(error);
-                    });
-
-                Bus.$emit('postedJob');
-            },
-
         }
     }
 </script>
