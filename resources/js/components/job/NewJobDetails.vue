@@ -118,12 +118,12 @@
                         :ref="'toItem-' + index"
                         :key="index">
 
-                        <div class="comp-col-left">
+                        <div class="job-col-left">
                             <input class="form-control" type="text" v-model="input.reports_to[index]"
                                 @keyup="onSearchReportsTo(input.reports_to[index], index)"/>
                         </div>
 
-                        <div class="comp-col-right">
+                        <div class="job-col-right">
                             <span @click="removeEntity(index)">
                                 <img src="/img/icons/remove.png"
                                     srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x"
@@ -131,7 +131,7 @@
                             </span>
                         </div>
 
-                        <div class="comp-col-left" style="margin-top: 0; margin-left: -25px;"
+                        <div class="job-col-left" style="margin-top: 0; margin-left: -15px;"
                             v-if="reports_to_active_index == index && reports_to_job_roles && reports_to_job_roles.length > 0">
 
                             <ul class="list-group">

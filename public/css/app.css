@@ -15714,6 +15714,26 @@ textarea.form-control:focus {
   box-shadow: 0 0 1px 0 #00aeef;
 }
 
+textarea.form-control:hover::-webkit-input-placeholder,
+textarea.form-control:focus::-webkit-input-placeholder {
+  padding-bottom: 16px;
+}
+
+textarea.form-control:hover:-ms-input-placeholder,
+textarea.form-control:focus:-ms-input-placeholder {
+  padding-bottom: 16px;
+}
+
+textarea.form-control:hover::-ms-input-placeholder,
+textarea.form-control:focus::-ms-input-placeholder {
+  padding-bottom: 16px;
+}
+
+textarea.form-control:hover::placeholder,
+textarea.form-control:focus::placeholder {
+  padding-bottom: 16px;
+}
+
 select {
   max-width: 100%;
   height: 56px;
@@ -16917,6 +16937,18 @@ ul.template-list li .template-list-item {
   text-align: center;
   flex: 0 0 8.5%;
   max-width: 8.5%;
+}
+
+.job-col-left {
+  flex: 0 0 96%;
+  max-width: 96%;
+  margin-right: 2%;
+}
+
+.job-col-right {
+  text-align: center;
+  flex: 0 0 2%;
+  max-width: 2%;
 }
 
 .emp-label {

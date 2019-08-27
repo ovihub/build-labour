@@ -193,7 +193,7 @@ window.Helper = {
             return years;
         },
         textAreaAdjust(o) {
-            o.style.height = '1px';
+            o.style.height = 'auto';
             o.style.height = (2 + o.scrollHeight) + 'px';
         },
         formatCheckbox(refs, input, refName, value) {

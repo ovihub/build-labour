@@ -17,11 +17,11 @@
                     <div class="job-title">Category Title</div>
 
                     <div class="form-group emp-row row-center">
-                        <div class="comp-col-left">
+                        <div class="job-col-left">
                             <input class="form-control" type="text" placeholder="Quality Management" />
                         </div>
 
-                        <div class="comp-col-right">
+                        <div class="job-col-right">
                             <span @click="onRemoveCategory(index)">
                                 <img src="/img/icons/remove.png"
                                     srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x"
@@ -33,11 +33,11 @@
                     <div class="job-title">Points</div>
 
                     <div class="form-group emp-row row-center">
-                        <div class="comp-col-left">
+                        <div class="job-col-left">
                             <input class="form-control" type="text" placeholder="Quality Management" />
                         </div>
 
-                        <div class="comp-col-right">
+                        <div class="job-col-right">
                             <span @click="onRemovePoint(index)">
                                 <img src="/img/icons/remove.png"
                                     srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x"

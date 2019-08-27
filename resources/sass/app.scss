@@ -73,6 +73,10 @@ textarea.form-control {
     outline: none !important;
     border: 1px solid $brand;
     box-shadow: 0 0 1px 0 $brand;
+
+    &::placeholder {
+      padding-bottom: 16px;
+    }
   }
 }
 select {
@@ -1152,6 +1156,16 @@ ul.template-list {
   text-align: center;
   flex: 0 0 8.5%;
   max-width: 8.5%;
+}
+.job-col-left {
+  flex: 0 0 96%;
+  max-width: 96%;
+  margin-right: 2%;
+}
+.job-col-right {
+  text-align: center;
+  flex: 0 0 2%;
+  max-width: 2%;
 }
 .emp-label {
   font-size: 16px;

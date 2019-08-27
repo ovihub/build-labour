@@ -22,12 +22,12 @@
                         :ref="'toItem-' + index"
                         :key="index"> -->
 
-                        <div class="comp-col-left">
+                        <div class="job-col-left">
                             <input class="form-control" type="text" placeholder="Course Type"
                                 @keyup="onSearchCourse()"/>
                         </div>
 
-                        <div class="comp-col-right">
+                        <div class="job-col-right">
                             <span @click="onRemoveQualification(index)">
                                 <img src="/img/icons/remove.png"
                                     srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x"
@@ -35,7 +35,7 @@
                             </span>
                         </div>
 
-                        <div class="comp-col-left" style="margin-top:0;margin-left:-25px">
+                        <div class="job-col-left" style="margin-top: 0; margin-left: -15px">
                             <ul class="list-group">
                                 <li class="list-group-item" v-for="(course, idx) in courses" :key="idx"
                                     @click="onSelectCourse(course)">
@@ -183,7 +183,6 @@
                 let vm = this;
 
                 Promise.resolve(Api.getTickets(keyword)).then(function(data) {
-                    console.log(data)
                     vm.searchedTickets = (vm.keyword != '') ? data : [];
                 });
             },
