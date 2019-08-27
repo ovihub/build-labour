@@ -40,37 +40,25 @@ class DatabaseRerun extends Command
      */
     public function handle()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        $tables = DB::select('SHOW TABLES');
-        $tableName = 'Tables_in_' . env('DB_DATABASE');
 
-        if (Schema::hasTable('user_skills')) {
+        $confirm = readline("Are you sure you want to reset the DB? Please enter 'build_labour' to confirm: ");
 
-            Schema::drop('user_skills');
+        if (trim($confirm) != 'build_labour') {
 
+            echo "\n";
+            echo 'DB reset unsuccessful';
+            exit;
         }
 
-        print_r($tables);
+        echo 'You enter: '. $confirm . "\n";
+        echo 'Restting DB.....';
 
-        foreach($tables as $table){
+        DB::statement('DROP DATABASE ' . env('DB_DATABASE'));
+        DB::statement('CREATE DATABASE ' . env('DB_DATABASE'));
 
-            if (Schema::hasTable($table->{$tableName})) {
-
-                Schema::drop($table->{$tableName});
-                echo 'Table '.$table->{$tableName}.' Droped. <br>';
-            }
-
-        }
-
-        echo $output = shell_exec('php artisan migrate');
-
-        sleep(2/700);
-
-        if ($output) {
-
-            echo shell_exec('php artisan db:seed');
-        }
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        sleep(5/700);
+        echo shell_exec('php artisan migrate');
+        echo shell_exec('php artisan db:seed');
+        echo shell_exec('php artisan l5-swagger:generate');
     }
 }
