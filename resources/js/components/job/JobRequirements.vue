@@ -81,13 +81,13 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('jobRequirementsDetails', function(detailsArray) {
                 if (detailsArray && detailsArray.length != 0) {
-                    component.qualifications = detailsArray[0].items;
-                    component.experience = detailsArray[1].items;
-                    component.skills = detailsArray[2].items;
+                    vm.qualifications = detailsArray[0].items;
+                    vm.experience = detailsArray[1].items;
+                    vm.skills = detailsArray[2].items;
                 }
             });
         },

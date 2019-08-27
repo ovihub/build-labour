@@ -31,17 +31,17 @@
 		methods: {
 			
 			viewRecord() {
-				let component = this;
+				let vm = this;
 
 				axios.get(app.endpoints.get, Utils.getBearerAuth())
 					
 					.then(function(response) {
-						component.record = response.data.data.user;
+						vm.record = response.data.data.user;
 						
-						delete component.record.date_created_at;
-						delete component.record.date_updated_at;
-						delete component.record.date_email_verified_at;
-						delete component.record.deleted_at;
+						delete vm.record.date_created_at;
+						delete vm.record.date_updated_at;
+						delete vm.record.date_email_verified_at;
+						delete vm.record.deleted_at;
 					})
 					.catch(function(error) {
 

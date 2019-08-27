@@ -45,57 +45,57 @@
 		},
 
 		created() {
-			let component = this;
+			let vm = this;
 
 			Bus.$on('deleteAboutMe', function() {
-				component.action = 'AboutMe';
-				component.endpoints.delete = '';
+				vm.action = 'AboutMe';
+				vm.endpoints.delete = '';
 			});
 
 			Bus.$on('deleteIdealRole', function() {
-				component.action = 'IdealRole';
-				component.endpoints.delete = '';
+				vm.action = 'IdealRole';
+				vm.endpoints.delete = '';
 			});
 
 			Bus.$on('deleteEmployment', function(index, endpoint) {
-				component.action = 'Employment';
-				component.index = index;
-				component.endpoints.delete = endpoint;
+				vm.action = 'Employment';
+				vm.index = index;
+				vm.endpoints.delete = endpoint;
 			});
 
 			Bus.$on('deleteEducation', function(index, endpoint) {
-				component.action = 'Education';
-				component.index = index;
-				component.endpoints.delete = endpoint;
+				vm.action = 'Education';
+				vm.index = index;
+				vm.endpoints.delete = endpoint;
 			});
 
 			Bus.$on('deleteIndustrySkill', function(endpoint) {
-				component.action = 'IndustrySkill';
-				component.endpoints.delete = endpoint;
+				vm.action = 'IndustrySkill';
+				vm.endpoints.delete = endpoint;
 			});
 
 			Bus.$on('deleteTicket', function(endpoint) {
-				component.action = 'Ticket';
-				component.endpoints.delete = endpoint;
+				vm.action = 'Ticket';
+				vm.endpoints.delete = endpoint;
 			});
 
 			Bus.$on('deletePhoto', function(id) {
-				component.action = 'Photo';
-				component.endpoints.delete = '/api/v1/admin/user/photo/delete';
-				component.record.id = id;
+				vm.action = 'Photo';
+				vm.endpoints.delete = '/api/v1/admin/user/photo/delete';
+				vm.record.id = id;
 			});
 		},
 
 		methods: {
 			
 			async deleteRecord() {
-				let component = this;
+				let vm = this;
 
 				this.disabled = true;
 				
 				if (this.action == 'Employment' || this.action == 'Education' || this.action == 'IndustrySkill' || this.action == 'Ticket') {
 
-					await axios.delete(component.endpoints.delete, Utils.getBearerAuth())
+					await axios.delete(vm.endpoints.delete, Utils.getBearerAuth())
 
 						.then(function(response) {
 							let data = response.data;
@@ -103,11 +103,11 @@
 							if (data.success) {
 								$('#deleteRecordModal').modal('hide');
 								
-								if (component.action == 'Education') {
-									Bus.$emit('remove' + component.action, component.index, component.endpoints.delete.split('/').pop());
+								if (vm.action == 'Education') {
+									Bus.$emit('remove' + vm.action, vm.index, vm.endpoints.delete.split('/').pop());
 								
 								} else {
-									Bus.$emit('remove' + component.action, component.index);
+									Bus.$emit('remove' + vm.action, vm.index);
 								}
 							}
 						}).catch(function(error) {
@@ -117,7 +117,7 @@
 				
 				} else if (this.action == 'Photo') {
 
-					await axios.delete(component.endpoints.delete, Utils.getBearerAuth(component.$data.record))
+					await axios.delete(vm.endpoints.delete, Utils.getBearerAuth(vm.$data.record))
 
 						.then(function(response) {
 							let data = response.data;
@@ -135,7 +135,7 @@
 				} else {
 					$('#deleteRecordModal').modal('hide');
 
-					Bus.$emit('remove' + component.action);
+					Bus.$emit('remove' + vm.action);
 				}
 				
 				this.disabled = false;

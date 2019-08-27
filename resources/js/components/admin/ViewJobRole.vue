@@ -54,19 +54,19 @@
 		},
 		
 		created() {
-			let component = this;
+			let vm = this;
 
             Bus.$on('datatableViewJobRole', function(id){
-                component.show = true;
+                vm.show = true;
                 
                 if (id != 0) {
-                    component.endpoints.get = '/api/v1/admin/job/roles/' + id;
+                    vm.endpoints.get = '/api/v1/admin/job/roles/' + id;
 
-                    component.viewRecord();
+                    vm.viewRecord();
                 
                 } else {
 
-                    Utils.setObjectValues(component.record, '');
+                    Utils.setObjectValues(vm.record, '');
 
                 }
             });
@@ -76,13 +76,13 @@
 		methods: {
 			
 		  	viewRecord() {
-				let component = this;
+				let vm = this;
 
-				axios.get(component.endpoints.get, Utils.getBearerAuth())
+				axios.get(vm.endpoints.get, Utils.getBearerAuth())
 
                     .then(function(response) {
                         
-                        component.record = response.data.data.role;
+                        vm.record = response.data.data.role;
 
                     })
                     .catch(function(error) {
@@ -105,24 +105,24 @@
 
             async submit() {
 
-                let component = this;
+                let vm = this;
 
                 Utils.setObjectValues(this.errors, '');
 
                 this.disabled = true;
 
-                await axios.post(component.endpoints.save, component.$data.record, Utils.getBearerAuth())
+                await axios.post(vm.endpoints.save, vm.$data.record, Utils.getBearerAuth())
 
                     .then(function(response) {
 
-                        Bus.$emit('adminSaveChanges', component.record.id);
+                        Bus.$emit('adminSaveChanges', vm.record.id);
                     })
                     .catch(function(error) {
                         if (error.response) {
                             let data = error.response.data;
 
 							for (let key in data.errors) {
-								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+								vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
                             }
                         }
 

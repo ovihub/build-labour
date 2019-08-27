@@ -50,33 +50,33 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('educationDetails', function(detailsArray) {
-                component.educations = detailsArray;
+                vm.educations = detailsArray;
             });
 
             Bus.$on('updateEducation', function(index, details) {
                 if (index == -1) {
-                    component.educations.push(details);
+                    vm.educations.push(details);
                 
                 } else {
-                    if (details.school_name !== component.educations[index].school &&
+                    if (details.school_name !== vm.educations[index].school &&
                         window.location.pathname == '/user/profile') {
                         
                         Api.redirectToProfile();
                     }
 
-                    component.educations[index] = details;
+                    vm.educations[index] = details;
 
-                    component.$refs['eduCourse-' + index][0].textContent = details.course ? details.course.course_name : details.course_name;
-                    component.$refs['eduSchool-' + index][0].textContent = details.school;
-                    component.$refs['eduPeriod-' + index][0].textContent = component.formatPeriod(details);
+                    vm.$refs['eduCourse-' + index][0].textContent = details.course ? details.course.course_name : details.course_name;
+                    vm.$refs['eduSchool-' + index][0].textContent = details.school;
+                    vm.$refs['eduPeriod-' + index][0].textContent = vm.formatPeriod(details);
                 }
             });
 
             Bus.$on('removeEducation', function(index, id) {
-                component.educations.splice(index, 1);
+                vm.educations.splice(index, 1);
             });
         },
         methods: {

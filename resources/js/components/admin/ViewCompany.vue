@@ -78,16 +78,16 @@
 			}
 		},
 		created() {
-			let component = this;
+			let vm = this;
 
             Bus.$on('datatableViewCompany', function(id){
-                component.record_id = id;
-                component.endpoints.get = '/api/v1/admin/company/get?id=' + id;
-                component.viewRecord();
+                vm.record_id = id;
+                vm.endpoints.get = '/api/v1/admin/company/get?id=' + id;
+                vm.viewRecord();
             });
             
             Bus.$on('croppedPhoto', function (profile_photo_url) {
-                component.record.profile_photo_url = profile_photo_url;
+                vm.record.profile_photo_url = profile_photo_url;
             });
 
             Bus.$on('closePhotoModal', function() {
@@ -96,13 +96,13 @@
 		},
 		methods: {
 		  	viewRecord() {
-				let component = this;
+				let vm = this;
 
-				axios.get(component.endpoints.get, Utils.getBearerAuth())
+				axios.get(vm.endpoints.get, Utils.getBearerAuth())
 
                     .then(function(response) {
                         
-                        component.record = response.data.data.record;
+                        vm.record = response.data.data.record;
                     })
                     .catch(function(error) {
                         

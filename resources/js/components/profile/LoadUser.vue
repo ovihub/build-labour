@@ -59,65 +59,65 @@
         methods: {
             
             getUser() {
-                let component = this;
+                let vm = this;
 
-                axios.get(component.endpointGet, Utils.getBearerAuth())
+                axios.get(vm.endpointGet, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         let user = response.data.data.user;
 
-                        component.profile = {};
-                        component.profile.profile_photo_url = user.profile_photo_url;
-                        component.profile.profile_description = user.worker_detail ? user.worker_detail.profile_description : '';
-                        component.profile.first_name = user.first_name;
-                        component.profile.last_name = user.last_name;
-                        component.profile.email = user.email;
-                        component.profile.is_verified = user.is_verified;
-                        component.profile.address = user.address;
-                        component.profile.education_id = user.worker_detail.education_id;
-                        component.profile.education = user.worker_detail.education;
-                        component.profile.sectors = user.worker_detail.sectors;
-                        component.profile.tiers = user.worker_detail.tiers;
-                        component.profile.most_recent_role = user.worker_detail.most_recent_role;
-                        component.profile.exp_year = user.worker_detail.exp_year;
-                        component.profile.exp_month = user.worker_detail.exp_month;
-                        component.profile.job_role = (user.experiences[0] && user.experiences[0].job) ?
+                        vm.profile = {};
+                        vm.profile.profile_photo_url = user.profile_photo_url;
+                        vm.profile.profile_description = user.worker_detail ? user.worker_detail.profile_description : '';
+                        vm.profile.first_name = user.first_name;
+                        vm.profile.last_name = user.last_name;
+                        vm.profile.email = user.email;
+                        vm.profile.is_verified = user.is_verified;
+                        vm.profile.address = user.address;
+                        vm.profile.education_id = user.worker_detail.education_id;
+                        vm.profile.education = user.worker_detail.education;
+                        vm.profile.sectors = user.worker_detail.sectors;
+                        vm.profile.tiers = user.worker_detail.tiers;
+                        vm.profile.most_recent_role = user.worker_detail.most_recent_role;
+                        vm.profile.exp_year = user.worker_detail.exp_year;
+                        vm.profile.exp_month = user.worker_detail.exp_month;
+                        vm.profile.job_role = (user.experiences[0] && user.experiences[0].job) ?
                                                         user.experiences[0].job.title :
                                                         (user.experiences[0]) ? user.experiences[0].job_role : '';
-                        component.profile.company_name = (user.experiences[0] && user.experiences[0].company) ? 
+                        vm.profile.company_name = (user.experiences[0] && user.experiences[0].company) ? 
                                                             user.experiences[0].company.name : 
                                                             (user.experiences[0]) ? user.experiences[0].company_name : '';
 
-                        component.about_me = {};
-                        component.about_me_general.gender = user.gender;
-                        component.about_me_general.date_of_birth = user.date_of_birth;
-                        component.about_me_general.country_birth = user.country_birth;
-                        // component.about_me_general.marital_status = user.marital_status;
+                        vm.about_me = {};
+                        vm.about_me_general.gender = user.gender;
+                        vm.about_me_general.date_of_birth = user.date_of_birth;
+                        vm.about_me_general.country_birth = user.country_birth;
+                        // vm.about_me_general.marital_status = user.marital_status;
 
-                        component.about_me_technical.right_to_work = user.worker_detail.right_to_work;
-                        component.about_me_technical.has_tfn = user.worker_detail.has_tfn;
-                        component.about_me_technical.has_abn = user.worker_detail.has_abn;
-                        component.about_me_technical.english_skill = user.worker_detail.english_skill;
-                        component.about_me_technical.drivers_license = user.worker_detail.drivers_license;
-                        component.about_me_technical.has_registered_vehicle = user.worker_detail.has_registered_vehicle;
+                        vm.about_me_technical.right_to_work = user.worker_detail.right_to_work;
+                        vm.about_me_technical.has_tfn = user.worker_detail.has_tfn;
+                        vm.about_me_technical.has_abn = user.worker_detail.has_abn;
+                        vm.about_me_technical.english_skill = user.worker_detail.english_skill;
+                        vm.about_me_technical.drivers_license = user.worker_detail.drivers_license;
+                        vm.about_me_technical.has_registered_vehicle = user.worker_detail.has_registered_vehicle;
 
-                        component.ideal_role = user.worker_detail;
-                        component.ideal_role.countries = user.country;
+                        vm.ideal_role = user.worker_detail;
+                        vm.ideal_role.countries = user.country;
                         
-                        component.employments = user.experiences;
-                        component.educations = user.educations;
-                        component.tickets = user.tickets;
-                        component.industry_skills = user.skills;
+                        vm.employments = user.experiences;
+                        vm.educations = user.educations;
+                        vm.tickets = user.tickets;
+                        vm.industry_skills = user.skills;
 
                         Bus.$emit('profileAvatarDetails', user.first_name.charAt(0) + user.last_name.charAt(0));
-                        Bus.$emit('userProfileDetails', component.profile);
-                        Bus.$emit('aboutMeGeneralDetails', component.about_me_general);
-                        Bus.$emit('aboutMeTechnicalDetails', component.about_me_technical);
-                        Bus.$emit('idealRoleDetails', component.ideal_role);
-                        Bus.$emit('employmentDetails', component.employments);
-                        Bus.$emit('educationDetails', component.educations);
-                        Bus.$emit('ticketsDetails', component.tickets, user.worker_detail.has_whitecard);
-                        Bus.$emit('industrySkillsDetails', component.industry_skills, user.worker_detail ? user.worker_detail.main_skill : '');
+                        Bus.$emit('userProfileDetails', vm.profile);
+                        Bus.$emit('aboutMeGeneralDetails', vm.about_me_general);
+                        Bus.$emit('aboutMeTechnicalDetails', vm.about_me_technical);
+                        Bus.$emit('idealRoleDetails', vm.ideal_role);
+                        Bus.$emit('employmentDetails', vm.employments);
+                        Bus.$emit('educationDetails', vm.educations);
+                        Bus.$emit('ticketsDetails', vm.tickets, user.worker_detail.has_whitecard);
+                        Bus.$emit('industrySkillsDetails', vm.industry_skills, user.worker_detail ? user.worker_detail.main_skill : '');
                     })
                     .catch(function(error) {
 

@@ -37,11 +37,11 @@
         methods: {
 
             async uploadPhoto() {
-                let component = this;
+                let vm = this;
 
-                component.disabled = true;
+                vm.disabled = true;
 
-                await axios.post(component.endpoints.upload, { photo: component.photo }, Utils.getBearerAuth())
+                await axios.post(vm.endpoints.upload, { photo: vm.photo }, Utils.getBearerAuth())
 
                     .then(function(response) {
                         let data = response.data;
@@ -53,7 +53,7 @@
                         Utils.handleError(error);
                     });
                 
-                component.disabled = false;
+                vm.disabled = false;
             },
 
             onFileChange(e) {
@@ -65,11 +65,11 @@
             },
 
             createImage(file) {
-                let component = this;
+                let vm = this;
                 let reader = new FileReader();
 
                 reader.onload = (e) => {
-                    component.photo = e.target.result;
+                    vm.photo = e.target.result;
                 };
 
                 reader.readAsDataURL(file);

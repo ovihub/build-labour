@@ -74,10 +74,10 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('activateTab', function(tabName) {
-                component.$refs['nav-' + tabName].style = 'opacity: 1';
+                vm.$refs['nav-' + tabName].style = 'opacity: 1';
             });
         },
         methods: {

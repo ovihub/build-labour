@@ -80,10 +80,10 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('onboardingSubmitEmploymentHistory', function(saveInput) {
-                Api.submit(component.endpoints.save, saveInput ? saveInput : component.$data.input);
+                Api.submit(vm.endpoints.save, saveInput ? saveInput : vm.$data.input);
             });
         },
         methods: {

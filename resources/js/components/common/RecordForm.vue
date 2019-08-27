@@ -87,34 +87,34 @@
 			},
 			
 			async submit() {
-                let component = this;
+                let vm = this;
 
-				Utils.setObjectValues(component.errors, '');
-				component.inputted = component.input;
-                component.disabled = true;
+				Utils.setObjectValues(vm.errors, '');
+				vm.inputted = vm.input;
+                vm.disabled = true;
 
-                await axios.post(component.saveEndpoint, component.$data.inputted, Utils.getBearerAuth())
+                await axios.post(vm.saveEndpoint, vm.$data.inputted, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         let data = response.data;
 						
-						Bus.$emit(component.title, component.inputted);
+						Bus.$emit(vm.title, vm.inputted);
 						
-						$('#modal' + component.title).modal('hide');
+						$('#modal' + vm.title).modal('hide');
                     })
                     .catch(function(error) {
                         if (error.response) {
                             let data = error.response.data;
 
 							for (let key in data.errors) {
-								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+								vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
                             }
                         }
 
                         Utils.handleError(error);
                     });
                 
-                component.disabled = false;
+                vm.disabled = false;
             },
 	 	}
 	}

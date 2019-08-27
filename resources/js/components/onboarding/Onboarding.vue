@@ -128,12 +128,12 @@
             orientation: 'setCssVars',
         },
         created() {
-            let component = this;
+            let vm = this;
 
             setTimeout(function() {
-                component.$sections = component.$refs['compCardWrapper'].querySelectorAll('li');
-                component.max = component.$sections.length;
-                component.goToStep(1);
+                vm.$sections = vm.$refs['compCardWrapper'].querySelectorAll('li');
+                vm.max = vm.$sections.length;
+                vm.goToStep(1);
             }, 1);
         },
         methods: {

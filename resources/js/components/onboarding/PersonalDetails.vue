@@ -78,56 +78,56 @@
         },
 
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('aboutMeGeneralDetails', function(details) {
                 if (details) {
-                    component.input.gender = details.gender;
-                    component.input.date_of_birth = details.date_of_birth;
-                    component.input.country_birth = details.country_birth;
+                    vm.input.gender = details.gender;
+                    vm.input.date_of_birth = details.date_of_birth;
+                    vm.input.country_birth = details.country_birth;
 
                     if (! Utils.isNullOrEmpty(details.date_of_birth)) {
                         let d = new Date(details.date_of_birth);
 
-                        component.birthDay = d.getDate();
-                        component.birthMonth = d.getMonth() + 1;
-                        component.birthYear = d.getFullYear();
+                        vm.birthDay = d.getDate();
+                        vm.birthMonth = d.getMonth() + 1;
+                        vm.birthYear = d.getFullYear();
 
-                        component.days = Utils.getDaysInMonth(component.birthMonth, component.birthYear);
+                        vm.days = Utils.getDaysInMonth(vm.birthMonth, vm.birthYear);
                     
                     } else {
                         let d = new Date();
 
-                        component.birthDay = d.getDate();
-                        component.birthMonth = d.getMonth() + 1;
-                        component.birthYear = d.getFullYear() - 18;
+                        vm.birthDay = d.getDate();
+                        vm.birthMonth = d.getMonth() + 1;
+                        vm.birthYear = d.getFullYear() - 18;
 
-                        component.days = Utils.getDaysInMonth(component.birthMonth, component.birthYear);
+                        vm.days = Utils.getDaysInMonth(vm.birthMonth, vm.birthYear);
                     }
                 }
             });
 
             Bus.$on('onboardingSubmitPersonalDetails', function(action) {
                 if (action == 'clear') {
-                    Utils.setObjectValues(component.input, null);
+                    Utils.setObjectValues(vm.input, null);
                 
                 } else {
-                    component.input.date_of_birth = component.birthYear + '-' + component.birthMonth + '-' + component.birthDay;
+                    vm.input.date_of_birth = vm.birthYear + '-' + vm.birthMonth + '-' + vm.birthDay;
 
-                    if (! component.birthYear && ! component.birthMonth && ! component.birthDay) {
-                        component.input.date_of_birth = '';
+                    if (! vm.birthYear && ! vm.birthMonth && ! vm.birthDay) {
+                        vm.input.date_of_birth = '';
                     }
                 }
 
-                Api.submit(component.endpoints.save, component.$data.input);
+                Api.submit(vm.endpoints.save, vm.$data.input);
 
-                Bus.$emit('aboutMeGeneralDetails', component.input);
+                Bus.$emit('aboutMeGeneralDetails', vm.input);
             });
 
             this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);
             
             Promise.resolve(Api.getCountries()).then(function(data) {
-                component.countries = data.data.countries;
+                vm.countries = data.data.countries;
             });
         },
 

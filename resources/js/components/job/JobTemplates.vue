@@ -90,30 +90,30 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('jobDetails', function(details) {
                 if (details) {
-                    component.title = details.title ? details.title : details.job_role.job_role_name;
-                    component.description = details.description;
-                    component.about = details.about;
-                    component.exp_level = details.exp_level;
-                    component.contract_type = details.contract_type;
-                    component.salary = details.salary;
-                    component.reports_to = details.reports_to;
-                    component.location = details.location;
+                    vm.title = details.title ? details.title : details.job_role.job_role_name;
+                    vm.description = details.description;
+                    vm.about = details.about;
+                    vm.exp_level = details.exp_level;
+                    vm.contract_type = details.contract_type;
+                    vm.salary = details.salary;
+                    vm.reports_to = details.reports_to;
+                    vm.location = details.location;
                 
                 } else {
-                    component.show = false;
+                    vm.show = false;
                 }
             });
 
             Bus.$on('postJob', function(isTemplate) {
                 if (isTemplate) {
-                    component.submit(component.endpoints.save)
+                    vm.submit(vm.endpoints.save)
                 
                 } else {
-                    component.submit(component.endpoints.post);
+                    vm.submit(vm.endpoints.post);
                 }
             });
 
@@ -124,10 +124,10 @@
                 Utils.textAreaAdjust(this.$refs[refName]);
             },
             onChangeLocation(keyword) {
-                let component = this;
+                let vm = this;
 
                 Promise.resolve(Api.getLocations(keyword)).then(function(data) {
-                    component.locations = (keyword != '' && (keyword && keyword.length > 0) && 
+                    vm.locations = (keyword != '' && (keyword && keyword.length > 0) && 
                                             data.data && data.data.locations && data.data.locations.features) ? 
                                             data.data.locations.features : [];
                 });
@@ -140,17 +140,17 @@
             onSearchJob(keyword) {
                 this.input.job_role_id = '';
 
-                let component = this;
+                let vm = this;
                 
                 Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
-                    component.job_roles = data.data ? data.data.job_roles : [];
+                    vm.job_roles = data.data ? data.data.job_roles : [];
                 });
             },
             onSearchReportsTo(keyword, index) { 
-                let component = this;
+                let vm = this;
                 
                 Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
-                    component.reports_to_job_roles = data.data ? data.data.job_roles : [];
+                    vm.reports_to_job_roles = data.data ? data.data.job_roles : [];
                 });
 
                 this.reports_to_active_index = index;
@@ -177,11 +177,11 @@
                 }
             },
             async submit(endpoint) {
-                let component = this;
+                let vm = this;
 
                 Utils.setObjectValues(this.errors, '');
                 
-                await axios.post(endpoint, component.$data.input, Utils.getBearerAuth())
+                await axios.post(endpoint, vm.$data.input, Utils.getBearerAuth())
                     
                 .then(function(response) {
                     let data = response.data,
@@ -190,7 +190,7 @@
                     if (job.is_template) {
                         Bus.$emit('alertSuccess', data.message);
                         
-                        Utils.setObjectValues(component.input, '');
+                        Utils.setObjectValues(vm.input, '');
 
                     } else {
                         window.location.href = '/job/view?cid=' + job.company_id + '&jid=' + job.id;
@@ -201,7 +201,7 @@
                         let data = error.response.data;
 
                         for (let key in data.errors) {
-                            component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                            vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
                         }
                     }
 

@@ -152,11 +152,11 @@
         },
 
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('industrySkillsDetails', function(detailsArray, skillsIntro) {
-                component.main_skill = skillsIntro;
-                component.user_skills = detailsArray.map(function(skill) {
+                vm.main_skill = skillsIntro;
+                vm.user_skills = detailsArray.map(function(skill) {
                     return { 
                         sid: skill.skill_id,
                         sname: skill.skill_name,
@@ -166,21 +166,21 @@
                 });
 
                 if (detailsArray.length == 0) {
-                    component.is_empty = true;
+                    vm.is_empty = true;
 
                 } else {
-                    component.input.skills = detailsArray;
+                    vm.input.skills = detailsArray;
                 }
 
-                component.input.main_skill = component.main_skill;
+                vm.input.main_skill = vm.main_skill;
 
-                component.display();
+                vm.display();
             });
 
             Bus.$on('removeIndustrySkill', function() {
-                component.main_skill = '';
-                component.user_skills = [];
-                component.display();
+                vm.main_skill = '';
+                vm.user_skills = [];
+                vm.display();
             });
         },
 
@@ -233,23 +233,23 @@
             },
 
             async submit() {
-                let component = this;
+                let vm = this;
 
-				Utils.setObjectValues(component.errors, '');
+				Utils.setObjectValues(vm.errors, '');
                 
-                component.disabled = true;
+                vm.disabled = true;
 
-                await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
+                await axios.post(vm.endpoints.save, vm.$data.input, Utils.getBearerAuth())
                     
                 .then(function(response) {
                     let data = response.data;
                     
                     $('#modalIndustrySkill').modal('hide');
                     
-                    component.is_empty = false;
+                    vm.is_empty = false;
                     
-                    component.main_skill = data.data.main_skill;
-                    component.user_skills = data.data.skills.map(function(skill) {
+                    vm.main_skill = data.data.main_skill;
+                    vm.user_skills = data.data.skills.map(function(skill) {
                         return { 
                             sid: skill.skill_id,
                             sname: skill.skill_name,
@@ -258,15 +258,15 @@
                         };
                     });
 
-                    component.display();
+                    vm.display();
                 
                 }).catch(function(error) {
                     let inputErrors = Utils.handleError(error);
             
-                    if (inputErrors) component.errors = inputErrors;
+                    if (inputErrors) vm.errors = inputErrors;
                 });
                 
-                component.disabled = false;
+                vm.disabled = false;
             },
 
         },

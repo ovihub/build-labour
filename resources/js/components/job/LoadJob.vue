@@ -21,7 +21,7 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             if (Utils.getUrlParams().jid) {
                 this.endpoints.get = this.endpoints.get + Utils.getUrlParams().cid + '/jobs/' + Utils.getUrlParams().jid;
@@ -34,9 +34,9 @@
         },
         methods: {
             getJob() {
-                let component = this;
+                let vm = this;
 
-                axios.get(component.endpoints.get, Utils.getBearerAuth())
+                axios.get(vm.endpoints.get, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         if (Utils.getUrlParams().jid) {
@@ -46,46 +46,46 @@
                                 if (job.company) {
                                     Bus.$emit('profileAvatarDetails', Utils.getInitials(job.company.name));
                                     
-                                    component.summary.id = job.company.id;
-                                    component.summary.photo_url = job.company.photo_url;
-                                    component.summary.name = job.company.name;
-                                    component.summary.address = job.company.address;
-                                    component.summary.introduction = job.company.introduction;
+                                    vm.summary.id = job.company.id;
+                                    vm.summary.photo_url = job.company.photo_url;
+                                    vm.summary.name = job.company.name;
+                                    vm.summary.address = job.company.address;
+                                    vm.summary.introduction = job.company.introduction;
                                 }
                                 
-                                component.job_details.job_role = job.job_role;
-                                component.job_details.title = job.title;
-                                component.job_details.description = job.description;
-                                component.job_details.about = job.about;
-                                component.job_details.exp_level = job.exp_level;
-                                component.job_details.contract_type = job.contract_type;
-                                component.job_details.salary = job.salary;
-                                component.job_details.reports_to = job.reports_to;
-                                component.job_details.location = job.location;
+                                vm.job_details.job_role = job.job_role;
+                                vm.job_details.title = job.title;
+                                vm.job_details.description = job.description;
+                                vm.job_details.about = job.about;
+                                vm.job_details.exp_level = job.exp_level;
+                                vm.job_details.contract_type = job.contract_type;
+                                vm.job_details.salary = job.salary;
+                                vm.job_details.reports_to = job.reports_to;
+                                vm.job_details.location = job.location;
                             
                             } else {
-                                component.job_details = null;
+                                vm.job_details = null;
                             }
 
-                            Bus.$emit('companySummaryDetails', component.summary, 'view');
-                            Bus.$emit('jobDetails', component.job_details);
+                            Bus.$emit('companySummaryDetails', vm.summary, 'view');
+                            Bus.$emit('jobDetails', vm.job_details);
                             Bus.$emit('jobRequirementsDetails', job.requirements);
                             Bus.$emit('jobResponsibilitiesDetails', job.responsibilities);
                         
                         } else {
                             let company = response.data.data.company;
 
-                            component.summary.id = company.id;
-                            component.summary.photo_url = company.photo_url;
-                            component.summary.name = company.name;
-                            component.summary.address = company.address;
-                            component.summary.introduction = company.introduction;
+                            vm.summary.id = company.id;
+                            vm.summary.photo_url = company.photo_url;
+                            vm.summary.name = company.name;
+                            vm.summary.address = company.address;
+                            vm.summary.introduction = company.introduction;
                             
-                            component.job_details = null;
+                            vm.job_details = null;
 
                             Bus.$emit('profileAvatarDetails', Utils.getInitials(company.name));
-                            Bus.$emit('companySummaryDetails', component.summary, 'new');
-                            Bus.$emit('jobDetails', component.job_details);
+                            Bus.$emit('companySummaryDetails', vm.summary, 'new');
+                            Bus.$emit('jobDetails', vm.job_details);
                         }
                     })
                     .catch(function(error) {

@@ -62,21 +62,21 @@
         },
 
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('ticketsDetails', function(detailsArray, detail) {
-                component.tickets = detailsArray;
+                vm.tickets = detailsArray;
 
                 if (detail == 1) {
-                    component.mark_icon = 'check';
-                    component.has_whitecard = 'Has a valid and current White Card';
+                    vm.mark_icon = 'check';
+                    vm.has_whitecard = 'Has a valid and current White Card';
                 
                 } else if (detail == 0) {
-                    component.mark_icon = 'cross';
-                    component.has_whitecard = 'No valid and current White Card';
+                    vm.mark_icon = 'cross';
+                    vm.has_whitecard = 'No valid and current White Card';
                 }
                 
-                component.display();
+                vm.display();
             });
         },
 

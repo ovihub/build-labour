@@ -47,34 +47,34 @@
 		},
 
 		created() {
-			let component = this;
+			let vm = this;
 
 			$('#photoModal').on('hidden.bs.modal', function () {
 				$('#upload').val('');
 
-				component.close();
+				vm.close();
 			});
 
 			Bus.$on('imageToCrop', function (binary, id, type, fileType) {
-				component.type = type;
+				vm.type = type;
 				
 				if (type == 'Admin') {
-					component.input.id = id;
-					component.endpoints.upload = '/api/v1/admin/user/upload';
+					vm.input.id = id;
+					vm.endpoints.upload = '/api/v1/admin/user/upload';
 				
 				} else if (type == 'User') {
-					component.endpoints.upload = '/api/v1/user/photo';
+					vm.endpoints.upload = '/api/v1/user/photo';
 				
 				} else if (type == 'Company') {
-					component.endpoints.upload = '/api/v1/company/photo';
+					vm.endpoints.upload = '/api/v1/company/photo';
 				
 				} else if (type == 'CompanyRegister') {
-					component.endpoints.upload = '';
+					vm.endpoints.upload = '';
 				}
 
-				component.imgCrop = binary;
-				component.fileType = fileType;
-				component.enableCropper();
+				vm.imgCrop = binary;
+				vm.fileType = fileType;
+				vm.enableCropper();
 				
 				$('#photoModal').modal('show');
 			});
@@ -119,7 +119,7 @@
 			},
 
 			async uploadPhoto() {
-				let component = this;
+				let vm = this;
 
 				this.input.photo = cropper.getCroppedCanvas().toDataURL(this.fileType, (20 / 100));
 				
@@ -127,19 +127,19 @@
 
 				if (this.type != 'CompanyRegister') {
 
-					await axios.post(component.endpoints.upload, component.$data.input, Utils.getBearerAuth())
+					await axios.post(vm.endpoints.upload, vm.$data.input, Utils.getBearerAuth())
 				
 						.then(function(response) {
 							let data = response.data
 							
 							if (data.success) {
-								component.close();
+								vm.close();
 
-								if (component.type == 'User') {
+								if (vm.type == 'User') {
 									Api.setNavAvatar('', data.data.user.profile_photo_url);
 									Api.redirectToProfile();
 								
-								} else if (component.type == 'Company') {
+								} else if (vm.type == 'Company') {
 									Api.setNavAvatar('', data.data.photo_url.photo_url);
 									Api.redirectToProfile();
 									

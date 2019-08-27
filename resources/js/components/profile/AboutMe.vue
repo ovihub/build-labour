@@ -124,22 +124,22 @@
         },
 
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('aboutMeGeneralDetails', function(details) {
                 if (details) {
-                    component.setGeneralValues(component, details);
+                    vm.setGeneralValues(vm, details);
                 }
             });
 
             Bus.$on('aboutMeTechnicalDetails', function(details) {
                 if (details) {
-                    component.setTechnicalValues(component, details);
+                    vm.setTechnicalValues(vm, details);
                 }
             });
 
             Bus.$on('removeAboutMe', function() {
-                component.submit('clear');
+                vm.submit('clear');
             });
 
             this.editable = Api.checkAuthUser();

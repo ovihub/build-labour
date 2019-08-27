@@ -49,18 +49,18 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('showCompanyPeople', function(flag) {
-                component.show = flag;
-                component.getEmployees();
+                vm.show = flag;
+                vm.getEmployees();
                 
                 Bus.$emit('hideCompanyJobs');
                 Bus.$emit('hideCompanyPosts');
             });
 
             Bus.$on('hideCompanyPeople', function() {
-                component.show = false;
+                vm.show = false;
             });
         },
         methods: {
@@ -68,10 +68,10 @@
                 return Utils.getInitials(name);
             },
             getEmployees(endpoint) {
-                let component = this;
+                let vm = this;
 
-                Promise.resolve(Api.getEmployees(component.companyId)).then(function(data) {
-                    component.employees = data.data.people;
+                Promise.resolve(Api.getEmployees(vm.companyId)).then(function(data) {
+                    vm.employees = data.data.people;
                 });
             },
             onClickProfilePhoto(id) {

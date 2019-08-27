@@ -31,7 +31,7 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('onboardingSubmitEducation', function() {
                 Bus.$emit('alertSuccess', 'Successfully saved education');

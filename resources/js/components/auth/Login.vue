@@ -61,21 +61,21 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('loginTogglePassword', function(type) {
-                component.$refs['loginTogglePassword'].type = type;
+                vm.$refs['loginTogglePassword'].type = type;
             });
         },
         methods: {
             async loginUser() {
-                let component = this;
+                let vm = this;
                 
-                Utils.setObjectValues(component.errors, '');
+                Utils.setObjectValues(vm.errors, '');
 
                 this.loading = true;
 
-                await axios.post(component.endpoints.login, component.$data.input)
+                await axios.post(vm.endpoints.login, vm.$data.input)
                 
                 .then(function(response) {
                     let initials,
@@ -105,7 +105,7 @@
                 })
                 .catch(function(error) {
                     
-                    Utils.setObjectValues(component.input, '');
+                    Utils.setObjectValues(vm.input, '');
                     Utils.handleError(error);
                 });
                 

@@ -26,32 +26,32 @@
 		},
 
     	mounted() {
-			let component = this;
+			let vm = this;
 
 			Bus.$on('alertSuccess', function (message) {
-				component.message = message;
-				component.alert = 'alert-main alert-success alert-dismissible';
-				component.icon = '/img/icons/alert-success.png';
-				component.resend = false;
+				vm.message = message;
+				vm.alert = 'alert-main alert-success alert-dismissible';
+				vm.icon = '/img/icons/alert-success.png';
+				vm.resend = false;
 			});
 
 			Bus.$on('alertError', function (message) {
-				component.message = message;
-				component.alert = 'alert-main alert-error alert-dismissible';
-				component.icon = '/img/icons/alert-error.png';
-				component.resend = false;
+				vm.message = message;
+				vm.alert = 'alert-main alert-error alert-dismissible';
+				vm.icon = '/img/icons/alert-error.png';
+				vm.resend = false;
 			});
 
 			Bus.$on('alertVerify', function (email) {
-				component.message = 'Please verify your account. You may check your confirmation email or click ';
-				component.alert = 'alert-main alert-info alert-dismissible';
-				component.icon = '';
-				component.resend = true;
-				component.input_resend.email = email;
+				vm.message = 'Please verify your account. You may check your confirmation email or click ';
+				vm.alert = 'alert-main alert-info alert-dismissible';
+				vm.icon = '';
+				vm.resend = true;
+				vm.input_resend.email = email;
 			});
 
 			Bus.$on('alertHide', function () {
-				component.hide();
+				vm.hide();
 			});
 		},
 
@@ -65,20 +65,20 @@
 			},
 			
 			async resendEmail() {
-				let component = this;
+				let vm = this;
 				
-				component.resend = false;
-				component.hide();
+				vm.resend = false;
+				vm.hide();
 
-				await axios.post(component.endpoints.resend, component.$data.input_resend, Utils.getBearerAuth())
+				await axios.post(vm.endpoints.resend, vm.$data.input_resend, Utils.getBearerAuth())
 
 					.then(function(response) {
 						let data = response.data;
 						
-						component.message = data.message;
-						component.alert = 'alert-main alert-success alert-dismissible';
-						component.icon = '/img/icons/alert-success.png';
-						component.resend = false;
+						vm.message = data.message;
+						vm.alert = 'alert-main alert-success alert-dismissible';
+						vm.icon = '/img/icons/alert-success.png';
+						vm.resend = false;
 					})
 					.catch(function(error) {
 

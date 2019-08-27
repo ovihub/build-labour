@@ -101,23 +101,23 @@
             this.editable = Api.checkAuthUser();
 
             if (this.editable) {
-                let component = this;
+                let vm = this;
                 
                 Bus.$on('idealRoleDetails', function(details) {
                     if (details) {
-                        component.introduction = details.introduction;
-                        component.when = details.when;
-                        component.max_distance = details.max_distance && details.max_distance != '' ? details.max_distance : 0;
-                        component.willing_to_relocate = details.willing_to_relocate;
-                        component.state = details.state;
-                        component.countries = details.countries;
-                        component.selected = component.state ? component.state.split(',') : [];
-                        component.selected_countries = component.countries ? component.countries.split(',') : [];
+                        vm.introduction = details.introduction;
+                        vm.when = details.when;
+                        vm.max_distance = details.max_distance && details.max_distance != '' ? details.max_distance : 0;
+                        vm.willing_to_relocate = details.willing_to_relocate;
+                        vm.state = details.state;
+                        vm.countries = details.countries;
+                        vm.selected = vm.state ? vm.state.split(',') : [];
+                        vm.selected_countries = vm.countries ? vm.countries.split(',') : [];
                     }
                 });
 
                 Bus.$on('removeIdealRole', function() {
-                    component.submit('clear');
+                    vm.submit('clear');
                 });
             }
         },

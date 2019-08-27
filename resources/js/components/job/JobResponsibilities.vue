@@ -59,12 +59,12 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('jobResponsibilitiesDetails', function(detailsArray) {
                 if (detailsArray && detailsArray.length != 0) {
-                    component.qualities = detailsArray[0].items;
-                    component.nextTitles = detailsArray[1].items;
+                    vm.qualities = detailsArray[0].items;
+                    vm.nextTitles = detailsArray[1].items;
                 }
             });
         },

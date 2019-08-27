@@ -109,34 +109,34 @@
         },
 
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('aboutMeTechnicalDetails', function(details) {
                 if (details) {
-                    component.input.right_to_work = details.right_to_work;
-                    component.input.has_tfn = details.has_tfn;
-                    component.input.has_abn = details.has_abn;
-                    component.input.english_skill = details.english_skill;
-                    component.input.drivers_license = details.drivers_license;
-                    component.input.has_registered_vehicle = details.has_registered_vehicle;
+                    vm.input.right_to_work = details.right_to_work;
+                    vm.input.has_tfn = details.has_tfn;
+                    vm.input.has_abn = details.has_abn;
+                    vm.input.english_skill = details.english_skill;
+                    vm.input.drivers_license = details.drivers_license;
+                    vm.input.has_registered_vehicle = details.has_registered_vehicle;
 
-                    component.formatCheckbox('right_to_work', details.right_to_work);
-                    component.formatCheckbox('has_tfn', details.has_tfn);
-                    component.formatCheckbox('has_abn', details.has_abn);
-                    component.formatCheckbox('english_skill', details.english_skill);
-                    component.formatCheckbox('drivers_license', details.drivers_license);
-                    component.formatCheckbox('has_registered_vehicle', details.has_registered_vehicle);
+                    vm.formatCheckbox('right_to_work', details.right_to_work);
+                    vm.formatCheckbox('has_tfn', details.has_tfn);
+                    vm.formatCheckbox('has_abn', details.has_abn);
+                    vm.formatCheckbox('english_skill', details.english_skill);
+                    vm.formatCheckbox('drivers_license', details.drivers_license);
+                    vm.formatCheckbox('has_registered_vehicle', details.has_registered_vehicle);
                 }
             });
 
             Bus.$on('onboardingSubmitWorkInformation', function(action) {
                 if (action == 'clear') {
-                    Utils.setObjectValues(component.input, null);
+                    Utils.setObjectValues(vm.input, null);
                 }
 
-                Api.submit(component.endpoints.save, component.$data.input);
+                Api.submit(vm.endpoints.save, vm.$data.input);
 
-                Bus.$emit('aboutMeTechnicalDetails', component.input);
+                Bus.$emit('aboutMeTechnicalDetails', vm.input);
             });
         },
 

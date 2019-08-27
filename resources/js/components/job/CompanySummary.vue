@@ -51,19 +51,19 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('companySummaryDetails', function(details, action) {
                 if (details) {
-                    component.id = details.id;
-                    component.photo_url = details.photo_url;
-                    component.name = details.name;
-                    component.address = details.address;
-                    component.introduction = details.introduction;
+                    vm.id = details.id;
+                    vm.photo_url = details.photo_url;
+                    vm.name = details.name;
+                    vm.address = details.address;
+                    vm.introduction = details.introduction;
                 } 
 
                 if (action == 'new') {
-                    component.show = false;
+                    vm.show = false;
                 }
             });
         },

@@ -76,36 +76,36 @@
 			}
 		},
 		created() {
-			let component = this;
+			let vm = this;
 
             Bus.$on('datatableViewTicket', function(id){
-                component.show = true;
+                vm.show = true;
 
                 if (id != 0) {
-                    component.endpoints.get = '/api/v1/admin/ticket/get?id=' + id;
-                    component.endpoints.save = '/api/v1/user/ticket/' + id;
-                    component.viewRecord();
+                    vm.endpoints.get = '/api/v1/admin/ticket/get?id=' + id;
+                    vm.endpoints.save = '/api/v1/user/ticket/' + id;
+                    vm.viewRecord();
                 
                 } else {
-                    Utils.setObjectValues(component.record, '');
-                    component.record.id = 0;
-                    component.endpoints.save = '/api/v1/user/ticket';
+                    Utils.setObjectValues(vm.record, '');
+                    vm.record.id = 0;
+                    vm.endpoints.save = '/api/v1/user/ticket';
                 }
             });
 
             Bus.$on('removeTicket', function() {
-                Bus.$emit('adminSaveChanges', component.record.id);
+                Bus.$emit('adminSaveChanges', vm.record.id);
             });
 		},
 		methods: {
 		  	viewRecord() {
-				let component = this;
+				let vm = this;
 
-				axios.get(component.endpoints.get, Utils.getBearerAuth())
+				axios.get(vm.endpoints.get, Utils.getBearerAuth())
 
                     .then(function(response) {
                         
-                        component.record = response.data.data.record;
+                        vm.record = response.data.data.record;
                     })
                     .catch(function(error) {
                         
@@ -118,24 +118,24 @@
                 Bus.$emit('deleteTicket', this.endpoints.delete + this.record.id);
             },
             async submit() {
-                let component = this;
+                let vm = this;
 
-                Utils.setObjectValues(component.errors, '');
+                Utils.setObjectValues(vm.errors, '');
 
                 this.disabled = true;
 
-                await axios.post(component.endpoints.save, component.$data.record, Utils.getBearerAuth())
+                await axios.post(vm.endpoints.save, vm.$data.record, Utils.getBearerAuth())
 
                     .then(function(response) {
 
-                        Bus.$emit('adminSaveChanges', component.record.id);
+                        Bus.$emit('adminSaveChanges', vm.record.id);
                     })
                     .catch(function(error) {
                         if (error.response) {
                             let data = error.response.data;
 
 							for (let key in data.errors) {
-								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+								vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
                             }
                         }
 

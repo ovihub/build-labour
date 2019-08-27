@@ -169,11 +169,11 @@
         },
 
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('showEducation', function(index, details) {
-                component.current = index;
-                component.setValues(details);
+                vm.current = index;
+                vm.setValues(details);
             });
         },
 
@@ -286,7 +286,7 @@
             },
 
             async submit() {
-                let component = this;
+                let vm = this;
                 let saveEndpoint = this.id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.id;
 
                 let saveInput = {
@@ -314,12 +314,12 @@
                     
                     $('#modalEducation').modal('hide');
                     
-                    Bus.$emit('updateEducation', component.current, data.data.education);
+                    Bus.$emit('updateEducation', vm.current, data.data.education);
                 
                 }).catch(function(error) {
                     let inputErrors = Utils.handleError(error);
         
-                    if (inputErrors) component.errors = inputErrors;
+                    if (inputErrors) vm.errors = inputErrors;
                 });
                 
                 this.disabled = false;

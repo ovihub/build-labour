@@ -80,18 +80,18 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('showCompanyPosts', function(flag) {
-                component.show = flag;
-                component.getPosts();
+                vm.show = flag;
+                vm.getPosts();
                 
                 Bus.$emit('hideCompanyPeople');
                 Bus.$emit('hideCompanyJobs');
             });
 
             Bus.$on('hideCompanyPosts', function() {
-                component.show = false;
+                vm.show = false;
             });
 
             this.getPosts();
@@ -101,13 +101,13 @@
                 return Utils.getInitials(name);
             },
             getPosts() {
-                let component = this;
+                let vm = this;
 
-                axios.get(component.endpointGet, Utils.getBearerAuth())
+                axios.get(vm.endpointGet, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         
-                        component.posts = response.data.data.posts;
+                        vm.posts = response.data.data.posts;
                     })
                     .catch(function(error) {
 

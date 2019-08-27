@@ -218,11 +218,11 @@
         },
 
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('showEmployment', function(index, details) {
-                component.current = index;
-                component.setValues(details);
+                vm.current = index;
+                vm.setValues(details);
             });
         },
 
@@ -373,7 +373,7 @@
             },
             
             async submit() {
-                let component = this;
+                let vm = this;
                 let saveEndpoint = this.id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.id;
 
                 for (let i = 0; i < this.responsibilities.length; i++) {
@@ -410,12 +410,12 @@
 
                     $('#modalEmployment').modal('hide');
                     
-                    Bus.$emit('updateEmployment', component.current, data.data.work_experience);
+                    Bus.$emit('updateEmployment', vm.current, data.data.work_experience);
                 
                 }).catch(function(error) {
                     let inputErrors = Utils.handleError(error);
                     
-                    if (inputErrors) component.errors = inputErrors;
+                    if (inputErrors) vm.errors = inputErrors;
                 });
 
                 this.disabled = false;

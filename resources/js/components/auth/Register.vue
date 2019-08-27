@@ -168,14 +168,14 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('regTogglePassword', function(type) {
-                component.$refs['regTogglePassword'].type = type;
+                vm.$refs['regTogglePassword'].type = type;
             });
 
             Bus.$on('regToggleConfirm', function(type) {
-                component.$refs['regToggleConfirm'].type = type;
+                vm.$refs['regToggleConfirm'].type = type;
             });
         },
         methods: {
@@ -196,14 +196,14 @@
                 this.job_roles = [];
             },
             async registerUser() {
-                let component = this;
+                let vm = this;
                 
-                Utils.setObjectValues(component.errors, '');
+                Utils.setObjectValues(vm.errors, '');
 
                 this.loading = true;
                 this.disabled = true;
 
-                await axios.post(component.endpoints.register, component.$data.input)
+                await axios.post(vm.endpoints.register, vm.$data.input)
                     
                     .then(function(response) {
                         let data = response.data;
@@ -212,14 +212,14 @@
 
                         Api.setNavAvatar(data.data.user.first_name.charAt(0) + data.data.user.last_name.charAt(0), '');
 
-                        window.location.href = component.endpoints.onboarding;
+                        window.location.href = vm.endpoints.onboarding;
                     })
                     .catch(function(error) {
                         if (error.response) {
                             let data = error.response.data;
 
-                            for (let key in component.errors) {
-                                component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                            for (let key in vm.errors) {
+                                vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
                             }
                         }
 

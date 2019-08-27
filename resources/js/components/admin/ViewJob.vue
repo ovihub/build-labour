@@ -156,31 +156,31 @@
 		},
 		
 		created() {
-			let component = this;
+			let vm = this;
 
             Bus.$on('datatableViewJob', function(id){
-                component.show = true;
+                vm.show = true;
 
                 if (id != 0) {
-                    component.endpoints.get = '/api/v1/admin/job/get?id=' + id;
-                    component.endpoints.save = '/api/v1/job/' + id;
+                    vm.endpoints.get = '/api/v1/admin/job/get?id=' + id;
+                    vm.endpoints.save = '/api/v1/job/' + id;
                     
-                    component.viewRecord();
+                    vm.viewRecord();
                 
                 } else {
-                    Utils.setObjectValues(component.record, '');
+                    Utils.setObjectValues(vm.record, '');
 
-                    component.endpoints.save = '/api/v1/job';
+                    vm.endpoints.save = '/api/v1/job';
                 }
             });
 
-            axios.get(component.endpoints.job_roles, Utils.getBearerAuth())
+            axios.get(vm.endpoints.job_roles, Utils.getBearerAuth())
 
                 .then(function(response) {
 
                     console.log(response);
-                    component.job_roles = response.data.data.job_roles;
-                    console.log(component.job_roles);
+                    vm.job_roles = response.data.data.job_roles;
+                    console.log(vm.job_roles);
                 })
                 .catch(function(error) {
 
@@ -191,17 +191,17 @@
 		methods: {
 			
 		  	viewRecord() {
-				let component = this;
+				let vm = this;
 
-				axios.get(component.endpoints.get, Utils.getBearerAuth())
+				axios.get(vm.endpoints.get, Utils.getBearerAuth())
 
                     .then(function(response) {
                         
-                        component.record = response.data.data.record;
+                        vm.record = response.data.data.record;
 
-                        if (component.record.job_role) {
+                        if (vm.record.job_role) {
 
-                            component.record.title = component.record.job_role.job_role_name;
+                            vm.record.title = vm.record.job_role.job_role_name;
                         }
                     })
                     .catch(function(error) {
@@ -223,7 +223,7 @@
             },
 
             async submit() {
-                let component = this;
+                let vm = this;
 
                 Utils.setObjectValues(this.errors, '');
 
@@ -237,18 +237,18 @@
                     this.record.reports_to.push(results[i].trim());
                 }
 
-                await axios.post(component.endpoints.save, component.$data.record, Utils.getBearerAuth())
+                await axios.post(vm.endpoints.save, vm.$data.record, Utils.getBearerAuth())
 
                     .then(function(response) {
 
-                        Bus.$emit('adminSaveChanges', component.record.id);
+                        Bus.$emit('adminSaveChanges', vm.record.id);
                     })
                     .catch(function(error) {
                         if (error.response) {
                             let data = error.response.data;
 
 							for (let key in data.errors) {
-								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+								vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
                             }
                         }
 

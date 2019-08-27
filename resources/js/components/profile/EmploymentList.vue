@@ -103,22 +103,22 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('employmentDetails', function(detailsArray) {
-                component.employments = detailsArray;
+                vm.employments = detailsArray;
                 
-                for (let i = 0; i < component.employments.length; i++) {
-                    component.expanded[i] = false;
+                for (let i = 0; i < vm.employments.length; i++) {
+                    vm.expanded[i] = false;
                 }
             });
 
             Bus.$on('updateEmployment', function(index, details) {
                 if (details) {
-                    let emps = component.employments;
+                    let emps = vm.employments;
                     
                     if (emps[index] && ((emps.length > 1 && details.isCurrent == 1 &&
-                        component.formatPeriod(details) != component.formatPeriod(emps[index])) || 
+                        vm.formatPeriod(details) != vm.formatPeriod(emps[index])) || 
                         (details.responsibilities.length > emps[index].responsibilities.length))) {
                         
                         if (window.location.pathname == '/user/profile') { // for onboarding, need to revise
@@ -133,16 +133,16 @@
                         
                         emps[index] = details;
                         
-                        let refLocation = component.$refs['empLocation-' + index],
-                            refProjectSize = component.$refs['empProjectSize-' + index],
-                            refLocationIcon = component.$refs['empLocationIcon-' + index],
-                            refProjectSizeIcon = component.$refs['empProjectSizeIcon-' + index];
+                        let refLocation = vm.$refs['empLocation-' + index],
+                            refProjectSize = vm.$refs['empProjectSize-' + index],
+                            refLocationIcon = vm.$refs['empLocationIcon-' + index],
+                            refProjectSizeIcon = vm.$refs['empProjectSizeIcon-' + index];
 
-                        component.$refs['empJobRole-' + index][0].textContent = details.job_role;
-                        component.$refs['empCompanyName-' + index][0].textContent = component.getCompanyName(details.company_name, details.company);
-                        component.$refs['empPeriod-' + index][0].textContent = component.formatPeriod(details);
+                        vm.$refs['empJobRole-' + index][0].textContent = details.job_role;
+                        vm.$refs['empCompanyName-' + index][0].textContent = vm.getCompanyName(details.company_name, details.company);
+                        vm.$refs['empPeriod-' + index][0].textContent = vm.formatPeriod(details);
 
-                        let loc = component.getLocation(details.location, details.company);
+                        let loc = vm.getLocation(details.location, details.company);
 
                         if (loc) {
                             refLocation[0].textContent = loc;
@@ -163,14 +163,14 @@
                         }
 
                         for (let i = details.responsibilities.length; i < details.responsibilities.length; i++) {
-                            component.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
+                            vm.$refs['empRespItem-' + index + '-' + i][0].textContent = details.responsibilities[i];
                         }
                     }
                 }
             });
 
             Bus.$on('removeEmployment', function(index) {
-                component.employments.splice(index, 1);
+                vm.employments.splice(index, 1);
             });
         },
         methods: {

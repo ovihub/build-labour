@@ -115,36 +115,36 @@
         },
 
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('idealRoleDetails', function(details) {
                 if (details) {
-                    component.input.introduction = details.introduction;
-                    component.input.when = details.when;
-                    component.input.max_distance = details.max_distance && details.max_distance != '' ? details.max_distance : 0;
-                    component.input.willing_to_relocate = details.willing_to_relocate;
-                    component.input.state = details.state;
-                    component.input.countries = details.countries;
-                    component.input.selected = component.input.state ? component.input.state.split(',') : [];
-                    component.input.selected_countries = component.input.countries ? component.input.countries.split(',') : [];
+                    vm.input.introduction = details.introduction;
+                    vm.input.when = details.when;
+                    vm.input.max_distance = details.max_distance && details.max_distance != '' ? details.max_distance : 0;
+                    vm.input.willing_to_relocate = details.willing_to_relocate;
+                    vm.input.state = details.state;
+                    vm.input.countries = details.countries;
+                    vm.input.selected = vm.input.state ? vm.input.state.split(',') : [];
+                    vm.input.selected_countries = vm.input.countries ? vm.input.countries.split(',') : [];
                     
-                    component.formatCheckbox('willing_to_relocate', details.willing_to_relocate);
+                    vm.formatCheckbox('willing_to_relocate', details.willing_to_relocate);
                 }
             });
 
             Bus.$on('onboardingSubmitWorkPreferences', function(action) {
                 if (action == 'clear') {
-                    Utils.setObjectValues(component.input, null);
+                    Utils.setObjectValues(vm.input, null);
                 
                 } else {
-                    component.input.state = component.input.selected.toString();
-                    component.input.countries = component.input.selected_countries.length > 0 ?
-                                                component.input.selected_countries.toString() : null;
+                    vm.input.state = vm.input.selected.toString();
+                    vm.input.countries = vm.input.selected_countries.length > 0 ?
+                                                vm.input.selected_countries.toString() : null;
                 }
 
-                Api.submit(component.endpoints.save, component.$data.input);
+                Api.submit(vm.endpoints.save, vm.$data.input);
 
-                Bus.$emit('idealRoleDetails', component.input);
+                Bus.$emit('idealRoleDetails', vm.input);
             });
 
             this.getCountries();
@@ -174,10 +174,10 @@
             },
 
             getCountries() {
-                let component = this;
+                let vm = this;
 
                 Promise.resolve(Api.getCountries()).then(function(data) {
-                    component.countries = data.data.countries;
+                    vm.countries = data.data.countries;
                 });
             },
 

@@ -275,41 +275,41 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('userProfileDetails', function(details) {
-                component.setValues(details);
-                component.setDisplayValues(component.input, details);
+                vm.setValues(details);
+                vm.setDisplayValues(vm.input, details);
                 
-                if (! component.is_verified) {
-                    Bus.$emit('alertVerify', component.email);
+                if (! vm.is_verified) {
+                    Bus.$emit('alertVerify', vm.email);
                 }
             });
 
             Bus.$on('removeEducation', function(index, id) {
-                if (component.education_id == id) {
-                    component.course = '';
-                    component.school = '';
-                    component.education_id = '';
+                if (vm.education_id == id) {
+                    vm.course = '';
+                    vm.school = '';
+                    vm.education_id = '';
                 }
             });
 
             Bus.$on('updateEmployment', function(index, details) {
-                if (index == 0 || (!component.company_name && index == -1)) {
-                    component.company_name = (details.company) ? details.company.name : details.company_name;
-                    component.job_role = (details.job) ? details.job.title : details.job_role;
+                if (index == 0 || (!vm.company_name && index == -1)) {
+                    vm.company_name = (details.company) ? details.company.name : details.company_name;
+                    vm.job_role = (details.job) ? details.job.title : details.job_role;
                 }
             });
 
             Bus.$on('removeEmployment', function(index) {
                 if (index == 0) {
-                    component.company_name = '';
-                    component.job_role = '';
+                    vm.company_name = '';
+                    vm.job_role = '';
                 }
             });
 
             // Bus.$on('croppedPhoto', function(photo_url) {
-            //     component.profile_photo_url = photo_url;
+            //     vm.profile_photo_url = photo_url;
             // });
 
             Bus.$on('closePhotoModal', function() {
@@ -401,16 +401,16 @@
                 this.setDisplayValues(this.input, this);
             },
             loadEducations() {
-                let component = this;
+                let vm = this;
 
                 this.educations = [];
 
-                axios.get(component.endpoints.educations, Utils.getBearerAuth())
+                axios.get(vm.endpoints.educations, Utils.getBearerAuth())
 
                     .then(function(response) {
                         let data = response.data;
 
-                        component.educations = data.data.educations;
+                        vm.educations = data.data.educations;
                     })
                     .catch(function(error) {
 
@@ -444,7 +444,7 @@
                 this.job_roles = [];
             },
             async submit() {
-                let component = this;
+                let vm = this;
 
                 Utils.setObjectValues(this.errors, '');
                 
@@ -452,30 +452,30 @@
 
                 Api.submit('/api/v1/worker/sectors', { sectors: this.input.sectors, tiers: this.input.tiers });
                 
-                await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
+                await axios.post(vm.endpoints.save, vm.$data.input, Utils.getBearerAuth())
                     
                 .then(function(response) {
                     let data = response.data;
                     
                     $('#modalUserProfile').modal('hide');
 
-                    component.setDisplayValues(component, data.data.introduction);
+                    vm.setDisplayValues(vm, data.data.introduction);
 
-                    component.sectors = [];
-                    component.tiers = [];
+                    vm.sectors = [];
+                    vm.tiers = [];
 
-                    for (let i = 0; i < component.input.sectors.length; i++) {
-                        component.sectors.push(component.sectors_list.find(obj => obj['id'] == component.input.sectors[i]));
+                    for (let i = 0; i < vm.input.sectors.length; i++) {
+                        vm.sectors.push(vm.sectors_list.find(obj => obj['id'] == vm.input.sectors[i]));
                     }
                     
-                    for (let i = 0; i < component.input.tiers.length; i++) {
-                        component.tiers.push(component.tiers_list.find(obj => obj['id'] == component.input.tiers[i]));
+                    for (let i = 0; i < vm.input.tiers.length; i++) {
+                        vm.tiers.push(vm.tiers_list.find(obj => obj['id'] == vm.input.tiers[i]));
                     }
                 
                 }).catch(function(error) {
                     let inputErrors = Utils.handleError(error);
                 
-                    if (inputErrors) component.errors = inputErrors;
+                    if (inputErrors) vm.errors = inputErrors;
                 });
                 
                 this.disabled = false;

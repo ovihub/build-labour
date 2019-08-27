@@ -80,34 +80,34 @@
         },
 
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('ticketsDetails', function(detailsArray, detail) {
-                component.tickets = detailsArray;
+                vm.tickets = detailsArray;
                 
-                component.formatCheckbox('has_whitecard', detail);
+                vm.formatCheckbox('has_whitecard', detail);
             });
 
             Bus.$on('onboardingSubmitTickets', function() {
                 let saveInput = {
-                    tickets: component.tickets.map(function (ticket) {
+                    tickets: vm.tickets.map(function (ticket) {
                                 if (ticket.id) {
                                     return { ticket_id: ticket.id };
                                 }
                                 
                                 return { ticket: ticket.ticket, description: ticket.description };
                              }),
-                    has_whitecard: component.has_whitecard
+                    has_whitecard: vm.has_whitecard
                 };
 
-                Api.submit(component.endpoints.save, saveInput);
+                Api.submit(vm.endpoints.save, saveInput);
 
-                Bus.$emit('ticketsDetails', component.tickets, component.has_whitecard);
+                Bus.$emit('ticketsDetails', vm.tickets, vm.has_whitecard);
             });
 
             Bus.$on('refreshTicketDetails', function() {
                 Promise.resolve(Api.getWorkerTickets()).then(function(data) {
-                    component.tickets = data.data.tickets;
+                    vm.tickets = data.data.tickets;
                 });
             });
         },

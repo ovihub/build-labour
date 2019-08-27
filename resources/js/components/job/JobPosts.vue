@@ -95,21 +95,21 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('searchJobPosts', function(keyword, location) {
-                component.getJobPosts(component.endpoints.search + keyword + '&location=' + location);
+                vm.getJobPosts(vm.endpoints.search + keyword + '&location=' + location);
             });
             
             if (this.companyId) {
                 this.getJobPosts(this.endpointGet);
                 
             } else {
-                this.getJobPosts(component.endpoints.search + '&location=');
+                this.getJobPosts(vm.endpoints.search + '&location=');
             }
 
             Promise.resolve(Api.getSavedJobPosts()).then(function(data) {
-                component.checkedJobPosts = data.data.bookmarks;
+                vm.checkedJobPosts = data.data.bookmarks;
             });
         },
         methods: {
@@ -117,10 +117,10 @@
                 return Utils.getInitials(name);
             },
             getJobPosts(endpoint) {
-                let component = this;
+                let vm = this;
 
                 Promise.resolve(Api.getJobPosts(endpoint)).then(function(data) {
-                    component.jobPosts = data.data.jobs;
+                    vm.jobPosts = data.data.jobs;
                 });
             },
             getTimeDiffNow(created_at) {
@@ -130,17 +130,17 @@
                 Api.redirectToCompanyProfile(company_id);
             },
             async save(post) {
-                let component = this;
+                let vm = this;
                 
                 this.disabled = true;
                 this.input.job_id = post.id;
 
-                await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
+                await axios.post(vm.endpoints.save, vm.$data.input, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         let data = response.data;
                         
-                        Bus.$emit('saveJobPost', post, component.$refs['savedJobPost-' + post.id][0].checked);
+                        Bus.$emit('saveJobPost', post, vm.$refs['savedJobPost-' + post.id][0].checked);
                     })
                     .catch(function(error) {
 

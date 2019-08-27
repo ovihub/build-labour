@@ -38,18 +38,18 @@
             },
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('showCompanyJobs', function(flag) {
-                component.show = flag;
-                component.getJobs();
+                vm.show = flag;
+                vm.getJobs();
                 
                 Bus.$emit('hideCompanyPeople');
                 Bus.$emit('hideCompanyPosts');
             });
 
             Bus.$on('hideCompanyJobs', function() {
-                component.show = false;
+                vm.show = false;
             });
         },
         methods: {
@@ -57,13 +57,13 @@
                 return Utils.getInitials(name);
             },
             getJobs() {
-                let component = this;
+                let vm = this;
 
-                axios.get(component.endpointGet, Utils.getBearerAuth())
+                axios.get(vm.endpointGet, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         
-                        component.jobs = response.data.data.posts;
+                        vm.jobs = response.data.data.posts;
                     })
                     .catch(function(error) {
 

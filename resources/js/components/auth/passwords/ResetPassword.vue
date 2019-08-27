@@ -81,30 +81,30 @@
                     first.substr(3).replace(/./g, '*') + second;
             }
 
-            let component = this;
+            let vm = this;
 
             Bus.$on('resetTogglePassword', function(type) {
-                component.$refs['resetTogglePassword'].type = type;
+                vm.$refs['resetTogglePassword'].type = type;
             });
 
             Bus.$on('resetToggleConfirm', function(type) {
-                component.$refs['resetToggleConfirm'].type = type;
+                vm.$refs['resetToggleConfirm'].type = type;
             });
         },
         methods: {  
             async resetPassword() {
-                let component = this;
+                let vm = this;
                 
-                Utils.setObjectValues(component.errors, '');
+                Utils.setObjectValues(vm.errors, '');
 
                 this.loading = true;
 
-                await axios.post(component.endpoints.reset, component.$data.input)
+                await axios.post(vm.endpoints.reset, vm.$data.input)
                     
                 .then(function(response) {
                     let data = response.data;
                     
-                    window.location.href = component.endpoints.login;
+                    window.location.href = vm.endpoints.login;
 
                     Bus.$emit('alertSuccess', data.message);
                 })
@@ -112,8 +112,8 @@
                     if (error.response) {
                         let data = error.response.data;
 
-                        for (let key in component.errors) {
-                            component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                        for (let key in vm.errors) {
+                            vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
                         }
                     }
 

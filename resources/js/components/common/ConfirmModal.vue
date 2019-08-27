@@ -39,7 +39,7 @@
 		},
 
 		created() {
-			let component = this;
+			let vm = this;
 
 			Bus.$on('', function() {
 

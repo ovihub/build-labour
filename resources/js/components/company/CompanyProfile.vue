@@ -347,11 +347,11 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('companyProfileDetails', function(details) {
-                component.setValues(details);
-                component.setDisplayValues(component.input, details);
+                vm.setValues(details);
+                vm.setDisplayValues(vm.input, details);
             });
 
             this.getCompanyOptions();
@@ -389,12 +389,12 @@
                 }
             },
             getCompanyOptions() {
-                let component = this;
+                let vm = this;
 
                 Promise.resolve(Api.getCompanyOptions()).then(function(data) {
-                    component.business_types = data.business_types;
-                    component.tiers = data.tiers;
-                    component.main_functions = data.main_company_functions;
+                    vm.business_types = data.business_types;
+                    vm.tiers = data.tiers;
+                    vm.main_functions = data.main_company_functions;
                 });
             },
             setValues(details) {
@@ -426,13 +426,13 @@
                 val.main_function_answer = details.main_function_answer;
             },
             getSecondaryOptions(id) {
-                let component = this;
+                let vm = this;
 
-                axios.get(component.endpoints.secondary_options + id, Utils.getBearerAuth())
+                axios.get(vm.endpoints.secondary_options + id, Utils.getBearerAuth())
 
                     .then(function(response) {
                         
-                        component.specialization = response.data.data;
+                        vm.specialization = response.data.data;
                     })
                     .catch(function(error) {
 
@@ -491,11 +491,11 @@
                 this.main_function_answers = [];
             },
             // addNewEntity() {
-            //     let component  = this;
+            //     let vm  = this;
 
             //     this.input.secondary_functions.push({
             //         id: 0,
-            //         main_id: component.main_function.id,
+            //         main_id: vm.main_function.id,
             //         secondary_name: '',
             //     });
             // },
@@ -505,9 +505,9 @@
             //     }
             // },
             async submit() {
-                let component = this;
+                let vm = this;
                 let espArray = [];
-                let temp = component.input.secondary_functions;
+                let temp = vm.input.secondary_functions;
 
                 Utils.setObjectValues(this.errors, '');
 
@@ -517,31 +517,31 @@
                     espArray.push(temp[i].id);
                 }
 
-                component.input.secondary_functions = espArray;
-                component.input.business_type_id = component.input.business_type.id;
-                component.input.tier_id = component.input.tier.id;
-                component.input.main_company_id = component.input.main_function.id;
+                vm.input.secondary_functions = espArray;
+                vm.input.business_type_id = vm.input.business_type.id;
+                vm.input.tier_id = vm.input.tier.id;
+                vm.input.main_company_id = vm.input.main_function.id;
 
-                await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
+                await axios.post(vm.endpoints.save, vm.$data.input, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         let data = response.data;
 						
                         $('#modalCompanyProfile').modal('hide');
 
-                        component.setValues(data.data.company);
-                        component.setDisplayValues(component.input, data.data.company);
+                        vm.setValues(data.data.company);
+                        vm.setDisplayValues(vm.input, data.data.company);
                     })
                     .catch(function(error) {
                         if (error.response) {
                             let data = error.response.data;
 
 							for (let key in data.errors) {
-								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+								vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
                             }
                         }
 
-                        component.input.secondary_functions = temp;
+                        vm.input.secondary_functions = temp;
 
                         Utils.handleError(error);
                     });

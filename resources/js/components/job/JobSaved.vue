@@ -44,10 +44,10 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('saveJobPost', function(bookmark, flag) {
-                let bookmarks = component.bookmarks;
+                let bookmarks = vm.bookmarks;
 
                 if (flag) {
                     bookmarks.push({
@@ -75,10 +75,10 @@
                 return Utils.getInitials(name);
             },
             getBookmarks() {
-                let component = this;
+                let vm = this;
 
                 Promise.resolve(Api.getBookmarks()).then(function(data) {
-                    component.bookmarks = data.data.bookmarks;
+                    vm.bookmarks = data.data.bookmarks;
                 });
             },
             onClickCompanyPhoto(company_id) {

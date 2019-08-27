@@ -126,19 +126,19 @@ class BuildLabourApi {
     }
 
     async _get(endpoint) {
-        let component = this;
+        let vm = this;
 
-        // if (component.time_out) {
-        //     clearTimeout(component.time_out);
+        // if (vm.time_out) {
+        //     clearTimeout(vm.time_out);
         // }
 
-        // component.time_out = await setTimeout(async function() {
+        // vm.time_out = await setTimeout(async function() {
             
             await Axios.get(endpoint, Utils.getBearerAuth())
 
                 .then(function(response) {
                     
-                    component.getResults = response.data;
+                    vm.getResults = response.data;
                 })
                 .catch(function(error) {
 
@@ -152,13 +152,13 @@ class BuildLabourApi {
 
     async _post(endpoint, input) {
         
-        let component = this;
+        let vm = this;
 
         await Axios.post(endpoint, input, Utils.getBearerAuth())
 
             .then(function(response) {
                 
-                component.getResults = response.data;
+                vm.getResults = response.data;
             })
             .catch(function(error) {
 
@@ -169,19 +169,19 @@ class BuildLabourApi {
     }
 
     async _search(endpoint) {
-        let component = this;
+        let vm = this;
 
-        // if (component.time_out) {
-        //     clearTimeout(component.time_out);
+        // if (vm.time_out) {
+        //     clearTimeout(vm.time_out);
         // }
 
-        // component.time_out = await setTimeout(async function() {
+        // vm.time_out = await setTimeout(async function() {
             
             await Axios.get(endpoint, Utils.getBearerAuth())
 
                 .then(function(response) {
                     
-                    component.getResults = response.data;
+                    vm.getResults = response.data;
                 })
                 .catch(function(error) {
 

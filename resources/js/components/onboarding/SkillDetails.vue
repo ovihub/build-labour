@@ -58,10 +58,10 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('onboardingSubmitIndustrySkills', function() {
-                Api.submit(component.endpoints.save, component.$data.input);
+                Api.submit(vm.endpoints.save, vm.$data.input);
             });
         },
         methods: {

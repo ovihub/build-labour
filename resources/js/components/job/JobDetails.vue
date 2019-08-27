@@ -107,18 +107,18 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('jobDetails', function(details) {
                 if (details) {
-                    component.title = details.title ? details.title : details.job_role.job_role_name;
-                    component.description = details.description;
-                    component.about = details.about;
-                    component.exp_level = details.exp_level;
-                    component.contract_type = details.contract_type;
-                    component.salary = details.salary;
-                    component.reports_to = details.reports_to;
-                    component.location = details.location;
+                    vm.title = details.title ? details.title : details.job_role.job_role_name;
+                    vm.description = details.description;
+                    vm.about = details.about;
+                    vm.exp_level = details.exp_level;
+                    vm.contract_type = details.contract_type;
+                    vm.salary = details.salary;
+                    vm.reports_to = details.reports_to;
+                    vm.location = details.location;
                 
                 }
             });

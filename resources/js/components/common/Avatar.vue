@@ -81,16 +81,16 @@
 		},
 
 		created() {
-			let component = this;
+			let vm = this;
 
 			this.input.initials = this.initials;
 
 			if (! this.isLogout) {
 				Bus.$on('profileAvatarDetails', function(initials) {
-					component.input.initials = initials;
+					vm.input.initials = initials;
 
-					if (component.initials) {
-						component.input.initials = component.initials;
+					if (vm.initials) {
+						vm.input.initials = vm.initials;
 					}
 				});
 			

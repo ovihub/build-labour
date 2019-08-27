@@ -380,21 +380,21 @@
             orientation: 'setCssVars',
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('regTogglePassword', function(type) {
-                component.$refs['regTogglePassword'].type = type;
+                vm.$refs['regTogglePassword'].type = type;
             });
 
             Bus.$on('regToggleConfirm', function(type) {
-                component.$refs['regToggleConfirm'].type = type;
+                vm.$refs['regToggleConfirm'].type = type;
             });
 
             Bus.$on('croppedPhoto', function(photo_url) {
-                component.input.company_photo = photo_url;
+                vm.input.company_photo = photo_url;
 
-                component.showProgress = false;
-                component.width = 10;
+                vm.showProgress = false;
+                vm.width = 10;
             });
 
             Bus.$on('closePhotoModal', function() {
@@ -404,9 +404,9 @@
             // this.input.company_secondary_functions.push('');
 
             setTimeout(function() {
-                component.$sections = component.$refs['compCardWrapper'].querySelectorAll('li');
-                component.max = component.$sections.length;
-                component.goToStep(1);
+                vm.$sections = vm.$refs['compCardWrapper'].querySelectorAll('li');
+                vm.max = vm.$sections.length;
+                vm.goToStep(1);
             }, 1);
             
             this.getCompanyOptions();
@@ -419,12 +419,12 @@
                 this.has_focus_location = has_focus;
             },
             getCompanyOptions() {
-                let component = this;
+                let vm = this;
 
                 Promise.resolve(Api.getCompanyOptions()).then(function(data) {
-                    component.business_types = data.business_types;
-                    component.tiers = data.tiers;
-                    component.main_company_functions = data.main_company_functions;
+                    vm.business_types = data.business_types;
+                    vm.tiers = data.tiers;
+                    vm.main_company_functions = data.main_company_functions;
                 });
             },
             setNextDisabled(step) {
@@ -542,7 +542,7 @@
                 Utils.onFileChange(e, 0, 'CompanyRegister');
             },
             onClickUpload() {
-                let component = this;
+                let vm = this;
 
                 this.showProgress = true;
 
@@ -551,28 +551,28 @@
                     var id = setInterval(frame, 20);
                     
                     function frame() {
-                        if (component.width >= 100) {
+                        if (vm.width >= 100) {
                             clearInterval(id);
                         } else {
-                            component.width++;
-                            elem.style.width = component.width + '%'; 
-                            elem.innerHTML = (component.width != 100) ? component.width * 1 + '%' : component.width * 1 + '% Complete';
+                            vm.width++;
+                            elem.style.width = vm.width + '%'; 
+                            elem.innerHTML = (vm.width != 100) ? vm.width * 1 + '%' : vm.width * 1 + '% Complete';
                         }
-                        if (component.width == 100) {
-                            component.setNextDisabled(2);
+                        if (vm.width == 100) {
+                            vm.setNextDisabled(2);
                         }
                     }
                 }
             },
             async submit() {
-                let component = this;
+                let vm = this;
 
                 Utils.setObjectValues(this.errors, '');
 
                 this.loading = true;
                 this.disabled = true;
                 
-                await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
+                await axios.post(vm.endpoints.save, vm.$data.input, Utils.getBearerAuth())
                     
                     .then(function(response) {
                         let data = response.data.data;
@@ -596,14 +596,14 @@
                                 data.errors.company_main_company_id || 
                                 data.errors.company_main_function_answer) {
 
-                                component.skip(-3);
+                                vm.skip(-3);
                             }
 
                             else if (data.errors.company_business_type_id ||
                                 data.errors.company_tier_id ||
                                 data.errors.company_photo) {
 
-                                component.skip(-2);
+                                vm.skip(-2);
                             }
 
                             else if (data.errors.company_address ||
@@ -612,11 +612,11 @@
                                 data.errors.company_operate_outside_states ||
                                 data.errors.company_states) {
 
-                                component.skip(-1);
+                                vm.skip(-1);
                             }
 
 							for (let key in data.errors) {
-								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+								vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
                             }
                         }
 

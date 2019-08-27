@@ -54,18 +54,18 @@
         },
         methods: {
             async sendResetPasswordLink() {
-                let component = this;
+                let vm = this;
                 
                 this.errors.email = '';
                 this.loading = true;
                 this.disabled = true;
 
-                await axios.post(component.endpoints.send, component.$data.input)
+                await axios.post(vm.endpoints.send, vm.$data.input)
 
                     .then(function(response) {
                         let data = response.data;
                         
-                        component.input.email = '';
+                        vm.input.email = '';
 
                         Bus.$emit('alertSuccess', data.message);
                     })
@@ -73,7 +73,7 @@
                         if (error.response) {
                             let data = error.response.data;
 
-                            component.errors.email = data.errors.email ? data.errors.email[0] : '';
+                            vm.errors.email = data.errors.email ? data.errors.email[0] : '';
                         }
 
                         Utils.handleError(error);

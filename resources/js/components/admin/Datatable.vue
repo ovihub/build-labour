@@ -157,17 +157,17 @@
 	  		}
 		},
 		created() {
-			let component = this;
+			let vm = this;
 
 			Bus.$on('refreshDatatable', function() {
-				component.fetchData();
+				vm.fetchData();
 			});
 
 			Bus.$on('adminSaveChanges', function(id) {
-				component.onClickTitle();
+				vm.onClickTitle();
 				
 				if (id == 0) {
-					component.changePage(component.pagination.meta.last_page);
+					vm.changePage(vm.pagination.meta.last_page);
 				}
 			});
 

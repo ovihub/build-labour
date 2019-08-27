@@ -51,7 +51,7 @@
             }
 
             // Bus.$on('croppedPhoto', function(photo_url) {
-            //     component.input.profile_photo_url = photo_url;
+            //     vm.input.profile_photo_url = photo_url;
             // });
         },
 
@@ -62,9 +62,9 @@
             },
             
             logoutUser() {
-                let component = this;
+                let vm = this;
 
-                axios.get(component.endpoints.logout, Utils.getBearerAuth())
+                axios.get(vm.endpoints.logout, Utils.getBearerAuth())
                 
                     .then(function(response) {
 

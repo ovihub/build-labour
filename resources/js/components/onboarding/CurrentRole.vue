@@ -76,11 +76,11 @@
             },
         },
         created() {
-            let component = this;
+            let vm = this;
 
             Bus.$on('onboardingSubmitCurrentRole', function() {
-                // if (! Utils.checkIfObjectIsEmpty(component.input)) {
-                    Api.submit(component.endpoints.save, component.$data.input);
+                // if (! Utils.checkIfObjectIsEmpty(vm.input)) {
+                    Api.submit(vm.endpoints.save, vm.$data.input);
                 // }
             });
 
