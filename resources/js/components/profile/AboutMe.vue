@@ -93,8 +93,13 @@
 
 <script>
     import Api from '@/api';
+    import PersonalDetails from '../onboarding/PersonalDetails';
+    import WorkInformation from '../onboarding/WorkInformation';
+    import MainModal from '../common/MainModal';
+    import EditIcon from '../common/EditIcon';
     
     export default {
+        name: "about-me",
         data() {
             return {
                 editable: false,
@@ -227,6 +232,12 @@
                 
                 Bus.$emit('onboardingSubmitPersonalDetails', action);
             },
-        }
+        },
+        components: {
+            MainModal,
+            PersonalDetails,
+            WorkInformation,
+            EditIcon,
+        },
     }
 </script>

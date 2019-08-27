@@ -49,9 +49,20 @@
 
 <script>
     import Api from '@/api';
+    import EmploymentModal from '../profile/EmploymentModal';
+    import EducationModal from '../profile/EducationModal';
+    import CurrentRole from '../onboarding/CurrentRole';
+    import EmploymentHistory from '../onboarding/EmploymentHistory';
+    import EducationHistory from '../onboarding/EducationHistory';
+    import SkillDetails from '../onboarding/SkillDetails';
+    import TicketDetails from '../onboarding/TicketDetails';
+    import SkillAchievements from '../onboarding/SkillAchievements';
+    import WorkInformation from '../onboarding/WorkInformation';
+    import WorkPreferences from '../onboarding/WorkPreferences';
+    import PersonalDetails from '../onboarding/PersonalDetails';
 
     export default {
-
+        name: "onboarding",
         data() {
             return {
                 sections: null,
@@ -96,32 +107,26 @@
                 ],
             }
         },
-
         props: {
             mostRecentRole: {
                 type: String,
                 required: false,
             },
         },
-
         computed: {
             isFirstStep() {
                 return this.step === 1;
             },
-
             isLastStep() {
                 return this.step === this.max;
             },
-
             nextButton() {
                 return this.nextButtons[this.step - 1];
             },
         },
-
         watch: {
             orientation: 'setCssVars',
         },
-
         created() {
             let component = this;
 
@@ -131,15 +136,12 @@
                 component.goToStep(1);
             }, 1);
         },
-
         methods: {
-
             save() {
                 this.submit();
 
                 Api.redirectToProfile();
             },
-
             next() {
                 Bus.$emit('alertHide');
 
@@ -149,13 +151,11 @@
 
                 this.goToStep(this.step + 1);
             },
-
             submit() {
                 Bus.$emit('onboardingSubmit' + this.submitForms[this.step - 1]);
 
                 this.next();
             },
-
             setCssVars() {
                 this.$refs['compCardWrapper'].style.setProperty('--x', (((this.step * 100) - 100) * -1) + '%')
                 this.$refs['compCardWrapper'].style.setProperty('--y', (((this.step * 100) - 100) * 0) + '%')
@@ -164,7 +164,6 @@
                 this.$refs['compCardWrapper'].style.setProperty('--cross', 'column')
                 this.$refs['compCardWrapper'].style.setProperty('--cross-reverse', 'column-reverse')
             },
-
             goToStep(step) {
                 this.step = step > this.max ? this.max : step < 1 ? 1 : step;
                 this.currentSection = this.$sections[this.step-1];
@@ -190,8 +189,20 @@
                     this.progressCls[i] = 'incomplete'
                 }
             },
-
-        }
+        },
+        components: {
+            EmploymentModal,
+            EducationModal,
+            CurrentRole,
+            EmploymentHistory,
+            EducationHistory,
+            SkillDetails,
+            TicketDetails,
+            SkillAchievements,
+            WorkInformation,
+            WorkPreferences,
+            PersonalDetails,
+        },
     }
 </script>
 

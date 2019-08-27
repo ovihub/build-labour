@@ -91,7 +91,7 @@
     import Api from '@/api';
 
     export default {
-
+        name: "work-information",
         data() {
             return {
                 input: {

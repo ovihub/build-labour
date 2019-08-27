@@ -64,13 +64,15 @@
 </template>
 
 <script>
+    import Logout from '../auth/Logout';
+    
     export default {
+        name: "navigation",
         data() {
             return {
 
             }
         },
-
         created() {
             let component = this;
 
@@ -78,22 +80,21 @@
                 component.$refs['nav-' + tabName].style = 'opacity: 1';
             });
         },
-
         methods: {
-
             onClickDashboard() {
                 // this.$refs['nav-dashboard'].style = 'opacity: 1';
             },
-
             onClickJobs() {
                 if (window.location.pathname != '/job/search') {
                     window.location = '/job/search';
                 }
             },
-
             onClickMessages() {
                 // this.$refs['nav-messages'].style = 'opacity: 1';
             },
-        }
+        },
+        components: {
+            Logout,
+        },
     }
 </script>

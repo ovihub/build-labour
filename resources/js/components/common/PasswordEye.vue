@@ -6,6 +6,7 @@
 
 <script>
     export default {
+        name: "password-eye",
         data() {
             return {
                 show: false,

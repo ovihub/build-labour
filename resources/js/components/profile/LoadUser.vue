@@ -7,6 +7,7 @@
     import Api from '@/api';
     
     export default {
+        name: "load-user",
         data() {
             return {
                 avatar: {

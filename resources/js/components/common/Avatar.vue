@@ -12,7 +12,7 @@
 	import Api from '@/api';
 
 	export default {
-		
+		name: "avatar",
 		data() {
 			return {
 				input: {

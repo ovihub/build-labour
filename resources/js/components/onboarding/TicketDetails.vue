@@ -61,7 +61,7 @@
     import Api from '@/api';
 
     export default {
-
+        name: "ticket-details",
         data() {
             return {
                 has_focus: false,

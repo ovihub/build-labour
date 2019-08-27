@@ -21,15 +21,15 @@
 
 <script>
     import Api from '@/api';
+    import EducationList from '../profile/EducationList';
 
     export default {
-
+        name: "education-history",
         data() {
             return {
 
             }
         },
-
         created() {
             let component = this;
 
@@ -37,13 +37,13 @@
                 Bus.$emit('alertSuccess', 'Successfully saved education');
             });
         },
-
         methods: {
-
             action(index) {
                 Bus.$emit('showEducation', index, null);
             },
-
-        }
+        },
+        components: {
+            EducationList,
+        },
     }
 </script>

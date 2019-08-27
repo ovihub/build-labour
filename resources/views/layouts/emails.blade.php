@@ -156,8 +156,8 @@
 			.btn-primary {
 				text-decoration: none;
 				color: #FFF;
-				background-color: #FF9603;
-				border: solid #FF9603;
+				background-color: #00aeef;
+				border: solid #00aeef;
 				border-width: 10px 20px;
 				line-height: 2;
 				font-weight: bold;
@@ -225,7 +225,7 @@
 				background: #d0021b;
 			}
 			.alert.alert-good {
-				background: #FF9603;
+				background: #00aeef;
 			}
 
 			/* -------------------------------------

@@ -87,8 +87,11 @@
 <script>
 
     import Api from '@/api';
+    import Avatar from '../common/Avatar';
+    import EditIcon from '../common/EditIcon';
 
     export default {
+        name: "employment-list",
         data() {
             return {
                 expanded: [],
@@ -99,7 +102,6 @@
                 imgSrcSet: '/img/icons/expand@2x.png 2x, /img/icons/expand@3x.png 3x',
             }
         },
-
         created() {
             let component = this;
 
@@ -171,25 +173,19 @@
                 component.employments.splice(index, 1);
             });
         },
-
         methods: {
-
             getInitials(name, company) {
                 return Utils.getInitials((name != null) ? name : company.name);
             },
-
             getCompanyName(name, company) {
                 return (name != null) ? name : company.name;
             },
-
             getLocation(location, company) {
                 return (location != null) ? location : (company) ? company.address : '';
             },
-
             toggle(index) {
                 this.expanded[index] === true ? this.collapse(index) : this.expand(index);
             },
-
             collapse(index) {
                 this.$refs['boxCls-' + index][0].className = 'bl-box-2 hidden';
                 this.$refs['toggleCls-' + index][0].className = 'responsibilities hidden';
@@ -198,7 +194,6 @@
 
                 this.expanded[index] = false;
             },
-
             expand(index) {
                 let emp = this.employments[index],
                     empLoc = this.$refs['empLocationIcon-' + index][0];
@@ -218,28 +213,27 @@
 
                 this.expanded[index] = true;
             },
-
             collapseAll() {
                 for (let index = 0; index < this.employments.length; index++) {
                     this.collapse(index);
                 }
             },
-
             formatPeriod(emp) {
                 let endDate = (emp.end_month && emp.end_year) ?
                               new Date(emp.end_year, emp.end_month-1, 1) : new Date();
 
                 return Utils.formatPeriod(new Date(emp.start_year, emp.start_month-1, 1), endDate);
             },
-
             onClickCompanyPhoto(company_id) {
                 Api.redirectToCompanyProfile(company_id);
             },
-
             action(index) {
                 Bus.$emit('showEmployment', index, index != -1 ? this.employments[index] : null);
             },
-
-        }
+        },
+        components: {
+            Avatar,
+            EditIcon,
+        },
     }
 </script>

@@ -53,7 +53,7 @@
     import Api from '@/api';
 
     export default {
-
+        name: "current-role",
         data() {
             return {
                 has_focus: false,
@@ -69,14 +69,12 @@
                 },
             }
         },
-
         props: {
             mostRecentRole: {
                 type: String,
                 required: false,
             },
         },
-
         created() {
             let component = this;
 
@@ -88,13 +86,10 @@
 
             this.input.most_recent_role = this.mostRecentRole;
         },
-
         methods: {
-
             hasFocus(has_focus) {
                 this.has_focus = has_focus;
             },
-
             onSearchJob(keyword) {
                 if (keyword != '' && (keyword && keyword.length > 0)) {
                     this.job_roles = Api.getJobRoles(keyword);
@@ -103,13 +98,11 @@
                     this.job_roles = [];
                 }
             },
-
             onSelectJob(job) {
                 this.input.most_recent_role = job.job_role_name;
 
                 this.job_roles = [];
             },
-            
-        }
+        },
     }
 </script>

@@ -55,6 +55,7 @@
 
 <script>
     export default {
+        name: "view-user",
 		data() {
 			return {
                 record_id: 0,
@@ -64,7 +65,6 @@
 				}
 			}
 		},
-		
 		created() {
 			let component = this;
 
@@ -82,9 +82,7 @@
                 $('#upload').val('');
             });
 		},
-		
 		methods: {
-			
 		  	viewRecord() {
 				let component = this;
 
@@ -99,7 +97,6 @@
                         Utils.handleError(error);
                     });
             },
-              
             formatDate(d) {
                 if (d != null) {
                     let date = new Date(d);
@@ -107,39 +104,18 @@
                     return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
                 }
 			},
-        
             onClickDeleteAccount() {
 				Bus.$emit('datatableDeleteUser', this.record_id);
             },
-            
             onClickUploadImage() {
                 upload.click();
             },
-
             onFileChange(e) {
-                let files = e.target.files || e.dataTransfer.files;
-
-                if (!files.length)
-                    return;
-
-                let component = this,
-                    file = files[0],
-                    reader  = new FileReader();
-
-                reader.addEventListener('load', function () {
-
-                    Bus.$emit('imageToCrop', reader.result, component.record_id, 'Admin');
-
-                }, false);
-
-                if (file) {
-                    reader.readAsDataURL(file);
-                }
+                Utils.onFileChange(e, this.record_id, 'Admin');
             },
-
             onClickDeleteImage() {
                 Bus.$emit('deletePhoto', this.record_id);
-            }
+            },
         }
 	}
 </script>

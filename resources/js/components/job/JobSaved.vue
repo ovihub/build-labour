@@ -33,16 +33,16 @@
 </template>
 
 <script>
-
     import Api from '@/api';
+    import Avatar from '../common/Avatar';
 
     export default {
+        name: "job-saved",
         data() {
             return {
                 bookmarks: [],
             }
         },
-
         created() {
             let component = this;
 
@@ -70,13 +70,10 @@
 
             this.getBookmarks();
         },
-
         methods: {
-
             getInitials(name) {
                 return Utils.getInitials(name);
             },
-
             getBookmarks() {
                 let component = this;
 
@@ -84,15 +81,15 @@
                     component.bookmarks = data.data.bookmarks;
                 });
             },
-
             onClickCompanyPhoto(company_id) {
                 Api.redirectToCompanyProfile(company_id);
             },
-
             onClickJobPost(company_id, job_id) {
                 Api.redirectToJobPost(company_id, job_id);
             },
-
-        }
+        },
+        components: {
+            Avatar,
+        },
     }
 </script>

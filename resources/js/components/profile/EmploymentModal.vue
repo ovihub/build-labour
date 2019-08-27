@@ -173,8 +173,10 @@
 
 <script>
     import Api from '@/api';
+    import MainModal from '../common/MainModal';
 
     export default {
+        name: "employment-modal",
         data() {
             return {
                 has_focus_role: false,
@@ -424,6 +426,9 @@
 
                 this.disabled = false;
             },
-        }
+        },
+        components: {
+            MainModal,
+        },
     }
 </script>
