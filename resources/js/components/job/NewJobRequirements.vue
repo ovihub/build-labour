@@ -186,7 +186,7 @@
 
                     case 'experience':
                     case 'skills':
-                        this[field] = this[field].filter(r => r !== '' && r !== '');
+                        this[field] = this[field].filter(r => r !== '');
                         this[field].push('');
                         break;
                 }

@@ -17,38 +17,39 @@
                     <!-- Categories -->
                     <div class="job-title" style="margin-bottom:-18px">Category Title</div>
 
-                    <div class="form-group emp-row row-center">
+                    <div class="form-group emp-row row-center" v-for="(to, catIndex) in categories" :key="'qualItem' + catIndex">
                         <div class="job-col-left">
-                            <input class="form-control" type="text" placeholder="Quality Management" />
+                            <input class="form-control" type="text" placeholder="Quality Management" v-model="categories[catIndex].name" />
                         </div>
 
                         <div class="job-col-right">
-                            <span @click="removeEntity(index, 'categories')">
+                            <span @click="removeEntity(catIndex, 'categories')">
                                 <img src="/img/icons/remove.png" srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x" style="cursor:pointer">
                             </span>
                         </div>
-                    </div>
 
-                    <!-- Points -->
-                    <div class="ml-4">
-                        <div class="job-title" style="margin-bottom:-18px">Points</div>
+                        <!-- Points -->
+                        <div class="ml-4" style="width: 100%;">
+                            <div class="job-title" style="margin-bottom:-18px">Points</div>
 
-                        <div class="form-group emp-row row-center">
-                            <div class="job-col-left">
-                                <input class="form-control" type="text" placeholder="Comply with and ensure project works are in accordance with Probuild QM Policies." />
+                            <div class="form-group emp-row row-center" v-for="(to, index) in categories[catIndex].points" :key="'ptItem' + index">
+                                <div class="job-col-left">
+                                    <input class="form-control" type="text" placeholder="Comply with and ensure project works are in accordance with Probuild QM Policies."
+                                        v-model="categories[catIndex].points[index]" />
+                                </div>
+
+                                <div class="job-col-right">
+                                    <span @click="removeEntity(catIndex, 'points', index)">
+                                        <img src="/img/icons/remove.png" srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x" style="cursor:pointer">
+                                    </span>
+                                </div>
                             </div>
 
-                            <div class="job-col-right">
-                                <span @click="removeEntity(index, 'points')">
-                                    <img src="/img/icons/remove.png" srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x" style="cursor:pointer">
-                                </span>
-                            </div>
+                            <div class="btn btn-link btn-delete" @click="addEntity(catIndex, 'points')">New Point</div>
                         </div>
-
-                        <div class="btn btn-link btn-delete" @click="addEntity('points')">New Point</div>
                     </div>
 
-                    <div class="btn btn-link btn-delete" @click="addEntity('categories')">Add new category</div>
+                    <div class="btn btn-link btn-delete" @click="addEntity(null, 'categories')">Add new category</div>
                 </div>
             </form>
         </div>
@@ -60,8 +61,7 @@
         name: "new-job-responsibilities",
         data() {
             return {
-                qualities: [],
-                nextTitles: [],
+                categories: [],
             }
         },
         created() {
@@ -69,19 +69,39 @@
 
             Bus.$on('newJobRequirements', function() {
                 Bus.$emit('newJobResponsibilities', {
-                    qualities: vm.qualities,
-                    nextTitles: vm.nextTitles,
+                    categories: vm.categories,
                 });
             });
+
+            this.categories.push({ name: '', points: [ '' ] });
         },
         methods: {
-            addEntity(field) {
-                this[field] = this[field].filter(r => r !== '' && r !== '');
-                this[field].push('');
+            addEntity(index, field) {
+                switch(field) {
+                    case 'categories':
+                        this[field] = this[field].filter(r => r.name !== '');
+                        this[field].push({ name: '', points: [ '' ] });
+                        break;
+
+                    case 'points':
+                        this.categories[index].points = this.categories[index].points.filter(r => r !== '');
+                        this.categories[index].points.push('');
+                        break;
+                }
             },
-            removeEntity(index, field) {
-                if (this[field].length > 1) {
-                    this[field].splice(index, 1);
+            removeEntity(index, field, index2 = null) {
+                switch(field) {
+                    case 'categories':
+                        if (this[field].length > 1)  {
+                            this[field].splice(index, 1);
+                        }
+                        break;
+
+                    case 'points':
+                        if (this.categories[index].points.length > 1) {
+                            this.categories[index].points.splice(index2, 1);
+                        }
+                        break;
                 }
             },
         },

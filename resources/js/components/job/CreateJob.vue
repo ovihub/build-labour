@@ -55,8 +55,7 @@
             });
 
             Bus.$on('newJobResponsibilities', function(input) {
-                vm.input.qualities = input.qualities;
-                vm.input.nextTitles = input.nextTitles;
+                vm.input.categories = input.categories;
 
                 if (vm.isTemplate) {
                     vm.input.template_name = vm.template_name;
