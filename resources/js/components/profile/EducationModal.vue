@@ -122,10 +122,12 @@
 
 <script>
     import Api from '@/api';
+    import MainModal from '../common/MainModal';
 
     var currentYear = new Date().getFullYear();
 
     export default {
+        name: "education-modal",
         data() {
             return {
                 has_focus_course: false,
@@ -327,7 +329,10 @@
                 
                 this.disabled = false;
             },
-        }
+        },
+        components: {
+            MainModal,
+        },
     }
 </script>
 

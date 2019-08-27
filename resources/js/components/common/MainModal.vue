@@ -16,6 +16,17 @@
     </div>
 </template>
 
+<script>
+	export default {
+        name: "main-modal",
+        data() {
+			return {
+
+            }
+        },
+    }
+</script>
+
 <style scoped>
     .modal-ku {
         width: 100%;

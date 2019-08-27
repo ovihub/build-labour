@@ -217,8 +217,13 @@
 
 <script>
     import Api from '@/api';
+    import Avatar from '../common/Avatar';
+    import MainModal from '../common/MainModal';
+    import PhotoModal from '../common/PhotoModal';
+    import EditIcon from '../common/EditIcon';
 
     export default {
+        name: "user-profile",
         data() {
             return {
                 has_focus_role: false,
@@ -271,7 +276,6 @@
                 },
             }
         },
-
         created() {
             let component = this;
 
@@ -316,14 +320,11 @@
 
             this.editable = Api.checkAuthUser();
         },
-
         methods: {
-
             hasFocus() {
                 this.has_focus_role = false;
                 this.has_focus_location = false;
             },
-
             hasFocusRole(has_focus) {
                 this.has_focus_role = has_focus;
 
@@ -331,7 +332,6 @@
                     this.has_focus_location = false;
                 }
             },
-
             hasFocusLocation(has_focus) {
                 this.has_focus_location = has_focus;
 
@@ -339,7 +339,6 @@
                     this.has_focus_role = false;
                 }
             },
-            
             setValues(details) {
                 this.profile_description = details.profile_description;
                 this.profile_photo_url = details.profile_photo_url;
@@ -359,7 +358,6 @@
                 this.course = details.education ? (details.education.course ? details.education.course.course_name: details.education.course_name) : '';
                 this.school = details.education ? details.education.school : '';
             },
-
             setDisplayValues(val, details) {
                 val.profile_description = details.profile_description;
                 val.first_name = details.first_name;
@@ -380,54 +378,30 @@
                     val.tiers.push(details.tiers[i].id);
                 }
             },
-            
             formatYearsExperience() {
                 return (this.exp_year ? (this.exp_year + (this.exp_year > 1 ? ' years' : ' year')) : '') +
                         ((this.exp_year && this.exp_month) ? ' and ' : '') + 
                         (this.exp_month ? (this.exp_month + (this.exp_month > 1 ? ' months' : ' month')) : '');
             },
-
             onClickProfilePhoto() {
                 if (this.editable) {
                     upload.click();
                 }
             },
-
             onFileChange(e) {
-                let files = e.target.files || e.dataTransfer.files;
-                
-                if (! files.length) {
-                    return;
-                }
-
-                let file = files[0],
-                    reader  = new FileReader();
-
-                reader.addEventListener('load', function() {
-                    
-                    Bus.$emit('imageToCrop', reader.result, 0, 'User');
-
-                }, false);
-
-                if (file) {
-                    reader.readAsDataURL(file);
-                }
+                Utils.onFileChange(e, 0, 'User');
             },
-
             textAreaAdjust(refName) {
                 this.hasFocus();
 
                 Utils.textAreaAdjust(this.$refs[refName]);
             },
-
             open() {
                 this.loadEducations();
             },
-
             close() {
                 this.setDisplayValues(this.input, this);
             },
-
             loadEducations() {
                 let component = this;
 
@@ -445,7 +419,6 @@
                         Utils.handleError(error);
                     });
             },
-
             onChangeLocation(keyword) {
                 if (keyword != '' && (keyword && keyword.length > 0)) {
                     this.locations = Api.getLocations(keyword);
@@ -454,13 +427,11 @@
                     this.locations = [];
                 }
             },
-
             onSelectLocation(location) {
                 this.input.address = location;
                 
                 this.locations = [];
             },
-
             onSearchJob(keyword) {
                 if (keyword != '' && (keyword && keyword.length > 0)) {
                     this.job_roles = Api.getJobRoles(keyword);
@@ -469,13 +440,11 @@
                     this.job_roles = [];
                 }
             },
-
             onSelectJob(job) {
                 this.input.most_recent_role = job.job_role_name;
 
                 this.job_roles = [];
             },
-
             async submit() {
                 let component = this;
 
@@ -519,6 +488,12 @@
                 
                 this.disabled = false;
             },
-        }
+        },
+        components: {
+            Avatar,
+            MainModal,
+            PhotoModal,
+            EditIcon,
+        },
     }
 </script>

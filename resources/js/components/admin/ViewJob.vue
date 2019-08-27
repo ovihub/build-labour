@@ -28,7 +28,7 @@
                 <label class="record-label">JOB ROLE</label>
 
                 <select style="margin:0" class="form-control record-input" @change="onChange($event)" v-model="record.job_role_id">
-                    <option v-for="role in job_roles" :value="role.id">{{ role.job_role_name }}</option>
+                    <option v-for="role in job_roles" :key="role.id" :value="role.id">{{ role.job_role_name }}</option>
                 </select>
             </div>
         </div>
@@ -133,6 +133,7 @@
 
 <script>
     export default {
+        name: "view-job",
 		data() {
 			return {
                 disabled: false,

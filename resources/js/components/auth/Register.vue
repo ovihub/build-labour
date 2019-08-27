@@ -123,7 +123,7 @@
         </div>
 
         <div class="form-group">
-            <a class="btn btn-link" v-bind:href="endpoints.login">
+            <a class="btn btn-link pull-left" v-bind:href="endpoints.login">
                 Back to login
             </a>
             
@@ -132,7 +132,7 @@
             </button>
             
             <div class="loading">
-                <pulse-loader :loading="loading" color="#ff7705" size="8px"></pulse-loader>
+                <pulse-loader :loading="loading" color="#00aeef" size="8px"></pulse-loader>
             </div>
         </div>
     </form>
@@ -140,9 +140,11 @@
 
 <script>
     import Api from '@/api';
+    import PasswordEye from '../common/PasswordEye';
+    import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 
     export default {
-
+        name: "register",
         data() {
             return {
                 roles: [],
@@ -165,7 +167,6 @@
                 }
             }
         },
-
         created() {
             let component = this;
 
@@ -177,13 +178,10 @@
                 component.$refs['regToggleConfirm'].type = type;
             });
         },
-
         methods: {
-
             hasFocus(has_focus) {
                 this.has_focus = has_focus;
             },
-            
             onSearchJob(keyword) {
                 if (keyword != '' && (keyword && keyword.length > 0)) {
                     this.job_roles = Api.getJobRoles(keyword);
@@ -192,13 +190,11 @@
                     this.job_roles = [];
                 }
             },
-
             onSelectJob(job) {
                 this.input.most_recent_role = job.job_role_name;
 
                 this.job_roles = [];
             },
-
             async registerUser() {
                 let component = this;
                 
@@ -233,6 +229,10 @@
                 this.loading = false;
                 this.disabled = false;
             },
-        }
+        },
+        components: {
+            PasswordEye,
+            PulseLoader,
+        },
     }
 </script>

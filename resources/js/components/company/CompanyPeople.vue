@@ -27,6 +27,7 @@
     import Api from '@/api';
 
     export default {
+        name: "company-people",
         data() {
             return {
                 show: false,
@@ -36,20 +37,17 @@
                 },
             }
         },
-
         props: {
             companyId: {
                 type: String,
                 required: false
             },
         },
-
         computed: {
             endpointGet() {
                 return this.endpoints.get + this.companyId + '/posts/people';
             }
         },
-
         created() {
             let component = this;
 
@@ -65,13 +63,10 @@
                 component.show = false;
             });
         },
-
         methods: {
-
             getInitials(name) {
                 return Utils.getInitials(name);
             },
-
             getEmployees(endpoint) {
                 let component = this;
 
@@ -79,7 +74,6 @@
                     component.employees = data.data.people;
                 });
             },
-
             onClickProfilePhoto(id) {
                 Api.redirectToUserProfile(id);
             },

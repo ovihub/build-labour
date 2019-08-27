@@ -65,8 +65,10 @@
 
 <script>
     import Api from '@/api';
+    import Avatar from '../common/Avatar';
 
     export default {
+        name: "job-posts",
         data() {
             return {
                 jobPosts: [],
@@ -81,20 +83,17 @@
                 },
             }
         },
-
         props: {
             companyId: {
                 type: String,
                 required: false
             },
         },
-
         computed: {
             endpointGet() {
                 return this.endpoints.get + this.companyId + '/posts/jobs';
             }
         },
-
         created() {
             let component = this;
 
@@ -113,13 +112,10 @@
                 component.checkedJobPosts = data.data.bookmarks;
             });
         },
-
         methods: {
-
             getInitials(name) {
                 return Utils.getInitials(name);
             },
-
             getJobPosts(endpoint) {
                 let component = this;
 
@@ -127,15 +123,12 @@
                     component.jobPosts = data.data.jobs;
                 });
             },
-
             getTimeDiffNow(created_at) {
                 return Utils.formatTimeDiffNow(created_at);
             },
-
             onClickCompanyPhoto(company_id) {
                 Api.redirectToCompanyProfile(company_id);
             },
-
             async save(post) {
                 let component = this;
                 
@@ -156,6 +149,9 @@
                 
                 this.disabled = false;
             },
-        }
+        },
+        components: {
+            Avatar,
+        },
     }
 </script>

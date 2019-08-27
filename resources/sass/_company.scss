@@ -155,7 +155,7 @@
     width: 146px;
     height: 34px;
     border-radius: 8px;
-    background-color: #f5a623;
+    background-color: $brand;
     text-align: center;
     margin-top: 20px;
     margin-left: 28px;
@@ -170,7 +170,7 @@
     }
 
     &:hover {
-        background-color: $brand-orange;
+        background-color: $brand-dark;
     }
 }
 .comp-nophoto-label {
@@ -222,11 +222,11 @@
 #myProgress {
     margin-top: 30px;
     width: 100%;
-    background-color: linear-gradient(to right, $brand-orange 0%, $brand-orange 0%, #bdc3c7 100%, #fff 100%);;
+    background-color: linear-gradient(to right, $brand-dark 0%, $brand-dark 0%, #bdc3c7 100%, #fff 100%);;
 }
 #myBar {
     width: 0%;
     border-radius: 8px;
     height: 4px;
-    background-color: $brand-orange;
+    background-color: $brand-dark;
 }

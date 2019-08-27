@@ -21,7 +21,7 @@
     import Api from '@/api';
 
     export default {
-
+        name: "skill-achievements",
         data() {
             return {
                 is_empty: false,
@@ -37,7 +37,6 @@
                 },
             }
         },
-
         created() {
             let component = this;
 
@@ -45,13 +44,10 @@
                 Api.submit(component.endpoints.save, component.$data.input);
             });
         },
-
         methods: {
-
             textAreaAdjust(refName) {
                 Utils.textAreaAdjust(this.$refs[refName]);
             },
-
-        }
+        },
     }
 </script>

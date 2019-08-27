@@ -18,10 +18,11 @@ class JobsController extends Controller
             if ($user) {
                 $params = $_GET;
 
-                if ($page == 'view_job' && $params ||
-                   ($page == 'post_job' && $user && $user->role_id == 2 && ! isset($params['jid']))) {
-                    
+                if ($page == 'view_job' && $params) {
                     return view('jobs.view');
+
+                } else if ($page == 'post_job' && $user && $user->role_id == 2 && ! isset($params['jid'])) {
+                    return view('jobs.new');
                 }
                 
                 return view('errors.404');

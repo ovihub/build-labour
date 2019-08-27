@@ -28,12 +28,12 @@
 
 <script>
     export default {
+        name: "ads",
         data() {
             return {
 
             }
         },
-
         methods: {
 
         }

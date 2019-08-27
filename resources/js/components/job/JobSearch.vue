@@ -21,23 +21,20 @@
 
 <script>
     export default {
+        name: "job-search",
         data() {
             return {
                 keyword: '',
                 location: '',
             }
         },
-
         created() {
             Bus.$emit('activateTab', 'jobs');
         },
-
         methods: {
-
             onSearchJobPosts() {
                 Bus.$emit('searchJobPosts', this.keyword, this.location);
             },
-
-        }
+        },
     }
 </script>

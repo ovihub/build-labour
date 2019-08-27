@@ -14,3 +14,7 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/jobs/search.js') }}"></script>
+@endpush

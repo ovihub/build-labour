@@ -1,5 +1,4 @@
 <template>
-
     <div class="form-group view-company" v-if="record">
         <div class="record-title">
             {{ record.name }}
@@ -60,6 +59,7 @@
 
 <script>
     export default {
+        name: "view-company",
 		data() {
 			return {
                 record_id: 0,
@@ -77,7 +77,6 @@
                 ]
 			}
 		},
-		
 		created() {
 			let component = this;
 
@@ -95,9 +94,7 @@
                 $('#upload').val('');
             });
 		},
-		
 		methods: {
-			
 		  	viewRecord() {
 				let component = this;
 
@@ -112,7 +109,6 @@
                         Utils.handleError(error);
                     });
             },
-              
             formatDate(d) {
                 if (d != null) {
                     let date = new Date(d);
@@ -120,52 +116,21 @@
                     return date.getDate() + ' ' + Utils.getMonth(date.getMonth()) + ' ' + date.getFullYear();
                 }
 			},
-
-            getProfilePic(value) {
-		  	    if (!value) {
-
-                }
-
-                return '';
-               // return value.split(' ')[0];
-            },
-
             getProfileName(value) {
                 return value.first_name + ' ' + value.last_name;
             },
-
             onClickDeleteAccount() {
 				Bus.$emit('datatableDeleteUser', this.record_id);
             },
-            
             onClickUploadImage() {
                 upload.click();
             },
-
             onFileChange(e) {
-                let files = e.target.files || e.dataTransfer.files;
-
-                if (!files.length)
-                    return;
-
-                let component = this,
-                    file = files[0],
-                    reader  = new FileReader();
-
-                reader.addEventListener('load', function () {
-
-                    Bus.$emit('imageToCrop', reader.result, component.record_id);
-
-                }, false);
-
-                if (file) {
-                    reader.readAsDataURL(file);
-                }
+                Utils.onFileChange(e, this.record_id);
             },
-
             onClickDeleteImage() {
                 Bus.$emit('deletePhoto', this.record_id);
-            }
+            },
         }
 	}
 </script>
