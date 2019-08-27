@@ -659,9 +659,9 @@ class ApiCompaniesController extends ApiBaseController
 
     /**
      * @OA\Get(
-     *      path="/company/{id}/posts/jobs",
+     *      path="/company/{id}/posts/jobs?status=active",
      *      tags={"Company"},
-     *      summary="Get company Post Jobs",
+     *      summary="Get company Post Jobs by filter active or closed",
      *      security={{"BearerAuth":{}}},
      *      @OA\Parameter(
      *          in="path",
@@ -702,7 +702,7 @@ class ApiCompaniesController extends ApiBaseController
     {
         try {
 
-            $jobs = $this->repository->getJobPosts($request->id);
+            $jobs = $this->repository->getJobPosts($request->id, $request->status);
 
         } catch(\Exception $e) {
 

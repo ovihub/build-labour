@@ -134,12 +134,19 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             Route::get('search', 'ApiJobsController@searchCompanyJobs'); // search a jobs and company jobs with is_template is false
             Route::post('search/filter', 'ApiJobsController@postFilter');
 
-            Route::post('{id}', 'ApiJobsController@update');
-            Route::get('{id}', 'ApiJobsController@view');
+            Route::prefix('{id}')->group(function() {
+                Route::middleware(['jobExist'])->group(function() {
+                    Route::post('/', 'ApiJobsController@update');
+                    Route::get('/', 'ApiJobsController@view');
 
-            Route::post('{id}/requirements', 'ApiJobsController@postJobRequirements');
-            Route::post('{id}/responsibilities', 'ApiJobsController@postJobResponsibilities');
-            Route::get('{id}/responsibilities', 'ApiJobsController@getJobResponsibilities');
+                    Route::post('/requirements', 'ApiJobsController@postJobRequirements');
+                    Route::post('/responsibilities', 'ApiJobsController@postJobResponsibilities');
+                    Route::get('/responsibilities', 'ApiJobsController@getJobResponsibilities');
+
+                    Route::get('/apply', 'ApiJobApplicantsController@apply');
+                    Route::get('/applicants', 'ApiJobApplicantsController@applicants');
+                });
+            });
         });
     });
 

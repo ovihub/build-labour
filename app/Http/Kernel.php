@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\JobExists;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -67,6 +68,7 @@ class Kernel extends HttpKernel
         'jwt' => \App\Http\Middleware\Jwt::class,
         'cors' => \App\Http\Middleware\Cors::class,
         'chat' => \App\Http\Middleware\Chat::class,
+        'jobExist' => \App\Http\Middleware\JobExists::class
     ];
 
     /**
