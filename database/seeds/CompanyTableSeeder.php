@@ -97,6 +97,7 @@ class CompanyTableSeeder extends Seeder
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                     'is_template' => true,
+                    'template_name' => 'Template 1',
                     'job_role_id' => $jobRole1->id
                 ]);
 
@@ -110,6 +111,7 @@ class CompanyTableSeeder extends Seeder
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                     'is_template' => true,
+                    'template_name' => 'Template 2',
                     'job_role_id' => $jobRole2->id
                 ]);
 
@@ -123,7 +125,8 @@ class CompanyTableSeeder extends Seeder
                     'created_by' => $user->id,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
-                    'is_template' => true
+                    'is_template' => true,
+                    'template_name' => 'Template 3',
                 ]);
 
                 Job::create([
@@ -164,6 +167,7 @@ class CompanyTableSeeder extends Seeder
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                     'is_template' => true,
+                    'template_name' => 'Template 4',
                     'job_role_id' => $jobRole3->id
                 ]);
 

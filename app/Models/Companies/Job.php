@@ -23,7 +23,9 @@ class Job extends BaseModel
         'job_role_id',
         'company_id',
         'created_by',
-        'is_template'
+        'is_template',
+        'template_name',
+        'template_id'
     ];
 
     protected $hidden = [
@@ -47,7 +49,8 @@ class Job extends BaseModel
             'exp_level'     => 'required',
             'contract_type' => 'required',
             'salary'        => 'nullable|regex:/\b\d{1,3}(?:,?\d{3})*(?:\.\d{2})?\b/', /* monetary validation */
-            'location'      => 'required'
+            'location'      => 'required',
+            'template_name' => 'required'
         ];
     }
 
@@ -60,7 +63,14 @@ class Job extends BaseModel
 
     private function validate( $data ){
 
-        $validator = \Validator::make($data, $this->rules());
+        $rules = $this->rules();
+
+        if (isset($data['is_template']) && !$data['is_template']) {
+
+            unset($rules['template_name']);
+        }
+
+        $validator = \Validator::make($data, $rules);
 
         if ( $validator->fails() ) {
 
@@ -78,9 +88,9 @@ class Job extends BaseModel
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
-    public function CreatedBy() {
+    public function PostedBy() {
 
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
     public function Requirements() {
@@ -179,5 +189,20 @@ class Job extends BaseModel
         }
 
         return $this;
+    }
+
+    public function JobApplicants()
+    {
+
+        return $this->belongsToMany(User::class, 'job_post_applicants', 'user_id', 'job_id')
+            ->with([
+                'WorkerDetail',
+                'WorkerDetail.Areas',
+                'WorkerDetail.Sectors',
+                'WorkerDetail.Tiers',
+                'Educations',
+                'Tickets',
+                'Skills'
+            ]);
     }
 }

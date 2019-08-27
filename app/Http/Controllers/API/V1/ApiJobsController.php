@@ -23,7 +23,7 @@ class ApiJobsController extends ApiBaseController
     /**
      * @OA\Post(
      *      path="/job/search/filter",
-     *      tags={"Job"},
+     *      tags={"Job Applicant"},
      *      summary="Search and FIlter Jobs",
      *      security={{"BearerAuth":{}}},
      *      @OA\RequestBody(
@@ -383,6 +383,12 @@ class ApiJobsController extends ApiBaseController
      *                      description="<b>Required</b> Title",
      *                      type="string",
      *                      example="Project Manager"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="template_name",
+     *                      description="<b>Required</b> template name",
+     *                      type="string",
+     *                      example="Project Manager Template"
      *                  ),
      *                  @OA\Property(
      *                      property="description",

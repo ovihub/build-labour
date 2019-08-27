@@ -203,12 +203,31 @@ class CompanyRepository extends AbstractRepository
         return $posts;
     }
 
-    public function getJobPosts($id) {
+    public function getJobPosts($id, $status) {
         
-        $jobs = Job::with('Company')
+        $jobs = Job::with('Company', 'PostedBy')
                 ->where('company_id', $id)
-                ->where('is_template', false)
-                ->get();
+                ->where('is_template', false);
+
+
+        if ($status == 'active' || $status == 'closed') {
+
+            switch ($status) {
+
+                case 'active':
+                    $statusBool = 1;
+                    break;
+                case 'closed':
+                    $statusBool = 0;
+                    break;
+                default:
+                    $statusBool = 1;
+            }
+
+            $jobs = $jobs->where('status', $statusBool);
+        }
+
+        $jobs = $jobs->get();
 
         return $jobs;
     }
@@ -227,7 +246,8 @@ class CompanyRepository extends AbstractRepository
 
     public function getJobTemplates( Request $request ) {
 
-        $templates = Job::where('company_id', $request->id)
+        $templates = Job::with(['company', 'postedBy'])
+            ->where('company_id', $request->id)
             ->where('is_template', true)
             ->get();
 
