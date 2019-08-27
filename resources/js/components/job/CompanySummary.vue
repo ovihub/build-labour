@@ -28,19 +28,9 @@
         
         </div>
 
-        <button style="width:100%" v-if="show">
+        <button style="width: 100%;" v-if="show">
             Apply
         </button>
-
-        <div v-else>
-            <!-- <button style="width:100%" :disabled="disabled" @click="postJob(1)">
-                Save as template
-            </button> -->
-
-            <button style="width:100%" :disabled="disabled" @click="postJob(0)">
-                Post Job
-            </button>
-        </div>
     </div>
 </template>
 
@@ -76,17 +66,9 @@
                     component.show = false;
                 }
             });
-
-            Bus.$on('postedJob', function() {
-                component.disabled = false;
-            });
         },
         methods: {
-            postJob(isTemplate) {
-                this.disabled = true;
 
-                Bus.$emit('postJob', isTemplate);
-            },
         },
         components: {
             Avatar,

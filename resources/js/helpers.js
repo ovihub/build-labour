@@ -31,12 +31,7 @@ months.push({ id: 11, name: 'November' });
 months.push({ id: 12, name: 'December' });
 
 window.Helper = {
-    data: {
-
-    },
-    
     methods: {
-
         getUrlParams() {
             let regex = /[?&]([^=#]+)=([^&#]*)/g,
                 url = window.location.href,
@@ -49,51 +44,52 @@ window.Helper = {
 
             return params;
         },
-
         setObjectWithSameKeys(obj, o) {
             for (let key in obj) {
                 obj[key] = o[key];
             }
         },
-
         setObjectValues(obj, val) {
             for (let key in obj) {
                 obj[key] = val;
             }
         },
-
         checkIfObjectIsEmpty(obj) {
             for (let key in obj) {
                 if (obj[key] != '') {
                     return false;
                 }
             }
-
             return true;
         },
-
         isNullOrEmpty(value) {
             return (value === false || value === null || value === undefined || value === '' || value.length === 0);
         },
-
         handleError(error) {
+            let retVal = null;
+            
             if (error.response) {
                 let data = error.response.data;
                 
                 if (data.http_status == 422) {
-                    console.log('Invalid input!');
-                    // Bus.$emit('alertError', 'Invalid input! Please see errors below.');
-                
+                    retVal = data.errors;
+
+                    for (let key in retVal) {
+                        retVal[key] = data.errors[key] ? data.errors[key][0] : '';
+                    }
+
                 } else {
                     window.scrollTo(0, 0);
                     Bus.$emit('alertError', data.message);
                 }
+
             } else {
                 window.scrollTo(0, 0);
                 Bus.$emit('alertError', error);
             }
-        },
 
+            return retVal;
+        },
         getBearerAuth(record = null) {
             return record ? {
                 headers: {
@@ -106,7 +102,6 @@ window.Helper = {
                 }
             };
         },
-
         formatPeriod(start, end) {
             let diff = (end === null) ? new Date() - new Date(start) : new Date(end) - new Date(start),
                 offset = new Date().getTimezoneOffset()/60,
@@ -137,7 +132,6 @@ window.Helper = {
 
             return period;
         },
-        
         formatTimeDiffNow(created) {
             let diff = new Date(created) - new Date(),
                 offset = new Date().getTimezoneOffset() / 60,
@@ -174,26 +168,21 @@ window.Helper = {
 
             return (hours == 1) ? 'Posted 1hr ago' : 'Posted ' + hours + 'hrs ago';
         },
-
         getInitials(name) {
             let initials = name.split(' ');
             
             return (initials.length > 1) ? initials[0].charAt(0).toUpperCase() + initials[1].charAt(0).toUpperCase() : 
                                             initials[0].charAt(0).toUpperCase();
         },
-
         getDaysInMonth(month, year) {
            return new Date(year, month, 0).getDate();
         },
-
         getMonth(index) {
             return month[index];
         },
-        
         getMonths() {
             return months;
         },
-
         getYears(startYear = new Date().getFullYear(), endYear = 1950) {
             let years = [];
 
@@ -203,12 +192,10 @@ window.Helper = {
 
             return years;
         },
-
         textAreaAdjust(o) {
             o.style.height = '1px';
             o.style.height = (2 + o.scrollHeight) + 'px';
         },
-
         formatCheckbox(refs, input, refName, value) {
 
             if (value == 1) {
@@ -228,7 +215,6 @@ window.Helper = {
                 input[refName] = value;
             }
         },
-
         hashCode(str) {
             let hash = 0;
 
@@ -238,7 +224,6 @@ window.Helper = {
 
             return hash;
         },
-        
         intToRGB(i){
             let c = (i & 0x00FFFFFF)
                 .toString(16)
@@ -246,11 +231,9 @@ window.Helper = {
         
             return "00000".substring(0, 6 - c.length) + c;
         },
-
         getColorHex(str) {
             return this.intToRGB(this.hashCode(str));
         },
-
         onFileChange(e, id = null, type = null) {
             let files = e.target.files || e.dataTransfer.files;
 

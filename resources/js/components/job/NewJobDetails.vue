@@ -193,22 +193,17 @@
                     title: '', description: '', about: '', exp_level: '',
                     contract_type: '', salary: '', reports_to: '', location: '',
                 },
-                endpoints: {
-                    post: '/api/v1/job',
-                    save: '/api/v1/job/save-template',
-                },
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
-            Bus.$on('postJob', function(isTemplate) {
-                if (isTemplate) {
-                    component.submit(component.endpoints.save)
-                
-                } else {
-                    component.submit(component.endpoints.post);
-                }
+            Bus.$on('saveJob', function() {
+                Bus.$emit('newJobDetails', vm.input);
+            });
+
+            Bus.$on('newJobDetailsError', function(errors) {
+                vm.errors = errors;
             });
 
             this.input.reports_to.push('');
@@ -270,40 +265,6 @@
                 if (this.input.reports_to.length > 1) {
                     this.input.reports_to.splice(index, 1);
                 }
-            },
-            async submit(endpoint) {
-                let component = this;
-
-                Utils.setObjectValues(this.errors, '');
-                
-                await axios.post(endpoint, component.$data.input, Utils.getBearerAuth())
-                    
-                .then(function(response) {
-                    let data = response.data,
-                        job = data.data.job;
-                    
-                    if (job.is_template) {
-                        Bus.$emit('alertSuccess', data.message);
-                        
-                        Utils.setObjectValues(component.input, '');
-
-                    } else {
-                        window.location.href = '/job/view?cid=' + job.company_id + '&jid=' + job.id;
-                    }
-                })
-                .catch(function(error) {
-                    if (error.response) {
-                        let data = error.response.data;
-
-                        for (let key in data.errors) {
-                            component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                        }
-                    }
-
-                    Utils.handleError(error);
-                });
-
-                Bus.$emit('postedJob');
             },
         }
     }

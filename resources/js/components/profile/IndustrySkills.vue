@@ -23,10 +23,8 @@
                             @keyup="textAreaAdjust('skillsIntro')"
                             v-model="input.main_skill">
                         </textarea>
-                        
-                        <span class="err-msg" v-if="errors.main_skill">
-                            {{ errors.main_skill }}
-                        </span>
+
+                        <span class="err-msg" v-if="errors.main_skill">{{ errors.main_skill }}</span>
 
                         <div class="skill-label">
                             What are your main industry skills?
@@ -243,36 +241,30 @@
 
                 await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
                     
-                    .then(function(response) {
-                        let data = response.data;
-						
-                        $('#modalIndustrySkill').modal('hide');
-                        
-                        component.is_empty = false;
-                        
-                        component.main_skill = data.data.main_skill;
-                        component.user_skills = data.data.skills.map(function(skill) {
-                            return { 
-                                sid: skill.skill_id,
-                                sname: skill.skill_name,
-                                lid: skill.level_id,
-                                lname: skill.level_name
-                            };
-                        });
-
-                        component.display();
-                    })
-                    .catch(function(error) {
-                        if (error.response) {
-                            let data = error.response.data;
-
-							for (let key in data.errors) {
-								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                            }
-                        }
-
-                        Utils.handleError(error);
+                .then(function(response) {
+                    let data = response.data;
+                    
+                    $('#modalIndustrySkill').modal('hide');
+                    
+                    component.is_empty = false;
+                    
+                    component.main_skill = data.data.main_skill;
+                    component.user_skills = data.data.skills.map(function(skill) {
+                        return { 
+                            sid: skill.skill_id,
+                            sname: skill.skill_name,
+                            lid: skill.level_id,
+                            lname: skill.level_name
+                        };
                     });
+
+                    component.display();
+                
+                }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
+            
+                    if (inputErrors) component.errors = inputErrors;
+                });
                 
                 component.disabled = false;
             },

@@ -19,11 +19,13 @@
                                 <div class="emp-form-label">First Name</div>
                                 <input class="form-control" type="text" v-model="input.first_name" 
                                     @focus="hasFocus()" />
+                                <span class="err-msg" v-if="errors.first_name">{{ errors.first_name }}</span>
                             </div>
                             <div class="role-col-right">
                                 <div class="emp-form-label">Last Name</div>
                                 <input class="form-control" type="text" v-model="input.last_name"
                                     @focus="hasFocus()" />
+                                <span class="err-msg" v-if="errors.last_name">{{ errors.last_name }}</span>
                             </div>
                         </div>
 
@@ -68,10 +70,6 @@
                             <input class="form-control" type="text" placeholder="Most Recent Role" v-model="input.most_recent_role"
                                 @focus="hasFocusRole(true)"
                                 @keyup="onSearchJob(input.most_recent_role)" />
-                            
-                            <span class="err-msg" v-if="errors.most_recent_role">
-                                {{ errors.most_recent_role }}
-                            </span>
                         </div>
 
                         <div class="emp-row" style="margin-top:0" v-if="has_focus_role && job_roles && job_roles.length > 0">
@@ -456,35 +454,29 @@
                 
                 await axios.post(component.endpoints.save, component.$data.input, Utils.getBearerAuth())
                     
-                    .then(function(response) {
-                        let data = response.data;
-						
-                        $('#modalUserProfile').modal('hide');
+                .then(function(response) {
+                    let data = response.data;
+                    
+                    $('#modalUserProfile').modal('hide');
 
-                        component.setDisplayValues(component, data.data.introduction);
+                    component.setDisplayValues(component, data.data.introduction);
 
-                        component.sectors = [];
-                        component.tiers = [];
+                    component.sectors = [];
+                    component.tiers = [];
 
-                        for (let i = 0; i < component.input.sectors.length; i++) {
-                            component.sectors.push(component.sectors_list.find(obj => obj['id'] == component.input.sectors[i]));
-                        }
-                        
-                        for (let i = 0; i < component.input.tiers.length; i++) {
-                            component.tiers.push(component.tiers_list.find(obj => obj['id'] == component.input.tiers[i]));
-                        }
-                    })
-                    .catch(function(error) {
-                        if (error.response) {
-                            let data = error.response.data;
-
-							for (let key in data.errors) {
-								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                            }
-                        }
-
-                        Utils.handleError(error);
-                    });
+                    for (let i = 0; i < component.input.sectors.length; i++) {
+                        component.sectors.push(component.sectors_list.find(obj => obj['id'] == component.input.sectors[i]));
+                    }
+                    
+                    for (let i = 0; i < component.input.tiers.length; i++) {
+                        component.tiers.push(component.tiers_list.find(obj => obj['id'] == component.input.tiers[i]));
+                    }
+                
+                }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
+                
+                    if (inputErrors) component.errors = inputErrors;
+                });
                 
                 this.disabled = false;
             },

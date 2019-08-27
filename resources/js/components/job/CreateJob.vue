@@ -13,11 +13,11 @@
                     v-model="template_name">
             </div>
 
-            <div class="btn btn-link btn-delete mb-2">
-                    Save as new template
-                </div>
+            <div class="btn btn-link btn-delete mb-2" @click="onClickSaveAsTemplate">
+                Save as new template
+            </div>
 
-            <button style="width:100%" :disabled="disabled" @click="useTemplate()">
+            <button style="width: 100%;" :disabled="disabled" @click="onClickPostJob">
                 Post Job
             </button>
         </div>
@@ -32,29 +32,9 @@
         data() {
             return {
                 disabled: false,
-                show: true,
-                reports_to_active_index: 0,
-                reports_to_job_roles: [],
-                job_roles: [],
-                locations: [],
-                job_role: '',
-                title: '',
-                description: '',
-                about: '',
-                exp_level: '',
-                contract_type: '',
-                salary: '',
-                reports_to: [],
-                location: '',
+                isTemplate: 0,
                 template_name: '',
-                input: {
-                    job_role_id: '', title: '', description: '', about: '', exp_level: '',
-                    contract_type: '', salary: '', reports_to: [], location: '',
-                },
-                errors: {
-                    title: '', description: '', about: '', exp_level: '',
-                    contract_type: '', salary: '', reports_to: '', location: '',
-                },
+                input: {},
                 endpoints: {
                     post: '/api/v1/job',
                     save: '/api/v1/job/save-template',
@@ -62,98 +42,48 @@
             }
         },
         created() {
-            let component = this;
+            let vm = this;
 
-            Bus.$on('jobDetails', function(details) {
-                if (details) {
-                    component.title = details.title ? details.title : details.job_role.job_role_name;
-                    component.description = details.description;
-                    component.about = details.about;
-                    component.exp_level = details.exp_level;
-                    component.contract_type = details.contract_type;
-                    component.salary = details.salary;
-                    component.reports_to = details.reports_to;
-                    component.location = details.location;
-                
-                } else {
-                    component.show = false;
-                }
+            Bus.$on('newJobDetails', function(input) {
+                vm.input = input;
             });
 
-            Bus.$on('postJob', function(isTemplate) {
-                if (isTemplate) {
-                    component.submit(component.endpoints.save)
-                
-                } else {
-                    component.submit(component.endpoints.post);
-                }
+            Bus.$on('newJobRequirements', function(input) {
+                vm.input.qualifications = input.qualifications;
+                vm.input.experience = input.experience;
+                vm.input.skills = input.skills;
             });
 
-            this.input.reports_to.push('');
+            Bus.$on('newJobResponsibilities', function(input) {
+                vm.input.qualities = input.qualities;
+                vm.input.nextTitles = input.nextTitles;
+
+                if (vm.isTemplate) {
+                    vm.input.template_name = vm.template_name;
+                    vm.submit(vm.endpoints.save)
+                
+                } else {
+                    vm.submit(vm.endpoints.post);
+                }
+            });
         },
         methods: {
-            textAreaAdjust(refName) {
-                Utils.textAreaAdjust(this.$refs[refName]);
-            },
-            onChangeLocation(keyword) {
-                let component = this;
+            onClickSaveAsTemplate() {
+                this.isTemplate = 1;
 
-                Promise.resolve(Api.getLocations(keyword)).then(function(data) {
-                    component.locations = (keyword != '' && (keyword && keyword.length > 0) && 
-                                            data.data && data.data.locations && data.data.locations.features) ? 
-                                            data.data.locations.features : [];
-                });
+                Bus.$emit('saveJob');
             },
-            onSelectLocation(location) {
-                this.input.location = location;
-                
-                this.locations = [];
-            },
-            onSearchJob(keyword) {
-                this.input.job_role_id = '';
+            onClickPostJob() {
+                this.isTemplate = 0;
 
-                let component = this;
-                
-                Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
-                    component.job_roles = data.data ? data.data.job_roles : [];
-                });
-            },
-            onSearchReportsTo(keyword, index) { 
-                let component = this;
-                
-                Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
-                    component.reports_to_job_roles = data.data ? data.data.job_roles : [];
-                });
-
-                this.reports_to_active_index = index;
-            },
-            onSelectReportsTo(job) {
-                this.input.reports_to[this.reports_to_active_index] = job.job_role_name;
-
-                this.reports_to_job_roles = [];
-            },
-            onSelectJob(job) {
-                this.input.job_role_id = job.id;
-                this.input.title = job.job_role_name;
-
-                this.job_roles = [];
-            },
-            addNewEntity() {
-                this.input.reports_to = this.input.reports_to.filter(r => r !== '');
-
-                this.input.reports_to.push('');
-            },
-            removeEntity(index) {
-                if (this.input.reports_to.length > 1) {
-                    this.input.reports_to.splice(index, 1);
-                }
+                Bus.$emit('saveJob');
             },
             async submit(endpoint) {
-                let component = this;
+                let vm = this;
 
-                Utils.setObjectValues(this.errors, '');
-                
-                await axios.post(endpoint, component.$data.input, Utils.getBearerAuth())
+                this.disabled = true;
+
+                await axios.post(endpoint, vm.$data.input, Utils.getBearerAuth())
                     
                 .then(function(response) {
                     let data = response.data,
@@ -162,25 +92,19 @@
                     if (job.is_template) {
                         Bus.$emit('alertSuccess', data.message);
                         
-                        Utils.setObjectValues(component.input, '');
+                        Utils.setObjectValues(vm.input, '');
 
                     } else {
                         window.location.href = '/job/view?cid=' + job.company_id + '&jid=' + job.id;
                     }
-                })
-                .catch(function(error) {
-                    if (error.response) {
-                        let data = error.response.data;
+                
+                }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
 
-                        for (let key in data.errors) {
-                            component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                        }
-                    }
-
-                    Utils.handleError(error);
+                    if (inputErrors) Bus.$emit('newJobDetailsError', inputErrors);
                 });
 
-                Bus.$emit('postedJob');
+                this.disabled = false;
             },
         }
     }

@@ -405,24 +405,18 @@
 
                 await axios.post(saveEndpoint, saveInput, Utils.getBearerAuth())
 
-                    .then(function(response) {
-                        let data = response.data;
+                .then(function(response) {
+                    let data = response.data;
 
-                        $('#modalEmployment').modal('hide');
-                        
-                        Bus.$emit('updateEmployment', component.current, data.data.work_experience);
-                    })
-                    .catch(function(error) {
-                        if (error.response) {
-                            let data = error.response.data;
-
-							for (let key in data.errors) {
-								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                            }
-                        }
-
-                        Utils.handleError(error);
-                    });
+                    $('#modalEmployment').modal('hide');
+                    
+                    Bus.$emit('updateEmployment', component.current, data.data.work_experience);
+                
+                }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
+                    
+                    if (inputErrors) component.errors = inputErrors;
+                });
 
                 this.disabled = false;
             },

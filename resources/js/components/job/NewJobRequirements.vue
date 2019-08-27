@@ -152,14 +152,22 @@
             }
         },
         created() {
+            let vm = this;
 
+            Bus.$on('newJobDetails', function() {
+                Bus.$emit('newJobRequirements', {
+                    qualifications: vm.qualifications,
+                    experience: vm.experience,
+                    skills: vm.skills,
+                });
+            });
         },
         methods: {
             onSearchCourse(keyword) {
-                let component = this;
+                let vm = this;
 
                 Promise.resolve(Api.getCourses(keyword)).then(function(data) {
-                    component.courses = data.data.courses;
+                    vm.courses = data.data.courses;
                 });
             },
             onSelectCourse(course) {
@@ -172,11 +180,11 @@
                 
             },
             onSearchTicket(keyword) {
-                let component = this;
+                let vm = this;
 
                 Promise.resolve(Api.getTickets(keyword)).then(function(data) {
                     console.log(data)
-                    component.searchedTickets = (component.keyword != '') ? data : [];
+                    vm.searchedTickets = (vm.keyword != '') ? data : [];
                 });
             },
             onSelectTicket(ticket) {

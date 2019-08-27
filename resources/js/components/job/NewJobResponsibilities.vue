@@ -1,7 +1,6 @@
 <template>
     <div class="profile-item-2">
         <div class="profile-content">
-            
             <div class="profile-title">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <g fill="none" fill-rule="evenodd">
@@ -70,7 +69,14 @@
             }
         },
         created() {
+            let vm = this;
 
+            Bus.$on('newJobRequirements', function() {
+                Bus.$emit('newJobResponsibilities', {
+                    qualities: vm.qualities,
+                    nextTitles: vm.nextTitles,
+                });
+            });
         },
         methods: {
             onRemoveCategory() {
