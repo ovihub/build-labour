@@ -1,7 +1,6 @@
 <template>
     <div class="profile-item-2">
         <div class="profile-content">
-            
             <div class="profile-title">
                 <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23">
                     <g fill="none" fill-rule="evenodd">
@@ -13,29 +12,24 @@
                 Requirements
             </div>
 
-            <form method="POST">
+            <form>
                 <div class="form-group">
+                    <!-- Qualifications -->
                     <div class="job-title">Qualifications</div>
 
-                    <div class="form-group emp-row row-center">
-                        <!-- v-for="(to, index) in input.qualifications"
-                        :ref="'toItem-' + index"
-                        :key="index"> -->
-
+                    <div class="form-group emp-row row-center" v-for="(to, index) in qualifications" :key="'quaItem' + index">
                         <div class="job-col-left">
-                            <input class="form-control" type="text" placeholder="Course Type"
-                                @keyup="onSearchCourse()"/>
+                            <input class="form-control" type="text" placeholder="Course Type" v-model="qualifications[index].course"
+                                @keyup="onSearchCourse(qualifications[index].course, index)" />
                         </div>
 
                         <div class="job-col-right">
-                            <span @click="onRemoveQualification(index)">
-                                <img src="/img/icons/remove.png"
-                                    srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x"
-                                    style="cursor:pointer">
+                            <span @click="removeEntity(index, 'qualifications')">
+                                <img src="/img/icons/remove.png" srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x" style="cursor: pointer;">
                             </span>
                         </div>
 
-                        <div class="job-col-left" style="margin-top: 0; margin-left: -15px">
+                        <div class="job-col-left" style="margin-top: 0; margin-left: -15px" v-if="activeIndex == index && courses && courses.length > 0">
                             <ul class="list-group">
                                 <li class="list-group-item" v-for="(course, idx) in courses" :key="idx"
                                     @click="onSelectCourse(course)">
@@ -46,7 +40,7 @@
                         </div>
 
                         <div class="me-row mt-4">
-                            <select>
+                            <select v-model="qualifications[index].level">
                                 <option key="1" value="Bachelor's Degree">Bachelor's Degree</option>
                                 <option key="2" value="Master's Degree">Master's Degree</option>
                                 <option key="3" value="Doctor's Degree">Doctor's Degree</option>
@@ -54,44 +48,47 @@
                         </div>
                     </div>
 
-                    <div class="btn btn-link btn-delete"  @click="onAddQualification">
-                        Add new qualification
-                    </div>
+                    <div class="btn btn-link btn-delete"  @click="addEntity('qualifications')">Add new qualification</div>
 
+                    <!-- Experience -->
                     <div class="job-title">Experience</div>
 
-                    <div class="form-group emp-row row-center">
-                        <!-- v-for="(to, index) in input.experience"
-                        :ref="'toItem-' + index"
-                        :key="index"> -->
+                     <div class="me-row mt-4">
+                        <input class="form-control" type="text" placeholder="Minimum Experience" v-model="minimum_experience"/>
+                    </div>
 
-                        <div class="me-row mb-4">
-                            <input class="form-control" type="text" placeholder="Minimum Experience" />
+                    <div class="form-group emp-row row-center" v-for="(to, index) in experience" :key="'expItem-' + index">
+                        <div class="job-col-left">
+                            <input class="form-control" type="text" placeholder="Start typing..." v-model="experience[index]" />
                         </div>
 
-                        <div class="me-row">
-                            <input class="form-control" type="text" placeholder="Start typing..." />
+                        <div class="job-col-right">
+                            <span @click="removeEntity(index, 'experience')">
+                                <img src="/img/icons/remove.png" srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x" style="cursor: pointer;">
+                            </span>
                         </div>
                     </div>
 
-                    <div class="btn btn-link btn-delete">
-                        Add another
-                    </div>
+                    <div class="btn btn-link btn-delete"  @click="addEntity('experience')">Add another</div>
 
+                    <!-- Skills -->
                     <div class="job-title">Skills</div>
 
-                    <div class="form-group emp-row row-center">
-                        <!-- v-for="(to, index) in input.skills"
-                        :ref="'toItem-' + index"
-                        :key="index"> -->
+                    <div class="form-group emp-row row-center" v-for="(to, index) in skills" :key="'skItem-' + index">
+                        <div class="job-col-left">
+                            <input class="form-control" type="text" placeholder="Start typing..." v-model="skills[index]" />
+                        </div>
 
-                        <input class="form-control" type="text" placeholder="Start typing..." />
+                        <div class="job-col-right">
+                            <span @click="removeEntity(index, 'skills')">
+                                <img src="/img/icons/remove.png" srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x" style="cursor: pointer;">
+                            </span>
+                        </div>
                     </div>
 
-                    <div class="btn btn-link btn-delete">
-                        Add another
-                    </div>
+                    <div class="btn btn-link btn-delete"  @click="addEntity('skills')">Add another</div>
 
+                    <!-- Tickets -->
                     <div class="job-title">Tickets</div>
                     
                     <div class="emp-row">
@@ -99,7 +96,7 @@
                             <input class="form-control" type="text"  placeholder="Search" v-model="keyword" @keyup="onSearchTicket(keyword)" />
                         </div>
                         <div class="ticket-col-right">
-                            <button style="margin-left:0px;width:100%" class="add-button" type="button" @click="onAddTicket()">Add</button>
+                            <button style="margin-left: 0px; width: 100%;" class="add-button" type="button" @click="onAddTicket()">Add</button>
                         </div>
                         <span class="err-msg" v-if="errors.ticket">
                             {{ errors.ticket }}
@@ -115,12 +112,11 @@
                         </ul>
                     </div>
 
-                    <div class="emp-row" v-for="(ticket, idx) in tickets" :key="idx">
+                    <div class="emp-row" v-for="(ticket, idx) in tickets" :key="'tkItem' + idx">
                         <span class="ticket-label">{{ ticket.ticket }} - {{ ticket.description }}</span>
 
                         <span class="remove-ticket-icon" @click="onRemoveTicket(idx)">
-                            <img src="/img/icons/remove.png"
-                                srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x">
+                            <img src="/img/icons/remove.png" srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x">
                         </span>
                     </div>
                 </div>
@@ -137,12 +133,14 @@
         data() {
             return {
                 show: false,
+                activeIndex: 0,
                 courses: [],
                 keyword: '',
+                minimum_experience: '',
                 has_whitecard: '',
                 tickets: [],
                 searchedTickets: [],
-                selectedTicket: false,
+                selected: false,
                 errors: { 
                     ticket: ''
                 },
@@ -161,33 +159,50 @@
                     skills: vm.skills,
                 });
             });
+
+            this.qualifications.push({ course: '', level: '' });
+            this.experience.push('');
+            this.skills.push('');
         },
         methods: {
-            onSearchCourse(keyword) {
-                let vm = this;
+            onSearchCourse(keyword, index) {
+                if (! keyword) return;                
 
-                Promise.resolve(Api.getCourses(keyword)).then(function(data) {
-                    vm.courses = data.data.courses;
-                });
+                this.courses = Api.getCourses(keyword);
+
+                this.activeIndex = index;
             },
             onSelectCourse(course) {
+                this.qualifications[this.activeIndex].course = course.course_name;
+
                 this.courses = [];
             },
-            onAddQualification() {
-                
+            addEntity(field) {
+                switch(field) {
+                    case 'qualifications':
+                        this[field] = this[field].filter(r => r.course !== '' && r.level !== '');
+                        this[field].push({ course: '', level: '' });
+                        break;
+
+                    case 'experience':
+                    case 'skills':
+                        this[field] = this[field].filter(r => r !== '' && r !== '');
+                        this[field].push('');
+                        break;
+                }
             },
-            onRemoveQualification(index) {
-                
+            removeEntity(index, field) {
+                if (this[field].length > 1) {
+                    this[field].splice(index, 1);
+                }
             },
             onSearchTicket(keyword) {
-                let vm = this;
+                if (! keyword) return;
 
-                Promise.resolve(Api.getTickets(keyword)).then(function(data) {
-                    vm.searchedTickets = (vm.keyword != '') ? data : [];
-                });
+                this.searchedTickets = Api.getTickets(keyword);
             },
             onSelectTicket(ticket) {
-                this.selectedTicket = ticket;
+                this.selected = ticket;
                 this.keyword = ticket.ticket + ' - ' + ticket.description;
                 this.searchedTickets = [];
             },
@@ -195,27 +210,18 @@
                 this.tickets.splice(index, 1);
             },
             onAddTicket() {
-                if (! this.selectedTicket) return false;
+                if (! this.selected) return false;
 
-                let isFound = false;
-
-                for (let i in this.tickets) {
-                    let ticket = this.tickets[i];
-
-                    if (ticket.id == this.selectedTicket.id) {
-                        isFound = true;
-                    }
-                }
-
-                if (!isFound) {
-                    this.tickets.push(this.selectedTicket);
+                if (! this.tickets.find(el => el.id === this.selected.id)) {
+                    this.tickets.push(this.selected);
                     this.keyword = '';
-                    this.selectedTicket = false;
                     this.errors.ticket = '';
 
                 } else {
                     this.errors.ticket = 'Ticket already exists on selected list';
                 }
+
+                this.selected = false;
             },
         },
     }

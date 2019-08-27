@@ -69,7 +69,7 @@
                 has_whitecard: '',
                 tickets: [],
                 searchedTickets: [],
-                selectedTicket: false,
+                selected: false,
                 errors: { 
                     ticket: ''
                 },
@@ -113,11 +113,9 @@
         },
 
         methods: {
-
             hasFocus(has_focus) {
                 this.has_focus = has_focus;
             },
-
             onSearch(keyword) {
                 this.errors.ticket = '';
 
@@ -128,55 +126,41 @@
                     this.searchedTickets = [];
                 }
             },
-
             onSelect(ticket) {
-                this.selectedTicket = ticket;
+                this.selected = ticket;
                 this.keyword = ticket.ticket + (ticket.description ? (' - ' + ticket.description) : '');
                 this.searchedTickets = [];
             },
-
             onDelete(index) {
                 this.tickets.splice(index, 1);
             },
-
             onAdd() { // TODO: Need to improve algo
-                let isFound = false;
-
-                if (! this.selectedTicket) {
+                if (! this.selected) {
                     this.keyword = this.keyword.trim();
 
                     let description = this.keyword.substr(this.keyword.indexOf(' ') + 1);
 
-                    this.selectedTicket = {
+                    this.selected = {
                         id: null,
                         ticket: this.keyword.split(' ')[0],
                         description: description ? description.replace(/^[^a-zA-Z]+/, '') : null,
                     }
                 }
 
-                for (let i in this.tickets) {
-                    let ticket = this.tickets[i];
-
-                    if ((this.selectedTicket.id && (ticket.id == this.selectedTicket.id)) ||
-                        (! this.selectedTicket.id && (ticket.ticket == this.selectedTicket.ticket)
-                            && (ticket.description == this.selectedTicket.description))) {
-                        
-                        isFound = true;
-                    }
-                }
-
-                if (! isFound) {
-                    this.tickets.unshift(this.selectedTicket);
+                if (! this.tickets.find(el => (this.selected.id && el.id === this.selected.id) ||
+                                                (! this.selected.id && (el.ticket == this.selected.ticket)
+                                                    && (el.description == this.selected.description)))) {
+                                                
+                    this.tickets.unshift(this.selected);
                     this.keyword = '';
-                    this.selectedTicket = false;
                     this.errors.ticket = '';
 
                 } else {
-                    this.selectedTicket = false;
                     this.errors.ticket = 'Ticket already exists on selected list';
                 }
-            },
 
+                this.selected = false;
+            },
             formatCheckbox(refName, value) {
                 Utils.formatCheckbox(this.$refs, null, refName, value);
 

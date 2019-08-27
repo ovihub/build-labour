@@ -13,7 +13,7 @@
                 Job Details
             </div>
 
-            <form method="POST">
+            <form>
                 <div class="form-group">
                     <div class="job-title mb-2">Job Title</div>
 

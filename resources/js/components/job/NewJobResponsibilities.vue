@@ -12,9 +12,10 @@
                 Responsibilities
             </div>
 
-            <form method="POST">
+            <form>
                 <div class="form-group">
-                    <div class="job-title">Category Title</div>
+                    <!-- Categories -->
+                    <div class="job-title" style="margin-bottom:-18px">Category Title</div>
 
                     <div class="form-group emp-row row-center">
                         <div class="job-col-left">
@@ -22,37 +23,32 @@
                         </div>
 
                         <div class="job-col-right">
-                            <span @click="onRemoveCategory(index)">
-                                <img src="/img/icons/remove.png"
-                                    srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x"
-                                    style="cursor:pointer">
+                            <span @click="removeEntity(index, 'categories')">
+                                <img src="/img/icons/remove.png" srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x" style="cursor:pointer">
                             </span>
                         </div>
                     </div>
 
-                    <div class="job-title">Points</div>
+                    <!-- Points -->
+                    <div class="ml-4">
+                        <div class="job-title" style="margin-bottom:-18px">Points</div>
 
-                    <div class="form-group emp-row row-center">
-                        <div class="job-col-left">
-                            <input class="form-control" type="text" placeholder="Quality Management" />
+                        <div class="form-group emp-row row-center">
+                            <div class="job-col-left">
+                                <input class="form-control" type="text" placeholder="Comply with and ensure project works are in accordance with Probuild QM Policies." />
+                            </div>
+
+                            <div class="job-col-right">
+                                <span @click="removeEntity(index, 'points')">
+                                    <img src="/img/icons/remove.png" srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x" style="cursor:pointer">
+                                </span>
+                            </div>
                         </div>
 
-                        <div class="job-col-right">
-                            <span @click="onRemovePoint(index)">
-                                <img src="/img/icons/remove.png"
-                                    srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x"
-                                    style="cursor:pointer">
-                            </span>
-                        </div>
+                        <div class="btn btn-link btn-delete" @click="addEntity('points')">New Point</div>
                     </div>
 
-                    <div class="btn btn-link btn-delete">
-                        New Point
-                    </div>
-
-                    <div class="btn btn-link btn-delete">
-                        Add new category
-                    </div>
+                    <div class="btn btn-link btn-delete" @click="addEntity('categories')">Add new category</div>
                 </div>
             </form>
         </div>
@@ -79,11 +75,14 @@
             });
         },
         methods: {
-            onRemoveCategory() {
-
+            addEntity(field) {
+                this[field] = this[field].filter(r => r !== '' && r !== '');
+                this[field].push('');
             },
-            onRemovePoint() {
-
+            removeEntity(index, field) {
+                if (this[field].length > 1) {
+                    this[field].splice(index, 1);
+                }
             },
         },
     }
