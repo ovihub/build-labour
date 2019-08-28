@@ -14,7 +14,7 @@
                 <input type="text" class="form-control create-job-input" placeholder="Search Jobs" @keyup="onSearchJobs">
             </div>
 
-            <div v-if="creating"class="btn btn-link btn-delete mb-2" @click="onClickSaveAsTemplate">
+            <div v-if="creating" class="btn btn-link btn-delete mb-2" @click="onClickSaveAsTemplate">
                 Save as new template
             </div>
             
@@ -69,13 +69,16 @@
             });
 
             Bus.$on('newJobRequirements', function(input) {
-                vm.input.qualifications = input.qualifications;
-                vm.input.experience = input.experience;
-                vm.input.skills = input.skills;
+                vm.input.requirements = [
+                    { title: 'Qualifications', items: input.qualifications },
+                    { title: 'Experience', items: { min_exp: input.min_exp, experiences: input.experience } },
+                    { title: 'Skills', items: input.skills },
+                    { title: 'Tickets', items: input.tickets },
+                ];
             });
 
             Bus.$on('newJobResponsibilities', function(input) {
-                vm.input.categories = input.categories;
+                vm.input.responsibilities = input.responsibilities;
 
                 if (vm.isTemplate) {
                     vm.input.template_name = vm.template_name;
@@ -107,12 +110,10 @@
             onClickPostJob() {
                 if (this.creating) {
                     this.isTemplate = 0;
-
                     Bus.$emit('saveJob');
 
                 } else {
                     this.creating = true;
-
                     Bus.$emit('createJob');
                 }
             },
@@ -128,9 +129,7 @@
                         job = data.data.job;
                     
                     if (job.is_template) {
-                        Bus.$emit('alertSuccess', data.message);
-                        
-                        Utils.setObjectValues(vm.input, '');
+                        window.location.href = '/job/list';
 
                     } else {
                         window.location.href = '/job/view?cid=' + job.company_id + '&jid=' + job.id;
@@ -158,7 +157,7 @@
         height: 46px;
         color: #acbbbf;
     }
-    
+
     /* Customize the label (the radio-cont) */
     .radio-cont {
         display: block;

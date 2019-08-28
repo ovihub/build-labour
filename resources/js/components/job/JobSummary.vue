@@ -8,8 +8,8 @@
         <ul class="list-job-items">
             <li class="job-items" v-for="(post, index) in jobPosts" :key="index">
                 <div class="profile-content">
-                    <div class="job-title mt-0">{{ post.template_name }}</div>
-                    <div class="title-label">Template Name</div>
+                    <div class="job-title mt-0">{{ post.template_name ? post.template_name : (post.title ? post.title : post.job_role.job_role_name) }}</div>
+                    <div class="title-label">{{ post.template_name ? 'Template Name' : 'Job Title' }}</div>
                     <hr>
                     <div class="row">
                         <div class="col-md-5 col-sm-5">
