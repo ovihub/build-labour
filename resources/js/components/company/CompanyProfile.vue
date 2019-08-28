@@ -549,7 +549,7 @@
                 this.disabled = false;
             },
             postNewJob() {
-                window.location.href = '/job/new?cid=' + this.companyId;
+                window.location.href = '/job/list';
             },
         },
         components: {

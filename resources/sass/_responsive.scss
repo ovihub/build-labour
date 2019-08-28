@@ -36,12 +36,7 @@
     margin-left: 10px;
     margin-right: 10px;
   }
-  .site-header .main-nav .container .col-md-5, .container .col-sm-5 {
-    flex: 0 0 20%;
-    max-width: 20%;
-    margin-left: 10px;
-    margin-right: 10px;
-  }
+
   .container {
     max-width: 991px;
   }
@@ -54,6 +49,10 @@
     max-width: 83%;
   }
   .container {
+    .col-md-9, .col-sm-9 {
+      flex: 0 0 95%;
+      max-width: 95%;
+    }
     .col-md-3, .col-sm-3, .col-md-6, .col-sm-6 {
       flex: 0 0 90%;
       max-width: 90%;
@@ -80,6 +79,10 @@
   }
 }
 @media (min-width: 768px) {
+  .col-md-9, .col-sm-9 {
+    flex: 0 0 70%;
+    max-width: 70%;
+  }
   .col-md-6, .col-sm-6 {
     flex: 0 0 47%;
     max-width: 47%;
@@ -182,8 +185,8 @@
     .col-xl-3, .col-lg-3, .col-md-3, .col-sm-3, .col-3 {
       flex: 0 0 90%;
       max-width: 90%;
-      margin-left: 24px;
-      margin-right: 24px;
+      margin-left: 15px;
+      margin-right: 15px;
     }
   }
   .profile-item-2 .profile-content .row .col-md-6,

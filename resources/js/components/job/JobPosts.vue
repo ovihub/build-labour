@@ -1,7 +1,7 @@
 <template>
     <div>
-        <ul class="list-job-items" v-for="(post, index) in jobPosts" :key="index">
-            <li class="job-items">
+        <ul class="list-job-items">
+            <li class="job-items" v-for="(post, index) in jobPosts" :key="index">
                 <div class="profile-content">
                     <div class="save-icon">
                         <!-- <img style="margin-top:-5px;margin-left:5px;margin-bottom:-5px" src="/img/icons/plus.png"

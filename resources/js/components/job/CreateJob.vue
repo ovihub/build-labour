@@ -13,12 +13,12 @@
                     v-model="template_name">
             </div>
 
-            <div class="btn btn-link btn-delete mb-2" @click="onClickSaveAsTemplate">
+            <!-- <div class="btn btn-link btn-delete mb-2" @click="onClickSaveAsTemplate">
                 Save as new template
-            </div>
+            </div> -->
 
             <button style="width: 100%;" :disabled="disabled" @click="onClickPostJob">
-                Post Job
+                Create New Job
             </button>
         </div>
     </div>

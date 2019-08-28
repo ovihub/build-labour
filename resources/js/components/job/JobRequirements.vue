@@ -1,17 +1,6 @@
 <template>
     <div class="profile-item-2">
         <div class="profile-content">
-            
-            <span class="edit-icon"
-                data-toggle="modal"
-                data-backdrop="static"
-                data-keyboard="false"
-                data-target="#modalJobRequirements">
-
-                <img src="/img/icons/editbutton.png"
-                    srcset="/img/icons/editbutton@2x.png 2x, /img/icons/editbutton@3x.png 3x">
-            </span>
-
             <div class="profile-title">
                 <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23">
                     <g fill="none" fill-rule="evenodd">
@@ -96,9 +85,3 @@
         },
     }
 </script>
-
-<style scoped>
-    .job-title {
-        margin-bottom: -12px;
-    }
-</style>

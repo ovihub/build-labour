@@ -6,13 +6,11 @@
             <create-job></create-job>
         </div>
         <div class="col-md-9">
-            <new-job-details></new-job-details>
-            <new-job-requirements></new-job-requirements>
-            <new-job-responsibilities></new-job-responsibilities>
+            <job-summary company-id="{{ $company_id }}"></job-summary>
         </div>
     </div>
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/jobs/new.js') }}"></script>
+    <script src="{{ asset('js/jobs/list.js') }}"></script>
 @endpush
