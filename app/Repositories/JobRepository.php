@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Http\Resources\JobsResource;
+use App\Models\Companies\Company;
 use App\Models\Companies\CompanyPost;
 use App\Models\Companies\Job;
 use App\Models\Companies\JobRequirement;
@@ -117,13 +118,18 @@ class JobRepository extends AbstractRepository
         $keyword = $request->keyword ? $request->keyword : '';
         $location = $request->location ? $request->location : '';
 
+        if ($request->company_id) {
+
+            $jobs = $jobs->where('company_id', $request->company_id);
+        }
+
         $jobs = $jobs->where('job_posts.is_template', false)
                 ->whereNotNull('job_posts.company_id');
 
         $jobs = $jobs->where(function($query) use ($keyword) {
-            $query->where('job_posts.title', 'like', "%{$keyword}%")
-                ->orWhere('job_role.job_role_name', 'like', "%{$keyword}%");
-        });
+                    $query->where('job_posts.title', 'like', "%{$keyword}%")
+                    ->orWhere('job_role.job_role_name', 'like', "%{$keyword}%");
+                });
 
         if (!empty($location)) {
 
@@ -132,8 +138,8 @@ class JobRepository extends AbstractRepository
             });
         }
 
-//        $jobs = $jobs->orderBy($column, $order);
-//        $data = $jobs->paginate($per_page);
+        // $jobs = $jobs->orderBy($column, $order);
+        // $data = $jobs->paginate($per_page);
 
         $jobs = $jobs->take(30)->get();
 

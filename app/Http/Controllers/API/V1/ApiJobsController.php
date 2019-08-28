@@ -107,9 +107,9 @@ class ApiJobsController extends ApiBaseController
 
     /**
      * @OA\Get(
-     *      path="/job/search",
+     *      path="/job/search?company_id=",
      *      tags={"Job"},
-     *      summary="Search by keyword",
+     *      summary="Search by keyword if company_id is present then it will search jobs within a company only",
      *      security={{"BearerAuth":{}}},
      *      @OA\Response(
      *          response=400,
