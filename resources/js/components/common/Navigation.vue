@@ -1,7 +1,6 @@
 <template>
     <div class="row">
-        <img class="bl-nav-logo" src="/img/icons/build-labour-logo-white.png"
-            srcset="/img/icons/build-labour-logo-white@2x.png 2x, /img/icons/build-labour-logo-white@3x.png 3x">
+        <img class="bl-nav-logo" src="/img/BUILDLABOUR_FULLLOGO@1x.png" width="90">
 
         <input class="bl-nav-search" id="search" type="text" name="search" />
 
