@@ -821,14 +821,14 @@ class ApiCompaniesController extends ApiBaseController
 
         try {
 
-            $templates = $this->repository->getJobTemplates($request);
+            $jobs = $this->repository->getJobTemplates($request);
 
         } catch(\Exception $e) {
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'templates' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'jobs' ), true, '', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**

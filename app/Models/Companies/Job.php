@@ -35,7 +35,8 @@ class Job extends BaseModel
     protected $appends = [
         'reports_to',
         'reports_to_str',
-        'job_role_name'
+        'job_role_name',
+        'created_at_formatted',
     ];
 
     /**
@@ -142,6 +143,11 @@ class Job extends BaseModel
     public function Responsibilities() {
 
         return $this->hasMany( JobResponsibility::class, 'job_id', 'id');
+    }
+
+    public function getCreatedAtFormattedAttribute() {
+        
+        return \Carbon\Carbon::parse($this->created_at)->format('d F Y');
     }
 
     public function store($data) {
