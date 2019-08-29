@@ -16,6 +16,7 @@
 @import 'admin';
 @import 'cropper';
 @import 'responsive';
+@import 'animations';
 
 // Font Awesome Icons
 @import '~font-awesome/scss/font-awesome';
@@ -206,12 +207,11 @@ button {
 }
 
 .center-screen {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 /* ==========================================================================

@@ -29,14 +29,9 @@
 
         <div class="auth-content-section">
             <div class="row justify-content-center">
-                <img src="/img/build-labour-logo-orange.png"
-                    srcset="/img/build-labour-logo-orange@2x.png 2x, /img/build-labour-logo-orange@3x.png 3x">
+                <img src="/img/buildlabour-fulllogo.png" srcset="/img/buildlabour-fulllogo@2x.png 2x, /img/buildlabour-fulllogo@3x.png 3x">
             </div>
-
-            <div class="form-text-logo">
-                BUILD<br>
-                LABOUR
-            </div>
+            
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="form-group ta-center">

@@ -1,7 +1,9 @@
 @extends('layouts.auth')
 
 @section('content')
-    <reset-password></reset-password>
+    <transition appear appear-active-class="show-enter-active">
+        <reset-password></reset-password>
+    </transition>
 @endsection
 
 @push('scripts')

@@ -20,7 +20,7 @@
                         <input class="form-control" type="text" placeholder="Company Name"
                             v-model="input.company_name"
                             @focus="hasFocusAnswer(false)"
-                            @keyup="onKeyupCompanyName" />
+                            @keyup="onKeyupCompanyName" required autofocus />
 
                         <span class="err-msg" v-if="errors.company_name">
                             {{ errors.company_name }}

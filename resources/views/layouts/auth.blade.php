@@ -16,23 +16,17 @@
     <link rel="shortcut icon" href="/buildlabourfavicon.ico" type="image/x-icon">
     <link rel="icon" href="/buildlabourfavicon.ico" type="image/x-icon">
 </head>
-<body style="overflow: hidden;">
-    <div id="app">
+<body>
+    <div id="app" class="center-screen">
         <alert></alert>
         
         <div class="auth-content-section">
             <div class="row justify-content-center">
-                <img src="/img/build-labour-logo-orange.png"
-                    srcset="/img/build-labour-logo-orange@2x.png 2x, /img/build-labour-logo-orange@3x.png 3x">
-            </div>
-
-            <div class="form-text-logo">
-                BUILD<br>
-                LABOUR
+                <img src="/img/buildlabour-fulllogo.png" srcset="/img/buildlabour-fulllogo@2x.png 2x, /img/buildlabour-fulllogo@3x.png 3x">
             </div>
 
             <div class="container">
-                <div class="row justify-content-center">
+                <div class="row justify-content-center mt-5">
                     <div class="form-card">
                         <div class="form-card-body">
                             
