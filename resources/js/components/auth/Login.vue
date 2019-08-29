@@ -23,7 +23,7 @@
         </div>
 
         <div class="form-group">
-            <a class="btn btn-link pull-left" v-bind:href="endpoints.reset">
+            <a class="btn btn-link pull-left" :href="endpoints.reset">
                 Forgot Your Password
             </a>
 

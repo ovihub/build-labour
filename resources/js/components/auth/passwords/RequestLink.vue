@@ -8,7 +8,7 @@
 
         <div class="form-group">
             <input id="email" type="email" name="email" class="form-control" style="padding-left:24px"
-                v-model="input.email" placeholder="Email Address" required />
+                v-model="input.email" placeholder="Email Address" required autofocus />
 
             <span class="err-msg" v-if="errors.email">
                 {{ errors.email }}

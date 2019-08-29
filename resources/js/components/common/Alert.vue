@@ -1,11 +1,15 @@
 <template>
-	<div v-bind:class="alert" v-if="alert != 'hidden'">
-		<div class="container">
-			<img v-bind:src="icon" class="alert-icon" />
-			{{ message }} <a class="alert-link" v-if="resend" @click="resendEmail">resend</a>
-			<img src="/img/icons/alert-close.png" class="alert-close" @click="hide" />
+	<transition name="slide-fade">
+		<div v-bind:class="alert" v-if="alert != 'hidden'">
+			<div class="container" style="text-align: left;">
+				<img v-bind:src="icon" class="alert-icon" />
+
+				{{ message }} <a class="alert-link" v-if="resend" @click="resendEmail">resend</a>
+
+				<img src="/img/icons/alert-close.png" class="alert-close" @click="hide" />
+			</div>
 		</div>
-	</div>
+	</transition>
 </template>
 
 <script>

@@ -10,7 +10,7 @@
             <password-eye ref-name="resetTogglePassword"></password-eye>
             
             <input id="password" ref="resetTogglePassword" type="password" name="password" class="form-control" 
-                style="padding-left:24px" v-model="input.password" placeholder="Password" required />
+                style="padding-left:24px" v-model="input.password" placeholder="Password" required autofocus />
 
             <span class="err-msg" v-if="errors.password">
                 {{ errors.password }}

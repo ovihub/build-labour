@@ -212,10 +212,23 @@
                 this.tickets.splice(index, 1);
             },
             onAddTicket() {
-                if (! this.selected) return false;
+                if (! this.selected) {
+                    this.keyword = this.keyword.trim();
 
-                if (! this.tickets.find(el => el.id === this.selected.id)) {
-                    this.tickets.push(this.selected);
+                    let description = this.keyword.substr(this.keyword.indexOf(' ') + 1);
+
+                    this.selected = {
+                        id: null,
+                        ticket: this.keyword.split(' ')[0],
+                        description: description ? description.replace(/^[^a-zA-Z]+/, '') : null,
+                    }
+                }
+
+                if (! this.tickets.find(el => (this.selected.id && el.id === this.selected.id) ||
+                                                (! this.selected.id && (el.ticket == this.selected.ticket)
+                                                    && (el.description == this.selected.description)))) {
+                                                
+                    this.tickets.unshift(this.selected);
                     this.keyword = '';
                     this.errors.ticket = '';
 

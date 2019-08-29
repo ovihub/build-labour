@@ -1,7 +1,9 @@
 @extends('layouts.auth')
 
 @section('content')
-    <request-link></request-link>
+    <transition appear appear-active-class="show-enter-active">
+        <request-link></request-link>
+    </transition>
 @endsection
 
 @push('scripts')
