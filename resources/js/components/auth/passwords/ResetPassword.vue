@@ -30,11 +30,11 @@
             </a>
             
             <button class="pull-right" type="submit" :disabled="loading">
-                Done
+                {{ loading ? '' : 'Done' }}
             </button>
 
             <div class="loading">
-                <pulse-loader :loading="loading" color="#00aeef" size="8px"></pulse-loader>
+                <pulse-loader :loading="loading" color="#fff" size="8px"></pulse-loader>
             </div>
         </div>
     </form>

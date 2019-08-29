@@ -84,8 +84,8 @@
                 // this.$refs['nav-dashboard'].style = 'opacity: 1';
             },
             onClickJobs() {
-                if (window.location.pathname != '/job/search') {
-                    window.location = '/job/search';
+                if (window.location.pathname != '/job/list') {
+                    window.location = '/job/list';
                 }
             },
             onClickMessages() {

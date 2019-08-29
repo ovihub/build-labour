@@ -288,11 +288,11 @@
                 </button>
                 
                 <button v-if="isLastStep" class="pull-right" type="button" @click="submit" :disabled="disabled">
-                    Submit
+                    {{ loading ? '' : 'Submit' }}
                 </button>
                 
                 <div class="loading">
-                    <pulse-loader :loading="loading" color="#00aeef" size="8px"></pulse-loader>
+                    <pulse-loader :loading="loading" color="#fff" size="8px"></pulse-loader>
                 </div>
             </div>
         </form>

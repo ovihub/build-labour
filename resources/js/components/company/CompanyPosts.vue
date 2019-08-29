@@ -1,4 +1,5 @@
 <template>
+    <transition name="slide-fade">
     <div class="profile-item-2" v-if="show">
         <ul class="list-job-items" v-for="(post, index) in posts" :key="index">
             <li class="job-items">
@@ -52,6 +53,7 @@
             </li>
         </ul>
     </div>
+    </transition>
 </template>
 
 <script>

@@ -1,21 +1,28 @@
 <template>
     <div v-if="creating">
-        <new-job-details></new-job-details>
-        <new-job-requirements></new-job-requirements>
-        <new-job-responsibilities></new-job-responsibilities>
+        <transition appear appear-active-class="appear-slide-enter-active">
+            <new-job-details></new-job-details>
+        </transition>
+        <transition appear appear-active-class="appear-slide-enter-active">
+            <new-job-requirements></new-job-requirements>
+        </transition>
+        <transition appear appear-active-class="appear-slide-enter-active">
+            <new-job-responsibilities></new-job-responsibilities>
+        </transition>
     </div>
     <div class="profile-item-2" v-else>
         <ul class="list-job-items">
-            <li class="job-items" v-for="(post, index) in jobPosts" :key="index">
+        <transition-group name="list">
+            <li class="job-items" v-for="(post, index) in jobPosts" :key="index+0">
                 <div class="profile-content">
                     <div class="row">
                         <div class="col-md-8 col-sm-8">
                             <div class="job-title mt-0">{{ post.template_name ? post.template_name : (post.title ? post.title : post.job_role.job_role_name) }}</div>
-                            <div class="title-label">{{ post.template_name ? 'Template Name' : 'Job Title' }}</div>
+                            <div class="title-label mb-3">{{ post.template_name ? 'Template Name' : 'Job Title' }}</div>
                         </div>
-                        <div class="col-md-4 col-sm-4">
+                        <div class="col-md-4 col-sm-4 mb-3">
                             <div class="row ta-center">
-                                <div class="col-md-3 col-sm-3 icon-buttons">
+                                <div class="col-icon icon-buttons">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="31" height="22" viewBox="0 0 31 22">
                                         <g fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" transform="translate(1 1)">
                                             <path d="M.75 10s5.09-10 14-10 14 10 14 10-5.09 10-14 10-14-10-14-10z"/>
@@ -24,13 +31,13 @@
                                     </svg>
                                     <div class="icon-label">Preview</div>
                                 </div>
-                                <div class="col-md-3 col-sm-3 icon-buttons">
+                                <div class="col-icon icon-buttons">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
                                         <path fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 2a2.828 2.828 0 1 1 4 4L6.5 19.5 1 21l1.5-5.5L16 2z"/>
                                     </svg>
                                     <div class="icon-label">Edit</div>
                                 </div>
-                                <div class="col-md-3 col-sm-3 icon-buttons">
+                                <div class="col-icon icon-buttons">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
                                         <g fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" transform="translate(1 1)">
                                             <rect width="13" height="13" x="7" y="7" rx="2"/>
@@ -39,7 +46,7 @@
                                     </svg>
                                     <div class="icon-label">Duplicate</div>
                                 </div>
-                                <div class="col-md-3 col-sm-3 icon-buttons">
+                                <div class="col-icon icon-buttons">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 20 22">
                                         <g fill="none" fill-rule="evenodd" stroke="#FF3939" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                             <path d="M1 5h18M17 5v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5m3 0V3a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M8 10v6M12 10v6"/>
@@ -51,7 +58,7 @@
                         </div>
                     </div>
 
-                    <hr>
+                    <hr class="mt-0">
                     <div class="row">
                         <div class="col-md-5 col-sm-5">
                             <div class="row mb-4">
@@ -83,6 +90,7 @@
                     </div>
                 </div>
             </li>
+        </transition-group>
         </ul>
     </div>
 </template>
@@ -126,6 +134,8 @@
             });
 
             Bus.$on('getJobPosts', function(type) {
+                vm.jobPosts = [];
+                
                 switch(type) {
                     case 'templates':
                         vm.getJobPosts(vm.endpoints.get + vm.companyId + '/templates');
@@ -140,6 +150,8 @@
             
             // this.getJobPosts(vm.endpoints.search + '&location=');
             this.getJobPosts(this.endpoints.get + this.companyId + '/templates');
+
+            Bus.$emit('activateTab', 'jobs');
         },
         methods: {
             getJobPosts(endpoint) {
@@ -193,8 +205,15 @@
         font-weight: 500;
         color: #000;
         margin-top: 2px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
     }
     .icon-label.delete {
         color: #ff3939;
+    }
+    .col-icon {
+        flex: 0 0 25%;
+        max-width: 25%;
     }
 </style>

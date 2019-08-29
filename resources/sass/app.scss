@@ -111,20 +111,20 @@ select {
     box-shadow: none;
   }
 }
-button[disabled] {
-  background-image: none;
-  border: 1px solid #cccccc;
-  background-color: #cccccc;
-  color: #999999;
+// button[disabled] {
+//   background-image: none;
+//   border: 1px solid #cccccc;
+//   background-color: #cccccc;
+//   color: #999999;
 
-  &:hover {
-    background-image: none;
-    border: 1px solid #cccccc;
-    background-color: #cccccc;
-    color: #999999;
-    transition: background-color 0.33s ease-in-out, background-image 0.33s ease-in-out;
-  }
-}
+//   &:hover {
+//     background-image: none;
+//     border: 1px solid #cccccc;
+//     background-color: #cccccc;
+//     color: #999999;
+//     transition: background-color 0.33s ease-in-out, background-image 0.33s ease-in-out;
+//   }
+// }
 button {
   font-size: 15px;
   font-weight: 500;
@@ -1484,8 +1484,8 @@ ul.template-list {
 
 .loading {
   position: absolute;
-  right: 50px;
-  bottom: 10px;
+  right: 93px;
+  bottom: 37px;
 }
 
 .cross-check-mark {

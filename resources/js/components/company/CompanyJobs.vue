@@ -1,4 +1,5 @@
 <template>
+    <transition name="slide-fade">
     <div class="profile-item-2" v-if="show">
         <div class="job-action">
             <div class="job-filter">
@@ -10,6 +11,7 @@
         </div>
         <job-posts :company-id="companyId"></job-posts>
     </div>
+    </transition>
 </template>
 
 <script>

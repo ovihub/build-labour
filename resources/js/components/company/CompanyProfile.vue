@@ -282,9 +282,9 @@
             </div>
         </div>
 
-        <button style="width:100%" :disabled="disabled" v-if="showButton" @click="postNewJob(0)">
+        <!-- <button style="width:100%" :disabled="disabled" v-if="showButton" @click="postNewJob(0)">
             Post New Job
-        </button>
+        </button> -->
     </div>
 </template>
 

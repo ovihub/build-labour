@@ -38,3 +38,12 @@
         },
     }
 </script>
+
+<style scoped>
+    @media (max-width: 768px) {
+        .col-md-4, .col-sm-4 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+    }
+</style>

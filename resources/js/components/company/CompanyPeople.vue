@@ -1,4 +1,5 @@
 <template>
+    <transition name="slide-fade">
     <div class="profile-item-2" v-if="show">
         <div class="row">
             <div class="col-md-4" v-for="(employee, index) in employees" :key="index">
@@ -21,6 +22,7 @@
             </div>
         </div>
     </div>
+    </transition>
 </template>
 
 <script>

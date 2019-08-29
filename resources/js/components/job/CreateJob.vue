@@ -166,6 +166,7 @@
         cursor: pointer;
         font-size: 15px;
         margin-top: 30px;
+        line-height: normal;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;

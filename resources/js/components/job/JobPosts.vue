@@ -1,11 +1,13 @@
 <template>
     <div>
+        <div class="loading" style="position: unset; text-align: center;">
+            <pulse-loader :loading="loading" color="#00aeef" size="10px"></pulse-loader>
+        </div>
         <ul class="list-job-items">
-            <li class="job-items" v-for="(post, index) in jobPosts" :key="index">
+        <transition-group name="list-down">
+            <li class="job-items" v-for="(post, index) in jobPosts" :key="index+0">
                 <div class="profile-content">
                     <div class="save-icon">
-                        <!-- <img style="margin-top:-5px;margin-left:5px;margin-bottom:-5px" src="/img/icons/plus.png"
-                            srcset="/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x"> -->
                         <div class="star-cont">
                             <input class="star" type="checkbox" title="Bookmark Job" :ref="'savedJobPost-' + post.id"
                                 :value="post.id" v-model="checkedJobPosts" @click="save(post)" />
@@ -45,7 +47,6 @@
                         </div>
                         <div class="bl-label-14-style-3">
                             {{ post.location }}
-                            <!-- <span class="text-style-1">{{ getTimeDiffNow(post.job.created_at) }}</span> -->
                         </div>
                         <div class="bl-label-15 bl-mt16">
                             {{ post.description }}
@@ -59,6 +60,7 @@
                     </div>
                 </div>
             </li>
+        </transition-group>
         </ul>
     </div>
 </template>
@@ -66,11 +68,13 @@
 <script>
     import Api from '@/api';
     import Avatar from '../common/Avatar';
+    import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 
     export default {
         name: "job-posts",
         data() {
             return {
+                loading: false,
                 jobPosts: [],
                 checkedJobPosts: [],
                 input: {
@@ -98,7 +102,13 @@
             let vm = this;
 
             Bus.$on('searchJobPosts', function(keyword, location) {
-                vm.getJobPosts(vm.endpoints.search + keyword + '&location=' + location);
+                vm.jobPosts = [];
+                vm.loading = true;
+
+                setTimeout(function() {
+                    vm.getJobPosts(vm.endpoints.search + keyword + '&location=' + location);
+                    vm.loading = false;
+                }, 1000);
             });
             
             if (this.companyId) {
@@ -132,26 +142,24 @@
             async save(post) {
                 let vm = this;
                 
-                this.disabled = true;
                 this.input.job_id = post.id;
 
                 await axios.post(vm.endpoints.save, vm.$data.input, Utils.getBearerAuth())
                     
-                    .then(function(response) {
-                        let data = response.data;
-                        
-                        Bus.$emit('saveJobPost', post, vm.$refs['savedJobPost-' + post.id][0].checked);
-                    })
-                    .catch(function(error) {
-
-                        Utils.handleError(error);
-                    });
+                .then(function(response) {
+                    let data = response.data;
+                    
+                    Bus.$emit('saveJobPost', post, vm.$refs['savedJobPost-' + post.id][0].checked);
                 
-                this.disabled = false;
+                }).catch(function(error) {
+
+                    Utils.handleError(error);
+                });
             },
         },
         components: {
             Avatar,
+            PulseLoader,
         },
     }
 </script>
