@@ -53,7 +53,7 @@
                     <!-- Experience -->
                     <div class="job-title">Experience</div>
 
-                     <div class="me-row mt-4">
+                     <div class="me-row mt-4 mb-5">
                         <input class="form-control" type="text" placeholder="Minimum Experience" v-model="min_exp"/>
                     </div>
 
