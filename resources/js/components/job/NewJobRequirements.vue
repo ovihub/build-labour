@@ -19,8 +19,8 @@
 
                     <div class="form-group emp-row row-center" v-for="(to, index) in qualifications" :key="'quaItem' + index">
                         <div class="job-col-left">
-                            <input class="form-control" type="text" placeholder="Course Type" v-model="qualifications[index].course"
-                                @keyup="onSearchCourse(qualifications[index].course, index)" />
+                            <input class="form-control" type="text" placeholder="Course Type" v-model="qualifications[index].course_type"
+                                @keyup="onSearchCourse(qualifications[index].course_type, index)" />
                         </div>
 
                         <div class="job-col-right">
@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="me-row mt-4">
-                            <select v-model="qualifications[index].level">
+                            <select v-model="qualifications[index].qualification_level">
                                 <option key="1" value="Bachelor's Degree">Bachelor's Degree</option>
                                 <option key="2" value="Master's Degree">Master's Degree</option>
                                 <option key="3" value="Doctor's Degree">Doctor's Degree</option>
@@ -54,7 +54,7 @@
                     <div class="job-title">Experience</div>
 
                      <div class="me-row mt-4">
-                        <input class="form-control" type="text" placeholder="Minimum Experience" v-model="minimum_experience"/>
+                        <input class="form-control" type="text" placeholder="Minimum Experience" v-model="min_exp"/>
                     </div>
 
                     <div class="form-group emp-row row-center" v-for="(to, index) in experience" :key="'expItem-' + index">
@@ -136,7 +136,7 @@
                 activeIndex: 0,
                 courses: [],
                 keyword: '',
-                minimum_experience: '',
+                min_exp: '',
                 has_whitecard: '',
                 tickets: [],
                 searchedTickets: [],
@@ -157,10 +157,12 @@
                     qualifications: vm.qualifications,
                     experience: vm.experience,
                     skills: vm.skills,
+                    tickets: vm.tickets,
+                    min_exp: vm.min_exp,
                 });
             });
 
-            this.qualifications.push({ course: '', level: '' });
+            this.qualifications.push({ course_type: '', qualification_level: '' });
             this.experience.push('');
             this.skills.push('');
         },
@@ -173,15 +175,15 @@
                 this.activeIndex = index;
             },
             onSelectCourse(course) {
-                this.qualifications[this.activeIndex].course = course.course_name;
+                this.qualifications[this.activeIndex].course_type = course.course_name;
 
                 this.courses = [];
             },
             addEntity(field) {
                 switch(field) {
                     case 'qualifications':
-                        this[field] = this[field].filter(r => r.course !== '' && r.level !== '');
-                        this[field].push({ course: '', level: '' });
+                        this[field] = this[field].filter(r => r.course_type !== '' && r.qualification_level !== '');
+                        this[field].push({ course_type: '', qualification_level: '' });
                         break;
 
                     case 'experience':

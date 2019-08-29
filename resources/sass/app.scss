@@ -430,13 +430,11 @@ h1, h2, h3, h4, h5, h6 {
   text-align: right;
 }
 .bl-nav-logo {
-  width: 52px;
-  height: 21px;
   object-fit: contain;
-  margin-top: 15px;
   display: flex;
   flex-wrap: wrap;
-  margin-left: 18px;
+  margin-top: -28px;
+  margin-left: 30px;
 }
 .bl-nav-search {
   outline: none;
@@ -453,7 +451,7 @@ h1, h2, h3, h4, h5, h6 {
   background-image: -webkit-image-set( url('/img/icons/search@2x.png') 2x, url('/img/icons/search@3x.png') 3x );
   background-position: 8px 7px;
   background-repeat: no-repeat;
-  margin-left: 37px;
+  margin-left: 25px;
 
   &:focus {
     background-image: none;

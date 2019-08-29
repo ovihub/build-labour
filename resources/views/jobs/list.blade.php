@@ -5,7 +5,7 @@
         <div class="col-md-3">
             <create-job></create-job>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9 ml-2">
             <job-summary company-id="{{ $company_id }}"></job-summary>
         </div>
     </div>

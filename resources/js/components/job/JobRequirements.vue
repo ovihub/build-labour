@@ -17,7 +17,7 @@
                 <div class="job-body">
                     <ul class="job-list-items">
                         <li v-for="(qualification, index) in qualifications" :key="index">
-                            {{ qualification }}
+                            {{ qualification.qualification_level }} in {{ qualification.course_type }} or a related field
                         </li>
                     </ul>
                 </div>
@@ -27,6 +27,7 @@
                 <div class="job-title">Experience</div>
                 <div class="job-body">
                     <ul class="job-list-items">
+                        <li>Minimum of {{ min_exp }} years industry experience</li>
                         <li v-for="(exp, index) in experience" :key="index">
                             {{ exp }}
                         </li>
@@ -64,9 +65,11 @@
                 errors: { 
                     ticket: ''
                 },
+                min_exp: '',
                 qualifications: [],
                 experience: [],
                 skills: [],
+                tickets: [],
             }
         },
         created() {
@@ -75,8 +78,10 @@
             Bus.$on('jobRequirementsDetails', function(detailsArray) {
                 if (detailsArray && detailsArray.length != 0) {
                     vm.qualifications = detailsArray[0].items;
-                    vm.experience = detailsArray[1].items;
+                    vm.experience = detailsArray[1].items.experiences;
+                    vm.min_exp = detailsArray[1].items.min_exp;
                     vm.skills = detailsArray[2].items;
+                    vm.tickets = detailsArray[3].items;
                 }
             });
         },

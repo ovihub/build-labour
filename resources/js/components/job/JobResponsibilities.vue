@@ -12,28 +12,24 @@
                 Responsibilities
             </div>
         
-            <div v-if="qualities.length > 0">
-                <div class="job-title">Quality Management</div>
-                <div class="job-body">
-                    <ul class="job-list-items">
-                        <li v-for="(quality, index) in qualities" :key="index">
-                            {{ quality }}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div v-if="nextTitles.length > 0">
-                <div class="job-title">Next Title</div>
-                <div class="job-body">
-                    <ul class="job-list-items" v-for="(nextTitle, index) in nextTitles" :key="index">
-                        <li>
-                            {{ nextTitle }}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
+            <ul class="job-list-items-2">
+                <li v-for="(resp, index) in responsibilities" :key="'resp-' +index">
+                    <div class="job-title">
+                        {{ resp.title }}
+                    </div>
+                    <div class="job-body">
+                        <div v-if="resp.items.length > 0">
+                            <div class="job-body">
+                                <ul class="job-list-items">
+                                    <li v-for="(item, index) in resp.items" :key="index">
+                                        {{ item }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </template>
@@ -43,8 +39,7 @@
         name: "job-responsibilities",
         data() {
             return {
-                qualities: [],
-                nextTitles: [],
+                responsibilities: [],
             }
         },
         created() {
@@ -52,8 +47,7 @@
 
             Bus.$on('jobResponsibilitiesDetails', function(detailsArray) {
                 if (detailsArray && detailsArray.length != 0) {
-                    vm.qualities = detailsArray[0].items;
-                    vm.nextTitles = detailsArray[1].items;
+                    vm.responsibilities = detailsArray;
                 }
             });
         },

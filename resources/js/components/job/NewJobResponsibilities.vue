@@ -17,13 +17,13 @@
                     <!-- Categories -->
                     <div class="job-title" style="margin-bottom:-18px">Category Title</div>
 
-                    <div class="form-group emp-row row-center" v-for="(to, catIndex) in categories" :key="'qualItem' + catIndex">
+                    <div class="form-group emp-row row-center" v-for="(to, catIndex) in responsibilities" :key="'qualItem' + catIndex">
                         <div class="job-col-left">
-                            <input class="form-control" type="text" placeholder="Quality Management" v-model="categories[catIndex].name" />
+                            <input class="form-control" type="text" placeholder="Quality Management" v-model="responsibilities[catIndex].title" />
                         </div>
 
                         <div class="job-col-right">
-                            <span @click="removeEntity(catIndex, 'categories')">
+                            <span @click="removeEntity(catIndex, 'responsibilities')">
                                 <img src="/img/icons/remove.png" srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x" style="cursor:pointer">
                             </span>
                         </div>
@@ -32,24 +32,24 @@
                         <div class="ml-4" style="width: 100%;">
                             <div class="job-title" style="margin-bottom:-18px">Points</div>
 
-                            <div class="form-group emp-row row-center" v-for="(to, index) in categories[catIndex].points" :key="'ptItem' + index">
+                            <div class="form-group emp-row row-center" v-for="(to, index) in responsibilities[catIndex].items" :key="'ptItem' + index">
                                 <div class="job-col-left">
                                     <input class="form-control" type="text" placeholder="Comply with and ensure project works are in accordance with Probuild QM Policies."
-                                        v-model="categories[catIndex].points[index]" />
+                                        v-model="responsibilities[catIndex].items[index]" />
                                 </div>
 
                                 <div class="job-col-right">
-                                    <span @click="removeEntity(catIndex, 'points', index)">
+                                    <span @click="removeEntity(catIndex, 'items', index)">
                                         <img src="/img/icons/remove.png" srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x" style="cursor:pointer">
                                     </span>
                                 </div>
                             </div>
 
-                            <div class="btn btn-link btn-delete" @click="addEntity(catIndex, 'points')">New Point</div>
+                            <div class="btn btn-link btn-delete" @click="addEntity(catIndex, 'items')">New Point</div>
                         </div>
                     </div>
 
-                    <div class="btn btn-link btn-delete" @click="addEntity(null, 'categories')">Add new category</div>
+                    <div class="btn btn-link btn-delete" @click="addEntity(null, 'responsibilities')">Add new category</div>
                 </div>
             </form>
         </div>
@@ -61,7 +61,7 @@
         name: "new-job-responsibilities",
         data() {
             return {
-                categories: [],
+                responsibilities: [],
             }
         },
         created() {
@@ -69,37 +69,37 @@
 
             Bus.$on('newJobRequirements', function() {
                 Bus.$emit('newJobResponsibilities', {
-                    categories: vm.categories,
+                    responsibilities: vm.responsibilities,
                 });
             });
 
-            this.categories.push({ name: '', points: [ '' ] });
+            this.responsibilities.push({ title: '', items: [ '' ] });
         },
         methods: {
             addEntity(index, field) {
                 switch(field) {
-                    case 'categories':
-                        this[field] = this[field].filter(r => r.name !== '');
-                        this[field].push({ name: '', points: [ '' ] });
+                    case 'responsibilities':
+                        this[field] = this[field].filter(r => r.title !== '');
+                        this[field].push({ title: '', items: [ '' ] });
                         break;
 
-                    case 'points':
-                        this.categories[index].points = this.categories[index].points.filter(r => r !== '');
-                        this.categories[index].points.push('');
+                    case 'items':
+                        this.responsibilities[index].items = this.responsibilities[index].items.filter(r => r !== '');
+                        this.responsibilities[index].items.push('');
                         break;
                 }
             },
             removeEntity(index, field, index2 = null) {
                 switch(field) {
-                    case 'categories':
+                    case 'responsibilities':
                         if (this[field].length > 1)  {
                             this[field].splice(index, 1);
                         }
                         break;
 
-                    case 'points':
-                        if (this.categories[index].points.length > 1) {
-                            this.categories[index].points.splice(index2, 1);
+                    case 'items':
+                        if (this.responsibilities[index].items.length > 1) {
+                            this.responsibilities[index].items.splice(index2, 1);
                         }
                         break;
                 }
