@@ -9,6 +9,7 @@ use App\Models\Companies\Job;
 use App\Models\Companies\JobRequirement;
 use App\Models\Companies\JobResponsibility;
 use App\Models\Companies\JobRole;
+use App\Models\Tickets\Ticket;
 use JWTAuth;
 use Illuminate\Http\Request;
 
@@ -263,11 +264,24 @@ class JobRepository extends AbstractRepository
                 }
             }
 
-            if ($request->requirements) {
+            if ($request->requirements)
+            {
 
                 foreach ($request->requirements as $r) {
 
-                    $r['items_json'] = $r['items'];
+                    $items = $r['items'];
+
+                    if (strtolower($r['title']) == 'tickets') {
+
+                        $items = array_filter($r['items'], function($item) {
+
+                            $item['ticket'] = 'tete';
+                            return Ticket::find($item['id']);
+                        });
+
+                    }
+
+                    $r['items_json'] = $items;
                     $r['job_id'] = $job->id;
 
                     $jobReq = new JobRequirement();
