@@ -30,6 +30,13 @@
                 </div>
             </div>
 
+            <div v-if="project_size">
+                <div class="job-title">Project Size</div>
+                <div class="job-body">
+                    {{ project_size }} 
+                </div>
+            </div>
+
             <div v-if="exp_level">
                 <div class="job-title">Experience Level</div>
                 <div class="job-body">
@@ -88,6 +95,7 @@
                 title: '',
                 description: '',
                 about: '',
+                project_size: '',
                 exp_level: '',
                 contract_type: '',
                 salary: '',
@@ -103,6 +111,7 @@
                     vm.title = details.title ? details.title : details.job_role.job_role_name;
                     vm.description = details.description;
                     vm.about = details.about;
+                    vm.project_size = details.project_size ? details.project_size : '';
                     vm.exp_level = details.exp_level;
                     vm.contract_type = details.contract_type;
                     vm.salary = details.salary;

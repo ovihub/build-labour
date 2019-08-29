@@ -17,7 +17,7 @@
                 <div class="form-group">
                     <div class="job-title mb-2">Job Title</div>
 
-                    <input type="text" class="form-control" style="padding-left: 24px; margin: 0; max-width: 524px;" placeholder="Start typing"
+                    <input type="text" class="form-control" style="margin: 0; max-width: 524px;" placeholder="Start typing"
                         v-model="input.title"
                         @keyup="onSearchJob(input.title)">
 
@@ -67,6 +67,21 @@
                 </div>
 
                 <div class="form-group">
+                    <div class="job-title mb-2">Project Size</div>
+
+                    <input type="text" class="form-control" placeholder="$ Enter amount"
+                        pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
+                        data-type="currency"
+                        v-model="input.project_size"
+                        @keyup="formatCurrency('project_size', $event)"
+                        @blur="formatCurrency('project_size', $event, 'blur')">
+
+                    <span class="err-msg" v-if="errors.project_size">
+                        {{ errors.project_size }}
+                    </span>
+                </div>
+
+                <div class="form-group">
                     <div class="job-title mb-2">Experience Level</div>
 
                     <div class="me-row">
@@ -102,8 +117,12 @@
                 <div class="form-group">
                     <div class="job-title mb-2">Salary</div>
 
-                    <input type="text" class="form-control" style="padding-left: 24px;"
-                        v-model="input.salary" placeholder="Enter amount">
+                    <input type="text" class="form-control" placeholder="$ Enter amount"
+                        pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
+                        data-type="currency"
+                        v-model="input.salary"
+                        @keyup="formatCurrency('salary', $event)"
+                        @blur="formatCurrency('salary', $event, 'blur')">
 
                     <span class="err-msg" v-if="errors.salary">
                         {{ errors.salary }}
@@ -152,8 +171,8 @@
                 <div class="form-group">
                     <div class="job-title mb-2">Location</div>
 
-                    <input type="text" class="form-control" style="padding-left: 24px;"
-                        v-model="input.location" placeholder="Start typing address..."
+                    <input type="text" class="form-control" placeholder="Start typing address..."
+                        v-model="input.location"
                         @keyup="onChangeLocation(input.location)">
 
                     <span class="err-msg" v-if="errors.location">
@@ -186,8 +205,8 @@
                 job_roles: [],
                 locations: [],
                 input: {
-                    job_role_id: '', title: '', description: '', about: '', exp_level: '',
-                    contract_type: '', salary: '', reports_to: [], location: '',
+                    job_role_id: '', title: '', description: '', about: '', project_size: '',
+                    exp_level: '', contract_type: '', salary: '', reports_to: [], location: '',
                 },
                 errors: {
                     title: '', description: '', about: '', exp_level: '',
@@ -209,6 +228,9 @@
             this.input.reports_to.push('');
         },
         methods: {
+            formatCurrency(field, e, blur = null) {
+                this.input[field] = Utils.formatCurrency(e, blur);
+            },
             textAreaAdjust(refName) {
                 Utils.textAreaAdjust(this.$refs[refName]);
             },

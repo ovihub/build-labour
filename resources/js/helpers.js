@@ -215,6 +215,39 @@ window.Helper = {
                 input[refName] = value;
             }
         },
+        formatNumber(n) {
+            return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
+        formatCurrency(e, blur) {
+            let value = e.target.value;
+            
+            if (value === '') return;
+            
+            let original_len = value.length,
+                caret_pos = e.target.selectionStart,
+                decimal_pos = value.indexOf(".");
+                
+            if (decimal_pos >= 0) {
+                value = '$' + this.formatNumber(value.substring(0, decimal_pos)) +
+                        '.' + (this.formatNumber(value.substring(decimal_pos)) + 
+                        (blur === 'blur' ? '00' : '')).substring(0, 2);
+            
+            } else {
+                value = '$' + this.formatNumber(value);
+
+                if (blur === 'blur') {
+                    value += '.00';
+                }
+            }
+
+            e.target.value = value;
+            
+            caret_pos = value.length - original_len + caret_pos;
+            
+            e.target.setSelectionRange(caret_pos, caret_pos);
+
+            return e.target.value;
+        },
         hashCode(str) {
             let hash = 0;
 
