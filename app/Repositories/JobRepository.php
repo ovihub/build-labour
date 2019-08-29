@@ -273,11 +273,26 @@ class JobRepository extends AbstractRepository
 
                     if (strtolower($r['title']) == 'tickets') {
 
-                        $items = array_filter($r['items'], function($item) {
+                        $items = [];
 
-                            $item['ticket'] = 'tete';
-                            return Ticket::find($item['id']);
-                        });
+                        foreach ($r['items'] as $item) {
+
+                            if (!isset($item['id'])) {
+
+                                $newTicket = new Ticket();
+
+                                $newTicket->ticket = $item['ticket'];
+                                $newTicket->description = $item['description'];
+                                $newTicket->created_by = $user->id;
+                                $newTicket->save();
+
+                                $items[] = $newTicket->toArray();
+
+                            } else if (Ticket::find($item['id'])) {
+
+                                $items[] = $item;
+                            }
+                        }
 
                     }
 
