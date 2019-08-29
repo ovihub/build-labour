@@ -45,6 +45,29 @@
                     </ul>
                 </div>
             </div>
+
+            <div v-if="tickets.length > 0">
+                <div class="job-title mt-4">Tickets</div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6" v-for="first in firstColumn" v-bind:key="first.id">
+                        <span class="bl-label-15">
+                            {{ first.ticket }}
+                        </span>
+                        <span class="bl-label-14">
+                            {{ first.description }}
+                        </span>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6" v-for="second in secondColumn" v-bind:key="second.id">
+                        <span class="bl-label-15">
+                            {{ second.ticket }}
+                        </span>
+                        <span class="bl-label-14">
+                            {{ second.description }}
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -70,6 +93,8 @@
                 experience: [],
                 skills: [],
                 tickets: [],
+                firstColumn: [],
+                secondColumn: [],
             }
         },
         created() {
@@ -82,11 +107,18 @@
                     vm.min_exp = detailsArray[1].items.min_exp;
                     vm.skills = detailsArray[2].items;
                     vm.tickets = detailsArray[3].items;
+                    vm.display();
                 }
             });
         },
         methods: {
-            
+            display() {
+                let len = this.tickets.length;
+                let half = Math.ceil(len / 2);
+
+                this.firstColumn = this.tickets.slice(0, half);
+                this.secondColumn = this.tickets.slice(half, len);
+            },
         },
     }
 </script>
