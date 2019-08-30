@@ -6,6 +6,7 @@ use App\Http\Controllers\API\V1\ApiBaseController;
 use App\Models\Companies\Job;
 use App\Models\Companies\JobRole;
 use Illuminate\Http\Request;
+use JWTAuth;
 
 class ApiJobsController extends ApiBaseController
 {
@@ -101,5 +102,23 @@ class ApiJobsController extends ApiBaseController
         }
 
         return $this->apiSuccessResponse(compact('role'), true, 'Request OK', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    public function deleteJob( $job_id){
+        $job = Job::find($job_id);
+
+        if (! $job) {
+            return $this->apiErrorResponse( false, 'Ticket Not Found', 404 , 'ticketNotFound' );
+        }
+        try {
+            $user = JWTAuth::toUser();
+            $job->delete();
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+        return $this->apiSuccessResponse( [], true, 'Successfully deleted ticket', self::HTTP_STATUS_REQUEST_OK);
+        
     }
 }
