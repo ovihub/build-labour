@@ -263,6 +263,12 @@ class ApiJobsController extends ApiBaseController
      *                      example="$500"
      *                  ),
      *                  @OA\Property(
+     *                      property="project_size",
+     *                      description="project_size",
+     *                      type="string",
+     *                      example="$500"
+     *                  ),
+     *                  @OA\Property(
      *                      property="reports_to",
      *                      type="array",
      *                      @OA\Items(
@@ -417,6 +423,12 @@ class ApiJobsController extends ApiBaseController
      *                  @OA\Property(
      *                      property="salary",
      *                      description="Salary",
+     *                      type="string",
+     *                      example="$500"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="project_size",
+     *                      description="project size",
      *                      type="string",
      *                      example="$500"
      *                  ),
