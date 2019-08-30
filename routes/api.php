@@ -227,6 +227,7 @@ Route::namespace('API\V1\Admin')
         Route::prefix('job')
             ->group(function () {
                 Route::get('get', 'ApiJobsController@get');
+                Route::delete('/{job_id}', 'ApiJobsController@deleteJob');
                 Route::get('roles', 'ApiJobsController@getRoles');
                 Route::post('roles/', 'ApiJobsController@postRole');
                 Route::get('roles/{id}', 'ApiJobsController@getRole');

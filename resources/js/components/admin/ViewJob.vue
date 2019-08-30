@@ -122,16 +122,24 @@
         </div>
 
         <div class="form-group row mt-5">
-            <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="btn btn-link btn-delete mb-3" style="margin-right:180px" data-dismiss="modal" @click="deleteRecord">
+                    Delete
+                </div>
                 <button type="submit" @click="submit" :disabled="disabled">
                     Save Changes
                 </button>
+                
             </div>
+            
         </div>
+        <DeleteModal></DeleteModal>
     </div>
 </template>
 
 <script>
+    import DeleteModal from '../common/DeleteModal';
+
     export default {
         name: "view-job",
 		data() {
@@ -150,58 +158,63 @@
 				endpoints: {
                     get: '',
                     save: '',
-                    job_roles: '/api/v1/admin/job/roles'
+                    job_roles: '/api/v1/admin/job/roles',
+                    delete: '/api/v1/admin/job/',
 				}
 			}
 		},
 		
 		created() {
-			let vm = this;
+			let component = this;
 
             Bus.$on('datatableViewJob', function(id){
-                vm.show = true;
+                component.show = true;
 
                 if (id != 0) {
-                    vm.endpoints.get = '/api/v1/admin/job/get?id=' + id;
-                    vm.endpoints.save = '/api/v1/job/' + id;
+                    component.endpoints.get = '/api/v1/admin/job/get?id=' + id;
+                    component.endpoints.save = '/api/v1/job/' + id;
                     
-                    vm.viewRecord();
+                    component.viewRecord();
                 
                 } else {
-                    Utils.setObjectValues(vm.record, '');
+                    Utils.setObjectValues(component.record, '');
 
-                    vm.endpoints.save = '/api/v1/job';
+                    component.endpoints.save = '/api/v1/job';
                 }
             });
 
-            axios.get(vm.endpoints.job_roles, Utils.getBearerAuth())
+            axios.get(component.endpoints.job_roles, Utils.getBearerAuth())
 
                 .then(function(response) {
 
                     console.log(response);
-                    vm.job_roles = response.data.data.job_roles;
-                    console.log(vm.job_roles);
+                    component.job_roles = response.data.data.job_roles;
+                    console.log(component.job_roles);
                 })
                 .catch(function(error) {
 
                     Utils.handleError(error);
                 });
+
+            Bus.$on('removeJob', function() {
+                Bus.$emit('adminSaveChanges', component.record.id);
+            });    
 		},
 		
 		methods: {
 			
 		  	viewRecord() {
-				let vm = this;
+				let component = this;
 
-				axios.get(vm.endpoints.get, Utils.getBearerAuth())
+				axios.get(component.endpoints.get, Utils.getBearerAuth())
 
                     .then(function(response) {
                         
-                        vm.record = response.data.data.record;
+                        component.record = response.data.data.record;
 
-                        if (vm.record.job_role) {
+                        if (component.record.job_role) {
 
-                            vm.record.title = vm.record.job_role.job_role_name;
+                            component.record.title = component.record.job_role.job_role_name;
                         }
                     })
                     .catch(function(error) {
@@ -223,7 +236,7 @@
             },
 
             async submit() {
-                let vm = this;
+                let component = this;
 
                 Utils.setObjectValues(this.errors, '');
 
@@ -237,18 +250,18 @@
                     this.record.reports_to.push(results[i].trim());
                 }
 
-                await axios.post(vm.endpoints.save, vm.$data.record, Utils.getBearerAuth())
+                await axios.post(component.endpoints.save, component.$data.record, Utils.getBearerAuth())
 
                     .then(function(response) {
 
-                        Bus.$emit('adminSaveChanges', vm.record.id);
+                        Bus.$emit('adminSaveChanges', component.record.id);
                     })
                     .catch(function(error) {
                         if (error.response) {
                             let data = error.response.data;
 
 							for (let key in data.errors) {
-								vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
                             }
                         }
 
@@ -257,7 +270,18 @@
 
                 this.disabled = false;
             },
+
+            async deleteRecord () {
+                $('#deleteRecordModal').modal('show');
+                
+                Bus.$emit('deleteJob', this.endpoints.delete + this.record.id);
+                
+            }
             
-        }
+        },
+
+        components: {
+            DeleteModal,
+        },
 	}
 </script>
