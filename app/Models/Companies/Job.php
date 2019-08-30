@@ -18,6 +18,7 @@ class Job extends BaseModel
         'exp_level',
         'contract_type',
         'salary',
+        'project_size',
         'reports_to_json',
         'location',
         'job_role_id',
@@ -50,6 +51,7 @@ class Job extends BaseModel
             'exp_level'     => 'required',
             'contract_type' => 'required',
             'salary'        => 'nullable|regex:/\b\d{1,3}(?:,?\d{3})*(?:\.\d{2})?\b/', /* monetary validation */
+            'project_size'  => 'nullable|regex:/\b\d{1,3}(?:,?\d{3})*(?:\.\d{2})?\b/', /* monetary validation */
             'location'      => 'required',
             'template_name' => 'required'
         ];
@@ -114,6 +116,19 @@ class Job extends BaseModel
 
         } else {
             $this->attributes['salary'] = null;
+        }
+    }
+
+    public function setProjectSizeAttribute($value) {
+
+        if ( ! empty( $value ) ) {
+
+            $format = preg_replace("/[^0-9.]/","",$value);
+            $format = number_format($format,0);
+            $this->attributes['project_size'] = $format;
+
+        } else {
+            $this->attributes['project_size'] = null;
         }
     }
 
