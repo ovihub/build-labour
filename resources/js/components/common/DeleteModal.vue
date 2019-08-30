@@ -84,6 +84,11 @@
 				vm.endpoints.delete = '/api/v1/admin/user/photo/delete';
 				vm.record.id = id;
 			});
+			
+			Bus.$on('deleteJob', function(endpoint) {
+				vm.action = 'Job';
+				vm.endpoints.delete = endpoint;
+			});
 		},
 
 		methods: {
@@ -93,7 +98,7 @@
 
 				this.disabled = true;
 				
-				if (this.action == 'Employment' || this.action == 'Education' || this.action == 'IndustrySkill' || this.action == 'Ticket') {
+				if (this.action == 'Employment' || this.action == 'Education' || this.action == 'IndustrySkill' || this.action == 'Ticket' || this.action == 'Job') {
 
 					await axios.delete(vm.endpoints.delete, Utils.getBearerAuth())
 
