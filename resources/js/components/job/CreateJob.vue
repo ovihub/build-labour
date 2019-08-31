@@ -8,6 +8,8 @@
 
             <div class="emp-row mt-3" v-if="creating">
                 <input type="text" class="form-control create-job-input" placeholder="Enter Name to save as a template" v-model="template_name">
+
+                <span class="err-msg" v-if="errors.template_name">{{ errors.template_name }}</span>
             </div>
 
             <div class="emp-row mt-3" v-else>
@@ -54,6 +56,9 @@
                 isTemplate: 0,
                 template_name: '',
                 input: {},
+                errors: {
+                    template_name: '',
+                },
                 keyword: '',
                 endpoints: {
                     post: '/api/v1/job',
@@ -138,7 +143,11 @@
                 }).catch(function(error) {
                     let inputErrors = Utils.handleError(error);
 
-                    if (inputErrors) Bus.$emit('newJobDetailsError', inputErrors);
+                    if (inputErrors) {
+                        vm.errors.template_name = inputErrors.template_name;
+
+                        Bus.$emit('newJobDetailsError', inputErrors);
+                    }
                 });
 
                 this.disabled = false;
@@ -155,6 +164,8 @@
         border: solid 1px rgba(0, 0, 0, 0.07);
         background-color: #ffffff;
         height: 46px;
+    }
+    .create-job-input::placeholder {
         color: #acbbbf;
     }
 
