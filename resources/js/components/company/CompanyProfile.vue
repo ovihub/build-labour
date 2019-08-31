@@ -465,7 +465,7 @@
                 this.specialtyLabel = this.specialtyLabels[e.target.value - 2];
             },
             onChangeLocation(keyword) {
-                if (keyword != '' && (keyword && keyword.length > 0)) {
+                if (keyword && keyword.length > 0) {
                     this.locations = Api.getLocations(keyword);
                 
                 } else {
@@ -478,7 +478,7 @@
                 this.locations = [];
             },
             onSearchMainFunctionAnswer(keyword, main_id) {
-                if (keyword != '' && (keyword && keyword.length > 0)) {
+                if (keyword && keyword.length > 0) {
                     this.main_function_answers = Api.getMainFunctionAnswers(keyword, main_id);
 
                 } else {

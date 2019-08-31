@@ -183,7 +183,7 @@
                 this.has_focus = has_focus;
             },
             onSearchJob(keyword) {
-                if (keyword != '' && (keyword && keyword.length > 0)) {
+                if (keyword && keyword.length > 0) {
                     this.job_roles = Api.getJobRoles(keyword);
 
                 } else {

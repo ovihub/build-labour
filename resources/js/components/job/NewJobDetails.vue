@@ -235,7 +235,7 @@
                 Utils.textAreaAdjust(this.$refs[refName]);
             },
             onChangeLocation(keyword) {
-                if (keyword != '' && (keyword && keyword.length > 0)) {
+                if (keyword && keyword.length > 0) {
                     this.locations = Api.getLocations(keyword);
                 
                 } else {
@@ -250,7 +250,7 @@
             onSearchJob(keyword) {
                 this.input.job_role_id = '';
 
-                if (keyword != '' && (keyword && keyword.length > 0)) {
+                if (keyword && keyword.length > 0) {
                     this.job_roles = Api.getJobRoles(keyword);
 
                 } else {
@@ -258,7 +258,7 @@
                 }
             },
             onSearchReportsTo(keyword, index) { 
-                if (keyword != '' && (keyword && keyword.length > 0)) {
+                if (keyword && keyword.length > 0) {
                     this.reports_to_job_roles = Api.getJobRoles(keyword);
 
                 } else {

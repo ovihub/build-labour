@@ -312,7 +312,7 @@
             },
 
             onChangeLocation(keyword) {
-                if (keyword != '' && (keyword && keyword.length > 0)) {
+                if (keyword && keyword.length > 0) {
                     this.locations = Api.getLocations(keyword);
                 
                 } else {
@@ -323,7 +323,7 @@
             onSearchJob(keyword) {
                 this.job_id = '';
 
-                if (keyword != '' && (keyword && keyword.length > 0)) {
+                if (keyword && keyword.length > 0) {
                     this.job_roles = Api.getJobRoles(keyword);
 
                 } else {
@@ -336,7 +336,7 @@
                 // this.location = '';
                 // this.$refs['locationRef'].disabled = false;
 
-                if (keyword != '' && (keyword && keyword.length > 0)) {
+                if (keyword && keyword.length > 0) {
                     this.companies = Api.getCompanies(keyword);
 
                 } else {

@@ -418,7 +418,7 @@
                 });
             },
             onChangeLocation(keyword) {
-                if (keyword != '' && (keyword && keyword.length > 0)) {
+                if (keyword && keyword.length > 0) {
                     this.locations = Api.getLocations(keyword);
                 
                 } else {
@@ -431,7 +431,7 @@
                 this.locations = [];
             },
             onSearchJob(keyword) {
-                if (keyword != '' && (keyword && keyword.length > 0)) {
+                if (keyword && keyword.length > 0) {
                     this.job_roles = Api.getJobRoles(keyword);
 
                 } else {

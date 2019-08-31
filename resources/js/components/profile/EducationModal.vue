@@ -236,7 +236,7 @@
             onSearchCourse(keyword) {
                 this.course_id = '';
 
-                if (keyword != '' && (keyword && keyword.length > 0)) {
+                if (keyword && keyword.length > 0) {
                     this.courses = Api.getCourses(keyword);
 
                 } else {
@@ -254,7 +254,7 @@
             onSearchSchool(keyword) {
                 this.school_id = '';
 
-                if (keyword != '' && (keyword && keyword.length > 0)) {
+                if (keyword && keyword.length > 0) {
                     this.schools = Api.getSchools(keyword);
 
                 } else {
