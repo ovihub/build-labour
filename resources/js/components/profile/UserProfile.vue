@@ -418,12 +418,7 @@
                 });
             },
             onChangeLocation(keyword) {
-                if (keyword && keyword.length > 0) {
-                    this.locations = Api.getLocations(keyword);
-                
-                } else {
-                    this.locations = [];
-                }
+                this.locations = (keyword && keyword.length > 0) ? Api.getLocations(keyword) : [];
             },
             onSelectLocation(location) {
                 this.input.address = location;
@@ -431,12 +426,7 @@
                 this.locations = [];
             },
             onSearchJob(keyword) {
-                if (keyword && keyword.length > 0) {
-                    this.job_roles = Api.getJobRoles(keyword);
-
-                } else {
-                    this.job_roles = [];
-                }
+                this.job_roles = (keyword && keyword.length > 0) ? Api.getJobRoles(keyword) : [];
             },
             onSelectJob(job) {
                 this.input.most_recent_role = job.job_role_name;

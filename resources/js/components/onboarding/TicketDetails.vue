@@ -119,12 +119,7 @@
             onSearch(keyword) {
                 this.errors.ticket = '';
 
-                if (keyword && keyword.length > 0) {
-                    this.searchedTickets = Api.getTickets(keyword);
-
-                } else {
-                    this.searchedTickets = [];
-                }
+                this.searchedTickets = (keyword && keyword.length > 0) ? Api.getTickets(keyword) : [];
             },
             onSelect(ticket) {
                 this.selected = ticket;

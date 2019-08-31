@@ -465,12 +465,7 @@
                 this.specialtyLabel = this.specialtyLabels[e.target.value - 2];
             },
             onChangeLocation(keyword) {
-                if (keyword && keyword.length > 0) {
-                    this.locations = Api.getLocations(keyword);
-                
-                } else {
-                    this.locations = [];
-                }
+                this.locations = (keyword && keyword.length > 0) ? Api.getLocations(keyword) : [];
             },
             onSelectLocation(location) {
                 this.input.address = location;
@@ -478,12 +473,7 @@
                 this.locations = [];
             },
             onSearchMainFunctionAnswer(keyword, main_id) {
-                if (keyword && keyword.length > 0) {
-                    this.main_function_answers = Api.getMainFunctionAnswers(keyword, main_id);
-
-                } else {
-                    this.main_function_answers = [];
-                }
+                this.main_function_answers = (keyword && keyword.length > 0) ? Api.getMainFunctionAnswers(keyword, main_id) : [];
             },
             onSelectMainFunctionAnswer(answer) {
                 this.input.main_function_answer = answer;

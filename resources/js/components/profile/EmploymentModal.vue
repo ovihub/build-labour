@@ -216,7 +216,6 @@
                 },
             }
         },
-
         created() {
             let vm = this;
 
@@ -225,15 +224,12 @@
                 vm.setValues(details);
             });
         },
-
         methods: {
-
             hasFocus() {
                 this.has_focus_role = false;
                 this.has_focus_company = false;
                 this.has_focus_location = false;
             },
-
             hasFocusRole(has_focus) {
                 this.has_focus_role = has_focus;
 
@@ -242,7 +238,6 @@
                     this.has_focus_location = false;
                 }
             },
-
             hasFocusCompany(has_focus) {
                 this.has_focus_company = has_focus;
 
@@ -251,7 +246,6 @@
                     this.has_focus_location = false;
                 }
             },
-
             hasFocusLocation(has_focus) {
                 this.has_focus_location = has_focus;
 
@@ -260,7 +254,6 @@
                     this.has_focus_company = false;
                 }
             },
-
             setValues(details) {
                 this.id = details ? details.id : '';
                 this.company_id = details ? details.company_id: '';
@@ -282,13 +275,11 @@
                 this.responsibilities = this.responsibilities.filter(r => r!=='');
                 this.responsibilities.push('');
             },
-
             close() {
                 this.current = -1;
 
                 Utils.setObjectValues(this.errors, '');
             },
-
             textAreaAdjust(index) {
                 this.hasFocus();
                 
@@ -296,67 +287,44 @@
                 o.style.height = '1px';
                 o.style.height = (2 + o.scrollHeight) + 'px';
             },
-
             onChangeCurrentRole() {
                 if (this.isCurrent == 1) {
                     this.end_year = null;
                     this.end_month = null;
                 }
             },
-
             onChangeResponsibilities(index) {
                 this.textAreaAdjust(index);
 
                 this.responsibilities = this.responsibilities.filter(r => r!=='');
                 this.responsibilities.push('');
             },
-
             onChangeLocation(keyword) {
-                if (keyword && keyword.length > 0) {
-                    this.locations = Api.getLocations(keyword);
-                
-                } else {
-                    this.locations = [];
-                }
+                this.locations = (keyword && keyword.length > 0) ? Api.getLocations(keyword) : [];
             },
-
             onSearchJob(keyword) {
                 this.job_id = '';
 
-                if (keyword && keyword.length > 0) {
-                    this.job_roles = Api.getJobRoles(keyword);
-
-                } else {
-                    this.job_roles = [];
-                }
+                this.job_roles = (keyword && keyword.length > 0) ? Api.getJobRoles(keyword) : [];
             },
-
             onSearchCompany(keyword) {
                 this.company_id = '';
                 // this.location = '';
                 // this.$refs['locationRef'].disabled = false;
 
-                if (keyword && keyword.length > 0) {
-                    this.companies = Api.getCompanies(keyword);
-
-                } else {
-                    this.companies = [];
-                }
+                this.companies = (keyword && keyword.length > 0) ? Api.getCompanies(keyword) : [];
             },
-
             onSelectJob(job) {
                 this.job_id = job.id;
                 this.job_role = job.job_role_name;
 
                 this.job_roles = [];
             },
-
             onSelectLocation(location) {
                 this.location = location;
                 
                 this.locations = [];
             },
-
             onSelectCompany(company) {
                 this.company_id = company.id;
                 this.company_name = company.name;
@@ -365,13 +333,11 @@
 
                 this.companies = [];
             },
-
             deleteRecord() {
                 $('#deleteRecordModal').modal('show');
 
                 Bus.$emit('deleteEmployment', this.current, this.endpoints.delete + this.id);
             },
-            
             async submit() {
                 let vm = this;
                 let saveEndpoint = this.id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.id;

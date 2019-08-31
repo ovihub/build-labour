@@ -235,12 +235,7 @@
                 Utils.textAreaAdjust(this.$refs[refName]);
             },
             onChangeLocation(keyword) {
-                if (keyword && keyword.length > 0) {
-                    this.locations = Api.getLocations(keyword);
-                
-                } else {
-                    this.locations = [];
-                }
+                this.locations = (keyword && keyword.length > 0) ? Api.getLocations(keyword) : [];
             },
             onSelectLocation(location) {
                 this.input.location = location;
@@ -250,20 +245,10 @@
             onSearchJob(keyword) {
                 this.input.job_role_id = '';
 
-                if (keyword && keyword.length > 0) {
-                    this.job_roles = Api.getJobRoles(keyword);
-
-                } else {
-                    this.job_roles = [];
-                }
+                this.job_roles = (keyword && keyword.length > 0) ? Api.getJobRoles(keyword) : [];
             },
             onSearchReportsTo(keyword, index) { 
-                if (keyword && keyword.length > 0) {
-                    this.reports_to_job_roles = Api.getJobRoles(keyword);
-
-                } else {
-                    this.reports_to_job_roles = [];
-                }
+                this.reports_to_job_roles = (keyword && keyword.length > 0) ? Api.getJobRoles(keyword) : [];
 
                 this.reports_to_active_index = index;
             },

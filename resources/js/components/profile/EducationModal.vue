@@ -167,7 +167,6 @@
                 },
             }
         },
-
         created() {
             let vm = this;
 
@@ -176,14 +175,11 @@
                 vm.setValues(details);
             });
         },
-
         methods: {
-
             hasFocus() {
                 this.has_focus_course = false;
                 this.has_focus_school = false;
             },
-
             hasFocusCourse(has_focus) {
                 this.has_focus_course = has_focus;
                 
@@ -191,7 +187,6 @@
                     this.has_focus_school = false;
                 }
             },
-
             hasFocusSchool(has_focus) {
                 this.has_focus_school = has_focus;
 
@@ -199,7 +194,6 @@
                     this.has_focus_course = false;
                 }
             },
-
             setValues(details) {
                 this.id = details ? details.id : '';
                 this.course_name = details ? details.course_name : '';
@@ -215,60 +209,42 @@
 
                 this.formatEduStatus(this.statuses.indexOf(this.education_status));
             },
-
             formatPeriod(edu) {
                 return Utils.getMonth(edu.start_month - 1) + ' ' + edu.start_year + ' - ' + 
                        Utils.getMonth(edu.end_month - 1) + ' ' + edu.end_year;
             },
-
             close() {
                 this.current = -1;
 
                 Utils.setObjectValues(this.errors, '');
             },
-
             deleteRecord() {
                 $('#deleteRecordModal').modal('show');
                 
                 Bus.$emit('deleteEducation', this.current, this.endpoints.delete + this.id);
             },
-
             onSearchCourse(keyword) {
                 this.course_id = '';
 
-                if (keyword && keyword.length > 0) {
-                    this.courses = Api.getCourses(keyword);
-
-                } else {
-                    this.courses = [];
-                }
+                this.courses = (keyword && keyword.length > 0) ? Api.getCourses(keyword) : [];
             },
-
             onSelectCourse(course) {
                 this.course_id = course.id;
                 this.course_name = course.course_name;
 
                 this.courses = [];
             },
-
             onSearchSchool(keyword) {
                 this.school_id = '';
 
-                if (keyword && keyword.length > 0) {
-                    this.schools = Api.getSchools(keyword);
-
-                } else {
-                    this.schools = [];
-                }
+                this.schools = (keyword && keyword.length > 0) ? Api.getSchools(keyword) : [];
             },
-
             onSelectSchool(school) {
                 this.school_id = school.id;
                 this.school = school.school_name;
 
                 this.schools = [];
             },
-
             formatEduStatus(value) {
                 // if (this.education_status == this.statuses[1]) {
                 //     this.years = Utils.getYears(currentYear + 10, currentYear - 10);
@@ -284,7 +260,6 @@
                     this.education_status = this.statuses[value];
                 }
             },
-
             async submit() {
                 let vm = this;
                 let saveEndpoint = this.id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.id;
