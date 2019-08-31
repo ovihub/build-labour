@@ -124,13 +124,12 @@
                 Utils.textAreaAdjust(this.$refs[refName]);
             },
             onChangeLocation(keyword) {
-                let vm = this;
-
-                Promise.resolve(Api.getLocations(keyword)).then(function(data) {
-                    vm.locations = (keyword != '' && (keyword && keyword.length > 0) && 
-                                            data.data && data.data.locations && data.data.locations.features) ? 
-                                            data.data.locations.features : [];
-                });
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    this.locations = Api.getLocations(keyword);
+                
+                } else {
+                    this.locations = [];
+                }
             },
             onSelectLocation(location) {
                 this.input.location = location;
@@ -140,18 +139,20 @@
             onSearchJob(keyword) {
                 this.input.job_role_id = '';
 
-                let vm = this;
-                
-                Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
-                    vm.job_roles = data.data ? data.data.job_roles : [];
-                });
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    this.job_roles = Api.getJobRoles(keyword);
+
+                } else {
+                    this.job_roles = [];
+                }
             },
             onSearchReportsTo(keyword, index) { 
-                let vm = this;
-                
-                Promise.resolve(Api.getJobRoles(keyword)).then(function(data) {
-                    vm.reports_to_job_roles = data.data ? data.data.job_roles : [];
-                });
+                if (keyword != '' && (keyword && keyword.length > 0)) {
+                    this.reports_to_job_roles = Api.getJobRoles(keyword);
+
+                } else {
+                    this.reports_to_job_roles = [];
+                }
 
                 this.reports_to_active_index = index;
             },
