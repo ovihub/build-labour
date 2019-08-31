@@ -574,54 +574,54 @@
                 
                 await axios.post(vm.endpoints.save, vm.$data.input, Utils.getBearerAuth())
                     
-                    .then(function(response) {
-                        let data = response.data.data;
+                .then(function(response) {
+                    let data = response.data.data;
+                    
+                    Api.setToken(data.token);
+
+                    if (data.company.photo_url) {
+                        Api.setNavAvatar('', data.company.photo_url);
                         
-                        Api.setToken(data.token);
+                    } else {
+                        Api.setNavAvatar(Utils.getInitials(data.company.name), '');
+                    }
 
-                        if (data.company.photo_url) {
-                            Api.setNavAvatar('', data.company.photo_url);
-                            
-                        } else {
-                            Api.setNavAvatar(Utils.getInitials(data.company.name), '');
+                    Api.redirectToProfile();
+                
+                }).catch(function(error) {
+                    if (error.response) {
+                        let data = error.response.data;
+
+                        if (data.errors.company_name || 
+                            data.errors.company_main_company_id || 
+                            data.errors.company_main_function_answer) {
+
+                            vm.skip(-3);
                         }
 
-                        Api.redirectToProfile();
-                    })
-                    .catch(function(error) {
-                        if (error.response) {
-                            let data = error.response.data;
+                        else if (data.errors.company_business_type_id ||
+                            data.errors.company_tier_id ||
+                            data.errors.company_photo) {
 
-                            if (data.errors.company_name || 
-                                data.errors.company_main_company_id || 
-                                data.errors.company_main_function_answer) {
-
-                                vm.skip(-3);
-                            }
-
-                            else if (data.errors.company_business_type_id ||
-                                data.errors.company_tier_id ||
-                                data.errors.company_photo) {
-
-                                vm.skip(-2);
-                            }
-
-                            else if (data.errors.company_address ||
-                                data.errors.company_contact_number ||
-                                data.errors.company_website ||
-                                data.errors.company_operate_outside_states ||
-                                data.errors.company_states) {
-
-                                vm.skip(-1);
-                            }
-
-							for (let key in data.errors) {
-								vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                            }
+                            vm.skip(-2);
                         }
 
-                        Utils.handleError(error);
-                    });
+                        else if (data.errors.company_address ||
+                            data.errors.company_contact_number ||
+                            data.errors.company_website ||
+                            data.errors.company_operate_outside_states ||
+                            data.errors.company_states) {
+
+                            vm.skip(-1);
+                        }
+
+                        for (let key in data.errors) {
+                            vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
+                        }
+                    }
+
+                    Utils.handleError(error);
+                });
                 
                 this.loading = false;
                 this.disabled = false;

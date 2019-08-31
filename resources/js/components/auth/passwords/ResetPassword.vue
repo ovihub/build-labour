@@ -107,17 +107,11 @@
                     window.location.href = vm.endpoints.login;
 
                     Bus.$emit('alertSuccess', data.message);
-                })
-                .catch(function(error) {
-                    if (error.response) {
-                        let data = error.response.data;
-
-                        for (let key in vm.errors) {
-                            vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                        }
-                    }
-
-                    Utils.handleError(error);
+                
+                }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
+        
+                    if (inputErrors) vm.errors = inputErrors;
                 });
                 
                 this.loading = false;

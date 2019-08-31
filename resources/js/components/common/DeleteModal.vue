@@ -102,40 +102,42 @@
 
 					await axios.delete(vm.endpoints.delete, Utils.getBearerAuth())
 
-						.then(function(response) {
-							let data = response.data;
-								
-							if (data.success) {
-								$('#deleteRecordModal').modal('hide');
-								
-								if (vm.action == 'Education') {
-									Bus.$emit('remove' + vm.action, vm.index, vm.endpoints.delete.split('/').pop());
-								
-								} else {
-									Bus.$emit('remove' + vm.action, vm.index);
-								}
-							}
-						}).catch(function(error) {
+					.then(function(response) {
+						let data = response.data;
 							
-							Utils.handleError(error);
-						});
+						if (data.success) {
+							$('#deleteRecordModal').modal('hide');
+							
+							if (vm.action == 'Education') {
+								Bus.$emit('remove' + vm.action, vm.index, vm.endpoints.delete.split('/').pop());
+							
+							} else {
+								Bus.$emit('remove' + vm.action, vm.index);
+							}
+						}
+					
+					}).catch(function(error) {
+						
+						Utils.handleError(error);
+					});
 				
 				} else if (this.action == 'Photo') {
 
 					await axios.delete(vm.endpoints.delete, Utils.getBearerAuth(vm.$data.record))
 
-						.then(function(response) {
-							let data = response.data;
-								
-							if (data.success) {
-								$('#deleteRecordModal').modal('hide');
-
-								Bus.$emit('croppedPhoto', '');
-							}
-						}).catch(function(error) {
+					.then(function(response) {
+						let data = response.data;
 							
-							Utils.handleError(error);
-						});
+						if (data.success) {
+							$('#deleteRecordModal').modal('hide');
+
+							Bus.$emit('croppedPhoto', '');
+						}
+						
+					}).catch(function(error) {
+						
+						Utils.handleError(error);
+					});
 				
 				} else {
 					$('#deleteRecordModal').modal('hide');

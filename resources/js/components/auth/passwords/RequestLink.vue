@@ -62,22 +62,18 @@
 
                 await axios.post(vm.endpoints.send, vm.$data.input)
 
-                    .then(function(response) {
-                        let data = response.data;
-                        
-                        vm.input.email = '';
+                .then(function(response) {
+                    let data = response.data;
+                    
+                    vm.input.email = '';
 
-                        Bus.$emit('alertSuccess', data.message);
-                    })
-                    .catch(function(error) {
-                        if (error.response) {
-                            let data = error.response.data;
-
-                            vm.errors.email = data.errors.email ? data.errors.email[0] : '';
-                        }
-
-                        Utils.handleError(error);
-                    });
+                    Bus.$emit('alertSuccess', data.message);
+                
+                }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
+    
+                    if (inputErrors) vm.errors = inputErrors;
+                });
                 
                 this.loading = false;
                 this.disabled = false;

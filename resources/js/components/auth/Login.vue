@@ -102,10 +102,10 @@
                     }
 
                     Api.redirectToProfile();
-                })
-                .catch(function(error) {
-                    
+                
+                }).catch(function(error) {
                     Utils.setObjectValues(vm.input, '');
+
                     Utils.handleError(error);
                 });
                 

@@ -107,14 +107,14 @@
 
                 axios.get(vm.endpointGet, Utils.getBearerAuth())
                     
-                    .then(function(response) {
-                        
-                        vm.posts = response.data.data.posts;
-                    })
-                    .catch(function(error) {
+                .then(function(response) {
+                    
+                    vm.posts = response.data.data.posts;
+                
+                }).catch(function(error) {
 
-                        Utils.handleError(error);
-                    });
+                    Utils.handleError(error);
+                });
             },
             getTimeDiffNow(created_at) {
                 return Utils.formatTimeDiffNow(created_at);

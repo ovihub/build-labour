@@ -35,18 +35,18 @@
 
 				axios.get(app.endpoints.get, Utils.getBearerAuth())
 					
-					.then(function(response) {
-						vm.record = response.data.data.user;
-						
-						delete vm.record.date_created_at;
-						delete vm.record.date_updated_at;
-						delete vm.record.date_email_verified_at;
-						delete vm.record.deleted_at;
-					})
-					.catch(function(error) {
+				.then(function(response) {
+					vm.record = response.data.data.user;
+					
+					delete vm.record.date_created_at;
+					delete vm.record.date_updated_at;
+					delete vm.record.date_email_verified_at;
+					delete vm.record.deleted_at;
+				
+				}).catch(function(error) {
 
-						Utils.handleError(error);
-					});
+					Utils.handleError(error);
+				});
 			}
 		}
 	}

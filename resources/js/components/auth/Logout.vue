@@ -36,13 +36,11 @@
                 }
             }
         },
-
         props: {
             textOnly: {
                 type: String,
             }
         },
-
         created() {
             let profile_photo_url = Api.getNavAvatar().profile_photo_url;
 
@@ -54,34 +52,27 @@
             //     vm.input.profile_photo_url = photo_url;
             // });
         },
-
         methods: {
-
             showProfile() {
                 Api.redirectToProfile();
             },
-            
             logoutUser() {
                 let vm = this;
 
                 axios.get(vm.endpoints.logout, Utils.getBearerAuth())
                 
-                    .then(function(response) {
+                .then(function(response) {
+                    Api.deleteToken();
+                
+                }).catch(function(error) {
+                    Utils.handleError(error);
 
-                        Api.deleteToken();
-                    })
-                    .catch(function(error) {
-
-                        Utils.handleError(error);
-
-                        Api.deleteToken();
-                    })
-                    .finally(function() {
-
-                        Api.deleteToken();
-                    })
-            }
-            
+                    Api.deleteToken();
+                
+                }).finally(function() {
+                    Api.deleteToken();
+                })
+            },
         },
         components: {
             Avatar,

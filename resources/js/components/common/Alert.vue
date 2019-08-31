@@ -76,18 +76,18 @@
 
 				await axios.post(vm.endpoints.resend, vm.$data.input_resend, Utils.getBearerAuth())
 
-					.then(function(response) {
-						let data = response.data;
-						
-						vm.message = data.message;
-						vm.alert = 'alert-main alert-success alert-dismissible';
-						vm.icon = '/img/icons/alert-success.png';
-						vm.resend = false;
-					})
-					.catch(function(error) {
+				.then(function(response) {
+					let data = response.data;
+					
+					vm.message = data.message;
+					vm.alert = 'alert-main alert-success alert-dismissible';
+					vm.icon = '/img/icons/alert-success.png';
+					vm.resend = false;
+				
+				}).catch(function(error) {
 
-						Utils.handleError(error);
-					});
+					Utils.handleError(error);
+				});
 			},
 		}
   	}

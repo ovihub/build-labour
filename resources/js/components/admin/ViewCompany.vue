@@ -100,14 +100,14 @@
 
 				axios.get(vm.endpoints.get, Utils.getBearerAuth())
 
-                    .then(function(response) {
-                        
-                        vm.record = response.data.data.record;
-                    })
-                    .catch(function(error) {
-                        
-                        Utils.handleError(error);
-                    });
+                .then(function(response) {
+                    
+                    vm.record = response.data.data.record;
+                })
+                .catch(function(error) {
+                    
+                    Utils.handleError(error);
+                });
             },
             formatDate(d) {
                 if (d != null) {

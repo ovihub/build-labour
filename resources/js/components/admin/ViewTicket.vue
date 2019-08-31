@@ -103,14 +103,14 @@
 
 				axios.get(vm.endpoints.get, Utils.getBearerAuth())
 
-                    .then(function(response) {
-                        
-                        vm.record = response.data.data.record;
-                    })
-                    .catch(function(error) {
-                        
-                        Utils.handleError(error);
-                    });
+                .then(function(response) {
+                    
+                    vm.record = response.data.data.record;
+                
+                }).catch(function(error) {
+                    
+                    Utils.handleError(error);
+                });
             },
             deleteRecord() {
                 $('#deleteRecordModal').modal('show');
@@ -126,21 +126,15 @@
 
                 await axios.post(vm.endpoints.save, vm.$data.record, Utils.getBearerAuth())
 
-                    .then(function(response) {
+                .then(function(response) {
 
-                        Bus.$emit('adminSaveChanges', vm.record.id);
-                    })
-                    .catch(function(error) {
-                        if (error.response) {
-                            let data = error.response.data;
-
-							for (let key in data.errors) {
-								vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                            }
-                        }
-
-                        Utils.handleError(error);
-                    });
+                    Bus.$emit('adminSaveChanges', vm.record.id);
+                
+                }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
+        
+                    if (inputErrors) vm.errors = inputErrors;
+                });
 
                 this.disabled = false;
             },

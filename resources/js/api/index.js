@@ -136,14 +136,14 @@ class BuildLabourApi {
             
             await Axios.get(endpoint, Utils.getBearerAuth())
 
-                .then(function(response) {
-                    
-                    vm.getResults = response.data;
-                })
-                .catch(function(error) {
+            .then(function(response) {
+                
+                vm.getResults = response.data;
+            
+            }).catch(function(error) {
 
-                    Utils.handleError(error);
-                });
+                Utils.handleError(error);
+            });
 
         // }.bind(this), 100);
                 
@@ -156,14 +156,14 @@ class BuildLabourApi {
 
         await Axios.post(endpoint, input, Utils.getBearerAuth())
 
-            .then(function(response) {
-                
-                vm.getResults = response.data;
-            })
-            .catch(function(error) {
+        .then(function(response) {
+            
+            vm.getResults = response.data;
+        
+        }).catch(function(error) {
 
-                Utils.handleError(error);
-            });
+            Utils.handleError(error);
+        });
                 
         return this.getResults;
     }
@@ -179,14 +179,14 @@ class BuildLabourApi {
             
             await Axios.get(endpoint, Utils.getBearerAuth())
 
-                .then(function(response) {
-                    
-                    vm.getResults = response.data;
-                })
-                .catch(function(error) {
+            .then(function(response) {
+                
+                vm.getResults = response.data;
+            
+            }).catch(function(error) {
 
-                    Utils.handleError(error);
-                });
+                Utils.handleError(error);
+            });
 
         // }.bind(this), 200);
                 
@@ -197,16 +197,16 @@ class BuildLabourApi {
         
         await Axios.post(endpoint, input, Utils.getBearerAuth())
 
-            .then(function(response) {
-                console.log(response.data.message);
-                // Bus.$emit('alertSuccess', response.data.message);
-            })
-            .catch(function(error) {
-                console.log(error.response.data.message);
-                // Bus.$emit('alertError', error.response.data.message);
+        .then(function(response) {
+            console.log(response.data.message);
+            // Bus.$emit('alertSuccess', response.data.message);
+        
+        }).catch(function(error) {
+            console.log(error.response.data.message);
+            // Bus.$emit('alertError', error.response.data.message);
 
-                Utils.handleError(error);
-            });
+            Utils.handleError(error);
+        });
     }
 
     getTickets(keyword) {

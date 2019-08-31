@@ -129,30 +129,30 @@
 
 					await axios.post(vm.endpoints.upload, vm.$data.input, Utils.getBearerAuth())
 				
-						.then(function(response) {
-							let data = response.data
+					.then(function(response) {
+						let data = response.data
+						
+						if (data.success) {
+							vm.close();
+
+							if (vm.type == 'User') {
+								Api.setNavAvatar('', data.data.user.profile_photo_url);
+								Api.redirectToProfile();
 							
-							if (data.success) {
-								vm.close();
-
-								if (vm.type == 'User') {
-									Api.setNavAvatar('', data.data.user.profile_photo_url);
-									Api.redirectToProfile();
+							} else if (vm.type == 'Company') {
+								Api.setNavAvatar('', data.data.photo_url.photo_url);
+								Api.redirectToProfile();
 								
-								} else if (vm.type == 'Company') {
-									Api.setNavAvatar('', data.data.photo_url.photo_url);
-									Api.redirectToProfile();
-									
-								} else {
-									Bus.$emit('alertSuccess', data.message);
-									Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
-								}
+							} else {
+								Bus.$emit('alertSuccess', data.message);
+								Bus.$emit('croppedPhoto', data.data.user.profile_photo_url);
 							}
-						})
-						.catch(function(error) {
+						}
+					
+					}).catch(function(error) {
 
-							Utils.handleError(error);
-						});	
+						Utils.handleError(error);
+					});	
 				
 				} else {
 					this.close();

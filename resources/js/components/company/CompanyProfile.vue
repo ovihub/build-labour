@@ -430,14 +430,14 @@
 
                 axios.get(vm.endpoints.secondary_options + id, Utils.getBearerAuth())
 
-                    .then(function(response) {
-                        
-                        vm.specialization = response.data.data;
-                    })
-                    .catch(function(error) {
+                .then(function(response) {
+                    
+                    vm.specialization = response.data.data;
+                
+                }).catch(function(error) {
 
-                        Utils.handleError(error);
-                    });
+                    Utils.handleError(error);
+                });
             },
             textAreaAdjust(refName) {
                 this.hasFocus();
@@ -524,27 +524,21 @@
 
                 await axios.post(vm.endpoints.save, vm.$data.input, Utils.getBearerAuth())
                     
-                    .then(function(response) {
-                        let data = response.data;
-						
-                        $('#modalCompanyProfile').modal('hide');
+                .then(function(response) {
+                    let data = response.data;
+                    
+                    $('#modalCompanyProfile').modal('hide');
 
-                        vm.setValues(data.data.company);
-                        vm.setDisplayValues(vm.input, data.data.company);
-                    })
-                    .catch(function(error) {
-                        if (error.response) {
-                            let data = error.response.data;
+                    vm.setValues(data.data.company);
+                    vm.setDisplayValues(vm.input, data.data.company);
+                
+                }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
+        
+                    if (inputErrors) vm.errors = inputErrors;
 
-							for (let key in data.errors) {
-								vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                            }
-                        }
-
-                        vm.input.secondary_functions = temp;
-
-                        Utils.handleError(error);
-                    });
+                    vm.input.secondary_functions = temp;
+                });
                 
                 this.disabled = false;
             },

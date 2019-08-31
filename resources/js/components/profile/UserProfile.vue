@@ -407,15 +407,15 @@
 
                 axios.get(vm.endpoints.educations, Utils.getBearerAuth())
 
-                    .then(function(response) {
-                        let data = response.data;
+                .then(function(response) {
+                    let data = response.data;
 
-                        vm.educations = data.data.educations;
-                    })
-                    .catch(function(error) {
+                    vm.educations = data.data.educations;
+                
+                }).catch(function(error) {
 
-                        Utils.handleError(error);
-                    });
+                    Utils.handleError(error);
+                });
             },
             onChangeLocation(keyword) {
                 if (keyword != '' && (keyword && keyword.length > 0)) {

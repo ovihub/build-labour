@@ -185,16 +185,14 @@
 
             axios.get(component.endpoints.job_roles, Utils.getBearerAuth())
 
-                .then(function(response) {
+            .then(function(response) {
 
-                    console.log(response);
-                    component.job_roles = response.data.data.job_roles;
-                    console.log(component.job_roles);
-                })
-                .catch(function(error) {
+                component.job_roles = response.data.data.job_roles;
+            
+            }).catch(function(error) {
 
-                    Utils.handleError(error);
-                });
+                Utils.handleError(error);
+            });
 
             Bus.$on('removeJob', function() {
                 Bus.$emit('adminSaveChanges', component.record.id);
@@ -208,19 +206,17 @@
 
 				axios.get(component.endpoints.get, Utils.getBearerAuth())
 
-                    .then(function(response) {
-                        
-                        component.record = response.data.data.record;
+                .then(function(response) {
+                    component.record = response.data.data.record;
 
-                        if (component.record.job_role) {
-
-                            component.record.title = component.record.job_role.job_role_name;
-                        }
-                    })
-                    .catch(function(error) {
-                        
-                        Utils.handleError(error);
-                    });
+                    if (component.record.job_role) {
+                        component.record.title = component.record.job_role.job_role_name;
+                    }
+                
+                }).catch(function(error) {
+                    
+                    Utils.handleError(error);
+                });
             },
 
             onChange(event) {
@@ -252,21 +248,15 @@
 
                 await axios.post(component.endpoints.save, component.$data.record, Utils.getBearerAuth())
 
-                    .then(function(response) {
+                .then(function(response) {
 
-                        Bus.$emit('adminSaveChanges', component.record.id);
-                    })
-                    .catch(function(error) {
-                        if (error.response) {
-                            let data = error.response.data;
-
-							for (let key in data.errors) {
-								component.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                            }
-                        }
-
-                        Utils.handleError(error);
-                    });
+                    Bus.$emit('adminSaveChanges', component.record.id);
+                
+                }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
+        
+                    if (inputErrors) component.errors = inputErrors;
+                });
 
                 this.disabled = false;
             },

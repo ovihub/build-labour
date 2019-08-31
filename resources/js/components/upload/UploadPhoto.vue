@@ -43,15 +43,15 @@
 
                 await axios.post(vm.endpoints.upload, { photo: vm.photo }, Utils.getBearerAuth())
 
-                    .then(function(response) {
-                        let data = response.data;
+                .then(function(response) {
+                    let data = response.data;
 
-                        Bus.$emit('alertSuccess', data.message);
-                    })
-                    .catch(function(error) {
-                        
-                        Utils.handleError(error);
-                    });
+                    Bus.$emit('alertSuccess', data.message);
+                
+                }).catch(function(error) {
+                    
+                    Utils.handleError(error);
+                });
                 
                 vm.disabled = false;
             },

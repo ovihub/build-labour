@@ -95,24 +95,18 @@
 
                 await axios.post(vm.saveEndpoint, vm.$data.inputted, Utils.getBearerAuth())
                     
-                    .then(function(response) {
-                        let data = response.data;
-						
-						Bus.$emit(vm.title, vm.inputted);
-						
-						$('#modal' + vm.title).modal('hide');
-                    })
-                    .catch(function(error) {
-                        if (error.response) {
-                            let data = error.response.data;
-
-							for (let key in data.errors) {
-								vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                            }
-                        }
-
-                        Utils.handleError(error);
-                    });
+				.then(function(response) {
+					let data = response.data;
+					
+					Bus.$emit(vm.title, vm.inputted);
+					
+					$('#modal' + vm.title).modal('hide');
+				
+				}).catch(function(error) {
+					let inputErrors = Utils.handleError(error);
+        
+                    if (inputErrors) vm.errors = inputErrors;
+				});
                 
                 vm.disabled = false;
             },

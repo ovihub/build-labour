@@ -205,26 +205,20 @@
 
                 await axios.post(vm.endpoints.register, vm.$data.input)
                     
-                    .then(function(response) {
-                        let data = response.data;
+                .then(function(response) {
+                    let data = response.data;
 
-                        Api.setToken(data.data.token);
+                    Api.setToken(data.data.token);
 
-                        Api.setNavAvatar(data.data.user.first_name.charAt(0) + data.data.user.last_name.charAt(0), '');
+                    Api.setNavAvatar(data.data.user.first_name.charAt(0) + data.data.user.last_name.charAt(0), '');
 
-                        window.location.href = vm.endpoints.onboarding;
-                    })
-                    .catch(function(error) {
-                        if (error.response) {
-                            let data = error.response.data;
-
-                            for (let key in vm.errors) {
-                                vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                            }
-                        }
-
-                        Utils.handleError(error);
-                    });
+                    window.location.href = vm.endpoints.onboarding;
+                
+                }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
+    
+                    if (inputErrors) vm.errors = inputErrors;
+                });
                 
                 this.loading = false;
                 this.disabled = false;

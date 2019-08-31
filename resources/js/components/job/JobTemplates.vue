@@ -195,17 +195,11 @@
                     } else {
                         window.location.href = '/job/view?cid=' + job.company_id + '&jid=' + job.id;
                     }
-                })
-                .catch(function(error) {
-                    if (error.response) {
-                        let data = error.response.data;
-
-                        for (let key in data.errors) {
-                            vm.errors[key] = data.errors[key] ? data.errors[key][0] : '';
-                        }
-                    }
-
-                    Utils.handleError(error);
+                
+                }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
+        
+                    if (inputErrors) vm.errors = inputErrors;
                 });
 
                 Bus.$emit('postedJob');

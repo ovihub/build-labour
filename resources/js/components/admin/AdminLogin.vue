@@ -67,19 +67,18 @@
 
                 await axios.post(vm.endpoints.login, vm.$data.input)
 
-                    .then(function(response) {
-                        let data = response.data;
+                .then(function(response) {
+                    let data = response.data;
 
-                        Api.setToken(data.data.token);
+                    Api.setToken(data.data.token);
 
-                        window.location.href = vm.endpoints.profile;
-                    })
-                    .catch(function(error) {
+                    window.location.href = vm.endpoints.profile;
+                
+                }).catch(function(error) {
 
-                        Utils.setObjectValues(vm.input, '');
-
-                        Utils.handleError(error);
-                    });
+                    Utils.setObjectValues(vm.input, '');
+                    Utils.handleError(error);
+                });
 
                 vm.disabled = false;
             },
