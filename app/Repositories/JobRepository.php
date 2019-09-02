@@ -6,13 +6,15 @@ use App\Http\Resources\JobsResource;
 use App\Models\Companies\Company;
 use App\Models\Companies\CompanyPost;
 use App\Models\Companies\Job;
+use App\Models\Companies\JobApplicant;
 use App\Models\Companies\JobRequirement;
 use App\Models\Companies\JobResponsibility;
 use App\Models\Companies\JobRole;
+use App\Models\Companies\JobStat;
 use App\Models\Tickets\Ticket;
 use JWTAuth;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 class JobRepository extends AbstractRepository
@@ -430,5 +432,35 @@ class JobRepository extends AbstractRepository
         }
 
         return false;
+    }
+
+    public function getStats(Request $request)
+    {
+
+        $noOfViews = JobStat::where(['job_id' => $request->id, 'category' => 'viewed'])->count();
+        $invited = JobStat::where(['job_id' => $request->id, 'category' => 'invited'])->pluck('scored_to');
+        $not_suitable = JobStat::where(['job_id' => $request->id, 'category' => 'not_suitable'])->pluck('scored_to');
+        $favourites = JobStat::where(['job_id' => $request->id, 'category' => 'favourite'])->pluck('scored_to');
+
+        $last3Days = Carbon::now()->subDays(3);
+        $today = Carbon::now();
+        $noOfNew = JobApplicant::where('job_id',  $request->id)->whereBetween('applied_at', [$last3Days, $today])->count();
+        $noOfFavourites = count($favourites);
+        $noOfNotSuitable = count($not_suitable);
+        $noOfInvited = count($invited);
+
+        $total = $noOfInvited + $noOfNotSuitable + $noOfFavourites;
+
+        return [
+            'no_of_views' => $noOfViews,
+            'no_of_invited' => $noOfInvited,
+            'no_of_not_suitable' => $noOfNotSuitable,
+            'no_of_favourite' => $noOfFavourites,
+            'no_of_new' => $noOfNew,
+            'total' => $total,
+            'favourites' => $favourites,
+            'not_suitable' => $not_suitable
+        ];
+
     }
 }

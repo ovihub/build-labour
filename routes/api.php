@@ -144,7 +144,10 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
                     Route::get('/responsibilities', 'ApiJobsController@getJobResponsibilities');
 
                     Route::get('/apply', 'ApiJobApplicantsController@apply');
+                    Route::post('/do-score', 'ApiJobApplicantsController@postDoScore');
                     Route::get('/applicants', 'ApiJobApplicantsController@applicants');
+                    Route::get('/stats', 'ApiJobsController@getStats');
+                    Route::get('/search-applicants', 'ApiJobApplicantsController@searchJobApplicants');
                 });
             });
         });
