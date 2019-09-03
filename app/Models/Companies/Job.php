@@ -4,9 +4,12 @@ namespace App\Models\Companies;
 
 use App\Models\BaseModel;
 use App\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Job extends BaseModel
 {
+
+    use SoftDeletes;
     protected $table = 'job_posts';
 
     protected $primaryKey = 'id';

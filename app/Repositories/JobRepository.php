@@ -325,6 +325,7 @@ class JobRepository extends AbstractRepository
     public function duplicate( Request $request )
     {
 
+     //   dd($request->all());
         $user = JWTAuth::toUser();
 
         $this->job = Job::find($request->id);
@@ -363,6 +364,31 @@ class JobRepository extends AbstractRepository
         }
 
         return $newJob;
+    }
+
+    public function deleteJob( Request $request )
+    {
+
+        $user = JWTAuth::toUser();
+
+        $this->job = Job::find($request->id);
+
+        $rules = [
+            'confirmation'  => 'required|in:delete',
+            'company_id' => 'required',
+        ];
+
+        $validator = \Validator::make( $request->all() , $rules, ['confirmation.in' => 'confirmation value must be a delete value']);
+
+        if( $validator->fails() ){
+
+            $this->job->errorsDetail = $validator->errors()->toArray();
+            return false;
+        }
+
+        $this->job->delete();
+
+        return $this->job;
     }
 
     public function saveRequirements( Request $request)
