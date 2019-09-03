@@ -322,6 +322,49 @@ class JobRepository extends AbstractRepository
         return false;
     }
 
+    public function duplicate( Request $request )
+    {
+
+        $user = JWTAuth::toUser();
+
+        $this->job = Job::find($request->id);
+        $this->job->load(['Responsibilities', 'Requirements']);
+
+        $newJob = $this->job->replicate();
+
+        $rules = [
+            'confirmation'  => 'required|in:duplicate_as_template,duplicate',
+            'company_id' => 'required',
+        ];
+
+        $validator = \Validator::make( $request->all() , $rules, ['confirmation.in' => 'confirmation value must be duplicate_as_template or duplicate']);
+
+        if( $validator->fails() ){
+
+            $this->job->errorsDetail = $validator->errors()->toArray();
+            return false;
+        }
+
+        if ($request->confirmation == 'duplicate_as_template') {
+
+            $newJob->is_template = true;
+            $newJob->template_id = $this->job->id;
+        }
+
+        $newJob->push();
+
+        $relations = $this->job->getRelations();
+        foreach ($relations as $relation) {
+            foreach ($relation as $relationRecord) {
+                $newRelationship = $relationRecord->replicate();
+                $newRelationship->job_id = $newJob->id;
+                $newRelationship->push();
+            }
+        }
+
+        return $newJob;
+    }
+
     public function saveRequirements( Request $request)
     {
 

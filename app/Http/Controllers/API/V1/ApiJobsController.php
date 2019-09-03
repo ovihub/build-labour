@@ -661,6 +661,176 @@ class ApiJobsController extends ApiBaseController
 
     /**
      * @OA\Post(
+     *      path="/job/{id}/duplicate",
+     *      tags={"Job"},
+     *      summary="Duplicate a job",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Parameter(
+     *          in="path",
+     *          name="id",
+     *          description="job id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/x-www-form-urlencoded",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="confirmation",
+     *                      description="<b>Required</b> confirmation as 'duplicate' value",
+     *                      type="string",
+     *                      example="duplicate"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="company_id",
+     *                      description="<b>Required</b> company_id",
+     *                      type="string",
+     *                      example=""
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function duplicate( Request $request )
+    {
+
+        DB::beginTransaction();
+
+        if ( !$new_job = $this->repository->duplicate( $request ) ) {
+
+            DB::rollback();
+
+            return $this->apiErrorResponse(
+                false,
+                $this->repository->job->getErrors( true ),
+                self::HTTP_STATUS_INVALID_INPUT,
+                'invalidInput',
+                $this->repository->job->getErrorsDetail()
+            );
+        }
+
+        DB::commit();
+
+        return $this->apiSuccessResponse( compact('new_job'), true, 'Updated job successfully', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/job/{id}/duplicate-as-template",
+     *      tags={"Job"},
+     *      summary="Duplicate a job and is a template",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Parameter(
+     *          in="path",
+     *          name="id",
+     *          description="job id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/x-www-form-urlencoded",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="confirmation",
+     *                      description="<b>Required</b> confirmation as 'duplicate' value",
+     *                      type="string",
+     *                      example="duplicate_as_template"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="company_id",
+     *                      description="<b>Required</b> company_id",
+     *                      type="string",
+     *                      example=""
+     *                  ),
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function duplicateAsTemplate( Request $request )
+    {
+
+        DB::beginTransaction();
+
+        if ( !$new_job = $this->repository->duplicate( $request ) ) {
+
+            DB::rollback();
+
+            return $this->apiErrorResponse(
+                false,
+                $this->repository->job->getErrors( true ),
+                self::HTTP_STATUS_INVALID_INPUT,
+                'invalidInput',
+                $this->repository->job->getErrorsDetail()
+            );
+        }
+
+        DB::commit();
+
+        return $this->apiSuccessResponse( compact('new_job'), true, 'Successfully saved template.', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Post(
      *      path="/job/{id}/requirements",
      *      tags={"Job"},
      *      summary="Post Job Requirements",

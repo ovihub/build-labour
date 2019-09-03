@@ -137,6 +137,9 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             Route::prefix('{id}')->group(function() {
                 Route::middleware(['jobExist'])->group(function() {
                     Route::post('/', 'ApiJobsController@update');
+                    Route::post('/duplicate', 'ApiJobsController@duplicate');
+                    Route::post('/duplicate-as-template', 'ApiJobsController@duplicateAsTemplate');
+
                     Route::get('/', 'ApiJobsController@view');
 
                     Route::post('/requirements', 'ApiJobsController@postJobRequirements');
@@ -198,7 +201,6 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
         Route::get( 'unread', 'ApiChatController@unread' );
         Route::post( 'reset_unread', 'ApiChatController@resetUnread' );
     });
-
 
     Route::prefix( 'connections' )->middleware([ 'jwt' , 'chat' ])->group(function () {
         Route::post( 'connect', 'ApiConnectionsController@connect' );
