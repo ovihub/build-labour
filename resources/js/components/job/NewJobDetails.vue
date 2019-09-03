@@ -225,6 +225,18 @@
                 vm.errors = errors;
             });
 
+            Bus.$on('editJobPost', function(details) {
+                vm.input.title = details.title ? details.title : details.job_role.job_role_name;
+                vm.input.description = details.description;
+                vm.input.about = details.about;
+                vm.input.project_size = details.project_size;
+                vm.input.exp_level = details.exp_level;
+                vm.input.contract_type = details.contract_type;
+                vm.input.salary = details.salary;
+                vm.input.reports_to = details.reports_to ? details.reports_to : [ '' ];
+                vm.input.location = details.location;
+            });
+
             this.input.reports_to.push('');
         },
         methods: {

@@ -265,11 +265,8 @@
                 $('#deleteRecordModal').modal('show');
                 
                 Bus.$emit('deleteJob', this.endpoints.delete + this.record.id);
-                
             }
-            
         },
-
         components: {
             DeleteModal,
         },

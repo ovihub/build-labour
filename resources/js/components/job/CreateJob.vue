@@ -1,10 +1,7 @@
 <template>
     <div class="profile-item-2">
         <div class="profile-content">
-            
-            <div class="bl-label-20-style-2">
-                Create Job
-            </div>
+            <div class="bl-label-20-style-2">Create Job</div>
 
             <div class="emp-row mt-3" v-if="creating">
                 <input type="text" class="form-control create-job-input" placeholder="Enter Name to save as a template" v-model="template_name">
@@ -92,6 +89,11 @@
                 } else {
                     vm.submit(vm.endpoints.post);
                 }
+            });
+
+            Bus.$on('editJobPost', function(details) {
+                vm.template_name = details.template_name;
+                vm.creating = true;
             });
         },
         methods: {
