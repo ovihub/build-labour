@@ -129,6 +129,52 @@
                 required: false
             },
         },
+        methods: {
+            onClickAction(action, post) {
+                switch(action) {
+                    case 'preview':
+                        window.location.href = '/job/view/?cid=' + post.company_id + '&jid=' + post.id;
+                        break;
+
+                    case 'edit':
+                        this.creating = true;
+                        Bus.$emit('editJobPost', post);
+                        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+                        break;
+
+                    case 'duplicate':
+                        this.duplicatePost(post.id, post.is_template);
+                        break;
+
+                    case 'delete':
+                        $('#deleteRecordModal').modal('show');
+                        Bus.$emit('deleteJobPost', this.endpoints.delete + post.id + '/delete');
+                        break;
+                }
+            },
+            async duplicatePost(id, isTemplate) {
+                let vm = this;
+
+                await axios.post(this.endpoints.duplicate + id + (isTemplate ? '/duplicate-as-template' : '/duplicate'),
+                    
+                {}, Utils.getBearerAuth()).then(function(response) {
+
+                    console.log(response.data.data);
+                
+                }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
+                    
+                    if (inputErrors) vm.errors = inputErrors;
+                });
+            },
+            getJobPosts(endpoint) {
+                let vm = this;
+
+                Promise.resolve(Api.getJobPosts(endpoint)).then(function(data) {
+                    vm.jobPosts = data.data.jobs;
+                });
+            },
+        },
         created() {
             let vm = this;
 
@@ -163,37 +209,6 @@
             this.getJobPosts(this.endpoints.get + this.companyId + '/templates');
 
             Bus.$emit('activateTab', 'jobs');
-        },
-        methods: {
-            onClickAction(action, post) {
-                switch(action) {
-                    case 'preview':
-                        window.location.href = '/job/view/?cid=' + post.company_id + '&jid=' + post.id;
-                        break;
-
-                    case 'edit':
-                        this.creating = true;
-                        Bus.$emit('editJobPost', post);
-                        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-
-                        break;
-
-                    case 'duplicate':
-                        break;
-
-                    case 'delete':
-                        $('#deleteRecordModal').modal('show');
-                        Bus.$emit('deleteJobPost', this.endpoints.delete + post.id + '/delete');
-                        break;
-                }
-            },
-            getJobPosts(endpoint) {
-                let vm = this;
-
-                Promise.resolve(Api.getJobPosts(endpoint)).then(function(data) {
-                    vm.jobPosts = data.data.jobs;
-                });
-            },
         },
         components: {
             NewJobDetails,
