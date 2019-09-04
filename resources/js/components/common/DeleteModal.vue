@@ -18,7 +18,7 @@
 
 				<div class="modal-footer" style="border-top:none">
 					<div class="pull-right">
-						<button type="submit" @click="deleteRecord" :disabled="disabled">Yes</button>
+						<button type="submit" @click="action == 'JobPost' ? deletePost() : deleteRecord()" :disabled="disabled">Yes</button>
 						<button @click="cancel">No</button>
 					</div>
 				</div>
@@ -90,21 +90,21 @@
 				vm.endpoints.delete = endpoint;
 			});
 
-			Bus.$on('deleteJobPost', function(endpoint) {
+			Bus.$on('deleteJobPost', function(endpoint, cid) {
 				vm.action = 'JobPost';
 				vm.endpoints.delete = endpoint;
+				vm.record.id = cid;
 			});
 		},
 
 		methods: {
-			
 			async deleteRecord() {
 				let vm = this;
 
 				this.disabled = true;
 				
 				if (this.action == 'Employment' || this.action == 'Education' || this.action == 'IndustrySkill' ||
-					this.action == 'Ticket' || this.action == 'Job' || this.action == 'JobPost') {
+					this.action == 'Ticket' || this.action == 'Job') {
 
 					await axios.delete(vm.endpoints.delete, Utils.getBearerAuth())
 
@@ -153,13 +153,30 @@
 				
 				this.disabled = false;
 			},
+			async deletePost() {
+                let vm = this;
 
+                await axios.post(vm.endpoints.delete, { 
+                    confirmation: 'delete',
+                    company_id: vm.record.id,
+                
+                }, Utils.getBearerAuth()).then(function(response) {
+
+					$('#deleteRecordModal').modal('hide');
+					
+					Bus.$emit('removeJobPost');
+                
+                }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
+                    
+                    if (inputErrors) vm.errors = inputErrors;
+                });
+            },
 			cancel() {
 				$('#deleteRecordModal').modal('hide');
 
 				$('#modal' + this.action).modal('show');
 			},
-
 		}
 	}
 </script>

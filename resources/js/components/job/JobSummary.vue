@@ -148,7 +148,7 @@
 
                     case 'delete':
                         $('#deleteRecordModal').modal('show');
-                        Bus.$emit('deleteJobPost', this.endpoints.delete + post.id + '/delete');
+                        Bus.$emit('deleteJobPost', this.endpoints.delete + post.id + '/delete', post.company_id);
                         break;
                 }
             },

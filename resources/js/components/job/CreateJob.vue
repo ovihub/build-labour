@@ -186,6 +186,10 @@
         user-select: none;
     }
 
+    .radio-cont:hover {
+        color: #00aeef;
+    }
+
     /* Hide the browser's default radio button */
     .radio-cont input {
         position: absolute;

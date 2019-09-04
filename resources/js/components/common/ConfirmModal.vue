@@ -37,29 +37,21 @@
 
 			}
 		},
-
-		created() {
+		methods: {
+            proceed() {
+                $('#confirmModal').modal('hide');
+            },
+            cancel() {
+                $('#confirmModal').modal('hide');
+            },
+        },
+        created() {
 			let vm = this;
 
 			Bus.$on('', function() {
 
 			});
-
 		},
-
-		methods: {
-
-            proceed() {
-                $('#confirmModal').modal('hide');
-
-                Bus.$emit('goToNext');
-            },
-
-            cancel() {
-                $('#confirmModal').modal('hide');
-            },
-
-		}
 	}
 </script>
 

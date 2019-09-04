@@ -12,24 +12,26 @@
                 Responsibilities
             </div>
         
-            <ul class="job-list-items-2">
-                <li v-for="(resp, index) in responsibilities" :key="'resp-' +index">
-                    <div class="job-title">
-                        {{ resp.title }}
-                    </div>
-                    <div class="job-body">
-                        <div v-if="resp.items.length > 0">
-                            <div class="job-body">
-                                <ul class="job-list-items">
-                                    <li v-for="(item, index) in resp.items" :key="index">
-                                        {{ item }}
-                                    </li>
-                                </ul>
+            <div v-if="responsibilities.length > 0">
+                <ul class="job-list-items-2">
+                    <li v-for="(resp, index) in responsibilities" :key="'resp-' +index">
+                        <div class="job-title">
+                            {{ resp.title }}
+                        </div>
+                        <div class="job-body">
+                            <div v-if="resp.items.length > 0">
+                                <div class="job-body">
+                                    <ul class="job-list-items">
+                                        <li v-for="(item, index) in resp.items" :key="index">
+                                            {{ item }}
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
