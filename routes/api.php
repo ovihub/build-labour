@@ -139,6 +139,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
                     Route::post('/', 'ApiJobsController@update');
                     Route::post('/duplicate', 'ApiJobsController@duplicate');
                     Route::post('/duplicate-as-template', 'ApiJobsController@duplicateAsTemplate');
+                    Route::post('/delete', 'ApiJobsController@delete');
 
                     Route::get('/', 'ApiJobsController@view');
 
