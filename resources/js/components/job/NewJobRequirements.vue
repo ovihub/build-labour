@@ -162,6 +162,18 @@
                 });
             });
 
+            Bus.$on('editJobPost', function(details) {
+                let req = details.requirements;
+
+                if (req && req != 0) {
+                    vm.qualifications = req[0].items;
+                    vm.experience = req[1].items.experiences;
+                    vm.min_exp = req[1].items.min_exp;
+                    vm.skills = req[2].items;
+                    vm.tickets = req[3].items;
+                }
+            });
+
             this.qualifications.push({ course_type: '', qualification_level: '' });
             this.experience.push('');
             this.skills.push('');

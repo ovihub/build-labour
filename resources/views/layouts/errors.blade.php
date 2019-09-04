@@ -26,14 +26,8 @@
 <body>
     <div id="app">
         <div class="errors-content-section">
-            <div class="row justify-content-center">
-                <img src="/img/build-labour-logo-orange.png"
-                    srcset="/img/build-labour-logo-orange@2x.png 2x, /img/build-labour-logo-orange@3x.png 3x">
-            </div>
-
-            <div class="form-text-logo">
-                BUILD<br>
-                LABOUR
+            <div class="row justify-content-center mb-5">
+                <img src="/img/buildlabour-fulllogo.png" srcset="/img/buildlabour-fulllogo@2x.png 2x, /img/buildlabour-fulllogo@3x.png 3x">
             </div>
 
             @yield('content')

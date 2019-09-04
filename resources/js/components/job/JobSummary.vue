@@ -1,5 +1,6 @@
 <template>
-    <div v-if="creating">
+    <div>
+    <div v-show="creating">
         <transition appear appear-active-class="appear-slide-enter-active">
             <new-job-details></new-job-details>
         </transition>
@@ -10,7 +11,9 @@
             <new-job-responsibilities></new-job-responsibilities>
         </transition>
     </div>
-    <div class="profile-item-2" v-else>
+    <div class="profile-item-2" v-show="! creating">
+        <delete-modal></delete-modal>
+
         <ul class="list-job-items">
         <transition-group name="list">
             <li class="job-items" v-for="(post, index) in jobPosts" :key="index+0">
@@ -22,7 +25,7 @@
                         </div>
                         <div class="col-md-4 col-sm-4 mb-3">
                             <div class="row ta-center">
-                                <div class="col-icon icon-buttons">
+                                <div class="col-icon icon-buttons" @click="onClickAction('preview', post)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="31" height="22" viewBox="0 0 31 22">
                                         <g fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" transform="translate(1 1)">
                                             <path d="M.75 10s5.09-10 14-10 14 10 14 10-5.09 10-14 10-14-10-14-10z"/>
@@ -31,13 +34,13 @@
                                     </svg>
                                     <div class="icon-label">Preview</div>
                                 </div>
-                                <div class="col-icon icon-buttons">
+                                <div class="col-icon icon-buttons" @click="onClickAction('edit', post)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
                                         <path fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 2a2.828 2.828 0 1 1 4 4L6.5 19.5 1 21l1.5-5.5L16 2z"/>
                                     </svg>
                                     <div class="icon-label">Edit</div>
                                 </div>
-                                <div class="col-icon icon-buttons">
+                                <div class="col-icon icon-buttons" @click="onClickAction('duplicate', post)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
                                         <g fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" transform="translate(1 1)">
                                             <rect width="13" height="13" x="7" y="7" rx="2"/>
@@ -46,7 +49,7 @@
                                     </svg>
                                     <div class="icon-label">Duplicate</div>
                                 </div>
-                                <div class="col-icon icon-buttons">
+                                <div class="col-icon icon-buttons" @click="onClickAction('delete', post)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 20 22">
                                         <g fill="none" fill-rule="evenodd" stroke="#FF3939" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                             <path d="M1 5h18M17 5v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5m3 0V3a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M8 10v6M12 10v6"/>
@@ -93,6 +96,7 @@
         </transition-group>
         </ul>
     </div>
+    </div>
 </template>
 
 <script>
@@ -100,6 +104,7 @@
     import NewJobDetails from '../job/NewJobDetails';
     import NewJobRequirements from '../job/NewJobRequirements';
     import NewJobResponsibilities from '../job/NewJobResponsibilities';
+    import DeleteModal from '../common/DeleteModal';
 
     export default {
         name: "job-summary",
@@ -113,6 +118,8 @@
                 endpoints: {
                     get: '/api/v1/company/',
                     search: '/api/v1/job/search?keyword=',
+                    delete: '/api/v1/job/', // {id}/delete',
+                    duplicate: '/api/v1/job/', // {id}/duplicate-as-template',
                 },
             }
         },
@@ -120,6 +127,52 @@
             companyId: {
                 type: String,
                 required: false
+            },
+        },
+        methods: {
+            onClickAction(action, post) {
+                switch(action) {
+                    case 'preview':
+                        window.location.href = '/job/view/?cid=' + post.company_id + '&jid=' + post.id;
+                        break;
+
+                    case 'edit':
+                        this.creating = true;
+                        Bus.$emit('editJobPost', post);
+                        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+                        break;
+
+                    case 'duplicate':
+                        this.duplicatePost(post.id, post.is_template);
+                        break;
+
+                    case 'delete':
+                        $('#deleteRecordModal').modal('show');
+                        Bus.$emit('deleteJobPost', this.endpoints.delete + post.id + '/delete');
+                        break;
+                }
+            },
+            async duplicatePost(id, isTemplate) {
+                let vm = this;
+
+                await axios.post(this.endpoints.duplicate + id + (isTemplate ? '/duplicate-as-template' : '/duplicate'),
+                    
+                {}, Utils.getBearerAuth()).then(function(response) {
+
+                    console.log(response.data.data);
+                
+                }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
+                    
+                    if (inputErrors) vm.errors = inputErrors;
+                });
+            },
+            getJobPosts(endpoint) {
+                let vm = this;
+
+                Promise.resolve(Api.getJobPosts(endpoint)).then(function(data) {
+                    vm.jobPosts = data.data.jobs;
+                });
             },
         },
         created() {
@@ -131,6 +184,10 @@
 
             Bus.$on('createJob', function() {
                 vm.creating = true;
+            });
+
+            Bus.$on('removeJobPost', function() {
+                console.log('removeJobPost');
             });
 
             Bus.$on('getJobPosts', function(type) {
@@ -153,19 +210,11 @@
 
             Bus.$emit('activateTab', 'jobs');
         },
-        methods: {
-            getJobPosts(endpoint) {
-                let vm = this;
-
-                Promise.resolve(Api.getJobPosts(endpoint)).then(function(data) {
-                    vm.jobPosts = data.data.jobs;
-                });
-            },
-        },
         components: {
             NewJobDetails,
             NewJobRequirements,
             NewJobResponsibilities,
+            DeleteModal,
         },
     }
 </script>

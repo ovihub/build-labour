@@ -73,6 +73,14 @@
                 });
             });
 
+            Bus.$on('editJobPost', function(details) {
+                let resp = details.responsibilities;
+
+                if (resp && resp.length != 0) {
+                    vm.responsibilities = resp;
+                }
+            });
+
             this.responsibilities.push({ title: '', items: [ '' ] });
         },
         methods: {

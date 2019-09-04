@@ -89,6 +89,11 @@
 				vm.action = 'Job';
 				vm.endpoints.delete = endpoint;
 			});
+
+			Bus.$on('deleteJobPost', function(endpoint) {
+				vm.action = 'JobPost';
+				vm.endpoints.delete = endpoint;
+			});
 		},
 
 		methods: {
@@ -98,7 +103,8 @@
 
 				this.disabled = true;
 				
-				if (this.action == 'Employment' || this.action == 'Education' || this.action == 'IndustrySkill' || this.action == 'Ticket' || this.action == 'Job') {
+				if (this.action == 'Employment' || this.action == 'Education' || this.action == 'IndustrySkill' ||
+					this.action == 'Ticket' || this.action == 'Job' || this.action == 'JobPost') {
 
 					await axios.delete(vm.endpoints.delete, Utils.getBearerAuth())
 

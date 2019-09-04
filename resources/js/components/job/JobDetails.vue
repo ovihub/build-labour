@@ -117,7 +117,6 @@
                     vm.salary = details.salary;
                     vm.reports_to = details.reports_to;
                     vm.location = details.location;
-                
                 }
             });
         },

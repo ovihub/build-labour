@@ -165,7 +165,7 @@
 		},
 		
 		created() {
-			let component = this;
+			let vm = this;
 
             Bus.$on('datatableViewJob', function(id){
                 vm.show = true;
@@ -202,7 +202,7 @@
 		methods: {
 			
 		  	viewRecord() {
-				let component = this;
+				let vm = this;
 
 				axios.get(vm.endpoints.get, Utils.getBearerAuth())
 
@@ -232,7 +232,7 @@
             },
 
             async submit() {
-                let component = this;
+                let vm = this;
 
                 Utils.setObjectValues(this.errors, '');
 
@@ -265,11 +265,8 @@
                 $('#deleteRecordModal').modal('show');
                 
                 Bus.$emit('deleteJob', this.endpoints.delete + this.record.id);
-                
             }
-            
         },
-
         components: {
             DeleteModal,
         },
