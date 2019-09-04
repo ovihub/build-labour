@@ -143,7 +143,7 @@
                         break;
 
                     case 'duplicate':
-                        this.duplicatePost(post.id, post.is_template);
+                        this.duplicatePost(post.id, post.company_id, post.is_template);
                         break;
 
                     case 'delete':
@@ -152,12 +152,14 @@
                         break;
                 }
             },
-            async duplicatePost(id, isTemplate) {
+            async duplicatePost(id, cid, isTemplate) {
                 let vm = this;
 
-                await axios.post(this.endpoints.duplicate + id + (isTemplate ? '/duplicate-as-template' : '/duplicate'),
-                    
-                {}, Utils.getBearerAuth()).then(function(response) {
+                await axios.post(this.endpoints.duplicate + id + (isTemplate ? '/duplicate-as-template' : '/duplicate'), { 
+                    confirmation: isTemplate ? 'duplicate_as_template' : 'duplicate',
+                    company_id: cid,
+                
+                }, Utils.getBearerAuth()).then(function(response) {
 
                     console.log(response.data.data);
                 
