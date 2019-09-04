@@ -85,7 +85,7 @@
             },
             onClickJobs() {
                 if (window.location.pathname != '/job/list') {
-                    window.location = '/job/list';
+                    window.location = '/job/list?type=templates';
                 }
             },
             onClickMessages() {

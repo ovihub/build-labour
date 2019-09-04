@@ -205,7 +205,7 @@
                 job_roles: [],
                 locations: [],
                 input: {
-                    job_role_id: '', title: '', description: '', about: '', project_size: '',
+                    job_role_id: '', template_name: '', title: '', description: '', about: '', project_size: '',
                     exp_level: '', contract_type: '', salary: '', reports_to: [], location: '',
                 },
                 errors: {
@@ -225,16 +225,23 @@
                 vm.errors = errors;
             });
 
-            Bus.$on('editJobPost', function(details) {
-                vm.input.title = details.title ? details.title : details.job_role.job_role_name;
-                vm.input.description = details.description;
-                vm.input.about = details.about;
-                vm.input.project_size = details.project_size;
-                vm.input.exp_level = details.exp_level;
-                vm.input.contract_type = details.contract_type;
-                vm.input.salary = details.salary;
-                vm.input.reports_to = details.reports_to ? details.reports_to : [ '' ];
-                vm.input.location = details.location;
+            Bus.$on('jobDetails', function(details) {
+                if (details) {
+                    vm.input.template_name = details.template_name;
+                    vm.input.title = details.title ? details.title : details.job_role.job_role_name;
+                    vm.input.description = details.description;
+                    vm.input.about = details.about;
+                    vm.input.project_size = details.project_size;
+                    vm.input.exp_level = details.exp_level;
+                    vm.input.contract_type = details.contract_type;
+                    vm.input.salary = details.salary;
+                    vm.input.reports_to = details.reports_to ? details.reports_to : [ '' ];
+                    vm.input.location = details.location;
+
+                    let vm2 = vm;
+
+                    Bus.$emit('editJobPost', vm2.input.template_name);
+                }
             });
 
             this.input.reports_to.push('');

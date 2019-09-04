@@ -19,7 +19,7 @@
             
             <div v-else>
                 <label class="radio-cont">Saved Templates
-                    <input type="checkbox" checked="true" ref="templates" @click="onClickShowJobs('templates')">
+                    <input type="checkbox" ref="templates" @click="onClickShowJobs('templates')">
                     <span class="checkmark"></span>
                 </label>
 
@@ -49,7 +49,6 @@
         data() {
             return {
                 disabled: false,
-                creating: false,
                 isTemplate: 0,
                 template_name: '',
                 input: {},
@@ -62,6 +61,12 @@
                     save: '/api/v1/job/save-template',
                 },
             }
+        },
+        props: {
+            creating: {
+                type: Boolean,
+                required: true
+            },
         },
         created() {
             let vm = this;
@@ -91,13 +96,24 @@
                 }
             });
 
-            Bus.$on('editJobPost', function(details) {
-                vm.template_name = details.template_name;
-                vm.creating = true;
+            Bus.$on('editJobPost', function(templateName) {
+                vm.template_name = templateName;
             });
+
+            window.onpopstate = function(e) {
+                vm.softReload();
+            };
+        },
+        mounted() {
+            this.softReload();
         },
         methods: {
-            onClickShowJobs(refName) {
+            softReload() {
+                if (! this.creating) {
+                    this.getJobs(Utils.getUrlParams().type);
+                }
+            },
+            getJobs(refName) {
                 this.$refs['templates'].checked = false;
                 this.$refs['active'].checked = false;
                 this.$refs['closed'].checked = false;
@@ -105,6 +121,11 @@
                 this.$refs[refName].checked = true;
 
                 Bus.$emit('getJobPosts', refName);
+            },
+            onClickShowJobs(refName) {
+                this.getJobs(refName);
+
+                window.history.pushState({ urlPath: '/job/list?type=' + refName }, '', '/job/list?type=' + refName);
             },
             onSearchJobs(e) {
                 let keyword = e.target.value;
@@ -136,7 +157,7 @@
                         job = data.data.job;
                     
                     if (job.is_template) {
-                        window.location.href = '/job/list';
+                        window.location.href = '/job/list?type=templates';
 
                     } else {
                         window.location.href = '/job/view?cid=' + job.company_id + '&jid=' + job.id;

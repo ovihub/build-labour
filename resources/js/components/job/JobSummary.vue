@@ -1,17 +1,5 @@
 <template>
-    <div>
-    <div v-show="creating">
-        <transition appear appear-active-class="appear-slide-enter-active">
-            <new-job-details></new-job-details>
-        </transition>
-        <transition appear appear-active-class="appear-slide-enter-active">
-            <new-job-requirements></new-job-requirements>
-        </transition>
-        <transition appear appear-active-class="appear-slide-enter-active">
-            <new-job-responsibilities></new-job-responsibilities>
-        </transition>
-    </div>
-    <div class="profile-item-2" v-show="! creating">
+    <div class="profile-item-2">
         <delete-modal></delete-modal>
 
         <ul class="list-job-items">
@@ -96,21 +84,17 @@
         </transition-group>
         </ul>
     </div>
-    </div>
 </template>
 
 <script>
     import Api from '@/api';
-    import NewJobDetails from '../job/NewJobDetails';
-    import NewJobRequirements from '../job/NewJobRequirements';
-    import NewJobResponsibilities from '../job/NewJobResponsibilities';
+    
     import DeleteModal from '../common/DeleteModal';
 
     export default {
         name: "job-summary",
         data() {
             return {
-                creating: false,
                 jobPosts: [],
                 input: {
                     job_id: '',
@@ -137,9 +121,7 @@
                         break;
 
                     case 'edit':
-                        this.creating = true;
-                        Bus.$emit('editJobPost', post);
-                        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+                        window.location.href = '/job/post?cid=' + post.company_id + '&jid=' + post.id;
                         break;
 
                     case 'duplicate':
@@ -184,10 +166,6 @@
                 vm.getJobPosts(vm.endpoints.search + keyword + '&location=' + location);
             });
 
-            Bus.$on('createJob', function() {
-                vm.creating = true;
-            });
-
             Bus.$on('removeJobPost', function() {
                 console.log('removeJobPost');
             });
@@ -213,9 +191,6 @@
             Bus.$emit('activateTab', 'jobs');
         },
         components: {
-            NewJobDetails,
-            NewJobRequirements,
-            NewJobResponsibilities,
             DeleteModal,
         },
     }

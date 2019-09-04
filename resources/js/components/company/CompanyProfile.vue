@@ -533,7 +533,7 @@
                 this.disabled = false;
             },
             postNewJob() {
-                window.location.href = '/job/list';
+                window.location.href = '/job/list?type=templates';
             },
         },
         components: {

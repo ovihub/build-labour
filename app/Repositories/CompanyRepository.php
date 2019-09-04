@@ -229,11 +229,6 @@ class CompanyRepository extends AbstractRepository
 
         $jobs = $jobs->get();
 
-        foreach ($jobs as $job) {
-            $job->requirements;
-            $job->responsibilities;
-        }
-
         return $jobs;
     }
 
@@ -255,11 +250,6 @@ class CompanyRepository extends AbstractRepository
             ->where('company_id', $request->id)
             ->where('is_template', true)
             ->get();
-        
-        foreach ($templates as $template) {
-            $template->requirements;
-            $template->responsibilities;
-        }
 
         return $templates;
     }

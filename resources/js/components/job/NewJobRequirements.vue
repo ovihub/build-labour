@@ -162,15 +162,13 @@
                 });
             });
 
-            Bus.$on('editJobPost', function(details) {
-                let req = details.requirements;
-
-                if (req && req != 0) {
-                    vm.qualifications = req[0].items;
-                    vm.experience = req[1].items.experiences;
-                    vm.min_exp = req[1].items.min_exp;
-                    vm.skills = req[2].items;
-                    vm.tickets = req[3].items;
+            Bus.$on('jobRequirementsDetails', function(detailsArray) {
+                if (detailsArray && detailsArray.length != 0) {
+                    vm.qualifications = detailsArray[0].items;
+                    vm.experience = detailsArray[1].items.experiences;
+                    vm.min_exp = detailsArray[1].items.min_exp;
+                    vm.skills = detailsArray[2].items;
+                    vm.tickets = detailsArray[3].items;
                 }
             });
 

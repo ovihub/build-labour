@@ -73,11 +73,9 @@
                 });
             });
 
-            Bus.$on('editJobPost', function(details) {
-                let resp = details.responsibilities;
-
-                if (resp && resp.length != 0) {
-                    vm.responsibilities = resp;
+            Bus.$on('jobResponsibilitiesDetails', function(detailsArray) {
+                if (detailsArray && detailsArray.length != 0) {
+                    vm.responsibilities = detailsArray;
                 }
             });
 
