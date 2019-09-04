@@ -350,8 +350,10 @@ class JobRepository extends AbstractRepository
 
             $newJob->is_template = true;
             $newJob->template_id = $this->job->id;
+
         }
 
+        $newJob->created_by = $user->id;
         $newJob->push();
 
         $relations = $this->job->getRelations();
