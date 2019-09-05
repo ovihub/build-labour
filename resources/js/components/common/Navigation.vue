@@ -84,7 +84,7 @@
                 // this.$refs['nav-dashboard'].style = 'opacity: 1';
             },
             onClickJobs() {
-                if (window.location.pathname != '/job/list') {
+                if (window.location.pathname != '/job/list?type=templates') {
                     window.location = '/job/list?type=templates';
                 }
             },
