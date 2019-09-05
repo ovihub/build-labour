@@ -10,7 +10,7 @@
             </div>
 
             <div class="emp-row mt-3" v-else>
-                <input type="text" class="form-control create-job-input" placeholder="Search Jobs" @keyup="onSearchJobs">
+                <input type="text" class="form-control create-job-input bg-search" placeholder="Search Jobs" @keyup="onSearchJobs">
             </div>
 
             <div v-if="creating" class="btn btn-link btn-delete mb-2" @click="onClickSaveAsTemplate">
@@ -129,6 +129,8 @@
             },
             onSearchJobs(e) {
                 let keyword = e.target.value;
+
+                Bus.$emit('searchJobPosts', keyword);
             },
             onClickSaveAsTemplate() {
                 this.isTemplate = 1;
@@ -188,6 +190,13 @@
         background-color: #ffffff;
         height: 46px;
     }
+    .create-job-input.bg-search {
+        padding-left: 40px;
+        background-position: 9px 13px;
+        background-repeat: no-repeat;
+        background-image: url(/img/icons/search.png);
+        background-image: -webkit-image-set(url(/img/icons/search@2x.png) 2x, url(/img/icons/search@3x.png) 3x);
+    }
     .create-job-input::placeholder {
         color: #acbbbf;
     }
@@ -206,7 +215,6 @@
         -ms-user-select: none;
         user-select: none;
     }
-
     .radio-cont:hover {
         color: #00aeef;
     }

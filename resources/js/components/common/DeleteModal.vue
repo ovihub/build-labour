@@ -8,19 +8,20 @@
 				</div>
 				
 				<div class="modal-body" style="margin-bottom:10px">
-					<form method="POST" @submit.prevent="deleteRecord">
-						<input type="hidden" name="_method" value="delete" />
-						<div class="emp-label">
-							<center>Are you sure you want to delete this record?</center>
-						</div>
-					</form>
+					<center>
+						<form method="POST">
+							<input type="hidden" name="_method" value="delete" />
+							<div class="mt-3" style="width:100%;font-size:16px;color:#000">
+								Are you sure you want to delete this record?
+							</div>
+						</form>
+                    </center>
 				</div>
 
 				<div class="modal-footer" style="border-top:none">
-					<div class="pull-right">
-						<button type="submit" @click="action == 'JobPost' ? deletePost() : deleteRecord()" :disabled="disabled">Yes</button>
-						<button @click="cancel">No</button>
-					</div>
+					<div class="btn btn-link btn-delete" :disabled="disabled" @click="action == 'JobPost' ? deletePost() : deleteRecord()">Proceed</div>
+
+                    <button class="pull-right" type="button" @click="cancel">Cancel</button>
 				</div>
 			</div>
         </div>

@@ -353,6 +353,7 @@ class JobRepository extends AbstractRepository
 
         }
 
+        $newJob->Company;
         $newJob->created_by = $user->id;
         $newJob->push();
 

@@ -1,6 +1,7 @@
 <template>
     <div class="profile-item-2">
         <delete-modal></delete-modal>
+        <confirm-modal></confirm-modal>
 
         <ul class="list-job-items">
         <transition-group name="list">
@@ -13,7 +14,7 @@
                         </div>
                         <div class="col-md-4 col-sm-4 mb-3">
                             <div class="row ta-center">
-                                <div class="col-icon icon-buttons" @click="onClickAction('preview', post)">
+                                <div class="col-icon icon-buttons" @click="onClickAction('preview', post, index)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="31" height="22" viewBox="0 0 31 22">
                                         <g fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" transform="translate(1 1)">
                                             <path d="M.75 10s5.09-10 14-10 14 10 14 10-5.09 10-14 10-14-10-14-10z"/>
@@ -22,13 +23,13 @@
                                     </svg>
                                     <div class="icon-label">Preview</div>
                                 </div>
-                                <div class="col-icon icon-buttons" @click="onClickAction('edit', post)">
+                                <div class="col-icon icon-buttons" @click="onClickAction('edit', post, index)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
                                         <path fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 2a2.828 2.828 0 1 1 4 4L6.5 19.5 1 21l1.5-5.5L16 2z"/>
                                     </svg>
                                     <div class="icon-label">Edit</div>
                                 </div>
-                                <div class="col-icon icon-buttons" @click="onClickAction('duplicate', post)">
+                                <div class="col-icon icon-buttons" @click="onClickAction('duplicate', post, index)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
                                         <g fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" transform="translate(1 1)">
                                             <rect width="13" height="13" x="7" y="7" rx="2"/>
@@ -37,7 +38,7 @@
                                     </svg>
                                     <div class="icon-label">Duplicate</div>
                                 </div>
-                                <div class="col-icon icon-buttons" @click="onClickAction('delete', post)">
+                                <div class="col-icon icon-buttons" @click="onClickAction('delete', post, index)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 20 22">
                                         <g fill="none" fill-rule="evenodd" stroke="#FF3939" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                             <path d="M1 5h18M17 5v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5m3 0V3a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M8 10v6M12 10v6"/>
@@ -90,12 +91,16 @@
     import Api from '@/api';
     
     import DeleteModal from '../common/DeleteModal';
+    import ConfirmModal from '../common/ConfirmModal';
 
     export default {
         name: "job-summary",
         data() {
             return {
                 jobPosts: [],
+                jobPostType: '',
+                curPost: {},
+                curIndex: -1,
                 input: {
                     job_id: '',
                 },
@@ -114,7 +119,10 @@
             },
         },
         methods: {
-            onClickAction(action, post) {
+            onClickAction(action, post, index) {
+                this.curPost = post;
+                this.curIndex = index;
+
                 switch(action) {
                     case 'preview':
                         window.location.href = '/job/view/?cid=' + post.company_id + '&jid=' + post.id;
@@ -125,7 +133,8 @@
                         break;
 
                     case 'duplicate':
-                        this.duplicatePost(post.id, post.company_id, post.is_template);
+                        $('#confirmModal').modal('show');
+                        Bus.$emit('confirmAction', 'duplicate');
                         break;
 
                     case 'delete':
@@ -134,8 +143,11 @@
                         break;
                 }
             },
-            async duplicatePost(id, cid, isTemplate) {
-                let vm = this;
+            async duplicatePost() {
+                let vm = this,
+                    id = this.curPost.id,
+                    cid = this.curPost.company_id,
+                    isTemplate = this.curPost.is_template;
 
                 await axios.post(this.endpoints.duplicate + id + (isTemplate ? '/duplicate-as-template' : '/duplicate'), { 
                     confirmation: isTemplate ? 'duplicate_as_template' : 'duplicate',
@@ -143,7 +155,7 @@
                 
                 }, Utils.getBearerAuth()).then(function(response) {
 
-                    console.log(response.data.data);
+                    vm.jobPosts.push(response.data.data.new_job);
                 
                 }).catch(function(error) {
                     let inputErrors = Utils.handleError(error);
@@ -162,12 +174,16 @@
         created() {
             let vm = this;
 
-            Bus.$on('searchJobPosts', function(keyword, location) {
-                vm.getJobPosts(vm.endpoints.search + keyword + '&location=' + location);
+            Bus.$on('searchJobPosts', function(keyword) {
+                vm.getJobPosts(vm.endpoints.search + keyword + '&company_id=' + vm.companyId + '&status=' + vm.jobPostType);
             });
 
             Bus.$on('removeJobPost', function() {
-                console.log('removeJobPost');
+                vm.jobPosts.splice(vm.curIndex, 1);
+            });
+
+            Bus.$on('duplicateJobPost', function() {
+                vm.duplicatePost();
             });
 
             Bus.$on('getJobPosts', function(type) {
@@ -176,6 +192,7 @@
                 switch(type) {
                     case 'templates':
                         vm.getJobPosts(vm.endpoints.get + vm.companyId + '/templates');
+                        vm.jobPostType = 'saved_templates';
                         break;
 
                     case 'active':
@@ -192,6 +209,7 @@
         },
         components: {
             DeleteModal,
+            ConfirmModal,
         },
     }
 </script>
