@@ -126,13 +126,26 @@ class JobRepository extends AbstractRepository
             $jobs = $jobs->where('company_id', $request->company_id);
         }
 
-        $jobs = $jobs->where('job_posts.is_template', false)
-                ->whereNotNull('job_posts.company_id');
+        $isTemplate = false;
+        $jobStatus = true;
 
-        $jobs = $jobs->where(function($query) use ($keyword) {
-                    $query->where('job_posts.title', 'like', "%{$keyword}%")
-                    ->orWhere('job_role.job_role_name', 'like', "%{$keyword}%");
-                });
+        if (!empty($request->status)) {
+
+            if ($request->status == 'saved_templates') {
+
+                $isTemplate = true;
+            }
+
+            $jobStatus = $request->status == 'past_jobs' ? false : true;
+        }
+
+        $jobs = $jobs->where('job_posts.is_template', $isTemplate)
+                    ->whereNotNull('job_posts.company_id')
+                    ->where('status', $jobStatus)
+                    ->where(function($query) use ($keyword) {
+                        $query->where('job_posts.title', 'like', "%{$keyword}%")
+                        ->orWhere('job_role.job_role_name', 'like', "%{$keyword}%");
+                    });
 
         if (!empty($location)) {
 
@@ -325,7 +338,6 @@ class JobRepository extends AbstractRepository
     public function duplicate( Request $request )
     {
 
-     //   dd($request->all());
         $user = JWTAuth::toUser();
 
         $this->job = Job::find($request->id);
