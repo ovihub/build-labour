@@ -35,14 +35,19 @@
             </div>
 
             <button class="mt-4" style="width: 100%;" :disabled="disabled" @click="onClickPostJob">
-                {{ creating ? 'Post Job' : 'Create New Job' }}
+                {{ disabled ? '' : (creating ? 'Post Job' : 'Create New Job') }}
             </button>
+
+            <div class="loading" style="bottom: 32px; left: 45%;">
+                <pulse-loader :loading="disabled" color="#fff" size="8px"></pulse-loader>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     import Api from '@/api';
+    import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 
     export default {
         name: "create-job",
@@ -76,23 +81,31 @@
             });
 
             Bus.$on('newJobRequirements', function(input) {
+                let qua = input.qualifications,
+                    exp = input.experience;
+                
                 vm.input.requirements = [
-                    { title: 'Qualifications', items: input.qualifications },
-                    { title: 'Experience', items: { min_exp: input.min_exp, experiences: input.experience } },
-                    { title: 'Skills', items: input.skills },
+                    { title: 'Qualifications', items: qua[0].course_type != '' && qua[0].qualification_level != '' ? qua : [] },
+                    { title: 'Experience', items: input.min_exp != '' && exp[0] != '' ? { min_exp: input.min_exp, experiences: exp } : [] },
+                    { title: 'Skills', items: input.skills[0] != '' ? input.skills : []},
                     { title: 'Tickets', items: input.tickets },
                 ];
             });
 
             Bus.$on('newJobResponsibilities', function(input) {
-                vm.input.responsibilities = input.responsibilities;
+                if (input.responsibilities[0].title != '' && input.responsibilities[0].items[0] != '') {
+                    vm.input.responsibilities = input.responsibilities;
+                
+                } else {
+                    vm.input.responsibilities = [];
+                }
 
                 if (vm.isTemplate) {
                     vm.input.template_name = vm.template_name;
                     vm.submit(vm.endpoints.save)
                 
                 } else {
-                    vm.submit(vm.endpoints.post);
+                    vm.submit(vm.endpoints.post + (vm.input.id ? ('/' + vm.input.id) : ''));
                 }
             });
 
@@ -159,8 +172,11 @@
                     if (job.is_template) {
                         window.location.href = '/job/list?type=templates';
 
+                    } else if (job.status == 1) {
+                        window.location.href = '/job/list?type=active';
+                    
                     } else {
-                        window.location.href = '/job/view?cid=' + job.company_id + '&jid=' + job.id;
+                        window.location.href = '/job/list?type=closed';
                     }
                 
                 }).catch(function(error) {
@@ -175,7 +191,10 @@
 
                 this.disabled = false;
             },
-        }
+        },
+        components: {
+            PulseLoader,
+        },
     }
 </script>
 

@@ -60,9 +60,11 @@
                                 vm.summary.introduction = job.company.introduction;
                             }
                             
+                            vm.job_details.id = Utils.getUrlParams().jid;
                             vm.job_details.job_role = job.job_role;
                             vm.job_details.title = job.title;
                             vm.job_details.template_name = job.template_name;
+                            vm.job_details.is_template = job.is_template;
                             vm.job_details.description = job.description;
                             vm.job_details.about = job.about;
                             vm.job_details.project_size = job.project_size;

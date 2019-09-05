@@ -89,7 +89,6 @@
 
 <script>
     import Api from '@/api';
-    
     import DeleteModal from '../common/DeleteModal';
     import ConfirmModal from '../common/ConfirmModal';
 

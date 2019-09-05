@@ -205,7 +205,7 @@
                 job_roles: [],
                 locations: [],
                 input: {
-                    job_role_id: '', template_name: '', title: '', description: '', about: '', project_size: '',
+                    id: '', is_template: '', job_role_id: '', template_name: '', title: '', description: '', about: '', project_size: '',
                     exp_level: '', contract_type: '', salary: '', reports_to: [], location: '',
                 },
                 errors: {
@@ -227,6 +227,8 @@
 
             Bus.$on('jobDetails', function(details) {
                 if (details) {
+                    vm.input.id = details.id;
+                    vm.input.is_template = details.is_template;
                     vm.input.template_name = details.template_name;
                     vm.input.title = details.title ? details.title : details.job_role.job_role_name;
                     vm.input.description = details.description;
