@@ -35,7 +35,7 @@
             </div>
 
             <button class="mt-4" style="width: 100%;" :disabled="disabled" @click="onClickPostJob">
-                {{ disabled ? '' : (creating ? 'Post Job' : 'Create New Job') }}
+                {{ disabled ? '' : (creating ? (input.id ? 'Post Job' : (! input.status ? 'Post Job' : 'Save Changes')) : 'Create New Job') }}
             </button>
 
             <div class="loading" style="bottom: 32px; left: 45%;">
@@ -109,8 +109,9 @@
                 }
             });
 
-            Bus.$on('editJobPost', function(templateName) {
+            Bus.$on('editJobPost', function(templateName, status) {
                 vm.template_name = templateName;
+                vm.input.status = status;
             });
 
             window.onpopstate = function(e) {
