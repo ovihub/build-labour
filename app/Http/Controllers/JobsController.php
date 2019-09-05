@@ -18,7 +18,6 @@ class JobsController extends Controller
                 if (isset($request->cid) && isset($request->jid)) {
                     return view('jobs.view');
                 }
-
                 return view('errors.404');
             }
 
@@ -42,7 +41,6 @@ class JobsController extends Controller
                     if ($user && $user->role_id == 2) {
                         return view('jobs.list')->with('company_id', Company::where('created_by', $user->id)->first()->id);
                     }
-                    
                     return view('errors.404');
                 }
 
@@ -63,19 +61,10 @@ class JobsController extends Controller
         try {
             $user = $this->getAuthFromToken();
 
-            // if ($user) {
-            //     if ($user && $user->role_id == 2) {
-            //         return view('jobs.post')->with('company_id', Company::where('created_by', $user->id)->first()->id);
-            //     }
-                
-            //     return view('errors.404');
-            // }
-
             if ($user) {
-                if (isset($request->cid) && isset($request->jid)) {
-                    return view('jobs.post');
+                if (! $_GET || isset($request->jid)) {
+                    return view('jobs.post')->with('company_id', Company::where('created_by', $user->id)->first()->id);
                 }
-
                 return view('errors.404');
             }
 

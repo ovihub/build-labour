@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row justify-content-center">
-        <load-job></load-job>
+        <load-job :company-id="{{ $company_id }}"></load-job>
         <div class="col-md-3">
             <create-job :creating="true"></create-job>
         </div>

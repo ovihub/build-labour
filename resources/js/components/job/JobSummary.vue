@@ -128,7 +128,7 @@
                         break;
 
                     case 'edit':
-                        window.location.href = '/job/post?cid=' + post.company_id + '&jid=' + post.id;
+                        window.location.href = '/job/post?jid=' + post.id;
                         break;
 
                     case 'duplicate':

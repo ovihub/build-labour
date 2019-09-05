@@ -142,7 +142,7 @@
 
                 } else {
                     this.creating = true;
-                    Bus.$emit('createJob');
+                    window.location.href = '/job/post';
                 }
             },
             async submit(endpoint) {

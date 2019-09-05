@@ -20,14 +20,21 @@
                 },
             }
         },
+        props: {
+            companyId: {
+                type: String,
+                default: null
+            },
+        },
         created() {
-            let vm = this;
+            let vm = this,
+                companyId = this.companyId ? this.companyId : Utils.getUrlParams().cid;
 
             if (Utils.getUrlParams().jid) {
-                this.endpoints.get = this.endpoints.get + Utils.getUrlParams().cid + '/jobs/' + Utils.getUrlParams().jid;
+                this.endpoints.get = this.endpoints.get + companyId + '/jobs/' + Utils.getUrlParams().jid;
             
             } else {
-                this.endpoints.get = this.endpoints.get + Utils.getUrlParams().cid;
+                this.endpoints.get = this.endpoints.get + companyId;
             }
             
             this.getJob();
