@@ -107,9 +107,9 @@ class ApiJobsController extends ApiBaseController
 
     /**
      * @OA\Get(
-     *      path="/job/search?company_id=",
+     *      path="/job/search?company_id=&status=saved_templates",
      *      tags={"Job"},
-     *      summary="Search by keyword if company_id is present then it will search jobs within a company only",
+     *      summary="Search by keyword if company_id is present then it will search jobs within a company only and status saved_templates | active_jobs | past_jobs option values",
      *      security={{"BearerAuth":{}}},
      *      @OA\Response(
      *          response=400,
@@ -149,8 +149,6 @@ class ApiJobsController extends ApiBaseController
         }
 
         return $this->apiSuccessResponse( compact( 'jobs' ), true, '', self::HTTP_STATUS_REQUEST_OK);
-
-       // return $this->apiSuccessResponse( $data, true, '', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
