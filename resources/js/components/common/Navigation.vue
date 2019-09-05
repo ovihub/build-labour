@@ -2,7 +2,7 @@
     <div class="row">
         <img class="bl-nav-logo" src="/img/BUILDLABOUR_FULLLOGO@1x.png" width="90">
 
-        <input class="bl-nav-search" id="search" type="text" name="search" />
+        <input class="bl-nav-search" id="search" type="text" name="search" v-model="keyword" @keyup="onOpenSearch" />
 
         <ul class="row bl-nav-list">
             <li ref="nav-dashboard" @click="onClickDashboard">
@@ -69,7 +69,7 @@
         name: "navigation",
         data() {
             return {
-
+                keyword: '',
             }
         },
         created() {
@@ -90,6 +90,11 @@
             },
             onClickMessages() {
                 // this.$refs['nav-messages'].style = 'opacity: 1';
+            },
+            onOpenSearch() {
+                if (this.keyword.length > 0) {
+                    window.location.href = '/job/search/all?keyword=' + this.keyword;
+                }
             },
         },
         components: {
