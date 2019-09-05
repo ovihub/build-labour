@@ -144,6 +144,8 @@ class JobRepository extends AbstractRepository
                     ->where('status', $jobStatus)
                     ->where(function($query) use ($keyword) {
                         $query->where('job_posts.title', 'like', "%{$keyword}%")
+                        ->orWhere('job_posts.template_name', 'like', "%{$keyword}%")
+                        ->orWhere('job_posts.location', 'like', "%{$keyword}%")
                         ->orWhere('job_role.job_role_name', 'like', "%{$keyword}%");
                     });
 

@@ -105,10 +105,9 @@
                     job_id: '',
                 },
                 endpoints: {
-                    get: '/api/v1/company/',
                     search: '/api/v1/job/search?keyword=',
-                    delete: '/api/v1/job/', // {id}/delete',
-                    duplicate: '/api/v1/job/', // {id}/duplicate-as-template',
+                    delete: '/api/v1/job/',
+                    duplicate: '/api/v1/job/',
                 },
             }
         },
@@ -186,25 +185,18 @@
                 vm.duplicatePost();
             });
 
-            Bus.$on('getJobPosts', function(type) {
+            Bus.$on('getJobPosts', function(type, keyword) {
                 vm.jobPosts = [];
                 
                 switch(type) {
-                    case 'templates':
-                        vm.getJobPosts(vm.endpoints.get + vm.companyId + '/templates');
-                        vm.jobPostType = 'saved_templates';
-                        break;
-
-                    case 'active':
-                    case 'closed':
-                        vm.getJobPosts(vm.endpoints.get + vm.companyId + '/posts/jobs?status=' + type);
-                        break;
+                    case 'templates': vm.jobPostType = 'saved_templates'; break;
+                    case 'active': vm.jobPostType = 'active_jobs'; break;
+                    case 'closed': vm.jobPostType = 'past_jobs'; break;
                 }
+
+                vm.getJobPosts(vm.endpoints.search + keyword + '&company_id=' + vm.companyId + '&status=' + vm.jobPostType);
             })
             
-            // this.getJobPosts(vm.endpoints.search + '&location=');
-            this.getJobPosts(this.endpoints.get + this.companyId + '/templates');
-
             Bus.$emit('activateTab', 'jobs');
         },
         components: {

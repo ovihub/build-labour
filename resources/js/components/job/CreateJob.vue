@@ -10,7 +10,7 @@
             </div>
 
             <div class="emp-row mt-3" v-else>
-                <input type="text" class="form-control create-job-input bg-search" placeholder="Search Jobs" @keyup="onSearchJobs">
+                <input type="text" class="form-control create-job-input bg-search" placeholder="Search Jobs" v-model="keyword" @keyup="onSearchJobs">
             </div>
 
             <div v-if="creating" class="btn btn-link btn-delete mb-2" @click="onClickSaveAsTemplate">
@@ -120,7 +120,7 @@
 
                 this.$refs[refName].checked = true;
 
-                Bus.$emit('getJobPosts', refName);
+                Bus.$emit('getJobPosts', refName, this.keyword);
             },
             onClickShowJobs(refName) {
                 this.getJobs(refName);
@@ -128,9 +128,7 @@
                 window.history.pushState({ urlPath: '/job/list?type=' + refName }, '', '/job/list?type=' + refName);
             },
             onSearchJobs(e) {
-                let keyword = e.target.value;
-
-                Bus.$emit('searchJobPosts', keyword);
+                Bus.$emit('searchJobPosts', this.keyword);
             },
             onClickSaveAsTemplate() {
                 this.isTemplate = 1;
