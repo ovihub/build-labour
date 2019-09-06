@@ -15,6 +15,9 @@ use App\Models\Tickets\Ticket;
 use JWTAuth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\Users\Users;
+use App\User;
+
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 class JobRepository extends AbstractRepository
@@ -398,6 +401,7 @@ class JobRepository extends AbstractRepository
 
         }
 
+        $newJob->company;
         $newJob->created_by = $user->id;
         $newJob->push();
 
@@ -577,6 +581,70 @@ class JobRepository extends AbstractRepository
             'favourites' => $favourites,
             'not_suitable' => $not_suitable
         ];
+    }
+
+    public function openSearch( Request $request )
+    {
+        switch ($request->search_type) {
+            case 'individuals':
+            
+                $data = User::where('role_id',1)
+                ->when($request->education, function( $query) use($request){
+                    $query->whereHas('Educations' , function( $query ) use($request){
+                        $query->where('school','like','%'.$request->education.'%');
+                        $query->orWhere('course','like','%'.$request->education.'%');
+                    });
+                })
+                ->when($request->ticket, function( $query ) use($request){
+                    $query->whereHas('Tickets', function($query) use($request){
+                        $query->where('ticket','like', '%'.$request->ticket.'%');
+                    });
+                })                                
+                ->when($request->address, function( $query) use($request){
+                    $query->where( 'address','like', '%'.$request->address.'%');
+                })->get();
+
+                break;
+            case 'companies':
+
+                $data = Company::when($request->industry, function( $query) use($request){
+                    $query->whereHas('Specialization', function( $query ) use($request) {
+                        $query->where('secondary_name', 'like', '%'.$request->industry.'%');
+                    });
+                })                
+                ->when($request->address, function( $query) use($request){
+                    $query->where( 'address','like', '%'.$request->address.'%');
+                })->get();
+
+                break;
+            case 'jobs':                
+                $data = Job::when($request->ticket, function( $query) use($request){
+                    $query->whereHas('Requirements', function( $query ) use($request){                        
+                        $query->where([['title','tickets'],['items_json','like','%'.$request->ticket.'%']]);                        
+                    });
+                })
+                ->when($request->education, function( $query) use($request){
+                    $query->whereHas('Requirements', function( $query ) use($request){                        
+                        $query->where([['title','qualifications'],['items_json','like','%'.$request->education.'%']]);                        
+                    });
+                })                
+                ->when($request->industry, function( $query) use($request){
+                    $query->whereHas('Company', function( $query ) use($request){                        
+                        $query->whereHas('Specialization', function($query) use($request){
+                            $query->where('secondary_name','like', '%'.$request->industry.'%');
+                        });
+                    });
+                })
+                ->when($request->address, function( $query) use($request){
+                     $query->where( 'location','like', '%'.$request->address.'%');
+                })->get();
+                break;    
+            default:                
+                return false;
+                break;
+        }
+
+        return $data;
 
     }
 }

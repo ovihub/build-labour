@@ -1208,4 +1208,91 @@ class ApiJobsController extends ApiBaseController
             self::HTTP_STATUS_REQUEST_OK
         );
     }
+    
+    /**
+     * @OA\Post(
+     *      path="/open-search",
+     *      tags={"Open Search"},
+     *      summary="Open Search",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="search_type",
+     *                      description="search type (individuals,companies,jobs)",
+     *                      type="string",
+     *                      example="individuals"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="address",
+     *                      description="Adress",
+     *                      type="string",
+     *                      example=""
+     *                  ),
+     *                  @OA\Property(
+     *                      property="education",
+     *                      description="Education",
+     *                      type="string",
+     *                      example=""
+     *                  ),
+     *                  @OA\Property(
+     *                      property="ticket",
+     *                      description="Ticket",
+     *                      type="string",
+     *                      example=""
+     *                  ),
+     *                  @OA\Property(
+     *                      property="industry",
+     *                      description="Industry",
+     *                      type="string",
+     *                      example=""
+     *                  ),         
+     *            
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */    
+    public function openSearch( Request $request ){
+        
+        try {
+            $search_type = $request->search_type;
+            $search_result = $this->repository->openSearch($request);
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( compact( 'search_type','search_result' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+        
+    }
 }
