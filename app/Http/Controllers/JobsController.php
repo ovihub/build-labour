@@ -41,7 +41,7 @@ class JobsController extends Controller
                     if ($user && $user->role_id == 2) {
                         return view('jobs.list')->with('company_id', Company::where('created_by', $user->id)->first()->id);
                     }
-                    return view('errors.404');
+                    return redirect('/job/search');
                 }
 
                 $this->clearAuthToken();

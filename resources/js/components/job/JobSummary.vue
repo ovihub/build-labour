@@ -29,14 +29,14 @@
                                     </svg>
                                     <div class="icon-label">Edit</div>
                                 </div>
-                                <div class="col-icon icon-buttons" @click="onClickAction('duplicate', post, index)">
+                                <div class="col-icon icon-buttons" :style="! post.status ? 'cursor: default;' : ''" @click="onClickAction('duplicate', post, index)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
-                                        <g fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" transform="translate(1 1)">
+                                        <g fill="none" fill-rule="evenodd" :stroke="post.status ? '#000' : '#d8d8d8'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" transform="translate(1 1)">
                                             <rect width="13" height="13" x="7" y="7" rx="2"/>
                                             <path d="M3 13H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
                                         </g>
                                     </svg>
-                                    <div class="icon-label">Duplicate</div>
+                                    <div class="icon-label" :style="! post.status ? 'color: #d8d8d8;' : ''">Duplicate</div>
                                 </div>
                                 <div class="col-icon icon-buttons" @click="onClickAction('delete', post, index)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 20 22">
@@ -131,8 +131,10 @@
                         break;
 
                     case 'duplicate':
-                        $('#confirmModal').modal('show');
-                        Bus.$emit('confirmAction', 'duplicate');
+                        if (post.status) {
+                            $('#confirmModal').modal('show');
+                            Bus.$emit('confirmAction', 'duplicate');
+                        }
                         break;
 
                     case 'delete':

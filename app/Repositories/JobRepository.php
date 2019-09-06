@@ -194,9 +194,35 @@ class JobRepository extends AbstractRepository
     public function updateJob( Request $request )
     {
 
-        $this->job = Job::find($request->id);
+        $user = JWTAuth::toUser();
 
-        if ($this->job){
+        $job = Job::find($request->id);
+        $job->load(['Responsibilities', 'Requirements']);
+
+        if ($job) {
+
+            // deal past jobs >> status 0
+            if (!$job->status) {
+
+                $this->job = $job->replicate();
+                $this->job->status = true;
+                $this->job->created_by = $user->id;
+                $this->job->push();
+
+                $relations = $job->getRelations();
+
+                foreach ($relations as $relation) {
+                    foreach ($relation as $relationRecord) {
+                        $newRelationship = $relationRecord->replicate();
+                        $newRelationship->job_id = $this->job->id;
+                        $newRelationship->push();
+                    }
+                }
+
+            } else { // deal active jobs or active templates >> status 1
+
+                $this->job = $job;
+            }
 
             $data = $request->all();
 
@@ -238,6 +264,11 @@ class JobRepository extends AbstractRepository
 
         $data['created_by'] = $user->id;
         $data['is_template'] = $isTemplate;
+
+        if ($isTemplate) {
+
+            $data['status'] = true;
+        }
 
         if ($user->Company) {
 
@@ -367,7 +398,6 @@ class JobRepository extends AbstractRepository
 
         }
 
-        $newJob->Company;
         $newJob->created_by = $user->id;
         $newJob->push();
 

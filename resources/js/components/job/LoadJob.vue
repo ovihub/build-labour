@@ -65,6 +65,7 @@
                             vm.job_details.title = job.title;
                             vm.job_details.template_name = job.template_name;
                             vm.job_details.is_template = job.is_template;
+                            vm.job_details.status = job.status;
                             vm.job_details.description = job.description;
                             vm.job_details.about = job.about;
                             vm.job_details.project_size = job.project_size;

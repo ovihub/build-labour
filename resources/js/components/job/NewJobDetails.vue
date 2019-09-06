@@ -205,7 +205,8 @@
                 job_roles: [],
                 locations: [],
                 input: {
-                    id: '', is_template: '', job_role_id: '', template_name: '', title: '', description: '', about: '', project_size: '',
+                    id: '', is_template: '', status: '', template_name: '',
+                    job_role_id: '', title: '', description: '', about: '', project_size: '',
                     exp_level: '', contract_type: '', salary: '', reports_to: [], location: '',
                 },
                 errors: {
@@ -229,6 +230,7 @@
                 if (details) {
                     vm.input.id = details.id;
                     vm.input.is_template = details.is_template;
+                    vm.input.status = details.status;
                     vm.input.template_name = details.template_name;
                     vm.input.title = details.title ? details.title : details.job_role.job_role_name;
                     vm.input.description = details.description;
@@ -242,7 +244,7 @@
 
                     let vm2 = vm;
 
-                    Bus.$emit('editJobPost', vm2.input.template_name);
+                    Bus.$emit('editJobPost', vm2.input.template_name, vm2.input.status);
                 }
             });
 

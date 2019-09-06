@@ -639,17 +639,24 @@ class ApiJobsController extends ApiBaseController
 
         DB::beginTransaction();
 
-        if ( !$job = $this->repository->updateJob( $request ) ) {
+        try {
+
+            if ( !$job = $this->repository->updateJob( $request ) ) {
+
+                return $this->apiErrorResponse(
+                    false,
+                    $this->repository->job->getErrors( true ),
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    $this->repository->job->getErrorsDetail()
+                );
+            }
+
+        } catch(\Exception $e) {
 
             DB::rollback();
 
-            return $this->apiErrorResponse(
-                false,
-                $this->repository->job->getErrors( true ),
-                self::HTTP_STATUS_INVALID_INPUT,
-                'invalidInput',
-                $this->repository->job->getErrorsDetail()
-            );
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
         DB::commit();

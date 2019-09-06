@@ -13,6 +13,7 @@
 
 Route::get('/', 'PageController@index');
 Route::get('home', 'PageController@index');
+Route::get('reset-email', 'PageController@resetEmail');
 
 Route::middleware(['checktoken'])->group(function() {
     Route::get('login', 'AuthController@showLoginForm')->name('login');

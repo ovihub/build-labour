@@ -35,7 +35,7 @@
             </div>
 
             <button class="mt-4" style="width: 100%;" :disabled="disabled" @click="onClickPostJob">
-                {{ disabled ? '' : (creating ? 'Post Job' : 'Create New Job') }}
+                {{ buttonText }}
             </button>
 
             <div class="loading" style="bottom: 32px; left: 45%;">
@@ -54,6 +54,7 @@
         data() {
             return {
                 disabled: false,
+                buttonText: '',
                 isTemplate: 0,
                 template_name: '',
                 input: {},
@@ -101,7 +102,8 @@
                 }
 
                 if (vm.isTemplate) {
-                    vm.input.template_name = vm.template_name;
+                    if (vm.input.id) vm.input.id = '';
+                    
                     vm.submit(vm.endpoints.save)
                 
                 } else {
@@ -109,13 +111,18 @@
                 }
             });
 
-            Bus.$on('editJobPost', function(templateName) {
+            Bus.$on('editJobPost', function(templateName, status) {
                 vm.template_name = templateName;
+                
+                if (status == 1) vm.buttonText = 'Save Changes';
+                if (status == 0) vm.buttonText = 'Post Job';
             });
 
             window.onpopstate = function(e) {
                 vm.softReload();
             };
+
+            this.buttonText = this.creating ? 'Post Job' : 'Create New Job';
         },
         mounted() {
             this.softReload();
@@ -161,6 +168,8 @@
             async submit(endpoint) {
                 let vm = this;
 
+                if (this.isTemplate || this.input.is_template) this.input.template_name = this.template_name;
+                this.buttonText = '';
                 this.disabled = true;
 
                 await axios.post(endpoint, vm.$data.input, Utils.getBearerAuth())
@@ -190,6 +199,7 @@
                 });
 
                 this.disabled = false;
+                this.buttonText = this.creating ? 'Post Job' : 'Create New Job';
             },
         },
         components: {

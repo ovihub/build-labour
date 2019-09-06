@@ -146,6 +146,21 @@ class CompanyTableSeeder extends Seeder
                     'job_role_id' => $jobRole2->id
                 ]);
 
+                Job::create([
+                    'title' => 'Electrician',
+                    'description' => 'This is a past job.',
+                    'exp_level' => '1 year',
+                    'contract_type' => 'Full-time',
+                    'salary' => '$10000',
+                    'location' => 'Melbourne, Victoria, Australia',
+                    'created_by' => $user->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                    'is_template' => false,
+                    'company_id' => $c->id,
+                    'status' => 0
+                ]);
+
                 $job1 = Job::create([
                     'description' => 'An opportunity is available for a Master Carpenter to work in and with the Richmond Asphalt team to take responsibility for delivery of a portfolio of projects whilst optimising performance.',
                     'exp_level' => '5 year',
