@@ -102,6 +102,8 @@
                 }
 
                 if (vm.isTemplate) {
+                    if (vm.input.id) vm.input.id = '';
+                    
                     vm.submit(vm.endpoints.save)
                 
                 } else {
@@ -166,7 +168,7 @@
             async submit(endpoint) {
                 let vm = this;
 
-                if (this.input.is_template) this.input.template_name = this.template_name;
+                if (this.isTemplate || this.input.is_template) this.input.template_name = this.template_name;
                 this.buttonText = '';
                 this.disabled = true;
 
