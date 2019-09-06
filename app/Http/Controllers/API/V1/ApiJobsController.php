@@ -641,7 +641,7 @@ class ApiJobsController extends ApiBaseController
 
         try {
 
-            $request->merge(['is_template' => false]);
+         //   $request->merge(['is_template' => false]);
 
             if ( !$job = $this->repository->updateJob( $request ) ) {
 
