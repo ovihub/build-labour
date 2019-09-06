@@ -194,29 +194,9 @@ class JobRepository extends AbstractRepository
     public function updateJob( Request $request )
     {
 
-        $user = JWTAuth::toUser();
+        $this->job = Job::find($request->id);
 
-        $job = Job::find($request->id);
-        $job->load(['Responsibilities', 'Requirements']);
-
-        if ($job) {
-
-            $job->status = false;
-            $job->update();
-
-            $this->job = $job->replicate();
-            $this->job->created_by = $user->id;
-            $this->job->status = true;
-            $this->job->push();
-
-            $relations = $job->getRelations();
-            foreach ($relations as $relation) {
-                foreach ($relation as $relationRecord) {
-                    $newRelationship = $relationRecord->replicate();
-                    $newRelationship->job_id = $this->job->id;
-                    $newRelationship->push();
-                }
-            }
+        if ($this->job){
 
             $data = $request->all();
 
