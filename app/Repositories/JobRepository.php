@@ -201,8 +201,12 @@ class JobRepository extends AbstractRepository
 
         if ($job) {
 
+            $job->status = false;
+            $job->update();
+
             $this->job = $job->replicate();
             $this->job->created_by = $user->id;
+            $this->job->status = true;
             $this->job->push();
 
             $relations = $job->getRelations();
