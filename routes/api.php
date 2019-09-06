@@ -210,6 +210,11 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
         Route::get( 'pending', 'ApiConnectionsController@pendingConnections' );
     });
 
+    Route::prefix('open-search')->group(function () {
+        Route::middleware([ 'jwt' ])->group(function () {
+            route::post('/', 'ApiJobsController@openSearch');
+        });
+    });
 });
 
 // Admin
