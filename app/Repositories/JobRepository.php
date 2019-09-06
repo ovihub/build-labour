@@ -196,23 +196,33 @@ class JobRepository extends AbstractRepository
 
         $user = JWTAuth::toUser();
 
-        $this->job = Job::find($request->id);
-       // $job->load(['Responsibilities', 'Requirements']);
+        $job = Job::find($request->id);
+        $job->load(['Responsibilities', 'Requirements']);
 
-        if ($this->job) {
-//
-//            $this->job = $job->replicate();
-//            $this->job->created_by = $user->id;
-//            $this->job->push();
-//
-//            $relations = $job->getRelations();
-//            foreach ($relations as $relation) {
-//                foreach ($relation as $relationRecord) {
-//                    $newRelationship = $relationRecord->replicate();
-//                    $newRelationship->job_id = $this->job->id;
-//                    $newRelationship->push();
-//                }
-//            }
+        if ($job) {
+
+            // deal past jobs >> status 0
+            if (!$job->status) {
+
+                $this->job = $job->replicate();
+                $this->job->status = true;
+                $this->job->created_by = $user->id;
+                $this->job->push();
+
+                $relations = $job->getRelations();
+
+                foreach ($relations as $relation) {
+                    foreach ($relation as $relationRecord) {
+                        $newRelationship = $relationRecord->replicate();
+                        $newRelationship->job_id = $this->job->id;
+                        $newRelationship->push();
+                    }
+                }
+
+            } else { // deal active jobs or active templates >> status 1
+
+                $this->job = $job;
+            }
 
             $data = $request->all();
 
