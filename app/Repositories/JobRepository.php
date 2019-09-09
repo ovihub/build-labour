@@ -247,10 +247,62 @@ class JobRepository extends AbstractRepository
                 $data['id'] = $request->id;
             }
 
+            if ($request->requirements)
+            {
+
+                $result = JobRequirement::where('job_id', $this->job->id)->delete();
+
+                foreach ($request->requirements as $r) {
+
+                    $items = $r['items'];
+
+                    if (strtolower($r['title']) == 'tickets') {
+
+                        $items = [];
+
+                        foreach ($r['items'] as $item) {
+
+                            if (!isset($item['id'])) {
+
+                                $newTicket = new Ticket();
+
+                                $newTicket->ticket = $item['ticket'];
+                                $newTicket->description = $item['description'];
+                                $newTicket->created_by = $user->id;
+                                $newTicket->save();
+
+                                $items[] = $newTicket->toArray();
+
+                            } else if (Ticket::find($item['id'])) {
+
+                                $items[] = $item;
+                            }
+                        }
+
+                    }
+
+                    $r['items_json'] = $items;
+                    $r['job_id'] = $this->job->id;
+
+                    $jobReq = new JobRequirement();
+
+                    if (!$jobReq->store($r)) {
+
+                        $message = "Can't processed request";
+                        $this->job->addError( $message );
+
+                        return false;
+                    }
+                }
+            }
+
+
             if ($this->job->store($data)) {
 
                 return $this->job;
             }
+
+
         }
 
         return false;
