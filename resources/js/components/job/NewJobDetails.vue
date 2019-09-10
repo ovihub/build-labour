@@ -244,7 +244,7 @@
 
                     let vm2 = vm;
 
-                    Bus.$emit('editJobPost', vm2.input.template_name, vm2.input.status);
+                    Bus.$emit('editJobPost', vm2.input.template_name, vm2.input.status, vm2.input.is_template);
                 }
             });
 
