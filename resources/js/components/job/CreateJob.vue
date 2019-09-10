@@ -111,11 +111,10 @@
                 }
             });
 
-            Bus.$on('editJobPost', function(templateName, status) {
+            Bus.$on('editJobPost', function(templateName, status, isTemplate) {
                 vm.template_name = templateName;
                 
-                if (status == 1) vm.buttonText = 'Save Changes';
-                if (status == 0) vm.buttonText = 'Post Job';
+                if (status == 1 && ! isTemplate) vm.buttonText = 'Save Changes';
             });
 
             window.onpopstate = function(e) {
