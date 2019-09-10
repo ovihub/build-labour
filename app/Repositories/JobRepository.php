@@ -162,7 +162,7 @@ class JobRepository extends AbstractRepository
         // $jobs = $jobs->orderBy($column, $order);
         // $data = $jobs->paginate($per_page);
 
-        $jobs = $jobs->take(30)->get();
+        $jobs = $jobs->orderBy('created_at', 'desc')->get();
 
         return $jobs;
 
@@ -204,14 +204,20 @@ class JobRepository extends AbstractRepository
 
         if ($job) {
 
+            $data = $request->all();
+
             // deal past jobs >> status 0
-            if (!$job->status) {
+            if (!$job->status || $job->is_template) {
+
+                $data['template_name'] = null;
+                $data['is_template'] = 0;
 
                 $this->job = $job->replicate();
-                $this->job->status = true;
                 $this->job->created_by = $user->id;
+                $this->job->status = true;
                 $this->job->push();
 
+               // dd($this->job->toArray());
                 $relations = $job->getRelations();
 
                 foreach ($relations as $relation) {
@@ -226,8 +232,6 @@ class JobRepository extends AbstractRepository
 
                 $this->job = $job;
             }
-
-            $data = $request->all();
 
             if ($request->job_role_id) {
 
@@ -301,7 +305,6 @@ class JobRepository extends AbstractRepository
 
                 return $this->job;
             }
-
 
         }
 
@@ -450,7 +453,6 @@ class JobRepository extends AbstractRepository
 
             $newJob->is_template = true;
             $newJob->template_id = $this->job->id;
-
         }
 
         $newJob->company;
