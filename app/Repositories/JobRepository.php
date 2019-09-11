@@ -636,7 +636,7 @@ class JobRepository extends AbstractRepository
                 })
                 ->when($request->address, function( $query) use($request){
                      $query->where( 'location','like', '%'.$request->address.'%');
-                })->get();
+                })->with('company')->get();
                 break;    
             default:                
                 return false;
