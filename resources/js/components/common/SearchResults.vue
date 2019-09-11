@@ -7,6 +7,9 @@
             <div v-show="showIndividuals">
                 <company-people post-type="open_search"></company-people>
             </div>
+            <div v-show="showCompanies">
+                <company-preview post-type="open_search"></company-preview>
+            </div>
         </div>
     </div>
 </template>
@@ -14,6 +17,7 @@
 <script>
     import JobPosts from '../job/JobPosts';
     import CompanyPeople from '../company/CompanyPeople';
+    import CompanyPreview from '../company/CompanyPreview';
 
     export default {
         name: "search-results",
@@ -54,6 +58,7 @@
         components: {
             JobPosts,
             CompanyPeople,
+            CompanyPreview,
         },
     }
 </script>

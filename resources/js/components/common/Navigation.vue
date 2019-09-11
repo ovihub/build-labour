@@ -2,7 +2,9 @@
     <div class="row">
         <img class="bl-nav-logo" src="/img/BUILDLABOUR_FULLLOGO@1x.png" width="90">
 
-        <input class="bl-nav-search" id="search" type="text" name="search" v-model="keyword" @keyup="onOpenSearch" />
+        <input class="bl-nav-search bg-search" id="search" type="text" name="search" ref="nav-search" v-model="keyword"
+            @click="onClickNavSearch"
+            @keyup="onOpenSearch" />
 
         <ul class="row bl-nav-list">
             <li ref="nav-dashboard" @click="onClickDashboard">
@@ -79,6 +81,14 @@
                 vm.$refs['nav-' + tabName].style = 'opacity: 1';
             });
         },
+        mounted() {
+            if (window.location.pathname == '/job/search/all') {
+                this.$refs['nav-search'].focus();
+                this.$nextTick(() => {
+                    this.$refs['nav-search'].focus();
+                });
+            }
+        },
         methods: {
             onClickDashboard() {
                 // this.$refs['nav-dashboard'].style = 'opacity: 1';
@@ -91,10 +101,11 @@
             onClickMessages() {
                 // this.$refs['nav-messages'].style = 'opacity: 1';
             },
+            onClickNavSearch() {
+                window.location.href = '/job/search/all';
+            },
             onOpenSearch() {
-                if (this.keyword.length > 0) {
-                    window.location.href = '/job/search/all?keyword=' + this.keyword;
-                }
+                Bus.$emit('openSearchKeyword', this.keyword);
             },
         },
         components: {

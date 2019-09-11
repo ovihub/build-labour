@@ -49,7 +49,8 @@
         data() {
             return {
                 input: {
-                    search_type: 'individuals',
+                    search_type: 'jobs',
+                    search_string: '',
                     address: '',
                     education: '',
                     ticket: '',
@@ -105,12 +106,14 @@
         created() {
             let vm = this;
 
-            Bus.$on('', function() {
-
+            Bus.$on('openSearchKeyword', function(keyword) {
+                vm.input.search_string = keyword;
+                vm.onSearch('jobs');
             });
         },
         mounted() {
-
+            this.$refs['search_type_jobs'].checked = true;
+            this.onSearch('jobs');
         },
     }
 </script>

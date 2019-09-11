@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Http\Resources\PeoplesResource;
 use App\Http\Resources\JobsResource;
 use App\Models\Companies\Company;
 use App\Models\Companies\CompanyPost;
@@ -664,6 +665,7 @@ class JobRepository extends AbstractRepository
                     $query->where( 'address','like', '%'.$request->address.'%');
                 })->get();
 
+                $data = PeoplesResource::collection($data);
                 break;
             case 'companies':
 
@@ -677,7 +679,7 @@ class JobRepository extends AbstractRepository
                 })                
                 ->when($request->address, function( $query) use($request){
                     $query->where( 'address','like', '%'.$request->address.'%');
-                })->get();
+                })->with('MainFunction')->get();
 
                 break;
             case 'jobs':                

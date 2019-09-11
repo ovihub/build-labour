@@ -21,6 +21,7 @@ class AdministratorsTableSeeder extends Seeder
             'mobile_number' => '+61412345678',
             'email' => env('APP_EMAIL_SUPPORT'),
             'password' => 'secret',
+            'role_id' => 5,
             'created_at' => $date,
             'updated_at' => $date
         ]);
