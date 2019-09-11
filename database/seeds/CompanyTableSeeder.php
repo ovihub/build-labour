@@ -199,32 +199,45 @@ class CompanyTableSeeder extends Seeder
                 ]);
 
                 $items = [
-                    'Bachelor Degree in Construction or a related field'
+                    ['course_type' => 'Bachelor of science in engineering', 'qualification_level' => 'College degree']
                 ];
 
                 $jobReq->items_json = $items;
                 $jobReq->save();
 
                 $jobReq = JobRequirement::create([
-                    'title' => 'Experience ',
+                    'title' => 'Experience',
                     'job_id' => $job1->id
                 ]);
 
                 $items = [
-                    'Minimum of 10 years industry experience',
-                    'Experienced in leading teams'
+                    'min_exp' => '1 Year',
+                    'experiences'=> ['able to handle pressure', 'minimal supervision']
                 ];
 
                 $jobReq->items_json = $items;
                 $jobReq->save();
 
                 $jobReq = JobRequirement::create([
-                    'title' => 'Skills ',
+                    'title' => 'Skills',
                     'job_id' => $job1->id
                 ]);
 
                 $items = [
                     'Able to mentor and become involved in on the job training of others.'
+                ];
+
+                $jobReq->items_json = $items;
+                $jobReq->save();
+
+                $jobReq = JobRequirement::create([
+                    'title' => 'Tickets ',
+                    'job_id' => $job1->id
+                ]);
+
+                // {"id":1,"ticket":"RIIWHS202D","description":"Enter and work in confined spaces"},{"id":2,"ticket":"HLTAID001","description":"Provide cardiopulmonary resuscitation [CPR]"}
+                $items = [
+                    ['id' => 1, 'ticket' => 'RIIWHS202D', 'description' => "Enter and work in confined spaces"]
                 ];
 
                 $jobReq->items_json = $items;
