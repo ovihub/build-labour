@@ -3,37 +3,41 @@
         <div class="profile-content">
             <div class="header-label">Looking for</div>
             <div class="mt-3">
-                <input id="filter_by_0" class="styled-checkbox-round" type="checkbox"
-                    ref="filter_by_0" @change="formatCheckbox('filter_by', 0)" />
-                <label for="filter_by_0">Individuals</label>
+                <input id="search_type_individuals" class="styled-checkbox-round" type="checkbox"
+                    ref="search_type_individuals" @change="formatCheckbox('search_type', 'individuals')" />
+                <label for="search_type_individuals">Individuals</label>
                 
-                <input id="filter_by_1" class="styled-checkbox-round" type="checkbox"
-                    ref="filter_by_1" @change="formatCheckbox('filter_by', 1)" />
-                <label for="filter_by_1">Companies</label>
+                <input id="search_type_companies" class="styled-checkbox-round" type="checkbox"
+                    ref="search_type_companies" @change="formatCheckbox('search_type', 'companies')" />
+                <label for="search_type_companies">Companies</label>
 
-                <input id="filter_by_2" class="styled-checkbox-round" type="checkbox"
-                    ref="filter_by_2" @change="formatCheckbox('filter_by', 2)" />
-                <label for="filter_by_2">Jobs</label>
+                <input id="search_type_jobs" class="styled-checkbox-round" type="checkbox"
+                    ref="search_type_jobs" @change="formatCheckbox('search_type', 'jobs')" />
+                <label for="search_type_jobs">Jobs</label>
             </div>
 
             <div class="header-label mt-2">Location</div>
             <div class="emp-row mt-2">
-                <input type="text" class="form-control search-input bg-search" placeholder="Search" v-model="location" @keyup="onSearch('location')">
+                <input type="text" class="form-control search-input bg-search" placeholder="Search"
+                    v-model="input.address" @keyup="onSearch('address')">
             </div>
 
             <div class="header-label mt-4">Industries</div>
             <div class="emp-row mt-2">
-                <input type="text" class="form-control search-input bg-search" placeholder="Search" v-model="industries" @keyup="onSearch('industries')">
+                <input type="text" class="form-control search-input bg-search" placeholder="Search"
+                    v-model="input.industry" @keyup="onSearch('industry')">
             </div>
 
             <div class="header-label mt-4">Education</div>
             <div class="emp-row mt-2">
-                <input type="text" class="form-control search-input bg-search" placeholder="Search" v-model="education" @keyup="onSearch('education')">
+                <input type="text" class="form-control search-input bg-search" placeholder="Search"
+                    v-model="input.education" @keyup="onSearch('education')">
             </div>
             
             <div class="header-label mt-4">Tickets</div>
             <div class="emp-row mt-2">
-                <input type="text" class="form-control search-input bg-search" placeholder="Search" v-model="tickets" @keyup="onSearch('tickets')">
+                <input type="text" class="form-control search-input bg-search" placeholder="Search"
+                    v-model="input.ticket" @keyup="onSearch('ticket')">
             </div>
         </div>
     </div>
@@ -44,50 +48,58 @@
         name: "job-search-filters",
         data() {
             return {
-                location: '',
-                industries: '',
-                education: '',
-                tickets: '',
                 input: {
-                    filter_by: ''
+                    search_type: 'individuals',
+                    address: '',
+                    education: '',
+                    ticket: '',
+                    industry: '',
+                },
+                endpoints: {
+                    open_search: '/api/v1/open-search',
                 },
             }
         },
-        props: {
-
-        },
         methods: {
             formatCheckbox(refName, value) {
-                if (value == 2) {
-                    this.$refs[refName + '_2'].checked = true;
-                    this.$refs[refName + '_1'].checked = false;
-                    this.$refs[refName + '_0'].checked = false;
+                this.$refs[refName + '_' + value].checked = true;
 
-                } else if (value == 1) {
-                    this.$refs[refName + '_2'].checked = false;
-                    this.$refs[refName + '_1'].checked = true;
-                    this.$refs[refName + '_0'].checked = false;
+                if (value == 'individuals') {
+                    this.$refs[refName + '_companies'].checked = false;
+                    this.$refs[refName + '_jobs'].checked = false;
+
+                } else if (value == 'companies') {
+                    this.$refs[refName + '_individuals'].checked = false;
+                    this.$refs[refName + '_jobs'].checked = false;
                     
-                } else if (value == 0) {
-                    this.$refs[refName + '_2'].checked = false;
-                    this.$refs[refName + '_1'].checked = false;
-                    this.$refs[refName + '_0'].checked = true;
+                } else if (value == 'jobs') {
+                    this.$refs[refName + '_individuals'].checked = false;
+                    this.$refs[refName + '_companies'].checked = false;
                     
                 } else {
-                    this.$refs[refName + '_2'].checked = false;
-                    this.$refs[refName + '_1'].checked = false;
-                    this.$refs[refName + '_0'].checked = false;
+                    this.$refs[refName + '_individuals'].checked = false;
+                    this.$refs[refName + '_companies'].checked = false;
+                    this.$refs[refName + '_jobs'].checked = false;
                 }
 
                 this.input[refName] = value;
+                this.onSearch(value);
             },
-            onSearch(type) {
-                switch(type) {
-                    case 'location': break;
-                    case 'industries': break;
-                    case 'education': break;
-                    case 'tickets': break;
-                }
+            async onSearch(type) {
+                let vm = this;
+
+                await axios.post(this.endpoints.open_search, this.input, 
+                
+                Utils.getBearerAuth()).then(function(response) {
+                    let data = response.data.data;
+
+                    Bus.$emit('openSearch' + data.search_type.charAt(0).toUpperCase() + data.search_type.substr(1), data.search_result);
+                
+                }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
+                    
+                    if (inputErrors) vm.errors = inputErrors;
+                });
             },
         },
         created() {

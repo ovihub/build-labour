@@ -27,6 +27,7 @@
 
 <script>
     import Api from '@/api';
+    import Avatar from '../common/Avatar';
 
     export default {
         name: "company-people",
@@ -44,6 +45,10 @@
                 type: String,
                 required: false
             },
+            postType: {
+                type: String,
+                default: ''
+            },
         },
         computed: {
             endpointGet() {
@@ -53,17 +58,26 @@
         created() {
             let vm = this;
 
-            Bus.$on('showCompanyPeople', function(flag) {
-                vm.show = flag;
-                vm.getEmployees();
-                
-                Bus.$emit('hideCompanyJobs');
-                Bus.$emit('hideCompanyPosts');
-            });
+            if (this.postType == 'open_search') {
+                Bus.$on('openSearchIndividuals', function(results) {
+                    console.log(results)
+                    vm.show = true;
+                    vm.employees = results;
+                });
 
-            Bus.$on('hideCompanyPeople', function() {
-                vm.show = false;
-            });
+            } else {
+                Bus.$on('showCompanyPeople', function(flag) {
+                    vm.show = flag;
+                    vm.getEmployees();
+                    
+                    Bus.$emit('hideCompanyJobs');
+                    Bus.$emit('hideCompanyPosts');
+                });
+
+                Bus.$on('hideCompanyPeople', function() {
+                    vm.show = false;
+                });
+            }
         },
         methods: {
             getInitials(name) {
@@ -79,6 +93,9 @@
             onClickProfilePhoto(id) {
                 Api.redirectToUserProfile(id);
             },
-        }
+        },
+        components: {
+            Avatar,
+        },
     }
 </script>

@@ -9,7 +9,8 @@
         <div class="col-md-6">
             <div class="filter-header">Search Results</div>
             <div class="profile-item-2">
-                <job-posts></job-posts>
+                <!-- <job-posts post-type="open_search"></job-posts> -->
+                <company-people post-type="open_search"></company-people>
             </div>
         </div>
         <div class="col-md-3">
