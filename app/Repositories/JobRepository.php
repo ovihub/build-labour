@@ -643,6 +643,12 @@ class JobRepository extends AbstractRepository
             case 'individuals':
             
                 $data = User::where('role_id',1)
+                ->when($request->search_string, function( $query ) use($request){
+                    $query->whereHas('WorkerDetail', function($query) use($request){
+                        $query->where('most_recent_role', 'like', '%'.$request->search_string.'%');
+                        $query->orWhere('profile_description', 'like', '%'.$request->search_string.'%');
+                    });                    
+                })
                 ->when($request->education, function( $query) use($request){
                     $query->whereHas('Educations' , function( $query ) use($request){
                         $query->where('school','like','%'.$request->education.'%');
@@ -661,7 +667,10 @@ class JobRepository extends AbstractRepository
                 break;
             case 'companies':
 
-                $data = Company::when($request->industry, function( $query) use($request){
+                $data = Company::when($request->search_string, function( $query ) use($request){
+                    $query->where([['introduction', 'like', '%'.$request->search_string.'%']]);                    
+                })
+                ->when($request->industry, function( $query) use($request){
                     $query->whereHas('Specialization', function( $query ) use($request) {
                         $query->where('secondary_name', 'like', '%'.$request->industry.'%');
                     });
@@ -672,7 +681,13 @@ class JobRepository extends AbstractRepository
 
                 break;
             case 'jobs':                
-                $data = Job::when($request->ticket, function( $query) use($request){
+                $data = Job::when($request->search_string, function( $query ) use($request){
+                    $query->where([['title', 'like', '%'.$request->search_string.'%']]);
+                    $query->orWhereHas('JobRole', function($query) use($request){
+                        $query->where('job_role_name','like','%'.$request->search_string.'%');
+                    });
+                })
+                ->when($request->ticket, function( $query) use($request){
                     $query->whereHas('Requirements', function( $query ) use($request){                        
                         $query->where([['title','tickets'],['items_json','like','%'.$request->ticket.'%']]);                        
                     });
