@@ -37,5 +37,6 @@ mix.js('resources/js/jobs/list.js', 'public/js/jobs');
 mix.js('resources/js/jobs/post.js', 'public/js/jobs');
 mix.js('resources/js/jobs/view.js', 'public/js/jobs');
 mix.js('resources/js/jobs/search.js', 'public/js/jobs');
+mix.js('resources/js/jobs/search_all.js', 'public/js/jobs');
 
 mix.js('resources/js/admin/datatable.js', 'public/js/admin');

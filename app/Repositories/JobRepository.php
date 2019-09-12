@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Http\Resources\PeoplesResource;
 use App\Http\Resources\JobsResource;
 use App\Models\Companies\Company;
 use App\Models\Companies\CompanyPost;
@@ -670,6 +671,7 @@ class JobRepository extends AbstractRepository
                     
                 })->get();
 
+                $data = PeoplesResource::collection($data);
                 break;
             case 'companies':
 
@@ -687,7 +689,7 @@ class JobRepository extends AbstractRepository
                             $query->orWhere( 'address','like', '%'.$address.'%');
                         }
                     });
-                })->get();
+                })->with('MainFunction')->get();
 
                 break;
             case 'jobs':                

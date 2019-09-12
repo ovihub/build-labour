@@ -92,6 +92,10 @@
                 type: String,
                 required: false
             },
+            postType: {
+                type: String,
+                default: 'search'
+            },
         },
         computed: {
             endpointGet() {
@@ -101,26 +105,40 @@
         created() {
             let vm = this;
 
-            Bus.$on('searchJobPosts', function(keyword, location) {
-                vm.jobPosts = [];
-                vm.loading = true;
+            if (this.postType == 'open_search') {
+                Bus.$on('openSearchJobs', function(results) {
+                    vm.jobPosts = [];
+                    vm.loading = true;
 
-                setTimeout(function() {
-                    vm.getJobPosts(vm.endpoints.search + keyword + '&location=' + location);
-                    vm.loading = false;
-                }, 1000);
-            });
-            
-            if (this.companyId) {
-                this.getJobPosts(this.endpointGet);
-                
-            } else {
-                this.getJobPosts(vm.endpoints.search + '&location=');
+                    setTimeout(function() {
+                        vm.jobPosts = results;
+                        vm.loading = false;
+                    }, 1000);
+                });
             }
+            
+            if (this.postType == 'search') {
+                Bus.$on('searchJobPosts', function(keyword, location) {
+                    vm.jobPosts = [];
+                    vm.loading = true;
 
-            Promise.resolve(Api.getSavedJobPosts()).then(function(data) {
-                vm.checkedJobPosts = data.data.bookmarks;
-            });
+                    setTimeout(function() {
+                        vm.getJobPosts(vm.endpoints.search + keyword + '&location=' + location);
+                        vm.loading = false;
+                    }, 1000);
+                });
+
+                if (this.companyId) {
+                    this.getJobPosts(this.endpointGet);
+                    
+                } else {
+                    this.getJobPosts(vm.endpoints.search + '&location=');
+                }
+
+                Promise.resolve(Api.getSavedJobPosts()).then(function(data) {
+                    vm.checkedJobPosts = data.data.bookmarks;
+                });
+            }
         },
         methods: {
             getInitials(name) {

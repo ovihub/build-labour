@@ -142,7 +142,7 @@ class WorkerDetail extends BaseModel
 
     public function getLatestExperience() {
 
-        $exp = $this->user->experiences->where('isCurrent', true)->first();
+        $exp = $this->user->experiences->first();
 
         if (!$exp) {
 
