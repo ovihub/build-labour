@@ -15,9 +15,11 @@
                             v-if="company.photo_url"
                             @click="onClickProfilePhoto(company.id)">
 
-                        <avatar cls="bl-image-80" size="80" border="0" border-radius="100%"
-                            :initials="getInitials(company.name)" v-else>
-                        </avatar>
+                        <div @click="onClickProfilePhoto(company.id)" v-else>
+                            <avatar cls="bl-image-80" size="80" border="0" border-radius="100%"
+                                :initials="getInitials(company.name)">
+                            </avatar>
+                        </div>
 
                         <div class="bl-label-16 bl-ellipsis">
                             {{ company.name }}
