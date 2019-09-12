@@ -3,6 +3,9 @@
         <div class="loading" style="position: unset; text-align: center;">
             <pulse-loader :loading="loading" color="#00aeef" size="10px"></pulse-loader>
         </div>
+        <div v-show="noData && jobPosts.length == 0">
+            No data found.
+        </div>
         <ul class="list-job-items">
         <transition-group name="list-down">
             <li class="job-items" v-for="(post, index) in jobPosts" :key="index+0">
@@ -75,6 +78,7 @@
         data() {
             return {
                 loading: false,
+                noData: false,
                 jobPosts: [],
                 checkedJobPosts: [],
                 input: {
@@ -108,11 +112,13 @@
             if (this.postType == 'open_search') {
                 Bus.$on('openSearchJobs', function(results) {
                     vm.jobPosts = [];
+                    vm.noData = false;
                     vm.loading = true;
 
                     setTimeout(function() {
                         vm.jobPosts = results;
                         vm.loading = false;
+                        if (vm.jobPosts.length == 0) vm.noData = true;
                     }, 1000);
                 });
             }

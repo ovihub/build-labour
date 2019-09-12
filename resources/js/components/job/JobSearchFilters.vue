@@ -19,23 +19,38 @@
             <div class="header-label mt-2">Location</div>
             <div class="emp-row mt-2">
                 <input type="text" class="form-control search-input bg-search" placeholder="Search"
-                    v-model="input.address" @keyup="onSearch('address')">
+                    v-model="address" @keyup="onChangeLocation(address)">
+            </div>
+            <div class="emp-row" style="margin-top:0" v-if="locations && locations.length > 0">
+                <ul class="list-group">
+                    <li class="list-group-item" v-for="(place, idx) in locations" :key="idx"
+                        @click="onSelectLocation(place.place_name)">
+                        {{ place.place_name }}
+                    </li>
+                </ul>
+            </div>
+            <div class="mt-4"></div>
+            <div v-for="(address, index) in addresses" :key="index">
+                <input :id="'address-styled-checkbox-'+index" class="styled-checkbox" type="checkbox"
+                    :value="address" v-model="input.address[index]" @click="onSearch('address')" />
+
+                <label :for="'address-styled-checkbox-'+index" class="bl-ellipsis">{{ address }}</label>
             </div>
 
-            <div class="header-label mt-4">Industries</div>
-            <div class="emp-row mt-2">
+            <div class="header-label mt-4" v-show="showIndustries">Industries</div>
+            <div class="emp-row mt-2" v-show="showIndustries">
                 <input type="text" class="form-control search-input bg-search" placeholder="Search"
                     v-model="input.industry" @keyup="onSearch('industry')">
             </div>
 
-            <div class="header-label mt-4">Education</div>
-            <div class="emp-row mt-2">
+            <div class="header-label mt-4" v-show="showEducation">Education</div>
+            <div class="emp-row mt-2" v-show="showEducation">
                 <input type="text" class="form-control search-input bg-search" placeholder="Search"
                     v-model="input.education" @keyup="onSearch('education')">
             </div>
             
-            <div class="header-label mt-4">Tickets</div>
-            <div class="emp-row mt-2">
+            <div class="header-label mt-4" v-show="showTickets">Tickets</div>
+            <div class="emp-row mt-2" v-show="showTickets">
                 <input type="text" class="form-control search-input bg-search" placeholder="Search"
                     v-model="input.ticket" @keyup="onSearch('ticket')">
             </div>
@@ -44,14 +59,22 @@
 </template>
 
 <script>
+    import Api from '@/api';
+
     export default {
         name: "job-search-filters",
         data() {
             return {
+                showIndustries: true,
+                showEducation: true,
+                showTickets: true,
+                locations: [],
+                address: '',
+                addresses: [],
                 input: {
                     search_type: 'jobs',
                     search_string: '',
-                    address: '',
+                    address: [],
                     education: '',
                     ticket: '',
                     industry: '',
@@ -68,14 +91,23 @@
                 if (value == 'individuals') {
                     this.$refs[refName + '_companies'].checked = false;
                     this.$refs[refName + '_jobs'].checked = false;
+                    this.showIndustries = false;
+                    this.showEducation = true;
+                    this.showTickets = true;
 
                 } else if (value == 'companies') {
                     this.$refs[refName + '_individuals'].checked = false;
                     this.$refs[refName + '_jobs'].checked = false;
+                    this.showIndustries = true;
+                    this.showEducation = false;
+                    this.showTickets = false;
                     
                 } else if (value == 'jobs') {
                     this.$refs[refName + '_individuals'].checked = false;
                     this.$refs[refName + '_companies'].checked = false;
+                    this.showIndustries = true;
+                    this.showEducation = true;
+                    this.showTickets = true;
                     
                 } else {
                     this.$refs[refName + '_individuals'].checked = false;
@@ -85,6 +117,14 @@
 
                 this.input[refName] = value;
                 this.onSearch(value);
+            },
+            onChangeLocation(keyword) {
+                this.locations = (keyword && keyword.length > 0) ? Api.getLocations(keyword) : [];
+            },
+            onSelectLocation(location) {
+                this.addresses.push(location);
+                this.address = '';
+                this.locations = [];
             },
             async onSearch(type) {
                 let vm = this;
@@ -154,5 +194,28 @@
     .styled-checkbox-round:checked + label {
         color: #00aeef;
         font-weight: 600;
+    }
+
+    .styled-checkbox + label {
+        margin-right: 0px;
+        margin-bottom: 4px;
+        width: 100%;
+        font-size: 14px;
+    }
+    .styled-checkbox:checked + label:before {
+        background: #00aeef;
+        border: 1px solid #00aeef;
+    }
+
+    .styled-checkbox:checked + label:after {
+        top: 11px;
+        background: #fff;
+        box-shadow: 
+            2px 0 0 #fff,
+            4px 0 0 #fff,
+            4px -2px 0 #fff,
+            4px -4px 0 #fff,
+            4px -6px 0 #fff,
+            4px -8px 0 #fff;
     }
 </style>

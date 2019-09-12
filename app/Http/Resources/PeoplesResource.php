@@ -20,19 +20,17 @@ class PeoplesResource extends JsonResource
         $jobRole = '';
 
         if ($this->workerDetail) {
-
             $exp = $this->workerDetail->getLatestExperience();
         }
 
         if ($exp) {
-
             $jobRole = $exp->job_role;
         }
 
         return [
             'id' => $this->id,
             'full_name' => $this->first_name . ' ' . $this->last_name,
-            'profile_photo_url' => $profile_photo_url,
+            'profile_photo_url' => $this->profile_photo_url,
             'job_role' => $jobRole
         ];
     }

@@ -3,6 +3,9 @@
         <div class="loading" style="position: unset; text-align: center;">
             <pulse-loader :loading="loading" color="#00aeef" size="10px"></pulse-loader>
         </div>
+        <div v-show="noData && employees.length == 0">
+            No data found.
+        </div>
         <transition name="slide-fade">
         <div class="profile-item-2" v-if="show">
             <div class="row">
@@ -41,6 +44,7 @@
             return {
                 show: false,
                 loading: false,
+                noData: false,
                 employees: [],
                 endpoints: {
                     get: '/api/v1/company/',
@@ -69,11 +73,13 @@
                 Bus.$on('openSearchIndividuals', function(results) {
                     vm.show = true;
                     vm.employees = [];
+                    vm.noData = false;
                     vm.loading = true;
 
                     setTimeout(function() {
                         vm.employees = results;
                         vm.loading = false;
+                        if (vm.employees.length == 0) vm.noData = true;
                     }, 1000);
                 });
 

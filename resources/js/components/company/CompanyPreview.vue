@@ -3,6 +3,9 @@
         <div class="loading" style="position: unset; text-align: center;">
             <pulse-loader :loading="loading" color="#00aeef" size="10px"></pulse-loader>
         </div>
+        <div v-show="noData && companies.length == 0">
+            No data found.
+        </div>
         <transition name="slide-fade">
         <div class="profile-item-2">
             <div class="row">
@@ -40,6 +43,7 @@
         data() {
             return {
                 loading: false,
+                noData: false,
                 companies: [],
             }
         },
@@ -56,11 +60,13 @@
                 Bus.$on('openSearchCompanies', function(results) {
                     vm.show = true;
                     vm.companies = [];
+                    vm.noData = false;
                     vm.loading = true;
 
                     setTimeout(function() {
                         vm.companies = results;
                         vm.loading = false;
+                        if (vm.companies.length == 0) vm.noData = true;
                     }, 1000);
                 });
             }

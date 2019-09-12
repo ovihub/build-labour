@@ -102,7 +102,9 @@
                 // this.$refs['nav-messages'].style = 'opacity: 1';
             },
             onClickNavSearch() {
-                window.location.href = '/job/search/all';
+                if (window.location.pathname != '/job/search/all') {
+                    window.location.href = '/job/search/all';
+                }
             },
             onOpenSearch() {
                 Bus.$emit('openSearchKeyword', this.keyword);
