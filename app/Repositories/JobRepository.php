@@ -662,7 +662,13 @@ class JobRepository extends AbstractRepository
                     });
                 })                                
                 ->when($request->address, function( $query) use($request){
-                    $query->where( 'address','like', '%'.$request->address.'%');
+                    $query->where(function($query) use($request){
+                        foreach($request->address as $address){
+                            $query->orWhere( 'address','like', '%'.$address.'%');
+                        }
+                    });
+                    
+                    
                 })->get();
 
                 $data = PeoplesResource::collection($data);
@@ -678,7 +684,11 @@ class JobRepository extends AbstractRepository
                     });
                 })                
                 ->when($request->address, function( $query) use($request){
-                    $query->where( 'address','like', '%'.$request->address.'%');
+                    $query->where(function($query) use($request){
+                        foreach($request->address as $address){
+                            $query->orWhere( 'address','like', '%'.$address.'%');
+                        }
+                    });
                 })->with('MainFunction')->get();
 
                 break;
@@ -706,8 +716,12 @@ class JobRepository extends AbstractRepository
                         });
                     });
                 })
-                ->when($request->address, function( $query) use($request){
-                     $query->where( 'location','like', '%'.$request->address.'%');
+                ->when($request->address, function( $query) use($request){                     
+                     $query->where(function($query) use($request){
+                        foreach($request->address as $address){
+                            $query->orWhere( 'location','like', '%'.$address.'%');
+                        }
+                    });
                 })->with('company')->get();
                 break;    
             default:                
