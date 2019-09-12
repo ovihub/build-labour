@@ -31,8 +31,8 @@
             </div>
             <div class="mt-4"></div>
             <div v-for="(address, index) in addresses" :key="index">
-                <input :id="'address-styled-checkbox-'+index" class="styled-checkbox" type="checkbox"
-                    :value="address" v-model="input.address[index]" @click="onSearch('address')" />
+                <input :id="'address-styled-checkbox-'+index" :ref="'address-'+index" class="styled-checkbox" type="checkbox"
+                    :value="address" @click="onSearch('address')" />
 
                 <label :for="'address-styled-checkbox-'+index" class="bl-ellipsis">{{ address }}</label>
             </div>
@@ -128,6 +128,13 @@
             },
             async onSearch(type) {
                 let vm = this;
+
+                this.input.address = [];
+                for (let i = 0; i < this.addresses.length; i++) {
+                    if (this.$refs['address-'+i][0].checked == true) {
+                        this.input.address.push(this.addresses[i]);
+                    }
+                }
 
                 await axios.post(this.endpoints.open_search, this.input, 
                 
