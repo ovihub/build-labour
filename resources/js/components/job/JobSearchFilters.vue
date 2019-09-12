@@ -19,7 +19,7 @@
             <div class="header-label mt-2">Location</div>
             <div class="emp-row mt-2">
                 <input type="text" class="form-control search-input bg-search" placeholder="Search"
-                    v-model="address" @keyup="onChangeLocation(address)">
+                    ref="loc-search" v-model="address" @keyup="onChangeLocation(address)">
             </div>
             <div class="emp-row" style="margin-top:0" v-if="locations && locations.length > 0">
                 <ul class="list-group">
@@ -125,6 +125,10 @@
                 this.addresses.push(location.replace(', Australia', ''));
                 this.address = '';
                 this.locations = [];
+                this.$refs['loc-search'].focus();
+                this.$nextTick(() => {
+                    this.$refs['loc-search'].focus();
+                });
             },
             async onSearch(type) {
                 let vm = this;
