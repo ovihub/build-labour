@@ -272,6 +272,16 @@ a.button {
 }
 .list-group {
   min-width: 100%;
+  font-size: 14px;
+}
+.list-group-item {
+  padding: 10px;
+
+  &:hover {
+    cursor: pointer;
+    color: #fff;
+    background-color: $brand;
+  }
 }
 .form-control:disabled, .form-control[readonly] {
   background-color: rgb(0, 0, 0, 0.03);

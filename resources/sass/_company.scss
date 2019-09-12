@@ -207,12 +207,17 @@
         border-radius: 0.25rem;
 
         p {
-            min-height: 56px;
-            width: 488px;
-            padding: 16px;
-            font-size: 1rem;
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.125);
             margin-bottom: 0px;
+
+            &:hover {
+                cursor: pointer;
+                color: #fff;
+                background-color: $brand;
+            }
         }
     }
 }
