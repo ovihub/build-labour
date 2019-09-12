@@ -49,9 +49,10 @@ class ApiGeneralController extends ApiBaseController
     public function searchLocation( Request $request ) {
 
         $keyword = trim($request->keyword);
+        $types = $request->types;
         $curl_handle=curl_init();
 
-        curl_setopt($curl_handle,CURLOPT_URL,"https://api.mapbox.com/geocoding/v5/mapbox.places/{$keyword}.json?country=au&access_token=" . env('MAPBOX_KEY'));
+        curl_setopt($curl_handle,CURLOPT_URL,"https://api.mapbox.com/geocoding/v5/mapbox.places/{$keyword}.json?country=au&types={$types}&access_token=" . env('MAPBOX_KEY'));
 
         curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
         curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);

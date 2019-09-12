@@ -119,10 +119,10 @@
                 this.onSearch(value);
             },
             onChangeLocation(keyword) {
-                this.locations = (keyword && keyword.length > 0) ? Api.getLocations(keyword) : [];
+                this.locations = (keyword && keyword.length > 0) ? Api.getLocations(keyword, 'locality') : [];
             },
             onSelectLocation(location) {
-                this.addresses.push(location);
+                this.addresses.push(location.replace(', Australia', ''));
                 this.address = '';
                 this.locations = [];
             },
