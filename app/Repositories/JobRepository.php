@@ -681,12 +681,15 @@ class JobRepository extends AbstractRepository
                         ->orWhere([['introduction', 'like', '%'.$request->search_string.'%']]);
                 })
                 ->when($request->industry, function( $query) use($request){
-                    $query->whereHas('MainFunction', function( $query ) use($request) {
-                        $query->where('main_name', 'like', '%'.$request->industry.'%');
+                    $query->where(function($query) use($request){
+                        $query->whereHas('MainFunction', function( $query ) use($request) {
+                            $query->where('main_name', 'like', '%'.$request->industry.'%');
+                        });
+                        $query->orWhereHas('Specialization', function( $query ) use($request) {
+                            $query->where('secondary_name', 'like', '%'.$request->industry.'%');
+                        });
                     });
-                    $query->orWhereHas('Specialization', function( $query ) use($request) {
-                        $query->where('secondary_name', 'like', '%'.$request->industry.'%');
-                    });
+                    
                 })                
                 ->when($request->address, function( $query) use($request){
                     $query->where(function($query) use($request){
