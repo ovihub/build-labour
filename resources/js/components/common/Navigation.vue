@@ -103,7 +103,7 @@
             },
             onClickNavSearch() {
                 if (window.location.pathname != '/job/search/all') {
-                    window.location.href = '/job/search/all';
+                    window.location.href = '/job/search/all?type=jobs';
                 }
             },
             onOpenSearch() {

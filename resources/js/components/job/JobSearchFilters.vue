@@ -85,7 +85,7 @@
             }
         },
         methods: {
-            formatCheckbox(refName, value) {
+            formatCheckbox(refName, value, flag = true) {
                 this.$refs[refName + '_' + value].checked = true;
 
                 if (value == 'individuals') {
@@ -113,6 +113,10 @@
                     this.$refs[refName + '_individuals'].checked = false;
                     this.$refs[refName + '_companies'].checked = false;
                     this.$refs[refName + '_jobs'].checked = false;
+                }
+
+                if (flag) {
+                    window.history.pushState({ urlPath: '/job/search/all?type=' + value }, '', '/job/search/all?type=' + value);
                 }
 
                 this.input[refName] = value;
@@ -159,12 +163,15 @@
 
             Bus.$on('openSearchKeyword', function(keyword) {
                 vm.input.search_string = keyword;
-                vm.onSearch('jobs');
+                vm.formatCheckbox('search_type', Utils.getUrlParams().type);
             });
+
+            window.onpopstate = function(e) {
+                vm.formatCheckbox('search_type', Utils.getUrlParams().type, false);
+            };
         },
         mounted() {
-            this.$refs['search_type_jobs'].checked = true;
-            this.onSearch('jobs');
+            this.formatCheckbox('search_type', Utils.getUrlParams().type, false);
         },
     }
 </script>
