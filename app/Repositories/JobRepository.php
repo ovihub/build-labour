@@ -646,7 +646,8 @@ class JobRepository extends AbstractRepository
                 $data = User::where('role_id',1)
                 ->when($request->search_string, function( $query ) use($request){
                     $query->whereHas('WorkerDetail', function($query) use($request){
-                        $query->where('most_recent_role', 'like', '%'.$request->search_string.'%');
+                        $query->where('first_name','like', '%'.$request->search_string.'%');
+                        $query->orWhere('most_recent_role', 'like', '%'.$request->search_string.'%');
                         $query->orWhere('profile_description', 'like', '%'.$request->search_string.'%');
                     });                    
                 })
@@ -676,10 +677,14 @@ class JobRepository extends AbstractRepository
             case 'companies':
 
                 $data = Company::when($request->search_string, function( $query ) use($request){
-                    $query->where([['introduction', 'like', '%'.$request->search_string.'%']]);                    
+                    $query->where([['name', 'like', '%'.$request->search_string.'%']])
+                        ->orWhere([['introduction', 'like', '%'.$request->search_string.'%']]);
                 })
                 ->when($request->industry, function( $query) use($request){
-                    $query->whereHas('Specialization', function( $query ) use($request) {
+                    $query->whereHas('MainFunction', function( $query ) use($request) {
+                        $query->where('main_name', 'like', '%'.$request->industry.'%');
+                    });
+                    $query->orWhereHas('Specialization', function( $query ) use($request) {
                         $query->where('secondary_name', 'like', '%'.$request->industry.'%');
                     });
                 })                
@@ -710,8 +715,11 @@ class JobRepository extends AbstractRepository
                     });
                 })                
                 ->when($request->industry, function( $query) use($request){
-                    $query->whereHas('Company', function( $query ) use($request){                        
-                        $query->whereHas('Specialization', function($query) use($request){
+                    $query->whereHas('Company', function( $query ) use($request){
+                        $query->whereHas('MainFunction', function( $query ) use($request) {
+                            $query->where('main_name', 'like', '%'.$request->industry.'%');
+                        });
+                        $query->orWhereHas('Specialization', function($query) use($request){
                             $query->where('secondary_name','like', '%'.$request->industry.'%');
                         });
                     });
