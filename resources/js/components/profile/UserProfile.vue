@@ -87,11 +87,14 @@
                             <div class="role-col-left">
                                 <input class="form-control" type="text" placeholder="Years" v-model="input.exp_year"
                                     @focus="hasFocus()" />
+                                <span class="err-msg" v-if="errors.exp_year">{{ errors.exp_year }}</span>
                             </div>
 
                             <div class="role-col-right">
                                 <input class="form-control" type="text" placeholder="Months" v-model="input.exp_month"
                                     @focus="hasFocus()" />
+                                <span class="err-msg" v-if="errors.exp_month">{{ errors.exp_month }}</span>
+
                             </div>
                         </div>
 
