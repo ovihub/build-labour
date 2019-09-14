@@ -446,6 +446,26 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: -3px;
   margin-left: 30px;
 }
+.bl-nav-search-2 {
+  display: none;
+  outline: none;
+  width: 88%;
+  height: 32px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  position: relative;
+  top: -20px;
+  box-shadow: 0;
+  border: 0;
+  padding: 7px 8px;
+  padding-left: 35px;
+  font-size: 14px;
+  background-image: url(/img/icons/search.png);
+  background-image: -webkit-image-set( url('/img/icons/search@2x.png') 2x, url('/img/icons/search@3x.png') 3x );
+  background-position: 8px 7px;
+  background-repeat: no-repeat;
+  margin-left: 25px;
+}
 .bl-nav-search {
   outline: none;
   width: 282px;

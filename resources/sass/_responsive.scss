@@ -143,8 +143,17 @@
   }
 }
 @media (max-width: 600px) {
+  div .content-section div .container {
+    margin-top: 120px;
+  }
+  div .main-nav {
+    height: 104px;
+  }
   .row .bl-nav-search {
     display: none;
+  }
+  .row .bl-nav-search-2 {
+    display: block;
   }
   .row .bl-nav-tab-search {
     display: flex;
