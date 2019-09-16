@@ -9,8 +9,8 @@
         <ul class="list-job-items">
         <transition-group name="list-down">
             <li class="job-items" v-for="(post, index) in jobPosts" :key="index+0">
-                <div class="profile-content">
-                    <div class="save-icon">
+                <div class="profile-content" style="padding-bottom: 10px;">
+                    <!-- <div class="save-icon">
                         <div class="star-cont">
                             <input class="star" type="checkbox" title="Bookmark Job" :ref="'savedJobPost-' + post.id"
                                 :value="post.id" v-model="checkedJobPosts" @click="save(post)" />
@@ -19,7 +19,7 @@
                         <div class="bl-label-14-style-2 bl-mt12">
                             Save
                         </div>
-                    </div>
+                    </div> -->
             
                     <div class="jobads-row">
                         <div class="bl-col-1">
@@ -53,6 +53,29 @@
                         </div>
                         <div class="bl-label-15 bl-mt16">
                             {{ post.description }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-2 col-sm-2">
+                            <div class="applicant-no">27</div>
+                            <div class="applicant-label">Total</div>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <div class="applicant-no">2</div>
+                            <div class="applicant-label">New</div>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <div class="applicant-no">4</div>
+                            <div class="applicant-label">Invited</div>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <div class="applicant-no">3</div>
+                            <div class="applicant-label bl-ellipsis">Favourited</div>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <div class="applicant-no ns-no">18</div>
+                            <div class="applicant-label ns-label">Not<br />Suitable</div>
                         </div>
                     </div>
 
@@ -134,16 +157,11 @@
                     }, 1000);
                 });
 
-                if (this.companyId) {
-                    this.getJobPosts(this.endpointGet);
-                    
-                } else {
-                    this.getJobPosts(vm.endpoints.search + '&location=');
-                }
-
-                Promise.resolve(Api.getSavedJobPosts()).then(function(data) {
-                    vm.checkedJobPosts = data.data.bookmarks;
+                Bus.$on('getCompanyJobs', function(status) {
+                    vm.getJobPosts(vm.endpoints.search + '&status=' + status);
                 });
+
+                this.getJobPosts(vm.endpoints.search + '&status=active');
             }
         },
         methods: {
@@ -187,3 +205,26 @@
         },
     }
 </script>
+
+<style scoped>
+    .applicant-no {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        color: #005778;
+    }
+    .applicant-label {
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.33;
+        text-align: center;
+        color: #383d3f;
+    }
+    .ns-no {
+        color: #a2b2b7;
+        margin-top: -6px;
+    }
+    .ns-label {
+        font-size: 13px;
+    }
+</style>
