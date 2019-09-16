@@ -193,11 +193,12 @@
         will-change: transform;
         transform: translate(var(--x, 0%), var(--y, 0%));
         transition: transform 300ms ease-out;
-        overflow: auto;
-        height: 440px;
+        height: 380px;
 
         &.current {
             visibility: visible;
+            height: auto;
+            min-height: 380px;
         }
     }
 
