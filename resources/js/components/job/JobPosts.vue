@@ -58,23 +58,23 @@
 
                     <div class="row mt-3">
                         <div class="col-md-2 col-sm-2">
-                            <div class="applicant-no">27</div>
+                            <div class="applicant-no">{{ post.stat_total }}</div>
                             <div class="applicant-label">Total</div>
                         </div>
                         <div class="col-md-2 col-sm-2">
-                            <div class="applicant-no">2</div>
+                            <div class="applicant-no">{{ post.stat_new }}</div>
                             <div class="applicant-label">New</div>
                         </div>
                         <div class="col-md-2 col-sm-2">
-                            <div class="applicant-no">4</div>
+                            <div class="applicant-no">{{ post.stat_invited }}</div>
                             <div class="applicant-label">Invited</div>
                         </div>
                         <div class="col-md-2 col-sm-2">
-                            <div class="applicant-no">3</div>
+                            <div class="applicant-no">{{ post.stat_favourite }}</div>
                             <div class="applicant-label bl-ellipsis">Favourited</div>
                         </div>
                         <div class="col-md-2 col-sm-2">
-                            <div class="applicant-no ns-no">18</div>
+                            <div class="applicant-no ns-no">{{ post.stat_not_suitable }}</div>
                             <div class="applicant-label ns-label">Not<br />Suitable</div>
                         </div>
                     </div>
