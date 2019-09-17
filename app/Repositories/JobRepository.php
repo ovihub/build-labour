@@ -117,8 +117,24 @@ class JobRepository extends AbstractRepository
         $order = $request->get('order') ? $request->get('order') : 'desc';
         $per_page = $request->get('per_page') ? $request->get('per_page') : 10;
 
+        // $noOfNew = JobApplicant::where('job_id',  $request->id)->whereBetween('applied_at', [$last3Days, $today])->count();
+
+        $statViewedQuery = "(SELECT COUNT(*) FROM job_post_stats WHERE job_post_stats.job_id = job_posts.id AND job_post_stats.category = 'viewed')";
+        $statInvitedQuery = "(SELECT COUNT(*) FROM job_post_stats WHERE job_post_stats.job_id = job_posts.id AND job_post_stats.category = 'invited')";
+        $statFavouriteQuery = "(SELECT COUNT(*) FROM job_post_stats WHERE job_post_stats.job_id = job_posts.id AND job_post_stats.category = 'favourite')";
+        $statNewQuery = "(SELECT COUNT(*) FROM job_post_applicants WHERE job_post_applicants.job_id = job_posts.id)";
+        $statNotSuitableQuery = "(SELECT COUNT(*) FROM job_post_stats WHERE job_post_stats.job_id = job_posts.id AND job_post_stats.category = 'not_suitable')";
+
         $jobs = Job::with('company');
-        $jobs = $jobs->select('job_posts.*');
+        $jobs = $jobs->select(
+            'job_posts.*',
+            \DB::raw("{$statViewedQuery} as stat_viewed"),
+            \DB::raw("{$statInvitedQuery} as stat_invited"),
+            \DB::raw("{$statFavouriteQuery} as stat_favourite"),
+            \DB::raw("{$statNewQuery} as stat_new"),
+            \DB::raw("{$statNotSuitableQuery} as stat_not_suitable"),
+            \DB::raw("({$statViewedQuery} + {$statInvitedQuery} + {$statFavouriteQuery} + {$statNewQuery}) as stat_total")
+        );
 
         $jobs = $jobs->leftjoin('job_roles as job_role', 'job_role.id', '=', 'job_posts.job_role_id');
 
