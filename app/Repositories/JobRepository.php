@@ -701,7 +701,8 @@ class JobRepository extends AbstractRepository
 
                 break;
             case 'jobs':                
-                $data = Job::when($request->search_string, function( $query ) use($request){
+                $data = Job::where([['status','=',true],['is_template','=',false]])
+                ->when($request->search_string, function( $query ) use($request){
                     $query->where([['title', 'like', '%'.$request->search_string.'%']]);
                     $query->orWhereHas('JobRole', function($query) use($request){
                         $query->where('job_role_name','like','%'.$request->search_string.'%');
