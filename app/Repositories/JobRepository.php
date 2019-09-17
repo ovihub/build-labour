@@ -677,8 +677,10 @@ class JobRepository extends AbstractRepository
             case 'companies':
 
                 $data = Company::when($request->search_string, function( $query ) use($request){
-                    $query->where([['name', 'like', '%'.$request->search_string.'%']])
-                        ->orWhere([['introduction', 'like', '%'.$request->search_string.'%']]);
+                    $query->where(function($query) use($request){
+                        $query->where([['name', 'like', '%'.$request->search_string.'%']])
+                            ->orWhere([['introduction', 'like', '%'.$request->search_string.'%']]);
+                    });
                 })
                 ->when($request->industry, function( $query) use($request){
                     $query->where(function($query) use($request){
@@ -689,7 +691,6 @@ class JobRepository extends AbstractRepository
                             $query->where('secondary_name', 'like', '%'.$request->industry.'%');
                         });
                     });
-                    
                 })                
                 ->when($request->address, function( $query) use($request){
                     $query->where(function($query) use($request){

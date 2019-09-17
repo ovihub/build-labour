@@ -60,7 +60,9 @@ class WorkerDetail extends BaseModel
         if ($this->isIntroductionUpdate) {
 
             return [
-                'education_id' => 'nullable|integer'
+                'education_id' => 'nullable|integer',
+                'exp_year' => 'nullable|integer|between:1,100',
+                'exp_month' => 'nullable|integer|between:1,12'
             ];
         }
 
@@ -72,7 +74,7 @@ class WorkerDetail extends BaseModel
             'introduction'  => 'nullable',
             'profile_description' => 'nullable|min:10',
             'when' => 'nullable|integer',
-            'max_distance' => 'nullable|integer'
+            'max_distance' => 'nullable|integer',
         ];
     }
 

@@ -3,8 +3,7 @@
         <img class="bl-nav-logo" src="/img/BUILDLABOUR_FULLLOGO@1x.png" width="90">
 
         <input class="bl-nav-search bg-search" id="search" type="text" name="search" ref="nav-search" v-model="keyword"
-            @click="onClickNavSearch"
-            @keyup="onOpenSearch" />
+            @click="onClickNavSearch" @keyup="onOpenSearch" />
 
         <ul class="row bl-nav-list">
             <li ref="nav-dashboard" @click="onClickDashboard">
@@ -16,7 +15,6 @@
                         </g>
                     </svg>
                 </div>
-
                 <p class="bl-nav-tab-label">Dashboard</p>
             </li>
 
@@ -41,7 +39,6 @@
                         </g>
                     </svg>
                 </div>
-
                 <p class="bl-nav-tab-label">Messages</p>
             </li>
         </ul>
@@ -57,10 +54,12 @@
                     </g>
                 </svg>
             </div>
-                
             <!-- <img class="bl-nav-tab-search" src="/img/icons/search.png"
                 srcset="/img/icons/search@2x.png 2x, /img/icons/search@3x.png 3x"> -->
         </div>
+        
+        <input class="bl-nav-search-2 bg-search" id="search" type="text" name="search" ref="nav-search" v-model="keyword"
+            @click="onClickNavSearch" @keyup="onOpenSearch" />
     </div>
 </template>
 

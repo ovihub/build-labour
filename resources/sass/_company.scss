@@ -34,7 +34,7 @@
     }
 }
 .job-action {
-    margin: 24px 0;
+    margin: 32px 0;
     font-size: 14px;
     color: #6b7172;
 }
@@ -44,7 +44,7 @@
 .job-sort {
     position: absolute;
     right: 0;
-    top: -2px;
+    top: 8px;
 }
 .job-recent {
     border-radius: 14.5px;
@@ -193,11 +193,12 @@
         will-change: transform;
         transform: translate(var(--x, 0%), var(--y, 0%));
         transition: transform 300ms ease-out;
-        overflow: auto;
-        height: 440px;
+        height: 380px;
 
         &.current {
             visibility: visible;
+            height: auto;
+            min-height: 380px;
         }
     }
 

@@ -84,6 +84,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             Route::get('skill-options', 'ApiWorkerController@skillOptions');
 
             Route::get('view/{userid}', 'ApiWorkerController@getWorker');
+
         });
     });
 
@@ -212,7 +213,8 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 
     Route::prefix('open-search')->group(function () {
         Route::middleware([ 'jwt' ])->group(function () {
-            route::post('/', 'ApiJobsController@openSearch');
+            Route::post('/', 'ApiJobsController@openSearch'); // filter jobs
+            Route::get('/', 'ApiGeneralController@search'); // search for a worker or other
         });
     });
 });
