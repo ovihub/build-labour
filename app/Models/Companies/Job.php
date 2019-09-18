@@ -5,6 +5,7 @@ namespace App\Models\Companies;
 use App\Models\BaseModel;
 use App\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Job extends BaseModel
 {
@@ -41,6 +42,12 @@ class Job extends BaseModel
         'reports_to_str',
         'job_role_name',
         'created_at_formatted',
+        'stat_favourite',
+        'stat_invited',
+        'stat_new',
+        'stat_not_suitable',
+        'stat_total',
+        'stat_viewed'
     ];
 
     /**
@@ -228,5 +235,37 @@ class Job extends BaseModel
                 'Tickets',
                 'Skills'
             ]);
+    }
+
+    public function JobStats(){
+        return $this->hasMany(JobStat::class, 'job_id', 'id');
+    }
+
+    public function getStatFavouriteAttribute(){
+        return $this->JobStats->where('category','favourite')->count();
+    }
+
+    public function getStatInvitedAttribute(){
+        return $this->JobStats->where('category','invited')->count();
+    }
+
+    public function getStatNewAttribute(){
+        $last3Days = Carbon::now()->subDays(3);
+        $today = Carbon::now();        
+        return $this->JobApplicants->whereBetween('applied_at', [$last3Days, $today])->count();
+    }
+
+    public function getStatNotSuitableAttribute(){
+        return $this->JobStats->where('category','not_suitable')->count();
+    }
+
+    public function getStatTotalAttribute(){
+       $total = $this->stat_invited + $this->stat_not_suitable + $this->stat_favourite;
+
+        return $total;
+    }
+
+    public function getStatViewedAttribute(){
+        return $this->JobStats->where('category','favourite')->count();
     }
 }
