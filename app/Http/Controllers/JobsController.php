@@ -13,10 +13,17 @@ class JobsController extends Controller
     {
         try {
             $user = $this->getAuthFromToken();
-
+            if($user->isAdmin){
+                $role = 'Company';
+            }
+            else{
+                $role = $user->role->name;
+            }
+            
+            
             if ($user) {
                 if (isset($request->cid) && isset($request->jid)) {
-                    return view('jobs.view');
+                    return view('jobs.view')->with( compact( 'role' ) );
                 }
                 return view('errors.404');
             }

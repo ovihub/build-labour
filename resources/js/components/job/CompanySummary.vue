@@ -27,20 +27,29 @@
             </div>
         
         </div>
+        
+        <button style="width: 100%;" v-if="user_role === 'Worker' && show" @click="apply">
+            {{buttonText }}
 
-        <button style="width: 100%;" v-if="show">
-            Apply
+            <div class="loading" style="position: unset; text-align: center;">
+                <pulse-loader :loading="loading" color="#fff" size="10px"></pulse-loader>
+            </div>
         </button>
+        <alert></alert>
+        
     </div>
 </template>
 
 <script>
     import Avatar from '../common/Avatar';
+    import Alert from '../common/Alert';
+    import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
     
     export default {
         name: "company-summary",
         data() {
             return {
+                loading: false,
                 show: true,
                 disabled: false,
                 id: '',
@@ -48,6 +57,18 @@
                 name: '',
                 address: '',
                 introduction: '',
+                job_id: '',
+                endpoints: {
+                    apply: '/api/v1/job/',
+                },
+                buttonText: '',
+                user_role: '',
+            }
+        },
+        props: {
+            role:{
+                type:String,
+                required:true
             }
         },
         created() {
@@ -66,12 +87,67 @@
                     vm.show = false;
                 }
             });
+
+            Bus.$on('jobDetails', function(details) {
+                if (details) {
+                    vm.job_id = details.id;                    
+                }                 
+            });
+
+            this.buttonText = vm.loading ? '' : 'Apply';
+            vm.user_role = vm.role;
+            console.log(vm.user_role);
+
+            
         },
         methods: {
+            async apply(){
+                let vm = this;
+                vm.loading = true;
+                vm.buttonText = '';
+                Utils.setObjectValues(this.errors, '');
 
+                await axios.get(vm.endpoints.apply+vm.job_id+'/apply', Utils.getBearerAuth())
+                .then(function(response) {
+                    if(response.data.success){console.log(response.data.message);
+                        Bus.$emit('alertSuccess', response.data.message);
+                    }
+                    else{
+                        Bus.$emit('alertError', response.data.message);
+                    }
+                    
+                    vm.loading = false;
+                    vm.buttonText = 'Apply';
+                }).catch(function(error) {
+                    Bus.$emit('alertError', error.response.data.message);
+                    vm.loading = false;
+                    vm.buttonText = 'Apply';
+                    
+                });
+            }
         },
         components: {
-            Avatar,
+            Avatar,Alert,PulseLoader,
         },
     }
 </script>
+
+<style Scoped>
+	.alert-close {
+		margin-top: 6px !important;
+		margin-right: -20px !important;
+
+	}
+	.alert-icon {
+		width: 20px;
+		margin-left: 0!important;
+		margin-right: 0 !important;
+	}
+
+    .alert-main{
+        margin-top: 30px !important;
+    }
+    #app>.alert-main{
+        display:none !important;
+    }
+</style>
