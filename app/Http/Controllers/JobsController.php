@@ -13,7 +13,7 @@ class JobsController extends Controller
     {
         try {
             $user = $this->getAuthFromToken();
-            if($user->isAdmin){
+            if($user->isAdmin()){
                 $role = 'Company';
             }
             else{
