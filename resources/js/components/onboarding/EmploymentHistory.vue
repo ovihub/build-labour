@@ -1,5 +1,6 @@
 <template>
     <form class="modal-form" method="POST" @submit.prevent="submit">
+        
         <div class="bl-label-16-style-2">
             Enter any previous experience you have had in construction related roles:
         </div>
@@ -15,7 +16,8 @@
         </div>
 
         <div class="skill-label">
-            In the following Tiers
+            In the following Tiers <img src="/img/icons/info.png" srcset="/img/icons/info@2x.png 2x, /img/icons/info@3x.png 3x" class="info" data-target="#modalTier" data-toggle="modal" data-backdrop="static"
+                data-keyboard="false">
         </div>
         <div class="bl-inline" v-for="(tier, index) in tiers" :key="index + sectors.length">
             <input :id="'tier-styled-checkbox-'+index" class="styled-checkbox" type="checkbox"
@@ -46,14 +48,13 @@
             Add new position
         </div> -->
         
-        <employment-list></employment-list>
-
+        <employment-list></employment-list>        
     </form>
 </template>
 
 <script>
     import Api from '@/api';
-    import EmploymentList from '../profile/EmploymentList';
+    import EmploymentList from '../profile/EmploymentList';        
 
     export default {
         name: "employment-history",
@@ -90,14 +91,17 @@
             action(index) {
                 Bus.$emit('showEmployment', index, null);
             },
+            open(){
+
+            }
         },
         components: {
-            EmploymentList,
+            EmploymentList
         },
     }
 </script>
 
-<style scoped>
+<style Scoped>
     hr {
         border-top: 1px solid #f9f9f9;
     }
@@ -106,5 +110,13 @@
         background-image: none;
         background-color: #005778;
         margin-top: 0;
+    }
+    .info {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+    }
+    .info:hover{
+        cursor: pointer;
     }
 </style>
