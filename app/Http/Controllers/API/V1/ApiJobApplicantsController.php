@@ -167,8 +167,8 @@ class ApiJobApplicantsController extends ApiBaseController
 //                ->whereRaw('we.id IN (select MAX(a2.id) from answers as a2 join users as u2 on u2.id = a2.user_id group by u2.id) LIMIT 1');
 //        });
         $applicants = $applicants->leftJoin('work_experience', function($query) {
-            $query->on('u.id','=','work_experience.user_id')
-                ->whereRaw('work_experience.id IN (select MAX(a2.id) from work_experience as a2 join users as u2 on u2.id = a2.user_id group by u2.id)');
+            $query->on('u.id','=','work_experience.user_id');
+              //  ->whereRaw('work_experience.id IN (select MAX(a2.id) from work_experience as a2 join users as u2 on u2.id = a2.user_id group by u2.id)');
         });
       //  $applicants = $applicants->leftJoin(DB::raw("work_experience we on u.id = we.user_id"));
         if (!empty(trim($request->keyword))) {
@@ -199,7 +199,17 @@ class ApiJobApplicantsController extends ApiBaseController
                 'experiences' => $applicant->user->experiences,
                 'educations' =>  $applicant->user->educations,
                 'tickets' => $applicant->user->tickets,
-                'skills' => $applicant->user->skills
+                'skills' => $applicant->user->skills,
+                'latest_exp' => $applicant->user->workerDetail->getLatestExperience(),
+                'profile_description' => $applicant->profile_description,
+                'sectors' => $applicant->user->workerDetail->sectors,
+                'tiers' => $applicant->user->workerDetail->tiers,
+                'english_skill' => $applicant->user->workerDetail->english_skill,
+                'drivers_license' => $applicant->user->workerDetail->drivers_license,
+                'right_to_work' => $applicant->user->workerDetail->right_to_work,
+                'ideal_next_role' => $applicant->user->workerDetail->introduction,
+                'max_distance' => $applicant->user->workerDetail->max_distance,
+                'states' => $applicant->user->workerDetail->state
             ]);
         });
 

@@ -132,9 +132,13 @@
         }
     }
 
+    .compare-actions-wrapper {
+
+        width: 100%;
+    }
+
     .compare-wrapper {
         display: contents;
-        width: 100%;
 
         .item {
             border-bottom: 1px solid rgba(156, 173, 189, 0.16);
@@ -143,6 +147,10 @@
 
         .list-main-items {
             padding: 0 !important;
+
+            .main-items:last-child {
+                border-bottom: none;
+            }
         }
 
         .main-items {
@@ -150,6 +158,36 @@
             .responsibilities {
                 margin-left: 6px;
             }
+
+        }
+
+        .educations {
+            .education-item:last-child {
+                margin-bottom: 20px;
+            }
+        }
+
+        .tickets {
+
+            ul {
+                list-style: none;
+                padding: 0;
+            }
+
+        }
+
+        .skills {
+            ul {
+                list-style: none;
+                padding: 0;
+            }
+        }
+
+        .next-role {
+              ul {
+                  list-style: none;
+                  padding: 0;
+              }
         }
     }
 }
