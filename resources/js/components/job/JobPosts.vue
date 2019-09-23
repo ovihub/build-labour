@@ -80,7 +80,7 @@
                     </div>
 
                     <div class="profile-more mt-2">
-                        <a :href="'/job/view/?cid=' + post.company_id + '&jid=' + post.id">
+                        <a :href="'/job/applicants/?cid=' + post.company_id + '&jid=' + post.id">
                             View Details<i class="fa fa-angle-right ml-2"></i>
                         </a>
                     </div>
@@ -205,26 +205,3 @@
         },
     }
 </script>
-
-<style scoped>
-    .applicant-no {
-        font-size: 16px;
-        font-weight: bold;
-        text-align: center;
-        color: #005778;
-    }
-    .applicant-label {
-        font-size: 15px;
-        font-weight: 500;
-        line-height: 1.33;
-        text-align: center;
-        color: #383d3f;
-    }
-    .ns-no {
-        color: #a2b2b7;
-        margin-top: -6px;
-    }
-    .ns-label {
-        font-size: 13px;
-    }
-</style>

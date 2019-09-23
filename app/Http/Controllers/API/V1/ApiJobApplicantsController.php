@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Models\Companies\Company;
 use App\Models\Companies\Job;
 use App\Models\Companies\JobApplicant;
 use App\Models\Companies\JobStat;
 use App\User;
+
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use JWTAuth;
@@ -145,9 +147,71 @@ class ApiJobApplicantsController extends ApiBaseController
      */
     public function applicants(Request $request) {
 
-        $job = Job::find($request->id);
+        $applicants = JobApplicant::query();
 
-        $applicants = $job->JobApplicants;
+        $applicants = $applicants->select(
+            'job_post_applicants.*',
+            "w.profile_description",
+            "u.*",
+            "work_experience.job_role",
+            "work_experience.company_id",
+            "work_experience.company_name",
+            \DB::raw("CONCAT(first_name, ' ', last_name) AS full_name")
+        );
+
+        $applicants = $applicants->with('User');
+        $applicants = $applicants->join('users as u', 'u.id', '=', 'job_post_applicants.user_id');
+        $applicants = $applicants->join('worker_details as w', 'u.id', '=', 'job_post_applicants.user_id');
+//        $applicants = $applicants->leftJoin("work_experience as we", 'u.id', '=', 'job_post_applicants.user_id' ,function($query) {
+//            $query->on('u.id','=','we.user_id')
+//                ->whereRaw('we.id IN (select MAX(a2.id) from answers as a2 join users as u2 on u2.id = a2.user_id group by u2.id) LIMIT 1');
+//        });
+        $applicants = $applicants->leftJoin('work_experience', function($query) {
+            $query->on('u.id','=','work_experience.user_id');
+              //  ->whereRaw('work_experience.id IN (select MAX(a2.id) from work_experience as a2 join users as u2 on u2.id = a2.user_id group by u2.id)');
+        });
+      //  $applicants = $applicants->leftJoin(DB::raw("work_experience we on u.id = we.user_id"));
+        if (!empty(trim($request->keyword))) {
+
+            $applicants = $applicants->where('first_name', 'like', "%{$request->keyword}%")
+                            ->orWhere('last_name', 'like', "%{$request->keyword}%");
+        }
+
+        $applicants = $applicants->where('job_id', $request->id)->get();
+
+        $applicants = $applicants->map(function ($applicant){
+
+            $companyName = $applicant->company_name;
+
+            if ($applicant->company_id && $company = Company::find($applicant->company_id)) {
+
+                $companyName = $company->name;
+            }
+
+            return collect([
+                'id' => $applicant->id,
+                'company_id' => $applicant->company_id,
+                'user_id' => $applicant->user_id,
+                'full_name' => $applicant->full_name,
+                'job_role' => $applicant->job_role,
+                'company_name' => $companyName,
+                'applied_at_proper' => Carbon::parse($applicant->applied_at)->diffForHumans(),
+                'experiences' => $applicant->user->experiences,
+                'educations' =>  $applicant->user->educations,
+                'tickets' => $applicant->user->tickets,
+                'skills' => $applicant->user->skills,
+                'latest_exp' => $applicant->user->workerDetail->getLatestExperience(),
+                'profile_description' => $applicant->profile_description,
+                'sectors' => $applicant->user->workerDetail->sectors,
+                'tiers' => $applicant->user->workerDetail->tiers,
+                'english_skill' => $applicant->user->workerDetail->english_skill,
+                'drivers_license' => $applicant->user->workerDetail->drivers_license,
+                'right_to_work' => $applicant->user->workerDetail->right_to_work,
+                'ideal_next_role' => $applicant->user->workerDetail->introduction,
+                'max_distance' => $applicant->user->workerDetail->max_distance,
+                'states' => $applicant->user->workerDetail->state
+            ]);
+        });
 
         return $this->apiSuccessResponse( compact('applicants'), true, 'Successfully retrieved applicants.', self::HTTP_STATUS_REQUEST_OK);
 
@@ -222,6 +286,10 @@ class ApiJobApplicantsController extends ApiBaseController
 
         $user = JWTAuth::toUser();
 
+        $data = [
+            'subscribed' => true
+        ];
+
         try {
 
             $rules = [
@@ -252,13 +320,27 @@ class ApiJobApplicantsController extends ApiBaseController
                 throw new \Exception();
             }
 
-            JobStat::create([
-                'job_id' => $request->id,
-                'scored_to' => $scoredTo->id,
-                'performed_by' => $user->id,
-                'category' => $request->category,
-                'created_at' => Carbon::now()
-            ]);
+            // check if its already exists
+
+            $stat = JobStat::where(['scored_to' => $scoredTo->id, 'category' => $request->category])->first();
+
+            if ($stat) {
+
+                $stat->delete();
+                $data['subscribed'] = false;
+
+            } else {
+
+                JobStat::create([
+                    'job_id' => $request->id,
+                    'scored_to' => $scoredTo->id,
+                    'performed_by' => $user->id,
+                    'category' => $request->category,
+                    'created_at' => Carbon::now()
+                ]);
+
+                $data['subscribed'] = true;
+            }
 
 
         } catch(\Exception $e) {
@@ -269,7 +351,13 @@ class ApiJobApplicantsController extends ApiBaseController
 
         DB::commit();
 
-        return $this->apiSuccessResponse( [], true, 'Successfully added a score.', self::HTTP_STATUS_REQUEST_OK);
+        $not_suitable = JobStat::where(['job_id' => $request->id, 'category' => 'not_suitable'])->pluck('scored_to');
+        $favourites = JobStat::where(['job_id' => $request->id, 'category' => 'favourite'])->pluck('scored_to');
+
+        $data['not_suitable'] = $not_suitable;
+        $data['favourites'] = $favourites;
+
+        return $this->apiSuccessResponse( $data, true, 'Successfully added a score.', self::HTTP_STATUS_REQUEST_OK);
 
     }
 

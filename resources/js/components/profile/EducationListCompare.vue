@@ -1,20 +1,8 @@
 <template>
     <div>
-        <div v-for="(education, idx) in educations" :key="idx">
-            <div @click="action(idx)">
-                <edit-icon cls="edit-icon edit-icon-3" data-target="#modalEducation"></edit-icon>
-            </div>
-            
-            <div class="jobads-row mt-4">
-                <div class="bl-col-1">
-                    <img class="bl-image-56" v-if="education.school_logo" :src="education.school_logo">
+        <div v-for="(education, idx) in educations" :key="idx" class="education-item">
 
-                    <avatar v-else cls="bl-image-56" size="56" border="0" border-radius="8px"
-                        text-color="#fff"
-                        :background-color="getColorHex(education.school_name)"
-                        :initials="getInitials(education.school_name, education.academy)">
-                    </avatar>
-                </div>
+            <div class="jobads-row mb-3">
                 <div class="bl-col-2" style="margin-top:-4px">
                     <div class="bl-display">
                         <span class="bl-label-16 bl-ml15" :ref="'eduCourse-' + idx">
