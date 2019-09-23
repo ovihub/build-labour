@@ -36,6 +36,18 @@ class JobsController extends Controller
         }
     }
 
+    public function viewApplicants(Request $request)
+    {
+        $hasCompareParam = false;
+
+        if ($request->compare) {
+
+            $hasCompareParam = true;
+        }
+
+        return view('jobs.applicants')->with(compact('hasCompareParam'));
+    }
+
     public function list(Request $request)
     {
         try {
