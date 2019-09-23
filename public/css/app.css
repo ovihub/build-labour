@@ -11706,9 +11706,12 @@ ul.job-list-items-2 {
   top: 32px;
 }
 
+.applicants .compare-actions-wrapper {
+  width: 100%;
+}
+
 .applicants .compare-wrapper {
   display: contents;
-  width: 100%;
 }
 
 .applicants .compare-wrapper .item {
@@ -11720,8 +11723,31 @@ ul.job-list-items-2 {
   padding: 0 !important;
 }
 
+.applicants .compare-wrapper .list-main-items .main-items:last-child {
+  border-bottom: none;
+}
+
 .applicants .compare-wrapper .main-items .responsibilities {
   margin-left: 6px;
+}
+
+.applicants .compare-wrapper .educations .education-item:last-child {
+  margin-bottom: 20px;
+}
+
+.applicants .compare-wrapper .tickets ul {
+  list-style: none;
+  padding: 0;
+}
+
+.applicants .compare-wrapper .skills ul {
+  list-style: none;
+  padding: 0;
+}
+
+.applicants .compare-wrapper .next-role ul {
+  list-style: none;
+  padding: 0;
 }
 
 body.admin {

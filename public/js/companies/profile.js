@@ -12365,7 +12365,7 @@ var render = function() {
                       {
                         attrs: {
                           href:
-                            "/job/view/?cid=" +
+                            "/job/applicants/?cid=" +
                             post.company_id +
                             "&jid=" +
                             post.id

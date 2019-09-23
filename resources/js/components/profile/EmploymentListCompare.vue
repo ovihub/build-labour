@@ -1,14 +1,14 @@
 <template>
-    <ul class="list-main-items" v-if="employments.length > 0">
-        <li class="main-items"
+    <ul class="list-main-items mb-0" v-if="employments.length > 0">
+        <li class="main-items mb-3"
             v-for="(employment, index) in employments"
             v-bind:key="index">
 
             <span class="text-icon-2">
                 <img :src="imgSrc" :srcset="imgSrcSet" :ref="'toggleImg-' + index" @click="toggle(index)">
             </span>
-            <div class="jobads-row mt-3" @click="toggle(index)">
-                <div class="bl-col-2 ml-2">
+            <div class="jobads-row" @click="toggle(index)">
+                <div class="bl-col-2">
                     <div class="bl-display">
                         <span class="bl-label-16 bl-ml15" :ref="'empJobRole-' + index">
                             {{ employment.job_role }}
@@ -92,8 +92,6 @@
         created() {
             let vm = this;
 
-            console.log('jjjjj');
-            console.log(vm.employments);
             Bus.$on('employmentDetails', function(detailsArray) {
                 vm.employments = detailsArray;
                 

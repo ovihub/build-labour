@@ -15,7 +15,6 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="/favicon-new.ico" type="image/x-icon">
     <link rel="icon" href="/favicon-new.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
 </head>
 <body>
     <div id="app">
