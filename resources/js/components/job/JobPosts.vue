@@ -205,26 +205,3 @@
         },
     }
 </script>
-
-<style scoped>
-    .applicant-no {
-        font-size: 16px;
-        font-weight: bold;
-        text-align: center;
-        color: #005778;
-    }
-    .applicant-label {
-        font-size: 15px;
-        font-weight: 500;
-        line-height: 1.33;
-        text-align: center;
-        color: #383d3f;
-    }
-    .ns-no {
-        color: #a2b2b7;
-        margin-top: -6px;
-    }
-    .ns-label {
-        font-size: 13px;
-    }
-</style>

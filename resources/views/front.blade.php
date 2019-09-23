@@ -22,6 +22,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="/favicon-new.ico" type="image/x-icon">
     <link rel="icon" href="/favicon-new.ico" type="image/x-icon">
+
 </head>
 <body style="overflow:hidden">
     <div id="app">

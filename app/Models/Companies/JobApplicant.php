@@ -3,6 +3,8 @@
 namespace App\Models\Companies;
 
 use App\Models\BaseModel;
+use App\User;
+use Carbon\Carbon;
 
 class JobApplicant extends BaseModel
 {
@@ -16,6 +18,20 @@ class JobApplicant extends BaseModel
         'applied_at'
     ];
 
+    protected $appends = [
+        'applied_proper'
+    ];
+
     const CREATED_AT = null;
     const UPDATED_AT = null;
+
+    public function User() {
+
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function getAppliedProperAttribute() {
+
+        return Carbon::parse($this->applied_at)->diffForHumans();
+    }
 }
