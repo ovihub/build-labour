@@ -223,10 +223,10 @@ class BuildLabourApi {
         return this._get(this.endpoints.worker_tickets);
     }
 
-    getLocations(keyword) {
+    getLocations(keyword, types = '') {
         let self = this;
 
-        Promise.resolve(self._search(this.endpoints.locations + '?keyword=' + keyword)).then(function(data) {
+        Promise.resolve(self._search(this.endpoints.locations + '?keyword=' + keyword + '&types=' + types)).then(function(data) {
             self.returnValue = (data.data && data.data.locations) ? data.data.locations.features : [];
         });
 

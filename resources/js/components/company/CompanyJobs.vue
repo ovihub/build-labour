@@ -3,7 +3,8 @@
     <div class="profile-item-2" v-if="show">
         <div class="job-action">
             <div class="job-filter">
-                Filter
+                <button :class="activeJobsCls" @click="onClickFilterTab('Active')">Active Jobs</button>
+                <button :class="historyCls" @click="onClickFilterTab('History')">History</button>
             </div>
             <div class="job-sort">
                 Sort by: <span class="job-recent">Most Recent</span>
@@ -22,10 +23,8 @@
         data() {
             return {
                 show: false,
-                jobs: [],
-                endpoints: {
-                    get: '/api/v1/company/',
-                },
+                activeJobsCls: 'active',
+                historyCls: '',
             }
         },
         props: {
@@ -34,18 +33,13 @@
                 required: false
             },
         },
-        computed: {
-            endpointGet() {
-                return this.endpoints.get + this.companyId + '/posts/jobs';
-            },
-        },
         created() {
             let vm = this;
 
             Bus.$on('showCompanyJobs', function(flag) {
                 vm.show = flag;
-                vm.getJobs();
                 
+                Bus.$emit('getCompanyJobs', 'active_jobs');
                 Bus.$emit('hideCompanyPeople');
                 Bus.$emit('hideCompanyPosts');
             });
@@ -55,22 +49,14 @@
             });
         },
         methods: {
+            onClickFilterTab(tab) {
+                this.activeJobsCls = tab == 'Active' ? 'active' : '';
+                this.historyCls = tab == 'History' ? 'active' : '';
+
+                Bus.$emit('getCompanyJobs', tab == 'Active' ? 'active_jobs' : 'past_jobs');
+            },
             getInitials(name) {
                 return Utils.getInitials(name);
-            },
-            getJobs() {
-                let vm = this;
-
-                axios.get(vm.endpointGet, Utils.getBearerAuth())
-                    
-                .then(function(response) {
-                    
-                    vm.jobs = response.data.data.posts;
-                
-                }).catch(function(error) {
-
-                    Utils.handleError(error);
-                });
             },
             getTimeDiffNow(created_at) {
                 return Utils.formatTimeDiffNow(created_at);
@@ -81,3 +67,23 @@
         },
     }
 </script>
+
+<style scoped>
+    button {
+        height: 36px;
+        box-shadow: 0 0 0.5px 0 rgba(33, 49, 60, 0.08), 0 3px 19px 0 rgba(38, 52, 64, 0.09);
+        background-color: #fff;
+        color: #a2b2b7;
+        margin-right: 20px;
+        margin-top: 0px;
+    }
+    button.active {
+        border: solid 2px #00aeef;
+        background-color: #fff;
+        color: #00aeef;
+    }
+    button:hover {
+        border: solid 2px #00aeef;
+        background-color: #f9f9f9;
+    }
+</style>

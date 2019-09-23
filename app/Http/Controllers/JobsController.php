@@ -80,5 +80,10 @@ class JobsController extends Controller
     {
         return view('jobs.search');
     }
+
+    public function searchAll()
+    {
+        return view('jobs.search_all');
+    }
 }
 

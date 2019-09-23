@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Http\Resources\PeoplesResource;
 use App\Http\Resources\JobsResource;
 use App\Models\Companies\Company;
 use App\Models\Companies\CompanyPost;
@@ -116,8 +117,24 @@ class JobRepository extends AbstractRepository
         $order = $request->get('order') ? $request->get('order') : 'desc';
         $per_page = $request->get('per_page') ? $request->get('per_page') : 10;
 
+        // $noOfNew = JobApplicant::where('job_id',  $request->id)->whereBetween('applied_at', [$last3Days, $today])->count();
+
+        $statViewedQuery = "(SELECT COUNT(*) FROM job_post_stats WHERE job_post_stats.job_id = job_posts.id AND job_post_stats.category = 'viewed')";
+        $statInvitedQuery = "(SELECT COUNT(*) FROM job_post_stats WHERE job_post_stats.job_id = job_posts.id AND job_post_stats.category = 'invited')";
+        $statFavouriteQuery = "(SELECT COUNT(*) FROM job_post_stats WHERE job_post_stats.job_id = job_posts.id AND job_post_stats.category = 'favourite')";
+        $statNewQuery = "(SELECT COUNT(*) FROM job_post_applicants WHERE job_post_applicants.job_id = job_posts.id)";
+        $statNotSuitableQuery = "(SELECT COUNT(*) FROM job_post_stats WHERE job_post_stats.job_id = job_posts.id AND job_post_stats.category = 'not_suitable')";
+
         $jobs = Job::with('company');
-        $jobs = $jobs->select('job_posts.*');
+        $jobs = $jobs->select(
+            'job_posts.*',
+            \DB::raw("{$statViewedQuery} as stat_viewed"),
+            \DB::raw("{$statInvitedQuery} as stat_invited"),
+            \DB::raw("{$statFavouriteQuery} as stat_favourite"),
+            \DB::raw("{$statNewQuery} as stat_new"),
+            \DB::raw("{$statNotSuitableQuery} as stat_not_suitable"),
+            \DB::raw("({$statViewedQuery} + {$statInvitedQuery} + {$statFavouriteQuery} + {$statNewQuery}) as stat_total")
+        );
 
         $jobs = $jobs->leftjoin('job_roles as job_role', 'job_role.id', '=', 'job_posts.job_role_id');
 
@@ -643,6 +660,13 @@ class JobRepository extends AbstractRepository
             case 'individuals':
             
                 $data = User::where('role_id',1)
+                ->when($request->search_string, function( $query ) use($request){
+                    $query->whereHas('WorkerDetail', function($query) use($request){
+                        $query->where('first_name','like', '%'.$request->search_string.'%');
+                        $query->orWhere('most_recent_role', 'like', '%'.$request->search_string.'%');
+                        $query->orWhere('profile_description', 'like', '%'.$request->search_string.'%');
+                    });                    
+                })
                 ->when($request->education, function( $query) use($request){
                     $query->whereHas('Educations' , function( $query ) use($request){
                         $query->where('school','like','%'.$request->education.'%');
@@ -655,24 +679,53 @@ class JobRepository extends AbstractRepository
                     });
                 })                                
                 ->when($request->address, function( $query) use($request){
-                    $query->where( 'address','like', '%'.$request->address.'%');
+                    $query->where(function($query) use($request){
+                        foreach($request->address as $address){
+                            $query->orWhere( 'address','like', '%'.$address.'%');
+                        }
+                    });
+                    
+                    
                 })->get();
 
+                $data = PeoplesResource::collection($data);
                 break;
             case 'companies':
 
-                $data = Company::when($request->industry, function( $query) use($request){
-                    $query->whereHas('Specialization', function( $query ) use($request) {
-                        $query->where('secondary_name', 'like', '%'.$request->industry.'%');
+                $data = Company::when($request->search_string, function( $query ) use($request){
+                    $query->where(function($query) use($request){
+                        $query->where([['name', 'like', '%'.$request->search_string.'%']])
+                            ->orWhere([['introduction', 'like', '%'.$request->search_string.'%']]);
+                    });
+                })
+                ->when($request->industry, function( $query) use($request){
+                    $query->where(function($query) use($request){
+                        $query->whereHas('MainFunction', function( $query ) use($request) {
+                            $query->where('main_name', 'like', '%'.$request->industry.'%');
+                        });
+                        $query->orWhereHas('Specialization', function( $query ) use($request) {
+                            $query->where('secondary_name', 'like', '%'.$request->industry.'%');
+                        });
                     });
                 })                
                 ->when($request->address, function( $query) use($request){
-                    $query->where( 'address','like', '%'.$request->address.'%');
-                })->get();
+                    $query->where(function($query) use($request){
+                        foreach($request->address as $address){
+                            $query->orWhere( 'address','like', '%'.$address.'%');
+                        }
+                    });
+                })->with('MainFunction')->get();
 
                 break;
             case 'jobs':                
-                $data = Job::when($request->ticket, function( $query) use($request){
+                $data = Job::where([['status','=',true],['is_template','=',false]])
+                ->when($request->search_string, function( $query ) use($request){
+                    $query->where([['title', 'like', '%'.$request->search_string.'%']]);
+                    $query->orWhereHas('JobRole', function($query) use($request){
+                        $query->where('job_role_name','like','%'.$request->search_string.'%');
+                    });
+                })
+                ->when($request->ticket, function( $query) use($request){
                     $query->whereHas('Requirements', function( $query ) use($request){                        
                         $query->where([['title','tickets'],['items_json','like','%'.$request->ticket.'%']]);                        
                     });
@@ -683,15 +736,22 @@ class JobRepository extends AbstractRepository
                     });
                 })                
                 ->when($request->industry, function( $query) use($request){
-                    $query->whereHas('Company', function( $query ) use($request){                        
-                        $query->whereHas('Specialization', function($query) use($request){
+                    $query->whereHas('Company', function( $query ) use($request){
+                        $query->whereHas('MainFunction', function( $query ) use($request) {
+                            $query->where('main_name', 'like', '%'.$request->industry.'%');
+                        });
+                        $query->orWhereHas('Specialization', function($query) use($request){
                             $query->where('secondary_name','like', '%'.$request->industry.'%');
                         });
                     });
                 })
-                ->when($request->address, function( $query) use($request){
-                     $query->where( 'location','like', '%'.$request->address.'%');
-                })->get();
+                ->when($request->address, function( $query) use($request){                     
+                     $query->where(function($query) use($request){
+                        foreach($request->address as $address){
+                            $query->orWhere( 'location','like', '%'.$address.'%');
+                        }
+                    });
+                })->with('company')->get();
                 break;    
             default:                
                 return false;

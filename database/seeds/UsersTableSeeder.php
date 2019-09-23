@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Companies\Job;
+use App\Models\Companies\JobApplicant;
+use App\Models\Companies\JobStat;
 use App\Models\Options\BusinessType;
 use App\Models\Options\Tier;
 use App\Models\Users\Education;
@@ -368,6 +370,34 @@ class UsersTableSeeder extends Seeder
             WorkerTier::insert([
                 'worker_id' => $worker->id,
                 'tier_id' => $tier2->id
+            ]);
+
+
+            $job = Job::find(4);
+
+            // job stat
+
+            JobApplicant::create([
+                'job_id' => $job->id,
+                'user_id' => $user->id,
+                'applied_at' => Carbon::now()
+            ]);
+
+
+            JobStat::create([
+                'job_id' => $job->id,
+                'scored_to' => $user->id,
+                'performed_by' => $user->id,
+                'category' => 'viewed',
+                'created_at' => Carbon::now()
+            ]);
+
+            JobStat::create([
+                'job_id' => $job->id,
+                'scored_to' => $user->id,
+                'performed_by' => $user->id,
+                'category' => 'favourite',
+                'created_at' => Carbon::now()
             ]);
         }
     }

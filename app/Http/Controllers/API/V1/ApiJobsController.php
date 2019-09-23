@@ -1228,10 +1228,19 @@ class ApiJobsController extends ApiBaseController
      *                      example="individuals"
      *                  ),
      *                  @OA\Property(
-     *                      property="address",
-     *                      description="Adress",
+     *                      property="search_string",
+     *                      description="search for job titles/ job roles",
      *                      type="string",
      *                      example=""
+     *                  ),     
+     *                  @OA\Property(
+     *                      property="address",
+     *                      description="Adress",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="Newtown, New South Wales"
+     *                      ),
      *                  ),
      *                  @OA\Property(
      *                      property="education",

@@ -49,9 +49,10 @@ class ApiGeneralController extends ApiBaseController
     public function searchLocation( Request $request ) {
 
         $keyword = trim($request->keyword);
+        $types = $request->types;
         $curl_handle=curl_init();
 
-        curl_setopt($curl_handle,CURLOPT_URL,"https://api.mapbox.com/geocoding/v5/mapbox.places/{$keyword}.json?country=au&access_token=" . env('MAPBOX_KEY'));
+        curl_setopt($curl_handle,CURLOPT_URL,"https://api.mapbox.com/geocoding/v5/mapbox.places/{$keyword}.json?country=au&types={$types}&access_token=" . env('MAPBOX_KEY'));
 
         curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
         curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
@@ -239,5 +240,82 @@ class ApiGeneralController extends ApiBaseController
         }
 
         return $this->apiSuccessResponse( compact( 'answers' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/open-search?keyword=john",
+     *      tags={"General"},
+     *      summary="Open search by searching a worker",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function search(Request $request) {
+
+        $keyword = empty(trim($request->keyword)) ? '' : trim($request->keyword);
+        $people = [];
+
+        if (!empty($keyword)) {
+
+            $people = User::query();
+
+            $people = $people->select(
+                'users.*',
+                'we.id as work_exp_id',
+                'we.job_role as work_exp_role',
+                'we.isCurrent as work_exp_current',
+                'we.job_role as role',
+                'c.name as company_name',
+                'c.id as company_id',
+                'cbt.business_type as sector',
+                'ct.tier_name as tier',
+                'worker.user_id as worker_user_id',
+                \DB::raw("IF(worker.state IS NOT NULL, 'yes', 'no') AS willing_to_relocate")
+            );
+
+            $people = $people->leftJoin('work_experience as we', 'users.id', '=', 'we.user_id');
+            $people = $people->join('worker_details as worker', 'users.id', '=', 'worker.user_id');
+            $people = $people->leftJoin('companies as c', 'we.company_id', '=', 'c.id');
+            $people = $people->leftJoin('company_business_types as cbt', 'cbt.id', '=', 'c.business_type_id');
+            $people = $people->leftJoin('company_tiers as ct', 'ct.id', '=', 'c.tier_id');
+
+            $likeRaw = "(first_name LIKE '%{$keyword}%'";
+            $likeRaw .= " OR last_name LIKE '%{$keyword}%'";
+            $likeRaw .= " OR email LIKE '%{$keyword}%'";
+            $likeRaw .= " OR users.id LIKE '%{$keyword}%'";
+            $likeRaw .= " OR users.address LIKE '%{$keyword}%'";
+            $likeRaw .= " OR we.job_role LIKE '%{$keyword}%'";
+            $likeRaw .= " OR cbt.business_type LIKE '%{$keyword}%'"; //sector
+            $likeRaw .= " OR ct.tier_name LIKE '%{$keyword}%')";
+
+            $people = $people->whereRaw($likeRaw);
+            $people = $people->groupBy('email')->get();
+        }
+
+        return $this->apiSuccessResponse( compact('people'), true, 'Success', self::HTTP_STATUS_REQUEST_OK);
     }
 }

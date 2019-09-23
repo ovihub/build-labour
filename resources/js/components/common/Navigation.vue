@@ -2,7 +2,8 @@
     <div class="row">
         <img class="bl-nav-logo" src="/img/BUILDLABOUR_FULLLOGO@1x.png" width="90">
 
-        <input class="bl-nav-search" id="search" type="text" name="search" />
+        <input class="bl-nav-search bg-search" id="search" type="text" name="search" ref="nav-search" v-model="keyword"
+            @click="onClickNavSearch" @keyup="onOpenSearch" />
 
         <ul class="row bl-nav-list">
             <li ref="nav-dashboard" @click="onClickDashboard">
@@ -14,7 +15,6 @@
                         </g>
                     </svg>
                 </div>
-
                 <p class="bl-nav-tab-label">Dashboard</p>
             </li>
 
@@ -39,7 +39,6 @@
                         </g>
                     </svg>
                 </div>
-
                 <p class="bl-nav-tab-label">Messages</p>
             </li>
         </ul>
@@ -55,10 +54,12 @@
                     </g>
                 </svg>
             </div>
-                
             <!-- <img class="bl-nav-tab-search" src="/img/icons/search.png"
                 srcset="/img/icons/search@2x.png 2x, /img/icons/search@3x.png 3x"> -->
         </div>
+        
+        <input class="bl-nav-search-2 bg-search" id="search" type="text" name="search" ref="nav-search" v-model="keyword"
+            @click="onClickNavSearch" @keyup="onOpenSearch" />
     </div>
 </template>
 
@@ -69,7 +70,7 @@
         name: "navigation",
         data() {
             return {
-
+                keyword: '',
             }
         },
         created() {
@@ -78,6 +79,14 @@
             Bus.$on('activateTab', function(tabName) {
                 vm.$refs['nav-' + tabName].style = 'opacity: 1';
             });
+        },
+        mounted() {
+            if (window.location.pathname == '/job/search/all') {
+                this.$refs['nav-search'].focus();
+                this.$nextTick(() => {
+                    this.$refs['nav-search'].focus();
+                });
+            }
         },
         methods: {
             onClickDashboard() {
@@ -90,6 +99,14 @@
             },
             onClickMessages() {
                 // this.$refs['nav-messages'].style = 'opacity: 1';
+            },
+            onClickNavSearch() {
+                if (window.location.pathname != '/job/search/all') {
+                    window.location.href = '/job/search/all?type=jobs';
+                }
+            },
+            onOpenSearch() {
+                Bus.$emit('openSearchKeyword', this.keyword);
             },
         },
         components: {

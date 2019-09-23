@@ -3,11 +3,14 @@
         <div class="loading" style="position: unset; text-align: center;">
             <pulse-loader :loading="loading" color="#00aeef" size="10px"></pulse-loader>
         </div>
+        <div v-show="noData && jobPosts.length == 0">
+            No data found.
+        </div>
         <ul class="list-job-items">
         <transition-group name="list-down">
             <li class="job-items" v-for="(post, index) in jobPosts" :key="index+0">
-                <div class="profile-content">
-                    <div class="save-icon">
+                <div class="profile-content" style="padding-bottom: 10px;">
+                    <!-- <div class="save-icon">
                         <div class="star-cont">
                             <input class="star" type="checkbox" title="Bookmark Job" :ref="'savedJobPost-' + post.id"
                                 :value="post.id" v-model="checkedJobPosts" @click="save(post)" />
@@ -16,7 +19,7 @@
                         <div class="bl-label-14-style-2 bl-mt12">
                             Save
                         </div>
-                    </div>
+                    </div> -->
             
                     <div class="jobads-row">
                         <div class="bl-col-1">
@@ -53,6 +56,29 @@
                         </div>
                     </div>
 
+                    <div class="row mt-3">
+                        <div class="col-md-2 col-sm-2">
+                            <div class="applicant-no">{{ post.stat_total }}</div>
+                            <div class="applicant-label">Total</div>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <div class="applicant-no">{{ post.stat_new }}</div>
+                            <div class="applicant-label">New</div>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <div class="applicant-no">{{ post.stat_invited }}</div>
+                            <div class="applicant-label">Invited</div>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <div class="applicant-no">{{ post.stat_favourite }}</div>
+                            <div class="applicant-label bl-ellipsis">Favourited</div>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <div class="applicant-no ns-no">{{ post.stat_not_suitable }}</div>
+                            <div class="applicant-label ns-label">Not<br />Suitable</div>
+                        </div>
+                    </div>
+
                     <div class="profile-more mt-2">
                         <a :href="'/job/view/?cid=' + post.company_id + '&jid=' + post.id">
                             View Details<i class="fa fa-angle-right ml-2"></i>
@@ -75,6 +101,7 @@
         data() {
             return {
                 loading: false,
+                noData: false,
                 jobPosts: [],
                 checkedJobPosts: [],
                 input: {
@@ -92,6 +119,10 @@
                 type: String,
                 required: false
             },
+            postType: {
+                type: String,
+                default: 'search'
+            },
         },
         computed: {
             endpointGet() {
@@ -101,26 +132,37 @@
         created() {
             let vm = this;
 
-            Bus.$on('searchJobPosts', function(keyword, location) {
-                vm.jobPosts = [];
-                vm.loading = true;
+            if (this.postType == 'open_search') {
+                Bus.$on('openSearchJobs', function(results) {
+                    vm.jobPosts = [];
+                    vm.noData = false;
+                    vm.loading = true;
 
-                setTimeout(function() {
-                    vm.getJobPosts(vm.endpoints.search + keyword + '&location=' + location);
-                    vm.loading = false;
-                }, 1000);
-            });
-            
-            if (this.companyId) {
-                this.getJobPosts(this.endpointGet);
-                
-            } else {
-                this.getJobPosts(vm.endpoints.search + '&location=');
+                    setTimeout(function() {
+                        vm.jobPosts = results;
+                        vm.loading = false;
+                        if (vm.jobPosts.length == 0) vm.noData = true;
+                    }, 1000);
+                });
             }
+            
+            if (this.postType == 'search') {
+                Bus.$on('searchJobPosts', function(keyword, location) {
+                    vm.jobPosts = [];
+                    vm.loading = true;
 
-            Promise.resolve(Api.getSavedJobPosts()).then(function(data) {
-                vm.checkedJobPosts = data.data.bookmarks;
-            });
+                    setTimeout(function() {
+                        vm.getJobPosts(vm.endpoints.search + keyword + '&location=' + location);
+                        vm.loading = false;
+                    }, 1000);
+                });
+
+                Bus.$on('getCompanyJobs', function(status) {
+                    vm.getJobPosts(vm.endpoints.search + '&status=' + status);
+                });
+
+                this.getJobPosts(vm.endpoints.search + '&status=active');
+            }
         },
         methods: {
             getInitials(name) {
@@ -163,3 +205,26 @@
         },
     }
 </script>
+
+<style scoped>
+    .applicant-no {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        color: #005778;
+    }
+    .applicant-label {
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.33;
+        text-align: center;
+        color: #383d3f;
+    }
+    .ns-no {
+        color: #a2b2b7;
+        margin-top: -6px;
+    }
+    .ns-label {
+        font-size: 13px;
+    }
+</style>
