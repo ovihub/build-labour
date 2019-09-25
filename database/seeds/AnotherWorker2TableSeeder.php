@@ -36,29 +36,29 @@ class AnotherWorker2TableSeeder extends Seeder
         $user->email = $faker->email;
         $user->password = 'secret';
         $user->date_of_birth = Carbon::parse('08/10/1988');
-        $user->mobile_number = '+61 412345678';
+        $user->mobile_number = '+61 712341228';
         $user->address = $faker->address;
-        $user->marital_status = 'Single';
+        $user->marital_status = 'Married';
         $user->gender = 'Male';
         $user->is_verified = Carbon::now();
         $user->role_id = 1; // worker
         $user->save();
 
         $responsibilities = [
-            'Monitor Plant Electrical Systems.',
-            'Able to Fixed Power Plant basic panels'
+            'Install fixtures and apparatuses; repair and replace hardware.',
+            'Constructs custom cabinetry and furniture as needed; repairs or modifies furniture as needed.'
         ];
 
         $w = WorkExperience::create([
 
-            'job_role' => 'Power Plant Electrician',
-            'company_name' => 'Tesla',
+            'job_role' => 'CARPENTRY SUPERVISOR',
+            'company_name' => 'Merkie\'s Construction',
             'user_id' => $user->id,
-            'project_size' => '200,000',
-            'start_month' => 6,
-            'start_year' => 2011,
-            'end_month' => 9,
-            'end_year' => 2013,
+            'project_size' => '150,000',
+            'start_month' => 1,
+            'start_year' => 2001,
+            'end_month' => 1,
+            'end_year' => 2010,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -70,99 +70,104 @@ class AnotherWorker2TableSeeder extends Seeder
             ]);
         }
 
-        WorkExperience::create([
-            'job_role' => 'Electrician',
-            'company_id' => 2,
-            'user_id' => $user->id,
-            // 'location' => 'Richmond, Victoria, Australia',
-            'project_size' => '1,000,000',
-            'start_month' => 2,
-            'start_year' => 2009,
-            'end_month' => 2,
-            'end_year' => 2012,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
         $worker = WorkerDetail::create([
-            'profile_description' => 'A Certified PSO Electrician.',
+            'profile_description' => 'Carpenter',
             'english_skill' => true,
             'drivers_license' => true,
             'right_to_work' => true,
-            'main_skill' => '3 Years experienced in the electrical job industry',
-            'introduction' => 'Able to find a Supervisor Job',
-            'when' => 12,
-            'max_distance' => 100,
+            'main_skill' => 'Looking for a company to utilize my skills.',
+            'introduction' => 'Looking for a company to utilize my skills.',
+            'when' => 8,
+            'max_distance' => 250,
             'state' => 'VIC',
             'nrole_right_to_work_au' => true,
             'user_id' => $user->id
         ]);
 
-            $user2 = User::whereEmail(env('APP_EMAIL_SUPPORT'))->first();
+        UserSkill::create([
+            'user_id' => $user->id,
+            'skill_id' => 1,
+            'level_id' => 1
+        ]);
+
+        UserSkill::create([
+            'user_id' => $user->id,
+            'skill_id' => 2,
+            'level_id' => 1
+        ]);
+
+        UserSkill::create([
+            'user_id' => $user->id,
+            'skill_id' => 3,
+            'level_id' => 1
+        ]);
+
+        UserSkill::create([
+            'user_id' => $user->id,
+            'skill_id' => 5,
+            'level_id' => 2
+        ]);
+
+        // tickets
+
+        $ticket = Ticket::where('ticket', 'FWPCOT2238')->first();
+
+        UserTicket::create([
+            'user_id' => $user->id,
+            'ticket_id' => $ticket->id
+        ]);
 
 
-            UserSkill::create([
-                'user_id' => $user->id,
-                'skill_id' => 1,
-                'level_id' => 1
-            ]);
+        // worker areas
 
-            UserSkill::create([
-                'user_id' => $user->id,
-                'skill_id' => 5,
-                'level_id' => 2
-            ]);
+        $commercial = BusinessType::where('business_type', 'Civil')->first();
 
-            // worker areas
+        WorkerArea::insert([
+            'worker_id' => $worker->id,
+            'business_type_id' => $commercial->id
+        ]);
 
-            $commercial = BusinessType::where('business_type', 'Commercial')->first();
+        // worker tiers
 
-            WorkerArea::insert([
-                'worker_id' => $worker->id,
-                'business_type_id' => $commercial->id
-            ]);
+        $tier1 = Tier::where('tier_name', 'Tier 1')->first();
 
-            // worker tiers
+        WorkerTier::insert([
+            'worker_id' => $worker->id,
+            'tier_id' => $tier1->id
+        ]);
 
-            $tier1 = Tier::where('tier_name', 'Tier 1')->first();
-            $tier2 = Tier::where('tier_name', 'Tier 2')->first();
+        $tier2 = Tier::where('tier_name', 'Tier 2')->first();
 
-            WorkerTier::insert([
-                'worker_id' => $worker->id,
-                'tier_id' => $tier1->id
-            ]);
+        WorkerTier::insert([
+            'worker_id' => $worker->id,
+            'tier_id' => $tier2->id
+        ]);
 
-            WorkerTier::insert([
-                'worker_id' => $worker->id,
-                'tier_id' => $tier2->id
-            ]);
+        $tier3 = Tier::where('tier_name', 'Tier 3')->first();
 
-            $job = Job::find(4);
+        WorkerTier::insert([
+            'worker_id' => $worker->id,
+            'tier_id' => $tier3->id
+        ]);
 
-            // job stat
+        $job = Job::find(4);
 
-            JobApplicant::create([
-                'job_id' => $job->id,
-                'user_id' => $user->id,
-                'applied_at' => Carbon::now()
-            ]);
+        // job stat
+
+        JobApplicant::create([
+            'job_id' => $job->id,
+            'user_id' => $user->id,
+            'applied_at' => Carbon::now()
+        ]);
 
 
-            JobStat::create([
-                'job_id' => $job->id,
-                'scored_to' => $user->id,
-                'performed_by' => $user->id,
-                'category' => 'viewed',
-                'created_at' => Carbon::now()
-            ]);
-
-            JobStat::create([
-                'job_id' => $job->id,
-                'scored_to' => $user->id,
-                'performed_by' => $user->id,
-                'category' => 'favourite',
-                'created_at' => Carbon::now()
-            ]);
+        JobStat::create([
+            'job_id' => $job->id,
+            'scored_to' => $user->id,
+            'performed_by' => $user->id,
+            'category' => 'viewed',
+            'created_at' => Carbon::now()
+        ]);
 
     }
 }
