@@ -172,13 +172,13 @@ class ApiJobApplicantsController extends ApiBaseController
             $query->on('u.id','=','work_experience.user_id')
                 ->whereRaw('work_experience.id IN (select MAX(a2.id) from work_experience as a2 join users as u2 on u2.id = a2.user_id group by u2.id)');
         });
+
       //  $applicants = $applicants->leftJoin(DB::raw("work_experience we on u.id = we.user_id"));
         if (!empty(trim($request->keyword))) {
 
             $applicants = $applicants->where('first_name', 'like', "%{$request->keyword}%")
                             ->orWhere('last_name', 'like', "%{$request->keyword}%");
         }
-
 
         $applicants = $applicants->where('job_id', $request->id);
 
@@ -201,7 +201,7 @@ class ApiJobApplicantsController extends ApiBaseController
             $applicants = $applicants->orderBy('applied_at', $sortBy);
         }
 
-        $applicants = $applicants->get();
+        $applicants = $applicants->groupBy('user_id')->get();
 
         $applicants = $applicants->map(function ($applicant){
 

@@ -80,7 +80,8 @@
                     </div>
 
                     <div class="profile-more mt-2">
-                        <a :href="'/job/applicants/?cid=' + post.company_id + '&jid=' + post.id">
+                        <a :href="'/job/view/?cid=' + post.company_id + '&jid=' + post.id">
+                        <!--<a :href="'/job/applicants/?cid=' + post.company_id + '&jid=' + post.id">-->
                             View Details<i class="fa fa-angle-right ml-2"></i>
                         </a>
                     </div>

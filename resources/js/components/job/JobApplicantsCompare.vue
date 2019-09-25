@@ -1,98 +1,100 @@
 <template>
     <div class="compare-wrapper">
-        <div class="col-lg-4" v-for="(applicant, index) in applicants">
-            <div class="profile-item-2">
-                <div class="profile-content p-0">
-                    <div class="item general-info">
-                        <p class="mb-2">
-                            <span class="bl-label-19">{{ applicant.full_name }}</span>
-                        </p>
-                        <p>
-                            <span class="bl-label-14" style="margin-top: -5px;">Manager <strong>SolGen</strong></span>
-                        </p>
+        <div class="card-columns">
+            <div class="card" v-for="(applicant, index) in applicants">
+                <div class="profile-item-2">
+                    <div class="profile-content p-0">
+                        <div class="item general-info">
+                            <p class="mb-2">
+                                <span class="bl-label-19">{{ applicant.full_name }}</span>
+                            </p>
+                            <p>
+                                <span class="bl-label-14" style="margin-top: -5px;">{{ applicant.job_role }} <strong>{{ applicant.company_name }}</strong></span>
+                            </p>
 
-                        <div class="bl-mb20">
-                            {{ applicant.profile_description }}
-                        </div>
-                        <div class="bl-mb20">
-                            <div class="bl-display bl-label-15-style-2" v-for="(sector, idx) in applicant.sectors" :key="idx">
-                                {{ sector.business_type }}
-                                <div class="bl-inline"> •&nbsp;</div>
+                            <div class="bl-mb20">
+                                {{ applicant.profile_description }}
                             </div>
-                            <br>
-                            <div class="bl-display" v-for="tier in applicant.tiers">
-                                {{ tier.tier_name }}
-                                <div class="bl-inline"> •&nbsp;</div>
-                            </div>
-                        </div>
-                        <div class="bl-mb20">
-                            <div class="bl-display bl-label-15-style-2">
-                               English Skill
-                            </div>
-                            <span class="bl-display">{{ parseEnglish(applicant.english_skill) }}</span>
-                        </div>
-                        <div class="bl-mb20">
-                            <div class="bl-display bl-label-15-style-2">
-                                Drivers License
-                            </div>
-                            <span class="bl-display">{{ parseDriversLicense(applicant.drivers_license) }}</span>
-                        </div>
-                        <div class="bl-mb20">
-                            <div class="bl-display bl-label-15-style-2">
-                                Right to Work
-                            </div>
-                            <span class="bl-display">{{ parseRightToWork(applicant.right_to_work) }}</span>
-                        </div>
-                    </div>
-                    <div class="item employments">
-                        <div class="profile-title mb-3">Employment History</div>
-                        <employment-list-compare :employments="applicant.experiences"></employment-list-compare>
-                    </div>
-                    <div class="item educations">
-                        <div class="profile-title mb-3">Education</div>
-                        <education-list-compare :educations="applicant.educations"></education-list-compare>
-                    </div>
-                    <div class="item tickets">
-                        <div class="profile-title mb-3">Tickets</div>
-                        <ul>
-                            <li v-for="(ticket, idx) in applicant.tickets" :key="idx" class="mb-2">
-                                <div class="bl-display bl-label-15-style-2">
-                                    {{ ticket.ticket }}
+                            <div class="bl-mb20">
+                                <div class="bl-display bl-label-15-style-2" v-for="(sector, idx) in applicant.sectors" :key="idx">
+                                    {{ sector.business_type }}
+                                    <div class="bl-inline"> •&nbsp;</div>
                                 </div>
-                                <span class="bl-display">{{ ticket.description }}</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="item skills">
-                        <div class="profile-title mb-3">Industry Achievements & Skills</div>
-                        <ul>
-                            <li v-for="(skill, idx) in applicant.skills" :key="idx" class="mb-2">
-                                <div class="bl-display bl-label-15-style-2">
-                                    {{ skill.skill_name }}
+                                <br>
+                                <div class="bl-display" v-for="tier in applicant.tiers">
+                                    {{ tier.tier_name }}
+                                    <div class="bl-inline"> •&nbsp;</div>
                                 </div>
-                                <span class="bl-display">{{ skill.level_name }}</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="item next-role">
-                        <div class="profile-title mb-3">Ideal Next Role</div>
-                        <ul>
-                            <li class="mb-2">
-                                <span class="bl-display">{{ applicant.ideal_next_role }}</span>
-                            </li>
-                            <li class="mb-2">
+                            </div>
+                            <div class="bl-mb20">
                                 <div class="bl-display bl-label-15-style-2">
-                                    Maximum Distance from home
+                                    English Skill
                                 </div>
-                                <span class="bl-display">{{ applicant.max_distance }}km</span>
-                            </li>
-                            <li class="mb-2">
+                                <span class="bl-display">{{ parseEnglish(applicant.english_skill) }}</span>
+                            </div>
+                            <div class="bl-mb20">
                                 <div class="bl-display bl-label-15-style-2">
-                                    Willing to relocate to
+                                    Drivers License
                                 </div>
-                                <span class="bl-display">{{ applicant.states }}</span>
-                            </li>
-                        </ul>
+                                <span class="bl-display">{{ parseDriversLicense(applicant.drivers_license) }}</span>
+                            </div>
+                            <div class="bl-mb20">
+                                <div class="bl-display bl-label-15-style-2">
+                                    Right to Work
+                                </div>
+                                <span class="bl-display">{{ parseRightToWork(applicant.right_to_work) }}</span>
+                            </div>
+                        </div>
+                        <div class="item employments">
+                            <div class="profile-title mb-3">Employment History</div>
+                            <employment-list-compare :employments="applicant.experiences"></employment-list-compare>
+                        </div>
+                        <div class="item educations">
+                            <div class="profile-title mb-3">Education</div>
+                            <education-list-compare :educations="applicant.educations"></education-list-compare>
+                        </div>
+                        <div class="item tickets">
+                            <div class="profile-title mb-3">Tickets</div>
+                            <ul>
+                                <li v-for="(ticket, idx) in applicant.tickets" :key="idx" class="mb-2">
+                                    <div class="bl-display bl-label-15-style-2">
+                                        {{ ticket.ticket }}
+                                    </div>
+                                    <span class="bl-display">{{ ticket.description }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="item skills">
+                            <div class="profile-title mb-3">Industry Achievements & Skills</div>
+                            <ul>
+                                <li v-for="(skill, idx) in applicant.skills" :key="idx" class="mb-2">
+                                    <div class="bl-display bl-label-15-style-2">
+                                        {{ skill.skill_name }}
+                                    </div>
+                                    <span class="bl-display">{{ skill.level_name }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="item next-role">
+                            <div class="profile-title mb-3">Ideal Next Role</div>
+                            <ul>
+                                <li class="mb-2">
+                                    <span class="bl-display">{{ applicant.ideal_next_role }}</span>
+                                </li>
+                                <li class="mb-2">
+                                    <div class="bl-display bl-label-15-style-2">
+                                        Maximum Distance from home
+                                    </div>
+                                    <span class="bl-display">{{ applicant.max_distance }}km</span>
+                                </li>
+                                <li class="mb-2">
+                                    <div class="bl-display bl-label-15-style-2">
+                                        Willing to relocate to
+                                    </div>
+                                    <span class="bl-display">{{ applicant.states }}</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -288,4 +290,11 @@
     .panel-heading {
         cursor: pointer;
     }
+
+    .card {
+        background-color: transparent;
+        background-clip: unset;
+        border: none;
+    }
+
 </style>
