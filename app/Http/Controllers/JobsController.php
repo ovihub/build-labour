@@ -26,7 +26,7 @@ class JobsController extends Controller
                 if (isset($request->cid) && isset($request->jid)) {
 
                     // user a company then redirect to applicants page
-                    if($user->Company){
+                    if($user->Company && (isset($request->v) && $request->v == 'details')){
 
                         return redirect(route('applicants', ['cid' => $request->cid, 'jid' => $request->jid]));
 
