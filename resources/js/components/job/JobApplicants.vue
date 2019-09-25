@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2 compare-actions-wrapper pt-1">
+            <div class="col-md-2 compare-actions-wrapper pt-2">
                 <a href="javascript:void(0)" @click="goToCompare()" class="btn btn-primary btn-sm compare">Compare</a>
             </div>
         </div>
@@ -251,11 +251,10 @@
                 let vm = this;
 
                 vm.sortBy = type;
+                this.searchApplicants();
             },
 
             async searchApplicants() {
-
-                console.log(this.searchKeyword);
 
                 let vm = this;
 

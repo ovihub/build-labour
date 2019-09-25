@@ -147,6 +147,8 @@ class ApiJobApplicantsController extends ApiBaseController
      */
     public function applicants(Request $request) {
 
+        $sortBy = !empty(trim($request->sort)) ? strtolower(trim($request->sort)) : null;
+
         $applicants = JobApplicant::query();
 
         $applicants = $applicants->select(
@@ -177,7 +179,29 @@ class ApiJobApplicantsController extends ApiBaseController
                             ->orWhere('last_name', 'like', "%{$request->keyword}%");
         }
 
-        $applicants = $applicants->where('job_id', $request->id)->get();
+
+        $applicants = $applicants->where('job_id', $request->id);
+
+        if ($sortBy) {
+
+            switch ($sortBy)
+            {
+
+                case 'most recent':
+
+                    $sortBy = 'desc';
+
+                    break;
+
+                default:
+
+                    $sortBy = 'asc';
+            }
+
+            $applicants = $applicants->orderBy('applied_at', $sortBy);
+        }
+
+        $applicants = $applicants->get();
 
         $applicants = $applicants->map(function ($applicant){
 
