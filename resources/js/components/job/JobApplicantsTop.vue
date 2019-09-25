@@ -1,5 +1,8 @@
 <template>
     <div>
+        <delete-modal></delete-modal>
+        <confirm-modal></confirm-modal>
+
         <div class="profile-item-2">
             <a href="javascript:void(0)" @click="goToJobs"><i class="fa fa-angle-left ml-2"></i> Back to Jobs</a>
         </div>
@@ -19,7 +22,7 @@
                             </div>
                             <div class="col-md-4 col-sm-4 mb-3">
                                 <div class="row ta-center">
-                                    <div class="col-icon icon-buttons" @click="onClickAction('preview', post, index)">
+                                    <div class="col-icon icon-buttons" @click="onClickAction('preview', job)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="31" height="22" viewBox="0 0 31 22">
                                             <g fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" transform="translate(1 1)">
                                                 <path d="M.75 10s5.09-10 14-10 14 10 14 10-5.09 10-14 10-14-10-14-10z"/>
@@ -28,13 +31,13 @@
                                         </svg>
                                         <div class="icon-label">Preview</div>
                                     </div>
-                                    <div class="col-icon icon-buttons" @click="onClickAction('edit', post, index)">
+                                    <div class="col-icon icon-buttons" @click="onClickAction('edit', job)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
                                             <path fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 2a2.828 2.828 0 1 1 4 4L6.5 19.5 1 21l1.5-5.5L16 2z"/>
                                         </svg>
                                         <div class="icon-label">Edit</div>
                                     </div>
-                                    <div class="col-icon icon-buttons" :style="! job.status ? 'cursor: default;' : ''" @click="onClickAction('duplicate', post, index)">
+                                    <div class="col-icon icon-buttons" :style="! job.status ? 'cursor: default;' : ''" @click="onClickAction('duplicate', job)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
                                             <g fill="none" fill-rule="evenodd" :stroke="job.status ? '#000' : '#d8d8d8'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" transform="translate(1 1)">
                                                 <rect width="13" height="13" x="7" y="7" rx="2"/>
@@ -43,7 +46,7 @@
                                         </svg>
                                         <div class="icon-label" :style="! job.status ? 'color: #d8d8d8;' : ''">Duplicate</div>
                                     </div>
-                                    <div class="col-icon icon-buttons" @click="onClickAction('delete', post, index)">
+                                    <div class="col-icon icon-buttons" @click="onClickAction('delete', job)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 20 22">
                                             <g fill="none" fill-rule="evenodd" stroke="#FF3939" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                 <path d="M1 5h18M17 5v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5m3 0V3a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M8 10v6M12 10v6"/>
@@ -95,9 +98,15 @@
 
 <script>
     import Api from '@/api';
+    import DeleteModal from '../common/DeleteModal';
+    import ConfirmModal from '../common/ConfirmModal';
 
     export default {
         name: "job-applicants-top",
+        components: {
+            DeleteModal,
+            ConfirmModal,
+        },
         data() {
             return {
                 disabled: false,
@@ -107,29 +116,71 @@
                 sortBy: 'Most Recent',
                 searchKeyword: '',
                 endpoints: {
-                    getCompany: '/api/v1/company/',
                     getJob: '/api/v1/company/',
                     getApplicants: '/api/v1/job/',
                     getStats: '/api/v1/job/',
-                    doScore: '/api/v1/job/'
+                    duplicate: '/api/v1/job/',
+                    goToJobList: '/job/list?type=active',
+                    delete: '/api/v1/job/'
                 },
             }
         },
         created() {
 
+            let vm = this;
             let companyId = this.companyId ? this.companyId : Utils.getUrlParams().cid;
 
             this.endpoints.getJob = this.endpoints.getJob + companyId + '/jobs/' + Utils.getUrlParams().jid;
-            this.endpoints.getCompany = this.endpoints.getCompany + companyId;
             this.endpoints.getApplicants = this.endpoints.getApplicants + Utils.getUrlParams().jid + '/applicants';
             this.endpoints.getStats = this.endpoints.getStats + Utils.getUrlParams().jid + '/stats';
-            this.endpoints.doScore = this.endpoints.doScore + Utils.getUrlParams().jid + '/do-score';
 
             this.getJob();
-            this.searchApplicants();
             this.getStats();
+
+            Bus.$on('duplicateJobPost', function() {
+                vm.duplicatePost();
+            });
+
+            Bus.$on('removeJobPost', function() {
+                window.location = vm.endpoints.goToJobList;
+            });
+
         },
         methods: {
+
+            onClickAction(action, post) {
+                this.curPost = post;
+
+                switch(action) {
+                    case 'preview':
+                        window.location.href = '/job/view/?cid=' + post.company_id + '&jid=' + post.id;
+                        break;
+
+                    case 'edit':
+                        window.location.href = '/job/post?jid=' + post.id;
+                        break;
+
+                    case 'duplicate':
+                        if (post.status) {
+                            $('#confirmModal').modal('show');
+                            Bus.$emit('confirmAction', 'duplicate');
+                        }
+                        break;
+
+                    case 'delete':
+                        $('#deleteRecordModal').modal('show');
+                        Bus.$emit('deleteJobPost', this.endpoints.delete + post.id + '/delete', post.company_id);
+                        break;
+                }
+            },
+
+
+            goToJobs() {
+
+                if (window.location.pathname != '/job/list?type=templates') {
+                    window.location = '/job/list?type=templates';
+                }
+            },
 
             getJob() {
 
@@ -140,39 +191,6 @@
 
                         vm.job = response.data.data.job;
                     })
-            },
-
-            getApplicants() {
-
-                let vm = this;
-                axios.get(vm.endpoints.getApplicants, Utils.getBearerAuth())
-
-                    .then(function(response) {
-
-                        vm.applicants = response.data.data.applicants;
-                    })
-            },
-
-            goToJobs() {
-
-                if (window.location.pathname != '/job/list?type=templates') {
-                    window.location = '/job/list?type=templates';
-                }
-            },
-
-            goToCompare() {
-
-                let companyId = Utils.getUrlParams().cid;
-                let jobId =  Utils.getUrlParams().jid;
-
-                window.location = '/job/applicants?cid=' + companyId + '&jid=' + jobId + '&compare=true';
-            },
-
-            goToProfile(userId) {
-
-                if (window.location.pathname != '/user/profile/' + userId) {
-                    window.location = '/user/profile/' + userId;
-                }
             },
 
             getStats() {
@@ -187,68 +205,29 @@
                     })
             },
 
-            getFavouriteImg(userId) {
+            async duplicatePost() {
 
-                if (this.stats.favourites.includes(userId)) {
+                let vm = this,
+                    id = this.job.id,
+                    cid = this.job.company_id;
 
-                    return '/img/icons/heart_selected.png';
-                }
+                await axios.post(this.endpoints.duplicate + id + '/duplicate', {
+                    confirmation: 'duplicate',
+                    company_id: cid,
 
-                return '/img/icons/heart.png';
+                }, Utils.getBearerAuth()).then(function(response) {
 
-            },
-
-            getNotSuitImg(userId) {
-
-                if (this.stats.not_suitable.includes(userId)) {
-
-                    return '/img/icons/thumbs-down_selected.png';
-                }
-
-                return '/img/icons/thumbs-down.png';
-
-            },
-
-            doScore(userId, category) {
-
-                let vm = this;
-
-                axios.post(vm.endpoints.doScore, {scored_to: userId, category: category}, Utils.getBearerAuth())
-
-                    .then(function(response) {
-
-                        console.log(response);
-                        vm.stats.favourites = response.data.data.favourites;
-                        vm.stats.not_suitable = response.data.data.not_suitable;
-
-                    })
-            },
-
-            selectSort(type) {
-
-                let vm = this;
-
-                vm.sortBy = type;
-            },
-
-            async searchApplicants() {
-
-                console.log(this.searchKeyword);
-
-                let vm = this;
-
-                await axios.get(vm.endpoints.getApplicants + '?keyword=' + vm.searchKeyword + '&sort=' + vm.sortBy, Utils.getBearerAuth()).then(function(response) {
-
-                    vm.applicants = response.data.data.applicants;
+                    window.location = vm.endpoints.goToJobList;
 
                 }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
 
+                    if (inputErrors) vm.errors = inputErrors;
                 });
-            }
+            },
         }
     }
 </script>
-
 
 <style scoped>
     .job-title {
@@ -296,18 +275,4 @@
         flex: 0 0 25%;
         max-width: 25%;
     }
-    .bg-search {
-        padding: 12px;
-        font-size: 13px;
-        border-radius: 4px;
-        border: solid 1px rgba(0, 0, 0, 0.07);
-        background-color: #ffffff;
-        height: 46px;
-        padding-left: 40px;
-        background-position: 9px 13px;
-        background-repeat: no-repeat;
-        background-image: url(/img/icons/search.png);
-        background-image: -webkit-image-set(url(/img/icons/search@2x.png) 2x, url(/img/icons/search@3x.png) 3x);
-    }
 </style>
-

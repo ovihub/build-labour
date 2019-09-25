@@ -20,6 +20,7 @@
                 <employment-modal></employment-modal>
 
                 <education-modal></education-modal>
+                <tier-modal></tier-modal>
 
                 <ul class="comp-card-wrapper" ref="compCardWrapper">
                     <li class="comp-card-list"><current-role :most-recent-role="mostRecentRole"></current-role></li>
@@ -60,6 +61,7 @@
     import WorkInformation from '../onboarding/WorkInformation';
     import WorkPreferences from '../onboarding/WorkPreferences';
     import PersonalDetails from '../onboarding/PersonalDetails';
+    import TierModal from '../onboarding/TierModal';
 
     export default {
         name: "onboarding",
@@ -202,6 +204,7 @@
             WorkInformation,
             WorkPreferences,
             PersonalDetails,
+            TierModal,
         },
     }
 </script>

@@ -111,6 +111,7 @@
                     get: '/api/v1/company/',
                     search: '/api/v1/job/search?keyword=',
                     save: '/api/v1/bookmarks',
+                    delete: '/api/v1/job/'
                 },
             }
         },
