@@ -169,8 +169,8 @@ class ApiJobApplicantsController extends ApiBaseController
 //                ->whereRaw('we.id IN (select MAX(a2.id) from answers as a2 join users as u2 on u2.id = a2.user_id group by u2.id) LIMIT 1');
 //        });
         $applicants = $applicants->leftJoin('work_experience', function($query) {
-            $query->on('u.id','=','work_experience.user_id');
-              //  ->whereRaw('work_experience.id IN (select MAX(a2.id) from work_experience as a2 join users as u2 on u2.id = a2.user_id group by u2.id)');
+            $query->on('u.id','=','work_experience.user_id')
+                ->whereRaw('work_experience.id IN (select MAX(a2.id) from work_experience as a2 join users as u2 on u2.id = a2.user_id group by u2.id)');
         });
       //  $applicants = $applicants->leftJoin(DB::raw("work_experience we on u.id = we.user_id"));
         if (!empty(trim($request->keyword))) {

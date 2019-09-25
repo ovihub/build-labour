@@ -22,9 +22,21 @@ class JobsController extends Controller
             
             
             if ($user) {
+
                 if (isset($request->cid) && isset($request->jid)) {
-                    return view('jobs.view')->with( compact( 'role' ) );
+
+                    // user a company then redirect to applicants page
+                    if($user->Company){
+
+                        return redirect(route('applicants', ['cid' => $request->cid, 'jid' => $request->jid]));
+
+                    } else {
+
+                        return view('jobs.view')->with( compact( 'role' ) );
+                    }
+
                 }
+
                 return view('errors.404');
             }
 
