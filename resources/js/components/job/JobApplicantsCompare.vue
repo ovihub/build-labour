@@ -18,12 +18,12 @@
                             <div class="bl-mb20">
                                 <div class="bl-display bl-label-15-style-2" v-for="(sector, idx) in applicant.sectors" :key="idx">
                                     {{ sector.business_type }}
-                                    <div class="bl-inline"> •&nbsp;</div>
+                                    <div class="bl-inline" v-if="idx != Object.keys(applicant.sectors).length - 1"> •&nbsp;</div>
                                 </div>
                                 <br>
-                                <div class="bl-display" v-for="tier in applicant.tiers">
+                                <div class="bl-display" v-for="(tier, idx) in applicant.tiers">
                                     {{ tier.tier_name }}
-                                    <div class="bl-inline"> •&nbsp;</div>
+                                    <div class="bl-inline" v-if="idx != Object.keys(applicant.tiers).length - 1"> •&nbsp;</div>
                                 </div>
                             </div>
                             <div class="bl-mb20">
@@ -277,19 +277,6 @@
 </script>
 
 <style scoped>
-    .panel-heading p:after {
-        font-family:'Glyphicons Halflings';
-        content:"\e113";
-        float: right;
-        color: grey;
-    }
-    .panel-heading.collapsed p:after {
-        content:"\e114";
-    }
-
-    .panel-heading {
-        cursor: pointer;
-    }
 
     .card {
         background-color: transparent;

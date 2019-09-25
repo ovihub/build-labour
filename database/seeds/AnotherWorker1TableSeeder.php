@@ -19,7 +19,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
-class AnotherWorkerTableSeeder extends Seeder
+class AnotherWorker1TableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -36,29 +36,30 @@ class AnotherWorkerTableSeeder extends Seeder
         $user->email = $faker->email;
         $user->password = 'secret';
         $user->date_of_birth = Carbon::parse('08/10/1988');
-        $user->mobile_number = '+61 672321672';
+        $user->mobile_number = '+61 712341228';
         $user->address = $faker->address;
-        $user->marital_status = 'Single';
-        $user->gender = 'Male';
+        $user->marital_status = 'Married';
+        $user->gender = 'Female';
         $user->is_verified = Carbon::now();
         $user->role_id = 1; // worker
         $user->save();
 
         $responsibilities = [
-            'Monitor Plant Electrical Systems.',
-            'Able to Fixed Power Plant basic panels'
+            'Accounting Management',
+            'Manage Company information',
+            'Keep Ledgers up to date'
         ];
 
         $w = WorkExperience::create([
 
-            'job_role' => 'Power Plant Electrician',
-            'company_name' => 'Tesla',
+            'job_role' => 'Bookkeeper',
+            'company_name' => 'Jeff Automobile',
             'user_id' => $user->id,
             'project_size' => '200,000',
-            'start_month' => 6,
-            'start_year' => 2011,
-            'end_month' => 9,
-            'end_year' => 2013,
+            'start_month' => 1,
+            'start_year' => 2004,
+            'end_month' => 3,
+            'end_year' => 2009,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -71,35 +72,31 @@ class AnotherWorkerTableSeeder extends Seeder
         }
 
         WorkExperience::create([
-            'job_role' => 'Electrician',
-            'company_id' => 2,
+            'job_role' => 'Accounting Staff',
+            'company_name' => 'Sim & Sims Hotel',
             'user_id' => $user->id,
-            // 'location' => 'Richmond, Victoria, Australia',
-            'project_size' => '1,000,000',
-            'start_month' => 2,
-            'start_year' => 2009,
-            'end_month' => 2,
-            'end_year' => 2012,
+            'project_size' => '300',
+            'start_month' => 5,
+            'start_year' => 2007,
+            'end_month' => 6,
+            'end_year' => 2015,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         $worker = WorkerDetail::create([
-            'profile_description' => 'A Certified PSO Electrician.',
+            'profile_description' => 'Accountant',
             'english_skill' => true,
             'drivers_license' => true,
             'right_to_work' => true,
-            'main_skill' => '3 Years experienced in the electrical job industry',
-            'introduction' => 'Able to find a Supervisor Job',
-            'when' => 12,
-            'max_distance' => 100,
+            'main_skill' => 'A professional Certified Public Accountant',
+            'introduction' => 'Looking a company that needs good in numbers.',
+            'when' => 8,
+            'max_distance' => 51,
             'state' => 'VIC',
             'nrole_right_to_work_au' => true,
             'user_id' => $user->id
         ]);
-
-        $user2 = User::whereEmail(env('APP_EMAIL_SUPPORT'))->first();
-
 
         UserSkill::create([
             'user_id' => $user->id,
@@ -125,16 +122,10 @@ class AnotherWorkerTableSeeder extends Seeder
         // worker tiers
 
         $tier1 = Tier::where('tier_name', 'Tier 1')->first();
-        $tier2 = Tier::where('tier_name', 'Tier 2')->first();
 
         WorkerTier::insert([
             'worker_id' => $worker->id,
             'tier_id' => $tier1->id
-        ]);
-
-        WorkerTier::insert([
-            'worker_id' => $worker->id,
-            'tier_id' => $tier2->id
         ]);
 
         $job = Job::find(4);

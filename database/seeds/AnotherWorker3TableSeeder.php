@@ -19,7 +19,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
-class AnotherWorkerTableSeeder extends Seeder
+class AnotherWorker3TableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -36,7 +36,7 @@ class AnotherWorkerTableSeeder extends Seeder
         $user->email = $faker->email;
         $user->password = 'secret';
         $user->date_of_birth = Carbon::parse('08/10/1988');
-        $user->mobile_number = '+61 672321672';
+        $user->mobile_number = '+61 412345678';
         $user->address = $faker->address;
         $user->marital_status = 'Single';
         $user->gender = 'Male';
@@ -98,63 +98,71 @@ class AnotherWorkerTableSeeder extends Seeder
             'user_id' => $user->id
         ]);
 
-        $user2 = User::whereEmail(env('APP_EMAIL_SUPPORT'))->first();
+            $user2 = User::whereEmail(env('APP_EMAIL_SUPPORT'))->first();
 
 
-        UserSkill::create([
-            'user_id' => $user->id,
-            'skill_id' => 1,
-            'level_id' => 1
-        ]);
+            UserSkill::create([
+                'user_id' => $user->id,
+                'skill_id' => 1,
+                'level_id' => 1
+            ]);
 
-        UserSkill::create([
-            'user_id' => $user->id,
-            'skill_id' => 5,
-            'level_id' => 2
-        ]);
+            UserSkill::create([
+                'user_id' => $user->id,
+                'skill_id' => 5,
+                'level_id' => 2
+            ]);
 
-        // worker areas
+            // worker areas
 
-        $commercial = BusinessType::where('business_type', 'Commercial')->first();
+            $commercial = BusinessType::where('business_type', 'Commercial')->first();
 
-        WorkerArea::insert([
-            'worker_id' => $worker->id,
-            'business_type_id' => $commercial->id
-        ]);
+            WorkerArea::insert([
+                'worker_id' => $worker->id,
+                'business_type_id' => $commercial->id
+            ]);
 
-        // worker tiers
+            // worker tiers
 
-        $tier1 = Tier::where('tier_name', 'Tier 1')->first();
-        $tier2 = Tier::where('tier_name', 'Tier 2')->first();
+            $tier1 = Tier::where('tier_name', 'Tier 1')->first();
+            $tier2 = Tier::where('tier_name', 'Tier 2')->first();
 
-        WorkerTier::insert([
-            'worker_id' => $worker->id,
-            'tier_id' => $tier1->id
-        ]);
+            WorkerTier::insert([
+                'worker_id' => $worker->id,
+                'tier_id' => $tier1->id
+            ]);
 
-        WorkerTier::insert([
-            'worker_id' => $worker->id,
-            'tier_id' => $tier2->id
-        ]);
+            WorkerTier::insert([
+                'worker_id' => $worker->id,
+                'tier_id' => $tier2->id
+            ]);
 
-        $job = Job::find(4);
+            $job = Job::find(4);
 
-        // job stat
+            // job stat
 
-        JobApplicant::create([
-            'job_id' => $job->id,
-            'user_id' => $user->id,
-            'applied_at' => Carbon::now()
-        ]);
+            JobApplicant::create([
+                'job_id' => $job->id,
+                'user_id' => $user->id,
+                'applied_at' => Carbon::now()
+            ]);
 
 
-        JobStat::create([
-            'job_id' => $job->id,
-            'scored_to' => $user->id,
-            'performed_by' => $user->id,
-            'category' => 'viewed',
-            'created_at' => Carbon::now()
-        ]);
+            JobStat::create([
+                'job_id' => $job->id,
+                'scored_to' => $user->id,
+                'performed_by' => $user->id,
+                'category' => 'viewed',
+                'created_at' => Carbon::now()
+            ]);
+
+            JobStat::create([
+                'job_id' => $job->id,
+                'scored_to' => $user->id,
+                'performed_by' => $user->id,
+                'category' => 'favourite',
+                'created_at' => Carbon::now()
+            ]);
 
     }
 }

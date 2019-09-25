@@ -29,5 +29,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LevelsTableSeeder::class);
         $this->call(UsersTableSeeder::class);
         $this->call(AnotherWorkerTableSeeder::class);
+        $this->call(AnotherWorker1TableSeeder::class);
     }
 }
