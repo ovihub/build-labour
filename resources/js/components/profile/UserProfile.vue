@@ -91,7 +91,7 @@
                             </div>
 
                             <div class="role-col-right">
-                                <input class="form-control" type="text" placeholder="Months" v-model="input.exp_month"
+                                <input class="form-control" type="number" placeholder="Months" v-model="input.exp_month"
                                     @focus="hasFocus()" />
                                 <span class="err-msg" v-if="errors.exp_month">{{ errors.exp_month }}</span>
 
