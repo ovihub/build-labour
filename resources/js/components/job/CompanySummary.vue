@@ -27,14 +27,25 @@
             </div>
         
         </div>
-        
-        <button style="width: 100%;" v-if="user_role === 'Worker' && show" @click="apply">
-            {{buttonText }}
+        <div v-if="user_applied === '0' ">
+            <button style="width: 100%;" v-if="user_role === 'Worker' && show" @click="apply">
+                {{buttonText }}
 
-            <div class="loading" style="position: unset; text-align: center;">
-                <pulse-loader :loading="loading" color="#fff" size="10px"></pulse-loader>
-            </div>
-        </button>
+                <div class="loading" style="position: unset; text-align: center;">
+                    <pulse-loader :loading="loading" color="#fff" size="10px"></pulse-loader>
+                </div>
+            </button>
+        </div>
+        <div v-else>
+            <button style="width: 100%;" :style="{backgroundColor: btn_disabled_color}">
+                {{buttonText }}
+
+                <div class="loading" style="position: unset; text-align: center;">
+                    <pulse-loader :loading="loading" color="#fff" size="10px"></pulse-loader>
+                </div>
+            </button>
+        </div>
+        
         <alert></alert>
         
     </div>
@@ -63,10 +74,17 @@
                 },
                 buttonText: '',
                 user_role: '',
+                user_applied: '',
+                btn_disabled: 'enabled',
+                btn_disabled_color: '',
             }
         },
         props: {
             role:{
+                type:String,
+                required:true
+            },
+            already_applied:{
                 type:String,
                 required:true
             }
@@ -96,8 +114,13 @@
 
             this.buttonText = vm.loading ? '' : 'Apply';
             vm.user_role = vm.role;
-            console.log(vm.user_role);
-
+            vm.user_applied = vm.already_applied;
+            
+            if(vm.user_applied == '1'){
+                vm.buttonText = 'Already Applied';                
+                vm.btn_disabled_color = '#A2A2A2';
+            }
+            
             
         },
         methods: {
@@ -111,13 +134,17 @@
                 .then(function(response) {
                     if(response.data.success){console.log(response.data.message);
                         Bus.$emit('alertSuccess', response.data.message);
+                        vm.user_applied = '1';
+                        vm.buttonText = 'Already Applied';                
+                        vm.btn_disabled_color = '#A2A2A2';
                     }
                     else{
                         Bus.$emit('alertError', response.data.message);
+                        vm.buttonText = 'Apply';
                     }
                     
                     vm.loading = false;
-                    vm.buttonText = 'Apply';
+                    
                 }).catch(function(error) {
                     Bus.$emit('alertError', error.response.data.message);
                     vm.loading = false;

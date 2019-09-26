@@ -6,6 +6,7 @@ use App\User;
 use App\Models\Companies\Company;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\Companies\JobApplicant;
 
 class JobsController extends Controller
 {
@@ -22,17 +23,23 @@ class JobsController extends Controller
             
             
             if ($user) {
-
+                // check if user already applied for the job
+                $already_applied = 0;
+                $temp_already_applied = JobApplicant::where([['user_id','=',$user->id,],['job_id','=', $request->jid]])->first();
+                if($temp_already_applied){
+                    $already_applied = 1;
+                }
+                
                 if (isset($request->cid) && isset($request->jid)) {
 
                     // user a company then redirect to applicants page
                     if($user->Company && (isset($request->v) && $request->v == 'details')){
-
+                        
                         return redirect(route('applicants', ['cid' => $request->cid, 'jid' => $request->jid]));
 
                     } else {
 
-                        return view('jobs.view')->with( compact( 'role' ) );
+                        return view('jobs.view')->with( compact( 'role','already_applied') );
                     }
 
                 }
