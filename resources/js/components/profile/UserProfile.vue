@@ -85,7 +85,7 @@
                         <div class="me-label" style="margin-bottom:17px">Years Experience</div>
                         <div class="me-row">
                             <div class="role-col-left">
-                                <input class="form-control" type="text" placeholder="Years" v-model="input.exp_year"
+                                <input class="form-control" type="number" placeholder="Years" v-model="input.exp_year"
                                     @focus="hasFocus()" />
                                 <span class="err-msg" v-if="errors.exp_year">{{ errors.exp_year }}</span>
                             </div>
