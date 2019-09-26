@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
         <load-job></load-job>
         <div class="col-md-3">
-            <company-summary role="{{ $role }}"></company-summary>
+            <company-summary role="{{ $role }}" already_applied="{{ $already_applied }}"></company-summary>
             
         </div>
         <div class="col-md-6">
