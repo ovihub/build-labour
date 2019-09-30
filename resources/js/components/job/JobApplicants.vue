@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <div class="profile-item-2">
+        <div class="profile-item-2" v-if="stats">
             <div class="bl-label-20-style-2">Candidates</div>
         </div>
 
@@ -43,14 +43,14 @@
             </div>
         </div>
 
-        <div class="profile-item-2 filter-actions">
+        <div class="profile-item-2 filter-actions" v-if="stats">
 
             <div class="col-lg-6 col-md-5 m-0 p-0">
 
                 <input type="text" placeholder="Filter Applicants" name="search" class="form-control search-input bg-search" v-model="searchKeyword" @keyup="searchApplicants" >
             </div>
 
-            <div class="col-lg-4 col-md-4">
+            <div class="col-lg-4 col-md-4 filter-left-actions">
                 <div class="sort-by">
                     <label>Sort By:</label>
                     <div class="dropdown">
@@ -62,10 +62,9 @@
                         </ul>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-2 col-md-2 compare-actions-wrapper pt-2">
                 <a href="javascript:void(0)" @click="goToCompare()" class="btn btn-primary btn-sm compare">Compare</a>
             </div>
+
         </div>
 
         <div class="profile-item-2 applicants-wrapper" v-if="stats">
@@ -104,7 +103,7 @@
 
                         </div>
 
-                        <div class="col-lg-3 bl-col pt-20">
+                        <div class="col-md-12 col-lg-3 bl-col pt-20 view-details">
                             <a href="javascript:void(0)" @click="goToProfile(applicant.user_id)">View Details<i class="fa fa-angle-right ml-2"></i></a>
                         </div>
 

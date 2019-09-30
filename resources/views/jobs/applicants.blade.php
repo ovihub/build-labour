@@ -4,14 +4,16 @@
 
     <div class="row justify-content-center applicants">
 
-        <div class="col-lg-10 col-md-12 pb-0">
+        <div class="col-lg-10 col-md-12 pb-0 bl-applicants-wrapper">
             <job-applicants-top></job-applicants-top>
         </div>
 
         @if($hasCompareParam)
-            <job-applicants-compare></job-applicants-compare>
+            <div class="col-md-12">
+                <job-applicants-compare></job-applicants-compare>
+            </div>
         @else
-            <div class="col-lg-10 col-md-12 pt-0">
+            <div class="col-lg-10 col-md-12 pt-0 bl-applicants-wrapper">
                 <job-applicants></job-applicants>
             </div>
         @endif
