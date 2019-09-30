@@ -48,9 +48,13 @@
                 this.input.profile_photo_url = profile_photo_url;
             }
 
-            // Bus.$on('croppedPhoto', function(photo_url) {
-            //     vm.input.profile_photo_url = photo_url;
-            // });
+            Bus.$on('triggerGoProfile', () => {
+                this.showProfile();
+            });
+
+            Bus.$on('triggerGoLogout', () => {
+                this.logoutUser();
+            });
         },
         methods: {
             showProfile() {

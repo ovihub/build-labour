@@ -20,11 +20,11 @@
     <div id="app">
         @if (isset($_COOKIE['bl_token']))
             <header class="site-header">
-                <div class="main-nav">
-                    <div class="container">
-                        <navigation></navigation>
-                    </div>
+
+                <div class="container">
+                    <navigation></navigation>
                 </div>
+
             </header>
         @endif
         

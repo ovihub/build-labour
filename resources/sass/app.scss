@@ -504,7 +504,7 @@ ul.bl-nav-list {
   width: 24px;
   height: 24px;
   object-fit: contain;
-  margin-top: 9px;
+  margin-top: 5px;
   display: flex;
   flex-wrap: wrap;
   margin-left: auto;
@@ -570,6 +570,73 @@ p.bl-nav-tab-label {
   &:hover {
     cursor: pointer;
   }
+}
+
+.navbar-nav {
+
+  padding: 0;
+
+  .nav-item {
+    a {
+      span {
+        top: 2px;
+        position: relative;
+        color: #ffffff;
+      }
+    }
+
+    opacity: 0.5;
+    margin-bottom: 10px;
+  }
+
+}
+
+
+.nav-hamburger-wrapper {
+
+  .dropdown {
+
+    .dropdown-menu {
+      position: absolute !important;
+      right: 0;
+      top: 70%;
+      background: #005778;
+      left: unset;
+      width: 60%;
+      margin: 0;
+      padding: 10px 0 0 5px;
+    }
+
+    .dropdown-toggle:after {
+      content: none;
+    }
+  }
+
+  margin-right: 4%;
+
+  .navbar-toggler .icon-bar {
+    background-color: #fff;
+    transform: rotate(0deg) translate(0px, 0px);
+    transition: ease all .2s;
+  }
+
+  .navbar-toggler .icon-bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    border-radius: 1px;
+  }
+
+  .navbar-toggler .icon-bar+.icon-bar {
+    margin-top: 4px;
+  }
+
+  button {
+    width: 100%;
+    margin: 0;
+  }
+
+
 }
 /* ==========================================================================
     Default Styling
@@ -1524,4 +1591,9 @@ ul.template-list {
   opacity: 0.7;
   display: inline;
   margin-right: 12px;
+}
+
+.navbar {
+  background: #005778;
+  padding: 0;
 }
