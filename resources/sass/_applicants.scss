@@ -1,13 +1,71 @@
+@include media-breakpoint-down(sm) {
+
+    .applicants {
+
+        .bl-applicants-wrapper {
+            padding: 33px 15px;
+        }
+    }
+}
+
 .applicants {
 
-    .score-actions {
+    @include media-breakpoint-down(xs) {
 
-        display: flex;
+        .filter-actions {
+            display: block !important;
+        }
+    }
+
+    @include media-breakpoint-down(sm) {
+
+        .filter-actions {
+
+            margin-bottom: 55px;
+
+            .filter-left-actions {
+                .sort-by {
+                    float: left;
+                    margin: 0;
+                }
+            }
+        }
+
+        .applicants-wrapper .profile-item-2 {
+            display: block !important;
+
+            .action-wrapper {
+
+                justify-content: space-evenly;
+
+                .action {
+                    margin: 0 !important;
+                }
+
+            }
+
+            .view-details {
+
+                margin-top: 20px;
+                text-align: center;
+
+                a {
+                    right: 0;
+                    position: relative !important;
+                    top: 0 !important;
+                }
+
+            }
+        }
+    }
+
+    .score-actions {
 
         .profile-item-2 {
             font-size: 13px;
             line-height: 13px;
             margin-right: 20px;
+            float: left;
         }
 
         .profile-content {
@@ -29,6 +87,7 @@
     .filter-actions {
 
         display: flex;
+        clear: both;
 
         .compare-wrapper{
             text-align: right;
@@ -49,6 +108,7 @@
 
             display: flex;
             padding-top: 10px;
+            margin-left: 15px;
 
             button.btn.dropdown-toggle.sort-sel {
                 margin: 0;
@@ -72,9 +132,21 @@
             }
         }
 
+        .filter-left-actions {
+
+            display: contents;
+
+            .compare {
+                position: absolute;
+                right: 0;
+                margin-top: 6px;
+            }
+        }
     }
 
     .applicants-wrapper {
+
+        clear: both;
 
         ul {
 
