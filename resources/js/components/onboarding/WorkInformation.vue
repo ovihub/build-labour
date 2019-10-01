@@ -4,7 +4,7 @@
             I have the right to legally work in Australia
         </div>
         <div class="skill-label-3">
-            <a href="#">See legal requirements</a>
+            <a href="https://www.australia.gov.au/information-and-services/immigration-and-visas/work-visas" target="_blank">See legal requirements</a>
         </div>
         <div class="bl-inline">
             <input id="right_to_work_1" class="styled-checkbox-round" type="checkbox"
