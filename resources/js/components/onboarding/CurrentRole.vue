@@ -33,16 +33,12 @@
         <div class="me-label" style="margin-bottom:17px">Years Experience</div>
         <div class="me-row">
             <div class="role-col-left">
-                <!-- <div class="emp-form-label" v-if="input.exp_year">Years</div> -->
-                
-                <input class="form-control" type="text" placeholder="Years" v-model="input.exp_year"
+                <input class="form-control" type="number" placeholder="Years" v-model="input.exp_year"
                     @focus="hasFocus(false)" />
             </div>
 
             <div class="role-col-right">
-                <!-- <div class="emp-form-label" v-if="input.exp_month">Months</div> -->
-                
-                <input class="form-control" type="text" placeholder="Months" v-model="input.exp_month"
+                <input class="form-control" type="number" placeholder="Months" v-model="input.exp_month"
                     @focus="hasFocus(false)" />
             </div>
         </div>
