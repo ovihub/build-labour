@@ -51,6 +51,13 @@
                 ],
             }
         },
+        mounted() {
+
+            if (!this.educations) {
+                this.educations = [];
+            }
+
+        },
         created() {
             let vm = this;
 
@@ -59,7 +66,10 @@
             });
 
             Bus.$on('updateEducation', function(index, details) {
+
+
                 if (index == -1) {
+                    
                     vm.educations.push(details);
                 
                 } else {
