@@ -46,6 +46,20 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row tier-row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-2 tier-name-container">
+                                    <div class="tier-name">
+                                        <span>Tier 4</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-10 tier-description-container">
+                                    <span class="tier-description">Residential Construction projects ranging from $500k $4million</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>                
             </div>            
         </template>        
@@ -104,7 +118,7 @@ export default {
         color: #ffffff;        
     }
     .tier-description-container{
-        padding: 5px 10px !important;
+        padding: 11px 10px 5px 10px !important;
         width: 428px;        
         border-radius: 0 8px 8px 0;
         background-color: #383d3f;        
