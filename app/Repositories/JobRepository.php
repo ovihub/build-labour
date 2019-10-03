@@ -635,7 +635,12 @@ class JobRepository extends AbstractRepository
 
         $last3Days = Carbon::now()->subDays(3);
         $today = Carbon::now();
-        $noOfNew = JobApplicant::where('job_id',  $request->id)->whereBetween('applied_at', [$last3Days, $today])->count();
+
+        // deal no of new
+
+        $noOfApplicants = JobApplicant::where('job_id',  $request->id)->count();
+        $noOfCompanyViewedApplicants = JobStat::where(['job_id' => $request->id, 'category' => 'company_viewed_profile'])->count();
+        $noOfNew = $noOfApplicants > $noOfCompanyViewedApplicants ? $noOfApplicants - $noOfCompanyViewedApplicants : 0;
         $noOfFavourites = count($favourites);
         $noOfNotSuitable = count($not_suitable);
         $noOfInvited = count($invited);
