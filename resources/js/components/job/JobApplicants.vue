@@ -74,7 +74,9 @@
                     <div class="profile-content profile-item-2">
                         <div class="col-lg-5 bl-col p-0">
                             <p class="mb-2">
-                                <span class="bl-label-19">{{ applicant.full_name }}</span>
+                                <a href="javascript:void(0)" @click="goToProfile(applicant.user_id)">
+                                    <span class="bl-label-19">{{ applicant.full_name }}</span>
+                                </a>
                             </p>
 
                             <p>
@@ -192,7 +194,7 @@
             goToProfile(userId) {
 
                 if (window.location.pathname != '/user/profile/' + userId) {
-                    window.location = '/user/profile/' + userId;
+                    window.location = '/user/profile/' + userId + '?prevJob=' + this.job.id + '&cView=1';
                 }
             },
 

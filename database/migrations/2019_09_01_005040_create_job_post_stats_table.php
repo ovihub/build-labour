@@ -18,7 +18,7 @@ class CreateJobPostStatsTable extends Migration
             $table->integer('job_id')->unsigned();
             $table->integer('performed_by')->unsigned(); // a scorer
             $table->integer('scored_to')->unsigned(); // score to a user
-            $table->string('category')->comment('viewed, invited, favourite, not_suitable');
+            $table->string('category')->comment('viewed, invited, favourite, not_suitable, company_viewed_profile');
             $table->timestamp('created_at');
 
             $table->foreign('performed_by')
