@@ -641,11 +641,12 @@ class JobRepository extends AbstractRepository
         $noOfApplicants = JobApplicant::where('job_id',  $request->id)->count();
         $noOfCompanyViewedApplicants = JobStat::where(['job_id' => $request->id, 'category' => 'company_viewed_profile'])->count();
         $noOfNew = $noOfApplicants > $noOfCompanyViewedApplicants ? $noOfApplicants - $noOfCompanyViewedApplicants : 0;
+
         $noOfFavourites = count($favourites);
         $noOfNotSuitable = count($not_suitable);
         $noOfInvited = count($invited);
 
-        $total = $noOfInvited + $noOfNotSuitable + $noOfFavourites;
+        $total = $noOfApplicants;
 
         return [
             'no_of_views' => $noOfViews,
