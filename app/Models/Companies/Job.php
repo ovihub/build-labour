@@ -250,9 +250,12 @@ class Job extends BaseModel
     }
 
     public function getStatNewAttribute(){
-        $last3Days = Carbon::now()->subDays(3);
-        $today = Carbon::now();        
-        return $this->JobApplicants->whereBetween('applied_at', [$last3Days, $today])->count();
+
+        $noOfApplicants = JobApplicant::where('job_id',  $this->id)->count();
+        $noOfCompanyViewedApplicants = JobStat::where(['job_id' => $this->id, 'category' => 'company_viewed_profile'])->count();
+        $noOfNew = $noOfApplicants > $noOfCompanyViewedApplicants ? $noOfApplicants - $noOfCompanyViewedApplicants : 0;
+
+        return $noOfNew;
     }
 
     public function getStatNotSuitableAttribute(){
@@ -260,8 +263,9 @@ class Job extends BaseModel
     }
 
     public function getStatTotalAttribute(){
-       $total = $this->stat_invited + $this->stat_not_suitable + $this->stat_favourite;
+      //  $total = $this->stat_invited + $this->stat_not_suitable + $this->stat_favourite;
 
+        $total = JobApplicant::where('job_id',  $this->id)->count();
         return $total;
     }
 
