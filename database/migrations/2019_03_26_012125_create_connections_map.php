@@ -28,6 +28,5 @@ class CreateConnectionsMap extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('connections_map');
     }
 }

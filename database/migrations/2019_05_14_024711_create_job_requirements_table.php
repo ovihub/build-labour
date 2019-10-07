@@ -28,6 +28,5 @@ class CreateJobRequirementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('job_requirements');
     }
 }

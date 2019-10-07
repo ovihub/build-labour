@@ -29,6 +29,5 @@ class CreateChatChannels extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chat_channels');
     }
 }

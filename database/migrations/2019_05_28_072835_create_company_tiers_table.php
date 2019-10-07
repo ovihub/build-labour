@@ -26,6 +26,5 @@ class CreateCompanyTiersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_tiers');
     }
 }

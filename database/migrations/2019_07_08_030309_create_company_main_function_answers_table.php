@@ -27,6 +27,5 @@ class CreateCompanyMainFunctionAnswersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_main_function_answers');
     }
 }
