@@ -30,6 +30,5 @@ class CreateWorkExperiencePositionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('work_experience_positions');
     }
 }

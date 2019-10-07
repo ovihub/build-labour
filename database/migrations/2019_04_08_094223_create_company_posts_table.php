@@ -30,6 +30,5 @@ class CreateCompanyPostsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_posts');
     }
 }

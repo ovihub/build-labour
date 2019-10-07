@@ -5,7 +5,7 @@
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="javascript:void(0)"><img class="bl-nav-logo" src="/img/BUILDLABOUR_FULLLOGO@1x.png" width="90"></a>
+                <a class="navbar-brand" href="javascript:void(0)"><img class="bl-nav-logo" src="/img/BUILDLABOUR_FULLLOGO@1x.png" width="90" @click="onClickJobs()"></a>
 
                 <div class="search-wrapper">
                     <input class="bl-nav-search bg-search" id="search" placeholder="Search" type="text" name="search" ref="nav-search" v-model="keyword"
@@ -184,6 +184,7 @@
             },
 
             onClickJobs() {
+
                 if (window.location.pathname != '/job/list?type=templates') {
                     window.location = '/job/list?type=templates';
                 }

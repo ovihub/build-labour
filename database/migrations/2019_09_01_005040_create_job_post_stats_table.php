@@ -36,6 +36,5 @@ class CreateJobPostStatsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('job_post_stats');
     }
 }

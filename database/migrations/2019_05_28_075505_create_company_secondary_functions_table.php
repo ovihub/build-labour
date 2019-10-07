@@ -27,6 +27,5 @@ class CreateCompanySecondaryFunctionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_secondary_functions');
     }
 }

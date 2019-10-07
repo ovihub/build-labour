@@ -31,6 +31,5 @@ class CreateUsersNotificationInfo extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_notification_info');
     }
 }

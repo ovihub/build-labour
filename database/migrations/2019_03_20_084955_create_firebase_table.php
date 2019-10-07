@@ -32,6 +32,5 @@ class CreateFirebaseTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_firebase');
     }
 }

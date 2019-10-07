@@ -26,6 +26,5 @@ class CreateMetasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('metas');
     }
 }

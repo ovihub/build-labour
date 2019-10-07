@@ -27,6 +27,5 @@ class CreateWorkerTiersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('worker_tiers');
     }
 }

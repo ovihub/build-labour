@@ -27,6 +27,5 @@ class CreateCompanySpecialization extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_specialization');
     }
 }
