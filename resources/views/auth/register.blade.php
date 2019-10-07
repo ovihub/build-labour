@@ -16,15 +16,6 @@
     <link rel="shortcut icon" href="/favicon-new.ico" type="image/x-icon">
     <link rel="icon" href="/favicon-new.ico" type="image/x-icon">
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3B4S33VL5D"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-3B4S33VL5D');
-    </script>
 </head>
 <body style="overflow-x:hidden">
     <div id="app">
