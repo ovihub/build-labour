@@ -280,6 +280,12 @@ class BuildLabourApi {
         return self.returnValue;
     }
 
+    searchJobRoles(keyword) {
+        let self = this;
+
+        return Promise.resolve(self._search(this.endpoints.job_roles + '?keyword=' + keyword));
+    }
+
     getCountries() {
         return this._get(this.endpoints.countries);
     }

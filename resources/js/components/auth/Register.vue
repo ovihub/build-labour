@@ -183,7 +183,18 @@
                 this.has_focus = has_focus;
             },
             onSearchJob(keyword) {
-                this.job_roles = (keyword && keyword.length > 0) ? Api.getJobRoles(keyword) : [];
+
+                let vm = this;
+
+                if (keyword && keyword.length < 0) {
+                    this.job_roles = [];
+                }
+
+                Api.searchJobRoles(keyword).then(function(data) {
+
+                    vm.job_roles = data.data ? data.data.job_roles : [];
+                });
+
             },
             onSelectJob(job) {
                 this.input.most_recent_role = job.job_role_name;
