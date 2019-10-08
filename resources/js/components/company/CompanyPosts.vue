@@ -27,19 +27,19 @@
                     <div class="bl-label-15 bl-mt16 bl-mb16">
                         {{ post.content }}
                     </div>
-                    <div class="post-action">
+                    <div class="post-action" v-show="false">
                         <img class="mr-1" src="/img/icons/share.png"
                             srcset="/img/icons/share@2x.png 2x, /img/icons/share@3x.png 3x">
 
                         Share
                     </div>
-                    <div class="post-action">
+                    <div class="post-action" v-show="false">
                         <img class="mr-1" src="/img/icons/comments.png"
                             srcset="/img/icons/comments@2x.png 2x, /img/icons/comments@3x.png 3x">
 
                         Comments
                     </div>
-                    <div class="post-action">
+                    <div class="post-action" v-show="false">
                         <svg class="like" xmlns="http://www.w3.org/2000/svg" width="12" height="11" viewBox="0 0 12 11">
                             <g fill="none" fill-rule="evenodd">
                                 <path d="M0 0h12v12H0z"/>
