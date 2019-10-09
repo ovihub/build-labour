@@ -2,13 +2,13 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-149109993-1"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147131520-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
-        gtag('config', 'UA-149109993-1');
+        gtag('config', 'UA-147131520-1');
     </script>
 
     <meta charset="utf-8">
