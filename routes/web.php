@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'PageController@index');
+Route::get('/', 'PageController@index')->middleware(['forcehttps']);
 Route::get('home', 'PageController@index');
 Route::get('reset-email', 'PageController@resetEmail');
 
