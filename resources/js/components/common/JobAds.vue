@@ -11,7 +11,7 @@
                             <img v-if="post.company.photo_url" class="bl-image-32" :src="post.company.photo_url"
                                  @click="onClickCompanyPhoto(post.company_id)">
 
-                            <avatar cls="bl-image-32" size="32" border="0" border-radius="8px"
+                            <avatar v-if="!post.company.photo_url" cls="bl-image-32" size="32" border="0" border-radius="8px"
                                     :initials="getInitials(post.company.name)"
                                     :company-id="(post.company_id) ? post.company_id + '' : ''">
                             </avatar>
