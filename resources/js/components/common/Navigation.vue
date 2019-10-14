@@ -24,8 +24,8 @@
                         <div class="dropdown-menu">
                             <!-- menu dropdown mobile mode -->
                             <ul class="navbar-nav ml-auto bl-nav-dev-sm">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="javascript:void(0)">
+                                <li class="nav-item" ng-show="false">
+                                    <a class="nav-link" href="javascript:void(0)" @click="onClickProfile">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                                             <g fill="none" fill-rule="evenodd">
                                                 <path d="M-3-3h24v24H-3z"/>
@@ -33,7 +33,7 @@
                                             </g>
                                         </svg>
                                         <span>
-                                    Dashboard
+                                    Profile
                                 </span>
                                     </a>
                                 </li>
@@ -86,7 +86,7 @@
 
                     <!-- menu large devices mode -->
                     <ul class="row bl-nav-list bl-nav-dev-lg">
-                        <li ref="nav-dashboard" @click="onClickDashboard">
+                        <li ref="nav-dashboard" @click="onClickProfile">
                             <div class="bl-nav-tab">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                                     <g fill="none" fill-rule="evenodd">
@@ -95,7 +95,7 @@
                                     </g>
                                 </svg>
                             </div>
-                            <p class="bl-nav-tab-label">Dashboard</p>
+                            <p class="bl-nav-tab-label">Profile</p>
                         </li>
 
                         <li ref="nav-jobs" @click="onClickJobs">
@@ -143,8 +143,10 @@
 </template>
 
 <script>
+
+    import Api from '@/api';
     import Logout from '../auth/Logout';
-    
+
     export default {
         name: "navigation",
         data() {
@@ -182,6 +184,12 @@
             onClickDashboard() {
                 // this.$refs['nav-dashboard'].style = 'opacity: 1';
             },
+
+            onClickProfile() {
+
+                Api.redirectToProfile();
+            },
+
 
             onClickJobs() {
 
