@@ -297,7 +297,7 @@ class Users extends BaseModel implements
 
         try{
             $this->save();
-            \Mail::to( $this->email )->send( new ResendVerificationCodeEmail( $this ) );
+            // \Mail::to( $this->email )->send( new ResendVerificationCodeEmail( $this ) );
         }catch( \Exception  $e ){
             $this->addError( $e->getMessage() );
             return false;

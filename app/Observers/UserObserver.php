@@ -33,7 +33,7 @@ class UserObserver {
 
             }
 
-            Mail::to( $user->email )->send( new ResendVerificationCodeEmail( $user ) );
+            // Mail::to( $user->email )->send( new ResendVerificationCodeEmail( $user ) );
 
         }
 
