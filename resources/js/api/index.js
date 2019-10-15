@@ -223,6 +223,10 @@ class BuildLabourApi {
         return this._get(this.endpoints.worker_tickets);
     }
 
+    getCompanyApplicants(endpoint) {
+        return this._get(endpoint);
+    }
+
     getLocations(keyword, types = '') {
         let self = this;
 

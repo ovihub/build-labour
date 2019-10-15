@@ -262,6 +262,61 @@ class ApiCompaniesController extends ApiBaseController
 
     /**
      * @OA\Get(
+     *      path="/company/{id}/applicants?limit=3",
+     *      tags={"Company"},
+     *      summary="Get applicants within the company different to job applicants",
+     *      security={{"BearerAuth":{}}},
+     *      @OA\Parameter(
+     *          in="path",
+     *          name="id",
+     *          description="company id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Invalid Token"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Token Expired"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Token Not Found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request OK"
+     *      )
+     * )
+     */
+    public function applicants( Request $request )
+    {
+        try {
+
+            $applicants = $this->repository->getApplicants($request);
+
+        } catch(\Exception $e) {
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        return $this->apiSuccessResponse( compact( 'applicants' ), true, '', self::HTTP_STATUS_REQUEST_OK);
+    }
+
+    /**
+     * @OA\Get(
      *      path="/company/options",
      *      tags={"Company"},
      *      summary="Get company options for selection",

@@ -8,10 +8,13 @@ use App\Models\Companies\Company;
 use App\Models\Companies\CompanyPost;
 use App\Models\Companies\CompanySpecialized;
 use App\Models\Companies\Job;
+use App\Models\Companies\JobApplicant;
 use App\Models\Companies\JobRequirement;
 use App\Models\Companies\JobResponsibility;
 use App\Models\Companies\JobRole;
 use App\Models\Options\SecondaryFunction;
+use App\Models\Users\Users;
+use App\Models\Users\WorkerDetail;
 use Illuminate\Http\Request;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 use JWTAuth;
@@ -130,6 +133,37 @@ class CompanyRepository extends AbstractRepository
             $workers = $company->getWorkers();
 
             return PeoplesResource::collection($workers);
+        }
+
+        return [];
+    }
+
+    public function getApplicants(Request $request) {
+
+        $company = Company::find($request->id);
+        $limit = is_int((int) $request->limit) ? $request->limit : 0;
+
+        // get the jobs within a company as set of id
+
+        // get the applicants within a company by set of job id
+
+        if ($company) {
+
+            $setOfJobId = $company->Jobs()->pluck('id')->toArray();
+
+            $setOfUserId = JobApplicant::whereIn('job_id', $setOfJobId)->pluck('user_id')->toArray();
+
+            $applicants = Users::whereIn('id', $setOfUserId);
+
+            $applicants = $applicants->get();
+
+            if ($limit) {
+
+                $applicants = $applicants->take($limit);
+            }
+            
+            return PeoplesResource::collection($applicants);
+
         }
 
         return [];

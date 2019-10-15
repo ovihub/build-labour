@@ -115,7 +115,8 @@ class JobRepository extends AbstractRepository
 
         $column = $request->get('column') ? $request->get('column') : 'created_at';
         $order = $request->get('order') ? $request->get('order') : 'desc';
-        $per_page = $request->get('per_page') ? $request->get('per_page') : 10;
+        $per_page = $request->get('per_page') ? $request->get('per_page') : 10; // pagination
+        $limit = $request->get('limit') ? $request->get('limit') : 0; // limit
 
         // $noOfNew = JobApplicant::where('job_id',  $request->id)->whereBetween('applied_at', [$last3Days, $today])->count();
 
@@ -179,7 +180,13 @@ class JobRepository extends AbstractRepository
         // $jobs = $jobs->orderBy($column, $order);
         // $data = $jobs->paginate($per_page);
 
-        $jobs = $jobs->orderBy('created_at', 'desc')->get();
+        $jobs = $jobs->orderBy('id', 'desc');
+        $jobs = $jobs->get();
+
+        if ($limit) {
+
+            $jobs = $jobs->take($limit);
+        }
 
         return $jobs;
 

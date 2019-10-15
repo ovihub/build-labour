@@ -6,7 +6,7 @@ import CompanyBrowse from '../components/company/CompanyBrowse';
 import CompanyPosts from '../components/company/CompanyPosts';
 import CompanyPeople from '../components/company/CompanyPeople';
 import CompanyJobs from '../components/company/CompanyJobs';
-import JobAds from '../components/common/JobAds';
+import CompanyMostRecentApplicants from '../components/company/CompanyMostRecentApplicants';
 import Ads from '../components/common/Ads';
 import Alert from '../components/common/Alert';
 import Navigation from '../components/common/Navigation';
@@ -20,7 +20,7 @@ new Vue({
         CompanyPosts,
         CompanyPeople,
         CompanyJobs,
-        JobAds,
+        CompanyMostRecentApplicants,
         Ads,
         Alert,
         Navigation,
