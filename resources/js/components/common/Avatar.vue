@@ -102,6 +102,12 @@
 		methods: {
 
 			onClickCompanyPhoto() {
+
+                if (!this.companyId) {
+
+                    return false;
+                }
+
 				if (this.companyId) {
 					Api.redirectToCompanyProfile(this.companyId);
 				}

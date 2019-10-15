@@ -8,7 +8,7 @@ import Employment from '../components/profile/Employment';
 import IndustrySkills from '../components/profile/IndustrySkills';
 import Education from '../components/profile/Education';
 import Tickets from '../components/profile/Tickets';
-import JobAds from '../components/common/JobAds';
+import JobAds from '../components/job/JobAds';
 import Ads from '../components/common/Ads';
 import Alert from '../components/common/Alert';
 import Navigation from '../components/common/Navigation';

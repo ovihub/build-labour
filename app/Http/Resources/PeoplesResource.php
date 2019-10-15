@@ -31,7 +31,8 @@ class PeoplesResource extends JsonResource
             'id' => $this->id,
             'full_name' => $this->first_name . ' ' . $this->last_name,
             'profile_photo_url' => $this->profile_photo_url,
-            'job_role' => $jobRole
+            'job_role' => $jobRole,
+            'address' => $this->address
         ];
     }
 }

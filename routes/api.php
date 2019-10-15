@@ -118,6 +118,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             Route::get('{id}/specialization', 'ApiCompaniesController@specialization');
             Route::get('{id}/workers', 'ApiCompaniesController@workers');
             Route::get('{id}/people', 'ApiCompaniesController@workers');
+            Route::get('{id}/applicants', 'ApiCompaniesController@applicants');
 
             Route::get('{id}/posts/jobs', 'ApiCompaniesController@jobPosts'); // company jobs with is_template is false - done
             Route::get('{id}/posts', 'ApiCompaniesController@posts');

@@ -13,7 +13,7 @@
             <company-jobs company-id="{{ $company_id }}"></company-jobs>
         </div>
         <div class="col-md-3">
-            <job-ads></job-ads>
+            <company-most-recent-applicants company-id="{{ $company_id }}"></company-most-recent-applicants>
             <ads></ads>
         </div>
     </div>
