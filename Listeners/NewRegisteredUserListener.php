@@ -28,6 +28,6 @@ class NewRegisteredUserListener
      */
     public function handle(NewRegisteredUser $event)
     {
-        Mail::to( $event->getUser()->email )->send( new NewUserMail( $event->getUser() ));
+        // Mail::to( $event->getUser()->email )->send( new NewUserMail( $event->getUser() ));
     }
 }

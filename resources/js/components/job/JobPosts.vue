@@ -173,7 +173,7 @@
             getJobPosts(endpoint) {
                 let vm = this;
 
-                Promise.resolve(Api.getJobPosts(endpoint)).then(function(data) {
+                Promise.resolve(Api.getJobPosts(endpoint + '&company_id=' + vm.companyId)).then(function(data) {
                     vm.jobPosts = data.data.jobs;
                 });
             },

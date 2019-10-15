@@ -225,7 +225,7 @@ class UserRepository extends AbstractRepository
         $company = $this->company;
         $token = $this->user->getJwtToken();
 
-        Mail::to( $user->email )->send( new ResendVerificationCodeEmail( $user ) );
+        //Mail::to( $user->email )->send( new ResendVerificationCodeEmail( $user ) );
 
         $user->makeHidden([
             'device_token',

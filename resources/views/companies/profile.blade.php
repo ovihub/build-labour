@@ -8,7 +8,7 @@
         </div>
         <div class="col-md-6">
             <company-browse></company-browse>
-            <company-posts company-id="{{ $company_id }}"></company-posts>
+            <company-posts company-id="{{ $company_id }}" v-if="false"></company-posts>
             <company-people company-id="{{ $company_id }}"></company-people>
             <company-jobs company-id="{{ $company_id }}"></company-jobs>
         </div>

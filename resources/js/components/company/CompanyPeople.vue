@@ -50,6 +50,7 @@
                 employees: [],
                 endpoints: {
                     get: '/api/v1/company/',
+                    company: '/api/v1/company'
                 },
             }
         },
@@ -106,8 +107,13 @@
             getEmployees(endpoint) {
                 let vm = this;
 
-                Promise.resolve(Api.getEmployees(vm.companyId)).then(function(data) {
-                    vm.employees = data.data.people;
+                // Promise.resolve(Api.getEmployees(vm.companyId)).then(function(data) {
+                //     vm.employees = data.data.people;
+                // });
+
+                Promise.resolve(Api.getCompanyApplicants(vm.endpoints.company + `/${vm.companyId}/applicants`)).then(function(data) {
+
+                    vm.employees = data.data.applicants;
                 });
             },
             onClickProfilePhoto(id) {

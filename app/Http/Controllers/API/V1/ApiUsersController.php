@@ -47,7 +47,7 @@ class ApiUsersController extends ApiBaseController
             );
         }
 
-        \Mail::to( $user->email )->send( new ResendVerificationCode( $user ) );
+        // \Mail::to( $user->email )->send( new ResendVerificationCode( $user ) );
 
         return response()->json(
             [

@@ -1,7 +1,7 @@
 <template>
     <div class="profile-item-2 ta-center">
         <div class="profile-content">
-            <div :class="postsCls" @click="show('Posts')">
+            <div :class="postsCls" @click="show('Posts')" v-show="false">
                 Posts
             </div>
             <div :class="peopleCls" @click="show('People')">
@@ -23,10 +23,13 @@
                 jobsCls: 'company-header'
             }
         },
-
+        mounted() {
+            this.show('People');
+        },
         methods: {
 
             show(type) {
+
                 Bus.$emit('showCompany' + type, true);
 
                 if (type == 'Posts') {
