@@ -379,6 +379,8 @@ body {
   color: #777777;
   background-color: #F9F9F9;
   font-style: normal;
+  width: 100%;
+  display: table;
 }
 
 .modal-open .modal {
@@ -641,6 +643,7 @@ p.bl-nav-tab-label {
 /* ==========================================================================
     Default Styling
   ========================================================================== */
+
 .content-section .container .row .col-xl-6,
 .content-section .container .row .col-xl-3,
 .content-section .container .row .col-lg-6, 
@@ -703,7 +706,6 @@ p.bl-nav-tab-label {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-width: 0;
   word-wrap: break-word;
   border-radius: 8px;
   box-shadow: 0 0 1px 0 rgba(33, 49, 60, 0.18), 0 3px 4px 0 rgba(38, 52, 64, 0.09);
@@ -798,13 +800,16 @@ p.bl-nav-tab-label {
 /* ==========================================================================
     Footer Site Styling
   ========================================================================== */
+
 .bl-footer {
   color: white;
   font-size: 13px;
+  display: table-row;
+  width: 100%;
+  height: 40px;
 }
-.bl-footer a {
-  color: white;
-}
+
+
 .bl-footer a:hover {
   color: #bfddf0;
 }
