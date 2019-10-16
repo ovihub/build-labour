@@ -289,6 +289,13 @@
 }
 
 @include media-breakpoint-down(md) {
+
+  body {
+    display: unset !important;
+  }
+  .form-card {
+    width: 100% !important;
+  }
   .search-wrapper {
     position: absolute;
     top: 6px;
