@@ -14,6 +14,7 @@ use App\Http\Resources\JobsResource;
 use App\Http\Resources\TicketsResource;
 use App\Http\Resources\CompaniesResource;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\JobRolesResource;
 
 class DatatableController extends Controller
 {
@@ -165,7 +166,7 @@ class DatatableController extends Controller
         $query = $query->orderBy($column, $order);
         $data = $query->paginate($per_page);
 
-        return JobsResource::collection($data);
+        return JobRolesResource::collection($data);
     }
 
     public function getTicketsDatatable(Request $request)

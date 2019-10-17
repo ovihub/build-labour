@@ -15,6 +15,14 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="/favicon-new.ico" type="image/x-icon">
     <link rel="icon" href="/favicon-new.ico" type="image/x-icon">
+
+
+    <style>
+    .sidebar-logo-image {
+        width: 100px !important;
+        margin: 5px 4px !important;    
+    }
+    </style>
 </head>
 <body class="admin">
     <div id="app">
