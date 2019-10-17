@@ -53,11 +53,11 @@
                             </button>
                             <br><br>
                             <button type="submit" onclick="location.href='/register'" style="width:220px">
-                                Join as a Worker
+                                Find Work
                             </button>
                             <br><br>
                             <button type="submit" onclick="location.href='/company/register'" style="width:220px">
-                                Sign Up as an Employer
+                                I Need Workers
                             </button>
                         @else
                             <button type="submit" onclick="location.href='/login'">

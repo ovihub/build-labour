@@ -64,13 +64,6 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="javascript:void(0)" @click="onClickGoProfile()">
-                                    <span>
-                                        Profile
-                                    </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link" href="javascript:void(0)" @click="onClickGoLogout()">
                                     <span>
                                         Logout

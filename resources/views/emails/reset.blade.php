@@ -30,7 +30,7 @@
 							</tr>
 							<tr>
 								<td class="content-block">
-									<p>If you did not request a password reset, no further action is required.</p>
+									<p>If you didn't make this request, there may be an attempted security breach to your account. Please check your details or contact us at <a href="mailto:info@buildlabour.com.au" target="_top">info@buildlabour.com.au</a></p>
 								</td>
 							</tr>
 							<tr>

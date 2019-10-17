@@ -47,11 +47,11 @@
             </div>
         </div>
 
-        @if (isset($_COOKIE['bl_token']))
-            @include('layouts.footer')
-        @endif
-
     </div>
+
+    @if (isset($_COOKIE['bl_token']))
+        @include('layouts.footer')
+    @endif
 
     <script src="/js/app.js"></script>
     
