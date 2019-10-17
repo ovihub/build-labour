@@ -31,7 +31,9 @@
 					<thead>
 						<tr>
 							<th v-for="column in columns" :key="column" @click="sortByColumn(column)" class="">
-								{{ column | columnHead }}
+								<span v-if="column === 'created_at' && modalName == 'User'">JOINED AT</span>
+								<span v-else>{{ column | columnHead }}</span>
+								
 								
 								<span v-if="column === sortedColumn">
 									<i v-if="order === 'asc'" class="fa fa-arrow-up"></i>
@@ -47,7 +49,7 @@
 						</tr>
 						<tr v-for="(data, key1) in tableData" :key="key1" class="m-datatable__row" @click="onClickViewRow(data)" v-else>
 							<td v-for="(value, key) in data" :key="key.id">
-								<span v-if="key !== 'full_name'">{{ value }}</span>
+								<span v-if="key !== 'full_name'">{{ value }}</span>								
 								<span v-if="key === 'full_name'">
 									<img class="table-profile-pic" :src="getProfilePic(value)"/>{{ getProfileName(value) }}
 								</span>
