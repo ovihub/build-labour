@@ -153,9 +153,9 @@ class UserRepository extends AbstractRepository
             'company_tier_id' => 'nullable|integer',
             'company_photo' => 'nullable|image64:jpeg,jpg,png',
             'company_address'  => 'required',
-            'company_contact_number' => 'required',
+            'company_contact_number' => 'required|digits:10',
             'company_operate_outside_states' => 'required|boolean',
-            'company_website' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+            'company_website' => 'nullable|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
             'email'     => 'required|string|email|max:50|unique:users',
             'password'  => 'required|string|min:6|max:24|confirmed'
         ];
