@@ -237,6 +237,12 @@ class BuildLabourApi {
         return self.returnValue;
     }
 
+    getLocationsPromise(keyword, types = '') {
+        let self = this;
+
+        return self._search(this.endpoints.locations + '?keyword=' + keyword + '&types=' + types);
+    }
+
     getCompanies(keyword) {
         let self = this;
 
