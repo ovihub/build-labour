@@ -11,8 +11,8 @@ class PageController extends Controller
     protected function index()
     {
 
-        return redirect('/user/profile');
-      //   return view('front');
+       // return redirect('/user/profile');
+         return view('front');
     }
 
     protected function resetEmail(Request $request)
