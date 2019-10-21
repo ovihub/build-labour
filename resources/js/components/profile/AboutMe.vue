@@ -226,7 +226,6 @@
             },
 
             submit(action = 0) {
-                $('#modalAboutMe').modal('hide');
 
                 Bus.$emit('onboardingSubmitWorkInformation', action);
                 
