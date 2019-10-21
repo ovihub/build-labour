@@ -7,9 +7,10 @@
         </template>
 
         <template slot="custom-modal-content">
+
             <form class="modal-form" method="POST" @submit.prevent="submit">
                 <div class="emp-label">Job Details</div>
-                
+                <alert></alert>
                 <div class="form-group">
                     <div class="emp-row">
                         <div class="modal-form-label">Your Role</div>
@@ -166,6 +167,11 @@
             <button class="pull-right" type="submit" @click="submit" :disabled="disabled">
                 Save Changes
             </button>
+
+            <button class="pull-right mr-2" style="width: auto; padding-right: 10px; padding-left: 10px" type="submit" @click="submit('add more')" :disabled="disabled">
+                Add more work history
+            </button>
+
         </template>
 
     </main-modal>
@@ -174,6 +180,7 @@
 <script>
     import Api from '@/api';
     import MainModal from '../common/MainModal';
+    import Alert from '../common/Alert';
 
     export default {
         name: "employment-modal",
@@ -300,7 +307,18 @@
                 this.responsibilities.push('');
             },
             onChangeLocation(keyword) {
-                this.locations = (keyword && keyword.length > 0) ? Api.getLocations(keyword) : [];
+
+                if (keyword && keyword.length > 0) {
+
+                    Promise.resolve(Api.getLocationsPromise(keyword)).then((data) => {
+
+                        this.locations = (data.data && data.data.locations) ? data.data.locations.features : [];
+                    });
+
+                } else {
+
+                    this.locations = [];
+                }
             },
             onSearchJob(keyword) {
                 this.job_id = '';
@@ -338,7 +356,8 @@
 
                 Bus.$emit('deleteEmployment', this.current, this.endpoints.delete + this.id);
             },
-            async submit() {
+            async submit(mode) {
+
                 let vm = this;
                 let saveEndpoint = this.id == 0 ? this.endpoints.save : this.endpoints.save + '/' + this.id;
 
@@ -375,9 +394,16 @@
                     let data = response.data;
 
                     $('#modalEmployment').modal('hide');
-                    
+
                     Bus.$emit('updateEmployment', vm.current, data.data.work_experience);
-                
+
+
+                    if (mode === 'add more') {
+
+                        Bus.$emit('addAnotherEmployment');
+                        Bus.$emit('alertSuccess', 'Successfully added an employment history.');
+                    }
+
                 }).catch(function(error) {
                     let inputErrors = Utils.handleError(error);
                     
@@ -389,6 +415,7 @@
         },
         components: {
             MainModal,
+            Alert
         },
     }
 </script>
