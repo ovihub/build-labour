@@ -354,6 +354,8 @@
                 vm.setDisplayValues(vm.input, details);
             });
 
+            Bus.$emit('activateTab', 'profile');
+
             this.getCompanyOptions();
 
             this.editable = Api.checkAuthUser();
