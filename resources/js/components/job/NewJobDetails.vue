@@ -258,7 +258,18 @@
                 Utils.textAreaAdjust(this.$refs[refName]);
             },
             onChangeLocation(keyword) {
-                this.locations = (keyword && keyword.length > 0) ? Api.getLocations(keyword) : [];
+
+                if (keyword && keyword.length > 0) {
+
+                    Promise.resolve(Api.getLocationsPromise(keyword)).then((data) => {
+
+                        this.locations = (data.data && data.data.locations) ? data.data.locations.features : [];
+                    });
+
+                } else {
+
+                    this.locations = [];
+                }
             },
             onSelectLocation(location) {
                 this.input.location = location;

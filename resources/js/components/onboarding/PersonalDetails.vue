@@ -6,7 +6,7 @@
                 <select v-model="input.gender">
                     <option key="1" value="Male">Male</option>
                     <option key="2" value="Female">Female</option>
-                    <option key="3" value="">Rather not say</option>
+                    <option key="3" value="">Other</option>
                 </select>
                 <span class="err-msg" v-if="errors.gender">
                     {{ errors.gender }}
