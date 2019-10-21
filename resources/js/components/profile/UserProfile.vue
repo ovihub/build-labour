@@ -311,6 +311,8 @@
                 }
             });
 
+            Bus.$emit('activateTab', 'profile');
+
             // Bus.$on('croppedPhoto', function(photo_url) {
             //     vm.profile_photo_url = photo_url;
             // });
