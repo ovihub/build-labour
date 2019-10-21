@@ -194,20 +194,26 @@ class BuildLabourApi {
     }
 
     async submit(endpoint, input) {
-        
+
         await Axios.post(endpoint, input, Utils.getBearerAuth())
 
-        .then(function(response) {
-            console.log(response.data.message);
-            // Bus.$emit('alertSuccess', response.data.message);
-        
-        }).catch(function(error) {
-            console.log(error.response.data.message);
-            // Bus.$emit('alertError', error.response.data.message);
+            .then(function(response) {
+                console.log(response.data.message);
+                // Bus.$emit('alertSuccess', response.data.message);
 
-            Utils.handleError(error);
-        });
+            }).catch(function(error) {
+                console.log(error.response.data.message);
+                // Bus.$emit('alertError', error.response.data.message);
+
+                Utils.handleError(error);
+            });
     }
+
+    submitPromise(endpoint, input) {
+
+        return Axios.post(endpoint, input, Utils.getBearerAuth());
+    }
+
 
     getTickets(keyword) {
         let self = this;
