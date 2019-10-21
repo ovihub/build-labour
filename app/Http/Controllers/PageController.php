@@ -12,7 +12,15 @@ class PageController extends Controller
     {
 
        // return redirect('/user/profile');
-         return view('front');
+
+        $token = isset($_COOKIE['bl_token']) ? $_COOKIE['bl_token'] : null;
+
+        if ($token) {
+
+            return redirect('/user/profile');
+        }
+
+        return view('front');
     }
 
     protected function resetEmail(Request $request)
@@ -40,6 +48,7 @@ class PageController extends Controller
     }
 
     private function generateRandomString($length = 10) {
+
         return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
     }
 
