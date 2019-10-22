@@ -103,9 +103,11 @@
 
                     <div class="me-row">
                         <select v-model="input.contract_type">
-                            <option key="1" value="Part-Time">Part-Time</option>
-                            <option key="2" value="Full-Time Permanent">Full-Time Permanent</option>
-                            <option key="3" value="Fixed-Term">Fixed-Term</option>
+                            <option key="1" value="Full-time Permanent">Full-time Permanent</option>
+                            <option key="2" value="Full-time Fixed term">Full-time Fixed term</option>
+                            <option key="3" value="Part-Time">Part-Time</option>
+                            <option key="4" value="Casual">Casual</option>
+                            <option key="5" value="Sub Contractor">Sub Contractor (ABN required)</option>
                         </select>
 
                         <span class="err-msg" v-if="errors.contract_type">
@@ -114,20 +116,49 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <!--<div class="form-group">-->
+                    <!--<div class="job-title mb-2">Salary</div>-->
+
+                    <!--<input type="text" class="form-control" placeholder="$ Enter amount"-->
+                        <!--pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"-->
+                        <!--data-type="currency"-->
+                        <!--v-model="input.salary"-->
+                        <!--@keyup="formatCurrency('salary', $event)"-->
+                        <!--@blur="formatCurrency('salary', $event, 'blur')">-->
+
+                    <!--<span class="err-msg" v-if="errors.salary">-->
+                        <!--{{ errors.salary }}-->
+                    <!--</span>-->
+                <!--</div>-->
+
+
+                <div class="form-group toggle-select-wrapper">
+
                     <div class="job-title mb-2">Salary</div>
 
-                    <input type="text" class="form-control" placeholder="$ Enter amount"
-                        pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
-                        data-type="currency"
-                        v-model="input.salary"
-                        @keyup="formatCurrency('salary', $event)"
-                        @blur="formatCurrency('salary', $event, 'blur')">
+                    <div class="input-toggle">
 
-                    <span class="err-msg" v-if="errors.salary">
-                        {{ errors.salary }}
-                    </span>
+                        <input type="text" class="form-control" :placeholder="'$ Enter amount (' +  salaryPlaceholder + ')'"
+                               pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
+                               data-type="currency"
+                               v-model="input.salary"
+                               @keyup="formatCurrency('salary', $event)"
+                               @blur="formatCurrency('salary', $event, 'blur')">
+                        <div class="btn-toogle-wrapper">
+                            <button type="button" class="btn btn-default dropdown-toggle as-is bs-dropdown-to-select" data-toggle="dropdown">
+                                <span data-bind="bs-drp-sel-label">{{ input.salary_type }}</span>
+                                <input type="hidden" name="selected_value" data-bind="bs-drp-sel-value" value="">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" style="">
+                                <div><a href="javascript:void(0)" @click="onSelectSalaryType('Salary')">Salary</a></div>
+                                <div><a href="javascript:void(0)" @click="onSelectSalaryType('Wage')">Wage</a></div>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+
 
                 <div class="form-group">
                     <div class="job-title" style="margin-bottom:-18px">Reports To</div>
@@ -207,12 +238,14 @@
                 input: {
                     id: '', is_template: '', status: '', template_name: '',
                     job_role_id: '', title: '', description: '', about: '', project_size: '',
-                    exp_level: '', contract_type: '', salary: '', reports_to: [], location: '',
+                    exp_level: '', contract_type: '', salary: '', salary_type: 'Salary', reports_to: [], location: '',
                 },
                 errors: {
                     title: '', description: '', about: '', exp_level: '',
                     contract_type: '', salary: '', reports_to: '', location: '',
                 },
+                salaryType: 'Salary',
+                salaryPlaceholder: 'Salary per annum'
             }
         },
         created() {
@@ -228,6 +261,9 @@
 
             Bus.$on('jobDetails', function(details) {
                 if (details) {
+
+                    console.log('mmmmmm');
+                    console.log(details);
                     vm.input.id = details.id;
                     vm.input.is_template = details.is_template;
                     vm.input.status = details.status;
@@ -239,6 +275,7 @@
                     vm.input.exp_level = details.exp_level;
                     vm.input.contract_type = details.contract_type;
                     vm.input.salary = details.salary;
+                    vm.input.salary_type = details.salary_type ? details.salary_type : details.salary_type;
                     vm.input.reports_to = details.reports_to ? details.reports_to : [ '' ];
                     vm.input.location = details.location;
 
@@ -270,6 +307,13 @@
 
                     this.locations = [];
                 }
+            },
+            onSelectSalaryType(type) {
+
+                this.input.salary_type = type;
+
+                this.salaryPlaceholder = this.input.salary_type === 'Salary' ? 'Salary per annum' : 'Wage per hour';
+
             },
             onSelectLocation(location) {
                 this.input.location = location;

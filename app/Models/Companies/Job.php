@@ -22,6 +22,7 @@ class Job extends BaseModel
         'exp_level',
         'contract_type',
         'salary',
+        'salary_type',
         'project_size',
         'reports_to_json',
         'location',
