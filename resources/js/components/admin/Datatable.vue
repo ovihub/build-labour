@@ -32,6 +32,8 @@
 						<tr>
 							<th v-for="column in columns" :key="column" @click="sortByColumn(column)" class="">
 								<span v-if="column === 'created_at' && modalName == 'User'">JOINED AT</span>
+								<span v-else-if="column === 'created_at' && modalName == 'Job'">DATE ADDED</span>
+								<span v-else-if="column === 'title' && modalName == 'Job'">JOB TITLE</span>
 								<span v-else>{{ column | columnHead }}</span>
 								
 								

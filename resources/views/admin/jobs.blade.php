@@ -3,8 +3,8 @@
 @section('content')
     <datatable  title="Jobs"
                 fetch-url="{{ route('jobs.table') }}"
-                :columns="['id', 'title', 'description', 'about', 'exp_level',
-                            'contract_type', 'salary', 'reports_to', 'location','created_at']"
+                :columns="['created_at','id','company', 'title', 'location', 'exp_level',
+                            'contract_type', 'salary', 'reports_to']"
                 modal-name="Job">
     </datatable>
 @endsection
