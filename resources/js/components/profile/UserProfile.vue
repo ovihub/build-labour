@@ -1,5 +1,6 @@
 <template>
     <div class="profile-item-1">
+
         <div class="profile-content">
             
             <photo-modal></photo-modal>
@@ -222,6 +223,8 @@
     import MainModal from '../common/MainModal';
     import PhotoModal from '../common/PhotoModal';
     import EditIcon from '../common/EditIcon';
+    import Alert from '../common/Alert';
+
 
     export default {
         name: "user-profile",
@@ -304,12 +307,22 @@
                 }
             });
 
+            Bus.$on('addAnotherEmployment', function() {
+
+                setTimeout(() => {
+                    $('#modalEmployment').modal('show');
+                    Bus.$emit('showEmployment', -1, null);
+                }, 700)
+            });
+
             Bus.$on('removeEmployment', function(index) {
                 if (index == 0) {
                     vm.company_name = '';
                     vm.job_role = '';
                 }
             });
+
+            Bus.$emit('activateTab', 'profile');
 
             // Bus.$on('croppedPhoto', function(photo_url) {
             //     vm.profile_photo_url = photo_url;
@@ -479,6 +492,7 @@
             MainModal,
             PhotoModal,
             EditIcon,
+            Alert
         },
     }
 </script>

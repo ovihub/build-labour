@@ -1,303 +1,4 @@
-<template>
-    <div class="form-card-body">
-        <form>
-            <photo-modal></photo-modal>
-
-            <div class="form-text-header" style="margin-bottom:12px">Company Registration</div>
-            
-            <div class="form-sub-header">{{ subHeader }}</div>
-            
-            <div class="comp-progress">
-                <div class="form-progress" style="width:18%;margin-right:5%" :class="progressCls[0]"></div>
-                <div class="form-progress" style="width:18%;margin-right:5%" :class="progressCls[1]"></div>
-                <div class="form-progress" style="width:18%;margin-right:5%" :class="progressCls[2]"></div>
-                <div class="form-progress" style="width:18%;margin-right:5%" :class="progressCls[3]"></div>
-            </div>
-            
-            <ul class="comp-card-wrapper" ref="compCardWrapper">
-                <li class="comp-card-list">
-                    <div class="emp-row">
-                        <input class="form-control" type="text" placeholder="Company Name"
-                            v-model="input.company_name"
-                            @focus="hasFocusAnswer(false)"
-                            @keyup="onKeyupCompanyName" required autofocus />
-
-                        <span class="err-msg" v-if="errors.company_name">
-                            {{ errors.company_name }}
-                        </span>
-                    </div>
-
-                    <div class="comp-label">
-                        What is your main company function?
-                    </div>
-                    <div class="emp-row">
-                        <select v-model="input.company_main_company_id"
-                            @focus="hasFocusAnswer(false)"
-                            @change="onChangeMainCompanyFunctions">
-
-                            <option value="" disabled selected style="display:none">Company Specialisation</option>
-                            <option v-for="(main, index) in main_company_functions" :key="index" v-bind:value="main.id">
-                                {{ main.main_name }}
-                            </option>
-                        </select> 
-                    </div>
-                    <span class="err-msg" v-if="errors.company_main_company_id">
-                        {{ errors.company_main_company_id }}
-                    </span>
-
-                    <div class="comp-label" v-if="input.company_main_company_id">
-                        {{ specialtyLabel }}
-                    </div>
-
-                    <div class="emp-row mt-4" v-if="input.company_main_company_id && input.company_main_company_id != 1">
-                        <input class="form-control" type="text" placeholder="Start typing..."
-                            v-model="input.company_main_function_answer"
-                            @focus="hasFocusAnswer(true)"
-                            @keyup="onSearchMainFunctionAnswer(input.company_main_function_answer, input.company_main_company_id)" />
-
-                        <span class="err-msg" v-if="errors.company_main_function_answer">
-                            {{ errors.company_main_function_answer }}
-                        </span>
-                    </div>
-
-                    <div class="emp-row" style="margin-top:0" v-if="has_focus_answer && main_function_answers && main_function_answers.length > 0">
-                        <ul class="list-group">
-                            <li class="list-group-item" v-for="(ans, idx) in main_function_answers" :key="idx"
-                                @click="onSelectMainFunctionAnswer(ans.answer)">
-                                
-                                {{ ans.answer }}
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- <div class="comp-label-3">
-                        Add as many as applicable
-                    </div>
-                    <span class="err-msg" v-if="errors.company_secondary_functions">
-                        {{ errors.company_secondary_functions }}
-                    </span>
-
-                    <div class="form-group emp-row row-center"
-                        :ref="'specItem-' + index" 
-                        v-for="(spec, index) in input.company_secondary_functions"
-                        :key="index">
-
-                        <div class="comp-col-left">
-                            <select v-model="input.company_secondary_functions[index]" @change="setNextDisabled(1)">
-
-                                <option value="" disabled selected style="display:none">Company Specialisation</option>
-                                <option v-for="(type, idx) in secondary_company_functions" 
-                                    :ref="'specOptItem-' + index + '-' + (idx + 1)"
-                                    :key="idx + 1"
-                                    v-bind:value="type.id">
-
-                                    {{ type.secondary_name }}
-                                </option>
-                            </select> 
-                        </div>
-
-                        <div class="comp-col-right">
-                            <span @click="removeEntity(index)">
-                                <img src="/img/icons/remove.png"
-                                    srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x"
-                                    style="cursor:pointer">
-                            </span>
-                        </div>
-                    </div>
-
-                    <center>
-                        <div class="btn btn-link btn-delete" @click="addNewEntity">
-                            Add Another
-                        </div>
-                    </center> -->
-                </li>
-
-                <li class="comp-card-list">
-                    <div class="emp-row">
-                        <select v-model="input.company_business_type_id" @change="setNextDisabled(2)">
-
-                            <option value="" disabled selected style="display:none">Business Entity Type</option>
-                            <option v-for="(type, index) in business_types" :key="index" v-bind:value="type.id">
-                                {{ type.business_type }}
-                            </option>
-                        </select> 
-                    </div>
-                    <span class="err-msg" v-if="errors.company_business_type_id">
-                        {{ errors.company_business_type_id }}
-                    </span>
-
-                    <div class="emp-row">
-                        <select v-model="input.company_tier_id" @change="setNextDisabled(2)">
-
-                            <option value="" disabled selected style="display:none">Entity Type Specialisation</option>
-                            <option v-for="(tier, index) in tiers" :key="index" v-bind:value="tier.id">
-                                {{ tier.tier_name }}
-                            </option>
-                        </select> 
-                    </div>
-                    <span class="err-msg" v-if="errors.company_tier_id">
-                        {{ errors.company_tier_id }}
-                    </span>
-
-                    <input type="file" id="upload" value="Choose a file" accept="image/*" style="display:none" @change="onFileChange" />
-
-                    <div class="comp-label">
-                        Company Logo
-                    </div>
-                    <div class="disp-flex">
-                        <div class="bl-col-1">
-                            <div class="comp-logo">
-                                <img v-if="input.company_photo" class="bl-image-100" :src="input.company_photo">
-                                <img v-else class="bl-image-100" style="padding:15px" alt="' logo.jpg"
-                                    src="/img/icons/uploadlogo.jpg"
-                                    srcset="/img/icons/uploadlogo@2x.png 2x, /img/icons/uploadlogo@3x.png 3x">
-                            </div>
-                        </div>
-                        <div class="bl-col-2">
-                            <div class="bl-display">
-                                <div class="comp-button-1" @click="onClickProfilePhoto">
-                                    <p>Choose File</p>
-                                </div>
-                                <div class="comp-button-2" @click="onClickUpload">
-                                    <p>Upload</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="comp-nophoto-label" v-if="! input.company_photo">
-                            no photo chosen
-                        </div>
-                    </div>
-                    <div id="myProgress" v-show="showProgress">
-                        <div id="myBar"></div>
-                    </div>
-                    <span class="err-msg" v-if="errors.company_photo">
-                        {{ errors.company_photo }}
-                    </span>
-                </li>
-
-                <li class="comp-card-list">
-                    <div class="comp-label">
-                        Head Office Address
-                    </div>
-
-                    <div class="form-group">
-                        <input id="company_address" type="text" name="company_address" class="form-control"
-                            v-model="input.company_address" placeholder="Start typing address..."
-                            @focus="hasFocusLocation(true)"
-                            @keyup="onChangeLocation(input.company_address)" />
-
-                        <span class="err-msg" v-if="errors.company_address">
-                            {{ errors.company_address }}
-                        </span>
-
-                        <div class="comp-reg-row" style="margin-top:0" v-if="has_focus_location && locations && locations.length > 0">
-                            <div class="locations-wrapper">
-                                <p class="location-item" v-for="(place, idx) in locations" :key="idx"
-                                    @click="onSelectLocation(place.place_name)">{{ place.place_name.trim() }}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <input id="company_contact_number" type="text" name="company_contact_number" class="form-control"
-                            v-model="input.company_contact_number" placeholder="Business contact number"
-                            @focus="hasFocusLocation(false)"
-                            @keyup="setNextDisabled(3)" />
-
-                        <span class="err-msg" v-if="errors.company_contact_number">
-                            {{ errors.company_contact_number }}
-                        </span>
-                    </div>
-
-                    <div class="form-group">
-                        <input id="company_website" type="text" name="company_website" class="form-control"
-                            v-model="input.company_website" placeholder="Business Website"
-                            @focus="hasFocusLocation(false)"
-                            @keyup="setNextDisabled(3)" />
-
-                        <span class="err-msg" v-if="errors.company_website">
-                            {{ errors.company_website }}
-                        </span>
-                    </div>
-
-                    <div class="comp-label-2">
-                        Do you operate out of any other states?
-                    </div>
-                    <div class="bl-inline">
-                        <input class="styled-checkbox-round" id="rc-checkbox-yes" type="checkbox"
-                            ref="rc-checkbox-1"
-                            @focus="hasFocusLocation(false)"
-                            @change="formatOperate(1)" />
-                        <label for="rc-checkbox-yes">Yes</label>
-                        
-                        <input class="styled-checkbox-round" id="rc-checkbox-no" type="checkbox"
-                            ref="rc-checkbox-0"
-                            @focus="hasFocusLocation(false)"
-                            @change="formatOperate(0)" />
-                        <label for="rc-checkbox-no">No</label>
-                    </div>
-
-                    <div v-if="showStates">
-                        <div class="comp-label-2">
-                            Check all that apply
-                        </div>
-                        <div class="bl-inline" v-for="(state, index) in states" :key="index">
-                            <input class="styled-checkbox" :id="'styled-checkbox-'+index" type="checkbox"
-                                v-bind:value="state" v-model="input.company_states" />
-                            <label :for="'styled-checkbox-'+index">{{ state }}</label>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="comp-card-list">
-                    <div class="form-group">
-                        <input id="email" type="email" name="email" class="form-control"
-                            v-model="input.email" placeholder="Email Address" />
-
-                        <span class="err-msg" v-if="errors.email">
-                            {{ errors.email }}
-                        </span>
-                    </div>
-
-                    <div class="form-group">
-                        <password-eye ref-name="regTogglePassword" style="margin-right:15px"></password-eye>
-                        
-                        <input id="password" ref="regTogglePassword" type="password" name="password" class="form-control" 
-                            v-model="input.password" placeholder="Password" />
-
-                        <span class="err-msg" v-if="errors.password">
-                            {{ errors.password }}
-                        </span>
-                    </div>
-
-                    <div class="form-group">
-                        <password-eye ref-name="regToggleConfirm" style="margin-right:15px"></password-eye>
-
-                        <input id="password-confirm" ref="regToggleConfirm" type="password" class="form-control"
-                            name="password_confirmation" v-model="input.password_confirmation"
-                            placeholder="Confirm Password" />
-                    </div>
-                </li>
-            </ul>
-
-            <div>
-                <a v-if="isFirstStep" class="btn btn-link pull-left" :href="endpoints.login">Back to login</a>
-
-                <button v-if="! isLastStep" class="pull-right" type="button" @click="skip(1)" :disabled="disabledNext">
-                    Next
-                </button>
-                
-                <button v-if="isLastStep" class="pull-right" type="button" @click="submit" :disabled="disabled">
-                    {{ loading ? '' : 'Submit' }}
-                </button>
-                
-                <div class="loading">
-                    <pulse-loader :loading="loading" color="#fff" size="8px"></pulse-loader>
-                </div>
-            </div>
-        </form>
-    </div>
-</template>
+<template src="./RegisterCompany.htm"></template>
 
 <script>
     import Api from '@/api';
@@ -364,7 +65,12 @@
                     login: '/login',
                     save: '/api/v1/auth/company/register',
                     company_options: '/api/v1/company/options',
-                }
+                },
+                phoneType: 'Mobile',
+                phonePlaceholder: 'XXXX XXX XXX',
+                phoneValue: 0,
+                formattedPhoneValue: "0",
+                preventNextIteration: false
             }
         },
         computed: {
@@ -375,11 +81,18 @@
             isLastStep: function(){
                 return (this.step === this.max);
             },
+
+            isFirstStep: function() {
+
+                return (this.step <= 1);
+            }
         },
         watch: {
             orientation: 'setCssVars',
         },
         created() {
+
+
             let vm = this;
 
             Bus.$on('regTogglePassword', function(type) {
@@ -408,10 +121,26 @@
                 vm.max = vm.$sections.length;
                 vm.goToStep(1);
             }, 1);
-            
+
+            this.initDragDrop();
             this.getCompanyOptions();
         },
         methods: {
+            focusOut: function() {
+
+                this.input.company_contact_number = this.input.company_contact_number.replace(/[^0-9]/g, '')
+
+                this.input.company_contact_number = this.phoneType === 'Mobile' ? this.input.company_contact_number.replace(/(\d{2})(\d{4})(\d{4})/, '$1 $2 $3') : this.input.company_contact_number.replace(/(\d{4})(\d{3})(\d{3})/, '$1 $2 $3');
+
+                this.input.company_contact_number = this.input.company_contact_number.substr(0, 11).replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+
+            },
+            onSelectPhoneType(type) {
+
+                this.phoneType = type;
+
+                this.focusOut()
+            },
             hasFocusAnswer(has_focus) {
                 this.has_focus_answer = has_focus;
             },
@@ -427,7 +156,11 @@
                     vm.main_company_functions = data.main_company_functions;
                 });
             },
+            isNumber(event) {
+                if (!/\d/.test(event.key) && event.key !== ' ') return event.preventDefault();
+            },
             setNextDisabled(step) {
+
                 switch (step) {
                     case 1:
                         if (this.input.company_name && this.input.company_main_company_id) {
@@ -441,7 +174,11 @@
                         break;
 
                     case 2:
-                        if (this.input.company_business_type_id && this.input.company_tier_id && this.input.company_photo) {
+                        if (
+                            this.input.company_business_type_id
+                            && this.input.company_tier_id
+                          //  && this.input.company_photo
+                        ) {
                             this.disabledNext = false;
                         } else {
                             this.disabledNext = true;
@@ -473,7 +210,19 @@
                 this.specialtyLabel = this.specialtyLabels[e.target.value - 2];
             },
             onChangeLocation(keyword) {
-                this.locations = (keyword && keyword.length > 0) ? Api.getLocations(keyword) : [];
+
+                if (keyword && keyword.length > 0) {
+
+                    Promise.resolve(Api.getLocationsPromise(keyword)).then((data) => {
+
+                        this.locations = (data.data && data.data.locations) ? data.data.locations.features : [];
+                    });
+
+                } else {
+
+                    this.locations = [];
+                }
+
             },
             onSelectLocation(location) {
                 this.input.company_address = location;
@@ -586,7 +335,8 @@
                             data.errors.company_main_company_id || 
                             data.errors.company_main_function_answer) {
 
-                            vm.skip(-3);
+                            vm.goToStep(1);
+                            //vm.skip(-3);
                         }
 
                         else if (data.errors.company_business_type_id ||
@@ -625,13 +375,22 @@
                 this.$refs['compCardWrapper'].style.setProperty('--cross-reverse', 'column-reverse')
             },
             skip(step) {
-                this.step += step;
-                this.disabledNext = true;
-                
-                if (this.input.company_main_company_id == 5) {
+
+                if (step < 0 && this.step > 0) {
+
+                    this.step--;
+
+                } else {
+
                     this.step += step;
                 }
-                
+
+                this.disabledNext = true;
+                //
+                // if (this.input.company_main_company_id == 5) {
+                //     this.step += step;
+                // }
+                //
                 this.goToStep(this.step);
             },
             goToStep(step) {
@@ -659,6 +418,40 @@
                     this.progressCls[i] = 'incomplete'
                 }
             },
+
+            initDragDrop() {
+
+                setTimeout(() => {
+
+                    var $file = document.querySelector('input[type=file]');
+                    var $dropper = document.querySelector('.dropper');
+
+                    $dropper.ondragover = function(e) {
+                        e.dataTransfer.dropEffect = 'copy';
+                        e.preventDefault();
+                        this.classList.add('over');
+                    };
+                    $dropper.ondragleave = function(e) {
+                        e.preventDefault();
+                        this.classList.remove('over');
+                    };
+                    $dropper.ondrop = function(e) {
+                        e.preventDefault();
+                        this.classList.remove('over');
+
+                        var files = e.dataTransfer.files;
+
+                        $file.files = files;
+
+                        if ($file.files[0] != files[0] || $file.files.length != files.length) {
+                            throw Error("Dragging files into an input[type=file] is not allowed.");
+                        } else {
+                            Utils.onFileChange(e, 0, 'CompanyRegister');
+                        }
+                    };
+
+                }, 500);
+            }
         },
         components: {
             MainModal,

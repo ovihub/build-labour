@@ -234,7 +234,7 @@
                             srcset="/img/icons/globe@2x.png 2x, /img/icons/globe@3x.png 3x">
                     </div>
                     <div class="bl-col-4 bl-display">
-                        {{ website }}
+                        <a class="inline-website" target="_blank" :href="website">{{ website }}</a>
                     </div>
                 </div>
 
@@ -353,6 +353,8 @@
                 vm.setValues(details);
                 vm.setDisplayValues(vm.input, details);
             });
+
+            Bus.$emit('activateTab', 'profile');
 
             this.getCompanyOptions();
 

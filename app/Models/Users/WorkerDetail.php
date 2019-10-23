@@ -188,4 +188,45 @@ class WorkerDetail extends BaseModel
 
         return $this;
     }
+
+    /**
+     * Save params as JSON
+     * @param string field
+     * @param string $data
+     * @return boolean
+     */
+    public function saveParams($field, $data) {
+
+        $params = !$this->params ? [] : json_decode($this->params, true);
+
+        if (is_array($params)) {
+
+            $params[$field] = $data;
+            $this->params = json_encode($params);
+            $this->update();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get params as array
+     * @param string field
+     * @return string|array
+     */
+    public function getParamsValue( $field = NULL ) {
+
+        $params = !$this->params ? [] : json_decode($this->params, true);
+
+        if (is_array($params) && $field && isset($params[$field])) {
+
+            $value = $params[$field];
+
+            return $value ? $value : NULL;
+        }
+
+        return NULL;
+    }
 }

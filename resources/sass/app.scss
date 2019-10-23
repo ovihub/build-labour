@@ -1320,6 +1320,11 @@ ul.template-list {
   color: #252829;
 }
 
+.inline-website {
+  font-size: 12px;
+  word-break: keep-all;
+}
+
 .me-label {
   font-size: 16px;
   font-weight: 600;
@@ -1602,4 +1607,70 @@ ul.template-list {
 .navbar {
   background: #005778;
   padding: 0;
+}
+
+.form-group.toggle-select-wrapper {
+
+  height: auto;
+
+  .input-toggle {
+    display: flex;
+  }
+
+  .btn-toogle-wrapper {
+
+    width: 28%;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  input {
+    width: 72%;
+    float: left;
+    margin:0 !important;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    height: 100%;
+  }
+
+  .dropdown-toggle {
+    background: #e8e8e8;
+    height: 100%;
+    padding: 0;
+    border-radius: 0 4px 4px 0;
+    margin: 0;
+    height: 100%;
+    border: 1px solid #adadad;
+
+    span {
+      display: initial;
+    }
+  }
+
+  .dropdown-toggle:hover {
+    background: #e8e8e8;
+    border: none;
+  }
+
+  .dropdown-toggle:focus {
+    background: #e8e8e8;
+    box-shadow: unset;
+    border: none;
+  }
+
+  ul {
+    margin: 0;
+    width: 30%;
+    padding: 10px 20px;
+
+    div {
+
+      width: auto;
+      a {
+        color: #7d7f82;
+      }
+    }
+  }
 }

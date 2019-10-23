@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Helpers\Rules;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
@@ -26,6 +27,11 @@ class AppServiceProvider extends ServiceProvider
     
         Validator::replacer('image64', function($message, $attribute, $rule, $parameters) {
             return str_replace(':values', join(",", $parameters), $message);
+        });
+
+        Validator::extend('maxWords', function($attribute, $value, $parameters, $validator) {
+
+            return Rules::maxWords($attribute, $value, $parameters);
         });
 
         Schema::defaultStringLength(191);

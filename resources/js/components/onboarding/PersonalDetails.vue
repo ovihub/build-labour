@@ -6,7 +6,7 @@
                 <select v-model="input.gender">
                     <option key="1" value="Male">Male</option>
                     <option key="2" value="Female">Female</option>
-                    <option key="3" value="">Rather not say</option>
+                    <option key="3" value="">Other</option>
                 </select>
                 <span class="err-msg" v-if="errors.gender">
                     {{ errors.gender }}
@@ -82,6 +82,7 @@
 
             Bus.$on('aboutMeGeneralDetails', function(details) {
                 if (details) {
+                    
                     vm.input.gender = details.gender;
                     vm.input.date_of_birth = details.date_of_birth;
                     vm.input.country_birth = details.country_birth;
@@ -95,19 +96,21 @@
 
                         vm.days = Utils.getDaysInMonth(vm.birthMonth, vm.birthYear);
                     
-                    } else {
-                        let d = new Date();
-
-                        vm.birthDay = d.getDate();
-                        vm.birthMonth = d.getMonth() + 1;
-                        vm.birthYear = d.getFullYear() - 18;
-
-                        vm.days = Utils.getDaysInMonth(vm.birthMonth, vm.birthYear);
                     }
+                    // else {
+                    //     let d = new Date();
+                    //
+                    //     vm.birthDay = d.getDate();
+                    //     vm.birthMonth = d.getMonth() + 1;
+                    //     vm.birthYear = d.getFullYear() - 18;
+                    //
+                    //     vm.days = Utils.getDaysInMonth(vm.birthMonth, vm.birthYear);
+                    // }
                 }
             });
 
-            Bus.$on('onboardingSubmitPersonalDetails', function(action) {
+            Bus.$on('onboardingSubmitPersonalDetails', async function(action) {
+
                 if (action == 'clear') {
                     Utils.setObjectValues(vm.input, null);
                 
@@ -119,9 +122,22 @@
                     }
                 }
 
-                Api.submit(vm.endpoints.save, vm.$data.input);
+                Api.submitPromise(vm.endpoints.save, vm.$data.input, Utils.getBearerAuth()).then((data) => {
 
-                Bus.$emit('aboutMeGeneralDetails', vm.input);
+                    Bus.$emit('aboutMeGeneralDetails', vm.input);
+                    vm.errors = [];
+                    $('#modalAboutMe').modal('hide');
+
+                }).catch((error) => {
+
+                    let inputErrors = Utils.handleError(error);
+
+                    if (inputErrors) vm.errors = inputErrors;
+
+                });
+
+             //   Api.submit(vm.endpoints.save, vm.$data.input);
+
             });
 
             this.days = Utils.getDaysInMonth(this.birthMonth, this.birthYear);

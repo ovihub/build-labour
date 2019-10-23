@@ -72,6 +72,7 @@
                             vm.job_details.exp_level = job.exp_level;
                             vm.job_details.contract_type = job.contract_type;
                             vm.job_details.salary = job.salary;
+                            vm.job_details.salary_type = job.salary_type;
                             vm.job_details.reports_to = job.reports_to;
                             vm.job_details.location = job.location;
                         
