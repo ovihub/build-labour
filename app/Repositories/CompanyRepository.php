@@ -190,6 +190,7 @@ class CompanyRepository extends AbstractRepository
             $company = Company::find($request->id);
 
             if ($company) {
+
                 $job->company = $company;
             }
 

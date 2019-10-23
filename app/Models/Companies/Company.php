@@ -51,7 +51,7 @@ class Company extends BaseModel
             'address'       => 'nullable',
             'phone'         => 'nullable',
             'sector'        => 'nullable',
-            'introduction'  => 'nullable',
+            'introduction'  => 'nullable|maxWords:50',
             'operate_outside_states' => 'nullable|boolean',
             'website'       => 'nullable|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
         ];
@@ -60,9 +60,11 @@ class Company extends BaseModel
 
     public function validationMessages()
     {
+
         return [
             'name.required'  => 'Company name is required.',
             'name.min'  => 'Company name must be at least 5 characters',
+            'introduction.max_words' => 'The introduction field must have at least 10 words and not exceeded to 50 words.',
         ];
     }
 

@@ -547,6 +547,8 @@ class ApiAuthController extends ApiBaseController
 
         try {
 
+            $request->merge(['company_contact_number' =>  $str = preg_replace('/\s+/', '', $request->company_contact_number)]);
+
             if (!$data = $this->userRepo->registerCompany($request)) {
 
                 DB::rollBack();

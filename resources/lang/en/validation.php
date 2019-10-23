@@ -146,5 +146,5 @@ return [
     */
 
     'attributes' => [],
-
+    'maxWords' => 'The :attribute exceeded word count.',
 ];

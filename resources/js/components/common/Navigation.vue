@@ -46,7 +46,7 @@
                                             </g>
                                         </svg>
                                         <span>
-                                    Jobs
+                                    My Jobs
                                 </span>
                                     </a>
                                 </li>
@@ -100,7 +100,7 @@
                                     </g>
                                 </svg>
                             </div>
-                            <p class="bl-nav-tab-label">Jobs</p>
+                            <p class="bl-nav-tab-label">My Jobs</p>
                         </li>
 
                         <li ref="nav-messages" @click="onClickMessages">
