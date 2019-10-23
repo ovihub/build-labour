@@ -237,3 +237,17 @@
     background-color: $brand-dark;
 }
 
+.drag-drop {
+    height: auto;
+
+    p {
+        margin: 0;
+    }
+}
+.dropper {
+
+}
+.dropper.over {
+    border: dotted 3px transparent;
+    border-color: #aaa;
+}

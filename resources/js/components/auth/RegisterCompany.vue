@@ -91,6 +91,8 @@
             orientation: 'setCssVars',
         },
         created() {
+
+
             let vm = this;
 
             Bus.$on('regTogglePassword', function(type) {
@@ -119,7 +121,8 @@
                 vm.max = vm.$sections.length;
                 vm.goToStep(1);
             }, 1);
-            
+
+            this.initDragDrop();
             this.getCompanyOptions();
         },
         methods: {
@@ -129,7 +132,7 @@
 
                 this.input.company_contact_number = this.phoneType === 'Mobile' ? this.input.company_contact_number.replace(/(\d{2})(\d{4})(\d{4})/, '$1 $2 $3') : this.input.company_contact_number.replace(/(\d{4})(\d{3})(\d{3})/, '$1 $2 $3');
 
-                this.input.company_contact_number = this.input.company_contact_number.substr(0, 12).replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+                this.input.company_contact_number = this.input.company_contact_number.substr(0, 11).replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
 
             },
             onSelectPhoneType(type) {
@@ -415,6 +418,40 @@
                     this.progressCls[i] = 'incomplete'
                 }
             },
+
+            initDragDrop() {
+
+                setTimeout(() => {
+
+                    var $file = document.querySelector('input[type=file]');
+                    var $dropper = document.querySelector('.dropper');
+
+                    $dropper.ondragover = function(e) {
+                        e.dataTransfer.dropEffect = 'copy';
+                        e.preventDefault();
+                        this.classList.add('over');
+                    };
+                    $dropper.ondragleave = function(e) {
+                        e.preventDefault();
+                        this.classList.remove('over');
+                    };
+                    $dropper.ondrop = function(e) {
+                        e.preventDefault();
+                        this.classList.remove('over');
+
+                        var files = e.dataTransfer.files;
+
+                        $file.files = files;
+
+                        if ($file.files[0] != files[0] || $file.files.length != files.length) {
+                            throw Error("Dragging files into an input[type=file] is not allowed.");
+                        } else {
+                            Utils.onFileChange(e, 0, 'CompanyRegister');
+                        }
+                    };
+
+                }, 500);
+            }
         },
         components: {
             MainModal,
