@@ -309,6 +309,16 @@ class WorkerRepository extends AbstractRepository
             return false;
         }
 
+        if ($request->drivers_license_state) {
+
+            $user->workerDetail->saveParams('drivers_license_state', $request->drivers_license_state);
+        }
+
+        if ($request->drivers_license_type) {
+
+            $user->workerDetail->saveParams('drivers_license_type', $request->drivers_license_type);
+        }
+
         if (isset($request->right_to_work)) {
 
             $user->workerDetail->right_to_work = $request->right_to_work;

@@ -671,6 +671,11 @@ class ApiAuthController extends ApiBaseController
 
                 $user->educations = $educations;
 
+                // drivers license state and type
+
+                $user->drivers_license_state;
+                $user->drivers_license_type;
+
             }
 
         } catch (\Exception $e) {

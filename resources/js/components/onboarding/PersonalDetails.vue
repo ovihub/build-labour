@@ -38,7 +38,7 @@
         <span class="err-msg" v-if="errors.date_of_birth">
             {{ errors.date_of_birth }}
         </span>
-        
+
         <!-- <div class="me-label">Country of Birth</div>
         <div class="me-row mb-3">
             <select v-model="input.country_birth">
