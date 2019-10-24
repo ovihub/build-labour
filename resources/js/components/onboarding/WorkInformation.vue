@@ -1,5 +1,29 @@
 <template>
     <form class="modal-form" method="POST" @submit.prevent="submit">
+
+        <div class="me-label">Drivers License</div>
+        <div class="me-row">
+            <div class="me-col-left">
+                <div class="emp-form-label">State</div>
+                <select v-model="input.drivers_license_state">
+                    <option value="NSW">New South Wales</option>
+                    <option value="QLD">Queensland</option>
+                    <option value="SA">South Australia</option>
+                    <option value="TAS">Tasmania</option>
+                    <option value="VIC">Victoria</option>
+                    <option value="WA">Western Australia</option>
+
+                </select>
+            </div>
+            <div class="me-col-left">
+                <div class="emp-form-label">Type</div>
+                <select v-model="input.drivers_license_type">
+                    <option value="Full">Full</option>
+                    <option value="Probationary">Probationary</option>
+                </select>
+            </div>
+        </div>
+
         <div class="skill-label">
             I have the right to legally work in Australia
         </div>
@@ -96,7 +120,7 @@
             return {
                 input: {
                     right_to_work: '', has_tfn: '', has_abn: '',
-                    english_skill: '', drivers_license: '', has_registered_vehicle: '',
+                    english_skill: '', drivers_license: '', drivers_license_state: '', drivers_license_type: '', has_registered_vehicle: '',
                 },
                 errors: {
                     right_to_work: '', has_tfn: '', has_abn: '',
@@ -118,6 +142,9 @@
                     vm.input.has_abn = details.has_abn;
                     vm.input.english_skill = details.english_skill;
                     vm.input.drivers_license = details.drivers_license;
+                    vm.input.drivers_license_state = details.drivers_license_state ? details.drivers_license_state : '';
+                    vm.input.drivers_license_type = details.drivers_license_type ? details.drivers_license_type : '';
+
                     vm.input.has_registered_vehicle = details.has_registered_vehicle;
 
                     vm.formatCheckbox('right_to_work', details.right_to_work);
