@@ -78,7 +78,7 @@
                     </div>
 
                     <div class="emp-row">
-                        <div class="modal-form-label">Size of the Project</div>
+                        <div class="modal-form-label">Size of the Project <small style="color:gray">(e.g estimated value of $100,000)</small></div>
                         
                         <input class="form-control" type="text" v-model="project_size"
                             @focus="hasFocus()" />
@@ -94,7 +94,7 @@
                     <div class="role-col-left">
                         <div class="emp-form-label">Start Month</div>
                         <select v-model="start_month" @focus="hasFocus()">
-                            <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
+                            <option v-for="month in months" :key="month.id" v-bind:value="month.id"> {{ ("0" + month.id).slice(-2) }} {{ month.name }}</option>
                         </select>
                         <span class="err-msg" v-if="errors.start_month">
                             {{ errors.start_month }}
@@ -115,7 +115,7 @@
                     <div class="role-col-left">
                         <div class="emp-form-label">End Month</div>
                         <select v-model="end_month" @focus="hasFocus()">
-                            <option v-for="month in months" :key="month.id" v-bind:value="month.id">{{ month.name }}</option>
+                            <option v-for="month in months" :key="month.id" v-bind:value="month.id"> {{ ("0" + month.id).slice(-2) }} {{ month.name }}</option>
                         </select>
                         <span class="err-msg" v-if="errors.end_month">
                             {{ errors.end_month }}
@@ -266,7 +266,7 @@
                 this.company_id = details ? details.company_id: '';
                 this.job_role = details ? details.job_role : '';
                 this.company_name = details ? (details.company_id ? details.company.name : details.company_name) : '';
-                this.location = details ? (details.location ? details.location : details.company.address) : '';
+                this.location = details ? (details.location ? details.location : (details.company ? details.company.address : '')) : '';
                 this.project_size = details ? details.project_size : '';
                 this.isCurrent = details ? details.isCurrent : '';
                 this.start_month = details ? details.start_month : '';
@@ -327,10 +327,18 @@
             },
             onSearchCompany(keyword) {
                 this.company_id = '';
-                // this.location = '';
-                // this.$refs['locationRef'].disabled = false;
 
-                this.companies = (keyword && keyword.length > 0) ? Api.getCompanies(keyword) : [];
+                if (keyword && keyword.length > 0) {
+
+                    Api.getCompaniesPromise(keyword).then((data) => {
+                        this.companies = data.data ? data.data.companies : [];
+                    });
+
+                } else {
+
+                    this.companies = [];
+                }
+
             },
             onSelectJob(job) {
                 this.job_id = job.id;

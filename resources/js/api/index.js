@@ -259,6 +259,12 @@ class BuildLabourApi {
         return self.returnValue;
     }
 
+    getCompaniesPromise(keyword) {
+        let self = this;
+
+        return self._search(this.endpoints.companies + '?keyword=' + keyword);
+    }
+
     getCompanyOptions() {
         return this._get(this.endpoints.company_options);
     }

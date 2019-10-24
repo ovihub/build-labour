@@ -50,7 +50,7 @@ class WorkExperience extends BaseModel
             'project_size'  => 'nullable', /* monetary validation */
 
             'location'      => 'nullable|string',
-            'start_month'   => 'required|integer',
+            'start_month'   => 'nullable|integer',
             'start_year'    => 'required|integer',
             'end_month'     => 'nullable|integer',
             'end_year'      => 'nullable|integer',
@@ -69,7 +69,6 @@ class WorkExperience extends BaseModel
     private function validate( $data ){
 
         $validator = \Validator::make($data, $this->rules());
-
 
         if ( $validator->fails() ) {
 

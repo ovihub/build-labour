@@ -10,7 +10,7 @@
 
                             <avatar v-if="!applicant.profile_photo_url" cls="bl-image-32" size="32" border="0" border-radius="8px"
                                     :initials="getInitials(applicant.full_name)"
-                                    :company-id="false">
+                                    :company-id="companyId">
                             </avatar>
                         </div>
                         <div class="bl-col-2" style="margin-top:-2px">
