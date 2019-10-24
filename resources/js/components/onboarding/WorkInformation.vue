@@ -3,7 +3,7 @@
 
         <div class="me-label">Drivers License</div>
         <div class="me-row">
-            <div class="me-col-left">
+            <div class="me-col-mid">
                 <div class="emp-form-label">State</div>
                 <select v-model="input.drivers_license_state">
                     <option value="NSW">New South Wales</option>
