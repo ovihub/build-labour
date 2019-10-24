@@ -30,7 +30,7 @@
             </ul>
         </div>
 
-        <div class="me-label" style="margin-bottom:17px">Years Experience</div>
+        <div class="me-label" style="margin-bottom:17px">How many years of experience do you have in this role in total?</div>
         <div class="me-row">
             <div class="role-col-left">
                 <input class="form-control" type="number" placeholder="Years" v-model="input.exp_year"

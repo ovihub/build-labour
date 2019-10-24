@@ -8,11 +8,13 @@
         <div class="skill-label">
             I have worked in the following areas of construction
         </div>
-        <div class="bl-inline" v-for="(sector, index) in sectors" :key="index">
-            <input :id="'sector-styled-checkbox-'+index" class="styled-checkbox" type="checkbox"
-                :value="sector.id" v-model="input.sectors" />
 
-            <label :for="'sector-styled-checkbox-'+index" style="width:125px">{{ sector.business_type }}</label>
+        <div class="sector-wrapper">
+            <div class="bl-inline" v-for="(sector, index) in sectors" :key="index">
+                <input :id="'sector-styled-checkbox-'+index" class="styled-checkbox" type="checkbox"
+                       :value="sector.id" v-model="input.sectors" />
+                <label :for="'sector-styled-checkbox-'+index" style="width:125px">{{ sector.business_type }}</label>
+            </div>
         </div>
 
         <div class="skill-label">
@@ -65,6 +67,7 @@
                     { id: 1, business_type: 'Residential' },
                     { id: 2, business_type: 'Commercial' },
                     { id: 3, business_type: 'Civil' },
+                    { id: 4, business_type: 'Industrial' }
                 ],
                 tiers: [
                     { id: 1, tier_name: 'Tier 1' },
