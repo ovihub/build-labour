@@ -74,7 +74,7 @@
                     {{ has_registered_vehicle }}
                 </span>
 
-                <span class="bl-label-15 mt-2 pt-1" v-if="has_tfn">Australian ID</span>
+                <span class="bl-label-15 mt-2 pt-1">Australian ID</span>
                 <span class="bl-label-14">
                     {{ has_tfn }}
                 </span>
@@ -134,6 +134,7 @@
 
             Bus.$on('aboutMeTechnicalDetails', function(details) {
                 if (details) {
+                    console.log('llx');
                     vm.setTechnicalValues(vm, details);
                 }
             });
@@ -162,13 +163,9 @@
                     val.right_to_work = null;
                 }
 
-                if (! Utils.isNullOrEmpty(details.has_tfn)) {
-                    val.has_tfn = details.has_tfn == 1 ? 
-                        'Has Australian Tax File Number (TFN)' :
-                        'Does not have Australian Tax File Number (TFN)';
-                } else {
-                    val.has_tfn = null;
-                }
+                val.has_tfn = details.australian_tfn && details.australian_tfn.length > 0 ?
+                    'Has Australian Tax File Number (TFN)' :
+                    'Does not have Australian Tax File Number (TFN)';
 
                 if (! Utils.isNullOrEmpty(details.has_abn)) {
                     val.has_abn = details.has_abn == 1 ? 
@@ -186,14 +183,10 @@
                     val.english_skill = null;
                 }
 
-                if (! Utils.isNullOrEmpty(details.drivers_license)) {
-                    val.drivers_license = details.drivers_license == 1 ?
-                        'Owns valid license' :
-                        'Does not own valid license';
-                } else {
-                    val.drivers_license = null;
-                }
-                
+                val.drivers_license = details.drivers_license_state || details.drivers_license_type ?
+                    'Owns valid license' :
+                    'Does not own valid license';
+
                 if (! Utils.isNullOrEmpty(details.has_registered_vehicle)) {
                     val.has_registered_vehicle = details.has_registered_vehicle == 1 ?
                         'Owns/has access to personal registered vehicle' : 

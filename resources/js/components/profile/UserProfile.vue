@@ -258,6 +258,7 @@
                     { id: 1, business_type: 'Residential' },
                     { id: 2, business_type: 'Commercial' },
                     { id: 3, business_type: 'Civil' },
+                    { id: 4, business_type: 'Industrial' }
                 ],
                 tiers_list: [
                     { id: 1, tier_name: 'Tier 1' },
