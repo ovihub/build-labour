@@ -1,7 +1,7 @@
 <template>
-    <div class="col-md-6">
+    <div class="col-md-6 onboarding-wrapper">
         <div class="profile-item-2">
-            <div class="profile-content" style="padding: 20px 0px 0px 0px">
+            <div class="profile-content pb-4" style="padding: 20px 0px 0px 0px">
                 <!-- ; max-height: 650px; overflow: scroll; -->
                 <div class="form-sub-header">{{ subHeader }}</div>
                 
@@ -23,7 +23,7 @@
                 <tier-modal></tier-modal>
 
                 <ul class="comp-card-wrapper" ref="compCardWrapper">
-                    <li class="comp-card-list"><current-role :most-recent-role="mostRecentRole"></current-role></li>
+                    <li class="comp-card-list"><current-role></current-role></li>
                     <li class="comp-card-list"><employment-history></employment-history></li>
                     <li class="comp-card-list"><education-history></education-history></li>
                     <li class="comp-card-list"><ticket-details></ticket-details></li>
@@ -35,13 +35,18 @@
                 </ul>
                 
                 <div class="modal-footer">
-                    <div class="btn btn-link btn-delete" @click="save">
+                    <div class="col-lg-4 col-md-12 btn btn-link btn-delete p-0" @click="save">
                         Save and Finish later
                     </div>
 
-                    <button class="pull-right" type="button" @click="submit">
-                        {{ nextButton }}
-                    </button>
+                    <div class="pull-right onboarding-step-wrapper col-lg-8 col-md-12 p-0">
+                        <button class="pull-right" type="button" @click="prev()" v-if="step > 1">
+                            Back
+                        </button>
+                        <button class="pull-right ml-2 btn-to-employment" type="button" @click="submit">
+                            {{ nextButton }}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -71,6 +76,7 @@
                 step: 1,
                 max: 1,
                 orientation: '',
+                workerDetail: null,
                 subHeader: 'Employment History',
                 progressCls: [],
                 currentSection: '',
@@ -133,10 +139,12 @@
             let vm = this;
 
             setTimeout(function() {
+
                 vm.$sections = vm.$refs['compCardWrapper'].querySelectorAll('li');
                 vm.max = vm.$sections.length;
                 vm.goToStep(1);
             }, 1);
+
         },
         methods: {
             save() {
@@ -153,7 +161,20 @@
 
                 this.goToStep(this.step + 1);
             },
+            prev() {
+
+                Bus.$emit('alertHide');
+
+                if (this.step > 0) {
+
+                    this.step--;
+                }
+
+
+                this.goToStep(this.step);
+            },
             submit() {
+
                 Bus.$emit('onboardingSubmit' + this.submitForms[this.step - 1]);
 
                 this.next();
@@ -167,6 +188,7 @@
                 this.$refs['compCardWrapper'].style.setProperty('--cross-reverse', 'column-reverse')
             },
             goToStep(step) {
+
                 this.step = step > this.max ? this.max : step < 1 ? 1 : step;
                 this.currentSection = this.$sections[this.step-1];
 

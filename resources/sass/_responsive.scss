@@ -302,6 +302,14 @@
     left: 112px;
     display: block;
   }
+
+  .onboarding-wrapper {
+
+    .modal-footer {
+      display: block !important;
+    }
+  }
+
 }
 
 @include media-breakpoint-up(lg) {

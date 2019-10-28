@@ -65,14 +65,18 @@
                 },
             }
         },
-        props: {
-            mostRecentRole: {
-                type: String,
-                required: false,
-            },
-        },
         created() {
             let vm = this;
+
+            Bus.$on('onboardingDetails', (workerDetail) => {
+
+                if (workerDetail) {
+
+                    this.input.most_recent_role = workerDetail.most_recent_role ? workerDetail.most_recent_role : '';
+                    this.input.exp_year = workerDetail.exp_year ? workerDetail.exp_year : '';
+                    this.input.exp_month = workerDetail.exp_month ? workerDetail.exp_month : '';
+                }
+            });
 
             Bus.$on('onboardingSubmitCurrentRole', function() {
                 // if (! Utils.checkIfObjectIsEmpty(vm.input)) {
@@ -80,7 +84,6 @@
                 // }
             });
 
-            this.input.most_recent_role = this.mostRecentRole;
         },
         methods: {
             hasFocus(has_focus) {
@@ -90,6 +93,7 @@
                 this.job_roles = (keyword && keyword.length > 0) ? Api.getJobRoles(keyword) : [];
             },
             onSelectJob(job) {
+
                 this.input.most_recent_role = job.job_role_name;
 
                 this.job_roles = [];

@@ -86,6 +86,28 @@
         created() {
             let vm = this;
 
+            Bus.$on('onboardingDetails', (workerDetail) => {
+
+                if (workerDetail) {
+
+                    if (workerDetail.sectors) {
+
+                        workerDetail.sectors.forEach((sector) => {
+
+                            vm.input.sectors.push(sector.pivot.business_type_id);
+                        });
+                    }
+
+                    if (workerDetail.tiers) {
+
+                        workerDetail.tiers.forEach((tier) => {
+
+                            vm.input.tiers.push(tier.pivot.tier_id);
+                        });
+                    }
+                }
+            });
+
             Bus.$on('onboardingSubmitEmploymentHistory', function(saveInput) {
                 Api.submit(vm.endpoints.save, saveInput ? saveInput : vm.$data.input);
             });
