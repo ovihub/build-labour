@@ -40,6 +40,14 @@
         created() {
             let vm = this;
 
+            Bus.$on('onboardingDetails', (workerDetail) => {
+
+                if (workerDetail) {
+
+                    this.input.main_skill = workerDetail.main_skill ? workerDetail.main_skill : '';
+                }
+            });
+
             Bus.$on('onboardingSubmitAchievements', function() {
                 Api.submit(vm.endpoints.save, vm.$data.input);
             });

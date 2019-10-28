@@ -120,7 +120,12 @@
                     Bus.$emit('educationDetails', vm.educations);
                     Bus.$emit('ticketsDetails', vm.tickets, user.worker_detail.has_whitecard);
                     Bus.$emit('industrySkillsDetails', vm.industry_skills, user.worker_detail ? user.worker_detail.main_skill : '');
-                
+
+                    let workerDetail = user.worker_detail ? user.worker_detail : {};
+
+                    workerDetail.skills = user.skills;
+                    Bus.$emit('onboardingDetails', workerDetail);
+
                 }).catch(function(error) {
                     /** 
                      * NOTE: Please do not delete token if error occurs

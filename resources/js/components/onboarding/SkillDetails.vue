@@ -60,6 +60,16 @@
         created() {
             let vm = this;
 
+
+            Bus.$on('onboardingDetails', (workerDetail) => {
+
+                if (workerDetail) {
+
+                    this.input.skills = workerDetail.skills ? workerDetail.skills : [];
+                }
+            });
+
+
             Bus.$on('onboardingSubmitIndustrySkills', function() {
                 Api.submit(vm.endpoints.save, vm.$data.input);
             });

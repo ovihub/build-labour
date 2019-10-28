@@ -225,7 +225,6 @@
     import EditIcon from '../common/EditIcon';
     import Alert from '../common/Alert';
 
-
     export default {
         name: "user-profile",
         data() {

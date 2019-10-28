@@ -262,8 +262,6 @@
             Bus.$on('jobDetails', function(details) {
                 if (details) {
 
-                    console.log('mmmmmm');
-                    console.log(details);
                     vm.input.id = details.id;
                     vm.input.is_template = details.is_template;
                     vm.input.status = details.status;

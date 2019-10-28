@@ -104,7 +104,7 @@
                     Api.redirectToProfile();
                 
                 }).catch(function(error) {
-                    Utils.setObjectValues(vm.input, '');
+                 //   Utils.setObjectValues(vm.input, '');
 
                     Utils.handleError(error);
                 });
