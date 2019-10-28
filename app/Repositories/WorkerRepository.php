@@ -212,9 +212,10 @@ class WorkerRepository extends AbstractRepository
 
             $user->workerDetail->exp_year = $request->exp_year;
             $user->workerDetail->exp_month = $request->exp_month;
-            $user->workerDetail->most_recent_role = $request->most_recent_role;
-            $user->workerDetail->save();
         }
+
+        $user->workerDetail->most_recent_role = $request->most_recent_role;
+        $user->workerDetail->save();
 
         return true;
     }
