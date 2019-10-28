@@ -38,7 +38,8 @@ class WorkerDetail extends BaseModel
 
     protected $appends = [
         'drivers_license_state',
-        'drivers_license_type'
+        'drivers_license_type',
+        'australian_tfn'
     ];
 
     private $userId = null;
@@ -132,6 +133,11 @@ class WorkerDetail extends BaseModel
     public function getDriversLicenseTypeAttribute() {
 
         return $this->getParamsValue('drivers_license_type');
+    }
+
+    public function getAustralianTfnAttribute() {
+
+        return $this->getParamsValue('australian_tfn');
     }
 
     /**

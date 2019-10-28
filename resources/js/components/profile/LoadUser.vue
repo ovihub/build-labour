@@ -101,6 +101,7 @@
                     vm.about_me_technical.drivers_license = user.worker_detail.drivers_license;
                     vm.about_me_technical.drivers_license_state = user.worker_detail.drivers_license_state;
                     vm.about_me_technical.drivers_license_type = user.worker_detail.drivers_license_type;
+                    vm.about_me_technical.australian_tfn = user.worker_detail.australian_tfn;
                     vm.about_me_technical.has_registered_vehicle = user.worker_detail.has_registered_vehicle;
 
                     vm.ideal_role = user.worker_detail;
