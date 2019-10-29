@@ -18,8 +18,7 @@
 
             <div v-if="description">
                 <div class="job-title">Job Description</div>
-                <div class="job-body">
-                    {{ description }}
+                <div class="job-body" v-html="description.replace(/(?:\r\n|\r|\n)/g, '<br />')">
                 </div>
             </div>
 
