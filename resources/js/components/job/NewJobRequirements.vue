@@ -18,9 +18,10 @@
                     <div class="job-title">Qualifications</div>
 
                     <div class="form-group emp-row row-center" v-for="(to, index) in qualifications" :key="'quaItem' + index">
+
                         <div class="job-col-left">
                             <input class="form-control" type="text" placeholder="Course Type" v-model="qualifications[index].course_type"
-                                @keyup="onSearchCourse(qualifications[index].course_type, index)" />
+                                   @keyup="onSearchCourse(qualifications[index].course_type, index)" />
                         </div>
 
                         <div class="job-col-right">
@@ -41,9 +42,15 @@
 
                         <div class="me-row mt-4">
                             <select v-model="qualifications[index].qualification_level">
-                                <option key="1" value="Bachelor's Degree">Bachelor's Degree</option>
-                                <option key="2" value="Master's Degree">Master's Degree</option>
-                                <option key="3" value="Doctor's Degree">Doctor's Degree</option>
+                                <option key="1" value="Cert I">Cert I</option>
+                                <option key="2" value="Cert II">Cert II</option>
+                                <option key="3" value="Cert III">Cert III</option>
+                                <option key="4" value="Cert IV">Cert IV</option>
+                                <option key="5" value="Diploma">Diploma</option>
+                                <option key="6" value="Advanced Diploma">Advanced Diploma</option>
+                                <option key="7" value="Bachelor's Degree">Bachelor</option>
+                                <option key="8" value="Master's Degree">Masters</option>
+                                <option key="9" value="Doctor's Degree">Doctorate</option>
                             </select>
                         </div>
                     </div>
@@ -51,30 +58,58 @@
                     <div class="btn btn-link btn-delete"  @click="addEntity('qualifications')">Add new qualification</div>
 
                     <!-- Experience -->
-                    <div class="job-title">Experience</div>
+                    <div class="job-title">Minimum Experience</div>
 
-                     <div class="me-row mt-4 mb-5">
-                        <input class="form-control" type="text" placeholder="Minimum Experience" v-model="min_exp"/>
-                    </div>
+                     <!--<div class="me-row mt-4 mb-5">-->
+                        <!--<input class="form-control" type="text" placeholder="Minimum Experience" v-model="min_exp"/>-->
+                    <!--</div>-->
 
-                    <div class="form-group emp-row row-center" v-for="(to, index) in experience" :key="'expItem-' + index">
-                        <div class="job-col-left">
-                            <input class="form-control" type="text" placeholder="Start typing..." v-model="experience[index]" />
+                    <div class="form-group emp-row row-center">
+                        <div class="role-col-left">
+                            <div class="emp-form-label">No of Month</div>
+                            <select v-model="min_exp_month">
+                                <option v-for="month in months" :key="month.id" v-bind:value="month.id"> {{ ("0" + month.id).slice(-2) }} {{ month.name }}</option>
+                            </select>
+                            <span class="err-msg" v-if="errors.end_month">
+                            {{ errors.end_month }}
+                        </span>
                         </div>
 
-                        <div class="job-col-right">
-                            <span @click="removeEntity(index, 'experience')">
-                                <img src="/img/icons/remove.png" srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x" style="cursor: pointer;">
+                        <div class="role-col-right">
+                            <div class="emp-form-label">No of Year</div>
+                            <select v-model="min_exp_year">
+                                <option v-for="(year, index) in years" :key="index" v-bind:value="year + 1">{{ year + 1 }}</option>
+                            </select>
+                            <span class="err-msg" v-if="errors.end_year">
+                                {{ errors.end_year }}
                             </span>
                         </div>
                     </div>
+                    <!--<div class="form-group emp-row row-center" v-for="(to, index) in experience" :key="'expItem-' + index">-->
+                        <!--<div class="job-col-left">-->
+                            <!--<input class="form-control" type="text" placeholder="Start typing..." v-model="experience[index]" />-->
+                        <!--</div>-->
 
-                    <div class="btn btn-link btn-delete"  @click="addEntity('experience')">Add another</div>
+                        <!--<div class="job-col-right">-->
+                            <!--<span @click="removeEntity(index, 'experience')">-->
+                                <!--<img src="/img/icons/remove.png" srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x" style="cursor: pointer;">-->
+                            <!--</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="btn btn-link btn-delete"  @click="addEntity('experience')">Add another</div>-->
 
                     <!-- Skills -->
-                    <div class="job-title">Skills</div>
+                    <div class="job-title">
+                        Skills
+
+                        <span class="err-msg emp-row mt-2 mb-0" v-if="errors.skills">
+                            {{ errors.skills }}
+                        </span>
+                    </div>
 
                     <div class="form-group emp-row row-center" v-for="(to, index) in skills" :key="'skItem-' + index">
+
                         <div class="job-col-left">
                             <input class="form-control" type="text" placeholder="Start typing..." v-model="skills[index]" />
                         </div>
@@ -137,16 +172,21 @@
                 courses: [],
                 keyword: '',
                 min_exp: '',
+                min_exp_month: null,
+                min_exp_year: null,
                 has_whitecard: '',
                 tickets: [],
                 searchedTickets: [],
                 selected: false,
                 errors: { 
-                    ticket: ''
+                    ticket: '',
+                    skill: ''
                 },
                 qualifications: [],
                 experience: [],
                 skills: [],
+                months: Utils.getMonths(),
+                years: Utils.getYears(),
             }
         },
         created() {
@@ -158,17 +198,27 @@
                     experience: vm.experience,
                     skills: vm.skills,
                     tickets: vm.tickets,
-                    min_exp: vm.min_exp,
+                    //min_exp: vm.min_exp,
+                    min_exp_month: vm.min_exp_month,
+                    min_exp_year: vm.min_exp_year
                 });
             });
 
-            Bus.$on('jobRequirementsDetails', function(detailsArray) {
+            Bus.$on('newJobRequirementsError', function(errors) {
+
+                vm.errors = errors;
+            });
+
+            Bus.$on('jobRequirementsDetails', function(detailsArray, jobDetails) {
+
                 if (detailsArray && detailsArray.length != 0) {
                     vm.qualifications = detailsArray[0].items ? detailsArray[0].items : [];
-                    vm.experience = detailsArray[1].items ? detailsArray[1].items.experiences : [];
-                    vm.min_exp = detailsArray[1].items ? detailsArray[1].items.min_exp : '';
-                    vm.skills = detailsArray[2].items ? detailsArray[2].items : [];
-                    vm.tickets = detailsArray[3].items ? detailsArray[3].items : [];
+                    // vm.experience = detailsArray[1].items ? detailsArray[1].items.experiences : [];
+                    // vm.min_exp = detailsArray[1].items ? detailsArray[1].items.min_exp : '';
+                    vm.skills = detailsArray[1].items ? detailsArray[1].items : [];
+                    vm.tickets = detailsArray[2].items ? detailsArray[2].items : [];
+                    vm.min_exp_month = jobDetails.min_exp_month ? jobDetails.min_exp_month : null;
+                    vm.min_exp_year = jobDetails.min_exp_year ? jobDetails.min_exp_year : null;
 
                     if (! vm.qualifications || vm.qualifications.length == 0) vm.qualifications.push({ course_type: '', qualification_level: '' });
                     if (! vm.experience || vm.experience.length == 0) vm.experience.push('');

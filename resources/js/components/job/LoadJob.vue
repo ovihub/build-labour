@@ -11,7 +11,7 @@
                     id: '', photo_url: '', name: '', address: '', introduction: '',
                 },
                 job_details: {
-                    title: '', description: '', about: '', exp_level: '', contract_type: '', salary: '', reports_to: '', location: ''
+                    title: '', description: '', about: '', exp_level: '', contract_type: '', salary: '', reports_to: '', location: '', min_exp_month: null, min_exp_year: null
                 },
                 requirements: [],
                 responsibilities: [],
@@ -30,9 +30,13 @@
             let vm = this,
                 companyId = this.companyId ? this.companyId : Utils.getUrlParams().cid;
 
-            if (Utils.getUrlParams().jid) {
+            if (Utils.getUrlParams().jid && !Utils.getUrlParams().cache_id) {
                 this.endpoints.get = this.endpoints.get + companyId + '/jobs/' + Utils.getUrlParams().jid;
             
+            } else if(Utils.getUrlParams().cache_id) {
+
+                this.endpoints.get = this.endpoints.get + companyId + '/job-preview/' + Utils.getUrlParams().cache_id
+
             } else {
                 this.endpoints.get = this.endpoints.get + companyId;
             }
@@ -46,7 +50,8 @@
                 axios.get(vm.endpoints.get, Utils.getBearerAuth())
                     
                 .then(function(response) {
-                    if (Utils.getUrlParams().jid) {
+                    if (Utils.getUrlParams().jid || Utils.getUrlParams().cache_id) {
+
                         let job = response.data.data.job;
 
                         if (job) {
@@ -75,17 +80,22 @@
                             vm.job_details.salary_type = job.salary_type;
                             vm.job_details.reports_to = job.reports_to;
                             vm.job_details.location = job.location;
-                        
+                            vm.job_details.min_exp_month = job.min_exp_month;
+                            vm.job_details.min_exp_year = job.min_exp_year;
+
                         } else {
+
                             vm.job_details = null;
                         }
 
                         Bus.$emit('companySummaryDetails', vm.summary, 'view');
                         Bus.$emit('jobDetails', vm.job_details);
-                        Bus.$emit('jobRequirementsDetails', job.requirements);
+                        Bus.$emit('jobRequirementsDetails', job.requirements, vm.job_details);
                         Bus.$emit('jobResponsibilitiesDetails', job.responsibilities);
-                    
+                        Bus.$emit('jobRequirementsMinExp', vm.job_details.min_exp_month, vm.job_details.min_exp_year);
+
                     } else {
+
                         let company = response.data.data.company;
 
                         vm.summary.id = company.id;
@@ -98,7 +108,9 @@
 
                         Bus.$emit('profileAvatarDetails', Utils.getInitials(company.name));
                         Bus.$emit('companySummaryDetails', vm.summary, 'new');
+
                         Bus.$emit('jobDetails', vm.job_details);
+
                     }
                 
                 }).catch(function(error) {

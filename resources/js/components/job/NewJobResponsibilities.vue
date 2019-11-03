@@ -19,7 +19,7 @@
 
                     <div class="form-group emp-row row-center" v-for="(to, catIndex) in responsibilities" :key="'qualItem' + catIndex">
                         <div class="job-col-left">
-                            <input class="form-control" type="text" placeholder="Quality Management" v-model="responsibilities[catIndex].title" />
+                            <input class="form-control" type="text" placeholder="e.g Quality Management" v-model="responsibilities[catIndex].title" @keyup="onTypeCategory(responsibilities[catIndex], catIndex)" />
                         </div>
 
                         <div class="job-col-right">
@@ -28,14 +28,21 @@
                             </span>
                         </div>
 
+                        <div class="emp-row searched_list" style="margin-top:0" v-show="searchedResponsibilities && searchedResponsibilities.length > 0 && currentCatIndex == catIndex">
+                            <ul class="list-group">
+                                <li class="list-group-item" v-for="(res, idx) in searchedResponsibilities" :key="idx" @click="onSelectResponsibility(responsibilities[catIndex], res)">
+                                    {{ res }}
+                                </li>
+                            </ul>
+                        </div>
                         <!-- Points -->
                         <div class="ml-4" style="width: 100%;">
                             <div class="job-title" style="margin-bottom:-18px">Points</div>
 
                             <div class="form-group emp-row row-center" v-for="(to, index) in responsibilities[catIndex].items" :key="'ptItem' + index">
                                 <div class="job-col-left">
-                                    <input class="form-control" type="text" placeholder="Comply with and ensure project works are in accordance with Probuild QM Policies."
-                                        v-model="responsibilities[catIndex].items[index]" />
+                                    <input class="form-control" type="text" placeholder="e.g Comply with and ensure project works are in accordance with Probuild QM Policies."
+                                        v-model="responsibilities[catIndex].items[index]" @keyup="onTypePoint(responsibilities[catIndex], responsibilities[catIndex].items[index], catIndex, index)" />
                                 </div>
 
                                 <div class="job-col-right">
@@ -43,9 +50,17 @@
                                         <img src="/img/icons/remove.png" srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x" style="cursor:pointer">
                                     </span>
                                 </div>
+
+                                <div class="emp-row searched_list" style="margin-top:0" v-show="searchedPoints && searchedPoints.length > 0 && currentCatIndex == catIndex && currentItemIndex == index">
+                                    <ul class="list-group">
+                                        <li class="list-group-item" v-for="(res, idx) in searchedPoints" :key="idx" @click="onSelectPoint(responsibilities[catIndex], index, res)">
+                                            {{ res }}
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
 
-                            <div class="btn btn-link btn-delete" @click="addEntity(catIndex, 'items')">New Point</div>
+                            <div class="btn btn-link btn-delete" @click="addEntity(catIndex, 'items')" v-if="false">New Point</div>
                         </div>
                     </div>
 
@@ -57,11 +72,18 @@
 </template>
 
 <script>
+    import Api from '@/api';
+
     export default {
         name: "new-job-responsibilities",
         data() {
             return {
                 responsibilities: [],
+                currentCatIndex: null,
+                currentItemIndex: null,
+                searchedResponsibilities: [],
+                searchedPoints: [],
+                timeout: null
             }
         },
         created() {
@@ -83,9 +105,12 @@
         },
         methods: {
             addEntity(index, field) {
+
+                this.searchedResponsibilities = [];
+
                 switch(field) {
                     case 'responsibilities':
-                        this[field] = this[field].filter(r => r.title !== '');
+                      //  this[field] = this[field].filter(r => r.title !== '');
                         this[field].push({ title: '', items: [ '' ] });
                         break;
 
@@ -96,6 +121,9 @@
                 }
             },
             removeEntity(index, field, index2 = null) {
+
+                this.searchedResponsibilities = [];
+
                 switch(field) {
                     case 'responsibilities':
                         if (this[field].length > 1)  {
@@ -110,6 +138,86 @@
                         break;
                 }
             },
+            async onTypeCategory(responsibility, catIndex) {
+
+                let vm = this;
+
+                this.currentCatIndex = catIndex;
+                vm.searchedResponsibilities = [];
+
+                if (this.timeout) {
+
+                    clearTimeout(this.timeout);
+                }
+
+                if (responsibility.title && responsibility.title.length > 0) {
+
+                    this.timeout = await setTimeout(() => {
+
+                        Api.getCollectedJobResponsibilities(responsibility.title, 'byCategory').then((data) => {
+
+                            console.log(data);
+
+                            if (data.data.responsibilities) {
+
+                                vm.searchedResponsibilities = data.data.responsibilities;
+                            }
+                        });
+
+                    }, 200)
+
+                }
+
+            },
+            async onTypePoint(responsibility, currItem, catIndex, itemIndex) {
+
+                let vm = this;
+
+                responsibility.items = responsibility.items.filter(function (el) {
+                    return el != '';
+                });
+
+                this.currentCatIndex = catIndex;
+                this.currentItemIndex = itemIndex;
+
+                vm.searchedPoints = [];
+
+                if (this.timeout) {
+
+                    clearTimeout(this.timeout);
+                }
+
+                if (currItem) {
+
+                    this.timeout = await setTimeout(() => {
+
+                        Api.getCollectedJobResponsibilities(currItem, 'byItems').then((data) => {
+
+                            console.log(data);
+
+                            if (data.data.responsibilities) {
+
+                                vm.searchedPoints = data.data.responsibilities;
+                            }
+                        });
+
+                        responsibility.items.push('');
+                    }, 200);
+
+                }
+
+            },
+            onSelectResponsibility(responsibility, selResponsibility) {
+
+                this.searchedResponsibilities = [];
+                responsibility.title = selResponsibility;
+            },
+
+            onSelectPoint(responsibility, itemIdx, selResponsibility) {
+
+                this.searchedPoints = [];
+                responsibility.items[itemIdx] = selResponsibility;
+            }
         },
     }
 </script>

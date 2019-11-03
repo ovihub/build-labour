@@ -85,12 +85,24 @@
                     <div class="job-title mb-2">Experience Level</div>
 
                     <div class="me-row">
-                        <select v-model="input.exp_level">
-                            <option key="1" value="Entry Level">Entry Level</option>
-                            <option key="2" value="Intermediate">Intermediate</option>
-                            <option key="3" value="Junior">Junior</option>
-                            <option key="4" value="Senior">Senior</option>
-                        </select>
+                        <!--<select v-model="input.exp_level">-->
+                            <!--<option key="1" value="Entry Level">Entry Level</option>-->
+                            <!--<option key="2" value="Intermediate">Intermediate</option>-->
+                            <!--<option key="3" value="Junior">Junior</option>-->
+                            <!--<option key="4" value="Senior">Senior</option>-->
+                        <!--</select>-->
+                        <input type="text" class="form-control" placeholder="Start typing"
+                               v-model="input.exp_level"
+                               @keyup="onSearchExpLevels(input.exp_level)">
+
+                        <div class="emp-row" style="margin-top:0" v-if="exp_levels && exp_levels.length > 0">
+                            <ul class="list-group">
+                                <li class="list-group-item" v-for="(level, idx) in exp_levels" :key="idx"
+                                    @click="onSelectExpLevel(level.name)">
+                                    {{ level.name }}
+                                </li>
+                            </ul>
+                        </div>
 
                         <span class="err-msg" v-if="errors.exp_level">
                             {{ errors.exp_level }}
@@ -108,6 +120,7 @@
                             <option key="3" value="Part-Time">Part-Time</option>
                             <option key="4" value="Casual">Casual</option>
                             <option key="5" value="Sub Contractor">Sub Contractor (ABN required)</option>
+                            <option key="6" value="Hourly Rate">Hourly Rate</option>
                         </select>
 
                         <span class="err-msg" v-if="errors.contract_type">
@@ -132,30 +145,18 @@
                 <!--</div>-->
 
 
-                <div class="form-group toggle-select-wrapper">
+                <div class="form-group">
 
                     <div class="job-title mb-2">Salary</div>
 
                     <div class="input-toggle">
 
-                        <input type="text" class="form-control" :placeholder="'$ Enter amount (' +  salaryPlaceholder + ')'"
+                        <input type="text" class="form-control" placeholder="$ Enter amount"
                                pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
                                data-type="currency"
                                v-model="input.salary"
                                @keyup="formatCurrency('salary', $event)"
                                @blur="formatCurrency('salary', $event, 'blur')">
-                        <div class="btn-toogle-wrapper">
-                            <button type="button" class="btn btn-default dropdown-toggle as-is bs-dropdown-to-select" data-toggle="dropdown">
-                                <span data-bind="bs-drp-sel-label">{{ input.salary_type }}</span>
-                                <input type="hidden" name="selected_value" data-bind="bs-drp-sel-value" value="">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu" style="">
-                                <div><a href="javascript:void(0)" @click="onSelectSalaryType('Salary')">Salary</a></div>
-                                <div><a href="javascript:void(0)" @click="onSelectSalaryType('Wage')">Wage</a></div>
-                            </ul>
-                        </div>
                     </div>
                 </div>
 
@@ -200,7 +201,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="job-title mb-2">Location</div>
+                    <div class="job-title mb-2">Location (suburb/town)</div>
 
                     <input type="text" class="form-control" placeholder="Start typing address..."
                         v-model="input.location"
@@ -233,6 +234,7 @@
             return {
                 reports_to_active_index: 0,
                 reports_to_job_roles: [],
+                exp_levels: [],
                 job_roles: [],
                 locations: [],
                 input: {
@@ -338,6 +340,32 @@
                 this.input.title = job.job_role_name;
 
                 this.job_roles = [];
+            },
+            onSelectExpLevel(levelName) {
+
+                this.input.exp_level = levelName;
+
+                this.exp_levels = [];
+            },
+            onSearchExpLevels(keyword) {
+
+                if (keyword && keyword.length > 0) {
+
+                    let expLevels = [
+                        {id: 1, name: "Entry Level"},
+                        {id: 2, name: "Intermediate"},
+                        {id: 3, name: "Junior"},
+                        {id: 4, name: "Senior"}
+                    ];
+
+                    this.exp_levels = expLevels;
+
+                    return this.exp_levels;
+                }
+
+                this.exp_levels = [];
+
+                return [];
             },
             addNewEntity() {
                 this.input.reports_to = this.input.reports_to.filter(r => r !== '');

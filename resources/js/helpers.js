@@ -283,5 +283,14 @@ window.Helper = {
                 reader.readAsDataURL(file);
             }
         },
+        getYears(noOfYears) {
+
+            if (!noOfYears) {
+
+                noOfYears = 50;
+            }
+
+            return [...Array(noOfYears).keys()];
+        }
     }
 }

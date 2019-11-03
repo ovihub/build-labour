@@ -124,7 +124,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             Route::get('{id}/posts', 'ApiCompaniesController@posts');
             Route::get('{id}/jobs', 'ApiCompaniesController@jobs'); // jobs and company_jobs with is_template is true and false
             Route::get('{id}/jobs/{jid}', 'ApiCompaniesController@viewJob');
-
+            Route::get('{id}/job-preview/{cacheid}', 'ApiCompaniesController@viewJobPreview');
         });
     });
 
@@ -135,6 +135,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
             Route::post('save-template', 'ApiJobsController@saveTemplate'); // post a job then flag is_template is set to true
             Route::get('search', 'ApiJobsController@searchCompanyJobs'); // search a jobs and company jobs with is_template is false
             Route::post('search/filter', 'ApiJobsController@postFilter');
+            Route::get('collection/responsibilities', 'ApiJobResponsibilitiesController@getCollection'); // collection of responsibilities free text
 
             Route::prefix('{id}')->group(function() {
                 Route::middleware(['jobExist'])->group(function() {

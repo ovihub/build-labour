@@ -273,6 +273,11 @@ class BuildLabourApi {
         return this._get(this.endpoints.responsibilities + id + '/responsibilities');
     }
 
+    getCollectedJobResponsibilities(keyword, by) {
+
+        return this._get(this.endpoints.responsibilities + 'collection/responsibilities?' + by + '=true&keyword=' + keyword);
+    }
+
     getBookmarks() {
         return this._get(this.endpoints.bookmarks);
     }

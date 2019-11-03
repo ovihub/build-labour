@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Cache;
 use App\User;
 use App\Models\Companies\Company;
 use Carbon\Carbon;
@@ -12,6 +13,7 @@ class JobsController extends Controller
 {
     public function view(Request $request)
     {
+
         try {
             $user = $this->getAuthFromToken();
             if($user->isAdmin()){
@@ -39,7 +41,9 @@ class JobsController extends Controller
 
                     } else {
 
-                        return view('jobs.view')->with( compact( 'role','already_applied') );
+                        $isPreviewMode = 0;
+
+                        return view('jobs.view')->with( compact( 'role','already_applied', 'isPreviewMode') );
                     }
 
                 }
@@ -96,13 +100,15 @@ class JobsController extends Controller
 
     public function post(Request $request)
     {
+
         try {
             $user = $this->getAuthFromToken();
 
             if ($user) {
-                if (! $_GET || isset($request->jid)) {
+                if (! $_GET || isset($request->jid) || isset($request->cache_id)) {
                     return view('jobs.post')->with('company_id', Company::where('created_by', $user->id)->first()->id);
                 }
+
                 return view('errors.404');
             }
 
@@ -112,6 +118,45 @@ class JobsController extends Controller
 
             return view('errors.500');
         }
+    }
+
+    public function preview(Request $request)
+    {
+
+        $cache = null;
+
+        if ($request->cache_id) {
+
+            $cache = Cache::find($request->cache_id);
+        }
+
+        try {
+
+            $user = $this->getAuthFromToken();
+
+            if ($cache && $user) {
+
+                if($user->isAdmin()){
+                    $role = 'Company';
+                }
+                else{
+                    $role = $user->role->name;
+                }
+
+                $already_applied = 0;
+                $isPreviewMode = 1;
+
+                return view('jobs.view')->with(compact('role', 'already_applied', 'isPreviewMode'));
+            }
+
+            $this->clearAuthToken();
+
+        } catch (\Exception $e) {
+
+            return view('errors.500');
+        }
+
+        return view('errors.500');
     }
 
     public function search()

@@ -5,7 +5,7 @@
                 Posts
             </div>
             <div :class="peopleCls" @click="show('People')">
-                People
+                Candidates
             </div>
             <div :class="jobsCls" @click="show('Jobs')">
                 Jobs

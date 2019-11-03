@@ -34,6 +34,10 @@
                 </label>
             </div>
 
+            <button class="btn-dark mt-4" style="width: 100%;" :disabled="disabled" @click="onClickPostJob('preview')" v-if="previewBtn">
+                Preview
+            </button>
+
             <button class="mt-4" style="width: 100%;" :disabled="disabled" @click="onClickPostJob">
                 {{ buttonText }}
             </button>
@@ -53,9 +57,11 @@
         name: "create-job",
         data() {
             return {
+
                 disabled: false,
                 buttonText: '',
                 isTemplate: 0,
+                isPreview: false,
                 template_name: '',
                 input: {},
                 errors: {
@@ -73,21 +79,37 @@
                 type: Boolean,
                 required: true
             },
+            companyId: {
+                type: String,
+                default: null
+            },
+            previewBtn: {
+                type: Boolean,
+                default: false
+            }
         },
         created() {
             let vm = this;
 
+
             Bus.$on('newJobDetails', function(input) {
+
+                console.log('newJobDetails');
+                console.log(input);
+
                 vm.input = input;
             });
 
             Bus.$on('newJobRequirements', function(input) {
                 let qua = input.qualifications,
                     exp = input.experience;
-                
+
+                vm.input.min_exp_month = input.min_exp_month;
+                vm.input.min_exp_year = input.min_exp_year;
+
                 vm.input.requirements = [
                     { title: 'Qualifications', items: qua[0].course_type != '' && qua[0].qualification_level != '' ? qua : [] },
-                    { title: 'Experience', items: input.min_exp != '' && exp[0] != '' ? { min_exp: input.min_exp, experiences: exp } : [] },
+                    // { title: 'Experience', items: input.min_exp != '' && exp[0] != '' ? { min_exp: input.min_exp, experiences: exp } : [] },
                     { title: 'Skills', items: input.skills[0] != '' ? input.skills : []},
                     { title: 'Tickets', items: input.tickets },
                 ];
@@ -154,15 +176,22 @@
 
                 Bus.$emit('saveJob');
             },
-            onClickPostJob() {
+
+            onClickPostJob(preview) {
+
+                this.isPreview = preview === 'preview' ? true : false;
+
                 if (this.creating) {
+
                     this.isTemplate = 0;
                     Bus.$emit('saveJob');
 
                 } else {
+
                     this.creating = true;
                     window.location.href = '/job/post';
                 }
+
             },
             async submit(endpoint) {
                 let vm = this;
@@ -171,29 +200,57 @@
                 this.buttonText = '';
                 this.disabled = true;
 
+                vm.$data.input.isPreview = vm.isPreview;
+
+                if (Utils.getUrlParams().cache_id) {
+
+                    vm.$data.input.cache_id = Utils.getUrlParams().cache_id;
+                }
+
                 await axios.post(endpoint, vm.$data.input, Utils.getBearerAuth())
                     
                 .then(function(response) {
-                    let data = response.data,
-                        job = data.data.job;
-                    
+
+                    let data = response.data;
+
+                    // go to job preview page
+                    if (data.data.cache) {
+
+                        let href = `/job/preview?cid=${vm.companyId}&cache_id=${data.data.cache.id}`;
+
+                        if (Utils.getUrlParams().jid) {
+
+                            href += '&jid=' + Utils.getUrlParams().jid;
+                        }
+
+                        window.location.href = href;
+                    }
+
+                    let job = data.data.job;
+
                     if (job.is_template) {
-                        window.location.href = '/job/list?type=templates';
+
+                       window.location.href = '/job/list?type=templates';
 
                     } else if (job.status == 1) {
-                        window.location.href = '/job/list?type=active';
-                    
+
+                       window.location.href = '/job/list?type=active';
+
                     } else {
-                        window.location.href = '/job/list?type=closed';
+
+                       window.location.href = '/job/list?type=closed';
+
                     }
                 
                 }).catch(function(error) {
+
                     let inputErrors = Utils.handleError(error);
 
                     if (inputErrors) {
                         vm.errors.template_name = inputErrors.template_name;
 
                         Bus.$emit('newJobDetailsError', inputErrors);
+                        Bus.$emit('newJobRequirementsError', inputErrors);
                     }
                 });
 

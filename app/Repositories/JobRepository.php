@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Cache;
 use App\Http\Resources\PeoplesResource;
 use App\Http\Resources\JobsResource;
 use App\Models\Companies\Company;
@@ -270,9 +271,38 @@ class JobRepository extends AbstractRepository
                 }
             }
 
+            if ($request->min_exp_month) {
+
+                $this->job ->saveParams('min_exp_month', $request->min_exp_month);
+            }
+
+            if ($request->min_exp_year) {
+
+                $this->job ->saveParams('min_exp_year', $request->min_exp_year);
+            }
+
             if ($request->id) {
 
                 $data['id'] = $request->id;
+            }
+
+            if ($request->responsibilities) {
+
+                foreach ($request->responsibilities as $r) {
+
+                    $r['items_json'] = array_filter($r['items']);
+                    $r['job_id'] = $job->id;
+
+                    $jobRes = new JobResponsibility();
+
+                    if (!$jobRes->store($r)) {
+
+                        $message = "Can't processed request";
+                        $this->job->addError( $message );
+
+                        return false;
+                    }
+                }
             }
 
             if ($request->requirements)
@@ -309,7 +339,7 @@ class JobRepository extends AbstractRepository
 
                     }
 
-                    $r['items_json'] = $items;
+                    $r['items_json'] = array_filter($items);
                     $r['job_id'] = $this->job->id;
 
                     $jobReq = new JobRequirement();
@@ -357,6 +387,17 @@ class JobRepository extends AbstractRepository
             $data['company_id'] = $user->Company->id;
         }
 
+        // delete cache
+        if ($request->cache_id) {
+
+            $cache = Cache::find($request->cache_id);
+
+            if ($cache) {
+
+                $cache->delete();
+            }
+        }
+
         if ($request->job_role_id) {
 
             $jobRole = JobRole::find($request->job_role_id);
@@ -370,6 +411,16 @@ class JobRepository extends AbstractRepository
             }
         }
 
+        if ($request->min_exp_month) {
+
+            $this->job ->saveParams('min_exp_month', $request->min_exp_month);
+        }
+
+        if ($request->min_exp_year) {
+
+            $this->job ->saveParams('min_exp_year', $request->min_exp_year);
+        }
+
         if ($job = $this->job->store($data))
         {
 
@@ -379,7 +430,7 @@ class JobRepository extends AbstractRepository
 
                 foreach ($request->responsibilities as $r) {
 
-                    $r['items_json'] = $r['items'];
+                    $r['items_json'] = array_filter($r['items']);
                     $r['job_id'] = $job->id;
 
                     $jobRes = new JobResponsibility();
@@ -394,12 +445,16 @@ class JobRepository extends AbstractRepository
                 }
             }
 
+            // job requirements
             if ($request->requirements)
             {
+
+                $hasKills = false;
 
                 foreach ($request->requirements as $r) {
 
                     $items = $r['items'];
+
 
                     if (strtolower($r['title']) == 'tickets') {
 
@@ -426,7 +481,12 @@ class JobRepository extends AbstractRepository
 
                     }
 
-                    $r['items_json'] = $items;
+                    if (strtolower($r['title']) == 'skills' && array_filter($items)) {
+
+                        $hasKills = true;
+                    }
+
+                    $r['items_json'] = array_filter($items);
                     $r['job_id'] = $job->id;
 
                     $jobReq = new JobRequirement();
@@ -435,10 +495,18 @@ class JobRepository extends AbstractRepository
 
                         $message = "Can't processed request";
                         $this->job->addError( $message );
-
                         return false;
                     }
                 }
+            }
+
+            // skills required
+            if (!$hasKills) {
+
+                $message = "Skills required.";
+                $this->job->addError( $message );
+                $this->job->errorsDetail = array('skills' => ['Skills required.']);
+                return false;
             }
 
             $this->job->Requirements;
