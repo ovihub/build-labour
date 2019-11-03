@@ -23,14 +23,18 @@
                 </div>
             </div>
 
-            <div v-if="experience.length > 0">
-                <div class="job-title">Experience</div>
+            <div v-if="min_exp_detail.length > 0">
+                <div class="job-title">Minimum Experience</div>
                 <div class="job-body">
+                    <!--<ul class="job-list-items">-->
+                        <!--<li>Minimum of {{ min_exp }} years industry experience</li>-->
+                        <!--<li v-for="(exp, index) in experience" :key="index">-->
+                            <!--{{ exp }}-->
+                        <!--</li>-->
+                    <!--</ul>-->
+
                     <ul class="job-list-items">
-                        <li>Minimum of {{ min_exp }} years industry experience</li>
-                        <li v-for="(exp, index) in experience" :key="index">
-                            {{ exp }}
-                        </li>
+                        <li>{{ min_exp_detail }}</li>
                     </ul>
                 </div>
             </div>
@@ -39,7 +43,7 @@
                 <div class="job-title">Skills</div>
                 <div class="job-body">
                     <ul class="job-list-items">
-                        <li v-for="(skill, index) in skills" :key="index">
+                        <li v-for="(skill, index) in skills" :key="index" v-if="skill">
                             {{ skill }}
                         </li>
                     </ul>
@@ -92,7 +96,7 @@
                 qualifications: [],
                 experience: [],
                 skills: [],
-                tickets: [],
+                min_exp_detail: '',
                 firstColumn: [],
                 secondColumn: [],
             }
@@ -102,13 +106,23 @@
 
             Bus.$on('jobRequirementsDetails', function(detailsArray) {
                 if (detailsArray && detailsArray.length != 0) {
-                    vm.qualifications = detailsArray[0].items;
-                    vm.experience = detailsArray[1].items.experiences;
-                    vm.min_exp = detailsArray[1].items.min_exp;
-                    vm.skills = detailsArray[2].items;
-                    vm.tickets = detailsArray[3].items;
+                    vm.qualifications = detailsArray[0].items  ? detailsArray[0].items : [];
+                    // vm.experience = detailsArray[1].items.experiences;
+                    // vm.min_exp = detailsArray[1].items.min_exp;
+                    vm.skills = detailsArray[1].items ? detailsArray[1].items : [];
+                    vm.tickets = detailsArray[2].items  ? detailsArray[2].items : [];
                     vm.display();
                 }
+            });
+
+            Bus.$on('jobRequirementsMinExp', function(min_exp_month, min_exp_year) {
+
+                vm.min_exp_detail = min_exp_month ? `${min_exp_month} month(s)` : '';
+
+                vm.min_exp_detail += vm.min_exp_detail ? ' and ' : '';
+
+                vm.min_exp_detail += `${min_exp_year} year(s)`;
+
             });
         },
         methods: {

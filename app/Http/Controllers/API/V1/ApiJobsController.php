@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Cache;
 use App\Repositories\JobRepository;
 use Illuminate\Support\Facades\DB;
 use JWTAuth;
@@ -351,7 +352,32 @@ class ApiJobsController extends ApiBaseController
      */
     public function create( Request $request )
     {
+
         DB::beginTransaction();
+
+        // save it to cache then return false
+        if (isset($request->isPreview) && $request->isPreview) {
+
+            if ($request->cache_id) {
+
+                $cache = Cache::find($request->cache_id);
+
+            } else {
+
+                $cache = new Cache();
+            }
+
+            if ($cache) {
+
+                $cache->type = 'job_preview';
+                $cache->json_content = json_encode($request->all());
+                $cache->save();
+
+                DB::commit();
+
+                return $this->apiSuccessResponse( compact('cache'), true, 'Preview successfully cached', self::HTTP_STATUS_REQUEST_OK);
+            }
+        }
 
         if ( !$job = $this->repository->createJob( $request ) ) {
 
@@ -638,6 +664,30 @@ class ApiJobsController extends ApiBaseController
     {
 
         DB::beginTransaction();
+
+        // save it to cache then return false
+        if (isset($request->isPreview) && $request->isPreview) {
+
+            if ($request->cache_id) {
+
+                $cache = Cache::find($request->cache_id);
+
+            } else {
+
+                $cache = new Cache();
+            }
+
+            if ($cache) {
+
+                $cache->type = 'job_preview';
+                $cache->json_content = json_encode($request->all());
+                $cache->save();
+
+                DB::commit();
+
+                return $this->apiSuccessResponse( compact('cache'), true, 'Preview successfully cached', self::HTTP_STATUS_REQUEST_OK);
+            }
+        }
 
         try {
 

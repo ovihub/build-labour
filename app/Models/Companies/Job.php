@@ -48,7 +48,9 @@ class Job extends BaseModel
         'stat_new',
         'stat_not_suitable',
         'stat_total',
-        'stat_viewed'
+        'stat_viewed',
+        'min_exp_month',
+        'min_exp_year'
     ];
 
     /**
@@ -145,7 +147,7 @@ class Job extends BaseModel
 
     public function getReportsToAttribute() {
 
-        return json_decode($this->reports_to_json);
+        return $this->reports_to_json ? json_decode($this->reports_to_json) : [];
     }
 
     public function getReportsToStrAttribute() {
@@ -196,7 +198,7 @@ class Job extends BaseModel
 
             if (!empty($data['reports_to']) && is_array($data['reports_to'])) {
 
-                $this->reports_to_json = json_encode($data['reports_to']);
+                $this->reports_to_json = json_encode(array_filter($data['reports_to']));
 
             } else {
 
@@ -272,5 +274,56 @@ class Job extends BaseModel
 
     public function getStatViewedAttribute(){
         return $this->JobStats->where('category','favourite')->count();
+    }
+
+    public function getMinExpMonthAttribute() {
+
+        return $this->getParamsValue('min_exp_month');
+    }
+
+    public function getMinExpYearAttribute() {
+
+        return $this->getParamsValue('min_exp_year');
+    }
+
+    /**
+     * Save params as JSON
+     * @param string field
+     * @param string $data
+     * @return boolean
+     */
+    public function saveParams($field, $data) {
+
+        $params = !$this->params ? [] : json_decode($this->params, true);
+
+        if (is_array($params)) {
+
+            $params[$field] = $data;
+            $this->params = json_encode($params);
+            $this->update();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get params as array
+     * @param string field
+     * @return string|array
+     */
+    public function getParamsValue( $field = NULL ) {
+
+        $params = !$this->params ? [] : json_decode($this->params, true);
+
+        if (is_array($params) && $field && isset($params[$field])) {
+
+            $value = $params[$field];
+
+            return $value ? $value : NULL;
+        }
+
+        return NULL;
     }
 }
