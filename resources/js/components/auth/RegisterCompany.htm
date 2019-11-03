@@ -146,24 +146,23 @@
                 <div class="disp-flex">
                     <div class="bl-col-1">
                         <div class="comp-logo">
-                            <img v-if=
-                                         </div>
-                            <div class="bl-col-2">
-
-                                <div class="bl-display">
-                                    <div class="comp-button-1 drag-drop dropper" @click="onClickProfilePhoto">
-                                        <p>Drop here or click to choose File</p>
-                                    </div>
-                                    <div class="comp-button-2 mt-2" @click="onClickUpload">
-                                        <p>Upload</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="comp"input.company_photo" class="bl-image-100" :src="input.company_photo">
+                            <img v-if="input.company_photo" class="bl-image-100" :src="input.company_photo" />
                             <img v-else class="bl-image-100" style="padding:15px" alt="' logo.jpg"
                                  src="/img/icons/uploadlogo.png"
-                                 srcset="/img/icons/uploadlogo@2x.png 2x, /img/icons/uploadlogo@3x.png 3x">
-                        </div>-nophoto-label" v-if="! input.company_photo">
+                                 srcset="/img/icons/uploadlogo@2x.png 2x, /img/icons/uploadlogo@3x.png 3x" />
+                        </div>
+                    </div>
+                    <div class="bl-col-2">
+                        <div class="bl-display">
+                            <div class="comp-button-1 drag-drop dropper" @click="onClickProfilePhoto">
+                                <p>Drop here or click to choose File</p>
+                            </div>
+                            <div class="comp-button-2 mt-2" @click="onClickUpload">
+                                <p>Upload</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comp-nophoto-label" v-if="! input.company_photo">
                         no photo chosen
                     </div>
                 </div>
@@ -171,8 +170,8 @@
                     <div id="myBar"></div>
                 </div>
                 <span class="err-msg" v-if="errors.company_photo">
-                        {{ errors.company_photo }}
-                    </span>
+                    {{ errors.company_photo }}
+                </span>
             </li>
 
             <li class="comp-card-list">
