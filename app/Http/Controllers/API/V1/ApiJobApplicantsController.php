@@ -163,7 +163,7 @@ class ApiJobApplicantsController extends ApiBaseController
 
         $applicants = $applicants->with('User');
         $applicants = $applicants->join('users as u', 'u.id', '=', 'job_post_applicants.user_id');
-        $applicants = $applicants->join('worker_details as w', 'u.id', '=', 'job_post_applicants.user_id');
+        $applicants = $applicants->join('worker_details as w', 'w.user_id', '=', 'job_post_applicants.user_id');
 //        $applicants = $applicants->leftJoin("work_experience as we", 'u.id', '=', 'job_post_applicants.user_id' ,function($query) {
 //            $query->on('u.id','=','we.user_id')
 //                ->whereRaw('we.id IN (select MAX(a2.id) from answers as a2 join users as u2 on u2.id = a2.user_id group by u2.id) LIMIT 1');

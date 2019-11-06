@@ -113,6 +113,7 @@ class JobRepository extends AbstractRepository
 
     public function searchCompanyJobs(Request $request)
     {
+        $user = JWTAuth::toUser();
 
         $column = $request->get('column') ? $request->get('column') : 'created_at';
         $order = $request->get('order') ? $request->get('order') : 'desc';
@@ -170,6 +171,13 @@ class JobRepository extends AbstractRepository
                         ->orWhere('job_posts.location', 'like', "%{$keyword}%")
                         ->orWhere('job_role.job_role_name', 'like', "%{$keyword}%");
                     });
+
+        // if company only
+        if ($user->Company) {
+
+            $jobs = $jobs->where('job_posts.company_id', $user->Company->id);
+         //   dd($user->Company);
+        }
 
         if (!empty($location)) {
 

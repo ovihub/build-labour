@@ -1,106 +1,4 @@
-<template>
-    <div class="compare-wrapper">
-        <div class="card-columns">
-            <div class="card" v-for="(applicant, index) in applicants">
-                <div class="profile-item-2">
-                    <div class="profile-content p-0">
-                        <div class="item general-info">
-                            <p class="mb-2">
-                                <span class="bl-label-19">{{ applicant.full_name }}</span>
-                            </p>
-                            <p>
-                                <span class="bl-label-14" style="margin-top: -5px;">{{ applicant.job_role }} <strong>{{ applicant.company_name }}</strong></span>
-                            </p>
-
-                            <div class="bl-mb20">
-                                {{ applicant.profile_description }}
-                            </div>
-                            <div class="bl-mb20">
-                                <div class="bl-display bl-label-15-style-2" v-for="(sector, idx) in applicant.sectors" :key="idx">
-                                    {{ sector.business_type }}
-                                    <div class="bl-inline" v-if="idx != Object.keys(applicant.sectors).length - 1"> •&nbsp;</div>
-                                </div>
-                                <br>
-                                <div class="bl-display" v-for="(tier, idx) in applicant.tiers">
-                                    {{ tier.tier_name }}
-                                    <div class="bl-inline" v-if="idx != Object.keys(applicant.tiers).length - 1"> •&nbsp;</div>
-                                </div>
-                            </div>
-                            <div class="bl-mb20">
-                                <div class="bl-display bl-label-15-style-2">
-                                    English Skill
-                                </div>
-                                <span class="bl-display">{{ parseEnglish(applicant.english_skill) }}</span>
-                            </div>
-                            <div class="bl-mb20">
-                                <div class="bl-display bl-label-15-style-2">
-                                    Drivers License
-                                </div>
-                                <span class="bl-display">{{ parseDriversLicense(applicant.drivers_license) }}</span>
-                            </div>
-                            <div class="bl-mb20">
-                                <div class="bl-display bl-label-15-style-2">
-                                    Right to Work
-                                </div>
-                                <span class="bl-display">{{ parseRightToWork(applicant.right_to_work) }}</span>
-                            </div>
-                        </div>
-                        <div class="item employments">
-                            <div class="profile-title mb-3">Employment History</div>
-                            <employment-list-compare :employments="applicant.experiences"></employment-list-compare>
-                        </div>
-                        <div class="item educations">
-                            <div class="profile-title mb-3">Education</div>
-                            <education-list-compare :educations="applicant.educations"></education-list-compare>
-                        </div>
-                        <div class="item tickets">
-                            <div class="profile-title mb-3">Tickets</div>
-                            <ul>
-                                <li v-for="(ticket, idx) in applicant.tickets" :key="idx" class="mb-2">
-                                    <div class="bl-display bl-label-15-style-2">
-                                        {{ ticket.ticket }}
-                                    </div>
-                                    <span class="bl-display">{{ ticket.description }}</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="item skills">
-                            <div class="profile-title mb-3">Industry Achievements & Skills</div>
-                            <ul>
-                                <li v-for="(skill, idx) in applicant.skills" :key="idx" class="mb-2">
-                                    <div class="bl-display bl-label-15-style-2">
-                                        {{ skill.skill_name }}
-                                    </div>
-                                    <span class="bl-display">{{ skill.level_name }}</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="item next-role">
-                            <div class="profile-title mb-3">Ideal Next Role</div>
-                            <ul>
-                                <li class="mb-2">
-                                    <span class="bl-display">{{ applicant.ideal_next_role }}</span>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="bl-display bl-label-15-style-2">
-                                        Maximum Distance from home
-                                    </div>
-                                    <span class="bl-display">{{ applicant.max_distance }}km</span>
-                                </li>
-                                <li class="mb-2">
-                                    <div class="bl-display bl-label-15-style-2">
-                                        Willing to relocate to
-                                    </div>
-                                    <span class="bl-display">{{ applicant.states }}</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
+<template src="./JobApplicantsCompare.htm"></template>
 
 <script>
     import Api from '@/api';
@@ -128,6 +26,8 @@
                     getStats: '/api/v1/job/',
                     doScore: '/api/v1/job/'
                 },
+                imgSrcExpand: '/img/icons/plus.png',
+                imgSrcSetExpand: '/img/icons/plus@2x.png 2x, /img/icons/plus@3x.png 3x',
             }
         },
         created() {
@@ -145,6 +45,136 @@
         },
         methods: {
 
+            onClickExpandEmployments(index) {
+
+                let key = 'employments' + index;
+                let imgKey = 'EmploymentsToggleImg-' + index;
+
+                if (this.$refs[key][0].classList.contains("expand")) {
+
+                    this.$refs[imgKey][0].src = '/img/icons/plus.png';
+                    this.$refs[key][0].classList.remove("expand");
+
+                } else {
+
+                    this.$refs[key][0].className = 'item employments expand';
+                    this.$refs[imgKey][0].src = '/img/icons/minus.png';
+                }
+
+
+            },
+
+            onClickExpandEducations(index) {
+
+                let key = 'educations' + index;
+                let imgKey = 'EducationsToggleImg-' + index;
+
+                if (this.$refs[key][0].classList.contains("expand")) {
+
+                    this.$refs[imgKey][0].src = '/img/icons/plus.png';
+                    this.$refs[key][0].classList.remove("expand");
+                } else {
+
+                    this.$refs[key][0].className = 'item educations expand';
+                    this.$refs[imgKey][0].src = '/img/icons/minus.png';
+                }
+
+
+            },
+
+            onClickExpandTickets(index) {
+
+                let key = 'tickets' + index;
+                let imgKey = 'TicketsToggleImg-' + index;
+
+                if (this.$refs[key][0].classList.contains("expand")) {
+
+                    this.$refs[imgKey][0].src = '/img/icons/plus.png';
+                    this.$refs[key][0].classList.remove("expand")
+
+                } else {
+
+                    this.$refs[key][0].className = 'item tickets expand';
+                    this.$refs[imgKey][0].src = '/img/icons/minus.png';
+                }
+
+            },
+
+            onClickExpandSkills(index) {
+
+                let key = 'skills' + index;
+                let imgKey = 'SkillsToggleImg-' + index;
+
+                if (this.$refs[key][0].classList.contains("expand")) {
+
+                    this.$refs[imgKey][0].src = '/img/icons/plus.png';
+                    this.$refs[key][0].classList.remove("expand");
+
+                } else {
+
+                    this.$refs[key][0].className = 'item skills expand';
+                    this.$refs[imgKey][0].src = '/img/icons/minus.png';
+                }
+
+            },
+
+            onClickExpandNextRole(index) {
+
+                let key = 'next-role' + index;
+                let imgKey = 'NextRoleToggleImg-' + index;
+
+                if (this.$refs[key][0].classList.contains("expand")) {
+
+                    this.$refs[imgKey][0].src = '/img/icons/plus.png';
+                    this.$refs[key][0].classList.remove("expand");
+                } else {
+
+                    this.$refs[key][0].className = 'item next-role expand';
+                    this.$refs[imgKey][0].src = '/img/icons/minus.png';
+                }
+
+            },
+
+            onClickExpandProfileDescription(index) {
+
+                let wrapperKey = 'wrapper-profile-description' + index;
+                let key = 'profile-description' + index;
+                let hrefKey = 'p-description-read-more-' + index;
+
+                if (this.$refs[key][0].classList.contains("expand")) {
+
+                    this.$refs[wrapperKey][0].classList.remove("expand");
+                    this.$refs[key][0].classList.remove("expand");
+                    this.$refs[hrefKey][0].innerHTML  = 'Read more..';
+
+                } else {
+
+                    this.$refs[wrapperKey][0].className = 'bl-mb20 profile-description expand';
+                    this.$refs[key][0].className = 'p-description-content expand';
+                    this.$refs[hrefKey][0].innerHTML  = 'Close..';
+                }
+
+            },
+
+            isLimitWords(sentence, noOfWords = 5) {
+
+                if (sentence && sentence.split(" ").length > noOfWords) {
+
+                    return true;
+                }
+
+                return false;
+            },
+
+            getNoWords(sentence, noOfWords = 5) {
+
+                if (sentence && sentence.split(" ").length > noOfWords) {
+
+                    return sentence.split(" ").slice(0, noOfWords).join(" ") + "...";
+                }
+
+                return sentence;
+            },
             parseEnglish(engVal) {
 
                 return engVal == 1 ?
@@ -174,8 +204,6 @@
 
                     .then(function(response) {
 
-                        console.log('xxx');
-                        console.log(response.data.data.applicants)
                         vm.applicants = response.data.data.applicants;
                     })
             },
@@ -210,7 +238,6 @@
                     .then(function(response) {
 
                         vm.stats = response.data.data.stats;
-                        console.log(vm.stats);
                     })
             },
 
@@ -244,7 +271,6 @@
 
                     .then(function(response) {
 
-                        console.log(response);
                         vm.stats.favourites = response.data.data.favourites;
                         vm.stats.not_suitable = response.data.data.not_suitable;
 
@@ -259,8 +285,6 @@
             },
 
             async searchApplicants() {
-
-                console.log(this.searchKeyword);
 
                 let vm = this;
 

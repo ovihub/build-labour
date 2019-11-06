@@ -28,7 +28,7 @@
     <div id="app">
         <alert></alert>
 
-        <div class="container-fluid">
+        <div class="container-fluid" style="width: 60%">
             <div class="row">
                 @if (isset($_COOKIE['bl_token']))
                     <div class="col-md-2 col-sm-2">
