@@ -538,6 +538,33 @@ class ApiCompaniesController extends ApiBaseController
         return $this->apiSuccessResponse( compact( 'company' ), true, 'Successfully updated a company', self::HTTP_STATUS_REQUEST_OK);
     }
 
+    public function adminUpdateCompany( Request $request ){
+        DB::beginTransaction();
+
+        try {
+
+            if ( !$company = $this->repository->adminUpdateCompany( $request ) ) {
+
+                return $this->apiErrorResponse(
+                    false,
+                    $this->repository->company->getErrors( true ),
+                    self::HTTP_STATUS_INVALID_INPUT,
+                    'invalidInput',
+                    $this->repository->company->getErrorsDetail()
+                );
+            }
+
+        } catch(\Exception $e) {
+
+            DB::rollback();
+
+            return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
+        }
+
+        DB::commit();
+
+        return $this->apiSuccessResponse( compact('company'), true, 'Updated company successfully', self::HTTP_STATUS_REQUEST_OK);
+     }
     /**
      * @OA\Post(
      *      path="/company/photo",

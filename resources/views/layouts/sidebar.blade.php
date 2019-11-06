@@ -17,11 +17,11 @@
          NAVIGATION
       </div>
       <ul class="sidebar nav flex-column">
-         <li class="nav-item">
+         <!-- <li class="nav-item">
             <a class="nav-link nav-link-custom" href="{{ '/all/users' }}">
                Users
             </a>
-         </li>
+         </li> -->
          <li class="nav-item">
             <a class="nav-link nav-link-custom" href="{{ '/all/jobs' }}">
                Job Posts
@@ -40,6 +40,11 @@
          <li class="nav-item">
             <a class="nav-link nav-link-custom" href="{{ '/all/companies' }}">
                Companies
+            </a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="{{ '/all/workers' }}">
+               Workers
             </a>
          </li>
          <li class="nav-item">

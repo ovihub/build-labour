@@ -360,4 +360,56 @@ class CompanyRepository extends AbstractRepository
 
         return $this->job;
     }
+
+    public function adminUpdateCompany( Request $request ){
+        
+        $company = $this->find($request->id);
+
+        if ($company->store($request)) {
+
+            // save specialization
+
+            if (isset($request->secondary_functions) && is_array($request->secondary_functions)) {
+
+                CompanySpecialized::where('company_id', $request->id)->delete();
+
+                $secondaryFunctions = SecondaryFunction::whereIn('id', $request->secondary_functions)
+                    ->where('main_id', $request->main_company_id)->pluck('id');
+
+                foreach ($secondaryFunctions->toArray() as $id) {
+
+                    CompanySpecialized::insert([
+                        'company_id' => $company->id,
+                        'secondary_id' => $id
+                    ]);
+
+                }
+            }
+
+            if (!empty($request->main_company_id) && !empty($request->main_function_answer)) {
+
+                $existingAnswer = Answer::where('answer', $request->main_function_answer)
+                    ->where('main_function_id', $request->main_company_id)
+                    ->exists();
+
+
+                if (!$existingAnswer) {
+
+                    Answer::create([
+                        'main_function_id' => $request->main_company_id,
+                        'answer' => $request->main_function_answer
+                    ]);
+                }
+            }
+
+            $company->BusinessType;
+            $company->Tier;
+            $company->MainFunction;
+            $company->Specialization;
+
+            return $company;
+        }
+
+        return false;
+    }
 }

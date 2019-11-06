@@ -15,8 +15,10 @@
 			<input :class="dataSearch" type="text" v-model="searchText"
 				@keyup="fetchData">
     	</div>
-		
+				
 		<view-user v-if="modalName == 'User'" :class="dataRecord"></view-user>
+
+		<view-worker v-else-if="modalName == 'Worker'" :class="dataRecord"></view-worker>
 
 		<view-job v-else-if="modalName == 'Job'" :class="dataRecord"></view-job>
 		
@@ -99,6 +101,7 @@
 
 <script>
 	import ViewUser from '../admin/ViewUser';
+	import ViewWorker from '../admin/ViewWorker';
 	import ViewCompany from '../admin/ViewCompany';
 	import ViewJob from '../admin/ViewJob';
 	import ViewJobRole from '../admin/ViewJobRole';
@@ -255,7 +258,7 @@
 				if (data != null) {
 					id = data.id;
 					
-					if (this.modalName == 'User') {
+					if (this.modalName == 'User' || this.modalName == 'Worker') {
 						this.subTitle = this.getProfileName(data.full_name);
 					
 					} else if (this.modalName == 'Job') {
@@ -281,7 +284,7 @@
 				this.dataTitle = 'data-title';
 				this.dataTable = 'hidden';
 				this.dataRecord = 'data-record';
-
+				console.log('datatableView' + this.modalName, id);
 				Bus.$emit('datatableView' + this.modalName, id)
 			},
 			onClickTitle() {
@@ -299,6 +302,7 @@
 		},
 		components: {
 			ViewUser,
+			ViewWorker,
 			ViewCompany,
 			ViewJob,
 			ViewJobRole,

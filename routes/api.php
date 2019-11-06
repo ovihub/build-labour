@@ -106,6 +106,7 @@ Route::middleware(['cors'])->namespace('API\V1')->prefix('v1')->group(function()
 
             Route::get('search', 'ApiCompaniesController@search');
             Route::post('update', 'ApiCompaniesController@update');
+            Route::post('admin-update-company', 'ApiCompaniesController@adminUpdateCompany');
             Route::post('photo', 'ApiCompaniesController@uploadPhoto');
 
             Route::get('{id}', 'ApiCompaniesController@view');
@@ -250,6 +251,7 @@ Route::namespace('API\V1\Admin')
         Route::prefix('company')
             ->group(function () {
                 Route::get('get', 'ApiCompaniesController@get');
+                Route::delete('/{company_id}', 'ApiCompaniesController@deleteCompany');
             });
     });
 
