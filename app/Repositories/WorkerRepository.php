@@ -198,23 +198,11 @@ class WorkerRepository extends AbstractRepository
             return false;
         }
 
-        if (isset($request->exp_year) && isset($request->exp_month)) {
+        $user->workerDetail->exp_month = empty($request->exp_month) ? null : $request->exp_month;
+        $user->workerDetail->exp_year = empty($request->exp_month) ? null : $request->exp_year;
 
-            if (empty($request->exp_year) || empty($request->exp_month)) {
-
-                $validator->errors()->add( 'years_of_experienced', 'Experience year and Experience month are required.' );
-
-                $this->workExp->errors = $validator->errors()->all();
-                $this->workExp->errorsDetail = $validator->errors()->toArray();
-
-                return false;
-            }
-
-            $user->workerDetail->exp_year = $request->exp_year;
-            $user->workerDetail->exp_month = $request->exp_month;
-            $user->workerDetail->most_recent_role = $request->most_recent_role;
-            $user->workerDetail->save();
-        }
+        $user->workerDetail->most_recent_role = $request->most_recent_role;
+        $user->workerDetail->save();
 
         return true;
     }
@@ -308,6 +296,20 @@ class WorkerRepository extends AbstractRepository
 
             return false;
         }
+
+        if ($request->drivers_license_state) {
+
+            $user->workerDetail->saveParams('drivers_license_state', $request->drivers_license_state);
+        }
+
+        if ($request->drivers_license_type) {
+
+            $user->workerDetail->saveParams('drivers_license_type', $request->drivers_license_type);
+        }
+
+        // australian tfn
+        $user->workerDetail->saveParams('australian_tfn', $request->australian_tfn ? $request->australian_tfn : '');
+
 
         if (isset($request->right_to_work)) {
 

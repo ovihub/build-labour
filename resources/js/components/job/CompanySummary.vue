@@ -24,6 +24,11 @@
                         View Business
                     </a>
                 </div>
+
+                <div class="company-view" v-if="isPreviewMode">
+                    <a href="javascript:void(0)" @click="onClickContinuePreview">This is a Preview Mode, just click here to continue posting this job.</a>
+                </div>
+
             </div>
         
         </div>
@@ -45,7 +50,7 @@
                 </div>
             </button>
         </div>
-        
+
         <alert></alert>
         
     </div>
@@ -87,11 +92,15 @@
             already_applied:{
                 type:String,
                 required:true
+            },
+            isPreviewMode: {
+                type: Number,
+                default: 0
             }
         },
         created() {
             let vm = this;
-
+            
             Bus.$on('companySummaryDetails', function(details, action) {
                 if (details) {
                     vm.id = details.id;
@@ -124,6 +133,24 @@
             
         },
         methods: {
+
+            onClickContinuePreview() {
+
+                console.log('onClickContinuePreview');
+
+                if (Utils.getUrlParams().cache_id) {
+
+                    let href = '/job/post?cache_id=' + Utils.getUrlParams().cache_id;
+
+                    if (Utils.getUrlParams().jid) {
+
+                        href += '&jid=' + Utils.getUrlParams().jid;
+                    }
+
+                    window.location.href = href;
+
+                }
+            },
             async apply(){
                 let vm = this;
                 vm.loading = true;
@@ -132,7 +159,7 @@
 
                 await axios.get(vm.endpoints.apply+vm.job_id+'/apply', Utils.getBearerAuth())
                 .then(function(response) {
-                    if(response.data.success){console.log(response.data.message);
+                    if(response.data.success){
                         Bus.$emit('alertSuccess', response.data.message);
                         vm.user_applied = '1';
                         vm.buttonText = 'Already Applied';                

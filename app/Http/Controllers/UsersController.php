@@ -61,7 +61,8 @@ class UsersController extends Controller
 
             if ($user) {
                 if ($user->role_id == 1) {
-                    return view('users.onboarding')->with('most_recent_role', $user->workerDetail->most_recent_role);
+
+                    return view('users.onboarding')->with(['most_recent_role' => $user->workerDetail->most_recent_role, 'user_id' => $user->id]);
                 }
                 
                 return redirect('/user/profile');

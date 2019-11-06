@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Cache;
 use App\Http\Resources\PeoplesResource;
 use App\Models\Companies\Answer;
 use App\Models\Companies\Company;
@@ -198,6 +199,28 @@ class CompanyRepository extends AbstractRepository
         }
 
         return false;
+    }
+
+    public function getJobPreview(Request $request)
+    {
+        $cache = Cache::find($request->cacheid);
+        $company = Company::find($request->id);
+
+        if ($cache && $company) {
+
+            $jobCache = json_decode($cache->json_content);
+
+            if ($jobCache) {
+
+                $jobCache->company = $company;
+
+                return $jobCache;
+            }
+
+        }
+
+        return null;
+
     }
 
     public function getCompany($id) {

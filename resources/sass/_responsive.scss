@@ -270,6 +270,22 @@
   }
 }
 
+@include media-breakpoint-only(sm) {
+
+  /* input with eye icon */
+  .field-icon {
+    margin-right: 9% !important;
+  }
+}
+
+@include media-breakpoint-only(md) {
+
+  /* input with eye icon */
+  .field-icon {
+    margin-right: 9% !important;
+  }
+}
+
 @include media-breakpoint-up(xs) {
 
   .bl-nav-dev-lg {
@@ -301,6 +317,22 @@
     top: 6px;
     left: 112px;
     display: block;
+  }
+
+  .onboarding-wrapper {
+
+    .modal-footer {
+      display: block !important;
+    }
+  }
+
+  /* password input */
+  #password {
+    padding-right: 20% !important;
+  }
+
+  #password-confirm {
+    padding-right: 20% !important;
   }
 }
 

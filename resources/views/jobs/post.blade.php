@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
         <load-job company-id="{{ $company_id }}"></load-job>
         <div class="col-md-3">
-            <create-job :creating="true"></create-job>
+            <create-job :creating="true" company-id="{{ $company_id }}" :preview-btn="true"></create-job>
         </div>
         <div class="col-md-9 ml-2">
             <!-- <transition appear appear-active-class="appear-slide-enter-active"> -->

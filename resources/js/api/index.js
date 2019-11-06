@@ -259,12 +259,23 @@ class BuildLabourApi {
         return self.returnValue;
     }
 
+    getCompaniesPromise(keyword) {
+        let self = this;
+
+        return self._search(this.endpoints.companies + '?keyword=' + keyword);
+    }
+
     getCompanyOptions() {
         return this._get(this.endpoints.company_options);
     }
 
     getJobResponsibilities(id) {
         return this._get(this.endpoints.responsibilities + id + '/responsibilities');
+    }
+
+    getCollectedJobResponsibilities(keyword, by) {
+
+        return this._get(this.endpoints.responsibilities + 'collection/responsibilities?' + by + '=true&keyword=' + keyword);
     }
 
     getBookmarks() {

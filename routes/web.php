@@ -51,6 +51,7 @@ Route::prefix('job')
             Route::get('view', 'JobsController@view')->name('view_job');
             Route::get('applicants', 'JobsController@viewApplicants')->name('applicants');
             Route::get('post', 'JobsController@post')->name('post_job');
+            Route::get('preview', 'JobsController@preview')->name('job_preview');
             Route::get('search', 'JobsController@search');
             Route::get('search/all', 'JobsController@searchAll');
         });

@@ -10,6 +10,7 @@
             <industry-skills></industry-skills>
             <education></education>
             <tickets></tickets> -->
+            <load-user user-id="{{ $user_id }}"></load-user>
             <onboarding most-recent-role="{{ $most_recent_role }}"></onboarding>
         <!-- </div> -->
     </div>

@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="me-label" style="margin-bottom:17px">Date of Birth</div>
+        <div class="me-label" style="margin-bottom:17px">Date of Birth (optional)</div>
         <div class="me-row">
             <div class="me-col-left">
                 <div class="emp-form-label">Day</div>
@@ -38,7 +38,7 @@
         <span class="err-msg" v-if="errors.date_of_birth">
             {{ errors.date_of_birth }}
         </span>
-        
+
         <!-- <div class="me-label">Country of Birth</div>
         <div class="me-row mb-3">
             <select v-model="input.country_birth">

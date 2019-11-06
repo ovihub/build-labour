@@ -23,7 +23,7 @@
                 },
                 about_me_technical: {
                     right_to_work: '', has_tfn: '', has_abn: '',
-                    english_skill: '', drivers_license: '', has_registered_vehicle: '',
+                    english_skill: '', drivers_license: '', drivers_license_state: '', drivers_license_type: '', has_registered_vehicle: '',
                 },
                 ideal_role: { 
                     introduction: '', when: '', max_distance: '', state: '', right_to_work: '',
@@ -99,6 +99,9 @@
                     vm.about_me_technical.has_abn = user.worker_detail.has_abn;
                     vm.about_me_technical.english_skill = user.worker_detail.english_skill;
                     vm.about_me_technical.drivers_license = user.worker_detail.drivers_license;
+                    vm.about_me_technical.drivers_license_state = user.worker_detail.drivers_license_state;
+                    vm.about_me_technical.drivers_license_type = user.worker_detail.drivers_license_type;
+                    vm.about_me_technical.australian_tfn = user.worker_detail.australian_tfn;
                     vm.about_me_technical.has_registered_vehicle = user.worker_detail.has_registered_vehicle;
 
                     vm.ideal_role = user.worker_detail;
@@ -118,7 +121,12 @@
                     Bus.$emit('educationDetails', vm.educations);
                     Bus.$emit('ticketsDetails', vm.tickets, user.worker_detail.has_whitecard);
                     Bus.$emit('industrySkillsDetails', vm.industry_skills, user.worker_detail ? user.worker_detail.main_skill : '');
-                
+
+                    let workerDetail = user.worker_detail ? user.worker_detail : {};
+
+                    workerDetail.skills = user.skills;
+                    Bus.$emit('onboardingDetails', workerDetail);
+
                 }).catch(function(error) {
                     /** 
                      * NOTE: Please do not delete token if error occurs

@@ -383,10 +383,6 @@ body {
   display: table;
 }
 
-.modal-open .modal {
-  overflow-y: hidden;
-}
-
 a {
   color: $brand;
   text-decoration: none !important;
@@ -1671,6 +1667,26 @@ ul.template-list {
       a {
         color: #7d7f82;
       }
+    }
+  }
+}
+
+.onboarding-wrapper {
+
+  .modal-footer {
+    display: flex;
+  }
+
+  .onboarding-step-wrapper {
+
+    display: flex;
+
+    .onboarding-step-wrapper button {
+      font-size: 11px;
+    }
+
+    .btn-to-employment {
+      width: 100%;
     }
   }
 }

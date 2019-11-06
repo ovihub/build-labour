@@ -36,6 +36,12 @@ class WorkerDetail extends BaseModel
         'has_abn',
     ];
 
+    protected $appends = [
+        'drivers_license_state',
+        'drivers_license_type',
+        'australian_tfn'
+    ];
+
     private $userId = null;
 
     const UPDATED_AT = null;
@@ -117,6 +123,21 @@ class WorkerDetail extends BaseModel
     public function Areas() {
 
         return $this->belongsToMany(BusinessType::class, 'worker_areas', 'worker_id', 'business_type_id');
+    }
+
+    public function getDriversLicenseStateAttribute() {
+
+        return $this->getParamsValue('drivers_license_state');
+    }
+
+    public function getDriversLicenseTypeAttribute() {
+
+        return $this->getParamsValue('drivers_license_type');
+    }
+
+    public function getAustralianTfnAttribute() {
+
+        return $this->getParamsValue('australian_tfn');
     }
 
     /**
