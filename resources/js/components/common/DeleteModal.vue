@@ -96,6 +96,12 @@
 				vm.endpoints.delete = endpoint;
 				vm.record.id = cid;
 			});
+
+			Bus.$on('deleteCompany', function(endpoint, cid) {
+				vm.action = 'Company';
+				vm.endpoints.delete = endpoint;
+				vm.record.id = cid;
+			});
 		},
 
 		methods: {
@@ -105,7 +111,7 @@
 				this.disabled = true;
 				
 				if (this.action == 'Employment' || this.action == 'Education' || this.action == 'IndustrySkill' ||
-					this.action == 'Ticket' || this.action == 'Job') {
+					this.action == 'Ticket' || this.action == 'Job' || 'Company') {
 
 					await axios.delete(vm.endpoints.delete, Utils.getBearerAuth())
 

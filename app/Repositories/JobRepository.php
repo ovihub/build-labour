@@ -834,6 +834,11 @@ class JobRepository extends AbstractRepository
                         });
                     });
                 })
+                ->when($request->company, function( $query) use($request){
+                    $query->whereHas('Company', function( $query ) use($request){
+                        $query->where('name', 'like', '%'.$request->company.'%');                        
+                    });
+                })
                 ->when($request->address, function( $query) use($request){                     
                      $query->where(function($query) use($request){
                         foreach($request->address as $address){

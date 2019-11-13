@@ -14,6 +14,9 @@
 Route::get('/', 'PageController@index')->middleware(['forcehttps']);
 Route::get('home', 'PageController@index');
 Route::get('reset-email', 'PageController@resetEmail');
+Route::get('terms-and-conditions', function(){
+    return view('terms-and-conditions');
+})->name('terms.conditions');
 
 Route::middleware(['checktoken'])->group(function() {
     Route::get('login', 'AuthController@showLoginForm')->name('login');
@@ -62,6 +65,7 @@ Route::namespace('Admin')
     ->prefix('all')
     ->group(function() {
         Route::get('users', 'DatatableController@showUsers')->name('users');
+        Route::get('workers', 'DatatableController@showWorkers')->name('workers');
         Route::get('jobs', 'DatatableController@showJobs')->name('jobs');
         Route::get('job-roles', 'DatatableController@showJobRoles')->name('jobRoles');
         Route::get('tickets', 'DatatableController@showTickets')->name('tickets');
@@ -70,6 +74,7 @@ Route::namespace('Admin')
         Route::prefix('datatable')
             ->group(function () {
                 Route::get('users', 'DatatableController@getUsersDatatable')->name('users.table');
+                Route::get('workers', 'DatatableController@getWorkersDatatable')->name('workers.table');
                 Route::get('jobs', 'DatatableController@getJobsDatatable')->name('jobs.table');
                 Route::get('job-roles', 'DatatableController@getJobRolesDatatable')->name('job-roles.table');
                 Route::get('tickets', 'DatatableController@getTicketsDatatable')->name('tickets.table');

@@ -24,6 +24,7 @@
 
         gtag('config', 'UA-147131520-1');
     </script>
+    @yield('custom-css')
 </head>
 <body>
     <div id="app">

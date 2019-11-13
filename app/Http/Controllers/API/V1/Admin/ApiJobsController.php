@@ -108,7 +108,7 @@ class ApiJobsController extends ApiBaseController
         $job = Job::find($job_id);
 
         if (! $job) {
-            return $this->apiErrorResponse( false, 'Ticket Not Found', 404 , 'ticketNotFound' );
+            return $this->apiErrorResponse( false, 'Job Not Found', 404 , 'jobNotFound' );
         }
         try {
             $user = JWTAuth::toUser();
@@ -118,7 +118,7 @@ class ApiJobsController extends ApiBaseController
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
-        return $this->apiSuccessResponse( [], true, 'Successfully deleted ticket', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( [], true, 'Successfully deleted job', self::HTTP_STATUS_REQUEST_OK);
         
     }
 }

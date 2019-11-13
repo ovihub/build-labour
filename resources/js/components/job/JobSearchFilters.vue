@@ -54,6 +54,11 @@
                 <input type="text" class="form-control search-input bg-search" placeholder="Search"
                     v-model="input.ticket" @keyup="onSearch('ticket')">
             </div>
+            <div class="header-label mt-4" v-show="showCompany">Company</div>
+            <div class="emp-row mt-2" v-show="showCompany">
+                <input type="text" class="form-control search-input bg-search" placeholder="Search"
+                    v-model="input.company" @keyup="onSearch('company')">
+            </div>
         </div>
     </div>
 </template>
@@ -68,6 +73,7 @@
                 showIndustries: true,
                 showEducation: true,
                 showTickets: true,
+                showCompany:true,
                 locations: [],
                 address: '',
                 addresses: [],
@@ -78,6 +84,7 @@
                     education: '',
                     ticket: '',
                     industry: '',
+                    company:'',
                 },
                 endpoints: {
                     open_search: '/api/v1/open-search',
@@ -94,6 +101,7 @@
                     this.showIndustries = false;
                     this.showEducation = true;
                     this.showTickets = true;
+                    this.showCompany = false;
 
                 } else if (value == 'companies') {
                     this.$refs[refName + '_individuals'].checked = false;
@@ -101,6 +109,7 @@
                     this.showIndustries = true;
                     this.showEducation = false;
                     this.showTickets = false;
+                    this.showCompany = false;
                     
                 } else if (value == 'jobs') {
                     this.$refs[refName + '_individuals'].checked = false;
@@ -108,6 +117,7 @@
                     this.showIndustries = true;
                     this.showEducation = true;
                     this.showTickets = true;
+                    this.showCompany = true;
                     
                 } else {
                     this.$refs[refName + '_individuals'].checked = false;

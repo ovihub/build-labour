@@ -6,6 +6,7 @@
             <div class="me-col-mid">
                 <div class="emp-form-label">State</div>
                 <select v-model="input.drivers_license_state">
+                    <option value="none">none</option>
                     <option value="NSW">New South Wales</option>
                     <option value="QLD">Queensland</option>
                     <option value="SA">South Australia</option>
@@ -18,6 +19,7 @@
             <div class="me-col-left">
                 <div class="emp-form-label">Type</div>
                 <select v-model="input.drivers_license_type">
+                    <option value="none">none</option>
                     <option value="Full">Full</option>
                     <option value="Probationary">Probationary</option>
                 </select>
