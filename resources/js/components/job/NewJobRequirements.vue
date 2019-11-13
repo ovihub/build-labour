@@ -186,7 +186,7 @@
                 experience: [],
                 skills: [],
                 months: Utils.getMonths(),
-                years: Utils.getYears(),
+                years: Utils.getYearsJobRequirements(),
             }
         },
         created() {

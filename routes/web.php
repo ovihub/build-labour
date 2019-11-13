@@ -14,6 +14,9 @@
 Route::get('/', 'PageController@index')->middleware(['forcehttps']);
 Route::get('home', 'PageController@index');
 Route::get('reset-email', 'PageController@resetEmail');
+Route::get('terms-and-conditions', function(){
+    return view('terms-and-conditions');
+})->name('terms.conditions');
 
 Route::middleware(['checktoken'])->group(function() {
     Route::get('login', 'AuthController@showLoginForm')->name('login');

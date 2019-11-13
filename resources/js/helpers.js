@@ -283,7 +283,7 @@ window.Helper = {
                 reader.readAsDataURL(file);
             }
         },
-        getYears(noOfYears) {
+        getYearsJobRequirements(noOfYears) {
 
             if (!noOfYears) {
 

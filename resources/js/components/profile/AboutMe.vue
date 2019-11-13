@@ -182,8 +182,8 @@
                 } else {
                     val.english_skill = null;
                 }
-
-                val.drivers_license = details.drivers_license_state || details.drivers_license_type ?
+        
+                val.drivers_license = details.drivers_license_state !='none' || details.drivers_license_type != 'none' ?
                     'Owns valid license' :
                     'Does not own valid license';
 
