@@ -97,7 +97,7 @@
 					viewMode: '1',
 					dragMode: 'move',
 					aspectRatio: 16 / 16,
-					autoCropArea: 1,
+					autoCropArea: 0.8,
 					restore: false,
 					guides: false,
 					center: false,
