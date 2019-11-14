@@ -41,7 +41,8 @@ class UserRepository extends AbstractRepository
         $this->workerDetail = new WorkerDetail();
     }
 
-    public function saveMainSkill(Request $request) {
+    public function saveMainSkill(Request $request)
+    {
 
         $user = JWTAuth::toUser();
 
@@ -70,7 +71,8 @@ class UserRepository extends AbstractRepository
         return false;
     }
 
-    public function saveSkills(Request $request) {
+    public function saveSkills(Request $request)
+    {
 
         $user = JWTAuth::toUser();
 
@@ -81,13 +83,13 @@ class UserRepository extends AbstractRepository
             $skills = $request->skills;
 
             foreach ($skills as $skill) {
-                
+
                 if ($skill['skill_name'] != '') {
 
                     $newSkill = Skill::firstOrCreate([
                         'name' => $skill['skill_name']
                     ]);
-                    
+
                     UserSkill::updateOrCreate([
                         'user_id' => $user->id,
                         'skill_id' => $newSkill->id,
@@ -101,7 +103,8 @@ class UserRepository extends AbstractRepository
         return $user->skills;
     }
 
-    public function deleteMainSkills(Request $request) {
+    public function deleteMainSkills(Request $request)
+    {
 
         // delete user skills
         // empty worker_details.main_skill field
@@ -118,7 +121,8 @@ class UserRepository extends AbstractRepository
         return true;
     }
 
-    public function company() {
+    public function company()
+    {
 
         $user = JWTAuth::toUser();
 
@@ -140,7 +144,8 @@ class UserRepository extends AbstractRepository
         return false;
     }
 
-    public function registerCompany(Request $request) {
+    public function registerCompany(Request $request)
+    {
 
         $this->user = new Users;
         $this->company = new Company();
@@ -148,7 +153,7 @@ class UserRepository extends AbstractRepository
         $rules = [
             'company_name'  => 'required',
             'company_main_company_id'  => 'required|integer',
-          //  'company_secondary_functions' => 'required|array',
+            //  'company_secondary_functions' => 'required|array',
             'company_business_type_id' => 'nullable|integer',
             'company_tier_id' => 'nullable|integer',
             'company_photo' => 'nullable|image64:jpeg,jpg,png',
@@ -162,7 +167,7 @@ class UserRepository extends AbstractRepository
 
         $validator = \Validator::make($request->all(), $rules);
 
-        if ( $validator->fails() ) {
+        if ($validator->fails()) {
 
             $this->user->errorsDetail = $validator->errors()->toArray();
 
@@ -172,14 +177,14 @@ class UserRepository extends AbstractRepository
         // user validation
         $this->user->isEmployerSignup = true;
 
-        if( !$this->user->store($request) ) {
+        if (!$this->user->store($request)) {
 
             return false;
         }
 
         $this->company->setUserId($this->user->id);
 
-        if ( !$this->company->store($request) ) {
+        if (!$this->company->store($request)) {
 
             return false;
         }
@@ -203,7 +208,7 @@ class UserRepository extends AbstractRepository
         if ($request->company_secondary_functions && $request->company_main_company_id) {
 
             $secondaryFunctions = SecondaryFunction::whereIn('id', $request->company_secondary_functions)
-                                ->where('main_id', $request->company_main_company_id)->pluck('id');
+                ->where('main_id', $request->company_main_company_id)->pluck('id');
 
             foreach ($secondaryFunctions->toArray() as $id) {
 
@@ -211,7 +216,6 @@ class UserRepository extends AbstractRepository
                     'company_id' => $this->company->id,
                     'secondary_id' => $id
                 ]);
-
             }
         }
 
@@ -225,7 +229,7 @@ class UserRepository extends AbstractRepository
         $company = $this->company;
         $token = $this->user->getJwtToken();
 
-        //Mail::to( $user->email )->send( new ResendVerificationCodeEmail( $user ) );
+        Mail::to($user->email)->send(new ResendVerificationCodeEmail($user));
 
         $user->makeHidden([
             'device_token',
@@ -255,7 +259,8 @@ class UserRepository extends AbstractRepository
         return compact('user', 'company', 'token');
     }
 
-    public function doBookMark(Request $request) {
+    public function doBookMark(Request $request)
+    {
 
         $this->bookmark = new Bookmark();
 
@@ -273,14 +278,13 @@ class UserRepository extends AbstractRepository
                 if (!$post) {
 
                     $message = "Can't processed request";
-                    $this->bookmark->addError( $message );
+                    $this->bookmark->addError($message);
 
                     return false;
                 }
 
                 $data['post_id'] = $post->id;
                 $this->bookmark = Bookmark::where('user_id', $user->id)->where('post_id', $request->post_id)->first();
-
             } else if ($request->job_id) {
 
                 $job = Job::find($request->job_id);
@@ -288,7 +292,7 @@ class UserRepository extends AbstractRepository
                 if (!$job) {
 
                     $message = "Can't processed request";
-                    $this->bookmark->addError( $message );
+                    $this->bookmark->addError($message);
 
                     return false;
                 }
@@ -296,11 +300,10 @@ class UserRepository extends AbstractRepository
                 $data['job_id'] = $job->id;
 
                 $this->bookmark = Bookmark::where('user_id', $user->id)->where('job_id', $request->job_id)->first();
-
             } else {
 
                 $message = "Can't processed request";
-                $this->bookmark->addError( $message );
+                $this->bookmark->addError($message);
 
                 return false;
             }
@@ -320,8 +323,6 @@ class UserRepository extends AbstractRepository
 
                     Bookmark::where('user_id', $user->id)->where('job_id', $request->job_id)->delete();
                 }
-
-
             } else {
 
                 $this->bookmark = new Bookmark();
@@ -362,7 +363,8 @@ class UserRepository extends AbstractRepository
         }
     }
 
-    public function getPostJobsBookmarks() {
+    public function getPostJobsBookmarks()
+    {
 
         $user = JWTAuth::toUser();
 
@@ -395,7 +397,6 @@ class UserRepository extends AbstractRepository
 
                         $jobs[] = $jobPost;
                     }
-
                 }
 
                 return $jobs;
@@ -405,15 +406,16 @@ class UserRepository extends AbstractRepository
         return [];
     }
 
-    public function getPostBookmarksById() {
+    public function getPostBookmarksById()
+    {
 
         $user = JWTAuth::toUser();
 
         if ($user) {
 
             $bookmarks = Bookmark::where('user_id', $user->id)
-                        ->where('job_id', null)
-                        ->pluck('post_id');
+                ->where('job_id', null)
+                ->pluck('post_id');
 
             if ($bookmarks) {
 
@@ -424,7 +426,8 @@ class UserRepository extends AbstractRepository
         return [];
     }
 
-    public function getJobBookmarksById() {
+    public function getJobBookmarksById()
+    {
 
         $user = JWTAuth::toUser();
 
