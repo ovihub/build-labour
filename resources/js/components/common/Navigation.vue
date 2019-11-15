@@ -100,7 +100,7 @@
                                     </g>
                                 </svg>
                             </div>
-                            <p class="bl-nav-tab-label">My Jobs</p>
+                            <p class="bl-nav-tab-label">Search Other Jobs</p>
                         </li>
 
                         <li ref="nav-messages" @click="onClickMessages">

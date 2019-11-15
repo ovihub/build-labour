@@ -79,7 +79,7 @@ class JobRepository extends AbstractRepository
 
         $this->job = Job::with('Responsibilities')->where('id', $jobId)->first();
 
-        if ($this->job){
+        if ($this->job) {
 
             $this->job->Responsibilities;
             $this->job->requirements;
@@ -88,7 +88,6 @@ class JobRepository extends AbstractRepository
         }
 
         return false;
-
     }
 
     public function getFilter(Request $request)
@@ -98,12 +97,11 @@ class JobRepository extends AbstractRepository
 
         $jobs = Job::with('Responsibilities')->where('title', 'like', "%{$params->role}%");
 
-        foreach($params->locations as $location) {
+        foreach ($params->locations as $location) {
 
             $location = trim($location);
 
             $jobs = $jobs->orWhere('location', 'LIKE', "%{$location}%");
-
         }
 
         $jobs = $jobs->get();
@@ -163,25 +161,25 @@ class JobRepository extends AbstractRepository
         }
 
         $jobs = $jobs->where('job_posts.is_template', $isTemplate)
-                    ->whereNotNull('job_posts.company_id')
-                    ->where('status', $jobStatus)
-                    ->where(function($query) use ($keyword) {
-                        $query->where('job_posts.title', 'like', "%{$keyword}%")
-                        ->orWhere('job_posts.template_name', 'like', "%{$keyword}%")
-                        ->orWhere('job_posts.location', 'like', "%{$keyword}%")
-                        ->orWhere('job_role.job_role_name', 'like', "%{$keyword}%");
-                    });
+            ->whereNotNull('job_posts.company_id')
+            ->where('status', $jobStatus)
+            ->where(function ($query) use ($keyword) {
+                $query->where('job_posts.title', 'like', "%{$keyword}%")
+                    ->orWhere('job_posts.template_name', 'like', "%{$keyword}%")
+                    ->orWhere('job_posts.location', 'like', "%{$keyword}%")
+                    ->orWhere('job_role.job_role_name', 'like', "%{$keyword}%");
+            });
 
         // if company only
         if ($user->Company) {
 
             $jobs = $jobs->where('job_posts.company_id', $user->Company->id);
-         //   dd($user->Company);
+            //   dd($user->Company);
         }
 
         if (!empty($location)) {
 
-            $jobs = $jobs->where(function($query) use ($location) {
+            $jobs = $jobs->where(function ($query) use ($location) {
                 $query->where('job_posts.location', 'like', "%{$location}%");
             });
         }
@@ -198,10 +196,9 @@ class JobRepository extends AbstractRepository
         }
 
         return $jobs;
-
     }
 
-    public function createJob( Request $request )
+    public function createJob(Request $request)
     {
 
         $job = $this->saveJob($request, false);
@@ -214,7 +211,7 @@ class JobRepository extends AbstractRepository
         return false;
     }
 
-    public function saveTemplate( Request $request )
+    public function saveTemplate(Request $request)
     {
 
         $job = $this->saveJob($request, true);
@@ -227,7 +224,7 @@ class JobRepository extends AbstractRepository
         return false;
     }
 
-    public function updateJob( Request $request )
+    public function updateJob(Request $request)
     {
 
         $user = JWTAuth::toUser();
@@ -250,7 +247,7 @@ class JobRepository extends AbstractRepository
                 $this->job->status = true;
                 $this->job->push();
 
-               // dd($this->job->toArray());
+                // dd($this->job->toArray());
                 $relations = $job->getRelations();
 
                 foreach ($relations as $relation) {
@@ -260,7 +257,6 @@ class JobRepository extends AbstractRepository
                         $newRelationship->push();
                     }
                 }
-
             } else { // deal active jobs or active templates >> status 1
 
                 $this->job = $job;
@@ -273,7 +269,7 @@ class JobRepository extends AbstractRepository
                 if (!$jobRole) {
 
                     $message = "Can't process request";
-                    $this->job->addError( $message );
+                    $this->job->addError($message);
 
                     return false;
                 }
@@ -281,12 +277,12 @@ class JobRepository extends AbstractRepository
 
             if ($request->min_exp_month) {
 
-                $this->job ->saveParams('min_exp_month', $request->min_exp_month);
+                $this->job->saveParams('min_exp_month', $request->min_exp_month);
             }
 
             if ($request->min_exp_year) {
 
-                $this->job ->saveParams('min_exp_year', $request->min_exp_year);
+                $this->job->saveParams('min_exp_year', $request->min_exp_year);
             }
 
             if ($request->id) {
@@ -306,15 +302,14 @@ class JobRepository extends AbstractRepository
                     if (!$jobRes->store($r)) {
 
                         $message = "Can't processed request";
-                        $this->job->addError( $message );
+                        $this->job->addError($message);
 
                         return false;
                     }
                 }
             }
 
-            if ($request->requirements)
-            {
+            if ($request->requirements) {
 
                 $result = JobRequirement::where('job_id', $this->job->id)->delete();
 
@@ -338,13 +333,11 @@ class JobRepository extends AbstractRepository
                                 $newTicket->save();
 
                                 $items[] = $newTicket->toArray();
-
                             } else if (Ticket::find($item['id'])) {
 
                                 $items[] = $item;
                             }
                         }
-
                     }
 
                     $r['items_json'] = array_filter($items);
@@ -355,7 +348,7 @@ class JobRepository extends AbstractRepository
                     if (!$jobReq->store($r)) {
 
                         $message = "Can't processed request";
-                        $this->job->addError( $message );
+                        $this->job->addError($message);
 
                         return false;
                     }
@@ -367,13 +360,12 @@ class JobRepository extends AbstractRepository
 
                 return $this->job;
             }
-
         }
 
         return false;
     }
 
-    public function saveJob( Request $request, $isTemplate=true )
+    public function saveJob(Request $request, $isTemplate = true)
     {
 
         $user = JWTAuth::toUser();
@@ -413,7 +405,7 @@ class JobRepository extends AbstractRepository
             if (!$jobRole) {
 
                 $message = "Can't process request";
-                $this->job->addError( $message );
+                $this->job->addError($message);
 
                 return false;
             }
@@ -421,16 +413,15 @@ class JobRepository extends AbstractRepository
 
         if ($request->min_exp_month) {
 
-            $this->job ->saveParams('min_exp_month', $request->min_exp_month);
+            $this->job->saveParams('min_exp_month', $request->min_exp_month);
         }
 
         if ($request->min_exp_year) {
 
-            $this->job ->saveParams('min_exp_year', $request->min_exp_year);
+            $this->job->saveParams('min_exp_year', $request->min_exp_year);
         }
 
-        if ($job = $this->job->store($data))
-        {
+        if ($job = $this->job->store($data)) {
 
             // job responsibilities
 
@@ -446,7 +437,7 @@ class JobRepository extends AbstractRepository
                     if (!$jobRes->store($r)) {
 
                         $message = "Can't processed request";
-                        $this->job->addError( $message );
+                        $this->job->addError($message);
 
                         return false;
                     }
@@ -454,8 +445,7 @@ class JobRepository extends AbstractRepository
             }
 
             // job requirements
-            if ($request->requirements)
-            {
+            if ($request->requirements) {
 
                 $hasKills = false;
 
@@ -480,13 +470,11 @@ class JobRepository extends AbstractRepository
                                 $newTicket->save();
 
                                 $items[] = $newTicket->toArray();
-
                             } else if (Ticket::find($item['id'])) {
 
                                 $items[] = $item;
                             }
                         }
-
                     }
 
                     if (strtolower($r['title']) == 'skills' && array_filter($items)) {
@@ -502,7 +490,7 @@ class JobRepository extends AbstractRepository
                     if (!$jobReq->store($r)) {
 
                         $message = "Can't processed request";
-                        $this->job->addError( $message );
+                        $this->job->addError($message);
                         return false;
                     }
                 }
@@ -512,7 +500,7 @@ class JobRepository extends AbstractRepository
             if (!$hasKills) {
 
                 $message = "Skills required.";
-                $this->job->addError( $message );
+                $this->job->addError($message);
                 $this->job->errorsDetail = array('skills' => ['Skills required.']);
                 return false;
             }
@@ -526,7 +514,7 @@ class JobRepository extends AbstractRepository
         return false;
     }
 
-    public function duplicate( Request $request )
+    public function duplicate(Request $request)
     {
 
         $user = JWTAuth::toUser();
@@ -541,9 +529,9 @@ class JobRepository extends AbstractRepository
             'company_id' => 'required',
         ];
 
-        $validator = \Validator::make( $request->all() , $rules, ['confirmation.in' => 'confirmation value must be duplicate_as_template or duplicate']);
+        $validator = \Validator::make($request->all(), $rules, ['confirmation.in' => 'confirmation value must be duplicate_as_template or duplicate']);
 
-        if( $validator->fails() ){
+        if ($validator->fails()) {
 
             $this->job->errorsDetail = $validator->errors()->toArray();
             return false;
@@ -571,7 +559,7 @@ class JobRepository extends AbstractRepository
         return $newJob;
     }
 
-    public function deleteJob( Request $request )
+    public function deleteJob(Request $request)
     {
 
         $user = JWTAuth::toUser();
@@ -583,9 +571,9 @@ class JobRepository extends AbstractRepository
             'company_id' => 'required',
         ];
 
-        $validator = \Validator::make( $request->all() , $rules, ['confirmation.in' => 'confirmation value must be a delete value']);
+        $validator = \Validator::make($request->all(), $rules, ['confirmation.in' => 'confirmation value must be a delete value']);
 
-        if( $validator->fails() ){
+        if ($validator->fails()) {
 
             $this->job->errorsDetail = $validator->errors()->toArray();
             return false;
@@ -596,7 +584,7 @@ class JobRepository extends AbstractRepository
         return $this->job;
     }
 
-    public function saveRequirements( Request $request)
+    public function saveRequirements(Request $request)
     {
 
         $this->jobRequirement = new JobRequirement();
@@ -623,7 +611,6 @@ class JobRepository extends AbstractRepository
                     $jobReq = JobRequirement::find($r['id']);
 
                     $excludeIds[] = $r['id'];
-
                 } else {
 
                     // new
@@ -645,7 +632,7 @@ class JobRepository extends AbstractRepository
         return false;
     }
 
-    public function saveResponsibilities( Request $request )
+    public function saveResponsibilities(Request $request)
     {
 
         $this->jobResponsibility = new JobResponsibility();
@@ -671,12 +658,10 @@ class JobRepository extends AbstractRepository
                     $jobRes = JobResponsibility::find($r['id']);
 
                     $excludeIds[] = $r['id'];
-
                 } else {
 
                     // new
                     $jobRes = new JobResponsibility();
-
                 }
 
                 if ($jobRes->store($r)) {
@@ -693,7 +678,7 @@ class JobRepository extends AbstractRepository
         return false;
     }
 
-    public function getResponsibilities( Request $request )
+    public function getResponsibilities(Request $request)
     {
 
         $this->jobResponsibility = new JobResponsibility();
@@ -743,116 +728,118 @@ class JobRepository extends AbstractRepository
         ];
     }
 
-    public function openSearch( Request $request )
+    public function openSearch(Request $request)
     {
         switch ($request->search_type) {
             case 'individuals':
-            
-                $data = User::where('role_id',1)
-                ->when($request->search_string, function( $query ) use($request){
-                    $query->whereHas('WorkerDetail', function($query) use($request){
-                        $query->where('first_name','like', '%'.$request->search_string.'%');
-                        $query->orWhere('most_recent_role', 'like', '%'.$request->search_string.'%');
-                        $query->orWhere('profile_description', 'like', '%'.$request->search_string.'%');
-                    });                    
-                })
-                ->when($request->education, function( $query) use($request){
-                    $query->whereHas('Educations' , function( $query ) use($request){
-                        $query->where('school','like','%'.$request->education.'%');
-                        $query->orWhere('course','like','%'.$request->education.'%');
-                    });
-                })
-                ->when($request->ticket, function( $query ) use($request){
-                    $query->whereHas('Tickets', function($query) use($request){
-                        $query->where('ticket','like', '%'.$request->ticket.'%');
-                    });
-                })                                
-                ->when($request->address, function( $query) use($request){
-                    $query->where(function($query) use($request){
-                        foreach($request->address as $address){
-                            $query->orWhere( 'address','like', '%'.$address.'%');
-                        }
-                    });
-                    
-                    
-                })->get();
+
+                $data = User::where('role_id', 1)
+                    ->when($request->search_string, function ($query) use ($request) {
+                        $query->whereHas('WorkerDetail', function ($query) use ($request) {
+                            $query->where('first_name', 'like', '%' . $request->search_string . '%');
+                            $query->orWhere('most_recent_role', 'like', '%' . $request->search_string . '%');
+                            $query->orWhere('profile_description', 'like', '%' . $request->search_string . '%');
+                        });
+                    })
+                    ->when($request->title, function ($query) use ($request) {
+                        $query->whereHas('Experiences', function ($query) use ($request) {
+                            $query->where('job_role', 'like', '%' . $request->title . '%');
+                        });
+                    })
+                    ->when($request->education, function ($query) use ($request) {
+                        $query->whereHas('Educations', function ($query) use ($request) {
+                            $query->where('school', 'like', '%' . $request->education . '%');
+                            $query->orWhere('course', 'like', '%' . $request->education . '%');
+                        });
+                    })
+                    ->when($request->ticket, function ($query) use ($request) {
+                        $query->whereHas('Tickets', function ($query) use ($request) {
+                            $query->where('ticket', 'like', '%' . $request->ticket . '%');
+                        });
+                    })
+                    ->when($request->address, function ($query) use ($request) {
+                        $query->where(function ($query) use ($request) {
+                            foreach ($request->address as $address) {
+                                $query->orWhere('address', 'like', '%' . $address . '%');
+                            }
+                        });
+                    })->get();
 
                 $data = PeoplesResource::collection($data);
                 break;
             case 'companies':
 
-                $data = Company::when($request->search_string, function( $query ) use($request){
-                    $query->where(function($query) use($request){
-                        $query->where([['name', 'like', '%'.$request->search_string.'%']])
-                            ->orWhere([['introduction', 'like', '%'.$request->search_string.'%']]);
+                $data = Company::when($request->search_string, function ($query) use ($request) {
+                    $query->where(function ($query) use ($request) {
+                        $query->where([['name', 'like', '%' . $request->search_string . '%']])
+                            ->orWhere([['introduction', 'like', '%' . $request->search_string . '%']]);
                     });
                 })
-                ->when($request->industry, function( $query) use($request){
-                    $query->where(function($query) use($request){
-                        $query->whereHas('MainFunction', function( $query ) use($request) {
-                            $query->where('main_name', 'like', '%'.$request->industry.'%');
+                    ->when($request->industry, function ($query) use ($request) {
+                        $query->where(function ($query) use ($request) {
+                            $query->whereHas('MainFunction', function ($query) use ($request) {
+                                $query->where('main_name', 'like', '%' . $request->industry . '%');
+                            });
+                            $query->orWhereHas('Specialization', function ($query) use ($request) {
+                                $query->where('secondary_name', 'like', '%' . $request->industry . '%');
+                            });
                         });
-                        $query->orWhereHas('Specialization', function( $query ) use($request) {
-                            $query->where('secondary_name', 'like', '%'.$request->industry.'%');
+                    })
+                    ->when($request->address, function ($query) use ($request) {
+                        $query->where(function ($query) use ($request) {
+                            foreach ($request->address as $address) {
+                                $query->orWhere('address', 'like', '%' . $address . '%');
+                            }
                         });
-                    });
-                })                
-                ->when($request->address, function( $query) use($request){
-                    $query->where(function($query) use($request){
-                        foreach($request->address as $address){
-                            $query->orWhere( 'address','like', '%'.$address.'%');
-                        }
-                    });
-                })->with('MainFunction')->get();
+                    })->with('MainFunction')->get();
 
                 break;
-            case 'jobs':                
-                $data = Job::where([['status','=',true],['is_template','=',false]])
-                ->when($request->search_string, function( $query ) use($request){
-                    $query->where([['title', 'like', '%'.$request->search_string.'%']]);
-                    $query->orWhereHas('JobRole', function($query) use($request){
-                        $query->where('job_role_name','like','%'.$request->search_string.'%');
-                    });
-                })
-                ->when($request->ticket, function( $query) use($request){
-                    $query->whereHas('Requirements', function( $query ) use($request){                        
-                        $query->where([['title','tickets'],['items_json','like','%'.$request->ticket.'%']]);                        
-                    });
-                })
-                ->when($request->education, function( $query) use($request){
-                    $query->whereHas('Requirements', function( $query ) use($request){                        
-                        $query->where([['title','qualifications'],['items_json','like','%'.$request->education.'%']]);                        
-                    });
-                })                
-                ->when($request->industry, function( $query) use($request){
-                    $query->whereHas('Company', function( $query ) use($request){
-                        $query->whereHas('MainFunction', function( $query ) use($request) {
-                            $query->where('main_name', 'like', '%'.$request->industry.'%');
+            case 'jobs':
+                $data = Job::where([['status', '=', true], ['is_template', '=', false]])
+                    ->when($request->search_string, function ($query) use ($request) {
+                        $query->where([['title', 'like', '%' . $request->search_string . '%']]);
+                        $query->orWhereHas('JobRole', function ($query) use ($request) {
+                            $query->where('job_role_name', 'like', '%' . $request->search_string . '%');
                         });
-                        $query->orWhereHas('Specialization', function($query) use($request){
-                            $query->where('secondary_name','like', '%'.$request->industry.'%');
+                    })
+                    ->when($request->ticket, function ($query) use ($request) {
+                        $query->whereHas('Requirements', function ($query) use ($request) {
+                            $query->where([['title', 'tickets'], ['items_json', 'like', '%' . $request->ticket . '%']]);
                         });
-                    });
-                })
-                ->when($request->company, function( $query) use($request){
-                    $query->whereHas('Company', function( $query ) use($request){
-                        $query->where('name', 'like', '%'.$request->company.'%');                        
-                    });
-                })
-                ->when($request->address, function( $query) use($request){                     
-                     $query->where(function($query) use($request){
-                        foreach($request->address as $address){
-                            $query->orWhere( 'location','like', '%'.$address.'%');
-                        }
-                    });
-                })->with('company')->get();
-                break;    
-            default:                
+                    })
+                    ->when($request->education, function ($query) use ($request) {
+                        $query->whereHas('Requirements', function ($query) use ($request) {
+                            $query->where([['title', 'qualifications'], ['items_json', 'like', '%' . $request->education . '%']]);
+                        });
+                    })
+                    ->when($request->industry, function ($query) use ($request) {
+                        $query->whereHas('Company', function ($query) use ($request) {
+                            $query->whereHas('MainFunction', function ($query) use ($request) {
+                                $query->where('main_name', 'like', '%' . $request->industry . '%');
+                            });
+                            $query->orWhereHas('Specialization', function ($query) use ($request) {
+                                $query->where('secondary_name', 'like', '%' . $request->industry . '%');
+                            });
+                        });
+                    })
+                    ->when($request->company, function ($query) use ($request) {
+                        $query->whereHas('Company', function ($query) use ($request) {
+                            $query->where('name', 'like', '%' . $request->company . '%');
+                        });
+                    })
+                    ->when($request->address, function ($query) use ($request) {
+                        $query->where(function ($query) use ($request) {
+                            foreach ($request->address as $address) {
+                                $query->orWhere('location', 'like', '%' . $address . '%');
+                            }
+                        });
+                    })->with('company')->get();
+                break;
+            default:
                 return false;
                 break;
         }
 
         return $data;
-
     }
 }
