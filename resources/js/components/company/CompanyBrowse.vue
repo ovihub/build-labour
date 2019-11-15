@@ -8,7 +8,7 @@
                 Candidates
             </div>
             <div :class="jobsCls" @click="show('Jobs')">
-                Jobs
+                My Jobs
             </div>
         </div>
     </div>

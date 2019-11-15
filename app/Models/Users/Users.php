@@ -7,6 +7,7 @@ use App\Models\BaseModel;
 use App\Models\Companies\Company;
 use App\User;
 use App\Helpers\Utils;
+use App\Models\Companies\JobApplicant;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -31,12 +32,14 @@ class Users extends BaseModel implements
 
     public $timestamps = true;
 
-    protected $fillable = [ 'id', 'email' , 'first_name' , 'last_name', 'password',
-        'date_of_birth' , 'country', 'address', 'mobile_number', 'role_id', 'gender', 'marital_status', 'country_birth' ];
+    protected $fillable = [
+        'id', 'email', 'first_name', 'last_name', 'password',
+        'date_of_birth', 'country', 'address', 'mobile_number', 'role_id', 'gender', 'marital_status', 'country_birth'
+    ];
 
-    protected $hidden =[ 'password' , 'remember_token','updated_at' , 'created_at', 'verification_code', 'firebase' ];
+    protected $hidden = ['password', 'remember_token', 'updated_at', 'created_at', 'verification_code', 'firebase'];
 
-    protected $appends = [ 'identifier', 'full_name', 'dob_formatted', 'device_token' ];
+    protected $appends = ['identifier', 'full_name', 'dob_formatted', 'device_token'];
 
     public $sql;
     public $bindings;
@@ -80,7 +83,7 @@ class Users extends BaseModel implements
             ];
         }
 
-        if( $this->id ) {
+        if ($this->id) {
 
             // validation rules for updated users
             return [
@@ -115,36 +118,35 @@ class Users extends BaseModel implements
      * @return bool
      */
 
-    private function validate( $request ){
+    private function validate($request)
+    {
 
-        if( $this->id ){
+        if ($this->id) {
 
             $rules = $this->rules();
 
-            $validator = \Validator::make( $request->all() , $rules, $this->validationMessages() );
+            $validator = \Validator::make($request->all(), $rules, $this->validationMessages());
 
             // email must not be modified
-            if( $request->email && $request->email != $this->email ){
+            if ($request->email && $request->email != $this->email) {
 
-                $validator->errors()->add( 'email', 'Not allowed to modify Email or Username' );
+                $validator->errors()->add('email', 'Not allowed to modify Email or Username');
 
-                $this->errors = $validator->errors()->all();
-                $this->errorsDetail = $validator->errors()->toArray();
-                return false;
-
-            }
-
-            if( $validator->fails() ){
                 $this->errors = $validator->errors()->all();
                 $this->errorsDetail = $validator->errors()->toArray();
                 return false;
             }
 
+            if ($validator->fails()) {
+                $this->errors = $validator->errors()->all();
+                $this->errorsDetail = $validator->errors()->toArray();
+                return false;
+            }
         } else {
 
-            $validator = \Validator::make( $request->all() , $this->rules(), $this->validationMessages() );
+            $validator = \Validator::make($request->all(), $this->rules(), $this->validationMessages());
 
-            if( $validator->fails() ){
+            if ($validator->fails()) {
                 $this->errors = $validator->errors()->all();
                 $this->errorsDetail = $validator->errors()->toArray();
                 return false;
@@ -162,27 +164,25 @@ class Users extends BaseModel implements
      *
      */
 
-    public function store( Request $r )
+    public function store(Request $r)
     {
 
-        if( ! $this->validate( $r )){
+        if (!$this->validate($r)) {
 
             return false;
         }
 
-        $this->fill( $r->all() );
+        $this->fill($r->all());
         $pk = $this->primaryKey;
 
-        if( $r->$pk  ){
+        if ($r->$pk) {
 
             $this->exists = true;
-
         } else {
 
             // do stuff for new users here
             $this->is_verified = null;
             $this->verification_code = $this->generateVerificationCode();
-
         }
 
         if ($this->isEmployerSignup) {
@@ -193,8 +193,7 @@ class Users extends BaseModel implements
         try {
 
             $this->save();
-
-        } catch( \Exception $e ){
+        } catch (\Exception $e) {
 
             $this->errors[] = $e->getMessage();
 
@@ -204,59 +203,60 @@ class Users extends BaseModel implements
         return $this;
     }
 
-    public function setFirstNameAttribute( $name )
+    public function setFirstNameAttribute($name)
     {
-        if ( ! empty( $name ) ) {
+        if (!empty($name)) {
 
             $this->attributes['first_name'] = ucfirst($name);
         }
     }
 
-    public function setLastNameAttribute( $name )
+    public function setLastNameAttribute($name)
     {
-        if ( ! empty( $name ) ) {
+        if (!empty($name)) {
 
             $this->attributes['last_name'] = ucfirst($name);
         }
     }
 
-    public function setPasswordAttribute( $password )
+    public function setPasswordAttribute($password)
     {
-        if ( ! empty( $password ) ) {
+        if (!empty($password)) {
 
-            $this->attributes['password'] = \Hash::make( $password );
+            $this->attributes['password'] = \Hash::make($password);
         }
     }
 
-    public function setMobileNumberAttribute($mobile) {
+    public function setMobileNumberAttribute($mobile)
+    {
 
-        if ( ! empty( $mobile ) ) {
+        if (!empty($mobile)) {
 
             $mobile = str_replace('+61', '', trim($mobile));
 
             $this->attributes['mobile_number'] = '+61' . $mobile;
         }
     }
-    
+
     public function getJwtToken()
     {
         // the JWTSubject class is App/User and not $this
-        $jwt_subject = ( new User )->find( $this->id );
+        $jwt_subject = (new User)->find($this->id);
 
-        if( ! $jwt_subject ){
+        if (!$jwt_subject) {
             return false;
         }
 
-        return JWTAuth::fromUser( $jwt_subject );
+        return JWTAuth::fromUser($jwt_subject);
     }
 
     /**
      * @param $email
      * @return mixed
      */
-    public function emailExists( $email )
+    public function emailExists($email)
     {
-        $user =  static::where( 'email' , $email )
+        $user =  static::where('email', $email)
             ->first();
 
         return $user;
@@ -270,7 +270,7 @@ class Users extends BaseModel implements
 
         if (!empty($this->first_name) && !empty($this->last_name)) {
 
-            return $this->first_name.' '.$this->last_name;
+            return $this->first_name . ' ' . $this->last_name;
         }
 
         return '';
@@ -281,12 +281,14 @@ class Users extends BaseModel implements
         return \Carbon\Carbon::parse($this->date_of_birth)->format('d F Y');
     }
 
-    public function getDeviceTokenAttribute() {
+    public function getDeviceTokenAttribute()
+    {
 
         return $this->firebase ? $this->firebase->device_token : '';
     }
 
-    public function getIdentifierAttribute() {
+    public function getIdentifierAttribute()
+    {
 
         return (string) $this->id;
     }
@@ -295,59 +297,60 @@ class Users extends BaseModel implements
     {
         $this->verification_code = $this->generateVerificationCode();
 
-        try{
+        try {
             $this->save();
             // \Mail::to( $this->email )->send( new ResendVerificationCodeEmail( $this ) );
-        }catch( \Exception  $e ){
-            $this->addError( $e->getMessage() );
+        } catch (\Exception  $e) {
+            $this->addError($e->getMessage());
             return false;
         }
 
         return $this;
     }
 
-    public function verify( $verification_code )
+    public function verify($verification_code)
     {
-        if( ! $this->id ){
+        if (!$this->id) {
 
             $message = 'Unknown user id';
-            $this->addError( $message );
+            $this->addError($message);
             $this->errorsDetail = array('verification' => [$message]);
             return false;
         }
 
-        if( ! $verification_code ){
+        if (!$verification_code) {
 
             $message = 'Verification code must not be empty';
-            $this->addError( $message );
+            $this->addError($message);
             $this->errorsDetail = array('verification' => [$message]);
             return false;
         }
 
-        if( $this->is_verified ){
+        if ($this->is_verified) {
 
             $message = 'User was already verified';
-            $this->addError( $message );
+            $this->addError($message);
             $this->errorsDetail = array('verification' => [$message]);
             return false;
         }
 
-        if( $verification_code != $this->verification_code ){
+        if ($verification_code != $this->verification_code) {
 
             $message = 'Incorrect verification code';
-            $this->addError( $message );
+            $this->addError($message);
             $this->errorsDetail = array('verification' => [$message]);
             return false;
         }
 
         $this->verification_code = null;
-        $this->is_verified = date( 'Y-m-d H:i:s');
+        $this->is_verified = date('Y-m-d H:i:s');
         $this->save();
 
         return $this;
     }
 
-    public function getWelcomeName() {
+    public function getWelcomeName()
+    {
 
         $headerName = "";
 
@@ -357,7 +360,6 @@ class Users extends BaseModel implements
 
                 $headerName = $this->first_name;
             }
-
         } else {
 
             $user = User::find($this->id);
@@ -366,7 +368,6 @@ class Users extends BaseModel implements
 
                 $headerName = $user->Company->name;
             }
-
         }
 
         if (empty($headerName)) {
@@ -381,20 +382,20 @@ class Users extends BaseModel implements
      * @param Request $r
      * @return $this|bool
      */
-    public function uploadProfilePhoto( Request $request )
+    public function uploadProfilePhoto(Request $request)
     {
 
         try {
 
-            if( ! $this->id ){
-                $this->addError(  'Unknown user' ) ;
+            if (!$this->id) {
+                $this->addError('Unknown user');
                 return false;
             }
 
-            $validator = \Validator::make( $request->all(), [ 'photo' => 'required|image64:jpeg,jpg,png' ] );
+            $validator = \Validator::make($request->all(), ['photo' => 'required|image64:jpeg,jpg,png']);
 
-            if( $validator->fails() ){
-                $this->addError(  $validator->errors()->first() ) ;
+            if ($validator->fails()) {
+                $this->addError($validator->errors()->first());
                 return false;
             }
 
@@ -404,26 +405,26 @@ class Users extends BaseModel implements
             $ext = '.png';
 
             // rename photo files if you like
-            $new_filename   = 'p_'.str_random( 12 ).'.'.$ext;
-            $destination    = $this->generateUserImagePath( $request );
-            $url = url( '/storage'.$destination.$new_filename );
+            $new_filename   = 'p_' . str_random(12) . '.' . $ext;
+            $destination    = $this->generateUserImagePath($request);
+            $url = url('/storage' . $destination . $new_filename);
 
             // Defaults to a storage path but you may save it to a public for non sensitive files
             // Do not forget to call php artisan storage:link
-            $dir_path  = storage_path() . '/app/public'.$destination;
+            $dir_path  = storage_path() . '/app/public' . $destination;
 
-            if( ! is_dir( $dir_path )){
-                mkdir( $dir_path , 755 , true );
+            if (!is_dir($dir_path)) {
+                mkdir($dir_path, 755, true);
             }
 
-            $file_path = $dir_path.$new_filename;
+            $file_path = $dir_path . $new_filename;
 
             // default compression to 320x320
             // you need to improve this to handle images that has large difference in aspect ratio
 
-            Image::make(  file_get_contents($photo) )
-                ->resize( 320, 320 )
-                ->save( $file_path );
+            Image::make(file_get_contents($photo))
+                ->resize(320, 320)
+                ->save($file_path);
 
             // file path can be handy on some cases
             // $file_path  = $dir_path.$new_filename;
@@ -434,11 +435,9 @@ class Users extends BaseModel implements
             $this->profile_photo_url = $url;
 
             $this->save();
-
-
         } catch (\Exception $e) {
 
-            $this->addError(  $e->getMessage() ) ;
+            $this->addError($e->getMessage());
             $this->errorsDetail = ['image' => ['Something wrong while processing the image']];
             return false;
         }
@@ -453,13 +452,13 @@ class Users extends BaseModel implements
      * @return string
      *
      */
-    private function generateUserImagePath( )
+    private function generateUserImagePath()
     {
         $date = $this->created_at;
-        $m  =  date( 'md' , strtotime( $date ));
-        $y  =  date( 'Y' , strtotime( $date ));
+        $m  =  date('md', strtotime($date));
+        $y  =  date('Y', strtotime($date));
 
-        return '/images/'.$y.'/'.$m.'/'.Utils::convertInt( $this->id ).'/';
+        return '/images/' . $y . '/' . $m . '/' . Utils::convertInt($this->id) . '/';
     }
 
     private function generateVerificationCode()
@@ -467,17 +466,15 @@ class Users extends BaseModel implements
 
         if ($this->isWeb) {
 
-            $code = strtoupper( str_random( 50 ) );
-
+            $code = strtoupper(str_random(50));
         } else {
 
-            $code = strtoupper( str_random( 6 ) );
-
+            $code = strtoupper(str_random(6));
         }
 
-        $has_code = static::where( 'verification_code' , $code )->count();
+        $has_code = static::where('verification_code', $code)->count();
 
-        if( $has_code ){
+        if ($has_code) {
 
             return $this->generateVerificationCode();
         }
@@ -485,4 +482,8 @@ class Users extends BaseModel implements
         return $code;
     }
 
+    public function JobApplicants()
+    {
+        return $this->belongsToMany(JobApplicant::class, 'job_post_applicants', 'id', 'user_id');
+    }
 }

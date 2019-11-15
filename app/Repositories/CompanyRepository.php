@@ -45,7 +45,8 @@ class CompanyRepository extends AbstractRepository
         ],
     ];
 
-    public function updateCompany( Request $request ) {
+    public function updateCompany(Request $request)
+    {
 
 
         $user = JWTAuth::toUser();
@@ -76,7 +77,6 @@ class CompanyRepository extends AbstractRepository
                         'company_id' => $this->company->id,
                         'secondary_id' => $id
                     ]);
-
                 }
             }
 
@@ -107,13 +107,14 @@ class CompanyRepository extends AbstractRepository
         return false;
     }
 
-    public function uploadPhoto( Request $request ) {
+    public function uploadPhoto(Request $request)
+    {
 
         $user = JWTAuth::toUser();
         $errMessage = 'Cannot upload a photo';
         $this->company = new Company();
 
-        if( $user->company && $user->company->uploadProfilePhoto($request) ){
+        if ($user->company && $user->company->uploadProfilePhoto($request)) {
 
             $this->company = $user->company;
             return $this->company;
@@ -125,7 +126,8 @@ class CompanyRepository extends AbstractRepository
         return false;
     }
 
-    public function getWorkers($id) {
+    public function getWorkers($id)
+    {
 
         $company = Company::find($id);
 
@@ -139,7 +141,8 @@ class CompanyRepository extends AbstractRepository
         return [];
     }
 
-    public function getApplicants(Request $request) {
+    public function getApplicants(Request $request)
+    {
 
         $company = Company::find($request->id);
         $limit = is_int((int) $request->limit) ? $request->limit : 0;
@@ -150,27 +153,28 @@ class CompanyRepository extends AbstractRepository
 
         if ($company) {
 
-            $setOfJobId = $company->Jobs()->pluck('id')->toArray();
+            $setOfJobId = $company->Jobs()->whereHas('JobApplicants')->pluck('id')->toArray();
 
-            $setOfUserId = JobApplicant::whereIn('job_id', $setOfJobId)->pluck('user_id')->toArray();
+            $setOfUserId = JobApplicant::whereIn('job_id', $setOfJobId)->latest('applied_at')->get();
 
-            $applicants = Users::whereIn('id', $setOfUserId);
-
-            $applicants = $applicants->get();
+            $applicants = collect();
+            foreach ($setOfUserId as $user) {
+                $applicants->push(Users::find($user->user_id));
+            }
 
             if ($limit) {
 
                 $applicants = $applicants->take($limit);
             }
-            
-            return PeoplesResource::collection($applicants);
 
+            return PeoplesResource::collection($applicants);
         }
 
         return [];
     }
 
-    public function getJobs($id) {
+    public function getJobs($id)
+    {
 
         $jobs = Job::where('company_id', $id)
             ->orWhere('company_id', null)
@@ -179,7 +183,8 @@ class CompanyRepository extends AbstractRepository
         return $jobs;
     }
 
-    public function getJob( Request $request ) {
+    public function getJob(Request $request)
+    {
 
         $job = Job::find($request->jid);
 
@@ -216,14 +221,13 @@ class CompanyRepository extends AbstractRepository
 
                 return $jobCache;
             }
-
         }
 
         return null;
-
     }
 
-    public function getCompany($id) {
+    public function getCompany($id)
+    {
 
         $company = $this->find($id);
 
@@ -240,7 +244,8 @@ class CompanyRepository extends AbstractRepository
         return [];
     }
 
-    public function getCompanySpecialization($id) {
+    public function getCompanySpecialization($id)
+    {
 
         $company = $this->find($id);
 
@@ -252,20 +257,22 @@ class CompanyRepository extends AbstractRepository
         return [];
     }
 
-    public function getPosts($id) {
+    public function getPosts($id)
+    {
 
         $posts = CompanyPost::with('job')
-                    ->where('company_id', $id)
-                    ->get();
+            ->where('company_id', $id)
+            ->get();
 
         return $posts;
     }
 
-    public function getJobPosts($id, $status) {
-        
+    public function getJobPosts($id, $status)
+    {
+
         $jobs = Job::with('Company', 'PostedBy')
-                ->where('company_id', $id)
-                ->where('is_template', false);
+            ->where('company_id', $id)
+            ->where('is_template', false);
 
 
         if ($status == 'active' || $status == 'closed') {
@@ -290,7 +297,8 @@ class CompanyRepository extends AbstractRepository
         return $jobs;
     }
 
-    public function searchJobRoles(Request $request) {
+    public function searchJobRoles(Request $request)
+    {
 
         $keyword = $request->keyword ? $request->keyword : '';
 
@@ -302,7 +310,8 @@ class CompanyRepository extends AbstractRepository
         return $jobRoles;
     }
 
-    public function getJobTemplates( Request $request ) {
+    public function getJobTemplates(Request $request)
+    {
 
         $templates = Job::with(['company', 'postedBy'])
             ->where('company_id', $request->id)
@@ -312,7 +321,8 @@ class CompanyRepository extends AbstractRepository
         return $templates;
     }
 
-    public function createJobTemplate( Request $request ) {
+    public function createJobTemplate(Request $request)
+    {
 
         $company = Company::find($request->id);
         $user = JWTAuth::toUser();
@@ -344,7 +354,8 @@ class CompanyRepository extends AbstractRepository
         return $this->job;
     }
 
-    public function viewJobTemplate( Request $request ) {
+    public function viewJobTemplate(Request $request)
+    {
 
         $company = Company::find($request->id);
         $template = Job::where('id', $request->tid)
@@ -363,8 +374,9 @@ class CompanyRepository extends AbstractRepository
         return $this->job;
     }
 
-    public function deleteTemplate( Request $request ) {
-        
+    public function deleteTemplate(Request $request)
+    {
+
         $company = Company::find($request->id);
         $template = Job::where('id', $request->tid)
             ->where('is_template', true)
@@ -384,8 +396,9 @@ class CompanyRepository extends AbstractRepository
         return $this->job;
     }
 
-    public function adminUpdateCompany( Request $request ){
-        
+    public function adminUpdateCompany(Request $request)
+    {
+
         $company = $this->find($request->id);
 
         if ($company->store($request)) {
@@ -405,7 +418,6 @@ class CompanyRepository extends AbstractRepository
                         'company_id' => $company->id,
                         'secondary_id' => $id
                     ]);
-
                 }
             }
 
