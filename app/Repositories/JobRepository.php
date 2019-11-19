@@ -138,6 +138,7 @@ class JobRepository extends AbstractRepository
         );
 
         $jobs = $jobs->leftjoin('job_roles as job_role', 'job_role.id', '=', 'job_posts.job_role_id');
+        $jobs = $jobs->leftjoin('companies as company', 'company.id', '=', 'job_posts.company_id');
 
         $keyword = $request->keyword ? $request->keyword : '';
         $location = $request->location ? $request->location : '';
