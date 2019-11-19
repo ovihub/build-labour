@@ -17,7 +17,7 @@
                         @click="onClickCompanyPhoto(employment.company_id)">
 
                     <avatar v-else cls="bl-image-56" size="56" border="0" border-radius="8px"
-                        :initials="getInitials(employment.company_name, employment.company)"
+                        :initials="getInitials(employment.company_name, employment.company, employment.job_role)"
                         :company-id="(employment.company_id) ? employment.company_id + '' : ''">
                     </avatar>
 
@@ -174,8 +174,24 @@
             });
         },
         methods: {
-            getInitials(name, company) {
-                return Utils.getInitials((name != null) ? name : company.name);
+            getInitials(name, company, role) {
+
+                let display = '';
+
+                if (name) {
+
+                    display = name;
+
+                } else if (company && company.name) {
+
+                    display = company.name;
+
+                } else {
+
+                    display = role;
+                }
+
+                return Utils.getInitials(display);
             },
             getCompanyName(name, company) {
                 return (name != null) ? name : company.name;
