@@ -194,7 +194,7 @@
                 return Utils.getInitials(display);
             },
             getCompanyName(name, company) {
-                return (name != null) ? name : (company.company_name ? company.company_name : '');
+                return (name != null) ? name : (company && company.company_name ? company.company_name : '');
             },
             getLocation(location, company) {
                 return (location != null) ? location : (company) ? company.address : '';
