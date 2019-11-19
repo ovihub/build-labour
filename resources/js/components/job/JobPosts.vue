@@ -8,7 +8,7 @@
         </div>
         <ul class="list-job-items">
         <transition-group name="list-down">
-            <li class="job-items" v-for="(post, index) in jobPosts" :key="index+0">
+            <li class="job-items" v-for="(post, index) in jobPosts" :key="index+0" v-if="post.company">
                 <div class="profile-content" style="padding-bottom: 10px;">
                     <!-- <div class="save-icon">
                         <div class="star-cont">
