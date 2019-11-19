@@ -8,6 +8,7 @@ use App\Models\Companies\Company;
 use App\User;
 use App\Helpers\Utils;
 use App\Models\Companies\JobApplicant;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -181,8 +182,11 @@ class Users extends BaseModel implements
         } else {
 
             // do stuff for new users here
-            $this->is_verified = null;
-            $this->verification_code = $this->generateVerificationCode();
+            // $this->is_verified = null;
+            // $this->verification_code = $this->generateVerificationCode();
+
+            $this->is_verified = Carbon::now();
+            $this->verification_code = null;
         }
 
         if ($this->isEmployerSignup) {
