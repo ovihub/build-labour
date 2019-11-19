@@ -182,9 +182,9 @@
 
                     display = name;
 
-                } else if (company && company.company_name) {
+                } else if (company && company.name) {
 
-                    display = company.company_name;
+                    display = company.name;
 
                 } else {
 
