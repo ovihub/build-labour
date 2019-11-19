@@ -265,7 +265,7 @@
                 this.id = details ? details.id : '';
                 this.company_id = details ? details.company_id: '';
                 this.job_role = details ? details.job_role : '';
-                this.company_name = details ? (details.company_id ? details.company.name : details.company_name) : '';
+                this.company_name = details ? (details.company_id && details.company ? details.company.name : details.company_name) : '';
                 this.location = details ? (details.location ? details.location : (details.company ? details.company.address : '')) : '';
                 this.project_size = details ? details.project_size : '';
                 this.isCurrent = details ? details.isCurrent : '';
