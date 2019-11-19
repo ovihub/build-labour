@@ -236,8 +236,8 @@
             },
             formatPeriod(emp) {
 
-                let end_month = null;
-                let start_month = null;
+                let end_month = emp.end_month;
+                let start_month = emp.start_month;
                 
                 if (!emp.end_month) {
 
