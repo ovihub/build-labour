@@ -219,10 +219,24 @@
                 }
             },
             formatPeriod(emp) {
-                let endDate = (emp.end_month && emp.end_year) ?
-                              new Date(emp.end_year, emp.end_month-1, 1) : new Date();
 
-                return Utils.formatPeriod(new Date(emp.start_year, emp.start_month-1, 1), endDate);
+                let end_month = null;
+                let start_month = null;
+                
+                if (!emp.end_month) {
+
+                    end_month = 1;
+                }
+
+                if (!emp.start_month) {
+
+                    start_month = 1;
+                }
+
+                let endDate = (end_month && emp.end_year) ?
+                              new Date(emp.end_year, end_month-1, 1) : new Date();
+
+                return Utils.formatPeriod(new Date(emp.start_year, start_month-1, 1), endDate);
             },
             onClickCompanyPhoto(company_id) {
                 Api.redirectToCompanyProfile(company_id);
