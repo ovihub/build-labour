@@ -24,7 +24,7 @@
                         <div class="dropdown-menu">
                             <!-- menu dropdown mobile mode -->
                             <ul class="navbar-nav ml-auto bl-nav-dev-sm">
-                                <li class="nav-item" ng-show="false">
+                                <li ref="nav-mob-profile" class="nav-item">
                                     <a class="nav-link" href="javascript:void(0)" ref="nav-profile" @click="onClickProfile">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                                             <g fill="none" fill-rule="evenodd">
@@ -37,7 +37,7 @@
                                 </span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li ref="nav-mob-jobs" class="nav-item">
                                     <a class="nav-link" href="javascript:void(0)" ref="nav-jobs" @click="onClickJobs">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="18" viewBox="0 0 22 18">
                                             <g fill="none" fill-rule="evenodd">
@@ -46,11 +46,11 @@
                                             </g>
                                         </svg>
                                         <span>
-                                    My Jobs
-                                </span>
+                                           My Jobs
+                                        </span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li ref="nav-jobs" class="nav-item">
                                     <a class="nav-link" href="javascript:void(0)" ref="nav-messages" @click="onClickMessages">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                                             <g fill="none" fill-rule="evenodd">
@@ -63,7 +63,7 @@
                                 </span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li ref="nav-mob-messages" class="nav-item">
                                     <a class="nav-link" href="javascript:void(0)" @click="onClickGoLogout()">
                                     <span>
                                         Logout
@@ -152,6 +152,7 @@
 
             Bus.$on('activateTab', function(tabName) {
                 vm.$refs['nav-' + tabName].style = 'opacity: 1';
+                vm.$refs['nav-mob-' + tabName].style = 'opacity: 1';
             });
         },
         mounted() {

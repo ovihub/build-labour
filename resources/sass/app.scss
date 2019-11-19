@@ -606,6 +606,7 @@ p.bl-nav-tab-label {
 }
 
 .nav-hamburger-wrapper {
+
     .dropdown {
         .dropdown-menu {
             position: absolute !important;
@@ -640,6 +641,10 @@ p.bl-nav-tab-label {
 
     .navbar-toggler .icon-bar + .icon-bar {
         margin-top: 4px;
+    }
+
+    .navbar-nav li:hover {
+        opacity: 1;
     }
 
     button {
