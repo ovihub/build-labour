@@ -37,7 +37,7 @@
                                 @keyup="onChangeLocation(input.address)" />
                         </div>
 
-                        <div class="emp-row" style="margin-top:0" v-if="has_focus_location && locations && locations.length > 0">
+                        <div class="emp-row" style="margin-top:0">
                             <ul class="list-group">
                                 <li class="list-group-item" v-for="(place, idx) in locations" :key="idx"
                                     @click="onSelectLocation(place.place_name)">
@@ -434,7 +434,19 @@
                 });
             },
             onChangeLocation(keyword) {
-                this.locations = (keyword && keyword.length > 0) ? Api.getLocations(keyword) : [];
+
+                if (keyword && keyword.length > 0) {
+
+                    Promise.resolve(Api.getLocationsPromise(keyword)).then((data) => {
+
+                        this.locations = (data.data && data.data.locations) ? data.data.locations.features : [];
+
+                    });
+
+                } else {
+
+                    this.locations = [];
+                }
             },
             onSelectLocation(location) {
                 this.input.address = location;
