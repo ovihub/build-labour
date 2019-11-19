@@ -164,7 +164,7 @@
                 Delete
             </div>
 
-            <button class="pull-right" type="submit" @click="submit" :disabled="disabled">
+            <button class="pull-right save-changes" type="submit" @click="submit" :disabled="disabled">
                 Save Changes
             </button>
 
