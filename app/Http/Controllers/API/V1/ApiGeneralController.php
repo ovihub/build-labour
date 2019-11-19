@@ -114,6 +114,7 @@ class ApiGeneralController extends ApiBaseController
 
             }, $buffer['features']);
             
+            $buffer['features'] = array_values($buffer['features']);
 
         } catch (\Exception $e) {
 
