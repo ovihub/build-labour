@@ -11,38 +11,45 @@ class UsersController extends Controller
 {
     public function showProfile($id = null)
     {
+
         try {
             $page = \Route::current()->getName();
             
             $user = $this->getAuthFromToken();
-            
+            $viewerType = 'company';
+
             if ($user) {
                 if ($id == null) {
                     if ($user->role_id == 1) {
                         return view('users.profile')->with('user_id', null);
                     
                     } else if ($user->role_id == 2) {
-                        return view('companies.profile')->with('company_id',
-                                    (Company::where('created_by', $user->id)->first())->id);
+                        return view('companies.profile')->with(['company_id' =>
+                                    (Company::where('created_by', $user->id)->first())->id, 'viewer_type' => $viewerType]);
                     }
                 }
 
                 if ($page == 'company_profile') {
+
                     $company = Company::where('created_by', $user->id)->first();
 
                     if ($user->role_id == 2 && $company && $company->id == $id) {
+
                         return redirect('/user/profile');
                     }
 
-                    return view('companies.profile')->with('company_id', $id);
+                    $viewerType = $company && $user->Company && $user->Company->id == $company->id ? 'company' : 'viewer';
+
+                    return view('companies.profile')->with(['company_id' => $id, 'viewer_type' => $viewerType]);
                 }
 
                 if ($page == 'profile') {
+
                     if ($user->role_id == 1 && $user->id == $id) {
                         return redirect('/user/profile');
                     }
 
-                    return view('users.profile')->with('user_id', $id);
+                    return view('users.profile')->with(['user_id' => $id, 'viewer_type' => $viewerType]);
                 }
             }
 

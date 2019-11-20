@@ -4,7 +4,7 @@
         <div class="job-action">
             <div class="job-filter">
                 <button :class="activeJobsCls" @click="onClickFilterTab('Active')">Active Jobs</button>
-                <button :class="historyCls" @click="onClickFilterTab('History')">History</button>
+                <button :class="historyCls" @click="onClickFilterTab('History')" v-show="isDisplayHistory">History</button>
             </div>
             <div class="job-sort">
                 Sort by: <span class="job-recent">Most Recent</span>
@@ -25,6 +25,7 @@
                 show: false,
                 activeJobsCls: 'active',
                 historyCls: '',
+                isDisplayHistory: true
             }
         },
         props: {
@@ -32,9 +33,15 @@
                 type: String,
                 required: false
             },
+            viewer_type: {
+                type: String,
+                required: false
+            },
         },
         created() {
             let vm = this;
+
+            this.isDisplayHistory = this.viewer_type == 'viewer' ? false : true;
 
             Bus.$on('showCompanyJobs', function(flag) {
                 vm.show = flag;

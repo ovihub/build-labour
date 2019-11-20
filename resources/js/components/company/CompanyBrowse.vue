@@ -4,7 +4,7 @@
             <div :class="postsCls" @click="show('Posts')" v-show="false">
                 Posts
             </div>
-            <div :class="peopleCls" @click="show('People')">
+            <div :class="peopleCls" @click="show('People')" v-if="displayCandidates">
                 Candidates
             </div>
             <div :class="jobsCls" @click="show('Jobs')">
@@ -20,11 +20,20 @@
             return {
                 postsCls: 'company-header header-active',
                 peopleCls: 'company-header',
-                jobsCls: 'company-header'
+                jobsCls: 'company-header',
+                displayCandidates: true
             }
         },
+        props: {
+            viewer_type: {
+                type: String,
+                required: false
+            },
+        },
         mounted() {
-            this.show('People');
+
+            this.displayCandidates = this.viewer_type == 'viewer' ? false : true;
+            this.show(this.viewer_type == 'viewer' ? 'Jobs' : 'People');
         },
         methods: {
 

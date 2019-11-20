@@ -28,6 +28,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Companies\Company;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
@@ -156,5 +157,29 @@ class ApiBaseController extends Controller
         return $user;
     }
 
+    /**
+     * get current viewer user type
+     *
+     * @param Request $r
+     * @return string
+     */
+    protected function viewerType( Request $r )
+    {
+        $user = JWTAuth::toUser();
+
+        $viewerType = 'viewer';
+
+        if ($r->company_id) {
+
+            $company = Company::where('created_by', $user->id)->where('id' , $r->company_id)->first();
+
+            if ($company) {
+
+                $viewerType = $user->Company && $user->Company->id == $company->id ? 'company' : 'viewer';
+            }
+        }
+
+        return $viewerType;
+    }
 
 }
