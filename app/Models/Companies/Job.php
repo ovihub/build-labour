@@ -42,6 +42,8 @@ class Job extends BaseModel
         'reports_to',
         'reports_to_str',
         'job_role_name',
+        'job_tickets',
+        'job_qualifications',
         'created_at_formatted',
         'stat_favourite',
         'stat_invited',
@@ -325,5 +327,32 @@ class Job extends BaseModel
         }
 
         return NULL;
+    }
+
+    public function getJobTicketsAttribute(){
+        $requirements = $this->Requirements;
+        if($requirements){
+            $tickets = $requirements->where('title','Tickets')->first();
+            if($tickets){
+                $ticket_items = json_decode( json_encode( $tickets->items ) );
+                return $ticket_items[0]->ticket;
+            }
+            return '';
+        }
+    }
+
+    public function getJobQualificationsAttribute(){
+        $requirements = $this->Requirements;
+        if($requirements){
+            $tickets = $requirements->where('title','Qualifications')->first();
+            if($tickets){
+                $ticket_items = json_decode( json_encode( $tickets->items ) );
+                if($ticket_items){
+                    return $ticket_items[0]->course_type;    
+                }
+                
+            }
+            return '';
+        }
     }
 }

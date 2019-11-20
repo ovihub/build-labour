@@ -733,7 +733,7 @@ class JobRepository extends AbstractRepository
         switch ($request->search_type) {
             case 'individuals':
 
-                $data = User::where('role_id', 1)
+                $data = User::where('role_id', 1)->join('work_experience', 'users.id', '=', 'work_experience.id')
                     ->when($request->search_string, function ($query) use ($request) {
                         $query->whereHas('WorkerDetail', function ($query) use ($request) {
                             $query->where('first_name', 'like', '%' . $request->search_string . '%');
@@ -763,18 +763,40 @@ class JobRepository extends AbstractRepository
                                 $query->orWhere('address', 'like', '%' . $address . '%');
                             }
                         });
-                    })->get();
+                    })
+                    ->when($request->sort_option, function($query) use( $request ){
+                        $sort_option = $request->sort_option;
+                        $sort_order  = $request->sort_order;
 
-                $data = PeoplesResource::collection($data);
+                        switch ($sort_option) {
+                            case 'Name':
+                                $query->orderBy('first_name',$sort_order);
+                                break;
+                            case 'Role':
+                                $query->orderBy('work_experience.job_role',$sort_order);
+                                break;
+                            case 'Most Recent':
+                                $query->orderBy('created_at',$sort_order);
+                                break;
+                                
+                            default:
+                                $query->orderBy('first_name',$sort_order);
+                                break;
+                        }
+                    })
+                    ->get();
+                    
+                // $data = PeoplesResource::collection($data);
                 break;
             case 'companies':
 
-                $data = Company::when($request->search_string, function ($query) use ($request) {
-                    $query->where(function ($query) use ($request) {
-                        $query->where([['name', 'like', '%' . $request->search_string . '%']])
-                            ->orWhere([['introduction', 'like', '%' . $request->search_string . '%']]);
-                    });
-                })
+                $data = Company::join('company_main_functions', 'companies.main_company_id', '=', 'company_main_functions.id')
+                    ->when($request->search_string, function ($query) use ($request) {
+                        $query->where(function ($query) use ($request) {
+                            $query->where([['name', 'like', '%' . $request->search_string . '%']])
+                                ->orWhere([['introduction', 'like', '%' . $request->search_string . '%']]);
+                        });
+                    })
                     ->when($request->industry, function ($query) use ($request) {
                         $query->where(function ($query) use ($request) {
                             $query->whereHas('MainFunction', function ($query) use ($request) {
@@ -791,7 +813,28 @@ class JobRepository extends AbstractRepository
                                 $query->orWhere('address', 'like', '%' . $address . '%');
                             }
                         });
-                    })->with('MainFunction')->get();
+                    })
+                    ->when($request->sort_option, function($query) use( $request ){
+                        $sort_option = $request->sort_option;
+                        $sort_order  = $request->sort_order;
+
+                        switch ($sort_option) {
+                            case 'Name':
+                                $query->orderBy('name',$sort_order);
+                                break;
+                            case "Industry/Trade":
+                                $query->orderBy('company_main_functions.main_name',$sort_order);
+                                break;
+                            case 'Most Recent':
+                                $query->orderBy('created_at',$sort_order);
+                                break;
+                                
+                            default:
+                                $query->orderBy('name',$sort_order);
+                                break;
+                        }
+                    })
+                    ->with('MainFunction')->get();
 
                 break;
             case 'jobs':
@@ -833,7 +876,71 @@ class JobRepository extends AbstractRepository
                                 $query->orWhere('location', 'like', '%' . $address . '%');
                             }
                         });
-                    })->with('company')->get();
+                    })
+                    ->when($request->sort_option, function($query) use( $request ){
+                        $sort_option = $request->sort_option;
+                        $sort_order  = $request->sort_order;
+
+                        switch ($sort_option) {
+                            
+                            case "Location":
+                                $query->orderBy('location',$sort_order);
+                                break;
+                            case 'Most Recent':
+                                $query->orderBy('created_at',$sort_order);
+                                break;
+                                
+                            default:
+                                $query->orderBy('created_at','ASC');
+                                break;
+                        }
+                    })
+                    ->with('company')->get();
+
+                    if($request->sort_option && $request->sort_option == 'Role'){
+                        switch ($request->sort_order) {
+                            case 'asc':
+                                $sorted = $data->sortBy('job_role_name');
+                                $data = $sorted->values()->all();
+                                break;
+                            case 'desc':
+                                $sorted = $data->sortByDesc('job_role_name');
+                                $data = $sorted->values()->all();
+                                break;
+                            default:
+                                $sorted = $data->sortBy('job_role_name');
+                                $data = $sorted->values()->all();
+                                break;
+                        }
+                    }elseif($request->sort_option && $request->sort_option == 'Tickets'){
+                        switch ($request->sort_order) {
+                            case 'asc':
+                                $sorted = $data->sortBy('job_tickets');
+                                $data = $sorted->values()->all();
+                                break;
+                            case 'desc':
+                                $sorted = $data->sortByDesc('job_tickets');
+                                $data = $sorted->values()->all();
+                                break;
+                            default:                                                            
+                                break;
+                        }
+                    }elseif($request->sort_option && $request->sort_option == 'Education'){
+                        switch ($request->sort_order) {
+                            case 'asc':
+                                $sorted = $data->sortBy('job_qualifications');
+                                $data = $sorted->values()->all();
+                                break;
+                            case 'desc':
+                                $sorted = $data->sortByDesc('job_qualifications');
+                                $data = $sorted->values()->all();
+                                break;
+                            default:                                                            
+                                break;
+                        }
+                    }
+
+
                 break;
             default:
                 return false;
