@@ -140,9 +140,10 @@ class ApiJobsController extends ApiBaseController
      */
     public function searchCompanyJobs( Request $request )
     {
+
         try {
 
-            $jobs = $this->repository->searchCompanyJobs($request);
+            $jobs = $this->repository->searchCompanyJobs($request, $this->viewerType($request));
 
         } catch(\Exception $e) {
 

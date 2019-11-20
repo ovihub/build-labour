@@ -334,6 +334,33 @@
   #password-confirm {
     padding-right: 20% !important;
   }
+
+
+  .modal {
+
+    .modal-dialog {
+      width: 100% !important;
+      margin: 0;
+      display: contents;
+    }
+
+    .modal-content {
+      margin: 0;
+    }
+
+    .modal-footer {
+      display: flex !important;
+
+      button {
+        font-size: 13px;
+      }
+
+      .save-changes {
+        width: 40%;
+      }
+    }
+  }
+
 }
 
 @include media-breakpoint-up(lg) {

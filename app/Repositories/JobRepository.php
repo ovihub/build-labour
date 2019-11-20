@@ -109,7 +109,7 @@ class JobRepository extends AbstractRepository
         return $jobs;
     }
 
-    public function searchCompanyJobs(Request $request)
+    public function searchCompanyJobs(Request $request, $viewerType = null)
     {
         $user = JWTAuth::toUser();
 
@@ -138,6 +138,7 @@ class JobRepository extends AbstractRepository
         );
 
         $jobs = $jobs->leftjoin('job_roles as job_role', 'job_role.id', '=', 'job_posts.job_role_id');
+        $jobs = $jobs->leftjoin('companies as company', 'company.id', '=', 'job_posts.company_id');
 
         $keyword = $request->keyword ? $request->keyword : '';
         $location = $request->location ? $request->location : '';
@@ -158,6 +159,11 @@ class JobRepository extends AbstractRepository
             }
 
             $jobStatus = $request->status == 'past_jobs' ? false : true;
+
+            if ($viewerType && $viewerType == 'viewer') {
+
+                $jobStatus = true;
+            }
         }
 
         $jobs = $jobs->where('job_posts.is_template', $isTemplate)
@@ -169,6 +175,7 @@ class JobRepository extends AbstractRepository
                     ->orWhere('job_posts.location', 'like', "%{$keyword}%")
                     ->orWhere('job_role.job_role_name', 'like', "%{$keyword}%");
             });
+
 
         // if company only
         if ($user->Company) {

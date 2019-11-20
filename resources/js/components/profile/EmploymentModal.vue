@@ -10,7 +10,9 @@
 
             <form class="modal-form" method="POST" @submit.prevent="submit">
                 <div class="emp-label">Job Details</div>
-                <alert></alert>
+
+                <alert-employment v-if="isDisplayAlert"></alert-employment>
+
                 <div class="form-group">
                     <div class="emp-row">
                         <div class="modal-form-label">Your Role</div>
@@ -164,11 +166,11 @@
                 Delete
             </div>
 
-            <button class="pull-right" type="submit" @click="submit" :disabled="disabled">
+            <button class="pull-right save-changes" type="submit" @click="submit" :disabled="disabled">
                 Save Changes
             </button>
 
-            <button class="pull-right mr-2" style="width: auto; padding-right: 10px; padding-left: 10px" type="submit" @click="submit('add more')" :disabled="disabled">
+            <button class="pull-right mr-2" style="width: auto; padding-right: 10px; padding-left: 10px" type="submit" @click="submit('add more')" :disabled="disabled" v-if="current == -1">
                 Add more work history
             </button>
 
@@ -180,12 +182,13 @@
 <script>
     import Api from '@/api';
     import MainModal from '../common/MainModal';
-    import Alert from '../common/Alert';
+    import AlertEmployment from '../common/AlertEmployment';
 
     export default {
         name: "employment-modal",
         data() {
             return {
+                isDisplayAlert: false,
                 has_focus_role: false,
                 has_focus_company: false,
                 has_focus_location: false,
@@ -227,7 +230,9 @@
             let vm = this;
 
             Bus.$on('showEmployment', function(index, details) {
+                
                 vm.current = index;
+                vm.isDisplayAlert = vm.current == -1 ? true : false;
                 vm.setValues(details);
             });
         },
@@ -265,7 +270,7 @@
                 this.id = details ? details.id : '';
                 this.company_id = details ? details.company_id: '';
                 this.job_role = details ? details.job_role : '';
-                this.company_name = details ? (details.company_id ? details.company.name : details.company_name) : '';
+                this.company_name = details ? (details.company_id && details.company ? details.company.name : details.company_name) : '';
                 this.location = details ? (details.location ? details.location : (details.company ? details.company.address : '')) : '';
                 this.project_size = details ? details.project_size : '';
                 this.isCurrent = details ? details.isCurrent : '';
@@ -399,18 +404,18 @@
                 await axios.post(saveEndpoint, saveInput, Utils.getBearerAuth())
 
                 .then(function(response) {
+
                     let data = response.data;
 
                     $('#modalEmployment').modal('hide');
 
-                    Bus.$emit('updateEmployment', vm.current, data.data.work_experience);
-
-
                     if (mode === 'add more') {
 
                         Bus.$emit('addAnotherEmployment');
-                        Bus.$emit('alertSuccess', 'Successfully added an employment history.');
+                        Bus.$emit('alertSuccessEmployment', data.message);
                     }
+
+                    Bus.$emit('updateEmployment', vm.current, data.data.work_experience);
 
                 }).catch(function(error) {
                     let inputErrors = Utils.handleError(error);
@@ -423,7 +428,7 @@
         },
         components: {
             MainModal,
-            Alert
+            AlertEmployment
         },
     }
 </script>

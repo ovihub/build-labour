@@ -13,10 +13,10 @@
                 <input type="text" class="form-control create-job-input bg-search" placeholder="Search Jobs" v-model="keyword" @keyup="onSearchJobs">
             </div>
 
-                    
             <button v-if="creating" class="mt-4" style="width: 100%;" :disabled="disabled" @click="onClickSaveAsTemplate">
                 Save as new template
             </button>
+
             <div v-else>
                 <label class="radio-cont">Saved Templates
                     <input type="checkbox" ref="templates" @click="onClickShowJobs('templates')">

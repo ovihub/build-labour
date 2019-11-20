@@ -145,12 +145,17 @@
                 if (! this.tickets.find(el => (this.selected.id && el.id === this.selected.id) ||
                                                 (! this.selected.id && (el.ticket == this.selected.ticket)
                                                     && (el.description == this.selected.description)))) {
-                                                
-                    this.tickets.unshift(this.selected);
-                    this.keyword = '';
-                    this.errors.ticket = '';
+
+                    if (this.selected.ticket.length > 0) {
+
+                        this.tickets.unshift(this.selected);
+                        this.keyword = '';
+                        this.errors.ticket = '';
+                        this.has_focus = false;
+                    }
 
                 } else {
+
                     this.errors.ticket = 'Ticket already exists on selected list';
                 }
 

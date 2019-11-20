@@ -48,20 +48,79 @@ class ApiGeneralController extends ApiBaseController
 
     public function searchLocation( Request $request ) {
 
-        $keyword = trim($request->keyword);
-        $types = $request->types;
-        $curl_handle=curl_init();
+        try {
 
-        curl_setopt($curl_handle,CURLOPT_URL,"https://api.mapbox.com/geocoding/v5/mapbox.places/{$keyword}.json?country=au&types={$types}&access_token=" . env('MAPBOX_KEY'));
+            $keyword = trim($request->keyword);
+            $types = $request->types;
+            $curl_handle=curl_init();
 
-        curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
-        curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
+            curl_setopt($curl_handle,CURLOPT_URL,"https://api.mapbox.com/geocoding/v5/mapbox.places/{$keyword}.json?country=au&types={$types}&access_token=" . env('MAPBOX_KEY'));
 
-        $buffer = curl_exec($curl_handle);
+            curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+            curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
 
-        curl_close($curl_handle);
+            $buffer = curl_exec($curl_handle);
 
-        $buffer = json_decode($buffer);
+            curl_close($curl_handle);
+
+            $buffer = json_decode($buffer, true);
+
+            if (!$buffer) {
+
+                $buffer = ['features' => []];
+            }
+
+            $buffer['features'] = array_filter($buffer['features'], function($val) {
+
+                return isset($val['place_type']) && $val['place_type'] && count($val['place_type']) > 0 && ($val['place_type'][0] == 'address' || $val['place_type'][0] == 'poi') ;
+            });
+
+            // street, suburb, state, postcode
+
+            $buffer['features'] = array_map(function($val) {
+
+                $address = [];
+
+                $address[] = $val['text'];
+
+                foreach ($val['context'] as $c) {
+
+                    if (strpos($c['id'], 'locality') !== false) {
+
+                        $address[] = $c['text'];
+                    }
+
+                    if (strpos($c['id'], 'place') !== false) {
+
+                        $address[] = $c['text'];
+                    }
+
+                    if (strpos($c['id'], 'region') !== false) {
+
+                        $address[] = $c['text'];
+                    }
+
+                    if (strpos($c['id'], 'postcode') !== false) {
+
+                        $address[] = $c['text'];
+                    }
+                }
+
+                $address = implode(", ", $address);
+
+                return [
+                    'place_name' => $address
+                ];
+
+            }, $buffer['features']);
+            
+            $buffer['features'] = array_values($buffer['features']);
+
+        } catch (\Exception $e) {
+
+            return $this->apiSuccessResponse([ 'locations' => ['features'=> []] ], true, 'Success', self::HTTP_STATUS_REQUEST_OK);
+
+        }
 
         return $this->apiSuccessResponse([ 'locations' => $buffer ], true, 'Success', self::HTTP_STATUS_REQUEST_OK);
     }

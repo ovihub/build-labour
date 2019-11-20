@@ -37,9 +37,7 @@
 
             </header>
         @endif
-        
-        <alert></alert>
-        
+
         <div class="content-section">
             <div class="container">
 

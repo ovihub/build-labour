@@ -17,7 +17,7 @@
                         @click="onClickCompanyPhoto(employment.company_id)">
 
                     <avatar v-else cls="bl-image-56" size="56" border="0" border-radius="8px"
-                        :initials="getInitials(employment.company_name, employment.company)"
+                        :initials="getInitials(employment.company_name, employment.company, employment.job_role)"
                         :company-id="(employment.company_id) ? employment.company_id + '' : ''">
                     </avatar>
 
@@ -174,11 +174,27 @@
             });
         },
         methods: {
-            getInitials(name, company) {
-                return Utils.getInitials((name != null) ? name : company.name);
+            getInitials(name, company, role) {
+
+                let display = '';
+
+                if (name) {
+
+                    display = name;
+
+                } else if (company && company.name) {
+
+                    display = company.name;
+
+                } else {
+
+                    display = role;
+                }
+
+                return Utils.getInitials(display);
             },
             getCompanyName(name, company) {
-                return (name != null) ? name : company.name;
+                return (name != null) ? name : (company && company.company_name ? company.company_name : '');
             },
             getLocation(location, company) {
                 return (location != null) ? location : (company) ? company.address : '';
@@ -219,10 +235,24 @@
                 }
             },
             formatPeriod(emp) {
-                let endDate = (emp.end_month && emp.end_year) ?
-                              new Date(emp.end_year, emp.end_month-1, 1) : new Date();
 
-                return Utils.formatPeriod(new Date(emp.start_year, emp.start_month-1, 1), endDate);
+                let end_month = emp.end_month;
+                let start_month = emp.start_month;
+                
+                if (!emp.end_month) {
+
+                    end_month = 1;
+                }
+
+                if (!emp.start_month) {
+
+                    start_month = 1;
+                }
+
+                let endDate = (end_month && emp.end_year) ?
+                              new Date(emp.end_year, end_month-1, 1) : new Date();
+
+                return Utils.formatPeriod(new Date(emp.start_year, start_month-1, 1), endDate);
             },
             onClickCompanyPhoto(company_id) {
                 Api.redirectToCompanyProfile(company_id);
