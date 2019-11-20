@@ -1,7 +1,6 @@
 <template>
     <div class="row">
 
-
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg fixed-top">
             <div class="container">
@@ -46,7 +45,7 @@
                                             </g>
                                         </svg>
                                         <span>
-                                           My Jobs
+                                           {{ jobNavLabel }}
                                         </span>
                                     </a>
                                 </li>
@@ -100,7 +99,7 @@
                                     </g>
                                 </svg>
                             </div>
-                            <p class="bl-nav-tab-label">Search Other Jobs</p>
+                            <p class="bl-nav-tab-label">{{ jobNavLabel }}</p>
                         </li>
 
                         <li ref="nav-messages" @click="onClickMessages">
@@ -145,6 +144,7 @@
         data() {
             return {
                 keyword: '',
+                jobNavLabel: 'My Jobs'
             }
         },
         created() {
@@ -154,6 +154,18 @@
                 vm.$refs['nav-' + tabName].style = 'opacity: 1';
                 vm.$refs['nav-mob-' + tabName].style = 'opacity: 1';
             });
+
+            if (Api.getUserType()) {
+
+                switch(Api.getUserType()) {
+
+                    case 'worker': this.jobNavLabel = 'Search Other Jobs'; break;
+                    case 'company': this.jobNavLabel = 'My Jobs'; break;
+                    default :
+                        this.jobNavLabel = 'Search Other Jobs'
+                }
+            }
+
         },
         mounted() {
             if (window.location.pathname == '/job/search/all') {

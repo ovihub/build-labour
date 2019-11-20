@@ -11,6 +11,7 @@ class BuildLabourApi {
         this.tokenName = 'bl_token';
         this.initials = 'bl_initials';
         this.profile_photo_url = 'bl_profile_photo_url';
+        this.user_type = 'bl_user_type';
 
         this.options = {
             Api: {
@@ -77,6 +78,15 @@ class BuildLabourApi {
     setNavAvatar(initials, profile_photo_url) {
         VueCookie.set(this.initials, initials);
         VueCookie.set(this.profile_photo_url, profile_photo_url);
+    }
+
+    setUserType(user_type) {
+
+        VueCookie.set(this.user_type, user_type);
+    }
+
+    getUserType() {
+        return VueCookie.get(this.user_type);
     }
 
     getNavAvatar() {

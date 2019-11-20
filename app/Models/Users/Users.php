@@ -40,7 +40,7 @@ class Users extends BaseModel implements
 
     protected $hidden = ['password', 'remember_token', 'updated_at', 'created_at', 'verification_code', 'firebase'];
 
-    protected $appends = ['identifier', 'full_name', 'dob_formatted', 'device_token'];
+    protected $appends = ['identifier', 'full_name', 'dob_formatted', 'device_token', 'user_type'];
 
     public $sql;
     public $bindings;
@@ -295,6 +295,20 @@ class Users extends BaseModel implements
     {
 
         return (string) $this->id;
+    }
+
+    public function getUserTypeAttribute()
+    {
+
+        switch ($this->role_id) {
+
+            case 1: $userType = 'worker'; break;
+            case 2: $userType = 'company'; break;
+            case 3: $userType = 'contractor'; break;
+            default: $userType = 'trainer'; break;
+        }
+
+        return $userType;
     }
 
     public function resendVerificationCode()
