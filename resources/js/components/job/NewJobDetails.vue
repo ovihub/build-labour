@@ -376,6 +376,11 @@
                 if (this.input.reports_to.length > 1) {
                     this.input.reports_to.splice(index, 1);
                 }
+
+                if (this.input.reports_to.length <= 1) {
+                    this.input.reports_to = [];
+                    this.input.reports_to.push('');
+                }
             },
         }
     }

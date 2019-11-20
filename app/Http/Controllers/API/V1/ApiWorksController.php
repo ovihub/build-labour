@@ -119,7 +119,7 @@ class ApiWorksController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'work_experience' ), true, 'Successfully added an experience!', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'work_experience' ), true, 'Successfully added an employment history.', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**
@@ -237,7 +237,7 @@ class ApiWorksController extends ApiBaseController
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
 
-        return $this->apiSuccessResponse( compact( 'work_experience' ), true, 'Successfully updated a work experience', self::HTTP_STATUS_REQUEST_OK);
+        return $this->apiSuccessResponse( compact( 'work_experience' ), true, 'Successfully updated the employment history,', self::HTTP_STATUS_REQUEST_OK);
     }
 
     /**

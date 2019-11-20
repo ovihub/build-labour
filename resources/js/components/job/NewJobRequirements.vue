@@ -68,7 +68,7 @@
                         <div class="role-col-left">
                             <div class="emp-form-label">No of Month</div>
                             <select v-model="min_exp_month">
-                                <option v-for="month in months" :key="month.id" v-bind:value="month.id"> {{ ("0" + month.id).slice(-2) }} {{ month.name }}</option>
+                                <option v-for="month in months" :key="month.id" v-bind:value="month.id"> {{ ("0" + month.id).slice(-2) }}</option>
                             </select>
                             <span class="err-msg" v-if="errors.end_month">
                             {{ errors.end_month }}
@@ -147,7 +147,7 @@
                         </ul>
                     </div>
 
-                    <div class="emp-row" v-for="(ticket, idx) in tickets" :key="'tkItem' + idx">
+                    <div class="emp-row" v-for="(ticket, idx) in tickets" :key="'tkItem' + idx" v-if="tickets.length > 0">
                         <span class="ticket-label">{{ ticket.ticket }} - {{ ticket.description }}</span>
 
                         <span class="remove-ticket-icon" @click="onRemoveTicket(idx)">
@@ -258,6 +258,32 @@
                 }
             },
             removeEntity(index, field) {
+
+                if (this[field].length <= 1) {
+
+                    switch(field) {
+
+                        case 'qualifications':
+
+                            if (this[field][index].course_type) {
+                                this[field][index].course_type = '';
+                            }
+
+                            if (this[field][index].qualification_level) {
+                                this[field][index].qualification_level = '';
+                            }
+
+                            break;
+
+                        case 'experience':
+                        case 'skills':
+                            this[field] = this[field].filter(r => r !== '');
+                            this[field].push('');
+                            break;
+                    }
+
+                }
+
                 if (this[field].length > 1) {
                     this[field].splice(index, 1);
                 }
@@ -273,6 +299,7 @@
                 this.searchedTickets = [];
             },
             onRemoveTicket(index) {
+
                 this.tickets.splice(index, 1);
             },
             onAddTicket() {
@@ -291,12 +318,17 @@
                 if (! this.tickets.find(el => (this.selected.id && el.id === this.selected.id) ||
                                                 (! this.selected.id && (el.ticket == this.selected.ticket)
                                                     && (el.description == this.selected.description)))) {
-                                                
-                    this.tickets.unshift(this.selected);
-                    this.keyword = '';
-                    this.errors.ticket = '';
+
+                    if (this.selected.ticket.length > 0) {
+
+                        this.tickets.unshift(this.selected);
+                        this.keyword = '';
+                        this.errors.ticket = '';
+                        this.has_focus = false;
+                    }
 
                 } else {
+
                     this.errors.ticket = 'Ticket already exists on selected list';
                 }
 

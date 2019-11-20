@@ -301,6 +301,7 @@
             });
 
             Bus.$on('updateEmployment', function(index, details) {
+
                 if (index == 0 || (!vm.company_name && index == -1)) {
                     vm.company_name = (details.company) ? details.company.name : details.company_name;
                     vm.job_role = (details.job) ? details.job.title : details.job_role;
