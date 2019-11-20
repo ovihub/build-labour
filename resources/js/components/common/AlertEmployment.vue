@@ -1,7 +1,7 @@
 <template>
 	<transition name="slide-fade">
 		<div v-bind:class="alert" v-if="alert != 'hidden'">
-			<div class="container" style="text-align: left; padding: 0">
+			<div class="container" style="text-align: left; padding: 0; margin: 0">
 				<img v-bind:src="icon" class="alert-icon" />
 					{{ message }}
 				<img src="/img/icons/alert-close.png" class="alert-close" @click="hide" />
