@@ -119,6 +119,21 @@
           @keyup="onSearch('company')"
         />
       </div>
+      <hr>
+      <div class="header-label mt-4">Sort By:</div>
+      <div class="emp-row mt-2" >
+        <select class="form-control search-input " v-model="input.sort_option" @change="onSearch('sort')">
+          <option v-for="(option,index) in sort_options" v-bind:key="index" >{{ option }}</option>
+        </select>
+        
+      </div>
+      <div class="emp-row mt-2" >
+        <select class="form-control search-input" v-model="input.sort_order" @change="onSearch('sort')">
+          <option value="asc">ascending</option>
+          <option value="desc">descending</option>
+        </select>
+        
+      </div>
     </div>
   </div>
 </template>
@@ -147,16 +162,24 @@ export default {
         industry: '',
         company: '',
         title: '',
+        sort_option: 'Role',
+        sort_order:'asc'
       },
       endpoints: {
         open_search: '/api/v1/open-search',
       },
+      available_sort_options:{
+        individuals:['Name','Role','Most Recent'],
+        companies:['Name','Industry/Trade','Most Recent'],
+        jobs:['Role','Location','Tickets','Education']
+      },
+      sort_options:'',            
     }
   },
   methods: {
     formatCheckbox (refName, value, flag = true) {
       this.$refs[refName + '_' + value].checked = true;
-
+      
       if (value == 'individuals') {
         this.$refs[refName + '_companies'].checked = false;
         this.$refs[refName + '_jobs'].checked = false;
@@ -165,6 +188,7 @@ export default {
         this.showEducation = true;
         this.showTickets = true;
         this.showCompany = false;
+        this.sort_options = this.available_sort_options.individuals;
 
       } else if (value == 'companies') {
         this.$refs[refName + '_individuals'].checked = false;
@@ -174,6 +198,8 @@ export default {
         this.showEducation = false;
         this.showTickets = false;
         this.showCompany = false;
+        this.sort_options = this.available_sort_options.companies;
+        this.input.sort_option = 'Name';
 
       } else if (value == 'jobs') {
         this.$refs[refName + '_individuals'].checked = false;
@@ -183,11 +209,13 @@ export default {
         this.showEducation = true;
         this.showTickets = true;
         this.showCompany = true;
+        this.sort_options = this.available_sort_options.jobs;
 
       } else {
         this.$refs[refName + '_individuals'].checked = false;
         this.$refs[refName + '_companies'].checked = false;
         this.$refs[refName + '_jobs'].checked = false;
+        this.sort_options = this.available_sort_options.jobs;
       }
 
       if (flag) {
@@ -231,7 +259,7 @@ export default {
 
           if (inputErrors) vm.errors = inputErrors;
         });
-    },
+    }
   },
   created () {
     let vm = this;

@@ -98,9 +98,11 @@
                         Api.setNavAvatar('', profile_photo_url);
                         
                     } else {
+
                         Api.setNavAvatar(initials, '');
                     }
 
+                    Api.setUserType(user.user_type);
                     Api.redirectToProfile();
                 
                 }).catch(function(error) {
