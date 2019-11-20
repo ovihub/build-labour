@@ -148,7 +148,13 @@
             }
         },
         created() {
+            
             let vm = this;
+
+            if (!Api._getBearerToken()) {
+
+                Api.deleteToken()
+            }
 
             Bus.$on('activateTab', function(tabName) {
                 vm.$refs['nav-' + tabName].style = 'opacity: 1';
