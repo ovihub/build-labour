@@ -112,7 +112,7 @@
         <div class="row">
             <div class="col-md-12" >
                 <label class="record-label">
-                    BUSINESS ENTITY TYPE
+                    Industry Segment Type
                 </label>
             </div>
 
@@ -125,7 +125,7 @@
         <div class="row">
             <div class="col-md-12" >
                 <label class="record-label">
-                    ENTITY TYPE SPECIALISATION
+                    Market Segment
                 </label>
             </div>
 

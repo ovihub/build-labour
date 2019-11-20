@@ -79,7 +79,7 @@
                         <div class="skill-label" style="margin-bottom:-15px">Company Details</div>
 
                         <div class="emp-row">
-                            <div class="modal-form-label">Business Entity Type</div>
+                            <div class="modal-form-label">Industry Segment Type</div>
                             <select v-model="input.business_type.id" @focus="hasFocus()">
                                 <option v-for="(type, index) in business_types" :key="index" v-bind:value="type.id">
                                     {{ type.business_type }}
@@ -91,7 +91,7 @@
                         </span>
 
                         <div class="emp-row">
-                            <div class="modal-form-label">Entity Type Specialisation</div>
+                            <div class="modal-form-label">Market Segment</div>
                             <select v-model="input.tier.id" @focus="hasFocus()">
                                 <option v-for="(tier, index) in tiers" :key="index" v-bind:value="tier.id">
                                     {{ tier.tier_name }}
