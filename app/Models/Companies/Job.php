@@ -335,7 +335,12 @@ class Job extends BaseModel
             $tickets = $requirements->where('title','Tickets')->first();
             if($tickets){
                 $ticket_items = json_decode( json_encode( $tickets->items ) );
-                return $ticket_items[0]->ticket;
+                if($ticket_items){
+                    return $ticket_items[0]->ticket;
+                }else{
+                    return '';        
+                }
+                
             }
             return '';
         }
@@ -349,6 +354,8 @@ class Job extends BaseModel
                 $ticket_items = json_decode( json_encode( $tickets->items ) );
                 if($ticket_items){
                     return $ticket_items[0]->course_type;    
+                }else{
+                    return '';
                 }
                 
             }
