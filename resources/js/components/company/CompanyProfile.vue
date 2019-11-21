@@ -546,3 +546,10 @@
         },
     }
 </script>
+
+<style scoped>
+.edit-icon img{
+    width: unset !important;
+    height: unset !important;
+}
+</style>
