@@ -185,8 +185,8 @@
             parseDriversLicense(val) {
 
                 return val == 1 ?
-                    'Owns valid license' :
-                    'Does not own valid license';
+                    'Owns valid licence' :
+                    'Does not own valid licence';
             },
 
             parseRightToWork(val) {

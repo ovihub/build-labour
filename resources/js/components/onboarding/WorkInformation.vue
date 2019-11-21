@@ -1,7 +1,7 @@
 <template>
     <form class="modal-form" method="POST" @submit.prevent="submit">
 
-        <div class="me-label">Drivers License</div>
+        <div class="me-label">Drivers Licence</div>
         <div class="me-row">
             <div class="me-col-mid">
                 <div class="emp-form-label">State</div>
@@ -89,7 +89,7 @@
         </div>
 
         <!--<div class="me-label">-->
-            <!--I have a valid driver's license-->
+            <!--I have a valid driver's licence-->
         <!--</div>-->
         <!--<div class="bl-inline">-->
             <!--<input id="drivers_license_1" class="styled-checkbox-round" type="checkbox"-->
