@@ -66,11 +66,28 @@
                             </span>
                         </div>
 
-                        <div class="emp-row">
-                            <div class="modal-form-label">Phone</div>
-                            <input class="form-control" type="text" v-model="input.phone"
-                                @focus="hasFocus()" />
-
+                        
+                        <div class="form-group toggle-select-wrapper"><div class="modal-form-label phone-label">Contact Number</div>
+                            <div class="input-toggle">
+                                <input type="text" value="" class="form-control" name="text" v-model="input.phone" placeholder="Business contact number" @focus="hasFocus()" @keyup="focusOut"/>
+                                <div class="btn-toogle-wrapper">
+                                    <button
+                                        type="button" class="btn btn-default dropdown-toggle as-is bs-dropdown-to-select" data-toggle="dropdown">
+                                        <span data-bind="bs-drp-sel-label">{{ phoneType }}</span>
+                                        <input type="hidden" name="selected_value" data-bind="bs-drp-sel-value" value=""/>
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" style="">
+                                        <div>
+                                            <a href="javascript:void(0)" @click="onSelectPhoneType('Mobile')">Mobile</a>
+                                        </div>
+                                        <div>
+                                            <a href="javascript:void(0)" @click="onSelectPhoneType('Landline')">Landline</a>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
                             <span class="err-msg" v-if="errors.phone">
                                 {{ errors.phone }}
                             </span>
@@ -344,6 +361,10 @@
                     save: '/api/v1/company/update',
                     secondary_options: '/api/v1/company/options/',
                 },
+                phoneType: 'Mobile',
+                phonePlaceholder: 'XXXX XXX XXX',
+                phoneValue: 0,
+                formattedPhoneValue: "0",
             }
         },
         created() {
@@ -537,6 +558,21 @@
             postNewJob() {
                 window.location.href = '/job/list?type=templates';
             },
+            focusOut() {
+                
+                this.input.phone = this.input.phone.replace(/[^0-9]/g, '');
+
+                this.input.phone = this.phoneType === 'Mobile' ? this.input.phone.replace(/(\d{2})(\d{4})(\d{4})/, '$1 $2 $3') : this.input.phone.replace(/(\d{4})(\d{3})(\d{3})/, '$1 $2 $3');
+
+                this.input.phone = this.input.phone.substr(0, 11).replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+
+            },
+            onSelectPhoneType(type) {
+
+                this.phoneType = type;
+
+                this.focusOut()
+            },
         },
         components: {
             Avatar,
@@ -552,4 +588,8 @@
     width: unset !important;
     height: unset !important;
 }
+.phone-label{
+    position: relative;
+    width: 100px;
+} 
 </style>
