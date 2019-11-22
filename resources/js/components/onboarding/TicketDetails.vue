@@ -18,7 +18,7 @@
         </div>
 
         <div class="me-label" style="margin-bottom:-15px">
-            I have current valid licenses and/or tickets in
+            I have current valid licences and/or tickets in
         </div>
         <div class="skill-label-3 mt-3">
             e.g. RIIMPO317E - Conduct Roller Operations

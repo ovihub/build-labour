@@ -31,7 +31,7 @@
             <div class="profile-item-2">
                 <div class="profile-content">
                     <div class="applicant-no">{{ stats.no_of_favourite }}</div>
-                    <div class="applicant-label">Favourited</div>
+                    <div class="applicant-label">Suitable</div>
                 </div>
             </div>
 
@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <div class="profile-item-2 filter-actions" v-if="stats">
+        <div class="profile-item-2 filter-actions" v-if="stats && applicants.length > 0">
 
             <div class="col-lg-6 col-md-5 m-0 p-0">
 
@@ -67,7 +67,7 @@
 
         </div>
 
-        <div class="profile-item-2 applicants-wrapper" v-if="stats">
+        <div class="profile-item-2 applicants-wrapper" v-if="stats && applicants.length > 0">
 
             <ul>
                 <li v-for="(applicant, index) in applicants">
@@ -111,6 +111,12 @@
 
                     </div>
                 </li>
+            </ul>
+        </div>
+
+        <div class="profile-item-2 applicants-wrapper" v-if="stats && applicants.length <= 0">
+            <ul>
+                No Applicants yet.
             </ul>
         </div>
     </div>

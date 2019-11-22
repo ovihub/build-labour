@@ -66,7 +66,7 @@
                     {{ english_skill }}
                 </span>
 
-                <span class="bl-label-15 mt-2 pt-1" v-if="drivers_license">Driver's License</span>
+                <span class="bl-label-15 mt-2 pt-1" v-if="drivers_license">Driver's Licence</span>
                 <span class="bl-label-14">
                     {{ drivers_license }}
                 </span>
@@ -184,8 +184,8 @@
                 }
         
                 val.drivers_license = details.drivers_license_state !='none' || details.drivers_license_type != 'none' ?
-                    'Owns valid license' :
-                    'Does not own valid license';
+                    'Owns valid licence' :
+                    'Does not own valid licence';
 
                 if (! Utils.isNullOrEmpty(details.has_registered_vehicle)) {
                     val.has_registered_vehicle = details.has_registered_vehicle == 1 ?

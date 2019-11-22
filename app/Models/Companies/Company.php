@@ -157,7 +157,6 @@ class Company extends BaseModel
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
-
     public function Workers() {
 
         return $this->belongsToMany(User::class, 'work_experience', 'company_id', 'user_id')->groupBy('email');
