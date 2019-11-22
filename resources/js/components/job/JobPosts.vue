@@ -71,11 +71,11 @@
                         </div>
                         <div class="col-md-2 col-sm-2">
                             <div class="applicant-no">{{ post.stat_favourite }}</div>
-                            <div class="applicant-label bl-ellipsis">Favourited</div>
+                            <div class="applicant-label bl-ellipsis">Suitable</div>
                         </div>
                         <div class="col-md-2 col-sm-2">
                             <div class="applicant-no ns-no">{{ post.stat_not_suitable }}</div>
-                            <div class="applicant-label ns-label">Not<br />Suitable</div>
+                            <div class="applicant-label ns-label">Not Suitable</div>
                         </div>
                     </div>
 
