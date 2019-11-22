@@ -11,7 +11,6 @@ class UsersController extends Controller
 {
     public function showProfile($id = null)
     {
-
         try {
             $page = \Route::current()->getName();
             

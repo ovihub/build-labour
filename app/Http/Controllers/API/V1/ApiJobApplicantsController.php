@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Mails\SendWorkerJobApplicationEmail;
 use App\Models\Companies\Company;
 use App\Models\Companies\Job;
 use App\Models\Companies\JobApplicant;
@@ -59,12 +60,27 @@ class ApiJobApplicantsController extends ApiBaseController
      */
     public function apply(Request $request) {
 
+        DB::beginTransaction();
+
         $user = JWTAuth::toUser();
+        $job = Job::find($request->id);
 
         try {
 
+            if (!$user || !$job) {
+
+                throw new \Exception('could not find user or job.');
+            }
+
+            $company = Company::find($job->company_id);
+
+            if (!$company || !$company->CreatedBy) {
+
+                throw new \Exception('could not find company.');
+            }
+
             // check if its already applied
-            $applicant = JobApplicant::where('user_id', $user->id)->where('job_id', $request->id)->exists();
+            $applicant = JobApplicant::where('user_id', $user->id)->where('job_id', $job->id)->exists();
 
             // already applied for the job
             if ($applicant) {
@@ -79,14 +95,22 @@ class ApiJobApplicantsController extends ApiBaseController
                 );
             }
 
+            $companyAdmin = $company->CreatedBy;
+
             // apply applicant
 
-            JobApplicant::create([
+            $jobApplicant = JobApplicant::create([
                 'job_id' => $request->id,
                 'user_id' => $user->id,
                 'applied_at' => Carbon::now()
             ]);
 
+            $job->company = $company;
+            $job->companyAdmin = $companyAdmin;
+            $job->jobApplicantUser = $jobApplicant->User;
+
+            // email company for applicant applied job
+            \Mail::to( $companyAdmin->email )->send( new SendWorkerJobApplicationEmail( $job ) );
 
             JobStat::create([
                 'job_id' => $request->id,
@@ -98,8 +122,12 @@ class ApiJobApplicantsController extends ApiBaseController
 
         } catch(\Exception $e) {
 
+            DB::rollBack();
+
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
+
+        DB::commit();
 
         return $this->apiSuccessResponse( [], true, 'Successfully applied.', self::HTTP_STATUS_REQUEST_OK);
     }

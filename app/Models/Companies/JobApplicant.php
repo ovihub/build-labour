@@ -30,6 +30,11 @@ class JobApplicant extends BaseModel
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function Job() {
+
+        return $this->belongsTo( Job::class, 'job_id', 'id');
+    }
+
     public function getAppliedProperAttribute() {
 
         return Carbon::parse($this->applied_at)->diffForHumans();
