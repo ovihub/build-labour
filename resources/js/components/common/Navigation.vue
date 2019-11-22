@@ -7,7 +7,7 @@
                 <a class="navbar-brand" href="javascript:void(0)"><img class="bl-nav-logo" src="/img/BUILDLABOUR_FULLLOGO@1x.png" width="90" @click="onClickJobs()"></a>
 
                 <div class="search-wrapper">
-                    <input class="bl-nav-search bg-search" id="search" placeholder="Search" type="text" name="search" ref="nav-search" v-model="keyword"
+                    <input class="bl-nav-search bg-search" id="search" :placeholder="search_placeholder" type="text" name="search" ref="nav-search" v-model="keyword"
                            @click="onClickNavSearch" @keyup="onOpenSearch" />
                 </div>
 
@@ -144,7 +144,8 @@
         data() {
             return {
                 keyword: '',
-                jobNavLabel: 'My Jobs'
+                jobNavLabel: 'My Jobs',
+                search_placeholder: 'Search Jobs, Individuals & Companies'
             }
         },
         created() {

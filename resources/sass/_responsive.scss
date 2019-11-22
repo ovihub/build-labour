@@ -302,6 +302,25 @@
   .search-wrapper {
     display: none;
   }
+
+  .job-action {
+    .job-filter {
+      button {
+        font-size: 12px;
+      }
+    }
+
+    .job-sort {
+      font-size: 13px;
+    }
+  }
+
+  .stats-wrapper {
+    .col-md-2, .col-sm-2 {
+      max-width: 30% !important;
+      flex: unset;
+    }
+  }
 }
 
 @include media-breakpoint-down(md) {
@@ -361,6 +380,22 @@
     }
   }
 
+  .job-action {
+
+    .job-filter {
+      margin-left: 0 !important;
+
+      button {
+        width: 26%;
+
+        &:first-of-type {
+          margin-right: 0;
+        }
+      }
+
+    }
+  }
+
 }
 
 @include media-breakpoint-up(lg) {
@@ -398,6 +433,23 @@
   .nav-hamburger-wrapper .dropdown {
     display: none;
   }
+
+  .job-action {
+
+    .job-filter {
+      margin-left: 0 !important;
+
+      button {
+        width: 26%;
+
+        &:first-of-type {
+          margin-right: 0;
+        }
+      }
+
+    }
+  }
+
 }
 
 

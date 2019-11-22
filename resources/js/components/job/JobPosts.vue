@@ -56,7 +56,7 @@
                         </div>
                     </div>
 
-                    <div class="row mt-3">
+                    <div class="row mt-3 stats-wrapper">
                         <div class="col-md-2 col-sm-2">
                             <div class="applicant-no">{{ post.stat_total }}</div>
                             <div class="applicant-label">Total</div>
@@ -74,8 +74,8 @@
                             <div class="applicant-label bl-ellipsis">Suitable</div>
                         </div>
                         <div class="col-md-2 col-sm-2">
-                            <div class="applicant-no ns-no">{{ post.stat_not_suitable }}</div>
-                            <div class="applicant-label ns-label">Not Suitable</div>
+                            <div class="applicant-no" style="color: #969696;">{{ post.stat_not_suitable }}</div>
+                            <div class="applicant-label bl-ellipsis">Not Suitable</div>
                         </div>
                     </div>
 
