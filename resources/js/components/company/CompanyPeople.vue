@@ -13,9 +13,9 @@
                     <div class="profile-content ta-center mb-3">
                         <img class="bl-image-80" :src="employee.profile_photo_url"
                             v-if="employee.profile_photo_url"
-                            @click="onClickProfilePhoto(employee.id)">
+                            @click="onClickProfilePhoto(employee.user_id)">
 
-                        <div @click="onClickProfilePhoto(employee.id)" v-else>
+                        <div @click="onClickProfilePhoto(employee.user_id)" v-else>
                             <avatar cls="bl-image-80" size="80" border="0" border-radius="100%"
                                 :initials="getInitials(employee.full_name)">
                             </avatar>

@@ -740,7 +740,9 @@ class JobRepository extends AbstractRepository
         switch ($request->search_type) {
             case 'individuals':
 
-                $data = User::where('role_id', 1)->join('work_experience', 'users.id', '=', 'work_experience.id')
+                $data = User::where('role_id', 1)
+                    ->join('work_experience', 'users.id', '=', 'work_experience.user_id')
+                    ->with('Experiences')
                     ->when($request->search_string, function ($query) use ($request) {
                         $query->whereHas('WorkerDetail', function ($query) use ($request) {
                             $query->where('first_name', 'like', '%' . $request->search_string . '%');
@@ -791,6 +793,7 @@ class JobRepository extends AbstractRepository
                                 break;
                         }
                     })
+                    ->groupBy('email')
                     ->get();
                     
                 // $data = PeoplesResource::collection($data);
