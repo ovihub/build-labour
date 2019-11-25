@@ -153,6 +153,7 @@ export default {
       locations: [],
       address: '',
       addresses: [],
+      searchTimeout: null,
       input: {
         search_type: 'jobs',
         search_string: '',
@@ -247,18 +248,28 @@ export default {
         }
       }
 
-      await axios.post(this.endpoints.open_search, this.input,
+      if (vm.searchTimeout) {
 
-        Utils.getBearerAuth()).then(function (response) {
+          clearTimeout(vm.searchTimeout)
+      }
+
+      vm.searchTimeout = setTimeout(() => {
+
+        axios.post(this.endpoints.open_search, this.input, Utils.getBearerAuth()).then(function (response) {
           let data = response.data.data;
 
           Bus.$emit('openSearch' + data.search_type.charAt(0).toUpperCase() + data.search_type.substr(1), data.search_result);
 
         }).catch(function (error) {
-          let inputErrors = Utils.handleError(error);
 
-          if (inputErrors) vm.errors = inputErrors;
+            let inputErrors = Utils.handleError(error);
+            if (inputErrors) vm.errors = inputErrors;
+
+        }).finally((data) => {
+
+            vm.searchTimeout = null;
         });
+      }, 500);
     }
   },
   created () {
@@ -291,7 +302,7 @@ export default {
   border-radius: 4px;
   border: solid 1px rgba(25, 25, 25, 0.32);
   background-color: #ffffff;
-  height: 46px;
+  height: auto;
 }
 .search-input.bg-search {
   padding-left: 40px;
