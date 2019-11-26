@@ -184,7 +184,6 @@ class DatatableController extends Controller
         return WorkerResource::collection($users);
     }    
 
-
     public function getJobsDatatable(Request $request)
     {
         $column = $request->get('column') ? $request->get('column') : 'id';

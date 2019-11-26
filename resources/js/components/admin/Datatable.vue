@@ -27,6 +27,7 @@
 		<view-ticket v-else-if="modalName == 'Ticket'" :class="dataRecord"></view-ticket>
 
 		<view-job-role v-else-if="modalName == 'JobRole'" :class="dataRecord"></view-job-role>
+
 		<div :class="dataTable">
 			<div style="overflow:auto">
 				<table class="table table-hover">

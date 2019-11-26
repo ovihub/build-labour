@@ -1,33 +1,34 @@
 <template>
+    <div class="admin-login form-card">
+        <form method="POST" @submit.prevent="loginUser">
+            <div class="form-text-header">Admin Login</div>
 
-    <form method="POST" @submit.prevent="loginUser" style="padding-top: 50px">
-        <div class="form-text-header">Admin Login</div>
+            <div class="form-group">
+                <input id="email" type="email"  name="email" class="form-control" style="padding-left:24px"
+                       v-model="input.email" placeholder="Email Address" required autofocus>
 
-        <div class="form-group">
-            <input id="email" type="email"  name="email" class="form-control" style="padding-left:24px"
-                v-model="input.email" placeholder="Email Address" required autofocus>
-
-            <span class="err-msg" v-if="errors.email">
+                <span class="err-msg" v-if="errors.email">
                 {{ errors.email }}
             </span>
-        </div>
+            </div>
 
-        <div class="form-group">
+            <div class="form-group">
 
-            <input id="password" ref="loginTogglePassword" type="password"  name="password" class="form-control"
-                style="padding-left:24px" v-model="input.password" placeholder="Password" required>
+                <input id="password" ref="loginTogglePassword" type="password"  name="password" class="form-control"
+                       style="padding-left:24px" v-model="input.password" placeholder="Password" required>
 
-            <span class="err-msg" v-if="errors.password">
+                <span class="err-msg" v-if="errors.password">
                 {{ errors.password }}
             </span>
-        </div>
+            </div>
 
-        <div class="form-group" style="text-align: center">
-            <button type="submit" :disabled="disabled">
-                Login
-            </button>
-        </div>
-    </form>
+            <div class="form-group" style="text-align: center">
+                <button type="submit" :disabled="disabled">
+                    Login
+                </button>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script>

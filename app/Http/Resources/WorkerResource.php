@@ -16,17 +16,28 @@ class WorkerResource extends JsonResource
      */
     public function toArray($request)
     {
+
         $profile_photo_url = ($this->profile_photo_url == null) ? '/img/defaults/user.png' : $this->profile_photo_url;
         $dt = Carbon::parse($this->created_at);
         $created_at = $dt->toFormattedDateString();
         
-        $temp_company = $this->experiences;
+        $tempCompanies = $this->experiences;
+
         $company = NULL;
-        if($temp_company[0]->company_id){
-            $company= $temp_company[0]->company->name;
-        }else{
-            $company= $temp_company[0]->company_name;
+
+        if($tempCompanies && count($tempCompanies) > 0) {
+
+            if ($tempCompanies[0]->company_id) {
+
+                $company= $tempCompanies[0]->company->name;
+
+            } else {
+
+                $company= $tempCompanies[0]->company_name;
+            }
+
         }
+
         return [
             'full_name' => $profile_photo_url . ' ' . $this->first_name . ' ' . $this->last_name,
             'id'        => $this->id,
@@ -37,7 +48,7 @@ class WorkerResource extends JsonResource
             // 'sector'    => $this->sector,
             // 'tier'      => $this->tier,
             // 'willing_to_relocate' => $this->willing_to_relocate,
-            // 'created_at' => $created_at
+            'created_at' => $created_at
         ];
     }
 }
