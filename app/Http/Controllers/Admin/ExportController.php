@@ -47,17 +47,27 @@ class ExportController extends Controller
     public function export()
     {
         // /export?dateFrom=2019-01-01&dateTo=2019-12-31&type=csv&exportBy=job-posts
+        // /export?dateFrom=2019-01-01&dateTo=2019-12-31&type=csv&exportBy=workers
 
         $exportBy = $this->r->exportBy;
         $columns = [];
         $rows = [];
-        $filename = "BL_{$this->r->exportBy}-{$this->r->dateFrom}-{$this->r->dateTo}.csv";
+        $filename = "BL_{$this->r->exportBy}.csv";
 
         switch ($exportBy) {
 
             case 'workers':
 
                 $generated = $this->generateByWorkers();
+                $columns = $generated['cols'];
+                $rows = $generated['data'];
+                break;
+
+            case 'companies':
+
+                $generated = $this->generateByCompanies();
+                $columns = $generated['cols'];
+                $rows = $generated['data'];
                 break;
 
             case 'job-posts' :
@@ -92,9 +102,9 @@ class ExportController extends Controller
         fpassthru($handle);
     }
 
-    public function showExport()
+    public function showExports()
     {
-        return view('admin.jobs');
+        return view('admin.exports');
     }
 
 
@@ -137,9 +147,9 @@ class ExportController extends Controller
         ]);
 
         $jobs = $jobs->join('companies as company', 'job_posts.company_id', '=', 'company.id');
-        $jobs = $jobs->leftJoin('job_roles as job_role', 'job_posts.job_role_id', '=', 'job_role.id');
-        $jobs = $jobs->where('job_posts.created_at', '>=', $dateFrom)
-                     ->where('job_posts.created_at', '<=', $dateTo)
+        $jobs = $jobs->leftJoin('job_roles as job_role', 'job_posts.job_role_id', '=', 'job_role.id')
+                     //->where('job_posts.created_at', '>=', $dateFrom)
+                     //->where('job_posts.created_at', '<=', $dateTo)
                      ->orderBy('id', 'desc')
                      ->get();
 
@@ -193,62 +203,102 @@ class ExportController extends Controller
             'id',
             'full_name',
             'company',
-            'role',
+            'job_role',
             'email',
-            'created_at'
+            'created_at',
+    //        'experiences'
         ];
 
-        $workers = WorkerDetail::query();
-        $workers = $workers->select([
-            'worker_details.id',
-            'worker_details.user_id',
-            'user.first_name',
-            'user.last_name',
-            'user.email',
-            'user.created_at'
-        ]);
+        $users = User::with('Experiences');
 
-        $workers = $workers->join('users as user', 'worker_details.user_id', '=', 'user.id');
+        $users = $users->select(
+            'users.*',
+            'worker.user_id as worker_user_id'
+        );
 
-        $workers = $workers->where('user.created_at', '>=', $dateFrom)
-            ->where('user.created_at', '<=', $dateTo)
-            ->orderBy('id', 'desc')
-            ->get();
+        $users = $users->join('worker_details as worker', 'users.id', '=', 'worker.user_id')
+                        ->where('users.role_id', 1) // worker role
+                        //->where('users.created_at', '>=', $dateFrom)
+                        //->where('users.created_at', '<=', $dateTo)
+                        ->orderBy('users.id', 'desc')
+                        ->get();
 
-        dd($workers->toArray());
+        $data = $users->map(function($user, $key) use ($cols) {
 
-        $data = array_map(function($job) use($cols) {
+            $user->full_name;
 
-            $data = array();
+            $tempCompanies = $user->experiences;
+            $company = NULL;
+
+            if ($tempCompanies && count($tempCompanies) > 0) {
+
+                if ($tempCompanies[0]->company_id) {
+
+                    $company= $tempCompanies[0]->company->name;
+
+                } else {
+
+                    $company= $tempCompanies[0]->company_name;
+                }
+            }
+
+            $user->role_name = $user->role;
+            $user->company = $company;
 
             foreach ($cols as $col) {
 
-                if ($col == 'title' && !$job[$col]) {
+                if ($col == 'job_role') {
 
-                    $job[$col] = $job['job_role_name'];
-                }
+                    if (count($user->experiences) > 0) {
 
-                if ($col == 'reports_to')
-                {
-
-                    if ($job['reports_to_json']) {
-
-                        $reportsTo = json_decode($job['reports_to_json'], true);
-
-                        $job[$col] = implode(",", $reportsTo);
-
-                    } else {
-
-                        $job[$col] = "";
+                        $user->{$col} = $user->experiences[0]->job_role;
                     }
                 }
 
-                $data[$col] = $job[$col];
+                $data[$col] = $user->{$col};
             }
 
             return $data;
+        });
 
-        }, $jobs->toArray());
+        $cols = array_map(function($col) {
+
+            return strtoupper(str_replace("_", " ", $col));
+        }, $cols);
+
+        return compact('cols', 'data');
+    }
+
+    public function generateByCompanies()
+    {
+        $dateFrom = Carbon::parse($this->r->dateFrom . '00:00:00');
+        $dateTo = Carbon::parse($this->r->dateTo . '23:59:59');
+
+        $cols = [
+            'id',
+            'name',
+            'no_of_workers',
+            'created_at'
+        ];
+
+        $companies = Company::query()
+                    //->where('created_at', '>=', $dateFrom)
+                    //->where('created_at', '<=', $dateTo)
+                    ->orderBy('id', 'desc')
+                    ->get();
+
+        $data = $companies->map(function($company, $key) use ($cols) {
+
+            $company->no_of_workers;
+            $data = [];
+
+            foreach ($cols as $col) {
+
+                $data[$col] = $company->{$col};
+            }
+
+            return $data;
+        });
 
         $cols = array_map(function($col) {
 
