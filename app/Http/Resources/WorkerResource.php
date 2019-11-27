@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-// use App\Models\Users\WorkExperience;
 use Carbon\Carbon;
 
 class WorkerResource extends JsonResource
@@ -18,14 +17,13 @@ class WorkerResource extends JsonResource
     {
 
         $profile_photo_url = ($this->profile_photo_url == null) ? '/img/defaults/user.png' : $this->profile_photo_url;
+
         $dt = Carbon::parse($this->created_at);
         $created_at = $dt->toFormattedDateString();
-        
         $tempCompanies = $this->experiences;
-
         $company = NULL;
 
-        if($tempCompanies && count($tempCompanies) > 0) {
+        if ($tempCompanies && count($tempCompanies) > 0) {
 
             if ($tempCompanies[0]->company_id) {
 
@@ -35,7 +33,6 @@ class WorkerResource extends JsonResource
 
                 $company= $tempCompanies[0]->company_name;
             }
-
         }
         if($request->company_filter && $request->company_filter == $company && $request->company_filter != 'all'){
             return [

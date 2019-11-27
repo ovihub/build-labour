@@ -70,6 +70,8 @@ Route::namespace('Admin')
         Route::get('job-roles', 'DatatableController@showJobRoles')->name('jobRoles');
         Route::get('tickets', 'DatatableController@showTickets')->name('tickets');
         Route::get('companies', 'DatatableController@showCompanies')->name('companies');
+        Route::get('exports', 'ExportController@showExports')->name('exports');
+        Route::get('export', 'ExportController@export')->name('export');
 
         Route::prefix('datatable')
             ->group(function () {
