@@ -102,6 +102,12 @@
 				vm.endpoints.delete = endpoint;
 				vm.record.id = cid;
 			});
+
+			Bus.$on('deleteWorker', function( cid) {
+				vm.action = 'Worker';
+				vm.endpoints.delete = '/api/v1/admin/worker/delete/'+cid;
+				vm.record.id = cid;
+			});
 		},
 
 		methods: {
@@ -111,7 +117,7 @@
 				this.disabled = true;
 				
 				if (this.action == 'Employment' || this.action == 'Education' || this.action == 'IndustrySkill' ||
-					this.action == 'Ticket' || this.action == 'Job' || 'Company') {
+					this.action == 'Ticket' || this.action == 'Job' || this.action == 'Company') {
 
 					await axios.delete(vm.endpoints.delete, Utils.getBearerAuth())
 
@@ -134,7 +140,21 @@
 						Utils.handleError(error);
 					});
 				
-				} else if (this.action == 'Photo') {
+				}else if (this.action == 'Worker'){
+					let vm = this;
+					let headers = Utils.getBearerAuth();
+					await axios.delete(vm.endpoints.delete  ,Utils.getBearerAuth()).then(function(response) {
+
+						$('#deleteRecordModal').modal('hide');
+						
+						Bus.$emit('removeWorker');
+					
+					}).catch(function(error) {
+						let inputErrors = Utils.handleError(error);
+						
+						if (inputErrors) vm.errors = inputErrors;
+					});
+				}else if (this.action == 'Photo') {
 
 					await axios.delete(vm.endpoints.delete, Utils.getBearerAuth(vm.$data.record))
 

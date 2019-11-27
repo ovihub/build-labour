@@ -15,7 +15,20 @@
 			<input :class="dataSearch" type="text" v-model="searchText"
 				@keyup="fetchData">
     	</div>
-				
+		<div :class="showWorkerCompanyFilter" v-if="modalName == 'Worker'">
+			<div class="me-label">
+            	Filter Workers by Company
+        	</div>
+			<div class="me-row">
+				<div class="role-col-left">
+					<select v-model="worker_company_filter" @change="fetchData">
+						<option value="all">all</option>
+						<option v-for="(value, index) in companies" v-bind:key="index" :value="value">{{ value }}</option>						
+					</select>					
+			</div>
+        </div>
+		</div>
+		
 		<view-user v-if="modalName == 'User'" :class="dataRecord"></view-user>
 
 		<view-worker v-else-if="modalName == 'Worker'" :class="dataRecord"></view-worker>
@@ -116,6 +129,7 @@
 				dataTitle: 'data-title',
 				dataTable: 'data-table',
 				dataRecord: 'data-record',
+				showWorkerCompanyFilter:'',
 				subTitle: '',
 				tableData: [],
 				searchText: '',
@@ -132,6 +146,8 @@
 				perPage: 10,
 				sortedColumn: this.columns[0],
 				order: 'asc',
+				companies:'',
+				worker_company_filter:'',
 			}
 		},
 		props: {
@@ -166,7 +182,7 @@
 		},
 		created() {
 			let vm = this;
-
+			vm.showWorkerCompanyFilter= '';
 			Bus.$on('refreshDatatable', function() {
 				vm.fetchData();
 			});
@@ -180,6 +196,7 @@
 			});
 
 			this.fetchData();
+			this.getCompanies();
 		},
 		computed: {
 			pagesNumber() {
@@ -210,7 +227,7 @@
 		},
 		methods: {
 			fetchData() {
-				let dataFetchUrl = `${this.url}?page=${this.currentPage}&column=${this.sortedColumn}&order=${this.order}&per_page=${this.perPage}&search_text=${this.searchText}`
+				let dataFetchUrl = `${this.url}?page=${this.currentPage}&column=${this.sortedColumn}&order=${this.order}&per_page=${this.perPage}&search_text=${this.searchText}&company_filter=${this.worker_company_filter}`
 
 				axios.get(dataFetchUrl, Utils.getBearerAuth())
 
@@ -218,9 +235,10 @@
 							this.pagination = data;
 
 							this.tableData = data.data;
+							
 						})
 					.catch(error => this.tableData = [])
-		
+				this.showWorkerCompanyFilter= '';
 				Bus.$emit('alertHide');
 			},
 			serialNumber(key) {
@@ -234,6 +252,10 @@
 				}
 			},
 			sortByColumn(column) {
+				if(column == 'company' && this.modalName == 'Worker'){
+					return false;
+				}
+
 				if (column === this.sortedColumn) {
 					this.order = (this.order === 'asc') ? 'desc' : 'asc';
 				
@@ -285,7 +307,8 @@
 				this.dataTitle = 'data-title';
 				this.dataTable = 'hidden';
 				this.dataRecord = 'data-record';
-				console.log('datatableView' + this.modalName, id);
+				
+				this.showWorkerCompanyFilter= 'hidden';
 				Bus.$emit('datatableView' + this.modalName, id)
 			},
 			onClickTitle() {
@@ -295,6 +318,20 @@
 
 				this.fetchData();
 			},
+			async getCompanies(){
+				let vm = this;
+				await axios.get('/api/v1/admin/worker/companies',  Utils.getBearerAuth())
+                    
+                .then(function(response) {
+                    vm.companies = response.data.data;
+                
+                }).catch(function(error) {
+                    let inputErrors = Utils.handleError(error);
+                
+                    if (inputErrors) vm.errors = inputErrors;
+                });
+			},
+			
 		},
 		filters: {
 			columnHead(value) {
@@ -309,6 +346,9 @@
 			ViewJobRole,
 			ViewTicket,
 		},
+		destroyed(){
+			this.showWorkerCompanyFilter= '';
+		}
 	}
 </script>
 

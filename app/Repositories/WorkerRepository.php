@@ -483,4 +483,223 @@ class WorkerRepository extends AbstractRepository
 
     }
 
+    public function adminUpdateSectors( Request $request ){
+
+        $user = User::find($request->user_id);
+
+        if (!$user->workerDetail) {
+
+            return false;
+        }
+
+        if (isset($request->sectors) && empty($request->sectors)) {
+
+            WorkerArea::where('worker_id', $user->workerDetail->id)->delete();
+        }
+
+        if (isset($request->tiers) && empty($request->tiers)) {
+            
+            WorkerTier::where('worker_id', $user->workerDetail->id)->delete();
+        }
+
+        if (!empty($request->sectors)) {
+
+            WorkerArea::where('worker_id', $user->workerDetail->id)->delete();
+
+            $businessTypes = $request->sectors;
+
+            $businessTypes = array_filter($businessTypes, function($id) {
+
+                // check businsss type
+
+                $b = BusinessType::find($id);
+
+                if ($b) {
+
+                    return $id;
+                }
+
+            });
+
+
+            $saveBusinessTypes = array_map(function($id) use($user) {
+
+                return array('business_type_id' => $id, 'worker_id' => $user->workerDetail->id);
+
+            }, $businessTypes);
+
+            WorkerArea::insert($saveBusinessTypes);
+
+        }
+
+        if (!empty($request->tiers)) {
+
+            WorkerTier::where('worker_id', $user->workerDetail->id)->delete();
+
+            $tiers = $request->tiers;
+
+            $tiers = array_filter($tiers, function($id) {
+
+                // check tier
+
+                $b = Tier::find($id);
+
+                if ($b) {
+
+                    return $id;
+                }
+
+            });
+
+            $saveTiers = array_map(function($id) use($user) {
+
+                return array('tier_id' => $id, 'worker_id' => $user->workerDetail->id);
+
+            }, $tiers);
+
+            WorkerTier::insert($saveTiers);
+
+        }
+
+        return true;
+    }
+
+    public function adminUpdatePersonalDetails( Request $request ){
+        $user = User::find($request->user_id);
+
+        if (!$user->workerDetail) {
+            
+            return false;
+        }
+
+        $this->workerDetail = $user->workerDetail;
+
+        $rules = [
+            'country_birth' => 'nullable',
+            'gender' => 'nullable|in:Male,male,Female,female,Other,other',
+            'date_of_birth' => 'nullable|date|before:-18 years'
+        ];
+
+        $validator = \Validator::make($request->all(), $rules);
+
+        if ( $validator->fails() ) {
+
+            $this->workerDetail->errors = $validator->errors()->all();
+            $this->workerDetail->errorsDetail = $validator->errors()->toArray();
+
+            return false;
+        }
+
+        if (isset($request->country_birth)) {
+
+            $user->country_birth = $request->country_birth;
+        
+        } else {
+
+            $user->country_birth = NULL;
+        }
+
+        if (isset($request->gender)) {
+
+            $user->gender = $request->gender;
+        
+        } else {
+
+            $user->gender = NULL;
+        }
+
+        if (isset($request->date_of_birth)) {
+
+            $user->date_of_birth = Carbon::parse($request->date_of_birth);
+        
+        } else {
+
+            $user->date_of_birth = NULL;
+        }
+
+        $user->save();
+
+        return true;        
+    }
+
+    public function adminUpdateAffirmations( Request $request ){
+        $user = User::find($request->user_id);
+
+        if (!$user->workerDetail) {
+
+            return false;
+        }
+
+        if ($request->drivers_license_state) {
+
+            $user->workerDetail->saveParams('drivers_license_state', $request->drivers_license_state);
+        }
+
+        if ($request->drivers_license_type) {
+
+            $user->workerDetail->saveParams('drivers_license_type', $request->drivers_license_type);
+        }
+
+        // australian tfn
+        $user->workerDetail->saveParams('australian_tfn', $request->australian_tfn ? $request->australian_tfn : '');
+
+
+        if (isset($request->right_to_work)) {
+
+            $user->workerDetail->right_to_work = $request->right_to_work;
+
+        } else {
+
+            $user->workerDetail->right_to_work = NULL;
+        }
+
+        if (isset($request->has_tfn)) {
+
+            $user->workerDetail->has_tfn = $request->has_tfn;
+
+        } else {
+
+            $user->workerDetail->has_tfn = NULL;
+        }
+
+        if (isset($request->has_abn)) {
+
+            $user->workerDetail->has_abn = $request->has_abn;
+
+        } else {
+
+            $user->workerDetail->has_abn = NULL;
+        }
+
+        if (isset($request->english_skill)) {
+
+            $user->workerDetail->english_skill = $request->english_skill;
+
+        } else {
+
+            $user->workerDetail->english_skill = NULL;
+        }
+
+        if (isset($request->drivers_license)) {
+
+            $user->workerDetail->drivers_license = $request->drivers_license;
+
+        } else {
+
+            $user->workerDetail->drivers_license = NULL;
+        }
+
+        if (isset($request->has_registered_vehicle)) {
+
+            $user->workerDetail->has_registered_vehicle = $request->has_registered_vehicle;
+
+        } else {
+
+            $user->workerDetail->has_registered_vehicle = NULL;
+        }
+
+        $user->workerDetail->save();
+
+        return true;
+    }
 }
