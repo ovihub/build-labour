@@ -6,13 +6,17 @@
                 <li v-for="(applicant, index) in applicants" :key="index+0">
                     <div class="jobads-row">
                         <div class="bl-col-1">
-                            <img v-if="applicant.profile_photo_url" class="bl-image-32" :src="applicant.profile_photo_url">
 
-                            <avatar v-if="!applicant.profile_photo_url" cls="bl-image-32" size="32" border="0" border-radius="8px"
-                                    :initials="getInitials(applicant.full_name)"
-                                    :company-id="companyId">
-                            </avatar>
+
+                            <img class="bl-image-32" :src="applicant.profile_photo_url" v-if="applicant.profile_photo_url" @click="onClickProfilePhoto(applicant.id)">
+
+                            <div @click="onClickProfilePhoto(applicant.id)" v-else>
+                                <avatar cls="bl-image-32" size="32" border="0" border-radius="8px"
+                                    :initials="getInitials(applicant.full_name)">
+                                </avatar>
+                            </div>
                         </div>
+                        
                         <div class="bl-col-2" style="margin-top:-2px">
                             <div class="bl-display">
                                 <span class="bl-label-15 mt-0 pt-0">{{ applicant.full_name }}</span>
@@ -66,6 +70,9 @@
 
                     vm.applicants = data.data.applicants;
                 });
+            },
+            onClickProfilePhoto(id) {
+                Api.redirectToUserProfile(id);
             },
         },
         created() {
