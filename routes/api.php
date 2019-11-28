@@ -254,6 +254,18 @@ Route::namespace('API\V1\Admin')
                 Route::get('get', 'ApiCompaniesController@get');
                 Route::delete('/{company_id}', 'ApiCompaniesController@deleteCompany');
             });
+
+        Route::prefix('worker')
+            ->group(function () {
+                Route::post('sectors', 'ApiWorkersController@updateSectors');
+                Route::post('introduction', 'ApiWorkersController@updateWorkerIntroduction');
+                Route::post('personal-details', 'ApiWorkersController@updatePersonalDetails');
+                Route::post('affirmations', 'ApiWorkersController@updateAffirmations');
+                Route::post('next-role', 'ApiWorkersController@updateNextRole');
+                Route::get('companies', 'ApiWorkersController@getCompanies');
+                Route::delete('delete/{user_id}', 'ApiWorkersController@deleteUser');
+            });    
+        
     });
 
 Route::namespace('API\V1\Admin')

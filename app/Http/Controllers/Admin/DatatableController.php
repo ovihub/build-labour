@@ -160,6 +160,8 @@ class DatatableController extends Controller
         $users = $users->leftJoin('company_business_types as cbt', 'cbt.id', '=', 'c.business_type_id');
         $users = $users->leftJoin('company_tiers as ct', 'ct.id', '=', 'c.tier_id');
 
+     
+
         if (!empty($request->search_text)) {
 
             $likeRaw = "(first_name LIKE '%{$search_text}%'";
@@ -174,13 +176,25 @@ class DatatableController extends Controller
             $users = $users->whereRaw($likeRaw);
         }
 
+        
+
         $users = $users->groupBy('email');
-        $users = $users->orderBy($column, $order);
+        if($column != 'company'){   
+            $users = $users->orderBy($column, $order);
+        }
+        
         $users = $users->whereHas('Role', function( $query ) use($request){                        
             $query->where('name','Worker');                        
         });
+                
+        if($request->company_filter && $request->company_filter != 'all'){
+            $users = $users->paginate($per_page);
+        }else{
+            $users = $users->paginate(100);    
+        }
         
-        $users = $users->paginate($per_page);        
+        
+        
         return WorkerResource::collection($users);
     }    
 
