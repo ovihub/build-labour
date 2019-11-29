@@ -93,7 +93,7 @@
                                     <div>
                                          <img class="mr-1" :src="getFavouriteImg(applicant.user_id)">
                                     </div>
-                                    <div>Favourite</div>
+                                    <div>Suitable</div>
                                 </span>
                                     <span class="action" @click="doScore(applicant.user_id, 'not_suitable')">
                                     <div>
