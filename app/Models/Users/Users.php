@@ -12,7 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Intervention\Image\ImageManagerStatic as Image;
-
+use App\Models\Users\WorkExperience;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -40,7 +40,7 @@ class Users extends BaseModel implements
 
     protected $hidden = ['password', 'remember_token', 'updated_at', 'created_at', 'verification_code', 'firebase'];
 
-    protected $appends = ['identifier', 'full_name', 'dob_formatted', 'device_token', 'user_type'];
+    protected $appends = ['identifier', 'full_name', 'dob_formatted', 'device_token', 'user_type', 'displayed_company'];
 
     public $sql;
     public $bindings;
@@ -503,5 +503,33 @@ class Users extends BaseModel implements
     public function JobApplicants()
     {
         return $this->belongsToMany(JobApplicant::class, 'job_post_applicants', 'id', 'user_id');
+    }
+
+
+
+    public function getDisplayedCompanyAttribute()
+    {
+        $experience = WorkExperience::where('user_id',$this->id)->with('Company')
+        ->orderBy('isCurrent', 'desc')
+        ->orderBy('end_year', 'desc')
+        ->orderBy('end_month', 'desc')
+        ->orderBy('start_year', 'desc')
+        ->orderBy('start_month', 'desc')->first();
+        
+        $company = NULL;
+
+        if ($experience) {
+
+            if ($experience->company_id) {
+
+                $company= $experience->company->name;
+
+            } else {
+
+                $company= $experience->company_name;
+            }
+        }
+
+        return $company;
     }
 }

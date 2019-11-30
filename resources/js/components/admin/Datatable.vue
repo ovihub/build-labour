@@ -252,9 +252,7 @@
 				}
 			},
 			sortByColumn(column) {
-				if(column == 'company' && this.modalName == 'Worker'){
-					return false;
-				}
+				
 
 				if (column === this.sortedColumn) {
 					this.order = (this.order === 'asc') ? 'desc' : 'asc';
