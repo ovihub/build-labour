@@ -12,9 +12,11 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends BaseModel
 {
+    use SoftDeletes;
 
     private $userId = null;
 
