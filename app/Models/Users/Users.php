@@ -9,6 +9,7 @@ use App\User;
 use App\Helpers\Utils;
 use App\Models\Companies\JobApplicant;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -26,7 +27,7 @@ class Users extends BaseModel implements
     AuthorizableContract,
     CanResetPasswordContract
 {
-    use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail;
+    use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail, SoftDeletes;
 
     protected $table = 'users';
     protected $primaryKey = 'id';
