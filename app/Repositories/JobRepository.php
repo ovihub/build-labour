@@ -347,18 +347,21 @@ class JobRepository extends AbstractRepository
                         }
                     }
 
-                    $r['items_json'] = array_filter($items);
-                    $r['job_id'] = $this->job->id;
+                    if($items){
+                        $r['items_json'] = array_filter($items);
+                        $r['job_id'] = $this->job->id;
 
-                    $jobReq = new JobRequirement();
+                        $jobReq = new JobRequirement();
 
-                    if (!$jobReq->store($r)) {
+                        if (!$jobReq->store($r)) {
 
-                        $message = "Can't processed request";
-                        $this->job->addError($message);
+                            $message = "Can't processed request";
+                            $this->job->addError($message);
 
-                        return false;
+                            return false;
+                        }
                     }
+                    
                 }
             }
 

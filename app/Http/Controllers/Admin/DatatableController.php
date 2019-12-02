@@ -16,6 +16,9 @@ use App\Http\Resources\TicketsResource;
 use App\Http\Resources\CompaniesResource;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\JobRolesResource;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+
 
 class DatatableController extends Controller
 {
@@ -187,15 +190,32 @@ class DatatableController extends Controller
             $query->where('name','Worker');                        
         });
                 
+
+        $users = $users->get();
         if($request->company_filter && $request->company_filter != 'all'){
-            $users = $users->paginate($per_page);
-        }else{
-            $users = $users->paginate(100);    
+            $users = $users->where('displayed_company',$request->company_filter);
         }
+
+        if($column == 'company'){   
+            if($order == 'asc'){
+                $users = $users->sortBy('displayed_company');
+
+            }else{
+                $users = $users->sortByDesc('displayed_company');
+            }    
+        }
+        $users = $users->values()->all();
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        
+        $collection = new Collection($users);
+        
+        $currentPageSearchResults = $collection->slice(($currentPage - 1) * $per_page, $per_page)->all();
+    
+        $paginatedSearchResults= new LengthAwarePaginator($currentPageSearchResults, count($collection), $per_page);
         
         
-        
-        return WorkerResource::collection($users);
+        return WorkerResource::collection($paginatedSearchResults);            
     }    
 
     public function getJobsDatatable(Request $request)
@@ -205,22 +225,26 @@ class DatatableController extends Controller
         $per_page = $request->get('per_page') ? $request->get('per_page') : 10;
         $search_text = $request->get('search_text') ? $request->get('search_text') : '';
 
-        $query = $this->job->where('is_template', false);
+        $query = $this->job->select('job_posts.*', 'companies.name as cname' )->where('is_template', false)->leftJoin('companies', 'job_posts.company_id', '=', 'companies.id');
 
         $query = $query->where(function($query) use($search_text) {
 
-            $query
-                ->where('id', 'LIKE', '%'.$search_text.'%')
-                ->orWhere('title', 'LIKE', '%'.$search_text.'%')
-                ->orWhere('description', 'LIKE', '%'.$search_text.'%')
-                ->orWhere('about', 'LIKE', '%'.$search_text.'%')
-                ->orWhere('exp_level', 'LIKE', '%'.$search_text.'%')
-                ->orWhere('contract_type', 'LIKE', '%'.$search_text.'%')
+            $query                
+                ->where('job_posts.id', 'LIKE', '%'.$search_text.'%')
+                ->orWhere('job_posts.title', 'LIKE', '%'.$search_text.'%')
+                ->orWhere('job_posts.description', 'LIKE', '%'.$search_text.'%')
+                ->orWhere('job_posts.about', 'LIKE', '%'.$search_text.'%')
+                ->orWhere('job_posts.exp_level', 'LIKE', '%'.$search_text.'%')
+                ->orWhere('job_posts.contract_type', 'LIKE', '%'.$search_text.'%')
                 ->orWhere('title', 'LIKE', '%'.$search_text.'%');
         });
+        
+        if($column == 'company'){            
+            $query->orderBy('cname',$order);
+        }else{
+            $query = $query->orderBy($column, $order);
+        }
 
-
-        $query = $query->orderBy($column, $order);
         $data = $query->paginate($per_page);
 
         return JobsResource::collection($data);
