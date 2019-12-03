@@ -803,7 +803,8 @@ class JobRepository extends AbstractRepository
                 break;
             case 'companies':
 
-                $data = Company::join('company_main_functions', 'companies.main_company_id', '=', 'company_main_functions.id')
+                $data = Company::select('companies.*');
+                $data = $data->join('company_main_functions', 'companies.main_company_id', '=', 'company_main_functions.id')
                     ->when($request->search_string, function ($query) use ($request) {
                         $query->where(function ($query) use ($request) {
                             $query->where([['name', 'like', '%' . $request->search_string . '%']])

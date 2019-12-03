@@ -83,6 +83,7 @@ class ApiAuthController extends ApiBaseController
         $user = JWTAuth::user();
         
         if ($user->role_id == 2) {
+
             $company = Company::where('created_by', $user->id)->first();
             
             $user->company_name = $company->name;

@@ -226,11 +226,37 @@ export default {
       this.input[refName] = value;
       this.onSearch(value);
     },
-    onChangeLocation (keyword) {
-      this.locations = (keyword && keyword.length > 0) ? Api.getLocations(keyword, 'locality') : [];
+    async onChangeLocation (keyword) {
+
+      let vm = this;
+
+      if (vm.searchTimeout) {
+
+        clearTimeout(vm.searchTimeout)
+      }
+
+      vm.searchTimeout = setTimeout(() => {
+
+        if (keyword && keyword.length > 0) {
+
+          Promise.resolve(Api.getLocationsPromise(keyword)).then((data) => {
+
+            this.locations = (data.data && data.data.locations) ? data.data.locations.features : [];
+          });
+
+        } else {
+
+          this.locations = [];
+        }
+      }, 300);
     },
     onSelectLocation (location) {
-      this.addresses.push(location.replace(', Australia', ''));
+
+      if (this.addresses.indexOf(location.replace(', Australia', '')) < 0) {
+
+          this.addresses.push(location.replace(', Australia', ''));
+      }
+
       this.address = '';
       this.locations = [];
       this.$refs['loc-search'].focus();
@@ -269,7 +295,7 @@ export default {
 
             vm.searchTimeout = null;
         });
-      }, 500);
+      }, 300);
     }
   },
   created () {
