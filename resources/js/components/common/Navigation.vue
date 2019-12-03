@@ -217,7 +217,9 @@
 
             onClickNavSearch() {
                 if (window.location.pathname != '/job/search/all') {
-                    window.location.href = '/job/search/all?type=jobs';
+                  //  window.location.href = '/job/search/all?type=jobs';
+                    window.open('/job/search/all?type=individuals', '_blank');
+                    window.focus();
                 }
             },
             onOpenSearch() {

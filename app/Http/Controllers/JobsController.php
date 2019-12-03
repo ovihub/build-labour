@@ -61,6 +61,8 @@ class JobsController extends Controller
 
     public function viewApplicants(Request $request)
     {
+        $user = $this->getAuthFromToken();
+
         $hasCompareParam = false;
 
         if ($request->compare) {
@@ -68,7 +70,9 @@ class JobsController extends Controller
             $hasCompareParam = true;
         }
 
-        return view('jobs.applicants')->with(compact('hasCompareParam'));
+        $isMyCompany = $user->company && $user->company->id == (int) $request->cid ? true : false;
+        
+        return view('jobs.applicants')->with(compact('hasCompareParam', 'isMyCompany'));
     }
 
     public function list(Request $request)

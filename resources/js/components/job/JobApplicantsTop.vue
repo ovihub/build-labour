@@ -31,13 +31,13 @@
                                         </svg>
                                         <div class="icon-label">Preview</div>
                                     </div>
-                                    <div class="col-icon icon-buttons" @click="onClickAction('edit', job)">
+                                    <div class="col-icon icon-buttons" @click="onClickAction('edit', job)" v-if="is_my_company">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
                                             <path fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 2a2.828 2.828 0 1 1 4 4L6.5 19.5 1 21l1.5-5.5L16 2z"/>
                                         </svg>
                                         <div class="icon-label">Edit</div>
                                     </div>
-                                    <div class="col-icon icon-buttons" :style="! job.status ? 'cursor: default;' : ''" @click="onClickAction('duplicate', job)">
+                                    <div class="col-icon icon-buttons" :style="! job.status ? 'cursor: default;' : ''" @click="onClickAction('duplicate', job)" v-if="is_my_company">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
                                             <g fill="none" fill-rule="evenodd" :stroke="job.status ? '#000' : '#d8d8d8'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" transform="translate(1 1)">
                                                 <rect width="13" height="13" x="7" y="7" rx="2"/>
@@ -106,6 +106,12 @@
         components: {
             DeleteModal,
             ConfirmModal,
+        },
+        props: {
+            is_my_company: {
+                type: Boolean,
+                required: false
+            }
         },
         data() {
             return {

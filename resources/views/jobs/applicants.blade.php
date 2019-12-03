@@ -3,9 +3,8 @@
 @section('content')
 
     <div class="row justify-content-center applicants">
-
         <div class="col-lg-10 col-md-12 pb-0 bl-applicants-wrapper">
-            <job-applicants-top></job-applicants-top>
+            <job-applicants-top {{ $isMyCompany ? ':is_my_company=true' : false }}></job-applicants-top>
         </div>
 
         @if($hasCompareParam)
