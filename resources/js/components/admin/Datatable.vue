@@ -8,7 +8,7 @@
 					<span class="data-title-active">{{ subTitle }}</span>
 				</span>
 			</div>
-			<img class="table-search" src="/img/icons/search.png"
+			<img v-show="show_table_search" class="table-search" src="/img/icons/search.png"
                 srcset="/img/icons/search@2x.png 2x, /img/icons/search@3x.png 3x"
 				@click="onClickSearch">
 
@@ -126,6 +126,7 @@
 		data() {
 			return {
 				dataSearch: 'hidden',
+				show_table_search: true,
 				dataTitle: 'data-title',
 				dataTable: 'data-table',
 				dataRecord: 'data-record',
@@ -307,6 +308,7 @@
 				this.dataRecord = 'data-record';
 				
 				this.showWorkerCompanyFilter= 'hidden';
+				this.show_table_search = false;
 				Bus.$emit('datatableView' + this.modalName, id)
 			},
 			onClickTitle() {
