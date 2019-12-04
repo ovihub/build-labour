@@ -109,8 +109,11 @@ class ApiJobApplicantsController extends ApiBaseController
             $job->companyAdmin = $companyAdmin;
             $job->jobApplicantUser = $jobApplicant->User;
 
-            // email company for applicant applied job
-            \Mail::to( $companyAdmin->email )->send( new SendWorkerJobApplicationEmail( $job ) );
+            if ($job->title || ($job->job_role && $job->job_role->job_role_name)) {
+
+                // email company for applicant applied job
+                \Mail::to( $companyAdmin->email )->send( new SendWorkerJobApplicationEmail( $job ) );
+            }
 
             JobStat::create([
                 'job_id' => $request->id,
