@@ -15,23 +15,28 @@
             <div class="col-md-12">
                 <label class="record-label">TITLE</label>
                 
-                <input type="text" class="form-control record-input" v-model="record.title" />
+                <input type="text" class="form-control record-input" v-model="record.title"  @keyup="onSearchJob(record.title)"/>
 
                 <span class="err-msg bl-ml-20" v-if="errors.title">
                     {{ errors.title }}
                 </span>
             </div>
+            
         </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <label class="record-label">JOB ROLE</label>
-
-                <select style="margin:0" class="form-control record-input" @change="onChange($event)" v-model="record.job_role_id">
-                    <option v-for="role in job_roles" :key="role.id" :value="role.id">{{ role.job_role_name }}</option>
-                </select>
+        <div class="row" v-show="show_job_roles">
+            <div class="col-md-4">
+                <div class="form-group" style="margin-top:0" v-if="record.title && job_roles && job_roles.length > 0">
+                    <ul class="list-group">
+                        <li class="list-group-item" v-for="(job, idx) in job_roles" :key="idx"
+                            @click="onSelectJob(job)">
+                            
+                            {{ job.job_role_name }}
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
+            
 
         <div class="row">
             <div class="col-md-12">
@@ -139,16 +144,18 @@
 
 <script>
     import DeleteModal from '../common/DeleteModal';
+    import Api from '@/api';
 
     export default {
         name: "view-job",
 		data() {
 			return {
+                show_job_roles:false,
                 disabled: false,
                 show: false,
 				record: {
                     id: 0, title: '', description: '', about: '', exp_level: '', 
-                    contract_type: '', salary: '', reports_to: [], reports_to_str: '', location: '',
+                    contract_type: '', salary: '', reports_to: [], reports_to_str: '', location: '',job_role_id:'',
                 },
                 errors: {
                     title: '', description: '', about: '', exp_level: '', 
@@ -197,6 +204,7 @@
             Bus.$on('removeJob', function() {
                 Bus.$emit('adminSaveChanges', vm.record.id);
             });    
+            
 		},
 		
 		methods: {
@@ -265,7 +273,19 @@
                 $('#deleteRecordModal').modal('show');
                 
                 Bus.$emit('deleteJob', this.endpoints.delete + this.record.id);
-            }
+            },
+            onSearchJob(keyword) {
+                this.show_job_roles=true;
+                this.record.job_role_id = '';
+
+                this.job_roles = (keyword && keyword.length > 0) ? Api.getJobRoles(keyword) : [];
+            },
+            onSelectJob(job) {
+                this.record.job_role_id = job.id;
+                this.record.title = job.job_role_name;
+
+                this.job_roles = [];
+            },
         },
         components: {
             DeleteModal,

@@ -819,6 +819,9 @@ class JobRepository extends AbstractRepository
                             $query->orWhereHas('Specialization', function ($query) use ($request) {
                                 $query->where('secondary_name', 'like', '%' . $request->industry . '%');
                             });
+                            $query->orWhereHas('BusinessTYpe', function ($query) use ($request) {
+                                $query->where('business_type', 'like', '%' . $request->industry . '%');
+                            });
                         });
                     })
                     ->when($request->address, function ($query) use ($request) {
