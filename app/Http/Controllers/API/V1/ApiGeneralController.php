@@ -54,8 +54,14 @@ class ApiGeneralController extends ApiBaseController
             $types = $request->types;
             $curl_handle=curl_init();
 
-            curl_setopt($curl_handle,CURLOPT_URL,"https://api.mapbox.com/geocoding/v5/mapbox.places/{$keyword}.json?country=au&types={$types}&access_token=" . env('MAPBOX_KEY'));
+            $endpoint = str_replace(' ', '%20', $keyword) . '.json';
+            $uri = "https://api.mapbox.com/geocoding/v5/mapbox.places/{$endpoint}?country=au&access_token=" . env('MAPBOX_KEY');
 
+           // $url = "https://api.mapbox.com/geocoding/v5/mapbox.places/{$keyword}.json?country=au&types={$types}&access_token=" . env('MAPBOX_KEY');
+
+            curl_setopt($curl_handle,CURLOPT_URL,$uri);
+
+        //    dd("https://api.mapbox.com/geocoding/v5/mapbox.places/{$keyword}.json?country=au&types={$types}&access_token=" . env('MAPBOX_KEY'));
             curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
             curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
 
@@ -72,7 +78,10 @@ class ApiGeneralController extends ApiBaseController
 
             $buffer['features'] = array_filter($buffer['features'], function($val) {
 
-                return isset($val['place_type']) && $val['place_type'] && count($val['place_type']) > 0 && ($val['place_type'][0] == 'address' || $val['place_type'][0] == 'poi') ;
+                return isset($val['place_type']) &&
+                    $val['place_type'] &&
+                    count($val['place_type']) > 0 &&
+                    ($val['place_type'][0] == 'address' || $val['place_type'][0] == 'poi' || $val['place_type'][0] == 'place')  ;
             });
 
             // street, suburb, state, postcode
