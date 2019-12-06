@@ -9,8 +9,7 @@
         <ul class="list-job-items">
         <transition-group name="list-down">
             <li class="job-items" v-for="(post, index) in jobPosts" :key="index+0" v-if="post.company">
-                <a class="job-wrapper" :href="`/job/view?` + `cid=${post.company_id}&jid=${post.id}&v=details`" @click.prevent="open">
-                    <div class="profile-content" style="padding-bottom: 10px;">
+                <div class="profile-content" style="padding-bottom: 10px;">
                         <!-- <div class="save-icon">
                             <div class="star-cont">
                                 <input class="star" type="checkbox" title="Bookmark Job" :ref="'savedJobPost-' + post.id"
@@ -22,6 +21,7 @@
                             </div>
                         </div> -->
 
+                    <a class="job-wrapper" :href="`/job/view?` + `cid=${post.company_id}&jid=${post.id}&v=details`" @click.prevent="open">
                         <div class="jobads-row">
                             <div class="bl-col-1">
                                 <img v-if="post.company.photo_url" class="bl-image-40" :src="post.company.photo_url"
@@ -33,15 +33,16 @@
                                 </avatar>
                             </div>
                             <div class="bl-col-2">
-                                <div class="bl-display">
-                                <span class="bl-label-19 bl-ml14">
-                                    {{ post.company.name }}
-                                </span>
 
-                                    <span class="bl-label-14 bl-ml14" style="margin-top:-5px">
-                                    {{ getTimeDiffNow(post.created_at) }}
-                                </span>
-                                </div>
+                                    <div class="bl-display">
+                                        <span class="bl-label-19 bl-ml14">
+                                            {{ post.company.name }}
+                                        </span>
+
+                                            <span class="bl-label-14 bl-ml14" style="margin-top:-5px">
+                                            {{ getTimeDiffNow(post.created_at) }}
+                                        </span>
+                                    </div>
                             </div>
                         </div>
 
@@ -56,38 +57,37 @@
                                 {{ post.description }}
                             </div>
                         </div>
-
-                        <div class="row mt-3 stats-wrapper">
-                            <div class="col-md-2 col-sm-2">
-                                <div class="applicant-no">{{ post.stat_total }}</div>
-                                <div class="applicant-label">Total</div>
-                            </div>
-                            <div class="col-md-2 col-sm-2">
-                                <div class="applicant-no">{{ post.stat_new }}</div>
-                                <div class="applicant-label">New</div>
-                            </div>
-                            <div class="col-md-2 col-sm-2">
-                                <div class="applicant-no">{{ post.stat_invited }}</div>
-                                <div class="applicant-label">Invited</div>
-                            </div>
-                            <div class="col-md-2 col-sm-2">
-                                <div class="applicant-no">{{ post.stat_favourite }}</div>
-                                <div class="applicant-label bl-ellipsis">Suitable</div>
-                            </div>
-                            <div class="col-md-2 col-sm-2">
-                                <div class="applicant-no" style="color: #969696;">{{ post.stat_not_suitable }}</div>
-                                <div class="applicant-label bl-ellipsis">Not Suitable</div>
-                            </div>
+                    </a>
+                    <div class="row mt-3 stats-wrapper">
+                        <div class="col-md-2 col-sm-2">
+                            <div class="applicant-no">{{ post.stat_total }}</div>
+                            <div class="applicant-label">Total</div>
                         </div>
-
-                        <div class="profile-more mt-2">
-                            <a :href="'/job/view/?cid=' + post.company_id + '&jid=' + post.id + '&v=details'">
-                                <!--<a :href="'/job/applicants/?cid=' + post.company_id + '&jid=' + post.id">-->
-                                View Details<i class="fa fa-angle-right ml-2"></i>
-                            </a>
+                        <div class="col-md-2 col-sm-2">
+                            <div class="applicant-no">{{ post.stat_new }}</div>
+                            <div class="applicant-label">New</div>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <div class="applicant-no">{{ post.stat_invited }}</div>
+                            <div class="applicant-label">Invited</div>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <div class="applicant-no">{{ post.stat_favourite }}</div>
+                            <div class="applicant-label bl-ellipsis">Suitable</div>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <div class="applicant-no" style="color: #969696;">{{ post.stat_not_suitable }}</div>
+                            <div class="applicant-label bl-ellipsis">Not Suitable</div>
                         </div>
                     </div>
-                </a>
+
+                    <div class="profile-more mt-2">
+                        <a :href="'/job/view/?cid=' + post.company_id + '&jid=' + post.id + '&v=details'">
+                            <!--<a :href="'/job/applicants/?cid=' + post.company_id + '&jid=' + post.id">-->
+                            View Details<i class="fa fa-angle-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
             </li>
         </transition-group>
         </ul>
@@ -169,7 +169,6 @@
             }
         },
         methods: {
-
             open(event) {
 
             },
@@ -217,9 +216,5 @@
 </script>
 
 <style scoped>
-
-    a.job-wrapper:hover {
-        cursor: auto;
-    }
 
 </style>
