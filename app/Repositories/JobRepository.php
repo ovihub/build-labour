@@ -330,7 +330,7 @@ class JobRepository extends AbstractRepository
 
                         foreach ($r['items'] as $item) {
 
-                            if (!isset($item['id'])) {
+                            if (!isset($item['id']) && isset($item['ticket'])) {
 
                                 $newTicket = new Ticket();
 
@@ -340,7 +340,7 @@ class JobRepository extends AbstractRepository
                                 $newTicket->save();
 
                                 $items[] = $newTicket->toArray();
-                            } else if (Ticket::find($item['id'])) {
+                            } else if (isset($item['id']) && Ticket::find($item['id'])) {
 
                                 $items[] = $item;
                             }
