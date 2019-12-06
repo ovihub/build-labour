@@ -212,17 +212,34 @@
             Bus.$on('jobRequirementsDetails', function(detailsArray, jobDetails) {
 
                 if (detailsArray && detailsArray.length != 0) {
-                    vm.qualifications = detailsArray[0].items ? detailsArray[0].items : [];
-                    // vm.experience = detailsArray[1].items ? detailsArray[1].items.experiences : [];
-                    // vm.min_exp = detailsArray[1].items ? detailsArray[1].items.min_exp : '';
-                    vm.skills = detailsArray[1].items ? detailsArray[1].items : [];
-                    vm.tickets = detailsArray[2].items ? detailsArray[2].items : [];
+
+                    detailsArray.forEach((detail) => {
+
+                        if (!Utils.isNullOrEmpty(detail.title) && detail.items) {
+
+                            if (detail.title === 'Tickets') {
+
+                                vm.tickets = detail.items;
+                            }
+
+                            if (detail.title === 'Qualifications') {
+
+                                vm.qualifications = detail.items;
+                            }
+
+                            if (detail.title === 'Skills') {
+
+                                vm.skills = detail.items;
+                            }
+                        }
+                    });
+
                     vm.min_exp_month = jobDetails.min_exp_month ? jobDetails.min_exp_month : null;
                     vm.min_exp_year = jobDetails.min_exp_year ? jobDetails.min_exp_year : null;
 
-                    if (! vm.qualifications || vm.qualifications.length == 0) vm.qualifications.push({ course_type: '', qualification_level: '' });
-                    if (! vm.experience || vm.experience.length == 0) vm.experience.push('');
-                    if (! vm.skills || vm.skills.length == 0) vm.skills.push('');
+                    if (! vm.qualifications || vm.qualifications.length <= 0) vm.qualifications.push({ course_type: '', qualification_level: '' });
+                    if (! vm.experience || vm.experience.length <= 0 ) vm.experience.push('');
+                    if (! vm.skills || vm.skills.length.length <= 0) vm.skills.push('');
                 }
             });
 
