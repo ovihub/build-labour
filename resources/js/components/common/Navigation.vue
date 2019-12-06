@@ -216,8 +216,18 @@
             },
 
             onClickNavSearch() {
+
                 if (window.location.pathname != '/job/search/all') {
-                    window.location.href = '/job/search/all?type=jobs';
+
+                    if (Api.getUserType() === 'company') {
+
+                        window.location.href = '/job/search/all?type=individuals';
+
+                    } else {
+
+                        window.location.href = '/job/search/all?type=jobs';
+                    }
+
                    // window.open('/job/search/all?type=individuals', '_blank');
                    // window.focus();
                 }
