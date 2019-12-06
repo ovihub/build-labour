@@ -10,38 +10,40 @@
         <div class="profile-item-2" v-if="show">
             <div class="row">
                 <div class="col-md-4" v-for="(employee, index) in employees" :key="index">
-                    <div class="profile-content ta-center mb-3">
-                        <div v-if="employee.user_id">
-                            <img class="bl-image-80" :src="employee.profile_photo_url"
-                            v-if="employee.profile_photo_url"
-                            @click="onClickProfilePhoto(employee.user_id)">
+                    <a :href="`/user/profile/${employee.user_id}`">
+                        <div class="profile-content ta-center mb-3">
+                            <div v-if="employee.user_id">
+                                <img class="bl-image-80" :src="employee.profile_photo_url"
+                                     v-if="employee.profile_photo_url"
+                                     @click="onClickProfilePhoto(employee.user_id)">
 
-                            <div @click="onClickProfilePhoto(employee.user_id)" v-else>
-                                <avatar cls="bl-image-80" size="80" border="0" border-radius="100%"
-                                    :initials="getInitials(employee.full_name)">
-                                </avatar>
+                                <div @click="onClickProfilePhoto(employee.user_id)" v-else>
+                                    <avatar cls="bl-image-80" size="80" border="0" border-radius="100%"
+                                            :initials="getInitials(employee.full_name)">
+                                    </avatar>
+                                </div>
+                            </div>
+                            <div v-else>
+                                <img class="bl-image-80" :src="employee.profile_photo_url"
+                                     v-if="employee.profile_photo_url"
+                                     @click="onClickProfilePhoto(employee.user_id)">
+
+                                <div @click="onClickProfilePhoto(employee.user_id)" v-else>
+                                    <avatar cls="bl-image-80" size="80" border="0" border-radius="100%"
+                                            :initials="getInitials(employee.full_name)">
+                                    </avatar>
+                                </div>
+                            </div>
+
+
+                            <div class="bl-label-16 bl-ellipsis">
+                                {{ employee.full_name }}
+                            </div>
+                            <div class="bl-label-14 bl-ellipsis">
+                                {{ employee.job_role }}
                             </div>
                         </div>
-                        <div v-else>
-                            <img class="bl-image-80" :src="employee.profile_photo_url"
-                            v-if="employee.profile_photo_url"
-                            @click="onClickProfilePhoto(employee.id)">
-
-                            <div @click="onClickProfilePhoto(employee.id)" v-else>
-                                <avatar cls="bl-image-80" size="80" border="0" border-radius="100%"
-                                    :initials="getInitials(employee.full_name)">
-                                </avatar>
-                            </div>
-                        </div>
-                        
-
-                        <div class="bl-label-16 bl-ellipsis">
-                            {{ employee.full_name }}
-                        </div>
-                        <div class="bl-label-14 bl-ellipsis">
-                            {{ employee.job_role }}
-                        </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
