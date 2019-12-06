@@ -153,12 +153,14 @@ class CompanyRepository extends AbstractRepository
 
         if ($company) {
 
-            $setOfJobId = $company->Jobs()->whereHas('JobApplicants')->pluck('id')->toArray();
+            $setOfJobId = $company->Jobs()->pluck('id')->toArray();
 
             $setOfUserId = JobApplicant::whereIn('job_id', $setOfJobId)->latest('applied_at')->get();
 
             $applicants = collect();
+
             foreach ($setOfUserId as $user) {
+
                 $applicants->push(Users::find($user->user_id));
             }
 
