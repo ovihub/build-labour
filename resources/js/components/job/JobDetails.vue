@@ -53,7 +53,8 @@
             <div v-if="salary">
                 <div class="job-title">Salary</div>
                 <div class="job-body">
-                    $ - - - , - - - 
+                    <span v-if="salary">$ {{ salary}}</span>
+                    <span v-else>$ - - - , - - - </span>
                 </div>
             </div>
 

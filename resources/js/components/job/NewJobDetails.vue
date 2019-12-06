@@ -262,6 +262,7 @@
             });
 
             Bus.$on('jobDetails', function(details) {
+
                 if (details) {
 
                     vm.input.id = details.id;
