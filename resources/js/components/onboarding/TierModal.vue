@@ -88,7 +88,7 @@ export default {
 
 <style Scoped>
     .modal-dialog{
-        top: 200px !important;      
+
         width:1250px !important;
         height: 437px;
         border-radius: 8px;

@@ -363,6 +363,10 @@
       display: contents;
     }
 
+    .modal-body {
+      max-height: unset !important;
+    }
+
     .modal-content {
       margin: 0;
     }

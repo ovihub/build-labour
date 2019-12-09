@@ -16,7 +16,7 @@
                 <div class="job-title">Qualifications</div>
                 <div class="job-body">
                     <ul class="job-list-items">
-                        <li v-for="(qualification, index) in qualifications" :key="index">
+                        <li v-for="(qualification, index) in qualifications" :key="index" v-if="qualifications.length > 0">
                             {{ qualification.qualification_level }} in {{ qualification.course_type }} or a related field
                         </li>
                     </ul>
@@ -105,12 +105,30 @@
             let vm = this;
 
             Bus.$on('jobRequirementsDetails', function(detailsArray) {
-                if (detailsArray && detailsArray.length != 0) {
-                    vm.qualifications = detailsArray[0].items  ? detailsArray[0].items : [];
-                    // vm.experience = detailsArray[1].items.experiences;
-                    // vm.min_exp = detailsArray[1].items.min_exp;
-                    vm.skills = detailsArray[1].items ? detailsArray[1].items : [];
-                    vm.tickets = detailsArray[2].items  ? detailsArray[2].items : [];
+
+                if (detailsArray && detailsArray.length > 0) {
+
+                    detailsArray.forEach((detail) => {
+
+                        if (!Utils.isNullOrEmpty(detail.title) && detail.items) {
+
+                            if (detail.title === 'Tickets') {
+
+                                vm.tickets = detail.items;
+                            }
+
+                            if (detail.title === 'Qualifications') {
+
+                                vm.qualifications = detail.items;
+                            }
+
+                            if (detail.title === 'Skills') {
+
+                                vm.skills = detail.items;
+                            }
+                        }
+                    });
+
                     vm.display();
                 }
             });
@@ -119,9 +137,9 @@
 
                 vm.min_exp_detail = min_exp_month ? `${min_exp_month} month(s)` : '';
 
-                vm.min_exp_detail += vm.min_exp_detail ? ' and ' : '';
+                vm.min_exp_detail += vm.min_exp_detail && min_exp_year ? ' and ' : '';
 
-                vm.min_exp_detail += `${min_exp_year} year(s)`;
+                vm.min_exp_detail += min_exp_year ? `${min_exp_year} year(s)` : '';
 
             });
         },

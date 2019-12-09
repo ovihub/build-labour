@@ -18,6 +18,7 @@
                 </div>
 
                 <employment-modal></employment-modal>
+                Edit Tickets
 
                 <education-modal></education-modal>
                 <tier-modal></tier-modal>
@@ -113,6 +114,7 @@
                     'WorkInformation',
                     'PersonalDetails',
                 ],
+                urlParams: Utils.getUrlParams()
             }
         },
         props: {
@@ -142,9 +144,57 @@
 
                 vm.$sections = vm.$refs['compCardWrapper'].querySelectorAll('li');
                 vm.max = vm.$sections.length;
-                vm.goToStep(1);
-            }, 1);
 
+                let step = 1;
+
+                if (vm.urlParams.step) {
+
+                    switch(vm.urlParams.step) {
+
+                        case 'start':
+                            step = 1;
+                            break;
+
+                        case 'employment':
+                            step = 2;
+                            break;
+
+                        case 'educations':
+                            step = 3;
+                            break;
+
+                        case 'tickets':
+                            step = 4;
+                            break;
+
+                        case 'skills':
+                            step = 5;
+                            break;
+
+                        case 'achievements':
+                            step = 6;
+                            break;
+
+                        case 'preferences':
+                            step = 7;
+                            break;
+
+                        case 'information':
+                            step = 8;
+                            break;
+
+                        case 'deatils':
+                            step = 9;
+                            break;
+                    }
+                }
+                vm.goToStep(step);
+            }, 100);
+
+            Bus.$on('ticketsSubmitSuccess', function() {
+
+                 vm.next();
+            })
         },
         methods: {
             save() {
@@ -177,7 +227,10 @@
 
                 Bus.$emit('onboardingSubmit' + this.submitForms[this.step - 1]);
 
-                this.next();
+                if (this.submitForms[this.step - 1] != 'Tickets') {
+
+                    this.next();
+                }
             },
             setCssVars() {
                 this.$refs['compCardWrapper'].style.setProperty('--x', (((this.step * 100) - 100) * -1) + '%')
@@ -188,6 +241,45 @@
                 this.$refs['compCardWrapper'].style.setProperty('--cross-reverse', 'column-reverse')
             },
             goToStep(step) {
+
+                switch (step) {
+
+                    case 1 :
+                        window.history.replaceState(null, null, "?step=start");
+                        break;
+
+                    case 2 :
+                        window.history.replaceState(null, null, "?step=employment");
+                        break;
+
+                    case 3 :
+                        window.history.replaceState(null, null, "?step=educations");
+                        break;
+
+                    case 4 :
+                        window.history.replaceState(null, null, "?step=tickets");
+                        break;
+
+                    case 5 :
+                        window.history.replaceState(null, null, "?step=skills");
+                        break;
+
+                    case 6 :
+                        window.history.replaceState(null, null, "?step=achievements");
+                        break;
+
+                    case 7 :
+                        window.history.replaceState(null, null, "?step=preferences");
+                        break;
+
+                    case 8 :
+                        window.history.replaceState(null, null, "?step=information");
+                        break;
+
+                    case 9 :
+                        window.history.replaceState(null, null, "?step=deatils");
+                        break;
+                }
 
                 this.step = step > this.max ? this.max : step < 1 ? 1 : step;
                 this.currentSection = this.$sections[this.step-1];

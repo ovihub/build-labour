@@ -10,24 +10,26 @@
         <div class="profile-item-2">
             <div class="row">
                 <div class="col-md-4" v-for="(company, index) in companies" :key="index">
-                    <div class="profile-content ta-center mb-3">
-                        <img class="bl-image-80" :src="company.photo_url"
-                            v-if="company.photo_url"
-                            @click="onClickProfilePhoto(company.id)">
+                    <a :href="`/company/profile/${company.id}`">
+                        <div class="profile-content ta-center mb-3">
+                            <img class="bl-image-80" :src="company.photo_url"
+                                 v-if="company.photo_url"
+                                 @click="onClickProfilePhoto(company.id)">
 
-                        <div @click="onClickProfilePhoto(company.id)" v-else>
-                            <avatar cls="bl-image-80" size="80" border="0" border-radius="100%"
-                                :initials="getInitials(company.name)">
-                            </avatar>
-                        </div>
+                            <div @click="onClickProfilePhoto(company.id)" v-else>
+                                <avatar cls="bl-image-80" size="80" border="0" border-radius="100%"
+                                        :initials="getInitials(company.name)">
+                                </avatar>
+                            </div>
 
-                        <div class="bl-label-16 bl-ellipsis">
-                            {{ company.name }}
+                            <div class="bl-label-16 bl-ellipsis">
+                                {{ company.name }}
+                            </div>
+                            <div class="bl-label-14 bl-ellipsis">
+                                {{ company.main_function.main_name }}
+                            </div>
                         </div>
-                        <div class="bl-label-14 bl-ellipsis">
-                            {{ company.main_function.main_name }}
-                        </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>

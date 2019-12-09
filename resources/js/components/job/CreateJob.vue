@@ -241,7 +241,7 @@
                        window.location.href = '/job/list?type=closed';
 
                     }
-                
+
                 }).catch(function(error) {
 
                     let inputErrors = Utils.handleError(error);
