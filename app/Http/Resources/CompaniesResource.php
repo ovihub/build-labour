@@ -22,7 +22,7 @@ class CompaniesResource extends JsonResource
         return [
             'id'    => $this->id,
             'name'  => $this->name,
-            'no_of_workers' => $this->no_of_workers,
+            // 'no_of_workers' => $this->no_of_workers,
             'created_at' => $created_at
         ];
     }

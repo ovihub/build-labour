@@ -332,6 +332,17 @@ class JobRepository extends AbstractRepository
 
                             if (!isset($item['id']) && isset($item['ticket'])) {
 
+                                $checkTicket = Ticket::where('ticket', 'like', "%{$item['ticket']}")->first();
+
+                                if ($checkTicket) {
+
+                                    $tErrMessage = "Duplicate ticket found '{$item['ticket']}' ticket found in the system record. Matched to {$checkTicket->ticket} - {$checkTicket->description}. Please create or select another ticket.";
+                                    $this->job->addError($tErrMessage);
+                                    $this->job->errorsDetail = array('ticket' => [$tErrMessage]);
+
+                                    return false;
+                                }
+
                                 $newTicket = new Ticket();
 
                                 $newTicket->ticket = $item['ticket'];
@@ -340,6 +351,7 @@ class JobRepository extends AbstractRepository
                                 $newTicket->save();
 
                                 $items[] = $newTicket->toArray();
+
                             } else if (isset($item['id']) && Ticket::find($item['id'])) {
 
                                 $items[] = $item;
@@ -463,7 +475,6 @@ class JobRepository extends AbstractRepository
 
                     $items = $r['items'];
 
-
                     if (strtolower($r['title']) == 'tickets') {
 
                         $items = [];
@@ -471,6 +482,17 @@ class JobRepository extends AbstractRepository
                         foreach ($r['items'] as $item) {
 
                             if (!isset($item['id'])) {
+
+                                $checkTicket = Ticket::where('ticket', 'like', "%{$item['ticket']}")->first();
+
+                                if ($checkTicket) {
+
+                                    $tErrMessage = "Duplicate ticket found '{$item['ticket']}' ticket found in the system record. Matched to {$checkTicket->ticket} - {$checkTicket->description}. Please remove then create or select another ticket.";
+                                    $this->job->addError($tErrMessage);
+                                    $this->job->errorsDetail = array('ticket' => [$tErrMessage]);
+
+                                    return false;
+                                }
 
                                 $newTicket = new Ticket();
 

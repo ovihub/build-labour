@@ -76,6 +76,7 @@
                 endpoints: {
                     save: '/api/v1/worker/tickets',
                 },
+                handleTimeout: null
             }
         },
 
@@ -100,13 +101,27 @@
                     has_whitecard: vm.has_whitecard
                 };
 
-                Api.submit(vm.endpoints.save, saveInput);
+                Api.submitPromise(vm.endpoints.save, saveInput).then((result) => {
+
+                    Bus.$emit('ticketsSubmitSuccess');
+                    vm.errors.ticket = '';
+                    $('#modalTickets').modal('hide');
+
+                }).catch (error => {
+
+                    vm.errors.ticket = error.response.data.message;
+                    Bus.$emit('ticketsSubmitError');
+
+                });
 
                 Bus.$emit('ticketsDetails', vm.tickets, vm.has_whitecard);
             });
 
             Bus.$on('refreshTicketDetails', function() {
+
                 Promise.resolve(Api.getWorkerTickets()).then(function(data) {
+
+                    $('#modalTickets').modal();
                     vm.tickets = data.data.tickets;
                 });
             });
@@ -116,10 +131,32 @@
             hasFocus(has_focus) {
                 this.has_focus = has_focus;
             },
-            onSearch(keyword) {
-                this.errors.ticket = '';
+            async onSearch(keyword) {
 
-                this.searchedTickets = (keyword && keyword.length > 0) ? Api.getTickets(keyword) : [];
+                let vm = this;
+
+                vm.errors.ticket = '';
+
+                if (this.handleTimeout) {
+
+                    clearTimeout(this.handleTimeout);
+                }
+
+                if (keyword.length <= 0) {
+
+                    vm.searchedTickets = [];
+
+                    return 0;
+                }
+
+                this.handleTimeout = setTimeout(() => {
+
+                    Api.getTicketsPromise(keyword).then((result) => {
+
+                        vm.searchedTickets = result.data.tickets;
+                    });
+
+                }, 500);
             },
             onSelect(ticket) {
                 this.selected = ticket;

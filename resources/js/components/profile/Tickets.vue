@@ -5,7 +5,7 @@
             <tickets-modal></tickets-modal>
 
             <div @click="open">
-                <edit-icon cls="edit-icon" data-target="#modalTickets"></edit-icon>
+                <edit-icon cls="edit-icon" data-target=""></edit-icon>
             </div>
             
             <div class="profile-title">

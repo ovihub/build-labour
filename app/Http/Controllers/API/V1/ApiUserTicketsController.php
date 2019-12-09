@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Models\Tickets\Ticket;
 use App\Models\Users\UserTicket;
 use App\Repositories\TicketRepository;
+use Exception;
 use Illuminate\Http\Request;
 use JWTAuth;
 
@@ -261,7 +262,6 @@ class ApiUserTicketsController extends ApiBaseController
         return $this->apiSuccessResponse( compact( 'ticket' ), true, 'Successfully deleted a ticket', self::HTTP_STATUS_REQUEST_OK);
     }
 
-
     /**
      * @OA\Post(
      *      path="/worker/tickets",
@@ -322,14 +322,25 @@ class ApiUserTicketsController extends ApiBaseController
 
     public function updateTickets(Request $request) {
 
+        \DB::beginTransaction();
+
         try {
 
             $tickets = $this->ticketRepo->saveUserTickets($request);
 
+            if (!$tickets && !is_array($tickets)) {
+
+               throw new Exception($this->ticketRepo->getTicketHandle()->getErrors(true));
+            }
+
         } catch(\Exception $e) {
+
+            DB::rollBack();
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
+
+        \DB::commit();
 
         return $this->apiSuccessResponse( compact( 'tickets' ), true, 'Successfully saved tickets', self::HTTP_STATUS_REQUEST_OK);
     }

@@ -18,6 +18,8 @@ class TicketRepository extends AbstractRepository
      */
     protected $model = Ticket::class;
 
+    public $ticketHandler = null;
+
     /**
      * Valid searchable columns
      *
@@ -29,7 +31,6 @@ class TicketRepository extends AbstractRepository
             'description'
         ],
     ];
-
 
     /**
      * Current User Tickets
@@ -47,16 +48,15 @@ class TicketRepository extends AbstractRepository
     /**
      * Save User Tickets
      *
-     * @return collection
+     * @return collection | boolean
      */
     public function saveUserTickets( Request $request ) {
 
         $user = JWTAuth::toUser();
 
-        if (empty($request->tickets)) {
-
-            UserTicket::where('user_id', $user->id)->delete();
-        }
+        $this->ticketHandler = new Ticket();
+        $tickets = $request->tickets ? $request->tickets : [];
+        $saveTickets = [];
 
         if (isset($request->has_whitecard)) {
 
@@ -64,32 +64,42 @@ class TicketRepository extends AbstractRepository
             $user->workerDetail->save();
         }
 
-        if ($request->tickets) {
+        UserTicket::where('user_id', $user->id)->delete();
 
-            UserTicket::where('user_id', $user->id)->delete();
+        foreach ($tickets as $ticket) {
 
-            $tickets = $request->tickets;
+            if (! isset($ticket['ticket_id'])) {
 
-            $saveTickets = array_map(function($ticket) use($user) {
-                if (! isset($ticket['ticket_id'])) {
-                    $ticket['ticket_id'] = Ticket::insertGetId([
-                        'ticket' => $ticket['ticket'],
-                        'description' => $ticket['description'],
-                        'created_by' => $user->id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now()
-                    ]);
+                // check if the ticket already exists
+                $checkTicket = Ticket::where('ticket', 'like', "%{$ticket['ticket']}")->first();
+
+                if ($checkTicket) {
+
+                    $this->ticketHandler->addError("Duplicate ticket found '{$ticket['ticket']}' ticket found in the system record. Matched to {$checkTicket->ticket} - {$checkTicket->description}. Please create or select another ticket.");
+                    return false;
                 }
-                
-                return array('ticket_id' => $ticket['ticket_id'], 'user_id' => $user->id);
 
-            }, $tickets);
+                $ticket['ticket_id'] = Ticket::insertGetId([
+                    'ticket' => $ticket['ticket'],
+                    'description' => $ticket['description'],
+                    'created_by' => $user->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
+                ]);
 
-            UserTicket::insert($saveTickets);
+            }
 
-            return $user->tickets;
+            $saveTickets[] = ['ticket_id' => $ticket['ticket_id'], 'user_id' => $user->id];
         }
 
-        return [];
+        UserTicket::insert($saveTickets);
+
+        return $user->tickets;
+
+    }
+
+    public function getTicketHandle() {
+
+        return $this->ticketHandler;
     }
 }
