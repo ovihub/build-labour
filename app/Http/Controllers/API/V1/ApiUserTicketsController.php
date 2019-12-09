@@ -335,7 +335,7 @@ class ApiUserTicketsController extends ApiBaseController
 
         } catch(\Exception $e) {
 
-            DB::rollBack();
+            \DB::rollBack();
 
             return $this->apiErrorResponse(false, $e->getMessage(), self::INTERNAL_SERVER_ERROR, 'internalServerError');
         }
