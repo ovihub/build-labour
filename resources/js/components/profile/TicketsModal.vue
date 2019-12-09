@@ -11,7 +11,7 @@
         </template>
 
         <template slot="custom-modal-footer">
-            <button class="pull-right" type="button" data-dismiss="modal" @click="submit">
+            <button class="pull-right" type="button" @click="submit">
                 Save Changes
             </button>
         </template>
@@ -39,6 +39,7 @@
                 // Bus.$emit('refreshTicketDetails');
             },
             submit() {
+
                 Bus.$emit('onboardingSubmitTickets');
 
                 this.close();

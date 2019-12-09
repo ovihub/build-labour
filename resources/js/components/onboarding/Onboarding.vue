@@ -18,6 +18,7 @@
                 </div>
 
                 <employment-modal></employment-modal>
+                Edit Tickets
 
                 <education-modal></education-modal>
                 <tier-modal></tier-modal>
@@ -190,6 +191,10 @@
                 vm.goToStep(step);
             }, 100);
 
+            Bus.$on('ticketsSubmitSuccess', function() {
+
+                 vm.next();
+            })
         },
         methods: {
             save() {
@@ -222,7 +227,10 @@
 
                 Bus.$emit('onboardingSubmit' + this.submitForms[this.step - 1]);
 
-                this.next();
+                if (this.submitForms[this.step - 1] != 'Tickets') {
+
+                    this.next();
+                }
             },
             setCssVars() {
                 this.$refs['compCardWrapper'].style.setProperty('--x', (((this.step * 100) - 100) * -1) + '%')

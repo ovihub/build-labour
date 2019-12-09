@@ -235,6 +235,12 @@ class BuildLabourApi {
         return self.returnValue;
     }
 
+    getTicketsPromise(keyword) {
+
+        let self = this;
+        return self._search(this.endpoints.tickets + '?keyword=' + keyword);
+    }
+
     getWorkerTickets() {
         return this._get(this.endpoints.worker_tickets);
     }
