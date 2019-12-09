@@ -182,7 +182,8 @@ class ApiWorkersController extends ApiBaseController
             $additional_search_options = WorkExperience::select('company_name')->where('company_name','!=',NULL)->distinct()->get()->pluck('company_name');
             $merged = $record->merge($additional_search_options)->sortBy('company_name');
             if ($record) {
-                return $this->apiSuccessResponse($merged->all(), true, 'Request OK', self::HTTP_STATUS_REQUEST_OK);
+                
+                return $this->apiSuccessResponse($merged->sort()->values()->all(), true, 'Request OK', self::HTTP_STATUS_REQUEST_OK);
             }
 
         } catch(\Exception $e) {
