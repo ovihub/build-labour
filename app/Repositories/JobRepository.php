@@ -178,10 +178,9 @@ class JobRepository extends AbstractRepository
 
 
         // if company only
-        if ($user->Company) {
+        if ($user->Company && !isset($request->company_id)) {
 
             $jobs = $jobs->where('job_posts.company_id', $user->Company->id);
-            //   dd($user->Company);
         }
 
         if (!empty($location)) {

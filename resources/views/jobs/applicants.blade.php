@@ -7,11 +7,11 @@
             <job-applicants-top {{ $isMyCompany ? ':is_my_company=true' : false }}></job-applicants-top>
         </div>
 
-        @if($hasCompareParam)
+        @if($hasCompareParam && $isMyCompany)
             <div class="col-md-12">
                 <job-applicants-compare></job-applicants-compare>
             </div>
-        @else
+        @elseif($isMyCompany)
             <div class="col-lg-10 col-md-12 pt-0 bl-applicants-wrapper">
                 <job-applicants></job-applicants>
             </div>
