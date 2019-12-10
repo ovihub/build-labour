@@ -19,7 +19,7 @@
 
                     <div class="form-group emp-row row-center" v-for="(to, catIndex) in responsibilities" :key="'qualItem' + catIndex">
                         <div class="job-col-left">
-                            <input class="form-control" type="text" placeholder="e.g Quality Management" v-model="responsibilities[catIndex].title" @keyup="onTypeCategory(responsibilities[catIndex], catIndex)" />
+                            <input class="form-control" type="text" placeholder="e.g Quality Management" v-model="responsibilities[catIndex].title" @keyup="onTypeCategory(responsibilities[catIndex], catIndex)" @focus="onFocus('responsibilities')"/>
                         </div>
 
                         <div class="job-col-right">
@@ -28,7 +28,7 @@
                             </span>
                         </div>
 
-                        <div class="emp-row searched_list" style="margin-top:0" v-show="searchedResponsibilities && searchedResponsibilities.length > 0 && currentCatIndex == catIndex">
+                        <div class="emp-row searched_list" style="margin-top:0" v-show="searchedResponsibilities && searchedResponsibilities.length > 0 && currentCatIndex == catIndex && focusTo == 'responsibilities'">
                             <ul class="list-group">
                                 <li class="list-group-item" v-for="(res, idx) in searchedResponsibilities" :key="idx" @click="onSelectResponsibility(responsibilities[catIndex], res)">
                                     {{ res }}
@@ -42,7 +42,7 @@
                             <div class="form-group emp-row row-center" v-for="(to, index) in responsibilities[catIndex].items" :key="'ptItem' + index">
                                 <div class="job-col-left">
                                     <input class="form-control" type="text" placeholder="e.g Comply with and ensure project works are in accordance with Probuild QM Policies."
-                                        v-model="responsibilities[catIndex].items[index]" @keyup="onTypePoint(responsibilities[catIndex], responsibilities[catIndex].items[index], catIndex, index)" />
+                                        v-model="responsibilities[catIndex].items[index]" @focus="onFocus('points')" @keyup="onTypePoint(responsibilities[catIndex], responsibilities[catIndex].items[index], catIndex, index)" />
                                 </div>
 
                                 <div class="job-col-right">
@@ -83,7 +83,8 @@
                 currentItemIndex: null,
                 searchedResponsibilities: [],
                 searchedPoints: [],
-                timeout: null
+                timeout: null,
+                focusTo: null
             }
         },
         created() {
@@ -101,9 +102,28 @@
                 }
             });
 
+            Bus.$on('clearNewJobResponsibilities', () => {
+
+                this.searchedResponsibilities = [];
+                this.searchedPoints = [];
+            });
+
             this.responsibilities.push({ title: '', items: [ '' ] });
         },
         methods: {
+
+            onFocus(type) {
+
+                console.log('NewJobResponsiblities');
+
+                this.focusTo = type;
+
+                Bus.$emit('clearNewJobDetails');
+                Bus.$emit('clearNewJobRequirements');
+
+                this.searchedResponsibilities = [];
+                this.searchedPoints = [];
+            },
             addEntity(index, field) {
 
                 this.searchedResponsibilities = [];
@@ -156,15 +176,13 @@
 
                         Api.getCollectedJobResponsibilities(responsibility.title, 'byCategory').then((data) => {
 
-                            console.log(data);
-
                             if (data.data.responsibilities) {
 
                                 vm.searchedResponsibilities = data.data.responsibilities;
                             }
                         });
 
-                    }, 200)
+                    }, 500)
 
                 }
 

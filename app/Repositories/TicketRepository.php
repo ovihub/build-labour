@@ -98,6 +98,16 @@ class TicketRepository extends AbstractRepository
 
     }
 
+    public function searchTickets(Request $r) {
+
+        $tickets = Ticket::where('ticket', 'like', "%{$r->keyword}%")
+                        ->orWhere('description', 'like', "%{$r->keyword}%")
+                        ->get()
+                        ->take(10);
+
+        return $tickets;
+    }
+
     public function getTicketHandle() {
 
         return $this->ticketHandler;
