@@ -15,27 +15,27 @@ class JobsController extends Controller
     {
 
         try {
+
             $user = $this->getAuthFromToken();
-            if($user->isAdmin()){
-                $role = 'Company';
-            }
-            else{
-                $role = $user->role->name;
-            }
-            
+            $role = $user->isAdmin() ? 'company' : $user->role->name;;
             
             if ($user) {
+
                 // check if user already applied for the job
                 $already_applied = 0;
                 $temp_already_applied = JobApplicant::where([['user_id','=',$user->id,],['job_id','=', $request->jid]])->first();
-                if($temp_already_applied){
+
+                if ($temp_already_applied) {
+
                     $already_applied = 1;
                 }
-                
+
+                $isMyCompany = $user->company && $user->company->id == (int) $request->cid ? true : false;
+
                 if (isset($request->cid) && isset($request->jid)) {
 
                     // user a company then redirect to applicants page
-                    if($user->Company && (isset($request->v) && $request->v == 'details')){
+                    if ($user->Company && (isset($request->v) && $request->v == 'details') && $isMyCompany) {
                         
                         return redirect(route('applicants', ['cid' => $request->cid, 'jid' => $request->jid]));
 
