@@ -19,7 +19,7 @@
 
                     <input type="text" class="form-control" style="margin: 0; max-width: 524px;" placeholder="Start typing"
                         v-model="input.title"
-                        @keyup="onSearchJob(input.title)">
+                        @keyup="onSearchJob(input.title)" @focus="onFocus('job_title')">
 
                     <span class="err-msg" v-if="errors.title">
                         {{ errors.title }}
@@ -74,6 +74,7 @@
                         data-type="currency"
                         v-model="input.project_size"
                         @keyup="formatCurrency('project_size', $event)"
+                        @focus="onFocus('project_size')"
                         @blur="formatCurrency('project_size', $event, 'blur')">
 
                     <span class="err-msg" v-if="errors.project_size">
@@ -170,8 +171,7 @@
                         :key="index">
 
                         <div class="job-col-left">
-                            <input class="form-control" type="text" v-model="input.reports_to[index]"
-                                @keyup="onSearchReportsTo(input.reports_to[index], index)"/>
+                            <input class="form-control" type="text" v-model="input.reports_to[index]" @focus="onFocus('reportsTo')"@keyup="onSearchReportsTo(input.reports_to[index], index)"/>
                         </div>
 
                         <div class="job-col-right">
@@ -183,12 +183,13 @@
                         </div>
 
                         <div class="job-col-left" style="margin-top: 0; margin-left: -15px;"
-                            v-if="reports_to_active_index == index && reports_to_job_roles && reports_to_job_roles.length > 0">
+                                v-if="reports_to_active_index == index &&
+                                reports_to_job_roles && reports_to_job_roles.length > 0 && focusTo == 'reportsTo'">
 
                             <ul class="list-group">
                                 <li class="list-group-item" v-for="(job, idx) in reports_to_job_roles" :key="idx"
                                     @click="onSelectReportsTo(job)">
-                                    
+
                                     {{ job.job_role_name }}
                                 </li>
                             </ul>
@@ -204,7 +205,7 @@
                     <div class="job-title mb-2">Location (suburb/town)</div>
 
                     <input type="text" class="form-control" placeholder="Start typing address..."
-                        v-model="input.location"
+                        v-model="input.location" @focus="onFocus('locations')"
                         @keyup="onChangeLocation(input.location)">
 
                     <span class="err-msg" v-if="errors.location">
@@ -212,7 +213,7 @@
                     </span>
                 </div>
 
-                <div class="emp-row" style="margin-top:0" v-if="locations && locations.length > 0">
+                <div class="emp-row" style="margin-top:0" v-if="locations && locations.length > 0 && focusTo == 'locations'">
                     <ul class="list-group">
                         <li class="list-group-item" v-for="(place, idx) in locations" :key="idx"
                             @click="onSelectLocation(place.place_name)">
@@ -247,7 +248,9 @@
                     contract_type: '', salary: '', reports_to: '', location: '',
                 },
                 salaryType: 'Salary',
-                salaryPlaceholder: 'Salary per annum'
+                salaryPlaceholder: 'Salary per annum',
+                leaveTimeoutHandler: null,
+                focusTo: null
             }
         },
         created() {
@@ -286,6 +289,12 @@
                 }
             });
 
+            Bus.$on('clearNewJobDetails', () => {
+
+                this.reports_to_job_roles = [];
+                this.locations = [];
+            });
+
             this.input.reports_to.push('');
         },
         methods: {
@@ -294,6 +303,16 @@
             },
             textAreaAdjust(refName) {
                 Utils.textAreaAdjust(this.$refs[refName]);
+            },
+            onFocus(type) {
+
+                this.focusTo = type;
+
+                this.reports_to_job_roles = [];
+                this.locations = [];
+
+                Bus.$emit('clearNewJobRequirements');
+                Bus.$emit('clearNewJobResponsibilities');
             },
             onChangeLocation(keyword) {
 
