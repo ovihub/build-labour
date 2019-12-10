@@ -64,7 +64,7 @@ class ApiTicketsController extends ApiBaseController
 
         try {
 
-            $tickets = $this->ticketRepo->search($request->get('keyword'))->all();
+            $tickets = $this->ticketRepo->searchTickets($request);
 
         } catch(\Exception $e) {
 

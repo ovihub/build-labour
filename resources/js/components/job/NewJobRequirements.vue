@@ -21,6 +21,7 @@
 
                         <div class="job-col-left">
                             <input class="form-control" type="text" placeholder="Course Type" v-model="qualifications[index].course_type"
+                                   @focus="onFocus('qualifications')"
                                    @keyup="onSearchCourse(qualifications[index].course_type, index)" />
                         </div>
 
@@ -30,7 +31,7 @@
                             </span>
                         </div>
 
-                        <div class="job-col-left" style="margin-top: 0; margin-left: -15px" v-if="activeIndex == index && courses && courses.length > 0">
+                        <div class="job-col-left" style="margin-top: 0; margin-left: -15px" v-if="activeIndex == index && courses && courses.length > 0 && focusTo=='qualifications'">
                             <ul class="list-group">
                                 <li class="list-group-item" v-for="(course, idx) in courses" :key="idx"
                                     @click="onSelectCourse(course)">
@@ -41,7 +42,7 @@
                         </div>
 
                         <div class="me-row mt-4">
-                            <select v-model="qualifications[index].qualification_level">
+                            <select v-model="qualifications[index].qualification_level" @focus="onFocus('selectQualifications')">
                                 <option key="1" value="Cert I">Cert I</option>
                                 <option key="2" value="Cert II">Cert II</option>
                                 <option key="3" value="Cert III">Cert III</option>
@@ -67,7 +68,7 @@
                     <div class="form-group emp-row row-center">
                         <div class="role-col-left">
                             <div class="emp-form-label">No of Month</div>
-                            <select v-model="min_exp_month">
+                            <select v-model="min_exp_month" @focus="onFocus('no_of_month')">
                                 <option v-for="month in months" :key="month.id" v-bind:value="month.id"> {{ ("0" + month.id).slice(-2) }}</option>
                             </select>
                             <span class="err-msg" v-if="errors.end_month">
@@ -77,7 +78,7 @@
 
                         <div class="role-col-right">
                             <div class="emp-form-label">No of Year</div>
-                            <select v-model="min_exp_year">
+                            <select v-model="min_exp_year" @focus="onFocus('no_of_years')">
                                 <option v-for="(year, index) in years" :key="index" v-bind:value="year + 1">{{ year + 1 }}</option>
                             </select>
                             <span class="err-msg" v-if="errors.end_year">
@@ -111,7 +112,7 @@
                     <div class="form-group emp-row row-center" v-for="(to, index) in skills" :key="'skItem-' + index">
 
                         <div class="job-col-left">
-                            <input class="form-control" type="text" placeholder="Start typing..." v-model="skills[index]" />
+                            <input class="form-control" type="text" placeholder="Start typing..." v-model="skills[index]" @focus="onFocus('skills')"/>
                         </div>
 
                         <div class="job-col-right">
@@ -128,7 +129,7 @@
                     
                     <div class="emp-row">
                         <div class="ticket-col-left">
-                            <input class="form-control" type="text"  placeholder="Search" v-model="keyword" @keyup="onSearchTicket(keyword)" />
+                            <input class="form-control" type="text"  placeholder="Search" v-model="keyword" @focus="onFocus('tickets')" @keyup="onSearchTicket(keyword)" />
                         </div>
                         <div class="ticket-col-right">
                             <button style="margin-left: 0px; width: 100%;" class="add-button" type="button" @click="onAddTicket()">Add</button>
@@ -138,7 +139,7 @@
                         </span>
                     </div>
 
-                    <div class="emp-row" style="margin-top:0" v-if="searchedTickets.length > 0">
+                    <div class="emp-row" style="margin-top:0" v-if="searchedTickets.length > 0 && focusTo == 'tickets'">
                         <ul class="list-group">
                             <li class="list-group-item" v-for="(ticket, idx) in searchedTickets" :key="idx"
                                 @click="onSelectTicket(ticket)">
@@ -187,6 +188,7 @@
                 skills: [],
                 months: Utils.getMonths(),
                 years: Utils.getYearsJobRequirements(),
+                focusTo: null
             }
         },
         created() {
@@ -243,11 +245,27 @@
                 }
             });
 
+            Bus.$on('clearNewJobRequirements', () => {
+
+                this.courses = [];
+                this.searchedTickets = [];
+            });
+
             this.qualifications.push({ course_type: '', qualification_level: '' });
             this.experience.push('');
             this.skills.push('');
         },
         methods: {
+            onFocus(type) {
+
+                this.focusTo = type;
+
+                this.courses = [];
+                this.searchedTickets = [];
+
+                Bus.$emit('clearNewJobDetails');
+                Bus.$emit('clearNewJobResponsibilities');
+            },
             onSearchCourse(keyword, index) {
                 if (! keyword) return;                
 

@@ -46,7 +46,7 @@
                                         </svg>
                                         <div class="icon-label" :style="! job.status ? 'color: #d8d8d8;' : ''">Duplicate</div>
                                     </div>
-                                    <div class="col-icon icon-buttons" @click="onClickAction('delete', job)">
+                                    <div class="col-icon icon-buttons" @click="onClickAction('delete', job)" v-if="is_my_company">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 20 22">
                                             <g fill="none" fill-rule="evenodd" stroke="#FF3939" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                 <path d="M1 5h18M17 5v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5m3 0V3a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M8 10v6M12 10v6"/>
