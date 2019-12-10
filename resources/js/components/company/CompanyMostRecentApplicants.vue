@@ -7,7 +7,6 @@
                     <div class="jobads-row">
                         <div class="bl-col-1">
 
-
                             <img class="bl-image-32" :src="applicant.profile_photo_url" v-if="applicant.profile_photo_url" @click="onClickProfilePhoto(applicant.id)">
 
                             <div @click="onClickProfilePhoto(applicant.id)" v-else>
@@ -30,7 +29,7 @@
                 </li>
             </ul>
             <div class="profile-more">
-                <a href="/job/search">View More<i class="fa fa-angle-right ml-2"></i></a>
+                <a :href="`${redirectTo}`">View More<i class="fa fa-angle-right ml-2"></i></a>
             </div>
         </div>
     </div>
@@ -49,6 +48,7 @@
                 endpoints: {
                     company: '/api/v1/company'
                 },
+                redirectTo: ''
             }
         },
 
@@ -76,7 +76,7 @@
             },
         },
         created() {
-
+            this.redirectTo = window.location.pathname;
             this.getApplicants();
         },
         components: {

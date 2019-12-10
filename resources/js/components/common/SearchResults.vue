@@ -5,10 +5,10 @@
                 <job-posts post-type="open_search"></job-posts>
             </div>
             <div v-show="showIndividuals">
-                <company-people post-type="open_search"></company-people>
+                <company-people post-type="open_search" :user-id="`${userId}`"></company-people>
             </div>
             <div v-show="showCompanies">
-                <company-preview post-type="open_search"></company-preview>
+                <company-preview post-type="open_search" :user-id="`${userId}`"></company-preview>
             </div>
         </div>
     </div>
@@ -28,10 +28,17 @@
                 showJobs: false,
             }
         },
+        props: {
+            userId: {
+                type: String,
+                required: false
+            }
+        },
         methods: {
             
         },
         created() {
+
             let vm = this;
 
             Bus.$on('openSearchIndividuals', function(results) {
