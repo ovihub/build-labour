@@ -25,14 +25,14 @@ class ApiJobResponsibilitiesController extends ApiBaseController
         if (isset($r->byCategory)) {
 
             $responsibilities = $responsibilities->where('title', 'like', "%{$r->keyword}%")->groupBy('title');
-            $responsibilities = $responsibilities->get(['title'])->pluck('title');
+            $responsibilities = $responsibilities->get(['title'])->take(10)->pluck('title');
 
         } else {
 
             $tempResponsibilities = [];
 
             $responsibilities = $responsibilities->where('items_json', 'like', "%{$r->keyword}%")->groupBy('title');
-            $responsibilities = $responsibilities->get();
+            $responsibilities = $responsibilities->get()->take(10);
 
             foreach ($responsibilities as $r) {
 
