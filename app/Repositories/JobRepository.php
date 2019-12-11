@@ -528,13 +528,13 @@ class JobRepository extends AbstractRepository
             }
 
             // skills required
-            if (!$hasKills) {
+            // if (!$hasKills) {
 
-                $message = "Skills required.";
-                $this->job->addError($message);
-                $this->job->errorsDetail = array('skills' => ['Skills required.']);
-                return false;
-            }
+            //     $message = "Skills required.";
+            //     $this->job->addError($message);
+            //     $this->job->errorsDetail = array('skills' => ['Skills required.']);
+            //     return false;
+            // }
 
             $this->job->Requirements;
             $this->job->Responsibilities;
