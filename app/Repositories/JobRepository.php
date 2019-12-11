@@ -809,7 +809,7 @@ class JobRepository extends AbstractRepository
                                 $query->orderBy('work_experience.job_role',$sort_order);
                                 break;
                             case 'Most Recent':
-                                $query->orderBy('created_at',$sort_order);
+                                $query->orderBy('users.created_at',$sort_order);
                                 break;
                                 
                             default:
