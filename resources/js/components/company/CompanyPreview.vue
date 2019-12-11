@@ -23,7 +23,7 @@
                             </div>
 
                             <div class="bl-label-16 bl-ellipsis">
-                                {{ company.name }}
+                                {{ getCompanyName(company) }}
                             </div>
                             <div class="bl-label-14 bl-ellipsis">
                                 {{ company.main_function.main_name }}
@@ -56,6 +56,10 @@
                 type: String,
                 default: ''
             },
+            userId: {
+                type: String,
+                required: false
+            }
         },
         created() {
             let vm = this;
@@ -82,6 +86,22 @@
             onClickProfilePhoto(id) {
                 Api.redirectToCompanyProfile(id);
             },
+            getCompanyName(company) {
+
+                if (this.userId && company) {
+
+                    if (this.userId == company.created_by) {
+
+                        return '(Me) ' + company.name;
+
+                    } else {
+
+                        return company.name;
+                    }
+                }
+
+                return '';
+            }
         },
         components: {
             Avatar,

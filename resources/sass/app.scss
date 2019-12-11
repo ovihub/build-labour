@@ -568,6 +568,7 @@ p.bl-nav-tab-label {
     width: 32px;
     height: 32px;
     background-color: #d8d8d8;
+    border: 2px solid #ffffff;
     cursor: pointer;
     border-radius: 50%;
     display: flex;
@@ -1329,11 +1330,6 @@ ul.template-list {
     font-size: 17px;
     text-align: right;
     color: #252829;
-}
-
-.inline-website {
-    font-size: 12px;
-    word-break: keep-all;
 }
 
 .me-label {

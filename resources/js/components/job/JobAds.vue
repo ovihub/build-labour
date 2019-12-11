@@ -6,15 +6,17 @@
             <ul class="list-items">
                 <li v-for="(post, index) in jobPosts" :key="index+0">
                     <div class="jobads-row">
-                        <div class="bl-col-1">
-                            <img v-if="post.company.photo_url" class="bl-image-32" :src="post.company.photo_url"
-                                 @click="onClickCompanyPhoto(post.company_id)">
 
-                            <avatar v-if="!post.company.photo_url" cls="bl-image-32" size="32" border="0" border-radius="8px"
-                                    :initials="getInitials(post.company.name)"
-                                    :company-id="(post.company_id) ? post.company_id + '' : ''">
-                            </avatar>
-                        </div>
+                        <a :href="`/company/profile/` + `${post.company_id}`">
+                            <div class="bl-col-1">
+                                <img v-if="post.company.photo_url" class="bl-image-32" :src="post.company.photo_url" />
+
+                                <avatar v-if="!post.company.photo_url" cls="bl-image-32" size="32" border="0" border-radius="8px"
+                                        :initials="getInitials(post.company.name)"
+                                        :company-id="(post.company_id) ? post.company_id + '' : ''">
+                                </avatar>
+                            </div>
+                        </a>
                         <div class="bl-col-2" style="margin-top:-2px">
                             <div class="bl-display">
                                 <span class="bl-label-15 mt-0 pt-0">{{ post.title ? post.title : post.job_role_name }}</span>

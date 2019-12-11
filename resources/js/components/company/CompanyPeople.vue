@@ -37,7 +37,7 @@
 
 
                             <div class="bl-label-16 bl-ellipsis">
-                                {{ employee.full_name }}
+                                {{ getFullName(employee) }}
                             </div>
                             <div class="bl-label-14 bl-ellipsis">
                                 {{ employee.job_role }}
@@ -72,6 +72,10 @@
         },
         props: {
             companyId: {
+                type: String,
+                required: false
+            },
+            userId: {
                 type: String,
                 required: false
             },
@@ -135,6 +139,24 @@
             onClickProfilePhoto(id) {
                 Api.redirectToUserProfile(id);
             },
+            getFullName(employee) {
+
+                if (this.userId && employee) {
+
+                    let userId = employee.user_id ? employee.user_id : employee.id;
+
+                    if (this.userId == userId) {
+
+                        return 'Me';
+
+                    } else {
+
+                        return employee.full_name;
+                    }
+                }
+
+                return '';
+            }
         },
         components: {
             Avatar,

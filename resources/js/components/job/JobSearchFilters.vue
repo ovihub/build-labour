@@ -101,10 +101,19 @@
                 <input
                         type="text"
                         class="form-control search-input bg-search"
-                        placeholder="Search"
+                        placeholder="Search Ticket"
                         v-model="input.ticket"
-                        @keyup="onSearch('ticket')"
+                        @keyup="onSearchTicket(input.ticket)"
+                        @keyup.delete="onSearchTicket(input.ticket)"
                 />
+            </div>
+            <div class="emp-row" style="margin-top:0" v-if="searchedTickets.length > 0 ">
+                <ul class="list-group">
+                    <li class="list-group-item" v-for="(ticket, idx) in searchedTickets" :key="idx"
+                        @click="onSelectTicket(ticket)">
+                        {{ ticket.ticket }} - {{ ticket.description }}
+                    </li>
+                </ul>
             </div>
             <div class="header-label mt-4" v-show="showCompany">Company</div>
             <div class="emp-row mt-2" v-show="showCompany">
@@ -173,6 +182,8 @@
                     jobs:['Role','Location','Tickets','Education']
                 },
                 sort_options:'',
+                tickets: [],
+                searchedTickets: [],
             }
         },
         methods: {
@@ -304,7 +315,23 @@
 
                     vm.company_business_types = data.business_types;
                 });
-            }
+            },
+            onSearchTicket(keyword) {
+                let vm = this;
+                if (! keyword){
+                    vm.searchedTickets = [];
+                    vm.onSearch('ticket');
+                    return false;
+                } 
+
+                vm.searchedTickets = Api.getTickets(keyword);
+            },
+            onSelectTicket(ticket) {
+                let vm = this;
+                vm.searchedTickets = [];
+                vm.input.ticket = ticket.ticket;
+                vm.onSearch('ticket');
+            },
         },
         created () {
             let vm = this;

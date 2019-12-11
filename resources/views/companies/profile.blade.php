@@ -13,7 +13,9 @@
             <company-jobs company-id="{{ $company_id }}" viewer_type="{{ $viewer_type }}"></company-jobs>
         </div>
         <div class="col-md-3">
-            <company-most-recent-applicants company-id="{{ $company_id }}"></company-most-recent-applicants>
+            @if ($viewer_type != 'viewer')
+                <company-most-recent-applicants company-id="{{ $company_id }}"></company-most-recent-applicants>
+            @endif
             <ads></ads>
         </div>
     </div>

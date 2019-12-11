@@ -170,7 +170,10 @@ class JobsController extends Controller
 
     public function searchAll()
     {
-        return view('jobs.search_all');
+        $user = $this->getAuthFromToken();
+        $userId =  $user ? $user->id : '';
+
+        return view('jobs.search_all', compact('userId'));
     }
 }
 
