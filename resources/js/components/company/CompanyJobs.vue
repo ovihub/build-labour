@@ -6,9 +6,9 @@
                 <button :class="activeJobsCls" @click="onClickFilterTab('Active')">Active Jobs</button>
                 <button :class="historyCls" @click="onClickFilterTab('History')" v-show="isDisplayHistory">History</button>
             </div>
-            <div class="job-sort">
+            <!-- <div class="job-sort">
                 Sort by: <span class="job-recent">Most Recent</span>
-            </div>
+            </div> -->
         </div>
         <job-posts :company-id="companyId"></job-posts>
     </div>
