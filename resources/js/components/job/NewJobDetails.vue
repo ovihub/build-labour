@@ -210,8 +210,11 @@
                     <div class="job-title mb-2">Location (suburb/town)</div>
 
                     <input type="text" class="form-control" placeholder="Start typing address..."
-                           v-model="input.location" @focus="onFocus('locations')"
-                           @keyup="onChangeLocation(input.location)">
+                           v-model="input.location"
+                           @focus="onFocus('locations')"
+                           @keyup="onChangeLocation(input.location)"
+                           @blur="onLeave()"
+                    >
 
                     <span class="err-msg" v-if="errors.location">
                         {{ errors.location }}
@@ -321,8 +324,7 @@
                 Bus.$emit('clearNewJobResponsibilities');
             },
             onLeave() {
-
-                console.log('lxxxx');
+                
                 if (this.leaveTimeoutHandler) {
 
                     clearTimeout(this.leaveTimeoutHandler)
@@ -331,7 +333,6 @@
                 this.leaveTimeoutHandler = setTimeout(() => {
 
                     this.onFocus(null);
-                    console.log('clearning');
                 }, 2000)
             },
             onChangeLocation(keyword) {
