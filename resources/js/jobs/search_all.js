@@ -6,6 +6,7 @@ import JobAds from '../components/job/JobAds';
 import Ads from '../components/common/Ads';
 import Alert from '../components/common/Alert';
 import Navigation from '../components/common/Navigation';
+import CompanyMostRecentApplicants from "../../js/components/company/CompanyMostRecentApplicants";
 
 new Vue({
     el: "#app",
@@ -13,6 +14,7 @@ new Vue({
         SearchResults,
         JobSearchFilters,
         JobAds,
+        CompanyMostRecentApplicants,
         Ads,
         Alert,
         Navigation,

@@ -19,7 +19,9 @@
                         
                         <input class="form-control" type="text" v-model="job_role"
                             @focus="hasFocusRole(true)"
-                            @keyup="onSearchJob(job_role)" />
+                            @keyup="onSearchJob(job_role)"
+                            @blur="onLeave('job_role')"
+                        />
                         
                         <span class="err-msg" v-if="errors.job_role">
                             {{ errors.job_role }}
@@ -224,6 +226,8 @@
                     save: '/api/v1/work/experience',
                     delete: '/api/v1/work/experience/',
                 },
+                timeoutHandler: null,
+                leaveTimeoutHandler: null
             }
         },
         created() {
@@ -241,6 +245,8 @@
                 this.has_focus_role = false;
                 this.has_focus_company = false;
                 this.has_focus_location = false;
+
+                this.clearOptionsSelection();
             },
             hasFocusRole(has_focus) {
                 this.has_focus_role = has_focus;
@@ -249,6 +255,8 @@
                     this.has_focus_company = false;
                     this.has_focus_location = false;
                 }
+
+                this.clearOptionsSelection();
             },
             hasFocusCompany(has_focus) {
                 this.has_focus_company = has_focus;
@@ -257,6 +265,8 @@
                     this.has_focus_role = false;
                     this.has_focus_location = false;
                 }
+
+                this.clearOptionsSelection();
             },
             hasFocusLocation(has_focus) {
                 this.has_focus_location = has_focus;
@@ -265,6 +275,14 @@
                     this.has_focus_role = false;
                     this.has_focus_company = false;
                 }
+
+                this.clearOptionsSelection();
+            },
+            clearOptionsSelection() {
+
+                this.job_roles = [];
+                this.locations = [];
+                this.companies = [];
             },
             setValues(details) {
                 this.id = details ? details.id : '';
@@ -311,37 +329,84 @@
                 this.responsibilities = this.responsibilities.filter(r => r!=='');
                 this.responsibilities.push('');
             },
-            onChangeLocation(keyword) {
+            async onChangeLocation(keyword) {
+
+
+                if (this.timeoutHandler) {
+
+                    clearTimeout(this.timeoutHandler)
+                }
 
                 if (keyword && keyword.length > 0) {
 
-                    Promise.resolve(Api.getLocationsPromise(keyword)).then((data) => {
+                    this.timeoutHandler = await setTimeout(() => {
 
-                        this.locations = (data.data && data.data.locations) ? data.data.locations.features : [];
-                    });
+                        Promise.resolve(Api.getLocationsPromise(keyword)).then((data) => {
+
+                            this.locations = (data.data && data.data.locations) ? data.data.locations.features : [];
+                        });
+
+                    }, 400);
 
                 } else {
 
                     this.locations = [];
                 }
+
             },
-            onSearchJob(keyword) {
+            async onSearchJob(keyword) {
+
                 this.job_id = '';
 
-                this.job_roles = (keyword && keyword.length > 0) ? Api.getJobRoles(keyword) : [];
+                if (this.timeoutHandler) {
+
+                    clearTimeout(this.timeoutHandler)
+                }
+
+                this.timeoutHandler = await setTimeout(() => {
+
+                    Api.searchJobRoles(keyword).then((result) => {
+
+                        this.job_roles = result.data.job_roles;
+                    });
+
+                }, 400);
+                //this.job_roles = (keyword && keyword.length > 0) ? Api.getJobRoles(keyword) : [];
             },
-            onSearchCompany(keyword) {
+            onLeave(type) {
+
+                if (this.leaveTimeoutHandler) {
+
+                    clearTimeout(this.leaveTimeoutHandler)
+                }
+
+                this.leaveTimeoutHandler = setTimeout(() => {
+
+                    this.job_roles = [];
+                }, 2000)
+            },
+            async onSearchCompany(keyword) {
+
                 this.company_id = '';
+
+                if (this.timeoutHandler) {
+
+                    clearTimeout(this.timeoutHandler)
+                }
 
                 if (keyword && keyword.length > 0) {
 
-                    Api.getCompaniesPromise(keyword).then((data) => {
-                        this.companies = data.data ? data.data.companies : [];
-                    });
+                    this.timeoutHandler = await setTimeout(() => {
+
+                        Api.getCompaniesPromise(keyword).then((data) => {
+                            this.companies = data.data ? data.data.companies : [];
+                        });
+
+                    }, 400);
 
                 } else {
 
-                    this.companies = [];
+                    this.locations = [];
                 }
 
             },
