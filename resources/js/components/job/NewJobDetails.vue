@@ -1,7 +1,7 @@
 <template>
     <div class="profile-item-2">
         <div class="profile-content">
-            
+
             <div class="profile-title">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <g fill="none" fill-rule="evenodd">
@@ -9,7 +9,7 @@
                         <path fill="#00aeef" d="M7 5V4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4zm1.4 0h7.2v-.9a.7.7 0 0 0-.7-.7H9.1a.7.7 0 0 0-.7.7V5zM19 17h2c.818 0 1.544-.393 2-1v4a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-4c.456.607 1.182 1 2 1h2v1a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-1h6v1a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-1zm-1 0v1h-2v-1h2zM6 17h2v1H6v-1z"/>
                     </g>
                 </svg>
-                
+
                 Job Details
             </div>
 
@@ -18,8 +18,8 @@
                     <div class="job-title mb-2">Job Title</div>
 
                     <input type="text" class="form-control" style="margin: 0; max-width: 524px;" placeholder="Start typing"
-                        v-model="input.title"
-                        @keyup="onSearchJob(input.title)" @focus="onFocus('job_title')">
+                           v-model="input.title"
+                           @keyup="onSearchJob(input.title)" @focus="onFocus('job_title')">
 
                     <span class="err-msg" v-if="errors.title">
                         {{ errors.title }}
@@ -30,7 +30,7 @@
                     <ul class="list-group">
                         <li class="list-group-item" v-for="(job, idx) in job_roles" :key="idx"
                             @click="onSelectJob(job)">
-                            
+
                             {{ job.job_role_name }}
                         </li>
                     </ul>
@@ -40,10 +40,10 @@
                     <div class="job-title">Job Description</div>
 
                     <textarea rows="3" ref="jobDesc" class="form-control" style="overflow: hidden;"
-                        placeholder="Example: The Project Manager is accountable for the leadership and management of their nominated project including the achievement of safety, quality, commercial and programme objectives and the effective day to day management of the project team."
-                        @focus="textAreaAdjust('jobDesc')"
-                        @keyup="textAreaAdjust('jobDesc')"
-                        v-model="input.description">
+                              placeholder="Example: The Project Manager is accountable for the leadership and management of their nominated project including the achievement of safety, quality, commercial and programme objectives and the effective day to day management of the project team."
+                              @focus="textAreaAdjust('jobDesc')"
+                              @keyup="textAreaAdjust('jobDesc')"
+                              v-model="input.description">
                     </textarea>
 
                     <span class="err-msg" v-if="errors.description">
@@ -55,10 +55,10 @@
                     <div class="job-title">About the project</div>
 
                     <textarea rows="2" ref="jobAbout" class="form-control" style="overflow: hidden;"
-                        placeholder="Example: $730 million Residential Skycraper comprising of 941 residential apartments and 208 serviced apartments across 88 storeys."
-                        @focus="textAreaAdjust('jobAbout')"
-                        @keyup="textAreaAdjust('jobAbout')"
-                        v-model="input.about">
+                              placeholder="Example: $730 million Residential Skycraper comprising of 941 residential apartments and 208 serviced apartments across 88 storeys."
+                              @focus="textAreaAdjust('jobAbout')"
+                              @keyup="textAreaAdjust('jobAbout')"
+                              v-model="input.about">
                     </textarea>
 
                     <span class="err-msg" v-if="errors.about">
@@ -70,12 +70,12 @@
                     <div class="job-title mb-2">Project Size</div>
 
                     <input type="text" class="form-control" placeholder="$ Enter amount"
-                        pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
-                        data-type="currency"
-                        v-model="input.project_size"
-                        @keyup="formatCurrency('project_size', $event)"
-                        @focus="onFocus('project_size')"
-                        @blur="formatCurrency('project_size', $event, 'blur')">
+                           pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
+                           data-type="currency"
+                           v-model="input.project_size"
+                           @keyup="formatCurrency('project_size', $event)"
+                           @focus="onFocus('project_size')"
+                           @blur="formatCurrency('project_size', $event, 'blur')">
 
                     <span class="err-msg" v-if="errors.project_size">
                         {{ errors.project_size }}
@@ -87,10 +87,10 @@
 
                     <div class="me-row">
                         <!--<select v-model="input.exp_level">-->
-                            <!--<option key="1" value="Entry Level">Entry Level</option>-->
-                            <!--<option key="2" value="Intermediate">Intermediate</option>-->
-                            <!--<option key="3" value="Junior">Junior</option>-->
-                            <!--<option key="4" value="Senior">Senior</option>-->
+                        <!--<option key="1" value="Entry Level">Entry Level</option>-->
+                        <!--<option key="2" value="Intermediate">Intermediate</option>-->
+                        <!--<option key="3" value="Junior">Junior</option>-->
+                        <!--<option key="4" value="Senior">Senior</option>-->
                         <!--</select>-->
                         <input type="text" class="form-control" placeholder="Start typing"
                                v-model="input.exp_level"
@@ -131,18 +131,18 @@
                 </div>
 
                 <!--<div class="form-group">-->
-                    <!--<div class="job-title mb-2">Salary</div>-->
+                <!--<div class="job-title mb-2">Salary</div>-->
 
-                    <!--<input type="text" class="form-control" placeholder="$ Enter amount"-->
-                        <!--pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"-->
-                        <!--data-type="currency"-->
-                        <!--v-model="input.salary"-->
-                        <!--@keyup="formatCurrency('salary', $event)"-->
-                        <!--@blur="formatCurrency('salary', $event, 'blur')">-->
+                <!--<input type="text" class="form-control" placeholder="$ Enter amount"-->
+                <!--pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"-->
+                <!--data-type="currency"-->
+                <!--v-model="input.salary"-->
+                <!--@keyup="formatCurrency('salary', $event)"-->
+                <!--@blur="formatCurrency('salary', $event, 'blur')">-->
 
-                    <!--<span class="err-msg" v-if="errors.salary">-->
-                        <!--{{ errors.salary }}-->
-                    <!--</span>-->
+                <!--<span class="err-msg" v-if="errors.salary">-->
+                <!--{{ errors.salary }}-->
+                <!--</span>-->
                 <!--</div>-->
 
 
@@ -166,24 +166,29 @@
                     <div class="job-title" style="margin-bottom:-18px">Reports To</div>
 
                     <div class="form-group emp-row row-center"
-                        v-for="(to, index) in input.reports_to"
-                        :ref="'toItem-' + index"
-                        :key="index">
+                         v-for="(to, index) in input.reports_to"
+                         :ref="'toItem-' + index"
+                         :key="index">
 
                         <div class="job-col-left">
-                            <input class="form-control" type="text" v-model="input.reports_to[index]" @focus="onFocus('reportsTo')"@keyup="onSearchReportsTo(input.reports_to[index], index)"/>
+                            <input class="form-control" type="text"
+                                   v-model="input.reports_to[index]"
+                                   @focus="onFocus('reportsTo')"
+                                   @keyup="onSearchReportsTo(input.reports_to[index], index)"
+                                   @blur="onLeave()"
+                            />
                         </div>
 
                         <div class="job-col-right">
                             <span @click="removeEntity(index)">
                                 <img src="/img/icons/remove.png"
-                                    srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x"
-                                    style="cursor:pointer">
+                                     srcset="/img/icons/remove@2x.png 2x, /img/icons/remove@3x.png 3x"
+                                     style="cursor:pointer">
                             </span>
                         </div>
 
                         <div class="job-col-left" style="margin-top: 0; margin-left: -15px;"
-                                v-if="reports_to_active_index == index &&
+                             v-if="reports_to_active_index == index &&
                                 reports_to_job_roles && reports_to_job_roles.length > 0 && focusTo == 'reportsTo'">
 
                             <ul class="list-group">
@@ -205,8 +210,8 @@
                     <div class="job-title mb-2">Location (suburb/town)</div>
 
                     <input type="text" class="form-control" placeholder="Start typing address..."
-                        v-model="input.location" @focus="onFocus('locations')"
-                        @keyup="onChangeLocation(input.location)">
+                           v-model="input.location" @focus="onFocus('locations')"
+                           @keyup="onChangeLocation(input.location)">
 
                     <span class="err-msg" v-if="errors.location">
                         {{ errors.location }}
@@ -250,6 +255,7 @@
                 salaryType: 'Salary',
                 salaryPlaceholder: 'Salary per annum',
                 leaveTimeoutHandler: null,
+                timeoutHandler: null,
                 focusTo: null
             }
         },
@@ -314,6 +320,20 @@
                 Bus.$emit('clearNewJobRequirements');
                 Bus.$emit('clearNewJobResponsibilities');
             },
+            onLeave() {
+
+                console.log('lxxxx');
+                if (this.leaveTimeoutHandler) {
+
+                    clearTimeout(this.leaveTimeoutHandler)
+                }
+
+                this.leaveTimeoutHandler = setTimeout(() => {
+
+                    this.onFocus(null);
+                    console.log('clearning');
+                }, 2000)
+            },
             onChangeLocation(keyword) {
 
                 if (keyword && keyword.length > 0) {
@@ -337,16 +357,53 @@
             },
             onSelectLocation(location) {
                 this.input.location = location;
-                
+
                 this.locations = [];
             },
-            onSearchJob(keyword) {
+            async onSearchJob(keyword) {
+
+                let vm = this;
+
                 this.input.job_role_id = '';
 
-                this.job_roles = (keyword && keyword.length > 0) ? Api.getJobRoles(keyword) : [];
+                if (this.timeoutHandler) {
+
+                    clearTimeout(this.timeoutHandler);
+                }
+
+                if (keyword && keyword.length > 0) {
+
+                    this.timeoutHandler = await setTimeout(() => {
+
+                        Api.searchJobRoles(keyword).then((result) => {
+
+                            vm.job_roles = result.data.job_roles
+                        });
+
+                    }, 300)
+                }
+
             },
-            onSearchReportsTo(keyword, index) { 
-                this.reports_to_job_roles = (keyword && keyword.length > 0) ? Api.getJobRoles(keyword) : [];
+            async onSearchReportsTo(keyword, index) {
+
+                let vm = this;
+
+                if (this.timeoutHandler) {
+
+                    clearTimeout(this.timeoutHandler);
+                }
+
+                if (keyword && keyword.length > 0) {
+
+                    this.timeoutHandler = await setTimeout(() => {
+
+                        Api.searchJobRoles(keyword).then((result) => {
+
+                            vm.reports_to_job_roles = result.data.job_roles
+                        });
+
+                    }, 300)
+                }
 
                 this.reports_to_active_index = index;
             },
@@ -393,6 +450,9 @@
                 this.input.reports_to.push('');
             },
             removeEntity(index) {
+
+                this.reports_to_job_roles = [];
+
                 if (this.input.reports_to.length > 1) {
                     this.input.reports_to.splice(index, 1);
                 }
