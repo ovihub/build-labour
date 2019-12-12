@@ -819,6 +819,12 @@ class JobRepository extends AbstractRepository
                     })
                     ->groupBy('email')
                     ->get();
+
+                    if($request->title){
+                        $data = collect($data)->filter(function ($item) use ($request) {                 
+                            return false !== stristr($item->job_role, $request->title);
+                        });
+                    }
                     
                 // $data = PeoplesResource::collection($data);
                 break;
