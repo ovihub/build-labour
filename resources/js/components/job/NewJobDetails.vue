@@ -19,7 +19,9 @@
 
                     <input type="text" class="form-control" style="margin: 0; max-width: 524px;" placeholder="Start typing"
                            v-model="input.title"
-                           @keyup="onSearchJob(input.title)" @focus="onFocus('job_title')">
+                           @keyup="onSearchJob(input.title)"
+                           @focus="onFocus('job_title')"
+                           @blur="onLeave()"/>
 
                     <span class="err-msg" v-if="errors.title">
                         {{ errors.title }}
@@ -175,7 +177,7 @@
                                    v-model="input.reports_to[index]"
                                    @focus="onFocus('reportsTo')"
                                    @keyup="onSearchReportsTo(input.reports_to[index], index)"
-                                   @blur="onLeave()"
+                                   @blur="onLeave('reports_to')"
                             />
                         </div>
 
@@ -323,7 +325,7 @@
                 Bus.$emit('clearNewJobRequirements');
                 Bus.$emit('clearNewJobResponsibilities');
             },
-            onLeave() {
+            onLeave(type) {
                 
                 if (this.leaveTimeoutHandler) {
 
@@ -332,17 +334,30 @@
 
                 this.leaveTimeoutHandler = setTimeout(() => {
 
-                    this.onFocus(null);
+                    this.reports_to_job_roles = [];
+                    this.locations = [];
+                    this.job_roles = [];
+                    
                 }, 2000)
             },
-            onChangeLocation(keyword) {
+            async onChangeLocation(keyword) {
+
+                let vm = this;
+
+                if (this.timeoutHandler) {
+
+                    clearTimeout(this.timeoutHandler);
+                }
 
                 if (keyword && keyword.length > 0) {
 
-                    Promise.resolve(Api.getLocationsPromise(keyword)).then((data) => {
+                    this.timeoutHandler = await setTimeout(() => {
 
-                        this.locations = (data.data && data.data.locations) ? data.data.locations.features : [];
-                    });
+                        Promise.resolve(Api.getLocationsPromise(keyword)).then((data) => {
+
+                            this.locations = (data.data && data.data.locations) ? data.data.locations.features : [];
+                        });
+                    }, 400);
 
                 } else {
 
@@ -361,7 +376,7 @@
 
                 this.locations = [];
             },
-            async onSearchJob(keyword) {
+            onSearchJob(keyword) {
 
                 let vm = this;
 
@@ -374,7 +389,7 @@
 
                 if (keyword && keyword.length > 0) {
 
-                    this.timeoutHandler = await setTimeout(() => {
+                    this.timeoutHandler = setTimeout(() => {
 
                         Api.searchJobRoles(keyword).then((result) => {
 
@@ -446,6 +461,9 @@
                 return [];
             },
             addNewEntity() {
+
+                this.reports_to_job_roles = [];
+
                 this.input.reports_to = this.input.reports_to.filter(r => r !== '');
 
                 this.input.reports_to.push('');

@@ -170,10 +170,34 @@ class JobsController extends Controller
 
     public function searchAll()
     {
-        $user = $this->getAuthFromToken();
-        $userId =  $user ? $user->id : '';
 
-        return view('jobs.search_all', compact('userId'));
+        try {
+
+            $user = $this->getAuthFromToken();
+            $userId =  $user ? $user->id : '';
+
+            $isShowMostRecent = false;
+            $isShowJobAds = false;
+            $companyId = null;
+
+            if ($user->Company) {
+
+                $isShowMostRecent = true;
+                $companyId = $user->Company->id;
+
+            } else {
+
+                $isShowJobAds = true;
+            }
+
+            return view('jobs.search_all', compact('userId', 'isShowJobAds', 'isShowMostRecent', 'companyId'));
+
+        } catch (\Exception $e) {
+
+        }
+
+        return view('errors.500');
+
     }
 }
 

@@ -12,6 +12,13 @@
         </div>
         <div class="col-md-3">
             <div class="mb-5"></div>
+            @if ($isShowJobAds)
+               <job-ads></job-ads>
+            @endif
+
+            @if ($isShowMostRecent)
+                <company-most-recent-applicants company-id="{{ $companyId }}"></company-most-recent-applicants>
+            @endif
             <ads></ads>
         </div>
     </div>
