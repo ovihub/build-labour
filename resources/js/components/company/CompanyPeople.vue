@@ -35,7 +35,6 @@
                                 </div>
                             </div>
 
-
                             <div class="bl-label-16 bl-ellipsis">
                                 {{ getFullName(employee) }}
                             </div>
@@ -155,7 +154,7 @@
                     }
                 }
 
-                return '';
+                return employee.full_name ? employee.full_name : '' ;
             }
         },
         components: {

@@ -7,7 +7,7 @@
                 <li v-for="(post, index) in jobPosts" :key="index+0">
                     <div class="jobads-row">
 
-                        <a :href="`/company/profile/` + `${post.company_id}`">
+                        <a :href="`/job/view?cid=${post.company_id}&jid=${post.id}&v=details`">
                             <div class="bl-col-1">
                                 <img v-if="post.company.photo_url" class="bl-image-32" :src="post.company.photo_url" />
 
