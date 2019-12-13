@@ -114,8 +114,6 @@
 
             onFocus(type) {
 
-                console.log('NewJobResponsiblities');
-
                 this.focusTo = type;
 
                 Bus.$emit('clearNewJobDetails');
@@ -210,8 +208,6 @@
                     this.timeout = await setTimeout(() => {
 
                         Api.getCollectedJobResponsibilities(currItem, 'byItems').then((data) => {
-
-                            console.log(data);
 
                             if (data.data.responsibilities) {
 

@@ -38,3 +38,5 @@ window.Bus = new Vue();
 Utils = Helper.methods;
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.config.devtools = false;
+Vue.config.productionTip = false;

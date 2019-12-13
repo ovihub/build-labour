@@ -94,9 +94,6 @@
 
             Bus.$on('newJobDetails', function(input) {
 
-                console.log('newJobDetails');
-                console.log(input);
-
                 vm.input = input;
             });
 

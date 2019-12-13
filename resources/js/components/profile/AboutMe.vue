@@ -134,7 +134,6 @@
 
             Bus.$on('aboutMeTechnicalDetails', function(details) {
                 if (details) {
-                    console.log('llx');
                     vm.setTechnicalValues(vm, details);
                 }
             });

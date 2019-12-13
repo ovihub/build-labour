@@ -33,7 +33,18 @@
         mounted() {
 
             this.displayCandidates = this.viewer_type == 'viewer' ? false : true;
-            this.show(this.viewer_type == 'viewer' ? 'Jobs' : 'People');
+
+            let flagProfileParam = Utils.getUrlParams()['f'];
+
+            if (flagProfileParam && flagProfileParam === 'jobs') {
+
+                this.show('Jobs');
+
+            } else {
+
+                this.show(this.viewer_type == 'viewer' ? 'Jobs' : 'People');
+            }
+
         },
         methods: {
 
