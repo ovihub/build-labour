@@ -82,7 +82,7 @@
                     </div>
 
                     <div class="profile-more mt-2">
-                        <a :href="'/job/view/?cid=' + post.company_id + '&jid=' + post.id + '&v=details'">
+                        <a :href="'/job/view/?cid=' + post.company_id + '&jid=' + post.id + '&v=details' + (from_profile_flag ? '&f=profile' : '')">
                             <!--<a :href="'/job/applicants/?cid=' + post.company_id + '&jid=' + post.id">-->
                             View Details<i class="fa fa-angle-right ml-2"></i>
                         </a>
@@ -127,6 +127,10 @@
                 type: String,
                 default: 'search'
             },
+            from_profile_flag: {
+                type: Boolean,
+                required: false
+            }
         },
         computed: {
             endpointGet() {
@@ -134,6 +138,7 @@
             }
         },
         created() {
+
             let vm = this;
 
             if (this.postType == 'open_search') {

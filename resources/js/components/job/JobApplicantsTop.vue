@@ -184,7 +184,18 @@
             goToJobs() {
 
                 if (window.location.pathname != '/job/list?type=templates') {
-                    window.location = '/job/list?type=templates';
+
+                    let flagProfileParam = Utils.getUrlParams()['f'];
+
+                    if (flagProfileParam && flagProfileParam === 'profile') {
+
+                        window.location = '/user/profile?f=jobs';
+
+                    } else {
+
+                        window.location = '/job/list?type=templates';
+                    }
+
                 }
             },
 
@@ -207,7 +218,6 @@
                     .then(function(response) {
 
                         vm.stats = response.data.data.stats;
-                        console.log(vm.stats);
                     })
             },
 

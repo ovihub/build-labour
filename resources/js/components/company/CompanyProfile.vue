@@ -279,23 +279,7 @@
                     <div class="bl-label-15-style-2" style="margin-top:24px">
                         {{ introduction }}
                     </div>
-                </div>
-                <div class="bl-label-16 bl-mt20" v-if="main_function_answer">
-                    We specialise in
-                </div>
-                <div class="job-body">
-                    {{ main_function_answer }}
-                </div>
-                <!-- <div class="bl-label-16 bl-mt20" v-if="secondary_functions.length != 0">
-                    We specialise in
-                </div>
-                <div class="job-body">
-                    <ul class="job-list-items">
-                        <li v-for="(spec, index) in secondary_functions" :key="index">
-                            {{ spec.secondary_name }}
-                        </li>
-                    </ul>
-                </div> -->
+                </div>                
             </div>
         </div>
 

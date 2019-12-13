@@ -212,7 +212,6 @@
                     .then(function(response) {
 
                         vm.stats = response.data.data.stats;
-                        console.log(vm.stats);
                     })
             },
 
@@ -246,7 +245,6 @@
 
                     .then(function(response) {
 
-                        console.log(response);
                         vm.stats.favourites = response.data.data.favourites;
                         vm.stats.not_suitable = response.data.data.not_suitable;
 

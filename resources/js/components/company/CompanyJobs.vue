@@ -10,7 +10,7 @@
                 Sort by: <span class="job-recent">Most Recent</span>
             </div> -->
         </div>
-        <job-posts :company-id="companyId"></job-posts>
+        <job-posts :company-id="companyId" :from_profile_flag="true"></job-posts>
     </div>
     </transition>
 </template>
@@ -36,9 +36,10 @@
             viewer_type: {
                 type: String,
                 required: false
-            },
+            }
         },
         created() {
+
             let vm = this;
 
             this.isDisplayHistory = this.viewer_type == 'viewer' ? false : true;
