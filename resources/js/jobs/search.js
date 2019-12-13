@@ -7,6 +7,9 @@ import Alert from '../components/common/Alert';
 import Navigation from '../components/common/Navigation';
 import JobAds from '../components/job/JobAds';
 
+Vue.config.productionTip = false;
+Vue.config.devtools = false;
+
 new Vue({
     el: "#app",
     components: {

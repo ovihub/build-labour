@@ -276,8 +276,8 @@
             async onSearch (type) {
                 let vm = this;
 
-                console.log(this.input);
                 this.input.address = [];
+
                 for (let i = 0; i < this.addresses.length; i++) {
                     if (this.$refs['address-' + i][0].checked == true) {
                         this.input.address.push(this.addresses[i]);

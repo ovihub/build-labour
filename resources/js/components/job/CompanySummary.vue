@@ -136,8 +136,6 @@
 
             onClickContinuePreview() {
 
-                console.log('onClickContinuePreview');
-
                 if (Utils.getUrlParams().cache_id) {
 
                     let href = '/job/post?cache_id=' + Utils.getUrlParams().cache_id;

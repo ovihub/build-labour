@@ -8,6 +8,9 @@ import Alert from '../components/common/Alert';
 import Navigation from '../components/common/Navigation';
 import CompanyMostRecentApplicants from "../../js/components/company/CompanyMostRecentApplicants";
 
+Vue.config.productionTip = false;
+Vue.config.devtools = false;
+
 new Vue({
     el: "#app",
     components: {
