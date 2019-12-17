@@ -7,6 +7,9 @@ import PhotoModal from '../components/common/PhotoModal';
 import DeleteModal from '../components/common/DeleteModal';
 import Logout from '../components/auth/Logout';
 
+Vue.config.productionTip = false;
+Vue.config.devtools = false;
+
 new Vue({
     el: "#app",
     components: {
