@@ -19,11 +19,12 @@ class JobsResource extends JsonResource
         $created_at = $dt->toFormattedDateString();
         $company = $this->company ? $this->company->name : '';
         return [
-            'created_at'    => $created_at,
+
             'id'            => $this->id,
             'company'       => $company,
             'title'         => $this->job_role_name,
             'location'      => $this->location,
+            'created_at'    => $created_at,
             // 'description'   => $this->description,
             // 'about'         => $this->about,
             'exp_level'     => $this->exp_level,
