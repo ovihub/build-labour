@@ -36,8 +36,8 @@ class WorkerResource extends JsonResource
         }
                
         return [
-            'full_name' => $profile_photo_url . ' ' . $this->first_name . ' ' . $this->last_name,
             'id'        => $this->id,
+            'full_name' => $profile_photo_url . ' ' . $this->first_name . ' ' . $this->last_name,
             'company'   => $company,
             'role'      => $this->role,
             'email'     => $this->email,                        
